@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "623138223422",
+    "project_id": "feebee-8578d",
+    "storage_bucket": "feebee-8578d.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:623138223422:android:2801f0e4b4d6d585d3e86f",
+        "android_client_info": {
+          "package_name": "com.mycompany.feebe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAVHAC2MsV_eJZRYhiwJdyGd61DSxSyOEI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
