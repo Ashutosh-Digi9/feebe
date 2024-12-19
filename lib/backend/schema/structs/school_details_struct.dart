@@ -3,7 +3,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
+import '/backend/schema/util/schema_util.dart';
 
+import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class SchoolDetailsStruct extends FFFirebaseStruct {
@@ -11,18 +13,26 @@ class SchoolDetailsStruct extends FFFirebaseStruct {
     int? schoolId,
     String? schoolName,
     String? address,
+    String? pincode,
+    String? city,
+    String? state,
     int? noOfStudents,
     int? noOfFaculties,
     int? noOfBranches,
     String? schoolImage,
+    List<DocumentReference>? listOfclasses,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _schoolId = schoolId,
         _schoolName = schoolName,
         _address = address,
+        _pincode = pincode,
+        _city = city,
+        _state = state,
         _noOfStudents = noOfStudents,
         _noOfFaculties = noOfFaculties,
         _noOfBranches = noOfBranches,
         _schoolImage = schoolImage,
+        _listOfclasses = listOfclasses,
         super(firestoreUtilData);
 
   // "school_id" field.
@@ -47,6 +57,27 @@ class SchoolDetailsStruct extends FFFirebaseStruct {
   set address(String? val) => _address = val;
 
   bool hasAddress() => _address != null;
+
+  // "pincode" field.
+  String? _pincode;
+  String get pincode => _pincode ?? '';
+  set pincode(String? val) => _pincode = val;
+
+  bool hasPincode() => _pincode != null;
+
+  // "city" field.
+  String? _city;
+  String get city => _city ?? '';
+  set city(String? val) => _city = val;
+
+  bool hasCity() => _city != null;
+
+  // "state" field.
+  String? _state;
+  String get state => _state ?? '';
+  set state(String? val) => _state = val;
+
+  bool hasState() => _state != null;
 
   // "no_of_students" field.
   int? _noOfStudents;
@@ -85,15 +116,30 @@ class SchoolDetailsStruct extends FFFirebaseStruct {
 
   bool hasSchoolImage() => _schoolImage != null;
 
+  // "ListOfclasses" field.
+  List<DocumentReference>? _listOfclasses;
+  List<DocumentReference> get listOfclasses => _listOfclasses ?? const [];
+  set listOfclasses(List<DocumentReference>? val) => _listOfclasses = val;
+
+  void updateListOfclasses(Function(List<DocumentReference>) updateFn) {
+    updateFn(_listOfclasses ??= []);
+  }
+
+  bool hasListOfclasses() => _listOfclasses != null;
+
   static SchoolDetailsStruct fromMap(Map<String, dynamic> data) =>
       SchoolDetailsStruct(
         schoolId: castToType<int>(data['school_id']),
         schoolName: data['school_name'] as String?,
         address: data['Address'] as String?,
+        pincode: data['pincode'] as String?,
+        city: data['city'] as String?,
+        state: data['state'] as String?,
         noOfStudents: castToType<int>(data['no_of_students']),
         noOfFaculties: castToType<int>(data['no_of_faculties']),
         noOfBranches: castToType<int>(data['no_of_branches']),
         schoolImage: data['school_image'] as String?,
+        listOfclasses: getDataList(data['ListOfclasses']),
       );
 
   static SchoolDetailsStruct? maybeFromMap(dynamic data) => data is Map
@@ -104,10 +150,14 @@ class SchoolDetailsStruct extends FFFirebaseStruct {
         'school_id': _schoolId,
         'school_name': _schoolName,
         'Address': _address,
+        'pincode': _pincode,
+        'city': _city,
+        'state': _state,
         'no_of_students': _noOfStudents,
         'no_of_faculties': _noOfFaculties,
         'no_of_branches': _noOfBranches,
         'school_image': _schoolImage,
+        'ListOfclasses': _listOfclasses,
       }.withoutNulls;
 
   @override
@@ -122,6 +172,18 @@ class SchoolDetailsStruct extends FFFirebaseStruct {
         ),
         'Address': serializeParam(
           _address,
+          ParamType.String,
+        ),
+        'pincode': serializeParam(
+          _pincode,
+          ParamType.String,
+        ),
+        'city': serializeParam(
+          _city,
+          ParamType.String,
+        ),
+        'state': serializeParam(
+          _state,
           ParamType.String,
         ),
         'no_of_students': serializeParam(
@@ -140,6 +202,11 @@ class SchoolDetailsStruct extends FFFirebaseStruct {
           _schoolImage,
           ParamType.String,
         ),
+        'ListOfclasses': serializeParam(
+          _listOfclasses,
+          ParamType.DocumentReference,
+          isList: true,
+        ),
       }.withoutNulls;
 
   static SchoolDetailsStruct fromSerializableMap(Map<String, dynamic> data) =>
@@ -156,6 +223,21 @@ class SchoolDetailsStruct extends FFFirebaseStruct {
         ),
         address: deserializeParam(
           data['Address'],
+          ParamType.String,
+          false,
+        ),
+        pincode: deserializeParam(
+          data['pincode'],
+          ParamType.String,
+          false,
+        ),
+        city: deserializeParam(
+          data['city'],
+          ParamType.String,
+          false,
+        ),
+        state: deserializeParam(
+          data['state'],
           ParamType.String,
           false,
         ),
@@ -179,6 +261,12 @@ class SchoolDetailsStruct extends FFFirebaseStruct {
           ParamType.String,
           false,
         ),
+        listOfclasses: deserializeParam<DocumentReference>(
+          data['ListOfclasses'],
+          ParamType.DocumentReference,
+          true,
+          collectionNamePath: ['School_class'],
+        ),
       );
 
   @override
@@ -186,14 +274,19 @@ class SchoolDetailsStruct extends FFFirebaseStruct {
 
   @override
   bool operator ==(Object other) {
+    const listEquality = ListEquality();
     return other is SchoolDetailsStruct &&
         schoolId == other.schoolId &&
         schoolName == other.schoolName &&
         address == other.address &&
+        pincode == other.pincode &&
+        city == other.city &&
+        state == other.state &&
         noOfStudents == other.noOfStudents &&
         noOfFaculties == other.noOfFaculties &&
         noOfBranches == other.noOfBranches &&
-        schoolImage == other.schoolImage;
+        schoolImage == other.schoolImage &&
+        listEquality.equals(listOfclasses, other.listOfclasses);
   }
 
   @override
@@ -201,10 +294,14 @@ class SchoolDetailsStruct extends FFFirebaseStruct {
         schoolId,
         schoolName,
         address,
+        pincode,
+        city,
+        state,
         noOfStudents,
         noOfFaculties,
         noOfBranches,
-        schoolImage
+        schoolImage,
+        listOfclasses
       ]);
 }
 
@@ -212,6 +309,9 @@ SchoolDetailsStruct createSchoolDetailsStruct({
   int? schoolId,
   String? schoolName,
   String? address,
+  String? pincode,
+  String? city,
+  String? state,
   int? noOfStudents,
   int? noOfFaculties,
   int? noOfBranches,
@@ -225,6 +325,9 @@ SchoolDetailsStruct createSchoolDetailsStruct({
       schoolId: schoolId,
       schoolName: schoolName,
       address: address,
+      pincode: pincode,
+      city: city,
+      state: state,
       noOfStudents: noOfStudents,
       noOfFaculties: noOfFaculties,
       noOfBranches: noOfBranches,

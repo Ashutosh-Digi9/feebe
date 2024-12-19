@@ -1,20 +1,26 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 import '/backend/backend.dart';
-import '/backend/schema/structs/index.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
+import '/backend/push_notifications/push_notifications_handler.dart'
+    show PushNotificationsHandler;
 import '/index.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
+export '/backend/firebase_dynamic_links/firebase_dynamic_links.dart'
+    show generateCurrentPageLink;
 
 const kTransitionInfoKey = '__transition_info__';
+
+GlobalKey<NavigatorState> appNavigatorKey = GlobalKey<NavigatorState>();
 
 class AppStateNotifier extends ChangeNotifier {
   AppStateNotifier._();
@@ -73,8 +79,11 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       initialLocation: '/',
       debugLogDiagnostics: true,
       refreshListenable: appStateNotifier,
-      errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? const DashboardWidget() : const LaunchWidget(),
+      navigatorKey: appNavigatorKey,
+      errorBuilder: (context, state) => _RouteErrorBuilder(
+        state: state,
+        child: appStateNotifier.loggedIn ? const DashboardWidget() : const LaunchWidget(),
+      ),
       routes: [
         FFRoute(
           name: '_initialize',
@@ -100,32 +109,66 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'NewSchoolDetails_SA',
           path: '/newSchoolDetailsSA',
-          builder: (context, params) => const NewSchoolDetailsSAWidget(),
+          builder: (context, params) => NewSchoolDetailsSAWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'Calender_parent',
           path: '/calenderParent',
-          builder: (context, params) => const CalenderParentWidget(),
+          builder: (context, params) => CalenderParentWidget(
+            classref: params.getParam(
+              'classref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'notification_parent',
           path: '/calender_day_view',
-          builder: (context, params) => const NotificationParentWidget(),
+          builder: (context, params) => NotificationParentWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
-          name: 'dashboard_parent',
-          path: '/dashboardParent',
-          builder: (context, params) => const DashboardParentWidget(),
+          name: 'timelinedetails',
+          path: '/timelinedetails',
+          builder: (context, params) => TimelinedetailsWidget(
+            studentRef: params.getParam(
+              'studentRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Students'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'parent_profile',
           path: '/Profile',
           builder: (context, params) => ParentProfileWidget(
-            userref: params.getParam(
-              'userref',
+            studentref: params.getParam<DocumentReference>(
+              'studentref',
               ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['Users'],
+              isList: true,
+              collectionNamePath: ['Students'],
             ),
           ),
         ),
@@ -147,14 +190,7 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'editprofile_parent',
           path: '/editprofile',
-          builder: (context, params) => EditprofileParentWidget(
-            userref: params.getParam(
-              'userref',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['Users'],
-            ),
-          ),
+          builder: (context, params) => const EditprofileParentWidget(),
         ),
         FFRoute(
           name: 'SearchPage_SA',
@@ -162,76 +198,56 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => const SearchPageSAWidget(),
         ),
         FFRoute(
-          name: 'edit_child',
-          path: '/editprofileCopy',
-          builder: (context, params) => const EditChildWidget(),
-        ),
-        FFRoute(
-          name: 'calender_view',
-          path: '/calenderView',
-          builder: (context, params) => const CalenderViewWidget(),
-        ),
-        FFRoute(
           name: 'EditProfile_SA',
           path: '/editProfileSA',
-          builder: (context, params) => EditProfileSAWidget(
-            userref: params.getParam(
-              'userref',
+          builder: (context, params) => const EditProfileSAWidget(),
+        ),
+        FFRoute(
+          name: 'attendence_parent',
+          path: '/attendence',
+          builder: (context, params) => AttendenceParentWidget(
+            classref: params.getParam(
+              'classref',
               ParamType.DocumentReference,
               isList: false,
-              collectionNamePath: ['Users'],
+              collectionNamePath: ['School_class'],
+            ),
+            studentref: params.getParam(
+              'studentref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Students'],
             ),
           ),
         ),
         FFRoute(
-          name: 'notifications_detials',
-          path: '/notificationsDetials',
-          builder: (context, params) => const NotificationsDetialsWidget(),
-        ),
-        FFRoute(
-          name: 'child_timeline_updates',
-          path: '/child_timeline',
-          builder: (context, params) => const ChildTimelineUpdatesWidget(),
-        ),
-        FFRoute(
-          name: 'gallery',
-          path: '/gallery',
-          builder: (context, params) => const GalleryWidget(),
-        ),
-        FFRoute(
-          name: 'SubscriptionPlan_SA',
-          path: '/subscriptionPlanSA',
-          builder: (context, params) => const SubscriptionPlanSAWidget(),
-        ),
-        FFRoute(
-          name: 'attendence',
-          path: '/attendence',
-          builder: (context, params) => const AttendenceWidget(),
-        ),
-        FFRoute(
-          name: 'DeletePage_SA',
-          path: '/deletePageSA',
-          builder: (context, params) => const DeletePageSAWidget(),
+          name: 'SchoolRejected',
+          path: '/schoolRejected',
+          builder: (context, params) => const SchoolRejectedWidget(),
         ),
         FFRoute(
           name: 'add_teacher_QR_Admin',
           path: '/addTeacherQRAdmin',
-          builder: (context, params) => const AddTeacherQRAdminWidget(),
+          builder: (context, params) => AddTeacherQRAdminWidget(
+            schoolRef: params.getParam(
+              'schoolRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'add_Teacher_manually_Admin',
           path: '/addTeacherManuallyAdmin',
-          builder: (context, params) => const AddTeacherManuallyAdminWidget(),
-        ),
-        FFRoute(
-          name: 'Noticeboard',
-          path: '/Noticeboard',
-          builder: (context, params) => const NoticeboardWidget(),
-        ),
-        FFRoute(
-          name: 'Signup_SA',
-          path: '/signupSA',
-          builder: (context, params) => const SignupSAWidget(),
+          builder: (context, params) => AddTeacherManuallyAdminWidget(
+            schoolRef: params.getParam(
+              'schoolRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'ChangePassword',
@@ -242,6 +258,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'ExistingSchoolDetails_SA',
           path: '/existingSchoolDetailsSA',
           builder: (context, params) => ExistingSchoolDetailsSAWidget(
+            schoolrefMain: params.getParam(
+              'schoolrefMain',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'Class_view',
+          path: '/classView',
+          builder: (context, params) => ClassViewWidget(
+            schoolclassref: params.getParam(
+              'schoolclassref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
             schoolref: params.getParam(
               'schoolref',
               ParamType.DocumentReference,
@@ -251,169 +285,935 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'Class_dashboard',
-          path: '/classDashboard',
-          builder: (context, params) => const ClassDashboardWidget(),
-        ),
-        FFRoute(
           name: 'PasswordChanged',
           path: '/passwordChanged',
           builder: (context, params) => const PasswordChangedWidget(),
         ),
         FFRoute(
-          name: 'Signup_A',
-          path: '/signupA',
-          builder: (context, params) => const SignupAWidget(),
-        ),
-        FFRoute(
-          name: 'DashboardAdmin',
-          path: '/dashboardAdmin',
-          builder: (context, params) => const DashboardAdminWidget(),
+          name: 'class_dashboard',
+          path: '/classDashboard',
+          builder: (context, params) => ClassDashboardWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'Teacher_profile',
           path: '/teacherProfile',
-          builder: (context, params) => const TeacherProfileWidget(),
+          builder: (context, params) => TeacherProfileWidget(
+            teacherRef: params.getParam(
+              'teacherRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Teachers'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'AddBranch_SA',
           path: '/addBranchSA',
-          builder: (context, params) => const AddBranchSAWidget(),
-        ),
-        FFRoute(
-          name: 'Profile_Admin',
-          path: '/profileAdmin',
-          builder: (context, params) => const ProfileAdminWidget(),
+          builder: (context, params) => AddBranchSAWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            userref: params.getParam(
+              'userref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Users'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'AddClassAdmin',
           path: '/addClassAdmin',
-          builder: (context, params) => const AddClassAdminWidget(),
+          builder: (context, params) => AddClassAdminWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'Notification_admin',
           path: '/notificationAdmin',
-          builder: (context, params) => const NotificationAdminWidget(),
+          builder: (context, params) => NotificationAdminWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
-          name: 'teacher_updates',
-          path: '/teacherUpdates',
-          builder: (context, params) => const TeacherUpdatesWidget(),
-        ),
-        FFRoute(
-          name: 'AddClass2Admin',
-          path: '/addClass2Admin',
-          builder: (context, params) => const AddClass2AdminWidget(),
+          name: 'SelectStudentsAdmin',
+          path: '/selectStudentsAdmin',
+          builder: (context, params) => SelectStudentsAdminWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            classref: params.getParam(
+              'classref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'Teacher_attendence_History',
           path: '/teacherAttendenceHistory',
-          builder: (context, params) => const TeacherAttendenceHistoryWidget(),
-        ),
-        FFRoute(
-          name: 'AddClass3Admin',
-          path: '/addClass3Admin',
-          builder: (context, params) => const AddClass3AdminWidget(),
+          builder: (context, params) => TeacherAttendenceHistoryWidget(
+            techerref: params.getParam(
+              'techerref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Teachers'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'teacher_timeline',
           path: '/Teacher_attendence_HistoryCopy',
-          builder: (context, params) => const TeacherTimelineWidget(),
+          builder: (context, params) => TeacherTimelineWidget(
+            teachersref: params.getParam(
+              'teachersref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Teachers'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'class_attendence',
           path: '/classAttendence',
-          builder: (context, params) => const ClassAttendenceWidget(),
-        ),
-        FFRoute(
-          name: 'calender_AddeventAdmin',
-          path: '/calenderAddeventAdmin',
-          builder: (context, params) => const CalenderAddeventAdminWidget(),
+          builder: (context, params) => ClassAttendenceWidget(
+            classRef: params.getParam(
+              'classRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'class_attendence_history',
           path: '/classAttendenceHistory',
-          builder: (context, params) => const ClassAttendenceHistoryWidget(),
+          builder: (context, params) => ClassAttendenceHistoryWidget(
+            classref: params.getParam(
+              'classref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'mark_attendence',
           path: '/AddClass2AdminCopy',
-          builder: (context, params) => const MarkAttendenceWidget(),
-        ),
-        FFRoute(
-          name: 'edit_class',
-          path: '/editClass',
-          builder: (context, params) => const EditClassWidget(),
-        ),
-        FFRoute(
-          name: 'edit_class2',
-          path: '/editClass2',
-          builder: (context, params) => const EditClass2Widget(),
-        ),
-        FFRoute(
-          name: 'edit_class3',
-          path: '/editClass3',
-          builder: (context, params) => const EditClass3Widget(),
+          builder: (context, params) => MarkAttendenceWidget(
+            classRef: params.getParam(
+              'classRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'add_student_manually',
           path: '/addStudentManually',
-          builder: (context, params) => const AddStudentManuallyWidget(),
-        ),
-        FFRoute(
-          name: 'EventPostedAdmin',
-          path: '/eventPostedAdmin',
-          builder: (context, params) => const EventPostedAdminWidget(),
-        ),
-        FFRoute(
-          name: 'StudentsViewAdmin',
-          path: '/studentsViewAdmin',
-          builder: (context, params) => const StudentsViewAdminWidget(),
-        ),
-        FFRoute(
-          name: 'SelectStudentAdmin',
-          path: '/selectStudentAdmin',
-          builder: (context, params) => const SelectStudentAdminWidget(),
-        ),
-        FFRoute(
-          name: 'add_parent_details',
-          path: '/add_students',
-          builder: (context, params) => const AddParentDetailsWidget(),
+          builder: (context, params) => AddStudentManuallyWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'StudentsAddedtoclass',
           path: '/studentsAddedtoclass',
-          builder: (context, params) => const StudentsAddedtoclassWidget(),
+          builder: (context, params) => StudentsAddedtoclassWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'IndiStudentAdmin',
           path: '/indiStudentAdmin',
-          builder: (context, params) => const IndiStudentAdminWidget(),
+          builder: (context, params) => IndiStudentAdminWidget(
+            studentsref: params.getParam(
+              'studentsref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Students'],
+            ),
+            classref: params.getParam<DocumentReference>(
+              'classref',
+              ParamType.DocumentReference,
+              isList: true,
+              collectionNamePath: ['School_class'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         ),
         FFRoute(
-          name: 'add_student_class',
-          path: '/add_student_class',
-          builder: (context, params) => const AddStudentClassWidget(),
-        ),
-        FFRoute(
-          name: 'StudentDeleted',
-          path: '/studentDeleted',
-          builder: (context, params) => const StudentDeletedWidget(),
-        ),
-        FFRoute(
-          name: 'dashboardAdmin2',
-          path: '/dashboardAdmin2',
-          builder: (context, params) => const DashboardAdmin2Widget(),
-        ),
-        FFRoute(
-          name: 'notifications_detialsAdmin',
-          path: '/notificationsDetialsAdmin',
-          builder: (context, params) => const NotificationsDetialsAdminWidget(),
+          name: 'noticedetails_class',
+          path: '/noticedetailsClass',
+          builder: (context, params) => NoticedetailsClassWidget(
+            eventid: params.getParam(
+              'eventid',
+              ParamType.int,
+            ),
+            classref: params.getParam(
+              'classref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+          ),
         ),
         FFRoute(
           name: 'ForgotPassword',
           path: '/forgotPassword',
           builder: (context, params) => const ForgotPasswordWidget(),
+        ),
+        FFRoute(
+          name: 'editSchool_SA',
+          path: '/editSchoolSA',
+          builder: (context, params) => EditSchoolSAWidget(
+            schoolRef: params.getParam(
+              'schoolRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            mainschoolref: params.getParam(
+              'mainschoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'EditBranchSA',
+          path: '/editBranchSA',
+          builder: (context, params) => EditBranchSAWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            mainschoolref: params.getParam(
+              'mainschoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'add_events_details',
+          path: '/addEventsDetails',
+          builder: (context, params) => AddEventsDetailsWidget(
+            selectedDate: params.getParam(
+              'selectedDate',
+              ParamType.DateTime,
+            ),
+            schoolRef: params.getParam(
+              'schoolRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'editclassadmin',
+          path: '/editclassadmin',
+          builder: (context, params) => EditclassadminWidget(
+            schoolclassref: params.getParam(
+              'schoolclassref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'AttendanceMarked',
+          path: '/attendanceMarked',
+          builder: (context, params) => AttendanceMarkedWidget(
+            classref: params.getParam(
+              'classref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'add_noticeboard_class',
+          path: '/addNoticeboardClass',
+          builder: (context, params) => AddNoticeboardClassWidget(
+            schoolclassref: params.getParam(
+              'schoolclassref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'indi_edit_students',
+          path: '/indiEditStudents',
+          builder: (context, params) => IndiEditStudentsWidget(
+            classref: params.getParam<DocumentReference>(
+              'classref',
+              ParamType.DocumentReference,
+              isList: true,
+              collectionNamePath: ['School_class'],
+            ),
+            studentref: params.getParam(
+              'studentref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Students'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'Add_Student_Admin_QR',
+          path: '/addStudentAdminQR',
+          builder: (context, params) => AddStudentAdminQRWidget(
+            schoolRef: params.getParam(
+              'schoolRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            editclass: params.getParam(
+              'editclass',
+              ParamType.bool,
+            ),
+            classRef: params.getParam(
+              'classRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'studentsprofile',
+          path: '/studentsprofile',
+          builder: (context, params) => StudentsprofileWidget(
+            studentref: params.getParam(
+              'studentref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Students'],
+            ),
+            classref: params.getParam<DocumentReference>(
+              'classref',
+              ParamType.DocumentReference,
+              isList: true,
+              collectionNamePath: ['School_class'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'ChangeSubscriptionPlan_SA',
+          path: '/changeSubscriptionPlanSA',
+          builder: (context, params) => ChangeSubscriptionPlanSAWidget(
+            schoolRef: params.getParam(
+              'schoolRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'students_timeline_activities',
+          path: '/studentsTimelineActivities',
+          builder: (context, params) => StudentsTimelineActivitiesWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            classref: params.getParam(
+              'classref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+            activityId: params.getParam(
+              'activityId',
+              ParamType.int,
+            ),
+            activityName: params.getParam(
+              'activityName',
+              ParamType.String,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'TeacherdeletedSuccesfully',
+          path: '/teacherdeletedSuccesfully',
+          builder: (context, params) => TeacherdeletedSuccesfullyWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'Edit_TeacherAdmin',
+          path: '/editTeacherAdmin',
+          builder: (context, params) => EditTeacherAdminWidget(
+            schoolRef: params.getParam(
+              'schoolRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            teacherref: params.getParam(
+              'teacherref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Teachers'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'Teacherdetailsedited',
+          path: '/teacherdetailsedited',
+          builder: (context, params) => TeacherdetailseditedWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            teacheref: params.getParam(
+              'teacheref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Teachers'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'Teachers_Gallery',
+          path: '/teachersGallery',
+          builder: (context, params) => TeachersGalleryWidget(
+            teacher: params.getParam(
+              'teacher',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Teachers'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'Add_School_link',
+          path: '/addSchoolLink',
+          builder: (context, params) => const AddSchoolLinkWidget(),
+        ),
+        FFRoute(
+          name: 'calender_class',
+          path: '/calenderClass',
+          builder: (context, params) => CalenderClassWidget(
+            schoolclassref: params.getParam(
+              'schoolclassref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'Student_gallery',
+          path: '/studentGallery',
+          builder: (context, params) => StudentGalleryWidget(
+            student: params.getParam(
+              'student',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Students'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'indivi_image_view',
+          path: '/indiviImageView',
+          builder: (context, params) => IndiviImageViewWidget(
+            student: params.getParam(
+              'student',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Students'],
+            ),
+            index: params.getParam(
+              'index',
+              ParamType.int,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'add_calender_details',
+          path: '/addCalenderDetails',
+          builder: (context, params) => AddCalenderDetailsWidget(
+            selectedDate: params.getParam(
+              'selectedDate',
+              ParamType.DateTime,
+            ),
+            schoolclassref: params.getParam(
+              'schoolclassref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'subscription',
+          path: '/subscription',
+          builder: (context, params) => SubscriptionWidget(
+            schoolRef: params.getParam(
+              'schoolRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'edi_teacher',
+          path: '/ediTeacher',
+          builder: (context, params) => EdiTeacherWidget(
+            schoolRef: params.getParam(
+              'schoolRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            teacherref: params.getParam(
+              'teacherref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Teachers'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'SearchPage_admin',
+          path: '/searchPageAdmin',
+          builder: (context, params) => SearchPageAdminWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'Notification_Teacher',
+          path: '/notificationTeacher',
+          builder: (context, params) => NotificationTeacherWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'SchoolAdded',
+          path: '/schoolAdded',
+          builder: (context, params) => const SchoolAddedWidget(),
+        ),
+        FFRoute(
+          name: 'Schoolapproved',
+          path: '/schoolapproved',
+          builder: (context, params) => const SchoolapprovedWidget(),
+        ),
+        FFRoute(
+          name: 'Schooldeletedsuccessfully',
+          path: '/schooldeletedsuccessfully',
+          builder: (context, params) => const SchooldeletedsuccessfullyWidget(),
+        ),
+        FFRoute(
+          name: 'BranchUpdated',
+          path: '/branchUpdated',
+          builder: (context, params) => BranchUpdatedWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            mainschoolref: params.getParam(
+              'mainschoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'SchoolUpdated',
+          path: '/schoolUpdated',
+          builder: (context, params) => SchoolUpdatedWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'BranchAdded',
+          path: '/branchAdded',
+          builder: (context, params) => BranchAddedWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'attendence_history_teacher',
+          path: '/teacher_attendence_history',
+          builder: (context, params) => AttendenceHistoryTeacherWidget(
+            techerref: params.getParam(
+              'techerref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Teachers'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'amount_not_paidd',
+          path: '/amountNotPaidd',
+          builder: (context, params) => const AmountNotPaiddWidget(),
+        ),
+        FFRoute(
+          name: 'subscriptionended',
+          path: '/subscriptionended',
+          builder: (context, params) => const SubscriptionendedWidget(),
+        ),
+        FFRoute(
+          name: 'Teacher_Timeline_new',
+          path: '/teacherTimelineNew',
+          builder: (context, params) => TeacherTimelineNewWidget(
+            teacherRef: params.getParam(
+              'teacherRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Teachers'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'class_notice',
+          path: '/classNotice',
+          builder: (context, params) => ClassNoticeWidget(
+            schoolclassref: params.getParam(
+              'schoolclassref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'Teacher_notice',
+          path: '/teacherNotice',
+          builder: (context, params) => TeacherNoticeWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            teacherref: params.getParam(
+              'teacherref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Teachers'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'Teacher_noticeTeacher',
+          path: '/teacherNoticeTeacher',
+          builder: (context, params) => const TeacherNoticeTeacherWidget(),
+        ),
+        FFRoute(
+          name: 'calender_details_parent',
+          path: '/calenderDetailsParent',
+          builder: (context, params) => CalenderDetailsParentWidget(
+            selectedDate: params.getParam(
+              'selectedDate',
+              ParamType.DateTime,
+            ),
+            schoolclassref: params.getParam(
+              'schoolclassref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'notice_parent',
+          path: '/noticeParent',
+          builder: (context, params) => NoticeParentWidget(
+            clasref: params.getParam(
+              'clasref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+            studentref: params.getParam(
+              'studentref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Students'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'addnoticeAllSchools',
+          path: '/addnoticeAllSchools',
+          builder: (context, params) => const AddnoticeAllSchoolsWidget(),
+        ),
+        FFRoute(
+          name: 'School_notice_view',
+          path: '/schoolNoticeView',
+          builder: (context, params) => SchoolNoticeViewWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'subscribtioplan',
+          path: '/subscribtioplan',
+          builder: (context, params) => const SubscribtioplanWidget(),
+        ),
+        FFRoute(
+          name: 'Edit_childParent',
+          path: '/editprofileParent',
+          builder: (context, params) => EditChildParentWidget(
+            studentref: params.getParam(
+              'studentref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Students'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'ChildDetailsUpdated',
+          path: '/childDetailsUpdated',
+          builder: (context, params) => const ChildDetailsUpdatedWidget(),
+        ),
+        FFRoute(
+          name: 'PareentProfileUpdated',
+          path: '/pareentProfileUpdated',
+          builder: (context, params) => const PareentProfileUpdatedWidget(),
+        ),
+        FFRoute(
+          name: 'ClassNotice_Admin_Teacher',
+          path: '/classNoticeAdminTeacher',
+          builder: (context, params) => ClassNoticeAdminTeacherWidget(
+            classref: params.getParam(
+              'classref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'NotificationVIew',
+          path: '/notificationVIew',
+          builder: (context, params) => NotificationVIewWidget(
+            notificationref: params.getParam(
+              'notificationref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Notifications'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'New_student',
+          path: '/newStudent',
+          builder: (context, params) => NewStudentWidget(
+            studentsref: params.getParam(
+              'studentsref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Students'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'new_student_edit',
+          path: '/newStudentEdit',
+          builder: (context, params) => NewStudentEditWidget(
+            studentref: params.getParam(
+              'studentref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Students'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -600,18 +1400,14 @@ class FFRoute {
                 )
               : builder(context, ffParams);
           final child = appStateNotifier.loading
-              ? Center(
-                  child: SizedBox(
-                    width: 50.0,
-                    height: 50.0,
-                    child: CircularProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        FlutterFlowTheme.of(context).primary,
-                      ),
-                    ),
+              ? Container(
+                  color: FlutterFlowTheme.of(context).secondary,
+                  child: Image.asset(
+                    'assets/images/eebe_(500_x_200_px).png',
+                    fit: BoxFit.contain,
                   ),
                 )
-              : page;
+              : PushNotificationsHandler(child: page);
 
           final transitionInfo = state.transitionInfo;
           return transitionInfo.hasTransition
@@ -653,7 +1449,62 @@ class TransitionInfo {
   final Duration duration;
   final Alignment? alignment;
 
-  static TransitionInfo appDefault() => const TransitionInfo(hasTransition: false);
+  static TransitionInfo appDefault() => const TransitionInfo(
+        hasTransition: true,
+        transitionType: PageTransitionType.fade,
+        duration: Duration(milliseconds: 300),
+      );
+}
+
+class _RouteErrorBuilder extends StatefulWidget {
+  const _RouteErrorBuilder({
+    required this.state,
+    required this.child,
+  });
+
+  final GoRouterState state;
+  final Widget child;
+
+  @override
+  State<_RouteErrorBuilder> createState() => _RouteErrorBuilderState();
+}
+
+class _RouteErrorBuilderState extends State<_RouteErrorBuilder> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Handle erroneous links from Firebase Dynamic Links.
+
+    String? location;
+
+    /*
+    Handle `links` routes that have dynamic-link entangled with deep-link 
+    */
+    if (widget.state.uri.toString().startsWith('/link') &&
+        widget.state.uri.queryParameters.containsKey('deep_link_id')) {
+      final deepLinkId = widget.state.uri.queryParameters['deep_link_id'];
+      if (deepLinkId != null) {
+        final deepLinkUri = Uri.parse(deepLinkId);
+        final link = deepLinkUri.toString();
+        final host = deepLinkUri.host;
+        location = link.split(host).last;
+      }
+    }
+
+    if (widget.state.uri.toString().startsWith('/link') &&
+        widget.state.uri.toString().contains('request_ip_version')) {
+      location = '/';
+    }
+
+    if (location != null) {
+      SchedulerBinding.instance
+          .addPostFrameCallback((_) => context.go(location!));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }
 
 class RootPageContext {

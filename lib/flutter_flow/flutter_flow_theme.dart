@@ -35,6 +35,17 @@ abstract class FlutterFlowTheme {
   late Color tertiaryText;
   late Color lightBg;
   late Color checkBg;
+  late Color buttonBg;
+  late Color lightblue;
+  late Color newBgcolor;
+  late Color dIsable;
+  late Color text;
+  late Color text1;
+  late Color snackbar;
+  late Color buttonShadow;
+  late Color buttonShadow2;
+  late Color bgColor1;
+  late Color bgColorNewOne;
 
   @Deprecated('Use displaySmallFamily instead')
   String get title1Family => displaySmallFamily;
@@ -107,13 +118,13 @@ class LightModeTheme extends FlutterFlowTheme {
   @Deprecated('Use tertiary instead')
   Color get tertiaryColor => tertiary;
 
-  late Color primary = const Color(0xFF9747FF);
+  late Color primary = const Color(0xFF1D61E7);
   late Color secondary = const Color(0xFFFFFFFF);
-  late Color tertiary = const Color(0xFFF9DDFE);
-  late Color alternate = const Color(0xFFFFD700);
+  late Color tertiary = const Color(0xFFFAFAFA);
+  late Color alternate = const Color(0xFFA0A0A0);
   late Color primaryText = const Color(0xFF001B36);
   late Color secondaryText = const Color(0xFFFFFFFF);
-  late Color primaryBackground = const Color(0xFF9C27B0);
+  late Color primaryBackground = const Color(0xFF1D61E7);
   late Color secondaryBackground = const Color(0xFFFFFFFF);
   late Color accent1 = const Color(0x4C4B39EF);
   late Color accent2 = const Color(0x4D39D2C0);
@@ -127,6 +138,17 @@ class LightModeTheme extends FlutterFlowTheme {
   late Color tertiaryText = const Color(0xFF666666);
   late Color lightBg = const Color(0xFFF9DDFE);
   late Color checkBg = const Color(0xFF99D63C);
+  late Color buttonBg = const Color(0xFF1D61E7);
+  late Color lightblue = const Color(0xFFE4EDFC);
+  late Color newBgcolor = const Color(0xFFFAFAFA);
+  late Color dIsable = const Color(0xFFEDF1F3);
+  late Color text = const Color(0xFFACB5BB);
+  late Color text1 = const Color(0xFF000000);
+  late Color snackbar = const Color(0xFF505050);
+  late Color buttonShadow = const Color(0x79253EA7);
+  late Color buttonShadow2 = const Color(0xFF375DFB);
+  late Color bgColor1 = const Color(0xFFCCCCCC);
+  late Color bgColorNewOne = const Color(0xFFFAFAFA);
 }
 
 abstract class Typography {

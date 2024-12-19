@@ -81,6 +81,41 @@ class StudentsRecord extends FirestoreRecord {
   DateTime? get updatedAt => _updatedAt;
   bool hasUpdatedAt() => _updatedAt != null;
 
+  // "parents_details" field.
+  List<ParentsDetailsStruct>? _parentsDetails;
+  List<ParentsDetailsStruct> get parentsDetails => _parentsDetails ?? const [];
+  bool hasParentsDetails() => _parentsDetails != null;
+
+  // "class_name" field.
+  String? _className;
+  String get className => _className ?? '';
+  bool hasClassName() => _className != null;
+
+  // "student_image" field.
+  String? _studentImage;
+  String get studentImage => _studentImage ?? '';
+  bool hasStudentImage() => _studentImage != null;
+
+  // "schoolref" field.
+  DocumentReference? _schoolref;
+  DocumentReference? get schoolref => _schoolref;
+  bool hasSchoolref() => _schoolref != null;
+
+  // "imageslist" field.
+  List<String>? _imageslist;
+  List<String> get imageslist => _imageslist ?? const [];
+  bool hasImageslist() => _imageslist != null;
+
+  // "classref" field.
+  List<DocumentReference>? _classref;
+  List<DocumentReference> get classref => _classref ?? const [];
+  bool hasClassref() => _classref != null;
+
+  // "document" field.
+  String? _document;
+  String get document => _document ?? '';
+  bool hasDocument() => _document != null;
+
   void _initializeFields() {
     _studentName = snapshotData['student_name'] as String?;
     _studentGender = snapshotData['student_gender'] as String?;
@@ -102,6 +137,16 @@ class StudentsRecord extends FirestoreRecord {
     );
     _createdAt = snapshotData['created_at'] as DateTime?;
     _updatedAt = snapshotData['updated_at'] as DateTime?;
+    _parentsDetails = getStructList(
+      snapshotData['parents_details'],
+      ParentsDetailsStruct.fromMap,
+    );
+    _className = snapshotData['class_name'] as String?;
+    _studentImage = snapshotData['student_image'] as String?;
+    _schoolref = snapshotData['schoolref'] as DocumentReference?;
+    _imageslist = getDataList(snapshotData['imageslist']);
+    _classref = getDataList(snapshotData['classref']);
+    _document = snapshotData['document'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -149,6 +194,10 @@ Map<String, dynamic> createStudentsRecordData({
   int? attendancePercentage,
   DateTime? createdAt,
   DateTime? updatedAt,
+  String? className,
+  String? studentImage,
+  DocumentReference? schoolref,
+  String? document,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -162,6 +211,10 @@ Map<String, dynamic> createStudentsRecordData({
       'attendance_percentage': attendancePercentage,
       'created_at': createdAt,
       'updated_at': updatedAt,
+      'class_name': className,
+      'student_image': studentImage,
+      'schoolref': schoolref,
+      'document': document,
     }.withoutNulls,
   );
 
@@ -186,7 +239,14 @@ class StudentsRecordDocumentEquality implements Equality<StudentsRecord> {
         e1?.attendancePercentage == e2?.attendancePercentage &&
         listEquality.equals(e1?.attendanceDetails, e2?.attendanceDetails) &&
         e1?.createdAt == e2?.createdAt &&
-        e1?.updatedAt == e2?.updatedAt;
+        e1?.updatedAt == e2?.updatedAt &&
+        listEquality.equals(e1?.parentsDetails, e2?.parentsDetails) &&
+        e1?.className == e2?.className &&
+        e1?.studentImage == e2?.studentImage &&
+        e1?.schoolref == e2?.schoolref &&
+        listEquality.equals(e1?.imageslist, e2?.imageslist) &&
+        listEquality.equals(e1?.classref, e2?.classref) &&
+        e1?.document == e2?.document;
   }
 
   @override
@@ -203,7 +263,14 @@ class StudentsRecordDocumentEquality implements Equality<StudentsRecord> {
         e?.attendancePercentage,
         e?.attendanceDetails,
         e?.createdAt,
-        e?.updatedAt
+        e?.updatedAt,
+        e?.parentsDetails,
+        e?.className,
+        e?.studentImage,
+        e?.schoolref,
+        e?.imageslist,
+        e?.classref,
+        e?.document
       ]);
 
   @override

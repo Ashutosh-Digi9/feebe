@@ -1,1 +1,4 @@
-export 'dotted_line.dart' show DottedLine;
+export 'timelinewidgetdatatype.dart' show Timelinewidgetdatatype;
+export 'timelinewidgetdatatype_class.dart' show TimelinewidgetdatatypeClass;
+export 'timelinewidgetdatatype_class_parent.dart'
+    show TimelinewidgetdatatypeClassParent;

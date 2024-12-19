@@ -3,7 +3,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
+import '/backend/schema/util/schema_util.dart';
 
+import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class SubscribtionDetailsStruct extends FFFirebaseStruct {
@@ -14,6 +16,7 @@ class SubscribtionDetailsStruct extends FFFirebaseStruct {
     String? frequency,
     DateTime? startDate,
     DateTime? endDate,
+    List<String>? subScriptionFeature,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _subId = subId,
         _subName = subName,
@@ -21,6 +24,7 @@ class SubscribtionDetailsStruct extends FFFirebaseStruct {
         _frequency = frequency,
         _startDate = startDate,
         _endDate = endDate,
+        _subScriptionFeature = subScriptionFeature,
         super(firestoreUtilData);
 
   // "sub_id" field.
@@ -69,6 +73,17 @@ class SubscribtionDetailsStruct extends FFFirebaseStruct {
 
   bool hasEndDate() => _endDate != null;
 
+  // "subScription_feature" field.
+  List<String>? _subScriptionFeature;
+  List<String> get subScriptionFeature => _subScriptionFeature ?? const [];
+  set subScriptionFeature(List<String>? val) => _subScriptionFeature = val;
+
+  void updateSubScriptionFeature(Function(List<String>) updateFn) {
+    updateFn(_subScriptionFeature ??= []);
+  }
+
+  bool hasSubScriptionFeature() => _subScriptionFeature != null;
+
   static SubscribtionDetailsStruct fromMap(Map<String, dynamic> data) =>
       SubscribtionDetailsStruct(
         subId: castToType<int>(data['sub_id']),
@@ -77,6 +92,7 @@ class SubscribtionDetailsStruct extends FFFirebaseStruct {
         frequency: data['frequency'] as String?,
         startDate: data['start_date'] as DateTime?,
         endDate: data['end_date'] as DateTime?,
+        subScriptionFeature: getDataList(data['subScription_feature']),
       );
 
   static SubscribtionDetailsStruct? maybeFromMap(dynamic data) => data is Map
@@ -90,6 +106,7 @@ class SubscribtionDetailsStruct extends FFFirebaseStruct {
         'frequency': _frequency,
         'start_date': _startDate,
         'end_date': _endDate,
+        'subScription_feature': _subScriptionFeature,
       }.withoutNulls;
 
   @override
@@ -117,6 +134,11 @@ class SubscribtionDetailsStruct extends FFFirebaseStruct {
         'end_date': serializeParam(
           _endDate,
           ParamType.DateTime,
+        ),
+        'subScription_feature': serializeParam(
+          _subScriptionFeature,
+          ParamType.String,
+          isList: true,
         ),
       }.withoutNulls;
 
@@ -153,6 +175,11 @@ class SubscribtionDetailsStruct extends FFFirebaseStruct {
           ParamType.DateTime,
           false,
         ),
+        subScriptionFeature: deserializeParam<String>(
+          data['subScription_feature'],
+          ParamType.String,
+          true,
+        ),
       );
 
   @override
@@ -160,18 +187,27 @@ class SubscribtionDetailsStruct extends FFFirebaseStruct {
 
   @override
   bool operator ==(Object other) {
+    const listEquality = ListEquality();
     return other is SubscribtionDetailsStruct &&
         subId == other.subId &&
         subName == other.subName &&
         subAmount == other.subAmount &&
         frequency == other.frequency &&
         startDate == other.startDate &&
-        endDate == other.endDate;
+        endDate == other.endDate &&
+        listEquality.equals(subScriptionFeature, other.subScriptionFeature);
   }
 
   @override
-  int get hashCode => const ListEquality()
-      .hash([subId, subName, subAmount, frequency, startDate, endDate]);
+  int get hashCode => const ListEquality().hash([
+        subId,
+        subName,
+        subAmount,
+        frequency,
+        startDate,
+        endDate,
+        subScriptionFeature
+      ]);
 }
 
 SubscribtionDetailsStruct createSubscribtionDetailsStruct({

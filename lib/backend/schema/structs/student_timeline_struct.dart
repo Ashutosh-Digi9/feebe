@@ -3,28 +3,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 
-import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 
 class StudentTimelineStruct extends FFFirebaseStruct {
   StudentTimelineStruct({
     int? id,
     DateTime? date,
-    List<int>? activityId,
-    List<String>? activityName,
-    List<String>? activityDescription,
-    List<String>? images,
-    List<String>? addedBy,
+    int? activityId,
+    String? activityName,
+    String? activityDescription,
+    String? activityAddedby,
+    String? activityImages,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _id = id,
         _date = date,
         _activityId = activityId,
         _activityName = activityName,
         _activityDescription = activityDescription,
-        _images = images,
-        _addedBy = addedBy,
+        _activityAddedby = activityAddedby,
+        _activityImages = activityImages,
         super(firestoreUtilData);
 
   // "id" field.
@@ -44,69 +42,51 @@ class StudentTimelineStruct extends FFFirebaseStruct {
   bool hasDate() => _date != null;
 
   // "activity_id" field.
-  List<int>? _activityId;
-  List<int> get activityId => _activityId ?? const [];
-  set activityId(List<int>? val) => _activityId = val;
+  int? _activityId;
+  int get activityId => _activityId ?? 0;
+  set activityId(int? val) => _activityId = val;
 
-  void updateActivityId(Function(List<int>) updateFn) {
-    updateFn(_activityId ??= []);
-  }
+  void incrementActivityId(int amount) => activityId = activityId + amount;
 
   bool hasActivityId() => _activityId != null;
 
   // "activity_name" field.
-  List<String>? _activityName;
-  List<String> get activityName => _activityName ?? const [];
-  set activityName(List<String>? val) => _activityName = val;
-
-  void updateActivityName(Function(List<String>) updateFn) {
-    updateFn(_activityName ??= []);
-  }
+  String? _activityName;
+  String get activityName => _activityName ?? '';
+  set activityName(String? val) => _activityName = val;
 
   bool hasActivityName() => _activityName != null;
 
   // "activity_description" field.
-  List<String>? _activityDescription;
-  List<String> get activityDescription => _activityDescription ?? const [];
-  set activityDescription(List<String>? val) => _activityDescription = val;
-
-  void updateActivityDescription(Function(List<String>) updateFn) {
-    updateFn(_activityDescription ??= []);
-  }
+  String? _activityDescription;
+  String get activityDescription => _activityDescription ?? '';
+  set activityDescription(String? val) => _activityDescription = val;
 
   bool hasActivityDescription() => _activityDescription != null;
 
-  // "images" field.
-  List<String>? _images;
-  List<String> get images => _images ?? const [];
-  set images(List<String>? val) => _images = val;
+  // "activity_addedby" field.
+  String? _activityAddedby;
+  String get activityAddedby => _activityAddedby ?? '';
+  set activityAddedby(String? val) => _activityAddedby = val;
 
-  void updateImages(Function(List<String>) updateFn) {
-    updateFn(_images ??= []);
-  }
+  bool hasActivityAddedby() => _activityAddedby != null;
 
-  bool hasImages() => _images != null;
+  // "activity_images" field.
+  String? _activityImages;
+  String get activityImages => _activityImages ?? '';
+  set activityImages(String? val) => _activityImages = val;
 
-  // "added_by" field.
-  List<String>? _addedBy;
-  List<String> get addedBy => _addedBy ?? const [];
-  set addedBy(List<String>? val) => _addedBy = val;
-
-  void updateAddedBy(Function(List<String>) updateFn) {
-    updateFn(_addedBy ??= []);
-  }
-
-  bool hasAddedBy() => _addedBy != null;
+  bool hasActivityImages() => _activityImages != null;
 
   static StudentTimelineStruct fromMap(Map<String, dynamic> data) =>
       StudentTimelineStruct(
         id: castToType<int>(data['id']),
         date: data['date'] as DateTime?,
-        activityId: getDataList(data['activity_id']),
-        activityName: getDataList(data['activity_name']),
-        activityDescription: getDataList(data['activity_description']),
-        images: getDataList(data['images']),
-        addedBy: getDataList(data['added_by']),
+        activityId: castToType<int>(data['activity_id']),
+        activityName: data['activity_name'] as String?,
+        activityDescription: data['activity_description'] as String?,
+        activityAddedby: data['activity_addedby'] as String?,
+        activityImages: data['activity_images'] as String?,
       );
 
   static StudentTimelineStruct? maybeFromMap(dynamic data) => data is Map
@@ -119,8 +99,8 @@ class StudentTimelineStruct extends FFFirebaseStruct {
         'activity_id': _activityId,
         'activity_name': _activityName,
         'activity_description': _activityDescription,
-        'images': _images,
-        'added_by': _addedBy,
+        'activity_addedby': _activityAddedby,
+        'activity_images': _activityImages,
       }.withoutNulls;
 
   @override
@@ -136,27 +116,22 @@ class StudentTimelineStruct extends FFFirebaseStruct {
         'activity_id': serializeParam(
           _activityId,
           ParamType.int,
-          isList: true,
         ),
         'activity_name': serializeParam(
           _activityName,
           ParamType.String,
-          isList: true,
         ),
         'activity_description': serializeParam(
           _activityDescription,
           ParamType.String,
-          isList: true,
         ),
-        'images': serializeParam(
-          _images,
+        'activity_addedby': serializeParam(
+          _activityAddedby,
           ParamType.String,
-          isList: true,
         ),
-        'added_by': serializeParam(
-          _addedBy,
+        'activity_images': serializeParam(
+          _activityImages,
           ParamType.String,
-          isList: true,
         ),
       }.withoutNulls;
 
@@ -172,30 +147,30 @@ class StudentTimelineStruct extends FFFirebaseStruct {
           ParamType.DateTime,
           false,
         ),
-        activityId: deserializeParam<int>(
+        activityId: deserializeParam(
           data['activity_id'],
           ParamType.int,
-          true,
+          false,
         ),
-        activityName: deserializeParam<String>(
+        activityName: deserializeParam(
           data['activity_name'],
           ParamType.String,
-          true,
+          false,
         ),
-        activityDescription: deserializeParam<String>(
+        activityDescription: deserializeParam(
           data['activity_description'],
           ParamType.String,
-          true,
+          false,
         ),
-        images: deserializeParam<String>(
-          data['images'],
+        activityAddedby: deserializeParam(
+          data['activity_addedby'],
           ParamType.String,
-          true,
+          false,
         ),
-        addedBy: deserializeParam<String>(
-          data['added_by'],
+        activityImages: deserializeParam(
+          data['activity_images'],
           ParamType.String,
-          true,
+          false,
         ),
       );
 
@@ -204,15 +179,14 @@ class StudentTimelineStruct extends FFFirebaseStruct {
 
   @override
   bool operator ==(Object other) {
-    const listEquality = ListEquality();
     return other is StudentTimelineStruct &&
         id == other.id &&
         date == other.date &&
-        listEquality.equals(activityId, other.activityId) &&
-        listEquality.equals(activityName, other.activityName) &&
-        listEquality.equals(activityDescription, other.activityDescription) &&
-        listEquality.equals(images, other.images) &&
-        listEquality.equals(addedBy, other.addedBy);
+        activityId == other.activityId &&
+        activityName == other.activityName &&
+        activityDescription == other.activityDescription &&
+        activityAddedby == other.activityAddedby &&
+        activityImages == other.activityImages;
   }
 
   @override
@@ -222,14 +196,19 @@ class StudentTimelineStruct extends FFFirebaseStruct {
         activityId,
         activityName,
         activityDescription,
-        images,
-        addedBy
+        activityAddedby,
+        activityImages
       ]);
 }
 
 StudentTimelineStruct createStudentTimelineStruct({
   int? id,
   DateTime? date,
+  int? activityId,
+  String? activityName,
+  String? activityDescription,
+  String? activityAddedby,
+  String? activityImages,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -238,6 +217,11 @@ StudentTimelineStruct createStudentTimelineStruct({
     StudentTimelineStruct(
       id: id,
       date: date,
+      activityId: activityId,
+      activityName: activityName,
+      activityDescription: activityDescription,
+      activityAddedby: activityAddedby,
+      activityImages: activityImages,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

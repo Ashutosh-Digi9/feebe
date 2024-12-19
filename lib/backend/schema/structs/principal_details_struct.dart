@@ -8,18 +8,25 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class PrincipalDetailsStruct extends FFFirebaseStruct {
   PrincipalDetailsStruct({
+    DocumentReference? principalId,
     String? principalName,
     String? phoneNumber,
     String? emailId,
-    DocumentReference? principalId,
     String? principalImage,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
-  })  : _principalName = principalName,
+  })  : _principalId = principalId,
+        _principalName = principalName,
         _phoneNumber = phoneNumber,
         _emailId = emailId,
-        _principalId = principalId,
         _principalImage = principalImage,
         super(firestoreUtilData);
+
+  // "principal_id" field.
+  DocumentReference? _principalId;
+  DocumentReference? get principalId => _principalId;
+  set principalId(DocumentReference? val) => _principalId = val;
+
+  bool hasPrincipalId() => _principalId != null;
 
   // "principal_name" field.
   String? _principalName;
@@ -42,13 +49,6 @@ class PrincipalDetailsStruct extends FFFirebaseStruct {
 
   bool hasEmailId() => _emailId != null;
 
-  // "principal_id" field.
-  DocumentReference? _principalId;
-  DocumentReference? get principalId => _principalId;
-  set principalId(DocumentReference? val) => _principalId = val;
-
-  bool hasPrincipalId() => _principalId != null;
-
   // "principal_image" field.
   String? _principalImage;
   String get principalImage => _principalImage ?? '';
@@ -58,10 +58,10 @@ class PrincipalDetailsStruct extends FFFirebaseStruct {
 
   static PrincipalDetailsStruct fromMap(Map<String, dynamic> data) =>
       PrincipalDetailsStruct(
+        principalId: data['principal_id'] as DocumentReference?,
         principalName: data['principal_name'] as String?,
         phoneNumber: data['phone_number'] as String?,
         emailId: data['email_id'] as String?,
-        principalId: data['principal_id'] as DocumentReference?,
         principalImage: data['principal_image'] as String?,
       );
 
@@ -70,15 +70,19 @@ class PrincipalDetailsStruct extends FFFirebaseStruct {
       : null;
 
   Map<String, dynamic> toMap() => {
+        'principal_id': _principalId,
         'principal_name': _principalName,
         'phone_number': _phoneNumber,
         'email_id': _emailId,
-        'principal_id': _principalId,
         'principal_image': _principalImage,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
+        'principal_id': serializeParam(
+          _principalId,
+          ParamType.DocumentReference,
+        ),
         'principal_name': serializeParam(
           _principalName,
           ParamType.String,
@@ -91,10 +95,6 @@ class PrincipalDetailsStruct extends FFFirebaseStruct {
           _emailId,
           ParamType.String,
         ),
-        'principal_id': serializeParam(
-          _principalId,
-          ParamType.DocumentReference,
-        ),
         'principal_image': serializeParam(
           _principalImage,
           ParamType.String,
@@ -104,6 +104,12 @@ class PrincipalDetailsStruct extends FFFirebaseStruct {
   static PrincipalDetailsStruct fromSerializableMap(
           Map<String, dynamic> data) =>
       PrincipalDetailsStruct(
+        principalId: deserializeParam(
+          data['principal_id'],
+          ParamType.DocumentReference,
+          false,
+          collectionNamePath: ['Users'],
+        ),
         principalName: deserializeParam(
           data['principal_name'],
           ParamType.String,
@@ -119,12 +125,6 @@ class PrincipalDetailsStruct extends FFFirebaseStruct {
           ParamType.String,
           false,
         ),
-        principalId: deserializeParam(
-          data['principal_id'],
-          ParamType.DocumentReference,
-          false,
-          collectionNamePath: ['Users'],
-        ),
         principalImage: deserializeParam(
           data['principal_image'],
           ParamType.String,
@@ -138,23 +138,23 @@ class PrincipalDetailsStruct extends FFFirebaseStruct {
   @override
   bool operator ==(Object other) {
     return other is PrincipalDetailsStruct &&
+        principalId == other.principalId &&
         principalName == other.principalName &&
         phoneNumber == other.phoneNumber &&
         emailId == other.emailId &&
-        principalId == other.principalId &&
         principalImage == other.principalImage;
   }
 
   @override
   int get hashCode => const ListEquality()
-      .hash([principalName, phoneNumber, emailId, principalId, principalImage]);
+      .hash([principalId, principalName, phoneNumber, emailId, principalImage]);
 }
 
 PrincipalDetailsStruct createPrincipalDetailsStruct({
+  DocumentReference? principalId,
   String? principalName,
   String? phoneNumber,
   String? emailId,
-  DocumentReference? principalId,
   String? principalImage,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
@@ -162,10 +162,10 @@ PrincipalDetailsStruct createPrincipalDetailsStruct({
   bool delete = false,
 }) =>
     PrincipalDetailsStruct(
+      principalId: principalId,
       principalName: principalName,
       phoneNumber: phoneNumber,
       emailId: emailId,
-      principalId: principalId,
       principalImage: principalImage,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,

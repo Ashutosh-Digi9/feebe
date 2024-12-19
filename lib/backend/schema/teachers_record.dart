@@ -57,6 +57,26 @@ class TeachersRecord extends FirestoreRecord {
   DateTime? get updatedAt => _updatedAt;
   bool hasUpdatedAt() => _updatedAt != null;
 
+  // "teacher_image" field.
+  String? _teacherImage;
+  String get teacherImage => _teacherImage ?? '';
+  bool hasTeacherImage() => _teacherImage != null;
+
+  // "useref" field.
+  DocumentReference? _useref;
+  DocumentReference? get useref => _useref;
+  bool hasUseref() => _useref != null;
+
+  // "notices" field.
+  List<EventsNoticeStruct>? _notices;
+  List<EventsNoticeStruct> get notices => _notices ?? const [];
+  bool hasNotices() => _notices != null;
+
+  // "images" field.
+  List<String>? _images;
+  List<String> get images => _images ?? const [];
+  bool hasImages() => _images != null;
+
   void _initializeFields() {
     _teacherName = snapshotData['teacher_name'] as String?;
     _phoneNumber = snapshotData['phone_number'] as String?;
@@ -72,6 +92,13 @@ class TeachersRecord extends FirestoreRecord {
     _uploadedPictures = getDataList(snapshotData['Uploaded_pictures']);
     _createdAt = snapshotData['created_at'] as DateTime?;
     _updatedAt = snapshotData['updated_at'] as DateTime?;
+    _teacherImage = snapshotData['teacher_image'] as String?;
+    _useref = snapshotData['useref'] as DocumentReference?;
+    _notices = getStructList(
+      snapshotData['notices'],
+      EventsNoticeStruct.fromMap,
+    );
+    _images = getDataList(snapshotData['images']);
   }
 
   static CollectionReference get collection =>
@@ -114,6 +141,8 @@ Map<String, dynamic> createTeachersRecordData({
   String? emailId,
   DateTime? createdAt,
   DateTime? updatedAt,
+  String? teacherImage,
+  DocumentReference? useref,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -122,6 +151,8 @@ Map<String, dynamic> createTeachersRecordData({
       'email_id': emailId,
       'created_at': createdAt,
       'updated_at': updatedAt,
+      'teacher_image': teacherImage,
+      'useref': useref,
     }.withoutNulls,
   );
 
@@ -141,7 +172,11 @@ class TeachersRecordDocumentEquality implements Equality<TeachersRecord> {
         listEquality.equals(e1?.teacherTimeline, e2?.teacherTimeline) &&
         listEquality.equals(e1?.uploadedPictures, e2?.uploadedPictures) &&
         e1?.createdAt == e2?.createdAt &&
-        e1?.updatedAt == e2?.updatedAt;
+        e1?.updatedAt == e2?.updatedAt &&
+        e1?.teacherImage == e2?.teacherImage &&
+        e1?.useref == e2?.useref &&
+        listEquality.equals(e1?.notices, e2?.notices) &&
+        listEquality.equals(e1?.images, e2?.images);
   }
 
   @override
@@ -153,7 +188,11 @@ class TeachersRecordDocumentEquality implements Equality<TeachersRecord> {
         e?.teacherTimeline,
         e?.uploadedPictures,
         e?.createdAt,
-        e?.updatedAt
+        e?.updatedAt,
+        e?.teacherImage,
+        e?.useref,
+        e?.notices,
+        e?.images
       ]);
 
   @override

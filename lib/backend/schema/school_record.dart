@@ -88,15 +88,48 @@ class SchoolRecord extends FirestoreRecord {
   DateTime? get updatedAt => _updatedAt;
   bool hasUpdatedAt() => _updatedAt != null;
 
+  // "teachers_data_list" field.
+  List<TeacherListStruct>? _teachersDataList;
+  List<TeacherListStruct> get teachersDataList => _teachersDataList ?? const [];
+  bool hasTeachersDataList() => _teachersDataList != null;
+
+  // "student_data_list" field.
+  List<StudentListStruct>? _studentDataList;
+  List<StudentListStruct> get studentDataList => _studentDataList ?? const [];
+  bool hasStudentDataList() => _studentDataList != null;
+
+  // "listOfteachersuser" field.
+  List<DocumentReference>? _listOfteachersuser;
+  List<DocumentReference> get listOfteachersuser =>
+      _listOfteachersuser ?? const [];
+  bool hasListOfteachersuser() => _listOfteachersuser != null;
+
+  // "latlng" field.
+  LatLng? _latlng;
+  LatLng? get latlng => _latlng;
+  bool hasLatlng() => _latlng != null;
+
+  // "popupdate" field.
+  DateTime? _popupdate;
+  DateTime? get popupdate => _popupdate;
+  bool hasPopupdate() => _popupdate != null;
+
   void _initializeFields() {
-    _schoolDetails =
-        SchoolDetailsStruct.maybeFromMap(snapshotData['school_details']);
+    _schoolDetails = snapshotData['school_details'] is SchoolDetailsStruct
+        ? snapshotData['school_details']
+        : SchoolDetailsStruct.maybeFromMap(snapshotData['school_details']);
     _principalDetails =
-        PrincipalDetailsStruct.maybeFromMap(snapshotData['principal_details']);
+        snapshotData['principal_details'] is PrincipalDetailsStruct
+            ? snapshotData['principal_details']
+            : PrincipalDetailsStruct.maybeFromMap(
+                snapshotData['principal_details']);
     _schoolStatus = castToType<int>(snapshotData['school_status']);
     _subscriptionStatus = castToType<int>(snapshotData['subscription_status']);
-    _subscriptionDetails = SubscribtionDetailsStruct.maybeFromMap(
-        snapshotData['subscription_details']);
+    _subscriptionDetails =
+        snapshotData['subscription_details'] is SubscribtionDetailsStruct
+            ? snapshotData['subscription_details']
+            : SubscribtionDetailsStruct.maybeFromMap(
+                snapshotData['subscription_details']);
     _isBranchPresent = snapshotData['isBranch_present'] as bool?;
     _branchDetails = getStructList(
       snapshotData['branch_details'],
@@ -115,6 +148,17 @@ class SchoolRecord extends FirestoreRecord {
     _listOfTeachers = getDataList(snapshotData['List_of_teachers']);
     _createdAt = snapshotData['created_at'] as DateTime?;
     _updatedAt = snapshotData['updated_at'] as DateTime?;
+    _teachersDataList = getStructList(
+      snapshotData['teachers_data_list'],
+      TeacherListStruct.fromMap,
+    );
+    _studentDataList = getStructList(
+      snapshotData['student_data_list'],
+      StudentListStruct.fromMap,
+    );
+    _listOfteachersuser = getDataList(snapshotData['listOfteachersuser']);
+    _latlng = snapshotData['latlng'] as LatLng?;
+    _popupdate = snapshotData['popupdate'] as DateTime?;
   }
 
   static CollectionReference get collection =>
@@ -159,6 +203,8 @@ Map<String, dynamic> createSchoolRecordData({
   bool? isBranchPresent,
   DateTime? createdAt,
   DateTime? updatedAt,
+  LatLng? latlng,
+  DateTime? popupdate,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -170,6 +216,8 @@ Map<String, dynamic> createSchoolRecordData({
       'isBranch_present': isBranchPresent,
       'created_at': createdAt,
       'updated_at': updatedAt,
+      'latlng': latlng,
+      'popupdate': popupdate,
     }.withoutNulls,
   );
 
@@ -206,7 +254,12 @@ class SchoolRecordDocumentEquality implements Equality<SchoolRecord> {
         listEquality.equals(e1?.listOfStudents, e2?.listOfStudents) &&
         listEquality.equals(e1?.listOfTeachers, e2?.listOfTeachers) &&
         e1?.createdAt == e2?.createdAt &&
-        e1?.updatedAt == e2?.updatedAt;
+        e1?.updatedAt == e2?.updatedAt &&
+        listEquality.equals(e1?.teachersDataList, e2?.teachersDataList) &&
+        listEquality.equals(e1?.studentDataList, e2?.studentDataList) &&
+        listEquality.equals(e1?.listOfteachersuser, e2?.listOfteachersuser) &&
+        e1?.latlng == e2?.latlng &&
+        e1?.popupdate == e2?.popupdate;
   }
 
   @override
@@ -224,7 +277,12 @@ class SchoolRecordDocumentEquality implements Equality<SchoolRecord> {
         e?.listOfStudents,
         e?.listOfTeachers,
         e?.createdAt,
-        e?.updatedAt
+        e?.updatedAt,
+        e?.teachersDataList,
+        e?.studentDataList,
+        e?.listOfteachersuser,
+        e?.latlng,
+        e?.popupdate
       ]);
 
   @override

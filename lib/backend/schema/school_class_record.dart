@@ -45,6 +45,27 @@ class SchoolClassRecord extends FirestoreRecord {
   List<EventsNoticeStruct> get notice => _notice ?? const [];
   bool hasNotice() => _notice != null;
 
+  // "classTeacher" field.
+  DocumentReference? _classTeacher;
+  DocumentReference? get classTeacher => _classTeacher;
+  bool hasClassTeacher() => _classTeacher != null;
+
+  // "listOfteachersUser" field.
+  List<DocumentReference>? _listOfteachersUser;
+  List<DocumentReference> get listOfteachersUser =>
+      _listOfteachersUser ?? const [];
+  bool hasListOfteachersUser() => _listOfteachersUser != null;
+
+  // "student_data" field.
+  List<StudentListStruct>? _studentData;
+  List<StudentListStruct> get studentData => _studentData ?? const [];
+  bool hasStudentData() => _studentData != null;
+
+  // "ListOfteachers" field.
+  List<TeacherListStruct>? _listOfteachers;
+  List<TeacherListStruct> get listOfteachers => _listOfteachers ?? const [];
+  bool hasListOfteachers() => _listOfteachers != null;
+
   void _initializeFields() {
     _className = snapshotData['class_name'] as String?;
     _teachersList = getDataList(snapshotData['teachers_list']);
@@ -60,6 +81,16 @@ class SchoolClassRecord extends FirestoreRecord {
     _notice = getStructList(
       snapshotData['notice'],
       EventsNoticeStruct.fromMap,
+    );
+    _classTeacher = snapshotData['classTeacher'] as DocumentReference?;
+    _listOfteachersUser = getDataList(snapshotData['listOfteachersUser']);
+    _studentData = getStructList(
+      snapshotData['student_data'],
+      StudentListStruct.fromMap,
+    );
+    _listOfteachers = getStructList(
+      snapshotData['ListOfteachers'],
+      TeacherListStruct.fromMap,
     );
   }
 
@@ -99,10 +130,12 @@ class SchoolClassRecord extends FirestoreRecord {
 
 Map<String, dynamic> createSchoolClassRecordData({
   String? className,
+  DocumentReference? classTeacher,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
       'class_name': className,
+      'classTeacher': classTeacher,
     }.withoutNulls,
   );
 
@@ -120,7 +153,11 @@ class SchoolClassRecordDocumentEquality implements Equality<SchoolClassRecord> {
         listEquality.equals(e1?.studentsList, e2?.studentsList) &&
         listEquality.equals(e1?.attendance, e2?.attendance) &&
         listEquality.equals(e1?.calendar, e2?.calendar) &&
-        listEquality.equals(e1?.notice, e2?.notice);
+        listEquality.equals(e1?.notice, e2?.notice) &&
+        e1?.classTeacher == e2?.classTeacher &&
+        listEquality.equals(e1?.listOfteachersUser, e2?.listOfteachersUser) &&
+        listEquality.equals(e1?.studentData, e2?.studentData) &&
+        listEquality.equals(e1?.listOfteachers, e2?.listOfteachers);
   }
 
   @override
@@ -130,7 +167,11 @@ class SchoolClassRecordDocumentEquality implements Equality<SchoolClassRecord> {
         e?.studentsList,
         e?.attendance,
         e?.calendar,
-        e?.notice
+        e?.notice,
+        e?.classTeacher,
+        e?.listOfteachersUser,
+        e?.studentData,
+        e?.listOfteachers
       ]);
 
   @override

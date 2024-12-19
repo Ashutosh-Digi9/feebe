@@ -1,114 +1,162 @@
 // Export pages
-export '/pages/auth/launch/launch_widget.dart' show LaunchWidget;
-export '/pages/auth/login/login_widget.dart' show LoginWidget;
-export '/pages/super_admin/dashboard/dashboard_widget.dart'
-    show DashboardWidget;
-export '/pages/super_admin/new_school_details_s_a/new_school_details_s_a_widget.dart'
+export '/launch/launch_widget.dart' show LaunchWidget;
+export '/login/login_widget.dart' show LoginWidget;
+export '/a_super_admin/dashboard/dashboard_widget.dart' show DashboardWidget;
+export '/a_super_admin/new_school_details_s_a/new_school_details_s_a_widget.dart'
     show NewSchoolDetailsSAWidget;
-export '/pages/parent/calender_parent/calender_parent_widget.dart'
-    show CalenderParentWidget;
-export '/pages/parent/notification_parent/notification_parent_widget.dart'
+export '/calender_parent/calender_parent_widget.dart' show CalenderParentWidget;
+export '/notifications/notification_parent/notification_parent_widget.dart'
     show NotificationParentWidget;
-export '/pages/parent/dashboard_parent/dashboard_parent_widget.dart'
-    show DashboardParentWidget;
-export '/pages/parent/parent_profile/parent_profile_widget.dart'
-    show ParentProfileWidget;
-export '/pages/super_admin/notifications_s_a/notifications_s_a_widget.dart'
+export '/parents/timelinedetails/timelinedetails_widget.dart'
+    show TimelinedetailsWidget;
+export '/parent_profile/parent_profile_widget.dart' show ParentProfileWidget;
+export '/notifications/notifications_s_a/notifications_s_a_widget.dart'
     show NotificationsSAWidget;
-export '/pages/super_admin/add_school/add_school_q_r_s_a/add_school_q_r_s_a_widget.dart'
+export '/a_super_admin/add_school_q_r_s_a/add_school_q_r_s_a_widget.dart'
     show AddSchoolQRSAWidget;
-export '/pages/super_admin/add_school/add_school_manually_s_a/add_school_manually_s_a_widget.dart'
+export '/a_super_admin/add_school_manually_s_a/add_school_manually_s_a_widget.dart'
     show AddSchoolManuallySAWidget;
-export '/pages/parent/editprofile_parent/editprofile_parent_widget.dart'
+export '/editprofile_parent/editprofile_parent_widget.dart'
     show EditprofileParentWidget;
-export '/pages/super_admin/search/search_page_s_a/search_page_s_a_widget.dart'
+export '/a_super_admin/search_page_s_a/search_page_s_a_widget.dart'
     show SearchPageSAWidget;
-export '/pages/parent/edit_child/edit_child_widget.dart' show EditChildWidget;
-export '/pages/parent/calender_view/calender_view_widget.dart'
-    show CalenderViewWidget;
-export '/pages/edit_profile_s_a/edit_profile_s_a_widget.dart'
+export '/edit_profile_s_a/edit_profile_s_a_widget.dart'
     show EditProfileSAWidget;
-export '/pages/parent/notifications_detials/notifications_detials_widget.dart'
-    show NotificationsDetialsWidget;
-export '/pages/parent/child_timeline_updates/child_timeline_updates_widget.dart'
-    show ChildTimelineUpdatesWidget;
-export '/pages/parent/gallery/gallery_widget.dart' show GalleryWidget;
-export '/pages/super_admin/subscription_plan_s_a/subscription_plan_s_a_widget.dart'
-    show SubscriptionPlanSAWidget;
-export '/pages/parent/attendence/attendence_widget.dart' show AttendenceWidget;
-export '/pages/super_admin/delete_page_s_a/delete_page_s_a_widget.dart'
-    show DeletePageSAWidget;
-export '/pages/admin/add_teacher_q_r_admin/add_teacher_q_r_admin_widget.dart'
+export '/attendence_parent/attendence_parent_widget.dart'
+    show AttendenceParentWidget;
+export '/confirmationpages/school_rejected/school_rejected_widget.dart'
+    show SchoolRejectedWidget;
+export '/a_super_admin/add_teacher_q_r_admin/add_teacher_q_r_admin_widget.dart'
     show AddTeacherQRAdminWidget;
-export '/pages/admin/add_teacher_manually_admin/add_teacher_manually_admin_widget.dart'
+export '/teacher/add_teacher_manually_admin/add_teacher_manually_admin_widget.dart'
     show AddTeacherManuallyAdminWidget;
-export '/pages/parent/noticeboard/noticeboard_widget.dart'
-    show NoticeboardWidget;
-export '/pages/super_admin/signup_s_a/signup_s_a_widget.dart'
-    show SignupSAWidget;
-export '/pages/auth/change_password/change_password_widget.dart'
-    show ChangePasswordWidget;
-export '/pages/super_admin/existing_school_details_s_a/existing_school_details_s_a_widget.dart'
+export '/change_password/change_password_widget.dart' show ChangePasswordWidget;
+export '/a_super_admin/existing_school_details_s_a/existing_school_details_s_a_widget.dart'
     show ExistingSchoolDetailsSAWidget;
-export '/pages/admin/class_dashboard/class_dashboard_widget.dart'
-    show ClassDashboardWidget;
-export '/pages/auth/password_changed/password_changed_widget.dart'
+export '/admin_dashboard/class_view/class_view_widget.dart'
+    show ClassViewWidget;
+export '/password_changed/password_changed_widget.dart'
     show PasswordChangedWidget;
-export '/pages/admin/signup_a/signup_a_widget.dart' show SignupAWidget;
-export '/pages/admin/dashboard_admin/dashboard_admin_widget.dart'
-    show DashboardAdminWidget;
-export '/pages/admin/teacher_profile/teacher_profile_widget.dart'
+export '/admin_dashboard/class_dashboard/class_dashboard_widget.dart'
+    show ClassDashboardWidget;
+export '/teacher/teacher_profile/teacher_profile_widget.dart'
     show TeacherProfileWidget;
-export '/pages/super_admin/add_branch_s_a/add_branch_s_a_widget.dart'
+export '/a_super_admin/add_branch_s_a/add_branch_s_a_widget.dart'
     show AddBranchSAWidget;
-export '/pages/admin/profile_admin/profile_admin_widget.dart'
-    show ProfileAdminWidget;
-export '/pages/admin/add_class_admin/add_class_admin_widget.dart'
+export '/admin_dashboard/add_class_admin/add_class_admin_widget.dart'
     show AddClassAdminWidget;
-export '/pages/admin/notification_admin/notification_admin_widget.dart'
+export '/notifications/notification_admin/notification_admin_widget.dart'
     show NotificationAdminWidget;
-export '/pages/admin/teacher_updates/teacher_updates_widget.dart'
-    show TeacherUpdatesWidget;
-export '/pages/admin/add_class2_admin/add_class2_admin_widget.dart'
-    show AddClass2AdminWidget;
-export '/pages/admin/teacher_attendence_history/teacher_attendence_history_widget.dart'
+export '/admin_dashboard/select_students_admin/select_students_admin_widget.dart'
+    show SelectStudentsAdminWidget;
+export '/teacher/teacher_attendence_history/teacher_attendence_history_widget.dart'
     show TeacherAttendenceHistoryWidget;
-export '/pages/admin/add_class3_admin/add_class3_admin_widget.dart'
-    show AddClass3AdminWidget;
-export '/pages/admin/teacher_timeline/teacher_timeline_widget.dart'
+export '/teacher_timeline/teacher_timeline_widget.dart'
     show TeacherTimelineWidget;
-export '/pages/admin/class_attendence/class_attendence_widget.dart'
+export '/admin_dashboard/class_attendence/class_attendence_widget.dart'
     show ClassAttendenceWidget;
-export '/pages/admin/calender_addevent_admin/calender_addevent_admin_widget.dart'
-    show CalenderAddeventAdminWidget;
-export '/pages/admin/class_attendence_history/class_attendence_history_widget.dart'
+export '/admin_dashboard/class_attendence_history/class_attendence_history_widget.dart'
     show ClassAttendenceHistoryWidget;
-export '/pages/admin/mark_attendence/mark_attendence_widget.dart'
+export '/admin_dashboard/mark_attendence/mark_attendence_widget.dart'
     show MarkAttendenceWidget;
-export '/pages/admin/edit_class/edit_class_widget.dart' show EditClassWidget;
-export '/pages/admin/edit_class2/edit_class2_widget.dart' show EditClass2Widget;
-export '/pages/admin/edit_class3/edit_class3_widget.dart' show EditClass3Widget;
-export '/pages/admin/add_student_manually/add_student_manually_widget.dart'
+export '/admin_dashboard/add_student_manually/add_student_manually_widget.dart'
     show AddStudentManuallyWidget;
-export '/pages/admin/event_posted_admin/event_posted_admin_widget.dart'
-    show EventPostedAdminWidget;
-export '/pages/admin/students_view_admin/students_view_admin_widget.dart'
-    show StudentsViewAdminWidget;
-export '/pages/admin/select_student_admin/select_student_admin_widget.dart'
-    show SelectStudentAdminWidget;
-export '/pages/admin/add_parent_details/add_parent_details_widget.dart'
-    show AddParentDetailsWidget;
-export '/pages/admin/students_addedtoclass/students_addedtoclass_widget.dart'
+export '/confirmationpages/students_addedtoclass/students_addedtoclass_widget.dart'
     show StudentsAddedtoclassWidget;
-export '/pages/admin/indi_student_admin/indi_student_admin_widget.dart'
+export '/admin_dashboard/indi_student_admin/indi_student_admin_widget.dart'
     show IndiStudentAdminWidget;
-export '/pages/admin/add_student_class/add_student_class_widget.dart'
-    show AddStudentClassWidget;
-export '/pages/admin/student_deleted/student_deleted_widget.dart'
-    show StudentDeletedWidget;
-export '/dashboard_admin2/dashboard_admin2_widget.dart'
-    show DashboardAdmin2Widget;
-export '/pages/admin/notifications_detials_admin/notifications_detials_admin_widget.dart'
-    show NotificationsDetialsAdminWidget;
-export '/pages/auth/forgot_password/forgot_password_widget.dart'
-    show ForgotPasswordWidget;
+export '/noticedetails_class/noticedetails_class_widget.dart'
+    show NoticedetailsClassWidget;
+export '/forgot_password/forgot_password_widget.dart' show ForgotPasswordWidget;
+export '/a_super_admin/edit_school_s_a/edit_school_s_a_widget.dart'
+    show EditSchoolSAWidget;
+export '/a_super_admin/edit_branch_s_a/edit_branch_s_a_widget.dart'
+    show EditBranchSAWidget;
+export '/admin_dashboard/add_events_details/add_events_details_widget.dart'
+    show AddEventsDetailsWidget;
+export '/admin_dashboard/editclassadmin/editclassadmin_widget.dart'
+    show EditclassadminWidget;
+export '/confirmationpages/attendance_marked/attendance_marked_widget.dart'
+    show AttendanceMarkedWidget;
+export '/add_noticeboard_class/add_noticeboard_class_widget.dart'
+    show AddNoticeboardClassWidget;
+export '/admin_dashboard/indi_edit_students/indi_edit_students_widget.dart'
+    show IndiEditStudentsWidget;
+export '/add_student_admin_q_r/add_student_admin_q_r_widget.dart'
+    show AddStudentAdminQRWidget;
+export '/confirmationpages/studentsprofile/studentsprofile_widget.dart'
+    show StudentsprofileWidget;
+export '/a_super_admin/change_subscription_plan_s_a/change_subscription_plan_s_a_widget.dart'
+    show ChangeSubscriptionPlanSAWidget;
+export '/admin_dashboard/students_timeline_activities/students_timeline_activities_widget.dart'
+    show StudentsTimelineActivitiesWidget;
+export '/confirmationpages/teacherdeleted_succesfully/teacherdeleted_succesfully_widget.dart'
+    show TeacherdeletedSuccesfullyWidget;
+export '/edit_teacher_admin/edit_teacher_admin_widget.dart'
+    show EditTeacherAdminWidget;
+export '/confirmationpages/teacherdetailsedited/teacherdetailsedited_widget.dart'
+    show TeacherdetailseditedWidget;
+export '/teacher/teachers_gallery/teachers_gallery_widget.dart'
+    show TeachersGalleryWidget;
+export '/a_super_admin/add_school_link/add_school_link_widget.dart'
+    show AddSchoolLinkWidget;
+export '/admin_dashboard/calender_class/calender_class_widget.dart'
+    show CalenderClassWidget;
+export '/student_gallery/student_gallery_widget.dart' show StudentGalleryWidget;
+export '/admin_dashboard/indivi_image_view/indivi_image_view_widget.dart'
+    show IndiviImageViewWidget;
+export '/admin_dashboard/add_calender_details/add_calender_details_widget.dart'
+    show AddCalenderDetailsWidget;
+export '/a_super_admin/subscription/subscription_widget.dart'
+    show SubscriptionWidget;
+export '/edi_teacher/edi_teacher_widget.dart' show EdiTeacherWidget;
+export '/admin_dashboard/search_page_admin/search_page_admin_widget.dart'
+    show SearchPageAdminWidget;
+export '/notifications/notification_teacher/notification_teacher_widget.dart'
+    show NotificationTeacherWidget;
+export '/school_added/school_added_widget.dart' show SchoolAddedWidget;
+export '/confirmationpages/schoolapproved/schoolapproved_widget.dart'
+    show SchoolapprovedWidget;
+export '/confirmationpages/schooldeletedsuccessfully/schooldeletedsuccessfully_widget.dart'
+    show SchooldeletedsuccessfullyWidget;
+export '/confirmationpages/branch_updated/branch_updated_widget.dart'
+    show BranchUpdatedWidget;
+export '/confirmationpages/school_updated/school_updated_widget.dart'
+    show SchoolUpdatedWidget;
+export '/confirmationpages/branch_added/branch_added_widget.dart'
+    show BranchAddedWidget;
+export '/admin_dashboard/attendence_history_teacher/attendence_history_teacher_widget.dart'
+    show AttendenceHistoryTeacherWidget;
+export '/amount_not_paidd/amount_not_paidd_widget.dart'
+    show AmountNotPaiddWidget;
+export '/subscriptionended/subscriptionended_widget.dart'
+    show SubscriptionendedWidget;
+export '/teacher/teacher_timeline_new/teacher_timeline_new_widget.dart'
+    show TeacherTimelineNewWidget;
+export '/class_notice/class_notice_widget.dart' show ClassNoticeWidget;
+export '/teacher/teacher_notice/teacher_notice_widget.dart'
+    show TeacherNoticeWidget;
+export '/teacher_notice_teacher/teacher_notice_teacher_widget.dart'
+    show TeacherNoticeTeacherWidget;
+export '/admin_dashboard/calender_details_parent/calender_details_parent_widget.dart'
+    show CalenderDetailsParentWidget;
+export '/notice_parent/notice_parent_widget.dart' show NoticeParentWidget;
+export '/admin_dashboard/addnotice_all_schools/addnotice_all_schools_widget.dart'
+    show AddnoticeAllSchoolsWidget;
+export '/admin_dashboard/school_notice_view/school_notice_view_widget.dart'
+    show SchoolNoticeViewWidget;
+export '/subscribtioplan/subscribtioplan_widget.dart'
+    show SubscribtioplanWidget;
+export '/edit_child_parent/edit_child_parent_widget.dart'
+    show EditChildParentWidget;
+export '/confirmationpages/child_details_updated/child_details_updated_widget.dart'
+    show ChildDetailsUpdatedWidget;
+export '/confirmationpages/pareent_profile_updated/pareent_profile_updated_widget.dart'
+    show PareentProfileUpdatedWidget;
+export '/admin_dashboard/class_notice_admin_teacher/class_notice_admin_teacher_widget.dart'
+    show ClassNoticeAdminTeacherWidget;
+export '/admin_dashboard/notification_v_iew/notification_v_iew_widget.dart'
+    show NotificationVIewWidget;
+export '/new_student/new_student_widget.dart' show NewStudentWidget;
+export '/new_student_edit/new_student_edit_widget.dart'
+    show NewStudentEditWidget;
