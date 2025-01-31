@@ -52,7 +52,7 @@ class _EmptynoticeWidgetState extends State<EmptynoticeWidget> {
         Text(
           'No events',
           style: FlutterFlowTheme.of(context).bodyMedium.override(
-                fontFamily: 'Inter',
+                fontFamily: 'Nunito',
                 fontSize: 18.0,
                 letterSpacing: 0.0,
                 fontWeight: FontWeight.bold,

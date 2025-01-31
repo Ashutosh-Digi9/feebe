@@ -105,7 +105,7 @@ class _UpcomingeventTeacherWidgetState
                         width: MediaQuery.sizeOf(context).width * 0.4,
                         decoration: const BoxDecoration(),
                         child: Text(
-                          'Upcoming  ${containerSchoolRecord.listOfNotice.where((e) => !functions.isDatePassed(e.eventDate!)).toList().sortedList(keyOf: (e) => e.eventDate!, desc: false).firstOrNull?.eventName}',
+                          'Upcoming  ${functions.filterEventsAfterTwoDays(containerSchoolRecord.calendarList.toList(), getCurrentTimestamp).sortedList(keyOf: (e) => e.eventDate!, desc: true).firstOrNull?.eventName}',
                           style: FlutterFlowTheme.of(context)
                               .bodyMedium
                               .override(
@@ -126,12 +126,16 @@ class _UpcomingeventTeacherWidgetState
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   Text(
-                    containerSchoolRecord.listOfNotice
-                        .where((e) => !functions.isDatePassed(e.eventDate!))
-                        .toList()
-                        .sortedList(keyOf: (e) => e.eventDate!, desc: false)
-                        .firstOrNull!
-                        .eventTitle,
+                    valueOrDefault<String>(
+                      functions
+                          .filterEventsAfterTwoDays(
+                              containerSchoolRecord.calendarList.toList(),
+                              getCurrentTimestamp)
+                          .sortedList(keyOf: (e) => e.eventDate!, desc: true)
+                          .firstOrNull
+                          ?.eventTitle,
+                      't',
+                    ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
                           fontFamily: 'Nunito',
                           color: FlutterFlowTheme.of(context).text1,
@@ -142,11 +146,12 @@ class _UpcomingeventTeacherWidgetState
                   ),
                   Text(
                     dateTimeFormat(
-                        "MMMEd",
-                        containerSchoolRecord.listOfNotice
-                            .where((e) => !functions.isDatePassed(e.eventDate!))
-                            .toList()
-                            .sortedList(keyOf: (e) => e.eventDate!, desc: false)
+                        "dd MMM , y",
+                        functions
+                            .filterEventsAfterTwoDays(
+                                containerSchoolRecord.calendarList.toList(),
+                                getCurrentTimestamp)
+                            .sortedList(keyOf: (e) => e.eventDate!, desc: true)
                             .firstOrNull!
                             .eventDate!),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(

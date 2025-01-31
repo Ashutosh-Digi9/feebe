@@ -1,5 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -223,6 +223,59 @@ class TeachersTimelineStruct extends FFFirebaseStruct {
           data['images'],
           ParamType.String,
           false,
+        ),
+      );
+
+  static TeachersTimelineStruct fromAlgoliaData(Map<String, dynamic> data) =>
+      TeachersTimelineStruct(
+        id: convertAlgoliaParam(
+          data['id'],
+          ParamType.int,
+          false,
+        ),
+        date: convertAlgoliaParam(
+          data['date'],
+          ParamType.DateTime,
+          false,
+        ),
+        className: convertAlgoliaParam(
+          data['class_name'],
+          ParamType.String,
+          false,
+        ),
+        noofStudents: convertAlgoliaParam(
+          data['noofStudents'],
+          ParamType.int,
+          false,
+        ),
+        studentref: convertAlgoliaParam<DocumentReference>(
+          data['studentref'],
+          ParamType.DocumentReference,
+          true,
+        ),
+        eventid: convertAlgoliaParam(
+          data['eventid'],
+          ParamType.int,
+          false,
+        ),
+        eventName: convertAlgoliaParam(
+          data['eventName'],
+          ParamType.String,
+          false,
+        ),
+        eventDescr: convertAlgoliaParam(
+          data['eventDescr'],
+          ParamType.String,
+          false,
+        ),
+        images: convertAlgoliaParam(
+          data['images'],
+          ParamType.String,
+          false,
+        ),
+        firestoreUtilData: const FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
         ),
       );
 

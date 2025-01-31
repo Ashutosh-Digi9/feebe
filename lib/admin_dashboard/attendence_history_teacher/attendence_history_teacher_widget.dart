@@ -1,6 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/empty_widget.dart';
+import '/confirmationpages/filedownloadedsuccessfully/filedownloadedsuccessfully_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -81,32 +82,34 @@ class _AttendenceHistoryTeacherWidgetState
                 borderWidth: 1.0,
                 buttonSize: 60.0,
                 icon: Icon(
-                  Icons.arrow_back_ios_sharp,
-                  color: FlutterFlowTheme.of(context).alternate,
-                  size: 30.0,
+                  Icons.chevron_left,
+                  color: FlutterFlowTheme.of(context).bgColor1,
+                  size: 28.0,
                 ),
                 onPressed: () async {
                   context.pop();
                 },
               ),
-              title: Text(
-                'Attendence History',
-                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Nunito',
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      fontSize: 16.0,
-                      letterSpacing: 0.0,
-                      fontWeight: FontWeight.w500,
-                    ),
+              title: Align(
+                alignment: const AlignmentDirectional(-1.0, 1.0),
+                child: Text(
+                  'Attendence History',
+                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                        fontFamily: 'Nunito',
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        fontSize: 16.0,
+                        letterSpacing: 0.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                ),
               ),
               actions: const [],
               centerTitle: false,
-              elevation: 2.0,
+              elevation: 0.0,
             ),
             body: SafeArea(
               top: true,
               child: SingleChildScrollView(
-                primary: false,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -279,7 +282,7 @@ class _AttendenceHistoryTeacherWidgetState
                                         safeSetState(() {});
                                       },
                                       child: Icon(
-                                        Icons.calendar_month,
+                                        Icons.calendar_today_outlined,
                                         color: FlutterFlowTheme.of(context)
                                             .primaryText,
                                         size: 24.0,
@@ -291,136 +294,182 @@ class _AttendenceHistoryTeacherWidgetState
                             ),
                             Padding(
                               padding: const EdgeInsetsDirectional.fromSTEB(
-                                  10.0, 0.0, 10.0, 0.0),
-                              child: Material(
-                                color: Colors.transparent,
-                                elevation: 5.0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.0),
+                                  20.0, 0.0, 20.0, 20.0),
+                              child: Container(
+                                height: MediaQuery.sizeOf(context).height * 0.7,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(0.0),
                                 ),
-                                child: Container(
-                                  height:
-                                      MediaQuery.sizeOf(context).height * 0.7,
-                                  decoration: BoxDecoration(
-                                    color: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
-                                    borderRadius: BorderRadius.circular(16.0),
-                                  ),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            10.0, 0.0, 10.0, 10.0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Container(
-                                              width: MediaQuery.sizeOf(context)
-                                                      .width *
-                                                  0.2,
-                                              height: MediaQuery.sizeOf(context)
-                                                      .height *
-                                                  0.04,
-                                              decoration: const BoxDecoration(),
-                                              child: Align(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          10.0, 0.0, 10.0, 10.0),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondaryBackground,
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(10.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.end,
+                                            children: [
+                                              Align(
                                                 alignment: const AlignmentDirectional(
-                                                    0.0, 0.0),
-                                                child: Text(
-                                                  'Date',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Nunito',
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .tertiaryText,
-                                                        fontSize: 16.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
+                                                    0.0, 1.0),
+                                                child: Container(
+                                                  width:
+                                                      MediaQuery.sizeOf(context)
+                                                              .width *
+                                                          0.2,
+                                                  height:
+                                                      MediaQuery.sizeOf(context)
+                                                              .height *
+                                                          0.04,
+                                                  decoration: const BoxDecoration(),
+                                                  child: Align(
+                                                    alignment:
+                                                        const AlignmentDirectional(
+                                                            0.0, 1.0),
+                                                    child: Text(
+                                                      'Date',
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Nunito',
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primaryText,
+                                                            fontSize: 16.0,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            Container(
-                                              width: MediaQuery.sizeOf(context)
-                                                      .width *
-                                                  0.28,
-                                              height: MediaQuery.sizeOf(context)
-                                                      .height *
-                                                  0.04,
-                                              decoration: const BoxDecoration(),
-                                              child: Align(
+                                              Align(
                                                 alignment: const AlignmentDirectional(
-                                                    0.0, 0.0),
-                                                child: Text(
-                                                  'Attendance',
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Nunito',
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .tertiaryText,
-                                                        fontSize: 16.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
+                                                    0.0, 1.0),
+                                                child: Container(
+                                                  width:
+                                                      MediaQuery.sizeOf(context)
+                                                              .width *
+                                                          0.28,
+                                                  height:
+                                                      MediaQuery.sizeOf(context)
+                                                              .height *
+                                                          0.04,
+                                                  decoration: const BoxDecoration(),
+                                                  child: Align(
+                                                    alignment:
+                                                        const AlignmentDirectional(
+                                                            0.0, 1.0),
+                                                    child: Text(
+                                                      'Log time',
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Nunito',
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primaryText,
+                                                            fontSize: 16.0,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                    ),
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                          ],
+                                            ],
+                                          ),
                                         ),
                                       ),
-                                      Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            10.0, 0.0, 10.0, 0.0),
-                                        child: Builder(
-                                          builder: (context) {
-                                            final attendace =
-                                                attendenceHistoryTeacherTeachersRecord
-                                                    .teacherAttendance
-                                                    .where((e) =>
-                                                        dateTimeFormat(
-                                                            "MMM/y", e.date) ==
-                                                        dateTimeFormat(
-                                                            "MMM/y",
-                                                            _model
-                                                                .currentmonthandyear))
-                                                    .toList()
-                                                    .sortedList(
-                                                        keyOf: (e) => e.date!,
-                                                        desc: true)
-                                                    .toList();
-                                            if (attendace.isEmpty) {
-                                              return const EmptyWidget();
-                                            }
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          10.0, 0.0, 10.0, 0.0),
+                                      child: Builder(
+                                        builder: (context) {
+                                          final attendace =
+                                              attendenceHistoryTeacherTeachersRecord
+                                                  .teacherAttendance
+                                                  .where((e) =>
+                                                      dateTimeFormat(
+                                                          "MMM/y", e.date) ==
+                                                      dateTimeFormat(
+                                                          "MMM/y",
+                                                          _model
+                                                              .currentmonthandyear))
+                                                  .toList()
+                                                  .sortedList(
+                                                      keyOf: (e) => e.date!,
+                                                      desc: true)
+                                                  .toList();
+                                          if (attendace.isEmpty) {
+                                            return const EmptyWidget();
+                                          }
 
-                                            return ListView.builder(
-                                              padding: EdgeInsets.zero,
-                                              primary: false,
-                                              shrinkWrap: true,
-                                              scrollDirection: Axis.vertical,
-                                              itemCount: attendace.length,
-                                              itemBuilder:
-                                                  (context, attendaceIndex) {
-                                                final attendaceItem =
-                                                    attendace[attendaceIndex];
-                                                return Container(
-                                                  decoration: const BoxDecoration(),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      Row(
+                                          return ListView.separated(
+                                            padding: const EdgeInsets.fromLTRB(
+                                              0,
+                                              0,
+                                              0,
+                                              20.0,
+                                            ),
+                                            primary: false,
+                                            shrinkWrap: true,
+                                            scrollDirection: Axis.vertical,
+                                            itemCount: attendace.length,
+                                            separatorBuilder: (_, __) =>
+                                                const SizedBox(height: 15.0),
+                                            itemBuilder:
+                                                (context, attendaceIndex) {
+                                              final attendaceItem =
+                                                  attendace[attendaceIndex];
+                                              return Container(
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
+                                                  boxShadow: const [
+                                                    BoxShadow(
+                                                      blurRadius: 20.0,
+                                                      color: Color(0x18000000),
+                                                      offset: Offset(
+                                                        0.0,
+                                                        0.0,
+                                                      ),
+                                                      spreadRadius: 0.0,
+                                                    )
+                                                  ],
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
+                                                ),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(10.0),
+                                                      child: Row(
                                                         mainAxisSize:
                                                             MainAxisSize.max,
                                                         mainAxisAlignment:
@@ -446,7 +495,7 @@ class _AttendenceHistoryTeacherWidgetState
                                                                       0.0, 0.0),
                                                               child: Text(
                                                                 dateTimeFormat(
-                                                                    "d/M/y",
+                                                                    "dd MMM , y",
                                                                     attendaceItem
                                                                         .date!),
                                                                 style: FlutterFlowTheme.of(
@@ -517,25 +566,16 @@ class _AttendenceHistoryTeacherWidgetState
                                                           ),
                                                         ],
                                                       ),
-                                                      SizedBox(
-                                                        width: 390.0,
-                                                        child: Divider(
-                                                          thickness: 1.0,
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryText,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                            );
-                                          },
-                                        ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        },
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
@@ -558,64 +598,102 @@ class _AttendenceHistoryTeacherWidgetState
                             )
                           ],
                         ),
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              15.0, 10.0, 15.0, 20.0),
-                          child: FFButtonWidget(
-                            onPressed: (attendenceHistoryTeacherTeachersRecord
-                                        .teacherAttendance
-                                        .where((e) =>
-                                            dateTimeFormat("MMM/y", e.date) ==
-                                            dateTimeFormat("MMM/y",
-                                                _model.currentmonthandyear))
-                                        .toList()
-                                        .sortedList(
-                                            keyOf: (e) => e.date!, desc: true).isEmpty)
-                                ? null
-                                : () async {
-                                    await actions.generateAttendacePdfCopy(
-                                      attendenceHistoryTeacherTeachersRecord
-                                          .teacherName,
-                                      currentUserDocument!.createdTime!,
-                                      attendenceHistoryTeacherTeachersRecord
+                        child: Builder(
+                          builder: (context) => Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                15.0, 10.0, 15.0, 20.0),
+                            child: FFButtonWidget(
+                              onPressed: (attendenceHistoryTeacherTeachersRecord
                                           .teacherAttendance
-                                          .toList(),
-                                      attendenceHistoryTeacherTeachersRecord
-                                          .emailId,
-                                      attendenceHistoryTeacherTeachersRecord
-                                          .phoneNumber,
-                                      _model.currentmonthandyear!,
-                                    );
-                                  },
-                            text: 'Download',
-                            icon: const Icon(
-                              Icons.download,
-                              size: 15.0,
+                                          .where((e) =>
+                                              dateTimeFormat("MMM/y", e.date) ==
+                                              dateTimeFormat("MMM/y",
+                                                  _model.currentmonthandyear))
+                                          .toList()
+                                          .sortedList(
+                                              keyOf: (e) => e.date!, desc: true).isEmpty)
+                                  ? null
+                                  : () async {
+                                      await actions.generateAttendacePdfCopy(
+                                        attendenceHistoryTeacherTeachersRecord
+                                            .teacherName,
+                                        currentUserDocument!.createdTime!,
+                                        attendenceHistoryTeacherTeachersRecord
+                                            .teacherAttendance
+                                            .toList(),
+                                        attendenceHistoryTeacherTeachersRecord
+                                            .emailId,
+                                        attendenceHistoryTeacherTeachersRecord
+                                            .phoneNumber,
+                                        _model.currentmonthandyear!,
+                                      );
+                                      await showDialog(
+                                        context: context,
+                                        builder: (dialogContext) {
+                                          return Dialog(
+                                            elevation: 0,
+                                            insetPadding: EdgeInsets.zero,
+                                            backgroundColor: Colors.transparent,
+                                            alignment: const AlignmentDirectional(
+                                                    0.0, -0.8)
+                                                .resolve(
+                                                    Directionality.of(context)),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                FocusScope.of(dialogContext)
+                                                    .unfocus();
+                                                FocusManager
+                                                    .instance.primaryFocus
+                                                    ?.unfocus();
+                                              },
+                                              child: SizedBox(
+                                                height:
+                                                    MediaQuery.sizeOf(context)
+                                                            .height *
+                                                        0.08,
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        0.6,
+                                                child:
+                                                    const FiledownloadedsuccessfullyWidget(),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                              text: 'Download',
+                              icon: const Icon(
+                                Icons.download,
+                                size: 15.0,
+                              ),
+                              options: FFButtonOptions(
+                                width: MediaQuery.sizeOf(context).width * 0.4,
+                                height:
+                                    MediaQuery.sizeOf(context).height * 0.054,
+                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                    16.0, 0.0, 16.0, 0.0),
+                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 0.0),
+                                color: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .override(
+                                      fontFamily: 'Nunito',
+                                      color: Colors.white,
+                                      letterSpacing: 0.0,
+                                    ),
+                                elevation: 0.0,
+                                borderRadius: BorderRadius.circular(8.0),
+                                disabledColor:
+                                    FlutterFlowTheme.of(context).alternate,
+                                disabledTextColor:
+                                    FlutterFlowTheme.of(context).tertiary,
+                              ),
+                              showLoadingIndicator: false,
                             ),
-                            options: FFButtonOptions(
-                              width: MediaQuery.sizeOf(context).width * 0.4,
-                              height: MediaQuery.sizeOf(context).height * 0.054,
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  16.0, 0.0, 16.0, 0.0),
-                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                  0.0, 0.0, 0.0, 0.0),
-                              color: FlutterFlowTheme.of(context)
-                                  .primaryBackground,
-                              textStyle: FlutterFlowTheme.of(context)
-                                  .titleSmall
-                                  .override(
-                                    fontFamily: 'Nunito',
-                                    color: Colors.white,
-                                    letterSpacing: 0.0,
-                                  ),
-                              elevation: 0.0,
-                              borderRadius: BorderRadius.circular(8.0),
-                              disabledColor:
-                                  FlutterFlowTheme.of(context).alternate,
-                              disabledTextColor:
-                                  FlutterFlowTheme.of(context).tertiary,
-                            ),
-                            showLoadingIndicator: false,
                           ),
                         ),
                       ),

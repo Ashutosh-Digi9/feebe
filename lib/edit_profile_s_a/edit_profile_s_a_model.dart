@@ -61,10 +61,10 @@ class EditProfileSAModel extends FlutterFlowModel<EditProfileSAWidget> {
     return null;
   }
 
-  // Stores action output result for [Firestore Query - Query a collection] action in SaveChanges widget.
-  TeachersRecord? teacherProfile;
   // Stores action output result for [Firestore Query - Query a collection] action in Text widget.
   TeachersRecord? teacher;
+  // Stores action output result for [Firestore Query - Query a collection] action in SaveChanges widget.
+  TeachersRecord? teacherProfile;
 
   @override
   void initState(BuildContext context) {

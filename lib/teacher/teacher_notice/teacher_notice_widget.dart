@@ -88,7 +88,7 @@ class _TeacherNoticeWidgetState extends State<TeacherNoticeWidget> {
                     'Teacher_profile',
                     queryParameters: {
                       'teacherRef': serializeParam(
-                        teacherNoticeTeachersRecord.reference,
+                        widget.teacherref,
                         ParamType.DocumentReference,
                       ),
                       'schoolref': serializeParam(
@@ -117,7 +117,7 @@ class _TeacherNoticeWidgetState extends State<TeacherNoticeWidget> {
               child: Builder(
                 builder: (context) {
                   final notice = teacherNoticeTeachersRecord.notices
-                      .sortedList(keyOf: (e) => e.eventDate!, desc: false)
+                      .sortedList(keyOf: (e) => e.eventDate!, desc: true)
                       .toList();
 
                   return ListView.separated(
@@ -150,7 +150,7 @@ class _TeacherNoticeWidgetState extends State<TeacherNoticeWidget> {
                                 children: [
                                   Container(
                                     width:
-                                        MediaQuery.sizeOf(context).width * 0.5,
+                                        MediaQuery.sizeOf(context).width * 0.4,
                                     height: MediaQuery.sizeOf(context).height *
                                         0.06,
                                     decoration: BoxDecoration(
@@ -198,7 +198,7 @@ class _TeacherNoticeWidgetState extends State<TeacherNoticeWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Inter',
+                                                fontFamily: 'Nunito',
                                                 fontSize: 14.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
@@ -212,11 +212,11 @@ class _TeacherNoticeWidgetState extends State<TeacherNoticeWidget> {
                                         0.0, 0.0, 0.0, 10.0),
                                     child: Text(
                                       dateTimeFormat(
-                                          "yMMMd", noticeItem.eventDate!),
+                                          "dd MMM , y", noticeItem.eventDate!),
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Inter',
+                                            fontFamily: 'Nunito',
                                             fontSize: 14.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w500,
@@ -231,7 +231,7 @@ class _TeacherNoticeWidgetState extends State<TeacherNoticeWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Inter',
+                                            fontFamily: 'Nunito',
                                             fontSize: 14.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.normal,
@@ -245,7 +245,7 @@ class _TeacherNoticeWidgetState extends State<TeacherNoticeWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Inter',
+                                            fontFamily: 'Nunito',
                                             letterSpacing: 0.0,
                                           ),
                                     ),

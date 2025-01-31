@@ -1,4 +1,5 @@
 import '/backend/backend.dart';
+import '/components/empty_widget.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -136,68 +137,103 @@ class _TeachersGalleryWidgetState extends State<TeachersGalleryWidget> {
                               ),
                         ),
                       ),
-                      Builder(
-                        builder: (context) {
-                          final images =
-                              teachersGalleryTeachersRecord.images.toList();
-
-                          return GridView.builder(
-                            padding: EdgeInsets.zero,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3,
-                              crossAxisSpacing: 10.0,
-                              mainAxisSpacing: 10.0,
-                              childAspectRatio: 1.0,
-                            ),
-                            primary: false,
-                            shrinkWrap: true,
-                            scrollDirection: Axis.vertical,
-                            itemCount: images.length,
-                            itemBuilder: (context, imagesIndex) {
-                              final imagesItem = images[imagesIndex];
-                              return InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  await Navigator.push(
-                                    context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      child: FlutterFlowExpandedImageView(
-                                        image: Image.network(
-                                          imagesItem,
-                                          fit: BoxFit.contain,
-                                        ),
-                                        allowRotation: false,
-                                        tag: imagesItem,
-                                        useHeroAnimation: true,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Hero(
-                                  tag: imagesItem,
-                                  transitionOnUserGestures: true,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.network(
-                                      imagesItem,
-                                      width: MediaQuery.sizeOf(context).width *
-                                          0.3,
-                                      height:
-                                          MediaQuery.sizeOf(context).height *
-                                              0.09,
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
+                        child: Builder(
+                          builder: (context) {
+                            final images =
+                                teachersGalleryTeachersRecord.images.toList();
+                            if (images.isEmpty) {
+                              return Center(
+                                child: SizedBox(
+                                  width: MediaQuery.sizeOf(context).width * 1.0,
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 0.5,
+                                  child: const EmptyWidget(),
                                 ),
                               );
-                            },
-                          );
-                        },
+                            }
+
+                            return GridView.builder(
+                              padding: EdgeInsets.zero,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 10.0,
+                                mainAxisSpacing: 10.0,
+                                childAspectRatio: 1.2,
+                              ),
+                              primary: false,
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemCount: images.length,
+                              itemBuilder: (context, imagesIndex) {
+                                final imagesItem = images[imagesIndex];
+                                return InkWell(
+                                  splashColor: Colors.transparent,
+                                  focusColor: Colors.transparent,
+                                  hoverColor: Colors.transparent,
+                                  highlightColor: Colors.transparent,
+                                  onTap: () async {
+                                    context.pushNamed(
+                                      'indivi_image_viewTeacher',
+                                      queryParameters: {
+                                        'teacher': serializeParam(
+                                          widget.teacher,
+                                          ParamType.DocumentReference,
+                                        ),
+                                        'index': serializeParam(
+                                          imagesIndex,
+                                          ParamType.int,
+                                        ),
+                                        'schoolref': serializeParam(
+                                          widget.schoolref,
+                                          ParamType.DocumentReference,
+                                        ),
+                                      }.withoutNulls,
+                                      extra: <String, dynamic>{
+                                        kTransitionInfoKey: const TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.fade,
+                                        ),
+                                      },
+                                    );
+                                  },
+                                  onLongPress: () async {
+                                    await Navigator.push(
+                                      context,
+                                      PageTransition(
+                                        type: PageTransitionType.fade,
+                                        child: FlutterFlowExpandedImageView(
+                                          image: Image.network(
+                                            imagesItem,
+                                            fit: BoxFit.contain,
+                                          ),
+                                          allowRotation: false,
+                                          tag: imagesItem,
+                                          useHeroAnimation: true,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Hero(
+                                    tag: imagesItem,
+                                    transitionOnUserGestures: true,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      child: Image.network(
+                                        imagesItem,
+                                        fit: BoxFit.contain,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),

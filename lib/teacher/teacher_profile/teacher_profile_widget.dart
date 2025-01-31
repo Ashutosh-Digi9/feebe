@@ -1,11 +1,12 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/components/edit_teacher_widget.dart';
-import '/flutter_flow/flutter_flow_expanded_image_view.dart';
+import '/components/emptytimeline_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/shimmer_effects/main_dashboard_shimmer/main_dashboard_shimmer_widget.dart';
+import '/teacher/edit_teacher/edit_teacher_widget.dart';
 import 'package:styled_divider/styled_divider.dart';
 import 'package:aligned_dialog/aligned_dialog.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +83,15 @@ class _TeacherProfileWidgetState extends State<TeacherProfileWidget> {
                   size: 28.0,
                 ),
                 onPressed: () async {
-                  context.pop();
+                  context.pushNamed(
+                    'class_dashboard',
+                    queryParameters: {
+                      'schoolref': serializeParam(
+                        widget.schoolref,
+                        ParamType.DocumentReference,
+                      ),
+                    }.withoutNulls,
+                  );
                 },
               ),
               title: Align(
@@ -219,65 +228,80 @@ class _TeacherProfileWidgetState extends State<TeacherProfileWidget> {
                                         ),
                                       ],
                                     ),
-                                    Builder(
-                                      builder: (context) =>
-                                          FlutterFlowIconButton(
-                                        borderColor: const Color(0xFFCDCDCD),
-                                        borderRadius: 38.0,
-                                        buttonSize: 38.0,
-                                        icon: Icon(
-                                          Icons.more_vert,
-                                          color: FlutterFlowTheme.of(context)
-                                              .tertiaryText,
-                                          size: 24.0,
-                                        ),
-                                        onPressed: () async {
-                                          await showAlignedDialog(
-                                            context: context,
-                                            isGlobal: false,
-                                            avoidOverflow: true,
-                                            targetAnchor: const AlignmentDirectional(
-                                                    1.0, 0.0)
-                                                .resolve(
-                                                    Directionality.of(context)),
-                                            followerAnchor:
-                                                const AlignmentDirectional(1.0, 0.0)
-                                                    .resolve(Directionality.of(
-                                                        context)),
-                                            builder: (dialogContext) {
-                                              return Material(
-                                                color: Colors.transparent,
-                                                child: GestureDetector(
-                                                  onTap: () {
-                                                    FocusScope.of(dialogContext)
-                                                        .unfocus();
-                                                    FocusManager
-                                                        .instance.primaryFocus
-                                                        ?.unfocus();
-                                                  },
-                                                  child: SizedBox(
-                                                    height: MediaQuery.sizeOf(
-                                                                context)
-                                                            .height *
-                                                        0.12,
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.45,
-                                                    child: EditTeacherWidget(
-                                                      teacherref:
-                                                          widget.teacherRef!,
-                                                      schoolref:
-                                                          widget.schoolref!,
+                                    if (valueOrDefault(
+                                            currentUserDocument?.userRole, 0) !=
+                                        1)
+                                      Builder(
+                                        builder: (context) =>
+                                            AuthUserStreamWidget(
+                                          builder: (context) =>
+                                              FlutterFlowIconButton(
+                                            borderColor: const Color(0xFFCDCDCD),
+                                            borderRadius: 38.0,
+                                            buttonSize: 38.0,
+                                            icon: Icon(
+                                              Icons.more_vert,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .tertiaryText,
+                                              size: 24.0,
+                                            ),
+                                            onPressed: () async {
+                                              await showAlignedDialog(
+                                                context: context,
+                                                isGlobal: false,
+                                                avoidOverflow: true,
+                                                targetAnchor:
+                                                    const AlignmentDirectional(
+                                                            1.0, 0.0)
+                                                        .resolve(
+                                                            Directionality.of(
+                                                                context)),
+                                                followerAnchor:
+                                                    const AlignmentDirectional(
+                                                            1.0, 0.0)
+                                                        .resolve(
+                                                            Directionality.of(
+                                                                context)),
+                                                builder: (dialogContext) {
+                                                  return Material(
+                                                    color: Colors.transparent,
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        FocusScope.of(
+                                                                dialogContext)
+                                                            .unfocus();
+                                                        FocusManager.instance
+                                                            .primaryFocus
+                                                            ?.unfocus();
+                                                      },
+                                                      child: SizedBox(
+                                                        height:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .height *
+                                                                0.12,
+                                                        width:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width *
+                                                                0.45,
+                                                        child:
+                                                            EditTeacherWidget(
+                                                          teacherref: widget
+                                                              .teacherRef!,
+                                                          schoolref: widget
+                                                              .schoolref!,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
-                                                ),
+                                                  );
+                                                },
                                               );
                                             },
-                                          );
-                                        },
+                                          ),
+                                        ),
                                       ),
-                                    ),
                                   ],
                                 ),
                                 Align(
@@ -354,419 +378,136 @@ class _TeacherProfileWidgetState extends State<TeacherProfileWidget> {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 5.0, 0.0),
-                        child: Container(
-                          width: MediaQuery.sizeOf(context).width * 1.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).newBgcolor,
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Text(
-                                'Notice',
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Nunito',
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryBackground,
-                                      fontSize: 18.0,
-                                      letterSpacing: 0.0,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                              ),
-                              Builder(
-                                builder: (context) {
-                                  final notice = teacherProfileTeachersRecord
-                                      .notices
-                                      .toList()
-                                      .take(4)
-                                      .toList();
-
-                                  return ListView.builder(
-                                    padding: EdgeInsets.zero,
-                                    primary: false,
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.vertical,
-                                    itemCount: notice.length,
-                                    itemBuilder: (context, noticeIndex) {
-                                      final noticeItem = notice[noticeIndex];
-                                      return Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            10.0, 0.0, 10.0, 10.0),
-                                        child: Material(
-                                          color: Colors.transparent,
-                                          elevation: 5.0,
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                          ),
-                                          child: Container(
-                                            width: MediaQuery.sizeOf(context)
-                                                    .width *
-                                                1.0,
-                                            decoration: BoxDecoration(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondary,
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                            ),
-                                            child: Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      10.0, 10.0, 10.0, 10.0),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Container(
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.4,
-                                                    height: MediaQuery.sizeOf(
-                                                                context)
-                                                            .height *
-                                                        0.06,
-                                                    decoration: BoxDecoration(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10.0),
-                                                      border: Border.all(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .success,
-                                                      ),
-                                                    ),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: [
-                                                        if (noticeItem
-                                                                .eventName ==
-                                                            'Notice')
-                                                          Icon(
-                                                            Icons
-                                                                .push_pin_outlined,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .warning,
-                                                            size: 25.0,
-                                                          ),
-                                                        if (noticeItem
-                                                                .eventName ==
-                                                            'Holiday')
-                                                          Icon(
-                                                            Icons
-                                                                .celebration_sharp,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .warning,
-                                                            size: 25.0,
-                                                          ),
-                                                        if (noticeItem
-                                                                .eventName ==
-                                                            'Home work')
-                                                          Icon(
-                                                            Icons
-                                                                .home_work_outlined,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .warning,
-                                                            size: 25.0,
-                                                          ),
-                                                        if (noticeItem
-                                                                .eventName ==
-                                                            'Assinment')
-                                                          Icon(
-                                                            Icons
-                                                                .assignment_sharp,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .warning,
-                                                            size: 25.0,
-                                                          ),
-                                                        Text(
-                                                          noticeItem.eventName,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Inter',
-                                                                fontSize: 14.0,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500,
-                                                              ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 10.0,
-                                                                0.0, 10.0),
-                                                    child: Text(
-                                                      dateTimeFormat(
-                                                          "yMMMd",
-                                                          noticeItem
-                                                              .eventDate!),
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily: 'Inter',
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primaryText,
-                                                            fontSize: 14.0,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 10.0),
-                                                    child: Text(
-                                                      noticeItem.eventTitle,
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily: 'Inter',
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primaryText,
-                                                            fontSize: 14.0,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                          ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 10.0),
-                                                    child: Text(
-                                                      noticeItem
-                                                          .eventDescription
-                                                          .maybeHandleOverflow(
-                                                        maxChars: 50,
-                                                        replacement: '…',
-                                                      ),
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily: 'Inter',
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primaryText,
-                                                            fontSize: 14.0,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                          ),
-                                                    ),
-                                                  ),
-                                                  if (noticeItem
-                                                          .eventImages.isNotEmpty)
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  8.0,
-                                                                  0.0,
-                                                                  0.0),
-                                                      child: Builder(
-                                                        builder: (context) {
-                                                          final images1 =
-                                                              noticeItem
-                                                                  .eventImages
-                                                                  .toList();
-
-                                                          return SingleChildScrollView(
-                                                            scrollDirection:
-                                                                Axis.horizontal,
-                                                            child: Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              children: List.generate(
-                                                                  images1
-                                                                      .length,
-                                                                  (images1Index) {
-                                                                final images1Item =
-                                                                    images1[
-                                                                        images1Index];
-                                                                return Padding(
-                                                                  padding: const EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          5.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                  child:
-                                                                      Container(
-                                                                    width: 50.0,
-                                                                    height:
-                                                                        50.0,
-                                                                    decoration:
-                                                                        const BoxDecoration(),
-                                                                    child:
-                                                                        InkWell(
-                                                                      splashColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      focusColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      hoverColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      highlightColor:
-                                                                          Colors
-                                                                              .transparent,
-                                                                      onTap:
-                                                                          () async {
-                                                                        await Navigator
-                                                                            .push(
-                                                                          context,
-                                                                          PageTransition(
-                                                                            type:
-                                                                                PageTransitionType.fade,
-                                                                            child:
-                                                                                FlutterFlowExpandedImageView(
-                                                                              image: Image.network(
-                                                                                images1Item,
-                                                                                fit: BoxFit.contain,
-                                                                              ),
-                                                                              allowRotation: false,
-                                                                              tag: images1Item,
-                                                                              useHeroAnimation: true,
-                                                                            ),
-                                                                          ),
-                                                                        );
-                                                                      },
-                                                                      child:
-                                                                          Hero(
-                                                                        tag:
-                                                                            images1Item,
-                                                                        transitionOnUserGestures:
-                                                                            true,
-                                                                        child:
-                                                                            ClipRRect(
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(8.0),
-                                                                          child:
-                                                                              Image.network(
-                                                                            images1Item,
-                                                                            width:
-                                                                                50.0,
-                                                                            height:
-                                                                                50.0,
-                                                                            fit:
-                                                                                BoxFit.cover,
-                                                                          ),
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              }),
-                                                            ),
-                                                          );
-                                                        },
-                                                      ),
-                                                    ),
-                                                ].addToEnd(
-                                                    const SizedBox(height: 10.0)),
-                                              ),
-                                            ),
-                                          ),
+                      if (teacherProfileTeachersRecord.teacherTimeline
+                              .where((e) =>
+                                  dateTimeFormat("yMd", e.date) ==
+                                  dateTimeFormat("yMd", getCurrentTimestamp))
+                              .toList().isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(
+                              5.0, 0.0, 5.0, 0.0),
+                          child: Container(
+                            width: MediaQuery.sizeOf(context).width * 1.0,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    'Marked today',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          fontFamily: 'Nunito',
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryBackground,
+                                          fontSize: 19.0,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.bold,
                                         ),
+                                  ),
+                                  Builder(
+                                    builder: (context) {
+                                      final timeslines =
+                                          teacherProfileTeachersRecord
+                                              .teacherTimeline
+                                              .where((e) =>
+                                                  dateTimeFormat(
+                                                      "yMd", e.date) ==
+                                                  dateTimeFormat("yMd",
+                                                      getCurrentTimestamp))
+                                              .toList()
+                                              .unique((e) => e.eventid)
+                                              .toList()
+                                              .take(4)
+                                              .toList();
+                                      if (timeslines.isEmpty) {
+                                        return SizedBox(
+                                          height: MediaQuery.sizeOf(context)
+                                                  .height *
+                                              0.1,
+                                          child: const EmptytimelineWidget(),
+                                        );
+                                      }
+
+                                      return Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children:
+                                            List.generate(timeslines.length,
+                                                    (timeslinesIndex) {
+                                          final timeslinesItem =
+                                              timeslines[timeslinesIndex];
+                                          return Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: Image.network(
+                                                  () {
+                                                    if (timeslinesItem
+                                                            .eventid ==
+                                                        0) {
+                                                      return 'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Ffork_and_knife_with_plate.png?alt=media&token=d3c0ab7c-f43b-4a3b-b615-02135d701b23';
+                                                    } else if (timeslinesItem
+                                                            .eventid ==
+                                                        1) {
+                                                      return 'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2FBitmap.png?alt=media&token=932b22f6-a33b-4cb2-a8f8-a3d176899f44';
+                                                    } else if (timeslinesItem
+                                                            .eventid ==
+                                                        2) {
+                                                      return 'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fcamera.png?alt=media&token=4349afe9-7085-47ec-9527-857f6ce94378';
+                                                    } else if (timeslinesItem
+                                                            .eventid ==
+                                                        3) {
+                                                      return 'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2FAppreciation.png?alt=media&token=d7cd93a2-eaed-4068-8271-5c3c69805c34';
+                                                    } else if (timeslinesItem
+                                                            .eventid ==
+                                                        4) {
+                                                      return 'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fpotty_(2).png?alt=media&token=ebf034f3-760d-405e-b9db-1a8407d2ec02';
+                                                    } else {
+                                                      return 'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2FIncident.png?alt=media&token=f2401cf9-a754-4a0c-8f2f-ad0423ebe926';
+                                                    }
+                                                  }(),
+                                                  width: 50.0,
+                                                  height: 60.0,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              ),
+                                              Text(
+                                                'At ${dateTimeFormat("jm", timeslinesItem.date)}',
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Nunito',
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                              ),
+                                            ],
+                                          );
+                                        })
+                                                .divide(const SizedBox(width: 10.0))
+                                                .around(const SizedBox(width: 10.0)),
                                       );
                                     },
-                                  );
-                                },
-                              ),
-                              if (teacherProfileTeachersRecord.notices.isNotEmpty)
-                                Align(
-                                  alignment: const AlignmentDirectional(0.0, 0.0),
-                                  child: Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 10.0, 0.0, 0.0),
-                                    child: InkWell(
-                                      splashColor: Colors.transparent,
-                                      focusColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      onTap: () async {
-                                        context.pushNamed(
-                                          'Teacher_notice',
-                                          queryParameters: {
-                                            'schoolref': serializeParam(
-                                              widget.schoolref,
-                                              ParamType.DocumentReference,
-                                            ),
-                                            'teacherref': serializeParam(
-                                              widget.teacherRef,
-                                              ParamType.DocumentReference,
-                                            ),
-                                          }.withoutNulls,
-                                          extra: <String, dynamic>{
-                                            kTransitionInfoKey: const TransitionInfo(
-                                              hasTransition: true,
-                                              transitionType:
-                                                  PageTransitionType.fade,
-                                            ),
-                                          },
-                                        );
-                                      },
-                                      child: Text(
-                                        'View more',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Nunito',
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryBackground,
-                                              fontSize: 18.0,
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                      ),
-                                    ),
                                   ),
-                                ),
-                            ],
+                                ],
+                              ),
+                            ),
                           ),
                         ),
-                      ),
                       Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -811,7 +552,7 @@ class _TeacherProfileWidgetState extends State<TeacherProfileWidget> {
                                             .primaryBackground,
                                         fontSize: 18.0,
                                         letterSpacing: 0.0,
-                                        fontWeight: FontWeight.w500,
+                                        fontWeight: FontWeight.bold,
                                       ),
                                 ),
                                 Container(
@@ -1082,7 +823,7 @@ class _TeacherProfileWidgetState extends State<TeacherProfileWidget> {
                                                                 0.0, 0.0),
                                                         child: Text(
                                                           dateTimeFormat(
-                                                              "d/M/y",
+                                                              "dd MMM , y",
                                                               logsItem.date!),
                                                           style: FlutterFlowTheme
                                                                   .of(context)
@@ -1171,50 +912,57 @@ class _TeacherProfileWidgetState extends State<TeacherProfileWidget> {
                                         .teacherAttendance.isNotEmpty)
                                   Align(
                                     alignment: const AlignmentDirectional(0.0, 0.0),
-                                    child: InkWell(
-                                      splashColor: Colors.transparent,
-                                      focusColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      onTap: () async {
-                                        context.goNamed(
-                                          'Teacher_attendence_History',
-                                          queryParameters: {
-                                            'techerref': serializeParam(
-                                              widget.teacherRef,
-                                              ParamType.DocumentReference,
-                                            ),
-                                            'schoolref': serializeParam(
-                                              widget.schoolref,
-                                              ParamType.DocumentReference,
-                                            ),
-                                          }.withoutNulls,
-                                          extra: <String, dynamic>{
-                                            kTransitionInfoKey: const TransitionInfo(
-                                              hasTransition: true,
-                                              transitionType:
-                                                  PageTransitionType.fade,
-                                            ),
-                                          },
-                                        );
-                                      },
-                                      child: Text(
-                                        'View more',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Nunito',
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryBackground,
-                                              fontSize: 18.0,
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w500,
-                                            ),
+                                    child: Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 0.0, 0.0, 10.0),
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          context.pushNamed(
+                                            'Teacher_attendence_History',
+                                            queryParameters: {
+                                              'techerref': serializeParam(
+                                                widget.teacherRef,
+                                                ParamType.DocumentReference,
+                                              ),
+                                              'schoolref': serializeParam(
+                                                widget.schoolref,
+                                                ParamType.DocumentReference,
+                                              ),
+                                            }.withoutNulls,
+                                            extra: <String, dynamic>{
+                                              kTransitionInfoKey:
+                                                  const TransitionInfo(
+                                                hasTransition: true,
+                                                transitionType:
+                                                    PageTransitionType.fade,
+                                              ),
+                                            },
+                                          );
+                                        },
+                                        child: Text(
+                                          'View more',
+                                          style: FlutterFlowTheme.of(context)
+                                              .bodyMedium
+                                              .override(
+                                                fontFamily: 'Nunito',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryBackground,
+                                                fontSize: 18.0,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                        ),
                                       ),
                                     ),
                                   ),
-                              ],
+                              ]
+                                  .divide(const SizedBox(height: 10.0))
+                                  .around(const SizedBox(height: 10.0)),
                             ),
                           ),
                         ),
@@ -1421,7 +1169,8 @@ class _TeacherProfileWidgetState extends State<TeacherProfileWidget> {
                           },
                           text: 'View Timeline',
                           options: FFButtonOptions(
-                            height: 40.0,
+                            width: MediaQuery.sizeOf(context).width * 0.4,
+                            height: MediaQuery.sizeOf(context).height * 0.05,
                             padding: const EdgeInsetsDirectional.fromSTEB(
                                 16.0, 0.0, 16.0, 0.0),
                             iconPadding: const EdgeInsetsDirectional.fromSTEB(

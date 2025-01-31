@@ -46,6 +46,7 @@ abstract class FlutterFlowTheme {
   late Color buttonShadow2;
   late Color bgColor1;
   late Color bgColorNewOne;
+  late Color textfieldText;
 
   @Deprecated('Use displaySmallFamily instead')
   String get title1Family => displaySmallFamily;
@@ -141,7 +142,7 @@ class LightModeTheme extends FlutterFlowTheme {
   late Color buttonBg = const Color(0xFF1D61E7);
   late Color lightblue = const Color(0xFFE4EDFC);
   late Color newBgcolor = const Color(0xFFFAFAFA);
-  late Color dIsable = const Color(0xFFEDF1F3);
+  late Color dIsable = const Color(0xFF979797);
   late Color text = const Color(0xFFACB5BB);
   late Color text1 = const Color(0xFF000000);
   late Color snackbar = const Color(0xFF505050);
@@ -149,6 +150,7 @@ class LightModeTheme extends FlutterFlowTheme {
   late Color buttonShadow2 = const Color(0xFF375DFB);
   late Color bgColor1 = const Color(0xFFCCCCCC);
   late Color bgColorNewOne = const Color(0xFFFAFAFA);
+  late Color textfieldText = const Color(0xFF747373);
 }
 
 abstract class Typography {
@@ -252,44 +254,44 @@ class ThemeTypography extends Typography {
         fontWeight: FontWeight.w600,
         fontSize: 16.0,
       );
-  String get labelLargeFamily => 'Inter';
+  String get labelLargeFamily => 'Nunito';
   TextStyle get labelLarge => GoogleFonts.getFont(
-        'Inter',
+        'Nunito',
         color: theme.secondaryText,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
-  String get labelMediumFamily => 'Inter';
+  String get labelMediumFamily => 'Nunito';
   TextStyle get labelMedium => GoogleFonts.getFont(
-        'Inter',
+        'Nunito',
         color: theme.secondaryText,
         fontWeight: FontWeight.normal,
         fontSize: 14.0,
       );
-  String get labelSmallFamily => 'Inter';
+  String get labelSmallFamily => 'Nunito';
   TextStyle get labelSmall => GoogleFonts.getFont(
-        'Inter',
+        'Nunito',
         color: theme.secondaryText,
         fontWeight: FontWeight.normal,
         fontSize: 12.0,
       );
-  String get bodyLargeFamily => 'Inter';
+  String get bodyLargeFamily => 'Nunito';
   TextStyle get bodyLarge => GoogleFonts.getFont(
-        'Inter',
+        'Nunito',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
-  String get bodyMediumFamily => 'Inter';
+  String get bodyMediumFamily => 'Nunito';
   TextStyle get bodyMedium => GoogleFonts.getFont(
-        'Inter',
+        'Nunito',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 14.0,
       );
-  String get bodySmallFamily => 'Inter';
+  String get bodySmallFamily => 'Nunito';
   TextStyle get bodySmall => GoogleFonts.getFont(
-        'Inter',
+        'Nunito',
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 12.0,

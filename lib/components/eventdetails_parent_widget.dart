@@ -153,7 +153,7 @@ class _EventdetailsParentWidgetState extends State<EventdetailsParentWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Inter',
+                                              fontFamily: 'Nunito',
                                               fontSize: 14.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
@@ -169,7 +169,7 @@ class _EventdetailsParentWidgetState extends State<EventdetailsParentWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Inter',
+                                              fontFamily: 'Nunito',
                                               fontSize: 14.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.normal,
@@ -206,7 +206,7 @@ class _EventdetailsParentWidgetState extends State<EventdetailsParentWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Inter',
+                                              fontFamily: 'Nunito',
                                               color: const Color(0xFF3027B0),
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
@@ -223,7 +223,7 @@ class _EventdetailsParentWidgetState extends State<EventdetailsParentWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Inter',
+                                  fontFamily: 'Nunito',
                                   letterSpacing: 0.0,
                                 ),
                           ),

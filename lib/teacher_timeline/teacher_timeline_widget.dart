@@ -328,8 +328,7 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                                                   _model.currentmonthandyear))
                                           .toList()
                                           .sortedList(
-                                              keyOf: (e) => e.date!,
-                                              desc: false)
+                                              keyOf: (e) => e.date!, desc: true)
                                           .toList();
                                   if (attendace.isEmpty) {
                                     return const EmptyWidget();

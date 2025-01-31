@@ -32,11 +32,20 @@ class AddStudentBottomsheetModel
           int index, Function(ParentsDetailsStruct) updateFn) =>
       parentsdetails[index] = updateFn(parentsdetails[index]);
 
+  int? pageno = 0;
+
   ///  State fields for stateful widgets in this component.
 
   final formKey2 = GlobalKey<FormState>();
-  final formKey3 = GlobalKey<FormState>();
+  final formKey4 = GlobalKey<FormState>();
   final formKey1 = GlobalKey<FormState>();
+  final formKey3 = GlobalKey<FormState>();
+  // Stores action output result for [Backend Call - Create Document] action in IconButton widget.
+  StudentsRecord? studentdraft;
+  // Stores action output result for [Backend Call - Create Document] action in IconButton widget.
+  StudentsRecord? studentdraft1;
+  // Stores action output result for [Backend Call - Create Document] action in IconButton widget.
+  StudentsRecord? studentdraft2;
   // State field(s) for PageView widget.
   PageController? pageViewController;
 
@@ -45,11 +54,6 @@ class AddStudentBottomsheetModel
           pageViewController!.page != null
       ? pageViewController!.page!.round()
       : 0;
-  bool isDataUploading1 = false;
-  FFUploadedFile uploadedLocalFile1 =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl1 = '';
-
   // State field(s) for childname widget.
   FocusNode? childnameFocusNode;
   TextEditingController? childnameTextController;
@@ -85,29 +89,29 @@ class AddStudentBottomsheetModel
     return null;
   }
 
-  bool isDataUploading2 = false;
-  FFUploadedFile uploadedLocalFile2 =
+  bool isDataUploading1 = false;
+  FFUploadedFile uploadedLocalFile1 =
       FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl2 = '';
+  String uploadedFileUrl1 = '';
 
   // State field(s) for Parentname widget.
-  FocusNode? parentnameFocusNode1;
-  TextEditingController? parentnameTextController1;
-  String? Function(BuildContext, String?)? parentnameTextController1Validator;
-  String? _parentnameTextController1Validator(
+  FocusNode? parentnameFocusNode;
+  TextEditingController? parentnameTextController;
+  String? Function(BuildContext, String?)? parentnameTextControllerValidator;
+  String? _parentnameTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter father\'s name';
+      return 'Please enter the Father\'s name';
     }
 
     return null;
   }
 
   // State field(s) for number widget.
-  FocusNode? numberFocusNode1;
-  TextEditingController? numberTextController1;
-  String? Function(BuildContext, String?)? numberTextController1Validator;
-  String? _numberTextController1Validator(BuildContext context, String? val) {
+  FocusNode? numberFocusNode;
+  TextEditingController? numberTextController;
+  String? Function(BuildContext, String?)? numberTextControllerValidator;
+  String? _numberTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Please enter Father\'s  phone number';
     }
@@ -136,10 +140,10 @@ class AddStudentBottomsheetModel
     return null;
   }
 
-  bool isDataUploading3 = false;
-  FFUploadedFile uploadedLocalFile3 =
+  bool isDataUploading2 = false;
+  FFUploadedFile uploadedLocalFile2 =
       FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl3 = '';
+  String uploadedFileUrl2 = '';
 
   // State field(s) for Parent2 widget.
   FocusNode? parent2FocusNode;
@@ -153,11 +157,11 @@ class AddStudentBottomsheetModel
     return null;
   }
 
-  // State field(s) for mothernumbeer widget.
-  FocusNode? mothernumbeerFocusNode;
-  TextEditingController? mothernumbeerTextController;
-  String? Function(BuildContext, String?)? mothernumbeerTextControllerValidator;
-  String? _mothernumbeerTextControllerValidator(
+  // State field(s) for mothernumber widget.
+  FocusNode? mothernumberFocusNode;
+  TextEditingController? mothernumberTextController;
+  String? Function(BuildContext, String?)? mothernumberTextControllerValidator;
+  String? _mothernumberTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Please enter phone number ';
@@ -187,51 +191,94 @@ class AddStudentBottomsheetModel
     return null;
   }
 
-  bool isDataUploading4 = false;
-  FFUploadedFile uploadedLocalFile4 =
+  bool isDataUploading3 = false;
+  FFUploadedFile uploadedLocalFile3 =
       FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl4 = '';
+  String uploadedFileUrl3 = '';
 
-  // State field(s) for Parentname widget.
-  FocusNode? parentnameFocusNode2;
-  TextEditingController? parentnameTextController2;
-  String? Function(BuildContext, String?)? parentnameTextController2Validator;
-  // State field(s) for number widget.
-  FocusNode? numberFocusNode2;
-  TextEditingController? numberTextController2;
-  String? Function(BuildContext, String?)? numberTextController2Validator;
-  // State field(s) for email widget.
-  FocusNode? emailFocusNode;
-  TextEditingController? emailTextController;
-  String? Function(BuildContext, String?)? emailTextControllerValidator;
-  // Stores action output result for [Firestore Query - Query a collection] action in save widget.
-  List<UsersRecord>? userdoc;
-  // Stores action output result for [Backend Call - API (Create Account)] action in save widget.
-  ApiCallResponse? apiResultsparentdneww;
-  // Stores action output result for [Custom Action - stringToUser] action in save widget.
-  DocumentReference? parentUseref;
-  // Stores action output result for [Backend Call - API (Send Mail )] action in save widget.
-  ApiCallResponse? parentfather;
-  // Stores action output result for [Backend Call - Create Document] action in save widget.
-  StudentsRecord? createdstudent;
-  // Stores action output result for [Firestore Query - Query a collection] action in save widget.
-  UsersRecord? parent;
-  // Stores action output result for [Firestore Query - Query a collection] action in save widget.
-  StudentsRecord? studentdoc;
-  // Stores action output result for [Backend Call - Create Document] action in save widget.
-  StudentsRecord? createdstudent1;
+  // State field(s) for Guardiansname widget.
+  FocusNode? guardiansnameFocusNode;
+  TextEditingController? guardiansnameTextController;
+  String? Function(BuildContext, String?)? guardiansnameTextControllerValidator;
+  String? _guardiansnameTextControllerValidator(
+      BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Please enter the Guardian\'s name';
+    }
+
+    return null;
+  }
+
+  // State field(s) for Guardiansnumber widget.
+  FocusNode? guardiansnumberFocusNode;
+  TextEditingController? guardiansnumberTextController;
+  String? Function(BuildContext, String?)?
+      guardiansnumberTextControllerValidator;
+  String? _guardiansnumberTextControllerValidator(
+      BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Please enter the Guardian\'s number';
+    }
+
+    if (val.length > 10) {
+      return 'Please enter the valid phone number';
+    }
+    if (!RegExp('^[6-9]\\d{9}\$').hasMatch(val)) {
+      return 'Please enter the valid 10 digit number';
+    }
+    return null;
+  }
+
+  // State field(s) for Guardiansemail widget.
+  FocusNode? guardiansemailFocusNode;
+  TextEditingController? guardiansemailTextController;
+  String? Function(BuildContext, String?)?
+      guardiansemailTextControllerValidator;
+  String? _guardiansemailTextControllerValidator(
+      BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Please enter the Guardian\'s email';
+    }
+
+    if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
+      return 'Please enter the valid email.';
+    }
+    return null;
+  }
+
+  // Stores action output result for [Firestore Query - Query a collection] action in Save widget.
+  List<UsersRecord>? userdocument;
+  // Stores action output result for [Backend Call - API (Create Account)] action in Save widget.
+  ApiCallResponse? parentapi;
+  // Stores action output result for [Custom Action - stringToUser] action in Save widget.
+  DocumentReference? parentUseref1;
+  // Stores action output result for [Backend Call - API (Send Mail )] action in Save widget.
+  ApiCallResponse? parentfatherCopy;
+  // Stores action output result for [Backend Call - Create Document] action in Save widget.
+  StudentsRecord? createdstudent12;
+  // Stores action output result for [Firestore Query - Query a collection] action in Save widget.
+  UsersRecord? parent1;
+  // Stores action output result for [Firestore Query - Query a collection] action in Save widget.
+  StudentsRecord? studentdoc4;
+  // Stores action output result for [Backend Call - Create Document] action in Save widget.
+  StudentsRecord? createdstudent2;
 
   @override
   void initState(BuildContext context) {
     childnameTextControllerValidator = _childnameTextControllerValidator;
     addressTextControllerValidator = _addressTextControllerValidator;
-    parentnameTextController1Validator = _parentnameTextController1Validator;
-    numberTextController1Validator = _numberTextController1Validator;
+    parentnameTextControllerValidator = _parentnameTextControllerValidator;
+    numberTextControllerValidator = _numberTextControllerValidator;
     emailpTextControllerValidator = _emailpTextControllerValidator;
     parent2TextControllerValidator = _parent2TextControllerValidator;
-    mothernumbeerTextControllerValidator =
-        _mothernumbeerTextControllerValidator;
+    mothernumberTextControllerValidator = _mothernumberTextControllerValidator;
     email2TextControllerValidator = _email2TextControllerValidator;
+    guardiansnameTextControllerValidator =
+        _guardiansnameTextControllerValidator;
+    guardiansnumberTextControllerValidator =
+        _guardiansnumberTextControllerValidator;
+    guardiansemailTextControllerValidator =
+        _guardiansemailTextControllerValidator;
   }
 
   @override
@@ -245,11 +292,11 @@ class AddStudentBottomsheetModel
     addressFocusNode?.dispose();
     addressTextController?.dispose();
 
-    parentnameFocusNode1?.dispose();
-    parentnameTextController1?.dispose();
+    parentnameFocusNode?.dispose();
+    parentnameTextController?.dispose();
 
-    numberFocusNode1?.dispose();
-    numberTextController1?.dispose();
+    numberFocusNode?.dispose();
+    numberTextController?.dispose();
 
     emailpFocusNode?.dispose();
     emailpTextController?.dispose();
@@ -257,19 +304,19 @@ class AddStudentBottomsheetModel
     parent2FocusNode?.dispose();
     parent2TextController?.dispose();
 
-    mothernumbeerFocusNode?.dispose();
-    mothernumbeerTextController?.dispose();
+    mothernumberFocusNode?.dispose();
+    mothernumberTextController?.dispose();
 
     email2FocusNode?.dispose();
     email2TextController?.dispose();
 
-    parentnameFocusNode2?.dispose();
-    parentnameTextController2?.dispose();
+    guardiansnameFocusNode?.dispose();
+    guardiansnameTextController?.dispose();
 
-    numberFocusNode2?.dispose();
-    numberTextController2?.dispose();
+    guardiansnumberFocusNode?.dispose();
+    guardiansnumberTextController?.dispose();
 
-    emailFocusNode?.dispose();
-    emailTextController?.dispose();
+    guardiansemailFocusNode?.dispose();
+    guardiansemailTextController?.dispose();
   }
 }

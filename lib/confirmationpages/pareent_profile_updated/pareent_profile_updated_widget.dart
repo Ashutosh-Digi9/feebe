@@ -122,7 +122,7 @@ class _PareentProfileUpdatedWidgetState
                   'Profile updated successfully',
                   textAlign: TextAlign.center,
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Inter',
+                        fontFamily: 'Nunito',
                         fontSize: 32.0,
                         letterSpacing: 0.0,
                         fontWeight: FontWeight.bold,

@@ -80,7 +80,7 @@ class _NoticeBoardEditWidgetState extends State<NoticeBoardEditWidget> {
           width: MediaQuery.sizeOf(context).width * 1.0,
           height: 100.0,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).tertiary,
+            color: const Color(0xFFE9F0FD),
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Column(

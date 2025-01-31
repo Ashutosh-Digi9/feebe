@@ -1,9 +1,8 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
-import '/backend/schema/util/schema_util.dart';
 
 import 'index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -16,6 +15,7 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
     int? totalPresent,
     int? totalAbsent,
     DateTime? date,
+    List<StudentAttendanceStruct>? studenttimelines,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _id = id,
         _totalStudents = totalStudents,
@@ -23,6 +23,7 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
         _totalPresent = totalPresent,
         _totalAbsent = totalAbsent,
         _date = date,
+        _studenttimelines = studenttimelines,
         super(firestoreUtilData);
 
   // "id" field.
@@ -83,6 +84,20 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
 
   bool hasDate() => _date != null;
 
+  // "studenttimelines" field.
+  List<StudentAttendanceStruct>? _studenttimelines;
+  List<StudentAttendanceStruct> get studenttimelines =>
+      _studenttimelines ?? const [];
+  set studenttimelines(List<StudentAttendanceStruct>? val) =>
+      _studenttimelines = val;
+
+  void updateStudenttimelines(
+      Function(List<StudentAttendanceStruct>) updateFn) {
+    updateFn(_studenttimelines ??= []);
+  }
+
+  bool hasStudenttimelines() => _studenttimelines != null;
+
   static ClassAttendanceStruct fromMap(Map<String, dynamic> data) =>
       ClassAttendanceStruct(
         id: castToType<int>(data['id']),
@@ -91,6 +106,10 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
         totalPresent: castToType<int>(data['Total_present']),
         totalAbsent: castToType<int>(data['Total_absent']),
         date: data['date'] as DateTime?,
+        studenttimelines: getStructList(
+          data['studenttimelines'],
+          StudentAttendanceStruct.fromMap,
+        ),
       );
 
   static ClassAttendanceStruct? maybeFromMap(dynamic data) => data is Map
@@ -104,6 +123,7 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
         'Total_present': _totalPresent,
         'Total_absent': _totalAbsent,
         'date': _date,
+        'studenttimelines': _studenttimelines?.map((e) => e.toMap()).toList(),
       }.withoutNulls;
 
   @override
@@ -132,6 +152,11 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
         'date': serializeParam(
           _date,
           ParamType.DateTime,
+        ),
+        'studenttimelines': serializeParam(
+          _studenttimelines,
+          ParamType.DataStruct,
+          isList: true,
         ),
       }.withoutNulls;
 
@@ -168,6 +193,56 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
           ParamType.DateTime,
           false,
         ),
+        studenttimelines: deserializeStructParam<StudentAttendanceStruct>(
+          data['studenttimelines'],
+          ParamType.DataStruct,
+          true,
+          structBuilder: StudentAttendanceStruct.fromSerializableMap,
+        ),
+      );
+
+  static ClassAttendanceStruct fromAlgoliaData(Map<String, dynamic> data) =>
+      ClassAttendanceStruct(
+        id: convertAlgoliaParam(
+          data['id'],
+          ParamType.int,
+          false,
+        ),
+        totalStudents: convertAlgoliaParam(
+          data['Total_students'],
+          ParamType.int,
+          false,
+        ),
+        studentPresentList: convertAlgoliaParam<DocumentReference>(
+          data['student_present_list'],
+          ParamType.DocumentReference,
+          true,
+        ),
+        totalPresent: convertAlgoliaParam(
+          data['Total_present'],
+          ParamType.int,
+          false,
+        ),
+        totalAbsent: convertAlgoliaParam(
+          data['Total_absent'],
+          ParamType.int,
+          false,
+        ),
+        date: convertAlgoliaParam(
+          data['date'],
+          ParamType.DateTime,
+          false,
+        ),
+        studenttimelines: convertAlgoliaParam<StudentAttendanceStruct>(
+          data['studenttimelines'],
+          ParamType.DataStruct,
+          true,
+          structBuilder: StudentAttendanceStruct.fromAlgoliaData,
+        ),
+        firestoreUtilData: const FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
+        ),
       );
 
   @override
@@ -182,12 +257,20 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
         listEquality.equals(studentPresentList, other.studentPresentList) &&
         totalPresent == other.totalPresent &&
         totalAbsent == other.totalAbsent &&
-        date == other.date;
+        date == other.date &&
+        listEquality.equals(studenttimelines, other.studenttimelines);
   }
 
   @override
-  int get hashCode => const ListEquality().hash(
-      [id, totalStudents, studentPresentList, totalPresent, totalAbsent, date]);
+  int get hashCode => const ListEquality().hash([
+        id,
+        totalStudents,
+        studentPresentList,
+        totalPresent,
+        totalAbsent,
+        date,
+        studenttimelines
+      ]);
 }
 
 ClassAttendanceStruct createClassAttendanceStruct({

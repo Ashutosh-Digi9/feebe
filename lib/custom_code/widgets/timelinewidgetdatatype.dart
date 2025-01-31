@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+import 'index.dart'; // Imports other custom widgets
+
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -44,12 +46,14 @@ class _TimelinewidgetdatatypeState extends State<Timelinewidgetdatatype> {
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isSmallScreen = screenHeight < 900;
+
     return SizedBox(
       width: widget.width,
-      height: widget.height,
+      height: widget.height ?? (screenHeight * 0.57),
       child: Column(
         children: [
-          // Centered calendar title with navigation
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -60,14 +64,17 @@ class _TimelinewidgetdatatypeState extends State<Timelinewidgetdatatype> {
                     _controller.displayDate = DateTime(
                       _controller.displayDate!.year,
                       _controller.displayDate!.month - 1,
-                      _controller.displayDate!.day,
+                      1,
                     );
                   });
                 },
               ),
               Text(
                 "${DateFormat.MMMM().format(_controller.displayDate!)} ${_controller.displayDate!.year}",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: isSmallScreen ? 18 : 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               IconButton(
                 icon: Icon(Icons.chevron_right),
@@ -76,7 +83,7 @@ class _TimelinewidgetdatatypeState extends State<Timelinewidgetdatatype> {
                     _controller.displayDate = DateTime(
                       _controller.displayDate!.year,
                       _controller.displayDate!.month + 1,
-                      _controller.displayDate!.day,
+                      1,
                     );
                   });
                 },
@@ -84,133 +91,127 @@ class _TimelinewidgetdatatypeState extends State<Timelinewidgetdatatype> {
             ],
           ),
           Expanded(
-            child: GestureDetector(
-              onHorizontalDragUpdate: (details) {
-                (CalendarTapDetails details) {
-                  if (details.targetElement == CalendarElement.calendarCell &&
-                      details.date != null) {
-                    context.pushNamed(
-                      'add_events_details',
-                      queryParameters: {
-                        'selectedDate': serializeParam(
-                          details.date, // Use the selected date here
-                          ParamType.DateTime,
-                        ),
-                        'schoolRef': serializeParam(
-                          widget.schoolref,
-                          ParamType.DocumentReference,
-                        ),
-                      }.withoutNulls,
-                    );
-                  }
-                  ;
-                };
-              },
-
-              behavior: HitTestBehavior
-                  .opaque, // Ensures the gesture detector captures all touches
-              child: SfCalendar(
-                controller: _controller,
-                view: CalendarView.month,
-                dataSource: MeetingDataSource(_meetings),
-                headerHeight: 0, // Removes default header
-                allowViewNavigation: false, // Disables swipe navigation
-                monthViewSettings: MonthViewSettings(
-                  appointmentDisplayMode: MonthAppointmentDisplayMode.none,
-                  showAgenda: false,
-                  dayFormat: 'E', // Show only first letter of weekday
-                  monthCellStyle: MonthCellStyle(
-                    backgroundColor: Colors.transparent,
-                  ),
+            child: SfCalendar(
+              controller: _controller,
+              view: CalendarView.month,
+              dataSource: MeetingDataSource(_meetings),
+              headerHeight: 0,
+              allowViewNavigation: false,
+              allowedViews: [],
+              monthViewSettings: MonthViewSettings(
+                appointmentDisplayMode: MonthAppointmentDisplayMode.none,
+                showAgenda: false,
+                showTrailingAndLeadingDates: false,
+                dayFormat: 'EEE',
+                monthCellStyle: MonthCellStyle(
+                  backgroundColor: Colors.transparent,
                 ),
-                monthCellBuilder:
-                    (BuildContext context, MonthCellDetails details) {
-                  final DateTime cellDate = details.date;
-                  final List<Meeting> dayMeetings = _meetings
-                      .where((meeting) =>
-                          meeting.eventDate.year == cellDate.year &&
-                          meeting.eventDate.month == cellDate.month &&
-                          meeting.eventDate.day == cellDate.day)
-                      .toList();
+              ),
+              monthCellBuilder:
+                  (BuildContext context, MonthCellDetails details) {
+                final DateTime cellDate = details.date;
 
-                  bool isToday = DateTime.now().year == cellDate.year &&
-                      DateTime.now().month == cellDate.month &&
-                      DateTime.now().day == cellDate.day;
+                if (cellDate.month != _controller.displayDate!.month) {
+                  return const SizedBox();
+                }
 
-                  return Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      height: 120,
-                      padding: EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        color: isToday
-                            ? Colors.blueAccent.withOpacity(0.5)
-                            : dayMeetings.isNotEmpty
-                                ? dayMeetings.first.background
-                                : Colors.transparent,
-                        border:
-                            Border.all(color: Colors.purpleAccent, width: 1),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Column(
-                        children: [
-                          if (dayMeetings.isNotEmpty) ...[
-                            Icon(
-                              _getEventIcon(dayMeetings.first.eventType),
-                              size: 16,
-                              color: Colors.white,
+                final List<Meeting> dayMeetings = _meetings
+                    .where((meeting) =>
+                        meeting.eventDate.year == cellDate.year &&
+                        meeting.eventDate.month == cellDate.month &&
+                        meeting.eventDate.day == cellDate.day)
+                    .toList();
+
+                bool isToday = DateTime.now().year == cellDate.year &&
+                    DateTime.now().month == cellDate.month &&
+                    DateTime.now().day == cellDate.day;
+                bool isSunday = cellDate.weekday == DateTime.sunday;
+
+                return Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: Container(
+                    height: 120,
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: isToday
+                          ? Colors.blueAccent.withOpacity(0.5)
+                          : isSunday
+                              ? const Color(0xFFFAD7B9)
+                              : dayMeetings.isNotEmpty
+                                  ? dayMeetings.first.background
+                                  : Colors.transparent,
+                      border: Border.all(color: Colors.purpleAccent, width: 1),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      children: [
+                        if (dayMeetings.isNotEmpty) ...[
+                          Icon(
+                            _getEventIcon(dayMeetings.first.eventType),
+                            size: 16,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(height: 4),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 4, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(4),
                             ),
-                            SizedBox(height: 4),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 4, vertical: 2),
-                              decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.1),
-                                borderRadius: BorderRadius.circular(4),
+                            child: Text(
+                              dayMeetings.first.eventName,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 8,
                               ),
-                              child: Text(
-                                dayMeetings.first.eventName,
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 8,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ),
-                          ],
-                          Spacer(),
-                          Text(
-                            cellDate.day.toString(),
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                         ],
-                      ),
+                        const Spacer(),
+                        Text(
+                          cellDate.day.toString(),
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
                     ),
+                  ),
+                );
+              },
+              onTap: (CalendarTapDetails details) {
+                if (details.targetElement == CalendarElement.calendarCell &&
+                    details.date != null) {
+                  context.pushNamed(
+                    'add_events_details',
+                    queryParameters: {
+                      'selectedDate': serializeParam(
+                        details.date,
+                        ParamType.DateTime,
+                      ),
+                      'schoolRef': serializeParam(
+                        widget.schoolref,
+                        ParamType.DocumentReference,
+                      ),
+                    }.withoutNulls,
                   );
-                },
-                onTap: (CalendarTapDetails details) {
-                  if (details.targetElement == CalendarElement.calendarCell &&
-                      details.date != null) {
-                    context.pushNamed(
-                      'add_events_details',
-                      queryParameters: {
-                        'selectedDate': serializeParam(
-                          details.date, // Use the selected date here
-                          ParamType.DateTime,
-                        ),
-                        'schoolRef': serializeParam(
-                          widget.schoolref,
-                          ParamType.DocumentReference,
-                        ),
-                      }.withoutNulls,
-                    );
-                  }
-                },
-              ),
+                }
+              },
+              onViewChanged: (ViewChangedDetails details) {
+                // Schedule the state update after the current build phase
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  final DateTime newDisplayDate = details.visibleDates.first;
+
+                  // Update the controller's displayDate after the frame has been built
+                  setState(() {
+                    _controller.displayDate = newDisplayDate;
+                  });
+                });
+              },
             ),
           ),
         ],
@@ -221,11 +222,11 @@ class _TimelinewidgetdatatypeState extends State<Timelinewidgetdatatype> {
   List<Meeting> _getDataSource() {
     final List<Meeting> meetings = <Meeting>[];
     final List<Color> colors = [
-      Color(0xFFFFF3CD), // Light yellow for birthdays
-      Color(0xFFCCE5FF), // Light blue for holidays
-      Color(0xFFD4EDDA), // Light green for other events
-      Color(0xFFF8D7DA), // Light pink
-      Color(0xFFE2E3E5), // Light gray
+      Color(0xFFFFF3CD),
+      Color(0xFFCCE5FF),
+      Color(0xFFD4EDDA),
+      Color(0xFFF8D7DA),
+      Color(0xFFE2E3E5),
     ];
 
     for (var item in widget.timrlinewidget) {

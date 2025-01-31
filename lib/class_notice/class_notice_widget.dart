@@ -170,11 +170,11 @@ class _ClassNoticeWidgetState extends State<ClassNoticeWidget> {
                           padding: const EdgeInsetsDirectional.fromSTEB(
                               10.0, 0.0, 10.0, 0.0),
                           child: Text(
-                            dateTimeFormat("MMMMEEEEd", _model.calendarDate),
+                            dateTimeFormat("dd MMM , y", _model.calendarDate),
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Inter',
+                                  fontFamily: 'Nunito',
                                   fontSize: 16.0,
                                   letterSpacing: 0.0,
                                 ),
@@ -433,7 +433,7 @@ class _ClassNoticeWidgetState extends State<ClassNoticeWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Inter',
+                                            fontFamily: 'Nunito',
                                             letterSpacing: 0.0,
                                           ),
                                       cursorColor: FlutterFlowTheme.of(context)
@@ -529,7 +529,7 @@ class _ClassNoticeWidgetState extends State<ClassNoticeWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Inter',
+                                              fontFamily: 'Nunito',
                                               letterSpacing: 0.0,
                                             ),
                                         maxLines: 4,
@@ -900,7 +900,7 @@ class _ClassNoticeWidgetState extends State<ClassNoticeWidget> {
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  fontFamily: 'Inter',
+                                                  fontFamily: 'Nunito',
                                                   fontSize: 14.0,
                                                   letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w600,
@@ -942,7 +942,7 @@ class _ClassNoticeWidgetState extends State<ClassNoticeWidget> {
                                                             context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily: 'Inter',
+                                                          fontFamily: 'Nunito',
                                                           color:
                                                               const Color(0xFF3027B0),
                                                           letterSpacing: 0.0,
@@ -964,7 +964,7 @@ class _ClassNoticeWidgetState extends State<ClassNoticeWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Inter',
+                                                fontFamily: 'Nunito',
                                                 letterSpacing: 0.0,
                                               ),
                                         ),

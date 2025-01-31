@@ -1,5 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -156,6 +156,44 @@ class EventsNoticeStruct extends FFFirebaseStruct {
           data['Event_images'],
           ParamType.String,
           true,
+        ),
+      );
+
+  static EventsNoticeStruct fromAlgoliaData(Map<String, dynamic> data) =>
+      EventsNoticeStruct(
+        eventId: convertAlgoliaParam(
+          data['Event_id'],
+          ParamType.int,
+          false,
+        ),
+        eventName: convertAlgoliaParam(
+          data['Event_name'],
+          ParamType.String,
+          false,
+        ),
+        eventTitle: convertAlgoliaParam(
+          data['Event_Title'],
+          ParamType.String,
+          false,
+        ),
+        eventDescription: convertAlgoliaParam(
+          data['Event_description'],
+          ParamType.String,
+          false,
+        ),
+        eventDate: convertAlgoliaParam(
+          data['Event_date'],
+          ParamType.DateTime,
+          false,
+        ),
+        eventImages: convertAlgoliaParam<String>(
+          data['Event_images'],
+          ParamType.String,
+          true,
+        ),
+        firestoreUtilData: const FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
         ),
       );
 

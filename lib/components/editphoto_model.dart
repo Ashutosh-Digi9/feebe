@@ -7,6 +7,8 @@ class EditphotoModel extends FlutterFlowModel<EditphotoWidget> {
 
   bool uploaded = false;
 
+  String? url;
+
   ///  State fields for stateful widgets in this component.
 
   bool isDataUploading1 = false;

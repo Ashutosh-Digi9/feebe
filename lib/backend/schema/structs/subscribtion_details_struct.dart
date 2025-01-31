@@ -1,5 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -179,6 +179,49 @@ class SubscribtionDetailsStruct extends FFFirebaseStruct {
           data['subScription_feature'],
           ParamType.String,
           true,
+        ),
+      );
+
+  static SubscribtionDetailsStruct fromAlgoliaData(Map<String, dynamic> data) =>
+      SubscribtionDetailsStruct(
+        subId: convertAlgoliaParam(
+          data['sub_id'],
+          ParamType.int,
+          false,
+        ),
+        subName: convertAlgoliaParam(
+          data['sub_name'],
+          ParamType.String,
+          false,
+        ),
+        subAmount: convertAlgoliaParam(
+          data['sub_amount'],
+          ParamType.double,
+          false,
+        ),
+        frequency: convertAlgoliaParam(
+          data['frequency'],
+          ParamType.String,
+          false,
+        ),
+        startDate: convertAlgoliaParam(
+          data['start_date'],
+          ParamType.DateTime,
+          false,
+        ),
+        endDate: convertAlgoliaParam(
+          data['end_date'],
+          ParamType.DateTime,
+          false,
+        ),
+        subScriptionFeature: convertAlgoliaParam<String>(
+          data['subScription_feature'],
+          ParamType.String,
+          true,
+        ),
+        firestoreUtilData: const FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
         ),
       );
 

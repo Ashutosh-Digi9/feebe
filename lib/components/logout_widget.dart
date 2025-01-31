@@ -38,10 +38,10 @@ class _LogoutWidgetState extends State<LogoutWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.sizeOf(context).width * 0.3,
-      height: MediaQuery.sizeOf(context).height * 0.2,
+      width: MediaQuery.sizeOf(context).width * 1.0,
+      height: MediaQuery.sizeOf(context).height * 1.0,
       decoration: BoxDecoration(
-        color: FlutterFlowTheme.of(context).secondaryBackground,
+        color: FlutterFlowTheme.of(context).tertiary,
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Padding(
@@ -52,9 +52,9 @@ class _LogoutWidgetState extends State<LogoutWidget> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Align(
-              alignment: const AlignmentDirectional(0.0, 0.0),
+              alignment: const AlignmentDirectional(-1.0, 0.0),
               child: Text(
-                'Are you sure, you want to Logout?',
+                'Are you sure, you want to \nLogout?',
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                       fontFamily: 'Nunito',
                       fontSize: 18.0,

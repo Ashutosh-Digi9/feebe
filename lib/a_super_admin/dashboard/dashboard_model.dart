@@ -1,5 +1,6 @@
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/form_field_controller.dart';
 import '/navbar/nav_bar_s_a/nav_bar_s_a_widget.dart';
 import '/navbar/navbar_parent/navbar_parent_widget.dart';
 import '/navbar/navbarteacher/navbarteacher_widget.dart';
@@ -28,6 +29,19 @@ class DashboardModel extends FlutterFlowModel<DashboardWidget> {
 
   DateTime? datetime;
 
+  DocumentReference? selectedclass;
+
+  List<EventsNoticeStruct> classevents = [];
+  void addToClassevents(EventsNoticeStruct item) => classevents.add(item);
+  void removeFromClassevents(EventsNoticeStruct item) =>
+      classevents.remove(item);
+  void removeAtIndexFromClassevents(int index) => classevents.removeAt(index);
+  void insertAtIndexInClassevents(int index, EventsNoticeStruct item) =>
+      classevents.insert(index, item);
+  void updateClasseventsAtIndex(
+          int index, Function(EventsNoticeStruct) updateFn) =>
+      classevents[index] = updateFn(classevents[index]);
+
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
@@ -35,6 +49,10 @@ class DashboardModel extends FlutterFlowModel<DashboardWidget> {
   SchoolRecord? school;
   // Stores action output result for [Firestore Query - Query a collection] action in Dashboard widget.
   List<SchoolRecord>? numberofSchool;
+  // Stores action output result for [Firestore Query - Query a collection] action in Dashboard widget.
+  SchoolRecord? teacherSchool;
+  // Stores action output result for [Firestore Query - Query a collection] action in Dashboard widget.
+  List<StudentsRecord>? studentsP;
   // State field(s) for TabBar widget.
   TabController? tabBarController1;
   int get tabBarCurrentIndex1 =>
@@ -47,10 +65,11 @@ class DashboardModel extends FlutterFlowModel<DashboardWidget> {
   int get tabBarCurrentIndex2 =>
       tabBarController2 != null ? tabBarController2!.index : 0;
 
-  // Stores action output result for [Backend Call - Create Document] action in Checkin_time widget.
-  NotificationsRecord? sc;
   // Stores action output result for [Backend Call - Create Document] action in Checkout_time widget.
   NotificationsRecord? dfff;
+  // Stores action output result for [Backend Call - Create Document] action in Checkin_time widget.
+  NotificationsRecord? sc;
+  DateTime? datePicked;
   // State field(s) for Eventname widget.
   FocusNode? eventnameFocusNode;
   TextEditingController? eventnameTextController;
@@ -80,10 +99,20 @@ class DashboardModel extends FlutterFlowModel<DashboardWidget> {
     return null;
   }
 
-  bool isDataUploading = false;
-  List<FFUploadedFile> uploadedLocalFiles = [];
-  List<String> uploadedFileUrls = [];
+  bool isDataUploading1 = false;
+  List<FFUploadedFile> uploadedLocalFiles1 = [];
+  List<String> uploadedFileUrls1 = [];
 
+  bool isDataUploading2 = false;
+  FFUploadedFile uploadedLocalFile2 =
+      FFUploadedFile(bytes: Uint8List.fromList([]));
+  String uploadedFileUrl2 = '';
+
+  // State field(s) for DropDown widget.
+  String? dropDownValue;
+  FormFieldController<String>? dropDownValueController;
+  // Stores action output result for [Backend Call - Read Document] action in DropDown widget.
+  SchoolClassRecord? class1;
   // Model for navbarteacher component.
   late NavbarteacherModel navbarteacherModel;
   // State field(s) for studentPageview widget.
@@ -98,8 +127,6 @@ class DashboardModel extends FlutterFlowModel<DashboardWidget> {
   SchoolRecord? school9;
   // Model for navbar_parent component.
   late NavbarParentModel navbarParentModel;
-  // Stores action output result for [Firestore Query - Query a collection] action in CircleImage widget.
-  List<StudentsRecord>? students;
 
   @override
   void initState(BuildContext context) {

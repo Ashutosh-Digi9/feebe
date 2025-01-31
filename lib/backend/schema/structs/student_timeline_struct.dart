@@ -1,5 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -15,6 +15,8 @@ class StudentTimelineStruct extends FFFirebaseStruct {
     String? activityDescription,
     String? activityAddedby,
     String? activityImages,
+    String? activityvideo,
+    String? video,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _id = id,
         _date = date,
@@ -23,6 +25,8 @@ class StudentTimelineStruct extends FFFirebaseStruct {
         _activityDescription = activityDescription,
         _activityAddedby = activityAddedby,
         _activityImages = activityImages,
+        _activityvideo = activityvideo,
+        _video = video,
         super(firestoreUtilData);
 
   // "id" field.
@@ -78,6 +82,20 @@ class StudentTimelineStruct extends FFFirebaseStruct {
 
   bool hasActivityImages() => _activityImages != null;
 
+  // "activityvideo" field.
+  String? _activityvideo;
+  String get activityvideo => _activityvideo ?? '';
+  set activityvideo(String? val) => _activityvideo = val;
+
+  bool hasActivityvideo() => _activityvideo != null;
+
+  // "video" field.
+  String? _video;
+  String get video => _video ?? '';
+  set video(String? val) => _video = val;
+
+  bool hasVideo() => _video != null;
+
   static StudentTimelineStruct fromMap(Map<String, dynamic> data) =>
       StudentTimelineStruct(
         id: castToType<int>(data['id']),
@@ -87,6 +105,8 @@ class StudentTimelineStruct extends FFFirebaseStruct {
         activityDescription: data['activity_description'] as String?,
         activityAddedby: data['activity_addedby'] as String?,
         activityImages: data['activity_images'] as String?,
+        activityvideo: data['activityvideo'] as String?,
+        video: data['video'] as String?,
       );
 
   static StudentTimelineStruct? maybeFromMap(dynamic data) => data is Map
@@ -101,6 +121,8 @@ class StudentTimelineStruct extends FFFirebaseStruct {
         'activity_description': _activityDescription,
         'activity_addedby': _activityAddedby,
         'activity_images': _activityImages,
+        'activityvideo': _activityvideo,
+        'video': _video,
       }.withoutNulls;
 
   @override
@@ -131,6 +153,14 @@ class StudentTimelineStruct extends FFFirebaseStruct {
         ),
         'activity_images': serializeParam(
           _activityImages,
+          ParamType.String,
+        ),
+        'activityvideo': serializeParam(
+          _activityvideo,
+          ParamType.String,
+        ),
+        'video': serializeParam(
+          _video,
           ParamType.String,
         ),
       }.withoutNulls;
@@ -172,6 +202,69 @@ class StudentTimelineStruct extends FFFirebaseStruct {
           ParamType.String,
           false,
         ),
+        activityvideo: deserializeParam(
+          data['activityvideo'],
+          ParamType.String,
+          false,
+        ),
+        video: deserializeParam(
+          data['video'],
+          ParamType.String,
+          false,
+        ),
+      );
+
+  static StudentTimelineStruct fromAlgoliaData(Map<String, dynamic> data) =>
+      StudentTimelineStruct(
+        id: convertAlgoliaParam(
+          data['id'],
+          ParamType.int,
+          false,
+        ),
+        date: convertAlgoliaParam(
+          data['date'],
+          ParamType.DateTime,
+          false,
+        ),
+        activityId: convertAlgoliaParam(
+          data['activity_id'],
+          ParamType.int,
+          false,
+        ),
+        activityName: convertAlgoliaParam(
+          data['activity_name'],
+          ParamType.String,
+          false,
+        ),
+        activityDescription: convertAlgoliaParam(
+          data['activity_description'],
+          ParamType.String,
+          false,
+        ),
+        activityAddedby: convertAlgoliaParam(
+          data['activity_addedby'],
+          ParamType.String,
+          false,
+        ),
+        activityImages: convertAlgoliaParam(
+          data['activity_images'],
+          ParamType.String,
+          false,
+        ),
+        activityvideo: convertAlgoliaParam(
+          data['activityvideo'],
+          ParamType.String,
+          false,
+        ),
+        video: convertAlgoliaParam(
+          data['video'],
+          ParamType.String,
+          false,
+        ),
+        firestoreUtilData: const FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
+        ),
       );
 
   @override
@@ -186,7 +279,9 @@ class StudentTimelineStruct extends FFFirebaseStruct {
         activityName == other.activityName &&
         activityDescription == other.activityDescription &&
         activityAddedby == other.activityAddedby &&
-        activityImages == other.activityImages;
+        activityImages == other.activityImages &&
+        activityvideo == other.activityvideo &&
+        video == other.video;
   }
 
   @override
@@ -197,7 +292,9 @@ class StudentTimelineStruct extends FFFirebaseStruct {
         activityName,
         activityDescription,
         activityAddedby,
-        activityImages
+        activityImages,
+        activityvideo,
+        video
       ]);
 }
 
@@ -209,6 +306,8 @@ StudentTimelineStruct createStudentTimelineStruct({
   String? activityDescription,
   String? activityAddedby,
   String? activityImages,
+  String? activityvideo,
+  String? video,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -222,6 +321,8 @@ StudentTimelineStruct createStudentTimelineStruct({
       activityDescription: activityDescription,
       activityAddedby: activityAddedby,
       activityImages: activityImages,
+      activityvideo: activityvideo,
+      video: video,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

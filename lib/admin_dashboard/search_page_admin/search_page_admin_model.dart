@@ -20,7 +20,7 @@ class SearchPageAdminModel extends FlutterFlowModel<SearchPageAdminWidget> {
   String? Function(BuildContext, String?)?
       trySearchingforStudentTextControllerValidator;
   // Stores action output result for [Firestore Query - Query a collection] action in TrySearchingforStudent widget.
-  List<SchoolClassRecord>? classSchoolu;
+  List<SchoolClassRecord>? classSchool;
   List<SchoolClassRecord> simpleSearchResults = [];
   // State field(s) for TabBar widget.
   TabController? tabBarController;

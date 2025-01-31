@@ -1,5 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -130,6 +130,39 @@ class TeachersAttendanceStruct extends FFFirebaseStruct {
           data['check_out_time'],
           ParamType.DateTime,
           false,
+        ),
+      );
+
+  static TeachersAttendanceStruct fromAlgoliaData(Map<String, dynamic> data) =>
+      TeachersAttendanceStruct(
+        id: convertAlgoliaParam(
+          data['id'],
+          ParamType.int,
+          false,
+        ),
+        date: convertAlgoliaParam(
+          data['Date'],
+          ParamType.DateTime,
+          false,
+        ),
+        ispresent: convertAlgoliaParam(
+          data['ispresent'],
+          ParamType.bool,
+          false,
+        ),
+        checkInTime: convertAlgoliaParam(
+          data['check_in_time'],
+          ParamType.DateTime,
+          false,
+        ),
+        checkOutTime: convertAlgoliaParam(
+          data['check_out_time'],
+          ParamType.DateTime,
+          false,
+        ),
+        firestoreUtilData: const FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
         ),
       );
 

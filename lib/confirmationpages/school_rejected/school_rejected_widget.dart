@@ -120,7 +120,7 @@ class _SchoolRejectedWidgetState extends State<SchoolRejectedWidget> {
                   'School Rejected',
                   textAlign: TextAlign.center,
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Inter',
+                        fontFamily: 'Nunito',
                         fontSize: 40.0,
                         letterSpacing: 0.0,
                         fontWeight: FontWeight.bold,

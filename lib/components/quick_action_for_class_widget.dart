@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/upload_data.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'quick_action_for_class_model.dart';
@@ -154,7 +155,9 @@ class _QuickActionForClassWidgetState extends State<QuickActionForClassWidget>
                     final selectedMedia =
                         await selectMediaWithSourceBottomSheet(
                       context: context,
+                      imageQuality: 20,
                       allowPhoto: true,
+                      allowVideo: true,
                     );
                     if (selectedMedia != null &&
                         selectedMedia.every((m) =>
@@ -209,44 +212,90 @@ class _QuickActionForClassWidgetState extends State<QuickActionForClassWidget>
                     }
 
                     if (_model.uploadedFileUrl != '') {
-                      FFAppState().studenttimelineimage =
-                          _model.uploadedFileUrl;
-                      safeSetState(() {});
-
-                      context.pushNamed(
-                        'students_timeline_activities',
-                        queryParameters: {
-                          'schoolref': serializeParam(
-                            widget.schoolref,
-                            ParamType.DocumentReference,
-                          ),
-                          'classref': serializeParam(
-                            widget.classref,
-                            ParamType.DocumentReference,
-                          ),
-                          'activityId': serializeParam(
-                            2,
-                            ParamType.int,
-                          ),
-                          'activityName': serializeParam(
-                            'Camera',
-                            ParamType.String,
-                          ),
-                        }.withoutNulls,
+                      _model.videouploaded = await actions.videoLimit(
+                        _model.uploadedFileUrl,
                       );
+                      if (_model.videouploaded!) {
+                        if (_model.uploadedFileUrl != '') {
+                          FFAppState().studenttimelineimage =
+                              _model.uploadedFileUrl;
+                          FFAppState().studentphotovideo =
+                              _model.uploadedFileUrl;
+                          safeSetState(() {});
+
+                          context.pushNamed(
+                            'students_timeline_activities',
+                            queryParameters: {
+                              'schoolref': serializeParam(
+                                widget.schoolref,
+                                ParamType.DocumentReference,
+                              ),
+                              'classref': serializeParam(
+                                widget.classref,
+                                ParamType.DocumentReference,
+                              ),
+                              'activityId': serializeParam(
+                                2,
+                                ParamType.int,
+                              ),
+                              'activityName': serializeParam(
+                                'Camera',
+                                ParamType.String,
+                              ),
+                            }.withoutNulls,
+                          );
+                        }
+                      } else {
+                        await showDialog(
+                          context: context,
+                          builder: (alertDialogContext) {
+                            return AlertDialog(
+                              title: const Text('Alert'),
+                              content: const Text('video size should not exceed 40'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(alertDialogContext),
+                                  child: const Text('Ok'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      }
                     }
+
+                    safeSetState(() {});
                   },
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.asset(
-                          'assets/images/camera.png',
-                          width: MediaQuery.sizeOf(context).width * 0.3,
-                          height: MediaQuery.sizeOf(context).height * 0.08,
-                          fit: BoxFit.none,
-                        ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        children: [
+                          if (_model.isDataUploading)
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.asset(
+                                'assets/images/Animation_-_1735217758165.gif',
+                                width: MediaQuery.sizeOf(context).width * 0.3,
+                                height:
+                                    MediaQuery.sizeOf(context).height * 0.08,
+                                fit: BoxFit.none,
+                              ),
+                            ),
+                          if (!_model.isDataUploading)
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.asset(
+                                'assets/images/camera.png',
+                                width: MediaQuery.sizeOf(context).width * 0.3,
+                                height:
+                                    MediaQuery.sizeOf(context).height * 0.08,
+                                fit: BoxFit.none,
+                              ),
+                            ),
+                        ],
                       ),
                       Text(
                         'Camera',

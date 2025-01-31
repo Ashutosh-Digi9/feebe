@@ -116,6 +116,26 @@ class StudentsRecord extends FirestoreRecord {
   String get document => _document ?? '';
   bool hasDocument() => _document != null;
 
+  // "isDraft" field.
+  bool? _isDraft;
+  bool get isDraft => _isDraft ?? false;
+  bool hasIsDraft() => _isDraft != null;
+
+  // "video" field.
+  String? _video;
+  String get video => _video ?? '';
+  bool hasVideo() => _video != null;
+
+  // "timelineVideo" field.
+  List<String>? _timelineVideo;
+  List<String> get timelineVideo => _timelineVideo ?? const [];
+  bool hasTimelineVideo() => _timelineVideo != null;
+
+  // "path" field.
+  String? _path;
+  String get path => _path ?? '';
+  bool hasPath() => _path != null;
+
   void _initializeFields() {
     _studentName = snapshotData['student_name'] as String?;
     _studentGender = snapshotData['student_gender'] as String?;
@@ -147,6 +167,10 @@ class StudentsRecord extends FirestoreRecord {
     _imageslist = getDataList(snapshotData['imageslist']);
     _classref = getDataList(snapshotData['classref']);
     _document = snapshotData['document'] as String?;
+    _isDraft = snapshotData['isDraft'] as bool?;
+    _video = snapshotData['video'] as String?;
+    _timelineVideo = getDataList(snapshotData['timelineVideo']);
+    _path = snapshotData['path'] as String?;
   }
 
   static CollectionReference get collection =>
@@ -198,6 +222,9 @@ Map<String, dynamic> createStudentsRecordData({
   String? studentImage,
   DocumentReference? schoolref,
   String? document,
+  bool? isDraft,
+  String? video,
+  String? path,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -215,6 +242,9 @@ Map<String, dynamic> createStudentsRecordData({
       'student_image': studentImage,
       'schoolref': schoolref,
       'document': document,
+      'isDraft': isDraft,
+      'video': video,
+      'path': path,
     }.withoutNulls,
   );
 
@@ -246,7 +276,11 @@ class StudentsRecordDocumentEquality implements Equality<StudentsRecord> {
         e1?.schoolref == e2?.schoolref &&
         listEquality.equals(e1?.imageslist, e2?.imageslist) &&
         listEquality.equals(e1?.classref, e2?.classref) &&
-        e1?.document == e2?.document;
+        e1?.document == e2?.document &&
+        e1?.isDraft == e2?.isDraft &&
+        e1?.video == e2?.video &&
+        listEquality.equals(e1?.timelineVideo, e2?.timelineVideo) &&
+        e1?.path == e2?.path;
   }
 
   @override
@@ -270,7 +304,11 @@ class StudentsRecordDocumentEquality implements Equality<StudentsRecord> {
         e?.schoolref,
         e?.imageslist,
         e?.classref,
-        e?.document
+        e?.document,
+        e?.isDraft,
+        e?.video,
+        e?.timelineVideo,
+        e?.path
       ]);
 
   @override

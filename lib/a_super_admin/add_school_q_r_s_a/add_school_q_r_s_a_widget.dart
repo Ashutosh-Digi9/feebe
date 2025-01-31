@@ -105,7 +105,7 @@ class _AddSchoolQRSAWidgetState extends State<AddSchoolQRSAWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Inter',
+                                  fontFamily: 'Nunito',
                                   color:
                                       FlutterFlowTheme.of(context).primaryText,
                                   letterSpacing: 0.0,
@@ -174,7 +174,7 @@ class _AddSchoolQRSAWidgetState extends State<AddSchoolQRSAWidget> {
                       child: Text(
                     'Or',
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Nunito',
                           fontSize: 18.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w600,
@@ -207,7 +207,7 @@ class _AddSchoolQRSAWidgetState extends State<AddSchoolQRSAWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Inter',
+                                    fontFamily: 'Nunito',
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     letterSpacing: 0.0,

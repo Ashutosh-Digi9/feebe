@@ -1,5 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -66,6 +66,24 @@ class NotiUserStruct extends FFFirebaseStruct {
           data['isread'],
           ParamType.bool,
           false,
+        ),
+      );
+
+  static NotiUserStruct fromAlgoliaData(Map<String, dynamic> data) =>
+      NotiUserStruct(
+        userref: convertAlgoliaParam(
+          data['userref'],
+          ParamType.DocumentReference,
+          false,
+        ),
+        isread: convertAlgoliaParam(
+          data['isread'],
+          ParamType.bool,
+          false,
+        ),
+        firestoreUtilData: const FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
         ),
       );
 

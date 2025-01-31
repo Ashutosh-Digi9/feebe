@@ -2,7 +2,9 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'delete_model.dart';
 export 'delete_model.dart';
 
@@ -44,9 +46,11 @@ class _DeleteWidgetState extends State<DeleteWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Container(
-      width: MediaQuery.sizeOf(context).width * 0.4,
-      height: MediaQuery.sizeOf(context).height * 0.25,
+      width: MediaQuery.sizeOf(context).width * 1.0,
+      height: MediaQuery.sizeOf(context).height * 1.0,
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
         borderRadius: BorderRadius.circular(8.0),
@@ -70,6 +74,20 @@ class _DeleteWidgetState extends State<DeleteWidget> {
                     ),
               ),
             ),
+            Align(
+              alignment: const AlignmentDirectional(0.0, 0.0),
+              child: Text(
+                'on deletding all the deatils of this particular school will be deleted',
+                textAlign: TextAlign.start,
+                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                      fontFamily: 'Nunito',
+                      color: FlutterFlowTheme.of(context).text1,
+                      fontSize: 17.0,
+                      letterSpacing: 0.0,
+                      fontWeight: FontWeight.normal,
+                    ),
+              ),
+            ),
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
               child: Row(
@@ -82,7 +100,7 @@ class _DeleteWidgetState extends State<DeleteWidget> {
                     },
                     text: 'Cancel',
                     options: FFButtonOptions(
-                      height: MediaQuery.sizeOf(context).height * 0.05,
+                      height: 40.0,
                       padding:
                           const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                       iconPadding:
@@ -107,6 +125,20 @@ class _DeleteWidgetState extends State<DeleteWidget> {
                     onPressed: () async {
                       _model.schoolref = await SchoolRecord.getDocumentOnce(
                           widget.schoolref!);
+                      FFAppState().recentsearchitem = functions
+                          .removeItemsByType(
+                              FFAppState().recentsearchitem.toList(),
+                              _model.schoolref!.schoolDetails.schoolName)
+                          .toList()
+                          .cast<SearchitemsStruct>();
+                      safeSetState(() {});
+                      FFAppState().recentsearchitem = functions
+                          .removeItemsByType(
+                              FFAppState().recentsearchitem.toList(),
+                              _model.schoolref!.principalDetails.principalName)
+                          .toList()
+                          .cast<SearchitemsStruct>();
+                      safeSetState(() {});
 
                       await _model.schoolref!.principalDetails.principalId!
                           .update({
@@ -126,6 +158,26 @@ class _DeleteWidgetState extends State<DeleteWidget> {
                           clearUnsetFields: false,
                         ),
                       ));
+                      FFAppState().loopmin = 0;
+                      safeSetState(() {});
+                      while (FFAppState().loopmin <
+                          _model.schoolref!.listOfStudents.length) {
+                        await _model.schoolref!.listOfStudents
+                            .elementAtOrNull(FFAppState().loopmin)!
+                            .delete();
+                        FFAppState().loopmin = FFAppState().loopmin + 1;
+                        safeSetState(() {});
+                      }
+                      FFAppState().loopmin = 0;
+                      safeSetState(() {});
+                      while (FFAppState().loopmin <
+                          _model.schoolref!.listOfTeachers.length) {
+                        await _model.schoolref!.listOfTeachers
+                            .elementAtOrNull(FFAppState().loopmin)!
+                            .delete();
+                        FFAppState().loopmin = FFAppState().loopmin + 1;
+                        safeSetState(() {});
+                      }
                       await widget.schoolref!.delete();
                       Navigator.pop(context);
 
@@ -153,7 +205,7 @@ class _DeleteWidgetState extends State<DeleteWidget> {
                     },
                     text: 'Delete',
                     options: FFButtonOptions(
-                      height: MediaQuery.sizeOf(context).height * 0.05,
+                      height: 40.0,
                       padding:
                           const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                       iconPadding:

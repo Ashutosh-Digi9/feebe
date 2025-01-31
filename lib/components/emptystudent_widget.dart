@@ -51,7 +51,7 @@ class _EmptystudentWidgetState extends State<EmptystudentWidget> {
               'It looks like no student have been added yet.Please add student to proceed.',
               textAlign: TextAlign.center,
               style: FlutterFlowTheme.of(context).bodyMedium.override(
-                    fontFamily: 'Inter',
+                    fontFamily: 'Nunito',
                     color: FlutterFlowTheme.of(context).alternate,
                     letterSpacing: 0.0,
                   ),

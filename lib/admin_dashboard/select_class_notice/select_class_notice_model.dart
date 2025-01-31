@@ -28,8 +28,19 @@ class SelectClassNoticeModel extends FlutterFlowModel<SelectClassNoticeWidget> {
   void updateClassnameAtIndex(int index, Function(String) updateFn) =>
       classname[index] = updateFn(classname[index]);
 
+  List<String> toWHome = [];
+  void addToToWHome(String item) => toWHome.add(item);
+  void removeFromToWHome(String item) => toWHome.remove(item);
+  void removeAtIndexFromToWHome(int index) => toWHome.removeAt(index);
+  void insertAtIndexInToWHome(int index, String item) =>
+      toWHome.insert(index, item);
+  void updateToWHomeAtIndex(int index, Function(String) updateFn) =>
+      toWHome[index] = updateFn(toWHome[index]);
+
   ///  State fields for stateful widgets in this component.
 
+  // Stores action output result for [Backend Call - Read Document] action in Send widget.
+  SchoolClassRecord? classdoc;
   // Stores action output result for [Firestore Query - Query a collection] action in Send widget.
   List<SchoolClassRecord>? listofclasses;
   // Stores action output result for [Firestore Query - Query a collection] action in Send widget.
@@ -46,11 +57,11 @@ class SelectClassNoticeModel extends FlutterFlowModel<SelectClassNoticeWidget> {
   List<StudentsRecord>? students1234;
   // Stores action output result for [Backend Call - Read Document] action in Send widget.
   SchoolClassRecord? classStudnt123;
-  // Stores action output result for [Backend Call - Read Document] action in Next widget.
+  // Stores action output result for [Backend Call - Read Document] action in send widget.
   SchoolRecord? school;
-  // Stores action output result for [Firestore Query - Query a collection] action in Next widget.
+  // Stores action output result for [Firestore Query - Query a collection] action in send widget.
   List<StudentsRecord>? studentquery;
-  // Stores action output result for [Backend Call - Read Document] action in Next widget.
+  // Stores action output result for [Backend Call - Read Document] action in send widget.
   SchoolClassRecord? classesstudentQuery;
 
   @override

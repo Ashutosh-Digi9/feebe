@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import '/backend/algolia/serialization_util.dart';
+import '/backend/algolia/algolia_manager.dart';
 import 'package:collection/collection.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -180,6 +182,124 @@ class SchoolRecord extends FirestoreRecord {
     DocumentReference reference,
   ) =>
       SchoolRecord._(reference, mapFromFirestore(data));
+
+  static SchoolRecord fromAlgolia(AlgoliaObjectSnapshot snapshot) =>
+      SchoolRecord.getDocumentFromData(
+        {
+          'school_details': SchoolDetailsStruct.fromAlgoliaData(
+                  snapshot.data['school_details'] ?? {})
+              .toMap(),
+          'principal_details': PrincipalDetailsStruct.fromAlgoliaData(
+                  snapshot.data['principal_details'] ?? {})
+              .toMap(),
+          'school_status': convertAlgoliaParam(
+            snapshot.data['school_status'],
+            ParamType.int,
+            false,
+          ),
+          'subscription_status': convertAlgoliaParam(
+            snapshot.data['subscription_status'],
+            ParamType.int,
+            false,
+          ),
+          'subscription_details': SubscribtionDetailsStruct.fromAlgoliaData(
+                  snapshot.data['subscription_details'] ?? {})
+              .toMap(),
+          'isBranch_present': snapshot.data['isBranch_present'],
+          'branch_details': safeGet(
+            () => (snapshot.data['branch_details'] as Iterable)
+                .map((d) => SchoolDetailsStruct.fromAlgoliaData(d).toMap())
+                .toList(),
+          ),
+          'Calendar_list': safeGet(
+            () => (snapshot.data['Calendar_list'] as Iterable)
+                .map((d) => EventsNoticeStruct.fromAlgoliaData(d).toMap())
+                .toList(),
+          ),
+          'List_of_class': safeGet(
+            () => convertAlgoliaParam<DocumentReference>(
+              snapshot.data['List_of_class'],
+              ParamType.DocumentReference,
+              true,
+            ).toList(),
+          ),
+          'List_of_notice': safeGet(
+            () => (snapshot.data['List_of_notice'] as Iterable)
+                .map((d) => EventsNoticeStruct.fromAlgoliaData(d).toMap())
+                .toList(),
+          ),
+          'List_of_students': safeGet(
+            () => convertAlgoliaParam<DocumentReference>(
+              snapshot.data['List_of_students'],
+              ParamType.DocumentReference,
+              true,
+            ).toList(),
+          ),
+          'List_of_teachers': safeGet(
+            () => convertAlgoliaParam<DocumentReference>(
+              snapshot.data['List_of_teachers'],
+              ParamType.DocumentReference,
+              true,
+            ).toList(),
+          ),
+          'created_at': convertAlgoliaParam(
+            snapshot.data['created_at'],
+            ParamType.DateTime,
+            false,
+          ),
+          'updated_at': convertAlgoliaParam(
+            snapshot.data['updated_at'],
+            ParamType.DateTime,
+            false,
+          ),
+          'teachers_data_list': safeGet(
+            () => (snapshot.data['teachers_data_list'] as Iterable)
+                .map((d) => TeacherListStruct.fromAlgoliaData(d).toMap())
+                .toList(),
+          ),
+          'student_data_list': safeGet(
+            () => (snapshot.data['student_data_list'] as Iterable)
+                .map((d) => StudentListStruct.fromAlgoliaData(d).toMap())
+                .toList(),
+          ),
+          'listOfteachersuser': safeGet(
+            () => convertAlgoliaParam<DocumentReference>(
+              snapshot.data['listOfteachersuser'],
+              ParamType.DocumentReference,
+              true,
+            ).toList(),
+          ),
+          'latlng': convertAlgoliaParam(
+            snapshot.data,
+            ParamType.LatLng,
+            false,
+          ),
+          'popupdate': convertAlgoliaParam(
+            snapshot.data['popupdate'],
+            ParamType.DateTime,
+            false,
+          ),
+        },
+        SchoolRecord.collection.doc(snapshot.objectID),
+      );
+
+  static Future<List<SchoolRecord>> search({
+    String? term,
+    FutureOr<LatLng>? location,
+    int? maxResults,
+    double? searchRadiusMeters,
+    bool useCache = false,
+  }) =>
+      FFAlgoliaManager.instance
+          .algoliaQuery(
+            index: 'School',
+            term: term,
+            maxResults: maxResults,
+            location: location,
+            searchRadiusMeters: searchRadiusMeters,
+            useCache: useCache,
+          )
+          .then((r) => r.map(fromAlgolia).toList());
 
   @override
   String toString() =>

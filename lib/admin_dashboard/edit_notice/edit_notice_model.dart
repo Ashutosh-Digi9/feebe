@@ -8,6 +8,15 @@ class EditNoticeModel extends FlutterFlowModel<EditNoticeWidget> {
 
   String eventName = 'w';
 
+  List<String> images87 = [];
+  void addToImages87(String item) => images87.add(item);
+  void removeFromImages87(String item) => images87.remove(item);
+  void removeAtIndexFromImages87(int index) => images87.removeAt(index);
+  void insertAtIndexInImages87(int index, String item) =>
+      images87.insert(index, item);
+  void updateImages87AtIndex(int index, Function(String) updateFn) =>
+      images87[index] = updateFn(images87[index]);
+
   ///  State fields for stateful widgets in this component.
 
   final formKey = GlobalKey<FormState>();
@@ -19,7 +28,7 @@ class EditNoticeModel extends FlutterFlowModel<EditNoticeWidget> {
   String? Function(BuildContext, String?)? eventnameTextControllerValidator;
   String? _eventnameTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter the event name';
+      return 'Please enter the title name';
     }
 
     return null;
@@ -39,9 +48,17 @@ class EditNoticeModel extends FlutterFlowModel<EditNoticeWidget> {
   }
 
   DateTime? datePicked;
-  bool isDataUploading = false;
-  List<FFUploadedFile> uploadedLocalFiles = [];
-  List<String> uploadedFileUrls = [];
+  bool isDataUploading1 = false;
+  List<FFUploadedFile> uploadedLocalFiles1 = [];
+  List<String> uploadedFileUrls1 = [];
+
+  bool isDataUploading2 = false;
+  FFUploadedFile uploadedLocalFile2 =
+      FFUploadedFile(bytes: Uint8List.fromList([]));
+  String uploadedFileUrl2 = '';
+
+  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
+  List<StudentsRecord>? students;
 
   @override
   void initState(BuildContext context) {

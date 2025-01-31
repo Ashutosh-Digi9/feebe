@@ -104,7 +104,12 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
         FFRoute(
           name: 'Dashboard',
           path: '/dashboard',
-          builder: (context, params) => const DashboardWidget(),
+          builder: (context, params) => DashboardWidget(
+            tabindex: params.getParam(
+              'tabindex',
+              ParamType.int,
+            ),
+          ),
         ),
         FFRoute(
           name: 'NewSchoolDetails_SA',
@@ -157,6 +162,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ParamType.DocumentReference,
               isList: false,
               collectionNamePath: ['School'],
+            ),
+            date: params.getParam(
+              'date',
+              ParamType.DateTime,
             ),
           ),
         ),
@@ -226,18 +235,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => const SchoolRejectedWidget(),
         ),
         FFRoute(
-          name: 'add_teacher_QR_Admin',
-          path: '/addTeacherQRAdmin',
-          builder: (context, params) => AddTeacherQRAdminWidget(
-            schoolRef: params.getParam(
-              'schoolRef',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['School'],
-            ),
-          ),
-        ),
-        FFRoute(
           name: 'add_Teacher_manually_Admin',
           path: '/addTeacherManuallyAdmin',
           builder: (context, params) => AddTeacherManuallyAdminWidget(
@@ -282,6 +279,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               collectionNamePath: ['School'],
             ),
+            datePick: params.getParam(
+              'datePick',
+              ParamType.DateTime,
+            ),
           ),
         ),
         FFRoute(
@@ -298,6 +299,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ParamType.DocumentReference,
               isList: false,
               collectionNamePath: ['School'],
+            ),
+            tabindex: params.getParam(
+              'tabindex',
+              ParamType.int,
+            ),
+            classname: params.getParam(
+              'classname',
+              ParamType.String,
             ),
           ),
         ),
@@ -430,6 +439,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ParamType.DocumentReference,
               isList: false,
               collectionNamePath: ['School'],
+            ),
+            classattendence: params.getParam(
+              'classattendence',
+              ParamType.bool,
+            ),
+            classes: params.getParam(
+              'classes',
+              ParamType.bool,
             ),
           ),
         ),
@@ -833,6 +850,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               collectionNamePath: ['School'],
             ),
+            mainpage: params.getParam(
+              'mainpage',
+              ParamType.bool,
+            ),
           ),
         ),
         FFRoute(
@@ -876,6 +897,14 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               ParamType.DocumentReference,
               isList: false,
               collectionNamePath: ['School_class'],
+            ),
+            tabindex: params.getParam(
+              'tabindex',
+              ParamType.int,
+            ),
+            classname: params.getParam(
+              'classname',
+              ParamType.String,
             ),
           ),
         ),
@@ -1072,9 +1101,9 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => const TeacherNoticeTeacherWidget(),
         ),
         FFRoute(
-          name: 'calender_details_parent',
-          path: '/calenderDetailsParent',
-          builder: (context, params) => CalenderDetailsParentWidget(
+          name: 'calender_list_parent',
+          path: '/calenderListParent',
+          builder: (context, params) => CalenderListParentWidget(
             selectedDate: params.getParam(
               'selectedDate',
               ParamType.DateTime,
@@ -1165,6 +1194,10 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               collectionNamePath: ['School'],
             ),
+            date: params.getParam(
+              'date',
+              ParamType.DateTime,
+            ),
           ),
         ),
         FFRoute(
@@ -1214,8 +1247,210 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               collectionNamePath: ['School'],
             ),
           ),
+        ),
+        FFRoute(
+          name: 'Profile_view',
+          path: '/profileView',
+          builder: (context, params) => const ProfileViewWidget(),
+        ),
+        FFRoute(
+          name: 'indistudentmainpages',
+          path: '/indistudentmainpages',
+          builder: (context, params) => IndistudentmainpagesWidget(
+            studentsref: params.getParam(
+              'studentsref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Students'],
+            ),
+            classref: params.getParam<DocumentReference>(
+              'classref',
+              ParamType.DocumentReference,
+              isList: true,
+              collectionNamePath: ['School_class'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'indivi_image_viewTeacher',
+          path: '/indiviImageViewTeacher',
+          builder: (context, params) => IndiviImageViewTeacherWidget(
+            teacher: params.getParam(
+              'teacher',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Teachers'],
+            ),
+            index: params.getParam(
+              'index',
+              ParamType.int,
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'add_student_manuallyCopy',
+          path: '/addStudentManuallyCopy',
+          builder: (context, params) => AddStudentManuallyCopyWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            classref: params.getParam(
+              'classref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'selectedstudents_sadmin',
+          path: '/selectedstudentsSadmin',
+          builder: (context, params) => SelectedstudentsSadminWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            classref: params.getParam(
+              'classref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'draft_student_maually',
+          path: '/draftStudentMaually',
+          builder: (context, params) => DraftStudentMauallyWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'student_draft',
+          path: '/studentDraft',
+          builder: (context, params) => StudentDraftWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            studentref: params.getParam(
+              'studentref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Students'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'indivi_video_view',
+          path: '/indiviVideoView',
+          builder: (context, params) => IndiviVideoViewWidget(
+            student: params.getParam(
+              'student',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Students'],
+            ),
+            index: params.getParam(
+              'index',
+              ParamType.int,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'calender_details_parent',
+          path: '/calenderDetailsParent',
+          builder: (context, params) => CalenderDetailsParentWidget(
+            eventDetails: params.getParam(
+              'eventDetails',
+              ParamType.DataStruct,
+              isList: false,
+              structBuilder: EventsNoticeStruct.fromSerializableMap,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'attendance_history_students_card',
+          path: '/AddClass2AdminCcard',
+          builder: (context, params) => AttendanceHistoryStudentsCardWidget(
+            classRef: params.getParam(
+              'classRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            date: params.getParam(
+              'date',
+              ParamType.DateTime,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'Notice_details',
+          path: '/noticeDetails',
+          builder: (context, params) => NoticeDetailsWidget(
+            eventDetails: params.getParam(
+              'eventDetails',
+              ParamType.DataStruct,
+              isList: false,
+              structBuilder: EventsNoticeStruct.fromSerializableMap,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'event_details',
+          path: '/eventDetails',
+          builder: (context, params) => EventDetailsWidget(
+            eventDetails: params.getParam(
+              'eventDetails',
+              ParamType.DataStruct,
+              isList: false,
+              structBuilder: EventsNoticeStruct.fromSerializableMap,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: 'guest_page',
+          path: '/guestPage',
+          builder: (context, params) => const GuestPageWidget(),
+        ),
+        FFRoute(
+          name: 'Deletepage',
+          path: '/deletepage',
+          builder: (context, params) => const DeletepageWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
+      observers: [routeObserver],
     );
 
 extension NavParamExtensions on Map<String, String?> {

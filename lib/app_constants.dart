@@ -1,7 +1,7 @@
 
 abstract class FFAppConstants {
   static const String addImage =
-      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/kqg7tnob6oub/Add_profile_pic_(2).png';
+      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
   static const String food =
       'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/x315c0u0at89/fork_and_knife_with_plate.png';
   static const String nap =

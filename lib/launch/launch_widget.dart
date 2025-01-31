@@ -111,7 +111,7 @@ class _LaunchWidgetState extends State<LaunchWidget> {
                           fontFamily: 'Nunito',
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
-                          fontSize: 16.0,
+                          fontSize: 18.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w600,
                           shadows: [
@@ -129,6 +129,26 @@ class _LaunchWidgetState extends State<LaunchWidget> {
                         ),
                         elevation: 4.0,
                         borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        context.pushNamed('guest_page');
+                      },
+                      child: Text(
+                        'Login as a Guest',
+                        textAlign: TextAlign.center,
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              fontFamily: 'Nunito',
+                              color: FlutterFlowTheme.of(context).text1,
+                              fontSize: 16.0,
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.w600,
+                            ),
                       ),
                     ),
                   ],

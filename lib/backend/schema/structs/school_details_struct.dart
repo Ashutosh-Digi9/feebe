@@ -1,5 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -266,6 +266,69 @@ class SchoolDetailsStruct extends FFFirebaseStruct {
           ParamType.DocumentReference,
           true,
           collectionNamePath: ['School_class'],
+        ),
+      );
+
+  static SchoolDetailsStruct fromAlgoliaData(Map<String, dynamic> data) =>
+      SchoolDetailsStruct(
+        schoolId: convertAlgoliaParam(
+          data['school_id'],
+          ParamType.int,
+          false,
+        ),
+        schoolName: convertAlgoliaParam(
+          data['school_name'],
+          ParamType.String,
+          false,
+        ),
+        address: convertAlgoliaParam(
+          data['Address'],
+          ParamType.String,
+          false,
+        ),
+        pincode: convertAlgoliaParam(
+          data['pincode'],
+          ParamType.String,
+          false,
+        ),
+        city: convertAlgoliaParam(
+          data['city'],
+          ParamType.String,
+          false,
+        ),
+        state: convertAlgoliaParam(
+          data['state'],
+          ParamType.String,
+          false,
+        ),
+        noOfStudents: convertAlgoliaParam(
+          data['no_of_students'],
+          ParamType.int,
+          false,
+        ),
+        noOfFaculties: convertAlgoliaParam(
+          data['no_of_faculties'],
+          ParamType.int,
+          false,
+        ),
+        noOfBranches: convertAlgoliaParam(
+          data['no_of_branches'],
+          ParamType.int,
+          false,
+        ),
+        schoolImage: convertAlgoliaParam(
+          data['school_image'],
+          ParamType.String,
+          false,
+        ),
+        listOfclasses: convertAlgoliaParam<DocumentReference>(
+          data['ListOfclasses'],
+          ParamType.DocumentReference,
+          true,
+        ),
+        firestoreUtilData: const FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
         ),
       );
 

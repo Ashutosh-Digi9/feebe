@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "623138223422",
+    "firebase_url": "https://feebee-8578d-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "feebee-8578d",
     "storage_bucket": "feebee-8578d.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:623138223422:android:2801f0e4b4d6d585d3e86f",
+        "mobilesdk_app_id": "1:623138223422:android:aef110910292af4ad3e86f",
         "android_client_info": {
-          "package_name": "com.mycompany.feebe"
+          "package_name": "com.digi9.feebe"
         }
       },
       "oauth_client": [],

@@ -324,7 +324,7 @@ class _AddEventforAllSchoolsWidgetState
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: 'Inter',
+                                      fontFamily: 'Nunito',
                                       letterSpacing: 0.0,
                                     ),
                               ),

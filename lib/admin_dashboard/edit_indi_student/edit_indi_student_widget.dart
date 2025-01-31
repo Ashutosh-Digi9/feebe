@@ -79,7 +79,7 @@ class _EditIndiStudentWidgetState extends State<EditIndiStudentWidget> {
 
             return Container(
               decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).tertiary,
+                color: const Color(0xFFE9F0FD),
                 borderRadius: BorderRadius.circular(10.0),
               ),
               child: Column(
@@ -142,9 +142,7 @@ class _EditIndiStudentWidgetState extends State<EditIndiStudentWidget> {
                                   .clssref!
                                   .elementAtOrNull(FFAppState().loopmin))!);
 
-                          await (widget.clssref!
-                                  .elementAtOrNull(FFAppState().loopmin))!
-                              .update({
+                          await _model.classses!.reference.update({
                             ...mapToFirestore(
                               {
                                 'students_list': FieldValue.arrayRemove(

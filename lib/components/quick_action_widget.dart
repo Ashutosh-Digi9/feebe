@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/upload_data.dart';
+import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'quick_action_model.dart';
@@ -78,135 +79,30 @@ class _QuickActionWidgetState extends State<QuickActionWidget>
       ),
       child: Container(
         width: MediaQuery.sizeOf(context).width * 1.0,
-        height: MediaQuery.sizeOf(context).height * 0.22,
+        height: MediaQuery.sizeOf(context).height * 1.0,
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).lightblue,
           borderRadius: BorderRadius.circular(18.0),
+          border: Border.all(
+            color: const Color(0xFFC3E2FF),
+          ),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           children: [
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                InkWell(
-                  splashColor: Colors.transparent,
-                  focusColor: Colors.transparent,
-                  hoverColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: () async {
-                    Navigator.pop(context);
-                    await showModalBottomSheet(
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      enableDrag: false,
-                      context: context,
-                      builder: (context) {
-                        return Padding(
-                          padding: MediaQuery.viewInsetsOf(context),
-                          child: SizedBox(
-                            height: MediaQuery.sizeOf(context).height * 0.7,
-                            child: SelectClassQAWidget(
-                              activityId: 0,
-                              schoolref: widget.schoolref!,
-                              activityNAme: 'Food',
-                            ),
-                          ),
-                        );
-                      },
-                    ).then((value) => safeSetState(() {}));
-                  },
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.asset(
-                          'assets/images/fork_and_knife_with_plate.png',
-                          width: MediaQuery.sizeOf(context).width * 0.3,
-                          height: MediaQuery.sizeOf(context).height * 0.08,
-                          fit: BoxFit.none,
-                        ),
-                      ),
-                      Text(
-                        'Food',
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Nunito',
-                              fontSize: 14.0,
-                              letterSpacing: 0.0,
-                            ),
-                      ),
-                    ],
-                  ),
-                ),
-                InkWell(
-                  splashColor: Colors.transparent,
-                  focusColor: Colors.transparent,
-                  hoverColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: () async {
-                    final selectedMedia =
-                        await selectMediaWithSourceBottomSheet(
-                      context: context,
-                      allowPhoto: true,
-                    );
-                    if (selectedMedia != null &&
-                        selectedMedia.every((m) =>
-                            validateFileFormat(m.storagePath, context))) {
-                      safeSetState(() => _model.isDataUploading = true);
-                      var selectedUploadedFiles = <FFUploadedFile>[];
-
-                      var downloadUrls = <String>[];
-                      try {
-                        showUploadMessage(
-                          context,
-                          'Uploading file...',
-                          showLoading: true,
-                        );
-                        selectedUploadedFiles = selectedMedia
-                            .map((m) => FFUploadedFile(
-                                  name: m.storagePath.split('/').last,
-                                  bytes: m.bytes,
-                                  height: m.dimensions?.height,
-                                  width: m.dimensions?.width,
-                                  blurHash: m.blurHash,
-                                ))
-                            .toList();
-
-                        downloadUrls = (await Future.wait(
-                          selectedMedia.map(
-                            (m) async =>
-                                await uploadData(m.storagePath, m.bytes),
-                          ),
-                        ))
-                            .where((u) => u != null)
-                            .map((u) => u!)
-                            .toList();
-                      } finally {
-                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                        _model.isDataUploading = false;
-                      }
-                      if (selectedUploadedFiles.length ==
-                              selectedMedia.length &&
-                          downloadUrls.length == selectedMedia.length) {
-                        safeSetState(() {
-                          _model.uploadedLocalFile =
-                              selectedUploadedFiles.first;
-                          _model.uploadedFileUrl = downloadUrls.first;
-                        });
-                        showUploadMessage(context, 'Success!');
-                      } else {
-                        safeSetState(() {});
-                        showUploadMessage(context, 'Failed to upload data');
-                        return;
-                      }
-                    }
-
-                    if (_model.uploadedFileUrl != '') {
-                      FFAppState().studenttimelineimage =
-                          _model.uploadedFileUrl;
-                      safeSetState(() {});
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      Navigator.pop(context);
                       await showModalBottomSheet(
                         isScrollControlled: true,
                         backgroundColor: Colors.transparent,
@@ -218,90 +114,256 @@ class _QuickActionWidgetState extends State<QuickActionWidget>
                             child: SizedBox(
                               height: MediaQuery.sizeOf(context).height * 0.7,
                               child: SelectClassQAWidget(
-                                activityId: 2,
+                                activityId: 0,
                                 schoolref: widget.schoolref!,
-                                activityNAme: 'Camera',
+                                activityNAme: 'Food',
                               ),
                             ),
                           );
                         },
                       ).then((value) => safeSetState(() {}));
-                    }
-                  },
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.asset(
-                          'assets/images/camera.png',
-                          width: MediaQuery.sizeOf(context).width * 0.3,
-                          height: MediaQuery.sizeOf(context).height * 0.08,
-                          fit: BoxFit.none,
-                        ),
-                      ),
-                      Text(
-                        'Camera',
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Nunito',
-                              fontSize: 14.0,
-                              letterSpacing: 0.0,
-                            ),
-                      ),
-                    ],
-                  ),
-                ),
-                InkWell(
-                  splashColor: Colors.transparent,
-                  focusColor: Colors.transparent,
-                  hoverColor: Colors.transparent,
-                  highlightColor: Colors.transparent,
-                  onTap: () async {
-                    Navigator.pop(context);
-                    await showModalBottomSheet(
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      enableDrag: false,
-                      context: context,
-                      builder: (context) {
-                        return Padding(
-                          padding: MediaQuery.viewInsetsOf(context),
-                          child: SizedBox(
-                            height: MediaQuery.sizeOf(context).height * 0.7,
-                            child: SelectClassQAWidget(
-                              activityId: 4,
-                              schoolref: widget.schoolref!,
-                              activityNAme: 'Potty',
-                            ),
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Image.asset(
+                            'assets/images/fork_and_knife_with_plate.png',
+                            width: MediaQuery.sizeOf(context).width * 0.3,
+                            height: MediaQuery.sizeOf(context).height * 0.08,
+                            fit: BoxFit.none,
                           ),
-                        );
-                      },
-                    ).then((value) => safeSetState(() {}));
-                  },
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Image.asset(
-                          'assets/images/potty_(2).png',
-                          width: MediaQuery.sizeOf(context).width * 0.3,
-                          height: MediaQuery.sizeOf(context).height * 0.08,
-                          fit: BoxFit.none,
                         ),
-                      ),
-                      Text(
-                        'Potty',
-                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Nunito',
-                              fontSize: 14.0,
-                              letterSpacing: 0.0,
-                            ),
-                      ),
-                    ],
+                        Text(
+                          'Food',
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Nunito',
+                                    fontSize: 14.0,
+                                    letterSpacing: 0.0,
+                                  ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      final selectedMedia =
+                          await selectMediaWithSourceBottomSheet(
+                        context: context,
+                        imageQuality: 20,
+                        allowPhoto: true,
+                        allowVideo: true,
+                      );
+                      if (selectedMedia != null &&
+                          selectedMedia.every((m) =>
+                              validateFileFormat(m.storagePath, context))) {
+                        safeSetState(() => _model.isDataUploading = true);
+                        var selectedUploadedFiles = <FFUploadedFile>[];
+
+                        var downloadUrls = <String>[];
+                        try {
+                          showUploadMessage(
+                            context,
+                            'Uploading file...',
+                            showLoading: true,
+                          );
+                          selectedUploadedFiles = selectedMedia
+                              .map((m) => FFUploadedFile(
+                                    name: m.storagePath.split('/').last,
+                                    bytes: m.bytes,
+                                    height: m.dimensions?.height,
+                                    width: m.dimensions?.width,
+                                    blurHash: m.blurHash,
+                                  ))
+                              .toList();
+
+                          downloadUrls = (await Future.wait(
+                            selectedMedia.map(
+                              (m) async =>
+                                  await uploadData(m.storagePath, m.bytes),
+                            ),
+                          ))
+                              .where((u) => u != null)
+                              .map((u) => u!)
+                              .toList();
+                        } finally {
+                          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                          _model.isDataUploading = false;
+                        }
+                        if (selectedUploadedFiles.length ==
+                                selectedMedia.length &&
+                            downloadUrls.length == selectedMedia.length) {
+                          safeSetState(() {
+                            _model.uploadedLocalFile =
+                                selectedUploadedFiles.first;
+                            _model.uploadedFileUrl = downloadUrls.first;
+                          });
+                          showUploadMessage(context, 'Success!');
+                        } else {
+                          safeSetState(() {});
+                          showUploadMessage(context, 'Failed to upload data');
+                          return;
+                        }
+                      }
+
+                      if (_model.uploadedFileUrl != '') {
+                        _model.videoUploaded = await actions.videoLimit(
+                          _model.uploadedFileUrl,
+                        );
+                        if (_model.videoUploaded!) {
+                          if (_model.uploadedFileUrl != '') {
+                            FFAppState().studenttimelineimage =
+                                _model.uploadedFileUrl;
+                            FFAppState().studenttimelinevideo =
+                                _model.uploadedFileUrl;
+                            FFAppState().studentphotovideo =
+                                _model.uploadedFileUrl;
+                            safeSetState(() {});
+                            await showModalBottomSheet(
+                              isScrollControlled: true,
+                              backgroundColor: Colors.transparent,
+                              enableDrag: false,
+                              context: context,
+                              builder: (context) {
+                                return Padding(
+                                  padding: MediaQuery.viewInsetsOf(context),
+                                  child: SizedBox(
+                                    height:
+                                        MediaQuery.sizeOf(context).height * 0.7,
+                                    child: SelectClassQAWidget(
+                                      activityId: 2,
+                                      schoolref: widget.schoolref!,
+                                      activityNAme: 'Camera',
+                                    ),
+                                  ),
+                                );
+                              },
+                            ).then((value) => safeSetState(() {}));
+                          }
+                        } else {
+                          await showDialog(
+                            context: context,
+                            builder: (alertDialogContext) {
+                              return AlertDialog(
+                                title: const Text('Alert'),
+                                content:
+                                    const Text('video size should not exceed 40 mb'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () =>
+                                        Navigator.pop(alertDialogContext),
+                                    child: const Text('Ok'),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        }
+                      }
+
+                      safeSetState(() {});
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Row(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            if (_model.isDataUploading)
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.asset(
+                                  'assets/images/Animation_-_1735217758165.gif',
+                                  width: MediaQuery.sizeOf(context).width * 0.3,
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 0.08,
+                                  fit: BoxFit.none,
+                                ),
+                              ),
+                            if (!_model.isDataUploading)
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.asset(
+                                  'assets/images/camera.png',
+                                  width: MediaQuery.sizeOf(context).width * 0.3,
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 0.08,
+                                  fit: BoxFit.none,
+                                ),
+                              ),
+                          ],
+                        ),
+                        Text(
+                          'Camera',
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Nunito',
+                                    fontSize: 14.0,
+                                    letterSpacing: 0.0,
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  InkWell(
+                    splashColor: Colors.transparent,
+                    focusColor: Colors.transparent,
+                    hoverColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    onTap: () async {
+                      Navigator.pop(context);
+                      await showModalBottomSheet(
+                        isScrollControlled: true,
+                        backgroundColor: Colors.transparent,
+                        enableDrag: false,
+                        context: context,
+                        builder: (context) {
+                          return Padding(
+                            padding: MediaQuery.viewInsetsOf(context),
+                            child: SizedBox(
+                              height: MediaQuery.sizeOf(context).height * 0.7,
+                              child: SelectClassQAWidget(
+                                activityId: 4,
+                                schoolref: widget.schoolref!,
+                                activityNAme: 'Potty',
+                              ),
+                            ),
+                          );
+                        },
+                      ).then((value) => safeSetState(() {}));
+                    },
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8.0),
+                          child: Image.asset(
+                            'assets/images/potty_(2).png',
+                            width: MediaQuery.sizeOf(context).width * 0.3,
+                            height: MediaQuery.sizeOf(context).height * 0.08,
+                            fit: BoxFit.none,
+                          ),
+                        ),
+                        Text(
+                          'Potty',
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Nunito',
+                                    fontSize: 14.0,
+                                    letterSpacing: 0.0,
+                                  ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
             Row(
               mainAxisSize: MainAxisSize.max,

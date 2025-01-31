@@ -61,6 +61,15 @@ class StudentsTimelineActivitiesModel
   void updateAddedbyAtIndex(int index, Function(String) updateFn) =>
       addedby[index] = updateFn(addedby[index]);
 
+  List<String> towhom = [];
+  void addToTowhom(String item) => towhom.add(item);
+  void removeFromTowhom(String item) => towhom.remove(item);
+  void removeAtIndexFromTowhom(int index) => towhom.removeAt(index);
+  void insertAtIndexInTowhom(int index, String item) =>
+      towhom.insert(index, item);
+  void updateTowhomAtIndex(int index, Function(String) updateFn) =>
+      towhom[index] = updateFn(towhom[index]);
+
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
@@ -80,6 +89,8 @@ class StudentsTimelineActivitiesModel
     return null;
   }
 
+  // Stores action output result for [Backend Call - Read Document] action in sendupdate widget.
+  StudentsRecord? students1;
   // Stores action output result for [Firestore Query - Query a collection] action in sendupdate widget.
   List<StudentsRecord>? studenList;
   // Stores action output result for [Firestore Query - Query a collection] action in sendupdate widget.

@@ -1,3 +1,4 @@
+import '/custom_code/actions/index.dart' as actions;
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,10 @@ void main() async {
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
 
+  // Start final custom actions code
+  await actions.noInternetAction();
+  // End final custom actions code
+
   runApp(ChangeNotifierProvider(
     create: (context) => appState,
     child: const MyApp(),
@@ -44,6 +49,14 @@ class _MyAppState extends State<MyApp> {
 
   late AppStateNotifier _appStateNotifier;
   late GoRouter _router;
+  String getRoute([RouteMatch? routeMatch]) {
+    final RouteMatch lastMatch =
+        routeMatch ?? _router.routerDelegate.currentConfiguration.last;
+    final RouteMatchList matchList = lastMatch is ImperativeRouteMatch
+        ? lastMatch.matches
+        : _router.routerDelegate.currentConfiguration;
+    return matchList.uri.toString();
+  }
 
   late Stream<BaseAuthUser> userStream;
 

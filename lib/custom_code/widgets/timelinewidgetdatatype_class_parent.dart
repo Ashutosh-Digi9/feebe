@@ -10,6 +10,10 @@ import 'package:flutter/material.dart';
 // Begin custom widget code
 // DO NOT REMOVE OR MODIFY THE CODE ABOVE!
 
+import 'index.dart'; // Imports other custom widgets
+
+// Imports other custom widgets
+
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -48,34 +52,36 @@ class _TimelinewidgetdatatypeClassParentState
   Widget build(BuildContext context) {
     return SizedBox(
       width: widget.width,
-      height: widget.height ?? 300,
+      height: widget.height,
       child: Column(
         children: [
-          // Centered calendar title with navigation
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               IconButton(
-                icon: Icon(Icons.chevron_left),
+                icon: const Icon(Icons.chevron_left),
                 onPressed: () {
                   setState(() {
-                    final date = _controller.displayDate ?? DateTime.now();
-                    _controller.displayDate =
-                        DateTime(date.year, date.month - 1, date.day);
+                    _controller.displayDate = DateTime(
+                        _controller.displayDate!.year,
+                        _controller.displayDate!.month - 1,
+                        _controller.displayDate!.day);
                   });
                 },
               ),
               Text(
                 "${DateFormat.MMMM().format(_controller.displayDate!)} ${_controller.displayDate!.year}",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                style:
+                    const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
               ),
               IconButton(
-                icon: Icon(Icons.chevron_right),
+                icon: const Icon(Icons.chevron_right),
                 onPressed: () {
                   setState(() {
-                    final date = _controller.displayDate ?? DateTime.now();
-                    _controller.displayDate =
-                        DateTime(date.year, date.month + 1, date.day);
+                    _controller.displayDate = DateTime(
+                        _controller.displayDate!.year,
+                        _controller.displayDate!.month + 1,
+                        _controller.displayDate!.day);
                   });
                 },
               ),
@@ -83,69 +89,54 @@ class _TimelinewidgetdatatypeClassParentState
           ),
           Expanded(
             child: SfCalendar(
+              allowDragAndDrop: false,
               controller: _controller,
               view: CalendarView.month,
               dataSource: MeetingDataSource(_meetings),
               headerHeight: 0,
               allowViewNavigation: false,
-              monthViewSettings: MonthViewSettings(
+              monthViewSettings: const MonthViewSettings(
                 appointmentDisplayMode: MonthAppointmentDisplayMode.none,
                 showAgenda: false,
+                showTrailingAndLeadingDates: false,
                 dayFormat: 'EEE',
                 monthCellStyle: MonthCellStyle(
                   backgroundColor: Colors.transparent,
                 ),
               ),
-              onViewChanged: (ViewChangedDetails details) {
-                // NEW: Listen for view changes
-                setState(() {
-                  _controller.displayDate =
-                      details.visibleDates.first; // Update display date
-                });
-              },
               monthCellBuilder:
                   (BuildContext context, MonthCellDetails details) {
                 final DateTime cellDate = details.date;
+
+                if (cellDate.month != _controller.displayDate!.month) {
+                  return const SizedBox(); // Skip non-current month dates
+                }
+
                 final List<Meeting> dayMeetings = _meetings
                     .where((meeting) =>
                         meeting.eventDate.year == cellDate.year &&
                         meeting.eventDate.month == cellDate.month &&
                         meeting.eventDate.day == cellDate.day)
                     .toList();
-                if (details.date.weekday == DateTime.sunday) {
-                  return Padding(
-                    padding: const EdgeInsets.all(4.0),
-                    child: Container(
-                      height: 120,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFAD6A5),
-                        border:
-                            Border.all(color: Colors.purpleAccent, width: 1),
-                        borderRadius: BorderRadius.circular(12),
-                      ), // Sunday color (#FAD6A5)
-                      child: Center(
-                        child: Text(
-                          details.date.day.toString(),
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ),
-                  );
-                }
+
                 bool isToday = DateTime.now().year == cellDate.year &&
                     DateTime.now().month == cellDate.month &&
                     DateTime.now().day == cellDate.day;
+                bool isSunday = cellDate.weekday == DateTime.sunday;
 
                 return Padding(
                   padding: const EdgeInsets.all(4.0),
                   child: Container(
                     height: 120,
+                    padding: const EdgeInsets.all(6),
                     decoration: BoxDecoration(
                       color: isToday
                           ? Colors.blueAccent.withOpacity(0.5)
-                          : dayMeetings.isNotEmpty
-                              ? dayMeetings.first.background
-                              : Colors.transparent,
+                          : isSunday
+                              ? const Color(0xFFFAD7B9)
+                              : dayMeetings.isNotEmpty
+                                  ? dayMeetings.first.background
+                                  : Colors.transparent,
                       border: Border.all(color: Colors.purpleAccent, width: 1),
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -157,20 +148,28 @@ class _TimelinewidgetdatatypeClassParentState
                             size: 16,
                             color: Colors.white,
                           ),
-                          SizedBox(height: 4),
-                          Text(
-                            dayMeetings.first.eventName,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 8,
+                          const SizedBox(height: 4),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 4, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.1),
+                              borderRadius: BorderRadius.circular(4),
                             ),
-                            overflow: TextOverflow.ellipsis,
+                            child: Text(
+                              dayMeetings.first.eventName,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 8,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
                           ),
                         ],
-                        Spacer(),
+                        const Spacer(),
                         Text(
                           cellDate.day.toString(),
-                          style: TextStyle(
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
@@ -185,7 +184,7 @@ class _TimelinewidgetdatatypeClassParentState
                 if (details.targetElement == CalendarElement.calendarCell &&
                     details.date != null) {
                   context.pushNamed(
-                    'calender_details_parent',
+                    'calender_list_parent',
                     queryParameters: {
                       'selectedDate': serializeParam(
                         details.date,
@@ -199,6 +198,16 @@ class _TimelinewidgetdatatypeClassParentState
                   );
                 }
               },
+              onViewChanged: (ViewChangedDetails details) {
+                // Use post-frame callback to set the new display date
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  final DateTime newDisplayDate = details.visibleDates.first;
+
+                  setState(() {
+                    _controller.displayDate = newDisplayDate;
+                  });
+                });
+              },
             ),
           ),
         ],
@@ -209,12 +218,11 @@ class _TimelinewidgetdatatypeClassParentState
   List<Meeting> _getDataSource() {
     final List<Meeting> meetings = <Meeting>[];
     final List<Color> colors = [
-      Color(0xFFFFF3CD), // Light yellow for birthdays
-      Color(0xFFCCE5FF), // Light blue for holidays
-      Color(0xFFD4EDDA), // Light green for other events
-      Color(0xFFF8D7DA), // Light pink
-      Color(0xFFE2E3E5), // Light gray
-      // ... add other colors as needed
+      const Color(0xFFFFF3CD),
+      const Color(0xFFCCE5FF),
+      const Color(0xFFD4EDDA),
+      const Color(0xFFF8D7DA),
+      const Color(0xFFE2E3E5),
     ];
 
     for (var item in widget.timrlinewidget) {

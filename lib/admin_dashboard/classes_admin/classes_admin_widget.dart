@@ -89,6 +89,10 @@ class _ClassesAdminWidgetState extends State<ClassesAdminWidget> {
                         widget.schoolref,
                         ParamType.DocumentReference,
                       ),
+                      'datePick': serializeParam(
+                        getCurrentTimestamp,
+                        ParamType.DateTime,
+                      ),
                     }.withoutNulls,
                   );
                 },
@@ -131,7 +135,7 @@ class _ClassesAdminWidgetState extends State<ClassesAdminWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Inter',
+                                            fontFamily: 'Nunito',
                                             color: const Color(0x7F666666),
                                             fontSize: 16.0,
                                             letterSpacing: 0.0,
@@ -143,7 +147,7 @@ class _ClassesAdminWidgetState extends State<ClassesAdminWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Inter',
+                                            fontFamily: 'Nunito',
                                             color: const Color(0x80666666),
                                             fontSize: 16.0,
                                             letterSpacing: 0.0,

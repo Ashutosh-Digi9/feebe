@@ -10,11 +10,21 @@ class ClassNoticeAdminTeacherModel
 
   DateTime? date;
 
-  String noticename = 'notice';
+  String? noticename = '';
+
+  List<String> images = [];
+  void addToImages(String item) => images.add(item);
+  void removeFromImages(String item) => images.remove(item);
+  void removeAtIndexFromImages(int index) => images.removeAt(index);
+  void insertAtIndexInImages(int index, String item) =>
+      images.insert(index, item);
+  void updateImagesAtIndex(int index, Function(String) updateFn) =>
+      images[index] = updateFn(images[index]);
 
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
+  DateTime? datePicked;
   // State field(s) for Eventname widget.
   FocusNode? eventnameFocusNode;
   TextEditingController? eventnameTextController;
@@ -44,9 +54,14 @@ class ClassNoticeAdminTeacherModel
     return null;
   }
 
-  bool isDataUploading = false;
-  List<FFUploadedFile> uploadedLocalFiles = [];
-  List<String> uploadedFileUrls = [];
+  bool isDataUploading1 = false;
+  List<FFUploadedFile> uploadedLocalFiles1 = [];
+  List<String> uploadedFileUrls1 = [];
+
+  bool isDataUploading2 = false;
+  FFUploadedFile uploadedLocalFile2 =
+      FFUploadedFile(bytes: Uint8List.fromList([]));
+  String uploadedFileUrl2 = '';
 
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   List<StudentsRecord>? students;

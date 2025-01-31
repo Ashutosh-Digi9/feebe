@@ -3,8 +3,8 @@ import '/components/empty_widget.dart';
 import '/flutter_flow/flutter_flow_button_tabbar.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
 import '/shimmer_effects/main_dashboard_shimmer/main_dashboard_shimmer_widget.dart';
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:text_search/text_search.dart';
@@ -113,20 +113,47 @@ class _SearchPageAdminWidgetState extends State<SearchPageAdminWidget>
                   TextFormField(
                     controller: _model.trySearchingforStudentTextController,
                     focusNode: _model.trySearchingforStudentFocusNode,
+                    onChanged: (_) => EasyDebounce.debounce(
+                      '_model.trySearchingforStudentTextController',
+                      const Duration(milliseconds: 2000),
+                      () async {
+                        _model.classSchool = await querySchoolClassRecordOnce();
+                        safeSetState(() {
+                          _model.simpleSearchResults = TextSearch(
+                            _model.classSchool!
+                                .where((e) => searchPageAdminSchoolRecord
+                                    .listOfClass
+                                    .contains(e.reference))
+                                .toList()
+                                .map(
+                                  (record) => TextSearchItem.fromTerms(
+                                      record, [record.className]),
+                                )
+                                .toList(),
+                          )
+                              .search(_model
+                                  .trySearchingforStudentTextController.text)
+                              .map((r) => r.object)
+                              .toList();
+                        });
+
+                        safeSetState(() {});
+                      },
+                    ),
                     autofocus: false,
                     obscureText: false,
                     decoration: InputDecoration(
                       isDense: true,
                       labelStyle:
                           FlutterFlowTheme.of(context).labelMedium.override(
-                                fontFamily: 'Inter',
+                                fontFamily: 'Nunito',
                                 color: FlutterFlowTheme.of(context).primaryText,
                                 letterSpacing: 0.0,
                               ),
                       hintText: 'Try Searching Class',
                       hintStyle:
                           FlutterFlowTheme.of(context).labelMedium.override(
-                                fontFamily: 'Inter',
+                                fontFamily: 'Nunito',
                                 color: FlutterFlowTheme.of(context).primaryText,
                                 letterSpacing: 0.0,
                               ),
@@ -167,7 +194,7 @@ class _SearchPageAdminWidgetState extends State<SearchPageAdminWidget>
                       ),
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Nunito',
                           letterSpacing: 0.0,
                         ),
                     cursorColor: FlutterFlowTheme.of(context).primaryText,
@@ -177,60 +204,7 @@ class _SearchPageAdminWidgetState extends State<SearchPageAdminWidget>
                   ),
                 ],
               ),
-              actions: [
-                Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 5.0, 0.0),
-                      child: FFButtonWidget(
-                        onPressed: () async {
-                          _model.classSchoolu =
-                              await querySchoolClassRecordOnce();
-                          safeSetState(() {
-                            _model.simpleSearchResults = TextSearch(
-                              _model.classSchoolu!
-                                  .where((e) => searchPageAdminSchoolRecord
-                                      .listOfClass
-                                      .contains(e.reference))
-                                  .toList()
-                                  .map(
-                                    (record) => TextSearchItem.fromTerms(
-                                        record, [record.className]),
-                                  )
-                                  .toList(),
-                            )
-                                .search(_model
-                                    .trySearchingforStudentTextController.text)
-                                .map((r) => r.object)
-                                .toList();
-                          });
-
-                          safeSetState(() {});
-                        },
-                        text: 'Search',
-                        options: FFButtonOptions(
-                          height: MediaQuery.sizeOf(context).height * 0.04,
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              16.0, 0.0, 16.0, 0.0),
-                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 0.0),
-                          color: FlutterFlowTheme.of(context).primaryBackground,
-                          textStyle:
-                              FlutterFlowTheme.of(context).titleSmall.override(
-                                    fontFamily: 'Nunito',
-                                    color: Colors.white,
-                                    letterSpacing: 0.0,
-                                  ),
-                          elevation: 0.0,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+              actions: const [],
               centerTitle: true,
               elevation: 0.0,
             ),
@@ -310,6 +284,10 @@ class _SearchPageAdminWidgetState extends State<SearchPageAdminWidget>
                                                       ParamType
                                                           .DocumentReference,
                                                     ),
+                                                    'datePick': serializeParam(
+                                                      getCurrentTimestamp,
+                                                      ParamType.DateTime,
+                                                    ),
                                                   }.withoutNulls,
                                                 );
                                               },
@@ -319,7 +297,7 @@ class _SearchPageAdminWidgetState extends State<SearchPageAdminWidget>
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily: 'Inter',
+                                                          fontFamily: 'Nunito',
                                                           fontSize: 16.0,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
@@ -475,6 +453,12 @@ class _SearchPageAdminWidgetState extends State<SearchPageAdminWidget>
                                                               ParamType
                                                                   .DocumentReference,
                                                             ),
+                                                            'datePick':
+                                                                serializeParam(
+                                                              getCurrentTimestamp,
+                                                              ParamType
+                                                                  .DateTime,
+                                                            ),
                                                           }.withoutNulls,
                                                         );
 
@@ -572,7 +556,7 @@ class _SearchPageAdminWidgetState extends State<SearchPageAdminWidget>
                                                                                 CrossAxisAlignment.start,
                                                                             children: [
                                                                               Text(
-                                                                                'CLass : ${classesItem.className}',
+                                                                                'Class : ${classesItem.className}',
                                                                                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                       fontFamily: 'Nunito',
                                                                                       color: FlutterFlowTheme.of(context).tertiaryText,

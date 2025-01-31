@@ -44,7 +44,7 @@ class _NobracnhesWidgetState extends State<NobracnhesWidget> {
           Text(
             'No Branches added',
             style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  fontFamily: 'Inter',
+                  fontFamily: 'Nunito',
                   color: FlutterFlowTheme.of(context).primaryText,
                   fontSize: 18.0,
                   letterSpacing: 0.0,

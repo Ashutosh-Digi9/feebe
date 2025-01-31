@@ -45,8 +45,8 @@ class _ProfileUpdatedWidgetState extends State<ProfileUpdatedWidget> {
     return Align(
       alignment: const AlignmentDirectional(0.0, 1.0),
       child: Container(
-        width: MediaQuery.sizeOf(context).width * 0.8,
-        height: MediaQuery.sizeOf(context).height * 0.1,
+        width: MediaQuery.sizeOf(context).width * 1.0,
+        height: MediaQuery.sizeOf(context).height * 1.0,
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).snackbar,
           borderRadius: BorderRadius.circular(10.0),
@@ -87,14 +87,14 @@ class _ProfileUpdatedWidgetState extends State<ProfileUpdatedWidget> {
                 ),
               ),
               Text(
-                'Profile\nupdated successfully',
+                'Profile updated successfully',
                 textAlign: TextAlign.center,
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
                       fontFamily: 'Nunito',
                       color: FlutterFlowTheme.of(context).secondaryText,
                       fontSize: 20.0,
                       letterSpacing: 0.0,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                     ),
               ),
             ],

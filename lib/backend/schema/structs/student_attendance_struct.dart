@@ -1,5 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -12,11 +12,13 @@ class StudentAttendanceStruct extends FFFirebaseStruct {
     DateTime? date,
     bool? ispresent,
     String? addedBy,
+    DocumentReference? studentref,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _id = id,
         _date = date,
         _ispresent = ispresent,
         _addedBy = addedBy,
+        _studentref = studentref,
         super(firestoreUtilData);
 
   // "id" field.
@@ -49,12 +51,20 @@ class StudentAttendanceStruct extends FFFirebaseStruct {
 
   bool hasAddedBy() => _addedBy != null;
 
+  // "studentref" field.
+  DocumentReference? _studentref;
+  DocumentReference? get studentref => _studentref;
+  set studentref(DocumentReference? val) => _studentref = val;
+
+  bool hasStudentref() => _studentref != null;
+
   static StudentAttendanceStruct fromMap(Map<String, dynamic> data) =>
       StudentAttendanceStruct(
         id: castToType<int>(data['id']),
         date: data['date'] as DateTime?,
         ispresent: data['ispresent'] as bool?,
         addedBy: data['added_by'] as String?,
+        studentref: data['studentref'] as DocumentReference?,
       );
 
   static StudentAttendanceStruct? maybeFromMap(dynamic data) => data is Map
@@ -66,6 +76,7 @@ class StudentAttendanceStruct extends FFFirebaseStruct {
         'date': _date,
         'ispresent': _ispresent,
         'added_by': _addedBy,
+        'studentref': _studentref,
       }.withoutNulls;
 
   @override
@@ -85,6 +96,10 @@ class StudentAttendanceStruct extends FFFirebaseStruct {
         'added_by': serializeParam(
           _addedBy,
           ParamType.String,
+        ),
+        'studentref': serializeParam(
+          _studentref,
+          ParamType.DocumentReference,
         ),
       }.withoutNulls;
 
@@ -111,6 +126,45 @@ class StudentAttendanceStruct extends FFFirebaseStruct {
           ParamType.String,
           false,
         ),
+        studentref: deserializeParam(
+          data['studentref'],
+          ParamType.DocumentReference,
+          false,
+          collectionNamePath: ['Students'],
+        ),
+      );
+
+  static StudentAttendanceStruct fromAlgoliaData(Map<String, dynamic> data) =>
+      StudentAttendanceStruct(
+        id: convertAlgoliaParam(
+          data['id'],
+          ParamType.int,
+          false,
+        ),
+        date: convertAlgoliaParam(
+          data['date'],
+          ParamType.DateTime,
+          false,
+        ),
+        ispresent: convertAlgoliaParam(
+          data['ispresent'],
+          ParamType.bool,
+          false,
+        ),
+        addedBy: convertAlgoliaParam(
+          data['added_by'],
+          ParamType.String,
+          false,
+        ),
+        studentref: convertAlgoliaParam(
+          data['studentref'],
+          ParamType.DocumentReference,
+          false,
+        ),
+        firestoreUtilData: const FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
+        ),
       );
 
   @override
@@ -122,11 +176,13 @@ class StudentAttendanceStruct extends FFFirebaseStruct {
         id == other.id &&
         date == other.date &&
         ispresent == other.ispresent &&
-        addedBy == other.addedBy;
+        addedBy == other.addedBy &&
+        studentref == other.studentref;
   }
 
   @override
-  int get hashCode => const ListEquality().hash([id, date, ispresent, addedBy]);
+  int get hashCode =>
+      const ListEquality().hash([id, date, ispresent, addedBy, studentref]);
 }
 
 StudentAttendanceStruct createStudentAttendanceStruct({
@@ -134,6 +190,7 @@ StudentAttendanceStruct createStudentAttendanceStruct({
   DateTime? date,
   bool? ispresent,
   String? addedBy,
+  DocumentReference? studentref,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -144,6 +201,7 @@ StudentAttendanceStruct createStudentAttendanceStruct({
       date: date,
       ispresent: ispresent,
       addedBy: addedBy,
+      studentref: studentref,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

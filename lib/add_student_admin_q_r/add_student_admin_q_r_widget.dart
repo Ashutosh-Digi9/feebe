@@ -153,7 +153,7 @@ class _AddStudentAdminQRWidgetState extends State<AddStudentAdminQRWidget> {
                     child: Text(
                       'register a new student to ',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Inter',
+                            fontFamily: 'Nunito',
                             color: FlutterFlowTheme.of(context).primaryText,
                             fontSize: 20.0,
                             letterSpacing: 0.0,
@@ -187,7 +187,7 @@ class _AddStudentAdminQRWidgetState extends State<AddStudentAdminQRWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Inter',
+                                  fontFamily: 'Nunito',
                                   color:
                                       FlutterFlowTheme.of(context).primaryText,
                                   letterSpacing: 0.0,
@@ -248,7 +248,7 @@ class _AddStudentAdminQRWidgetState extends State<AddStudentAdminQRWidget> {
                       child: Text(
                     'Or',
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Nunito',
                           fontSize: 18.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w600,
@@ -281,7 +281,7 @@ class _AddStudentAdminQRWidgetState extends State<AddStudentAdminQRWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Inter',
+                                    fontFamily: 'Nunito',
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     letterSpacing: 0.0,

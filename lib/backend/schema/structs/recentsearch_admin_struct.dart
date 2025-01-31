@@ -1,5 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -89,6 +89,29 @@ class RecentsearchAdminStruct extends FFFirebaseStruct {
           data['createdtime'],
           ParamType.DateTime,
           false,
+        ),
+      );
+
+  static RecentsearchAdminStruct fromAlgoliaData(Map<String, dynamic> data) =>
+      RecentsearchAdminStruct(
+        classref: convertAlgoliaParam(
+          data['classref'],
+          ParamType.DocumentReference,
+          false,
+        ),
+        name: convertAlgoliaParam(
+          data['name'],
+          ParamType.String,
+          false,
+        ),
+        createdtime: convertAlgoliaParam(
+          data['createdtime'],
+          ParamType.DateTime,
+          false,
+        ),
+        firestoreUtilData: const FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
         ),
       );
 

@@ -75,7 +75,7 @@ class _OptionsAdminWidgetState extends State<OptionsAdminWidget> {
                 Text(
                   'All',
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Inter',
+                        fontFamily: 'Nunito',
                         letterSpacing: 0.0,
                       ),
                 ),

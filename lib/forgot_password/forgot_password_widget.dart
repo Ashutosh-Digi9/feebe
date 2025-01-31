@@ -72,12 +72,28 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                 hoverColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onTap: () async {
-                  context.safePop();
+                  context.goNamed(
+                    'Login',
+                    extra: <String, dynamic>{
+                      kTransitionInfoKey: const TransitionInfo(
+                        hasTransition: true,
+                        transitionType: PageTransitionType.fade,
+                      ),
+                    },
+                  );
                 },
                 child: Icon(
                   Icons.chevron_left,
                   color: FlutterFlowTheme.of(context).bgColor1,
                   size: 28.0,
+                ),
+              ),
+              title: ClipRRect(
+                borderRadius: BorderRadius.circular(8.0),
+                child: Image.asset(
+                  'assets/images/eebe_(500_x_200_px).png',
+                  width: 100.0,
+                  fit: BoxFit.cover,
                 ),
               ),
               actions: const [],
@@ -100,7 +116,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                           Align(
                             alignment: const AlignmentDirectional(-1.0, 0.0),
                             child: Text(
-                              'Forgot Password?',
+                              'Forgot Password ?',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
@@ -109,7 +125,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                                         .tertiaryText,
                                     fontSize: 24.0,
                                     letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.bold,
                                   ),
                             ),
                           ),
@@ -126,7 +142,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                                       fontFamily: 'Nunito',
                                       fontSize: 18.0,
                                       letterSpacing: 0.0,
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w600,
                                     ),
                               ),
                             ),
@@ -157,7 +173,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                         const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 15.0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        context.pushNamed(
+                        context.goNamed(
                           'Login',
                           extra: <String, dynamic>{
                             kTransitionInfoKey: const TransitionInfo(
@@ -183,7 +199,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                           letterSpacing: 0.0,
                           shadows: [
                             const Shadow(
-                              color: Color(0x7B253EA7),
+                              color: Color(0x0C253EA7),
                               offset: Offset(0.0, 0.0),
                               blurRadius: 2.0,
                             ),
@@ -194,7 +210,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                             )
                           ],
                         ),
-                        elevation: 0.0,
+                        elevation: 3.0,
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),

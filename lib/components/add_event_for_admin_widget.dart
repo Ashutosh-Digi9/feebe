@@ -74,7 +74,7 @@ class _AddEventForAdminWidgetState extends State<AddEventForAdminWidget> {
                     Text(
                       'Everyone',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Inter',
+                            fontFamily: 'Nunito',
                             color:
                                 FlutterFlowTheme.of(context).primaryBackground,
                             letterSpacing: 0.0,
@@ -84,7 +84,7 @@ class _AddEventForAdminWidgetState extends State<AddEventForAdminWidget> {
                     Text(
                       'Students : 120',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Inter',
+                            fontFamily: 'Nunito',
                             color: FlutterFlowTheme.of(context).primaryText,
                             fontSize: 12.0,
                             letterSpacing: 0.0,
@@ -122,7 +122,7 @@ class _AddEventForAdminWidgetState extends State<AddEventForAdminWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Inter',
+                                  fontFamily: 'Nunito',
                                   color: FlutterFlowTheme.of(context)
                                       .primaryBackground,
                                   letterSpacing: 0.0,
@@ -134,7 +134,7 @@ class _AddEventForAdminWidgetState extends State<AddEventForAdminWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Inter',
+                                  fontFamily: 'Nunito',
                                   color:
                                       FlutterFlowTheme.of(context).primaryText,
                                   fontSize: 12.0,

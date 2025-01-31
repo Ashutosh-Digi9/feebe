@@ -112,8 +112,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   .labelMedium
                                   .override(
                                     fontFamily: 'Nunito',
-                                    color:
-                                        FlutterFlowTheme.of(context).alternate,
+                                    color: const Color(0xFF747373),
                                     letterSpacing: 0.0,
                                   ),
                               enabledBorder: OutlineInputBorder(
@@ -152,7 +151,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                 .bodyMedium
                                 .override(
                                   fontFamily: 'Nunito',
-                                  color: const Color(0xE1000000),
+                                  color: Colors.black,
                                   letterSpacing: 0.0,
                                 ),
                             keyboardType: TextInputType.emailAddress,
@@ -176,13 +175,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                               labelStyle: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Inter',
+                                    fontFamily: 'Nunito',
                                     color: (_model
                                                 .passwordFocusNode?.hasFocus ??
                                             false)
                                         ? FlutterFlowTheme.of(context).primary
-                                        : FlutterFlowTheme.of(context)
-                                            .alternate,
+                                        : const Color(0xFF747373),
                                     letterSpacing: 0.0,
                                   ),
                               hintText: 'Enter Password',
@@ -190,8 +188,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   .labelMedium
                                   .override(
                                     fontFamily: 'Nunito',
-                                    color:
-                                        FlutterFlowTheme.of(context).alternate,
+                                    color: const Color(0xFF747373),
                                     letterSpacing: 0.0,
                                   ),
                               enabledBorder: OutlineInputBorder(
@@ -235,8 +232,12 @@ class _LoginWidgetState extends State<LoginWidget> {
                                   _model.passwordVisibility
                                       ? Icons.visibility_outlined
                                       : Icons.visibility_off_outlined,
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
+                                  color:
+                                      (_model.passwordFocusNode?.hasFocus ??
+                                              false)
+                                          ? FlutterFlowTheme.of(context)
+                                              .primaryBackground
+                                          : const Color(0xFF747373),
                                   size: 22,
                                 ),
                               ),
@@ -355,7 +356,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                           text: 'Log In',
                           options: FFButtonOptions(
                             width: MediaQuery.sizeOf(context).width * 0.9,
-                            height: MediaQuery.sizeOf(context).height * 0.06,
+                            height: MediaQuery.sizeOf(context).height * 0.055,
                             padding: const EdgeInsetsDirectional.fromSTEB(
                                 16.0, 0.0, 16.0, 0.0),
                             iconPadding: const EdgeInsetsDirectional.fromSTEB(
@@ -365,13 +366,31 @@ class _LoginWidgetState extends State<LoginWidget> {
                             textStyle: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .override(
-                                  fontFamily: 'Nunito',
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  fontSize: 20.0,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.w500,
+                              fontFamily: 'Nunito',
+                              color: (_model.emailTextController.text !=
+                                              '') &&
+                                      (_model.passwordTextController
+                                                  .text !=
+                                              '')
+                                  ? FlutterFlowTheme.of(context)
+                                      .secondaryBackground
+                                  : const Color(0xFFACB5BB),
+                              fontSize: 16.0,
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.w500,
+                              shadows: [
+                                const Shadow(
+                                  color: Color(0xFF375DFB),
+                                  offset: Offset(0.0, 0.0),
+                                  blurRadius: 0.0,
                                 ),
+                                const Shadow(
+                                  color: Color(0x09253EA7),
+                                  offset: Offset(0.0, 1.0),
+                                  blurRadius: 2.0,
+                                )
+                              ],
+                            ),
                             elevation: 0.0,
                             borderRadius: BorderRadius.circular(10.0),
                             disabledColor: FlutterFlowTheme.of(context).dIsable,
@@ -436,7 +455,7 @@ class _LoginWidgetState extends State<LoginWidget> {
                                       .primaryBackground,
                                   fontSize: 12.0,
                                   letterSpacing: 0.0,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.normal,
                                 ),
                           ),
                         ),

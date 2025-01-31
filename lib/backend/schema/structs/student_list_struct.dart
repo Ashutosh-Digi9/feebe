@@ -1,5 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -16,6 +16,7 @@ class StudentListStruct extends FFFirebaseStruct {
     List<DocumentReference>? parentList,
     bool? isAddedinClass,
     List<DocumentReference>? classref,
+    bool? isDraft,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _studentName = studentName,
         _studentId = studentId,
@@ -23,6 +24,7 @@ class StudentListStruct extends FFFirebaseStruct {
         _parentList = parentList,
         _isAddedinClass = isAddedinClass,
         _classref = classref,
+        _isDraft = isDraft,
         super(firestoreUtilData);
 
   // "Student_name" field.
@@ -75,6 +77,13 @@ class StudentListStruct extends FFFirebaseStruct {
 
   bool hasClassref() => _classref != null;
 
+  // "isDraft" field.
+  bool? _isDraft;
+  bool get isDraft => _isDraft ?? false;
+  set isDraft(bool? val) => _isDraft = val;
+
+  bool hasIsDraft() => _isDraft != null;
+
   static StudentListStruct fromMap(Map<String, dynamic> data) =>
       StudentListStruct(
         studentName: data['Student_name'] as String?,
@@ -83,6 +92,7 @@ class StudentListStruct extends FFFirebaseStruct {
         parentList: getDataList(data['parent_list']),
         isAddedinClass: data['isAddedinClass'] as bool?,
         classref: getDataList(data['classref']),
+        isDraft: data['isDraft'] as bool?,
       );
 
   static StudentListStruct? maybeFromMap(dynamic data) => data is Map
@@ -96,6 +106,7 @@ class StudentListStruct extends FFFirebaseStruct {
         'parent_list': _parentList,
         'isAddedinClass': _isAddedinClass,
         'classref': _classref,
+        'isDraft': _isDraft,
       }.withoutNulls;
 
   @override
@@ -125,6 +136,10 @@ class StudentListStruct extends FFFirebaseStruct {
           _classref,
           ParamType.DocumentReference,
           isList: true,
+        ),
+        'isDraft': serializeParam(
+          _isDraft,
+          ParamType.bool,
         ),
       }.withoutNulls;
 
@@ -163,6 +178,54 @@ class StudentListStruct extends FFFirebaseStruct {
           true,
           collectionNamePath: ['School_class'],
         ),
+        isDraft: deserializeParam(
+          data['isDraft'],
+          ParamType.bool,
+          false,
+        ),
+      );
+
+  static StudentListStruct fromAlgoliaData(Map<String, dynamic> data) =>
+      StudentListStruct(
+        studentName: convertAlgoliaParam(
+          data['Student_name'],
+          ParamType.String,
+          false,
+        ),
+        studentId: convertAlgoliaParam(
+          data['Student_id'],
+          ParamType.DocumentReference,
+          false,
+        ),
+        studentImage: convertAlgoliaParam(
+          data['student_image'],
+          ParamType.String,
+          false,
+        ),
+        parentList: convertAlgoliaParam<DocumentReference>(
+          data['parent_list'],
+          ParamType.DocumentReference,
+          true,
+        ),
+        isAddedinClass: convertAlgoliaParam(
+          data['isAddedinClass'],
+          ParamType.bool,
+          false,
+        ),
+        classref: convertAlgoliaParam<DocumentReference>(
+          data['classref'],
+          ParamType.DocumentReference,
+          true,
+        ),
+        isDraft: convertAlgoliaParam(
+          data['isDraft'],
+          ParamType.bool,
+          false,
+        ),
+        firestoreUtilData: const FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
+        ),
       );
 
   @override
@@ -177,7 +240,8 @@ class StudentListStruct extends FFFirebaseStruct {
         studentImage == other.studentImage &&
         listEquality.equals(parentList, other.parentList) &&
         isAddedinClass == other.isAddedinClass &&
-        listEquality.equals(classref, other.classref);
+        listEquality.equals(classref, other.classref) &&
+        isDraft == other.isDraft;
   }
 
   @override
@@ -187,7 +251,8 @@ class StudentListStruct extends FFFirebaseStruct {
         studentImage,
         parentList,
         isAddedinClass,
-        classref
+        classref,
+        isDraft
       ]);
 }
 
@@ -196,6 +261,7 @@ StudentListStruct createStudentListStruct({
   DocumentReference? studentId,
   String? studentImage,
   bool? isAddedinClass,
+  bool? isDraft,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -206,6 +272,7 @@ StudentListStruct createStudentListStruct({
       studentId: studentId,
       studentImage: studentImage,
       isAddedinClass: isAddedinClass,
+      isDraft: isDraft,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

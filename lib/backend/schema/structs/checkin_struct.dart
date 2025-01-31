@@ -1,5 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -85,6 +85,29 @@ class CheckinStruct extends FFFirebaseStruct {
           data['chekout'],
           ParamType.bool,
           false,
+        ),
+      );
+
+  static CheckinStruct fromAlgoliaData(Map<String, dynamic> data) =>
+      CheckinStruct(
+        date: convertAlgoliaParam(
+          data['date'],
+          ParamType.DateTime,
+          false,
+        ),
+        checkin: convertAlgoliaParam(
+          data['checkin'],
+          ParamType.bool,
+          false,
+        ),
+        chekout: convertAlgoliaParam(
+          data['chekout'],
+          ParamType.bool,
+          false,
+        ),
+        firestoreUtilData: const FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
         ),
       );
 

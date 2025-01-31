@@ -180,7 +180,7 @@ class _SubcardWidgetState extends State<SubcardWidget> {
                       child: Text(
                         '${cardSubScriptionRecord.amount.toString()}/${cardSubScriptionRecord.frequency}',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Inter',
+                              fontFamily: 'Nunito',
                               color: FlutterFlowTheme.of(context).primary,
                               letterSpacing: 0.0,
                               fontWeight: FontWeight.w500,

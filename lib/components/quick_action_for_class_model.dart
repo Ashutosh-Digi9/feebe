@@ -11,6 +11,9 @@ class QuickActionForClassModel
       FFUploadedFile(bytes: Uint8List.fromList([]));
   String uploadedFileUrl = '';
 
+  // Stores action output result for [Custom Action - videoLimit] action in Column widget.
+  bool? videouploaded;
+
   @override
   void initState(BuildContext context) {}
 

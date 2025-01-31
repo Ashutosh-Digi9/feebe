@@ -5,6 +5,7 @@ admin.initializeApp();
 const kFcmTokensCollection = "fcm_tokens";
 const kPushNotificationsCollection = "ff_push_notifications";
 const kUserPushNotificationsCollection = "ff_user_push_notifications";
+const kSchedulerIntervalMinutes = 60;
 const firestore = admin.firestore();
 
 const kPushNotificationRuntimeOpts = {
@@ -94,6 +95,56 @@ exports.sendUserPushNotificationsTrigger = functions
     } catch (e) {
       console.log(`Error: ${e}`);
       await snapshot.ref.update({ status: "failed", error: `${e}` });
+    }
+  });
+
+exports.sendScheduledPushNotifications = functions.pubsub
+  .schedule(`every ${kSchedulerIntervalMinutes} minutes synchronized`)
+  .onRun(async (_) => {
+    const minutesToMilliseconds = (minutes) => minutes * 60 * 1000;
+    function currentTimeDownToNearestMinute() {
+      // Add a second to the current time to avoid minute boundary issues.
+      const currentTime = new Date(new Date().getTime() + 1000);
+      // Remove seconds and milliseconds to get the time down to the minute.
+      currentTime.setSeconds(0, 0);
+      return currentTime;
+    }
+
+    // Determine the cutoff times for this round of push notifications.
+    const intervalMs = minutesToMilliseconds(kSchedulerIntervalMinutes);
+    const upperCutoffTime = currentTimeDownToNearestMinute();
+    const lowerCutoffTime = new Date(upperCutoffTime.getTime() - intervalMs);
+    // Send push notifications that we've scheduled.
+    const scheduledNotifications = await firestore
+      .collection(kPushNotificationsCollection)
+      .where("scheduled_time", ">", lowerCutoffTime)
+      .where("scheduled_time", "<=", upperCutoffTime)
+      .get();
+    for (var snapshot of scheduledNotifications.docs) {
+      try {
+        await sendPushNotifications(snapshot);
+      } catch (e) {
+        console.log(`Error: ${e}`);
+        await snapshot.ref.update({ status: "failed", error: `${e}` });
+      }
+    }
+    // Send push notifications that users have scheduled.
+    const scheduledUserNotifications = await firestore
+      .collection(kUserPushNotificationsCollection)
+      .where("scheduled_time", ">", lowerCutoffTime)
+      .where("scheduled_time", "<=", upperCutoffTime)
+      .get();
+    for (var snapshot of scheduledUserNotifications.docs) {
+      try {
+        // Don't let user-triggered notifications to be sent to all users.
+        const userRefsStr = snapshot.data().user_refs || "";
+        if (userRefsStr) {
+          await sendPushNotifications(snapshot);
+        }
+      } catch (e) {
+        console.log(`Error: ${e}`);
+        await snapshot.ref.update({ status: "failed", error: `${e}` });
+      }
     }
   });
 
@@ -233,4 +284,77 @@ exports.onUserDeleted = functions.auth.user().onDelete(async (user) => {
   let firestore = admin.firestore();
   let userRef = firestore.doc("Users/" + user.uid);
   await firestore.collection("Users").doc(user.uid).delete();
+});
+const OneSignal = require("@onesignal/node-onesignal");
+
+const kUserKey = "ODZjMzc4MGYtOTRhOC00N2I1LTk0YmYtN2RlNzhiYmM0MmMx";
+const kAPIKey =
+  "os_v2_app_fwzdio4kkvgfxodpnc2krhptqy6xbzp3mvyus5m766nddjekwlcjfgw6shfqxz6mnqlrhyui55om2op235ktyrpngsi7t4em4cx3n4y";
+
+const configuration = OneSignal.createConfiguration({
+  userKey: kUserKey,
+  appKey: kAPIKey,
+});
+const client = new OneSignal.DefaultApi(configuration);
+const user = new OneSignal.User();
+const axios = require("axios");
+
+exports.addUser = functions.https.onCall(async (data, context) => {
+  if (context.auth.uid != data.user_id) {
+    return "Unauthenticated calls are not allowed.";
+  }
+  try {
+    user.identity = {
+      external_id: data.user_id,
+    };
+    user.properties = {
+      tags: data.tags,
+    };
+    user.subscriptions = data.subscriptions;
+    const createdUser = await client.createUser(
+      "2db2343b-8a55-4c5b-b86f-68b4a89df386",
+      user,
+    );
+    if (createdUser.identity["onesignal_id"] == null) {
+      throw new functions.https.HttpsError(
+        "aborted",
+        "Could not create OneSignal user",
+      );
+    }
+    return createdUser;
+  } catch (err) {
+    console.error(
+      `Unable to create user ${context.auth.uid}.
+            Error ${err}`,
+    );
+    throw new functions.https.HttpsError(
+      "aborted",
+      "Could not create OneSignal user",
+    );
+  }
+});
+
+exports.deleteUser = functions.https.onCall(async (data, context) => {
+  if (context.auth.uid != data.user_id) {
+    return "Unauthenticated calls are not allowed.";
+  }
+
+  const url = `https://api.onesignal.com/apps/2db2343b-8a55-4c5b-b86f-68b4a89df386/users/by/external_id/${data.user_id}`;
+
+  try {
+    await axios.delete(url, {
+      headers: {
+        Authorization: `Basic ${kAPIKey}`,
+      },
+    });
+    return "User deleted";
+  } catch (err) {
+    console.error(
+      `Unable to delete user ${context.auth.uid}. Error: ${err.message}`,
+    );
+    throw new functions.https.HttpsError(
+      "aborted",
+      "Could not delete OneSignal user",
+    );
+  }
 });

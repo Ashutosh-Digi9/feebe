@@ -218,7 +218,7 @@ class _NoticedetailsClassWidgetState extends State<NoticedetailsClassWidget> {
                                 10.0, 10.0, 0.0, 0.0),
                             child: Text(
                               dateTimeFormat(
-                                  "MMMMEEEEd",
+                                  "dd MMM , y",
                                   noticedetailsClassSchoolClassRecord.notice
                                       .elementAtOrNull(widget.eventid!)!
                                       .eventDate!),

@@ -12,6 +12,7 @@ import 'schema/students_record.dart';
 import 'schema/teachers_record.dart';
 import 'schema/sub_scription_record.dart';
 import 'schema/notifications_record.dart';
+import 'schema/deleteaccount_record.dart';
 
 export 'dart:async' show StreamSubscription;
 export 'package:cloud_firestore/cloud_firestore.dart' hide Order;
@@ -27,6 +28,7 @@ export 'schema/students_record.dart';
 export 'schema/teachers_record.dart';
 export 'schema/sub_scription_record.dart';
 export 'schema/notifications_record.dart';
+export 'schema/deleteaccount_record.dart';
 
 /// Functions to query UsersRecords (as a Stream and as a Future).
 Future<int> queryUsersRecordCount({
@@ -282,6 +284,43 @@ Future<List<NotificationsRecord>> queryNotificationsRecordOnce({
     queryCollectionOnce(
       NotificationsRecord.collection,
       NotificationsRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+/// Functions to query DeleteaccountRecords (as a Stream and as a Future).
+Future<int> queryDeleteaccountRecordCount({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+}) =>
+    queryCollectionCount(
+      DeleteaccountRecord.collection,
+      queryBuilder: queryBuilder,
+      limit: limit,
+    );
+
+Stream<List<DeleteaccountRecord>> queryDeleteaccountRecord({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollection(
+      DeleteaccountRecord.collection,
+      DeleteaccountRecord.fromSnapshot,
+      queryBuilder: queryBuilder,
+      limit: limit,
+      singleRecord: singleRecord,
+    );
+
+Future<List<DeleteaccountRecord>> queryDeleteaccountRecordOnce({
+  Query Function(Query)? queryBuilder,
+  int limit = -1,
+  bool singleRecord = false,
+}) =>
+    queryCollectionOnce(
+      DeleteaccountRecord.collection,
+      DeleteaccountRecord.fromSnapshot,
       queryBuilder: queryBuilder,
       limit: limit,
       singleRecord: singleRecord,

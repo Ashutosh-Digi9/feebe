@@ -97,14 +97,14 @@ class _ParentdetailsWidgetState extends State<ParentdetailsWidget> {
                       isDense: true,
                       labelStyle:
                           FlutterFlowTheme.of(context).labelMedium.override(
-                                fontFamily: 'Inter',
+                                fontFamily: 'Nunito',
                                 letterSpacing: 0.0,
                               ),
                       hintText: 'Parent\'s name',
                       hintStyle: FlutterFlowTheme.of(context)
                           .labelMedium
                           .override(
-                            fontFamily: 'Inter',
+                            fontFamily: 'Nunito',
                             color: FlutterFlowTheme.of(context).tertiaryText,
                             letterSpacing: 0.0,
                           ),
@@ -141,7 +141,7 @@ class _ParentdetailsWidgetState extends State<ParentdetailsWidget> {
                           FlutterFlowTheme.of(context).secondaryBackground,
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Nunito',
                           fontSize: 16.0,
                           letterSpacing: 0.0,
                         ),
@@ -171,14 +171,14 @@ class _ParentdetailsWidgetState extends State<ParentdetailsWidget> {
                       isDense: true,
                       labelStyle:
                           FlutterFlowTheme.of(context).labelMedium.override(
-                                fontFamily: 'Inter',
+                                fontFamily: 'Nunito',
                                 letterSpacing: 0.0,
                               ),
                       hintText: 'Number',
                       hintStyle: FlutterFlowTheme.of(context)
                           .labelMedium
                           .override(
-                            fontFamily: 'Inter',
+                            fontFamily: 'Nunito',
                             color: FlutterFlowTheme.of(context).tertiaryText,
                             letterSpacing: 0.0,
                           ),
@@ -215,7 +215,7 @@ class _ParentdetailsWidgetState extends State<ParentdetailsWidget> {
                           FlutterFlowTheme.of(context).secondaryBackground,
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Nunito',
                           fontSize: 16.0,
                           letterSpacing: 0.0,
                         ),
@@ -252,14 +252,14 @@ class _ParentdetailsWidgetState extends State<ParentdetailsWidget> {
                       isDense: true,
                       labelStyle:
                           FlutterFlowTheme.of(context).labelMedium.override(
-                                fontFamily: 'Inter',
+                                fontFamily: 'Nunito',
                                 letterSpacing: 0.0,
                               ),
                       hintText: 'Email',
                       hintStyle: FlutterFlowTheme.of(context)
                           .labelMedium
                           .override(
-                            fontFamily: 'Inter',
+                            fontFamily: 'Nunito',
                             color: FlutterFlowTheme.of(context).tertiaryText,
                             letterSpacing: 0.0,
                           ),
@@ -296,7 +296,7 @@ class _ParentdetailsWidgetState extends State<ParentdetailsWidget> {
                           FlutterFlowTheme.of(context).secondaryBackground,
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Nunito',
                           fontSize: 16.0,
                           letterSpacing: 0.0,
                         ),

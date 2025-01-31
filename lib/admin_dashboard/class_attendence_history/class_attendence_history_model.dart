@@ -8,6 +8,10 @@ class ClassAttendenceHistoryModel
 
   DateTime? currentmonthandyear;
 
+  ///  State fields for stateful widgets in this page.
+
+  DateTime? datePicked;
+
   @override
   void initState(BuildContext context) {}
 

@@ -99,14 +99,14 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                                 0.0, 0.0, 20.0, 0.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Icon(
                                   Icons.home_rounded,
                                   color: widget.pageno == 1
                                       ? FlutterFlowTheme.of(context)
                                           .primaryBackground
-                                      : FlutterFlowTheme.of(context).alternate,
+                                      : const Color(0xFF959BA5),
                                   size: 35.0,
                                 ),
                                 Text(
@@ -118,8 +118,7 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                                         color: widget.pageno == 1
                                             ? FlutterFlowTheme.of(context)
                                                 .primaryBackground
-                                            : FlutterFlowTheme.of(context)
-                                                .alternate,
+                                            : const Color(0xFF626770),
                                         fontSize: 11.0,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.w600,
@@ -175,8 +174,7 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                                   20.0, 0.0, 0.0, 0.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
                                   AuthUserStreamWidget(
                                     builder: (context) => badges.Badge(
@@ -192,7 +190,10 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                                             .titleSmall
                                             .override(
                                               fontFamily: 'Nunito',
-                                              color: Colors.white,
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .alternate,
+                                              fontSize: 14.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
                                             ),
@@ -204,8 +205,8 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                                               .where((e) => !e.isRead)
                                               .toList().isNotEmpty,
                                       shape: badges.BadgeShape.circle,
-                                      badgeColor:
-                                          FlutterFlowTheme.of(context).primary,
+                                      badgeColor: FlutterFlowTheme.of(context)
+                                          .secondary,
                                       elevation: 4.0,
                                       padding: const EdgeInsetsDirectional.fromSTEB(
                                           8.0, 8.0, 8.0, 8.0),
@@ -218,8 +219,7 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                                         color: widget.pageno == 2
                                             ? FlutterFlowTheme.of(context)
                                                 .primaryBackground
-                                            : FlutterFlowTheme.of(context)
-                                                .alternate,
+                                            : const Color(0xFF959BA5),
                                         size: 35.0,
                                       ),
                                     ),
@@ -233,8 +233,7 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                                           color: widget.pageno == 2
                                               ? FlutterFlowTheme.of(context)
                                                   .primaryBackground
-                                              : FlutterFlowTheme.of(context)
-                                                  .alternate,
+                                              : const Color(0xFF626770),
                                           fontSize: 11.0,
                                           letterSpacing: 0.0,
                                           fontWeight: FontWeight.w600,
@@ -253,10 +252,10 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
                 child: Container(
-                  width: 70.0,
-                  height: 70.0,
-                  decoration: BoxDecoration(
-                    color: FlutterFlowTheme.of(context).warning,
+                  width: 50.0,
+                  height: 50.0,
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFF2981B),
                     shape: BoxShape.circle,
                   ),
                   child: InkWell(
@@ -270,7 +269,7 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                     child: Icon(
                       Icons.add,
                       color: FlutterFlowTheme.of(context).tertiary,
-                      size: 30.0,
+                      size: 20.0,
                     ),
                   ),
                 ),

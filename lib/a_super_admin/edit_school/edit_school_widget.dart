@@ -2,6 +2,7 @@ import '/backend/backend.dart';
 import '/components/delete_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/shimmer_effects/edit_shimmer/edit_shimmer_widget.dart';
 import 'package:flutter/material.dart';
 import 'edit_school_model.dart';
 export 'edit_school_model.dart';
@@ -49,26 +50,16 @@ class _EditSchoolWidgetState extends State<EditSchoolWidget> {
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
-          return Center(
-            child: SizedBox(
-              width: 50.0,
-              height: 50.0,
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(
-                  FlutterFlowTheme.of(context).primary,
-                ),
-              ),
-            ),
-          );
+          return const EditShimmerWidget();
         }
 
         final containerSchoolRecord = snapshot.data!;
 
         return Container(
-          width: MediaQuery.sizeOf(context).width * 0.35,
-          height: MediaQuery.sizeOf(context).height * 0.1,
+          width: MediaQuery.sizeOf(context).width * 1.0,
+          height: MediaQuery.sizeOf(context).height * 1.0,
           decoration: BoxDecoration(
-            color: FlutterFlowTheme.of(context).tertiary,
+            color: FlutterFlowTheme.of(context).lightblue,
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Column(
@@ -91,9 +82,13 @@ class _EditSchoolWidgetState extends State<EditSchoolWidget> {
                           backgroundColor: Colors.transparent,
                           alignment: const AlignmentDirectional(0.0, 0.0)
                               .resolve(Directionality.of(context)),
-                          child: DeleteWidget(
-                            schoolref: widget.schoolRef!,
-                            isBranch: containerSchoolRecord.isBranchPresent,
+                          child: SizedBox(
+                            height: MediaQuery.sizeOf(context).height * 0.25,
+                            width: MediaQuery.sizeOf(context).width * 0.5,
+                            child: DeleteWidget(
+                              schoolref: widget.schoolRef!,
+                              isBranch: containerSchoolRecord.isBranchPresent,
+                            ),
                           ),
                         );
                       },

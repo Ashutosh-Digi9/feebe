@@ -26,7 +26,7 @@ class TeacherNoticeCompModel extends FlutterFlowModel<TeacherNoticeCompWidget> {
   String? Function(BuildContext, String?)? eventnameTextControllerValidator;
   String? _eventnameTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please add event name ';
+      return 'Please enter title';
     }
 
     if (val.length > 50) {
@@ -49,9 +49,14 @@ class TeacherNoticeCompModel extends FlutterFlowModel<TeacherNoticeCompWidget> {
     return null;
   }
 
-  bool isDataUploading = false;
-  List<FFUploadedFile> uploadedLocalFiles = [];
-  List<String> uploadedFileUrls = [];
+  bool isDataUploading1 = false;
+  List<FFUploadedFile> uploadedLocalFiles1 = [];
+  List<String> uploadedFileUrls1 = [];
+
+  bool isDataUploading2 = false;
+  FFUploadedFile uploadedLocalFile2 =
+      FFUploadedFile(bytes: Uint8List.fromList([]));
+  String uploadedFileUrl2 = '';
 
   @override
   void initState(BuildContext context) {

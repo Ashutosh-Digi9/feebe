@@ -65,6 +65,32 @@ class NotificationsRecord extends FirestoreRecord {
   List<DocumentReference> get readUseref => _readUseref ?? const [];
   bool hasReadUseref() => _readUseref != null;
 
+  // "addedby" field.
+  DocumentReference? _addedby;
+  DocumentReference? get addedby => _addedby;
+  bool hasAddedby() => _addedby != null;
+
+  // "studentref" field.
+  DocumentReference? _studentref;
+  DocumentReference? get studentref => _studentref;
+  bool hasStudentref() => _studentref != null;
+
+  // "towhome" field.
+  List<String>? _towhome;
+  List<String> get towhome => _towhome ?? const [];
+  bool hasTowhome() => _towhome != null;
+
+  // "Heading" field.
+  String? _heading;
+  String get heading => _heading ?? '';
+  bool hasHeading() => _heading != null;
+
+  // "quickactionstudentref" field.
+  List<DocumentReference>? _quickactionstudentref;
+  List<DocumentReference> get quickactionstudentref =>
+      _quickactionstudentref ?? const [];
+  bool hasQuickactionstudentref() => _quickactionstudentref != null;
+
   void _initializeFields() {
     _content = snapshotData['content'] as String?;
     _schoolref = getDataList(snapshotData['schoolref']);
@@ -78,6 +104,11 @@ class NotificationsRecord extends FirestoreRecord {
     _tag = snapshotData['tag'] as String?;
     _userref = getDataList(snapshotData['userref']);
     _readUseref = getDataList(snapshotData['ReadUseref']);
+    _addedby = snapshotData['addedby'] as DocumentReference?;
+    _studentref = snapshotData['studentref'] as DocumentReference?;
+    _towhome = getDataList(snapshotData['towhome']);
+    _heading = snapshotData['Heading'] as String?;
+    _quickactionstudentref = getDataList(snapshotData['quickactionstudentref']);
   }
 
   static CollectionReference get collection =>
@@ -122,6 +153,9 @@ Map<String, dynamic> createNotificationsRecordData({
   NotificationStruct? notification,
   DateTime? createDate,
   String? tag,
+  DocumentReference? addedby,
+  DocumentReference? studentref,
+  String? heading,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -132,6 +166,9 @@ Map<String, dynamic> createNotificationsRecordData({
       'notification': NotificationStruct().toMap(),
       'createDate': createDate,
       'tag': tag,
+      'addedby': addedby,
+      'studentref': studentref,
+      'Heading': heading,
     }.withoutNulls,
   );
 
@@ -157,7 +194,13 @@ class NotificationsRecordDocumentEquality
         e1?.createDate == e2?.createDate &&
         e1?.tag == e2?.tag &&
         listEquality.equals(e1?.userref, e2?.userref) &&
-        listEquality.equals(e1?.readUseref, e2?.readUseref);
+        listEquality.equals(e1?.readUseref, e2?.readUseref) &&
+        e1?.addedby == e2?.addedby &&
+        e1?.studentref == e2?.studentref &&
+        listEquality.equals(e1?.towhome, e2?.towhome) &&
+        e1?.heading == e2?.heading &&
+        listEquality.equals(
+            e1?.quickactionstudentref, e2?.quickactionstudentref);
   }
 
   @override
@@ -171,7 +214,12 @@ class NotificationsRecordDocumentEquality
         e?.createDate,
         e?.tag,
         e?.userref,
-        e?.readUseref
+        e?.readUseref,
+        e?.addedby,
+        e?.studentref,
+        e?.towhome,
+        e?.heading,
+        e?.quickactionstudentref
       ]);
 
   @override

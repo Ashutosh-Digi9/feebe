@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import '/backend/algolia/serialization_util.dart';
+import '/backend/algolia/algolia_manager.dart';
 import 'package:collection/collection.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -106,6 +108,11 @@ class UsersRecord extends FirestoreRecord {
   bool get isNew => _isNew ?? false;
   bool hasIsNew() => _isNew != null;
 
+  // "popupdate" field.
+  DateTime? _popupdate;
+  DateTime? get popupdate => _popupdate;
+  bool hasPopupdate() => _popupdate != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -132,6 +139,7 @@ class UsersRecord extends FirestoreRecord {
     );
     _document = snapshotData['document'] as String?;
     _isNew = snapshotData['IsNew'] as bool?;
+    _popupdate = snapshotData['popupdate'] as DateTime?;
   }
 
   static CollectionReference get collection =>
@@ -153,6 +161,90 @@ class UsersRecord extends FirestoreRecord {
     DocumentReference reference,
   ) =>
       UsersRecord._(reference, mapFromFirestore(data));
+
+  static UsersRecord fromAlgolia(AlgoliaObjectSnapshot snapshot) =>
+      UsersRecord.getDocumentFromData(
+        {
+          'email': snapshot.data['email'],
+          'display_name': snapshot.data['display_name'],
+          'photo_url': snapshot.data['photo_url'],
+          'uid': snapshot.data['uid'],
+          'phone_number': snapshot.data['phone_number'],
+          'user_role': convertAlgoliaParam(
+            snapshot.data['user_role'],
+            ParamType.int,
+            false,
+          ),
+          'address': snapshot.data['address'],
+          'updatedAt': convertAlgoliaParam(
+            snapshot.data['updatedAt'],
+            ParamType.DateTime,
+            false,
+          ),
+          'created_time': convertAlgoliaParam(
+            snapshot.data['created_time'],
+            ParamType.DateTime,
+            false,
+          ),
+          'ListofSchool': safeGet(
+            () => convertAlgoliaParam<DocumentReference>(
+              snapshot.data['ListofSchool'],
+              ParamType.DocumentReference,
+              true,
+            ).toList(),
+          ),
+          'relation': snapshot.data['relation'],
+          'subscriptionStatus': convertAlgoliaParam(
+            snapshot.data['subscriptionStatus'],
+            ParamType.int,
+            false,
+          ),
+          'subscriptionstartDate': convertAlgoliaParam(
+            snapshot.data['subscriptionstartDate'],
+            ParamType.DateTime,
+            false,
+          ),
+          'subcriptiondetails': SubscribtionDetailsStruct.fromAlgoliaData(
+                  snapshot.data['subcriptiondetails'] ?? {})
+              .toMap(),
+          'checkin': convertAlgoliaParam(
+            snapshot.data['checkin'],
+            ParamType.DateTime,
+            false,
+          ),
+          'notifications': safeGet(
+            () => (snapshot.data['notifications'] as Iterable)
+                .map((d) => NotificationStruct.fromAlgoliaData(d).toMap())
+                .toList(),
+          ),
+          'document': snapshot.data['document'],
+          'IsNew': snapshot.data['IsNew'],
+          'popupdate': convertAlgoliaParam(
+            snapshot.data['popupdate'],
+            ParamType.DateTime,
+            false,
+          ),
+        },
+        UsersRecord.collection.doc(snapshot.objectID),
+      );
+
+  static Future<List<UsersRecord>> search({
+    String? term,
+    FutureOr<LatLng>? location,
+    int? maxResults,
+    double? searchRadiusMeters,
+    bool useCache = false,
+  }) =>
+      FFAlgoliaManager.instance
+          .algoliaQuery(
+            index: 'Users',
+            term: term,
+            maxResults: maxResults,
+            location: location,
+            searchRadiusMeters: searchRadiusMeters,
+            useCache: useCache,
+          )
+          .then((r) => r.map(fromAlgolia).toList());
 
   @override
   String toString() =>
@@ -184,6 +276,7 @@ Map<String, dynamic> createUsersRecordData({
   DateTime? checkin,
   String? document,
   bool? isNew,
+  DateTime? popupdate,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -203,6 +296,7 @@ Map<String, dynamic> createUsersRecordData({
       'checkin': checkin,
       'document': document,
       'IsNew': isNew,
+      'popupdate': popupdate,
     }.withoutNulls,
   );
 
@@ -236,7 +330,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e1?.checkin == e2?.checkin &&
         listEquality.equals(e1?.notifications, e2?.notifications) &&
         e1?.document == e2?.document &&
-        e1?.isNew == e2?.isNew;
+        e1?.isNew == e2?.isNew &&
+        e1?.popupdate == e2?.popupdate;
   }
 
   @override
@@ -258,7 +353,8 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.checkin,
         e?.notifications,
         e?.document,
-        e?.isNew
+        e?.isNew,
+        e?.popupdate
       ]);
 
   @override

@@ -320,10 +320,15 @@ class _TeacherTimelineNewWidgetState extends State<TeacherTimelineNewWidget> {
                                   final timeleine =
                                       teacherTimelineNewTeachersRecord
                                           .teacherTimeline
-                                          .where((e) =>
-                                              dateTimeFormat("yMd", e.date) ==
-                                              dateTimeFormat(
-                                                  "yMd", _model.updatedDate))
+                                          .where(
+                                              (e) =>
+                                                  dateTimeFormat("yMd",
+                                                      e.date) ==
+                                                  dateTimeFormat("yMd",
+                                                      _model.updatedDate))
+                                          .toList()
+                                          .sortedList(
+                                              keyOf: (e) => e.date!, desc: true)
                                           .toList();
                                   if (timeleine.isEmpty) {
                                     return SizedBox(
@@ -541,7 +546,7 @@ class _TeacherTimelineNewWidgetState extends State<TeacherTimelineNewWidget> {
                                                               ),
                                                               Text(
                                                                 dateTimeFormat(
-                                                                    "MMMEd",
+                                                                    "dd MMM , y",
                                                                     timeleineItem
                                                                         .date!),
                                                                 style: FlutterFlowTheme.of(
@@ -647,7 +652,7 @@ class _TeacherTimelineNewWidgetState extends State<TeacherTimelineNewWidget> {
                                                                               Text(
                                                                             containerStudentsRecord.studentName,
                                                                             style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                  fontFamily: 'Inter',
+                                                                                  fontFamily: 'Nunito',
                                                                                   letterSpacing: 0.0,
                                                                                 ),
                                                                           ),

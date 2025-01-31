@@ -96,18 +96,6 @@ class _RegstudentWidgetState extends State<RegstudentWidget> {
                         Stack(
                           alignment: const AlignmentDirectional(1.0, -1.0),
                           children: [
-                            Container(
-                              width: MediaQuery.sizeOf(context).width * 0.1,
-                              height: MediaQuery.sizeOf(context).width * 0.1,
-                              clipBehavior: Clip.antiAlias,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
-                              child: Image.asset(
-                                'assets/images/teacher.png',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
                             Icon(
                               Icons.add_circle_outline_sharp,
                               color: FlutterFlowTheme.of(context).primaryText,
@@ -145,28 +133,6 @@ class _RegstudentWidgetState extends State<RegstudentWidget> {
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        Stack(
-                          alignment: const AlignmentDirectional(1.0, -1.0),
-                          children: [
-                            Container(
-                              width: MediaQuery.sizeOf(context).width * 0.1,
-                              height: MediaQuery.sizeOf(context).width * 0.1,
-                              clipBehavior: Clip.antiAlias,
-                              decoration: const BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
-                              child: Image.asset(
-                                'assets/images/teacher.png',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            Icon(
-                              Icons.add_circle_outline_sharp,
-                              color: FlutterFlowTheme.of(context).primaryText,
-                              size: 20.0,
-                            ),
-                          ],
-                        ),
                         Align(
                           alignment: const AlignmentDirectional(0.0, 0.0),
                           child: Text(

@@ -157,7 +157,7 @@ class _SchoolNoticeViewWidgetState extends State<SchoolNoticeViewWidget> {
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
                                                       .override(
-                                                        fontFamily: 'Inter',
+                                                        fontFamily: 'Nunito',
                                                         fontSize: 14.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
@@ -165,13 +165,13 @@ class _SchoolNoticeViewWidgetState extends State<SchoolNoticeViewWidget> {
                                                       ),
                                             ),
                                             Text(
-                                              dateTimeFormat("yMMMd",
+                                              dateTimeFormat("dd MMM , y",
                                                   noticeItem.eventDate!),
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
                                                       .override(
-                                                        fontFamily: 'Inter',
+                                                        fontFamily: 'Nunito',
                                                         fontSize: 14.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
@@ -213,7 +213,7 @@ class _SchoolNoticeViewWidgetState extends State<SchoolNoticeViewWidget> {
                                                           context)
                                                       .bodyMedium
                                                       .override(
-                                                        fontFamily: 'Inter',
+                                                        fontFamily: 'Nunito',
                                                         color:
                                                             const Color(0xFF3027B0),
                                                         letterSpacing: 0.0,
@@ -232,7 +232,7 @@ class _SchoolNoticeViewWidgetState extends State<SchoolNoticeViewWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Inter',
+                                            fontFamily: 'Nunito',
                                             letterSpacing: 0.0,
                                           ),
                                     ),

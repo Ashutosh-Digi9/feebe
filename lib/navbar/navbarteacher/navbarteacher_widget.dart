@@ -69,184 +69,179 @@ class _NavbarteacherWidgetState extends State<NavbarteacherWidget> {
                       topRight: Radius.circular(0.0),
                     ),
                   ),
-                  child: Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 20.0, 0.0),
-                          child: InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              context.pushNamed(
-                                'Dashboard',
-                                extra: <String, dynamic>{
-                                  kTransitionInfoKey: const TransitionInfo(
-                                    hasTransition: true,
-                                    transitionType: PageTransitionType.fade,
-                                  ),
-                                },
-                              );
-                            },
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Icon(
-                                  Icons.home_rounded,
-                                  color: widget.pageno == 1
-                                      ? FlutterFlowTheme.of(context).primary
-                                      : FlutterFlowTheme.of(context).alternate,
-                                  size: 35.0,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 20.0, 0.0),
+                        child: InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            context.pushNamed(
+                              'Dashboard',
+                              extra: <String, dynamic>{
+                                kTransitionInfoKey: const TransitionInfo(
+                                  hasTransition: true,
+                                  transitionType: PageTransitionType.fade,
                                 ),
-                                Text(
-                                  'Home',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Nunito',
-                                        color: widget.pageno == 1
-                                            ? FlutterFlowTheme.of(context)
-                                                .primaryBackground
-                                            : FlutterFlowTheme.of(context)
-                                                .alternate,
-                                        letterSpacing: 0.0,
-                                      ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 100.0,
-                          height: 100.0,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              20.0, 0.0, 0.0, 0.0),
-                          child: InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              context.pushNamed(
-                                'Notification_Teacher',
-                                queryParameters: {
-                                  'schoolref': serializeParam(
-                                    widget.schoolref,
-                                    ParamType.DocumentReference,
-                                  ),
-                                }.withoutNulls,
-                              );
-                            },
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                StreamBuilder<List<NotificationsRecord>>(
-                                  stream: queryNotificationsRecord(
-                                    queryBuilder: (notificationsRecord) =>
-                                        notificationsRecord.where(
-                                      'userref',
-                                      arrayContains: currentUserReference,
+                              },
+                            );
+                          },
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Icon(
+                                Icons.home_rounded,
+                                color: widget.pageno == 1
+                                    ? FlutterFlowTheme.of(context).primary
+                                    : FlutterFlowTheme.of(context).alternate,
+                                size: 35.0,
+                              ),
+                              Text(
+                                'Home',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Nunito',
+                                      color: widget.pageno == 1
+                                          ? FlutterFlowTheme.of(context)
+                                              .primaryBackground
+                                          : FlutterFlowTheme.of(context)
+                                              .alternate,
+                                      letterSpacing: 0.0,
                                     ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      Container(
+                        width: 100.0,
+                        height: 100.0,
+                        decoration: BoxDecoration(
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(20.0, 0.0, 0.0, 0.0),
+                        child: InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            context.pushNamed(
+                              'Notification_Teacher',
+                              queryParameters: {
+                                'schoolref': serializeParam(
+                                  widget.schoolref,
+                                  ParamType.DocumentReference,
+                                ),
+                              }.withoutNulls,
+                            );
+                          },
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              StreamBuilder<List<NotificationsRecord>>(
+                                stream: queryNotificationsRecord(
+                                  queryBuilder: (notificationsRecord) =>
+                                      notificationsRecord.where(
+                                    'userref',
+                                    arrayContains: currentUserReference,
                                   ),
-                                  builder: (context, snapshot) {
-                                    // Customize what your widget looks like when it's loading.
-                                    if (!snapshot.hasData) {
-                                      return Center(
-                                        child: SizedBox(
-                                          width: 50.0,
-                                          height: 50.0,
-                                          child: CircularProgressIndicator(
-                                            valueColor:
-                                                AlwaysStoppedAnimation<Color>(
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                            ),
+                                ),
+                                builder: (context, snapshot) {
+                                  // Customize what your widget looks like when it's loading.
+                                  if (!snapshot.hasData) {
+                                    return Center(
+                                      child: SizedBox(
+                                        width: 50.0,
+                                        height: 50.0,
+                                        child: CircularProgressIndicator(
+                                          valueColor:
+                                              AlwaysStoppedAnimation<Color>(
+                                            FlutterFlowTheme.of(context)
+                                                .primary,
                                           ),
                                         ),
-                                      );
-                                    }
-                                    List<NotificationsRecord>
-                                        badgeNotificationsRecordList =
-                                        snapshot.data!;
-
-                                    return badges.Badge(
-                                      badgeContent: Text(
-                                        badgeNotificationsRecordList
-                                            .where((e) => !e.readUseref
-                                                .contains(currentUserReference))
-                                            .toList()
-                                            .length
-                                            .toString(),
-                                        style: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              fontFamily: 'Nunito',
-                                              color: Colors.white,
-                                              letterSpacing: 0.0,
-                                            ),
-                                      ),
-                                      showBadge: badgeNotificationsRecordList
-                                              .where((e) => !e.readUseref
-                                                  .contains(
-                                                      currentUserReference))
-                                              .toList().isNotEmpty,
-                                      shape: badges.BadgeShape.circle,
-                                      badgeColor:
-                                          FlutterFlowTheme.of(context).primary,
-                                      elevation: 4.0,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          8.0, 8.0, 8.0, 8.0),
-                                      position: badges.BadgePosition.topEnd(),
-                                      animationType:
-                                          badges.BadgeAnimationType.scale,
-                                      toAnimate: true,
-                                      child: Icon(
-                                        Icons.notifications_sharp,
-                                        color: widget.pageno == 2
-                                            ? FlutterFlowTheme.of(context)
-                                                .primary
-                                            : FlutterFlowTheme.of(context)
-                                                .alternate,
-                                        size: 35.0,
                                       ),
                                     );
-                                  },
-                                ),
-                                Text(
-                                  'Notification',
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Nunito',
-                                        color: widget.pageno == 2
-                                            ? FlutterFlowTheme.of(context)
-                                                .primary
-                                            : FlutterFlowTheme.of(context)
+                                  }
+                                  List<NotificationsRecord>
+                                      badgeNotificationsRecordList =
+                                      snapshot.data!;
+
+                                  return badges.Badge(
+                                    badgeContent: Text(
+                                      badgeNotificationsRecordList
+                                          .where((e) => !e.readUseref
+                                              .contains(currentUserReference))
+                                          .toList()
+                                          .length
+                                          .toString(),
+                                      style: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .override(
+                                            fontFamily: 'Nunito',
+                                            color: FlutterFlowTheme.of(context)
                                                 .alternate,
-                                        letterSpacing: 0.0,
-                                      ),
-                                ),
-                              ],
-                            ),
+                                            fontSize: 14.0,
+                                            letterSpacing: 0.0,
+                                          ),
+                                    ),
+                                    showBadge: badgeNotificationsRecordList
+                                            .where((e) => !e.readUseref
+                                                .contains(currentUserReference))
+                                            .toList().isNotEmpty,
+                                    shape: badges.BadgeShape.circle,
+                                    badgeColor: FlutterFlowTheme.of(context)
+                                        .secondaryText,
+                                    elevation: 4.0,
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        8.0, 8.0, 8.0, 8.0),
+                                    position: badges.BadgePosition.topEnd(),
+                                    animationType:
+                                        badges.BadgeAnimationType.scale,
+                                    toAnimate: true,
+                                    child: Icon(
+                                      Icons.notifications_sharp,
+                                      color: widget.pageno == 2
+                                          ? FlutterFlowTheme.of(context).primary
+                                          : FlutterFlowTheme.of(context)
+                                              .alternate,
+                                      size: 35.0,
+                                    ),
+                                  );
+                                },
+                              ),
+                              Text(
+                                'Notification',
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      fontFamily: 'Nunito',
+                                      color: widget.pageno == 2
+                                          ? FlutterFlowTheme.of(context).primary
+                                          : FlutterFlowTheme.of(context)
+                                              .alternate,
+                                      letterSpacing: 0.0,
+                                    ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -269,16 +264,19 @@ class _NavbarteacherWidgetState extends State<NavbarteacherWidget> {
                       builder: (context) {
                         return Padding(
                           padding: MediaQuery.viewInsetsOf(context),
-                          child: QuickActionWidget(
-                            schoolref: widget.schoolref!,
+                          child: SizedBox(
+                            height: MediaQuery.sizeOf(context).height * 0.3,
+                            child: QuickActionWidget(
+                              schoolref: widget.schoolref!,
+                            ),
                           ),
                         );
                       },
                     ).then((value) => safeSetState(() {}));
                   },
                   child: Container(
-                    width: 70.0,
-                    height: 70.0,
+                    width: 60.0,
+                    height: 60.0,
                     decoration: const BoxDecoration(
                       color: Color(0xFFF2981B),
                       shape: BoxShape.circle,

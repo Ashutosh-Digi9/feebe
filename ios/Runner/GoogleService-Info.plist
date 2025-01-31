@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.mycompany.feebe</string>
+	<string>com.digi9.feebe</string>
 	<key>PROJECT_ID</key>
 	<string>feebee-8578d</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:623138223422:ios:88ee7d783d572044d3e86f</string>
+	<string>1:623138223422:ios:7b1e7996fda46411d3e86f</string>
+	<key>DATABASE_URL</key>
+	<string>https://feebee-8578d-default-rtdb.asia-southeast1.firebasedatabase.app</string>
 </dict>
 </plist>

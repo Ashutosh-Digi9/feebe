@@ -48,7 +48,7 @@ class _TeacherdetailseditedWidgetState
       HapticFeedback.lightImpact();
       await Future.delayed(const Duration(milliseconds: 2000));
 
-      context.pushNamed(
+      context.goNamed(
         'Teacher_profile',
         queryParameters: {
           'teacherRef': serializeParam(

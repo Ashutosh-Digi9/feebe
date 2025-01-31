@@ -75,7 +75,7 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
             icon: const Icon(
               Icons.arrow_back_ios_sharp,
               color: Color(0x58001B36),
-              size: 30.0,
+              size: 28.0,
             ),
             onPressed: () async {
               context.pop();
@@ -88,7 +88,7 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                   color: FlutterFlowTheme.of(context).primaryText,
                   fontSize: 16.0,
                   letterSpacing: 0.0,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                 ),
           ),
           actions: const [],
@@ -150,8 +150,13 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                                   },
                                   child: Padding(
                                     padding: MediaQuery.viewInsetsOf(context),
-                                    child: const EditphotoWidget(
-                                      person: false,
+                                    child: SizedBox(
+                                      height:
+                                          MediaQuery.sizeOf(context).height *
+                                              0.2,
+                                      child: const EditphotoWidget(
+                                        person: false,
+                                      ),
                                     ),
                                   ),
                                 );
@@ -165,18 +170,27 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                                 type: PageTransitionType.fade,
                                 child: FlutterFlowExpandedImageView(
                                   image: Image.network(
-                                    FFAppState().schoolimage,
+                                    valueOrDefault<String>(
+                                      FFAppState().schoolimage,
+                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png',
+                                    ),
                                     fit: BoxFit.contain,
                                   ),
                                   allowRotation: false,
-                                  tag: FFAppState().schoolimage,
+                                  tag: valueOrDefault<String>(
+                                    FFAppState().schoolimage,
+                                    'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png',
+                                  ),
                                   useHeroAnimation: true,
                                 ),
                               ),
                             );
                           },
                           child: Hero(
-                            tag: FFAppState().schoolimage,
+                            tag: valueOrDefault<String>(
+                              FFAppState().schoolimage,
+                              'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png',
+                            ),
                             transitionOnUserGestures: true,
                             child: Container(
                               width: MediaQuery.sizeOf(context).width * 0.45,
@@ -186,7 +200,10 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                                 shape: BoxShape.circle,
                               ),
                               child: Image.network(
-                                FFAppState().schoolimage,
+                                valueOrDefault<String>(
+                                  FFAppState().schoolimage,
+                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png',
+                                ),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -756,10 +773,10 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                               }
 
                               FFAppState().imageurl =
-                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/kqg7tnob6oub/Add_profile_pic_(2).png';
+                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
                               FFAppState().profileimagechanged = false;
                               FFAppState().schoolimage =
-                                  'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2FFrame%20731.png?alt=media&token=4abe77e8-804d-485c-9b4a-d9532c4a190a';
+                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png';
                               FFAppState().schoolimagechanged = false;
                               safeSetState(() {});
 

@@ -25,6 +25,17 @@ class AddnoticeAllSchoolsModel
 
   bool selectall = false;
 
+  List<String> schoolnames = [];
+  void addToSchoolnames(String item) => schoolnames.add(item);
+  void removeFromSchoolnames(String item) => schoolnames.remove(item);
+  void removeAtIndexFromSchoolnames(int index) => schoolnames.removeAt(index);
+  void insertAtIndexInSchoolnames(int index, String item) =>
+      schoolnames.insert(index, item);
+  void updateSchoolnamesAtIndex(int index, Function(String) updateFn) =>
+      schoolnames[index] = updateFn(schoolnames[index]);
+
+  String? noticename;
+
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();

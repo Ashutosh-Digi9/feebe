@@ -151,11 +151,11 @@ class _AddNoticeboardClassWidgetState extends State<AddNoticeboardClassWidget> {
                           padding: const EdgeInsetsDirectional.fromSTEB(
                               10.0, 0.0, 10.0, 0.0),
                           child: Text(
-                            dateTimeFormat("MMMMEEEEd", _model.calendarDate),
+                            dateTimeFormat("dd MMM , y", _model.calendarDate),
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Inter',
+                                  fontFamily: 'Nunito',
                                   fontSize: 16.0,
                                   letterSpacing: 0.0,
                                 ),
@@ -397,7 +397,7 @@ class _AddNoticeboardClassWidgetState extends State<AddNoticeboardClassWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: 'Inter',
+                                      fontFamily: 'Nunito',
                                       letterSpacing: 0.0,
                                     ),
                                 cursorColor:
@@ -476,7 +476,7 @@ class _AddNoticeboardClassWidgetState extends State<AddNoticeboardClassWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        fontFamily: 'Inter',
+                                        fontFamily: 'Nunito',
                                         letterSpacing: 0.0,
                                       ),
                                   maxLines: 4,
@@ -799,7 +799,7 @@ class _AddNoticeboardClassWidgetState extends State<AddNoticeboardClassWidget> {
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  fontFamily: 'Inter',
+                                                  fontFamily: 'Nunito',
                                                   fontSize: 14.0,
                                                   letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w600,
@@ -841,7 +841,7 @@ class _AddNoticeboardClassWidgetState extends State<AddNoticeboardClassWidget> {
                                                             context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily: 'Inter',
+                                                          fontFamily: 'Nunito',
                                                           color:
                                                               const Color(0xFF3027B0),
                                                           letterSpacing: 0.0,
@@ -863,7 +863,7 @@ class _AddNoticeboardClassWidgetState extends State<AddNoticeboardClassWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Inter',
+                                                fontFamily: 'Nunito',
                                                 letterSpacing: 0.0,
                                               ),
                                         ),

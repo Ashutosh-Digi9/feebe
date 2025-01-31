@@ -53,7 +53,7 @@ class _ChilddetailsWidgetState extends State<ChilddetailsWidget> {
                 child: Text(
                   'Little Bees Preschool',
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Inter',
+                        fontFamily: 'Nunito',
                         color: FlutterFlowTheme.of(context).primaryBackground,
                         fontSize: 16.0,
                         letterSpacing: 0.0,
@@ -175,7 +175,7 @@ class _ChilddetailsWidgetState extends State<ChilddetailsWidget> {
                     Text(
                       'Attendance',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Inter',
+                            fontFamily: 'Nunito',
                             letterSpacing: 0.0,
                           ),
                     ),
@@ -196,7 +196,7 @@ class _ChilddetailsWidgetState extends State<ChilddetailsWidget> {
                     Text(
                       'Calender',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Inter',
+                            fontFamily: 'Nunito',
                             letterSpacing: 0.0,
                           ),
                     ),
@@ -213,7 +213,7 @@ class _ChilddetailsWidgetState extends State<ChilddetailsWidget> {
                     Text(
                       'Notifications',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Inter',
+                            fontFamily: 'Nunito',
                             letterSpacing: 0.0,
                           ),
                     ),

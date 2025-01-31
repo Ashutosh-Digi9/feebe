@@ -342,7 +342,8 @@ class _ParentProfileWidgetState extends State<ParentProfileWidget> {
                                                               .of(context)
                                                           .bodyMedium
                                                           .override(
-                                                            fontFamily: 'Inter',
+                                                            fontFamily:
+                                                                'Nunito',
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .tertiaryText,

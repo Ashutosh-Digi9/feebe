@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/shimmer_effects/classshimmer/classshimmer_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:styled_divider/styled_divider.dart';
 import 'package:flutter/material.dart';
@@ -61,17 +62,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
         if (!snapshot.hasData) {
           return Scaffold(
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-            body: Center(
-              child: SizedBox(
-                width: 50.0,
-                height: 50.0,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    FlutterFlowTheme.of(context).primary,
-                  ),
-                ),
-              ),
-            ),
+            body: const ClassshimmerWidget(),
           );
         }
 
@@ -292,7 +283,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Inter',
+                                            fontFamily: 'Nunito',
                                             color: FlutterFlowTheme.of(context)
                                                 .primaryText,
                                             letterSpacing: 0.0,
@@ -350,7 +341,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Inter',
+                                          fontFamily: 'Nunito',
                                           letterSpacing: 0.0,
                                         ),
                                     keyboardType: TextInputType.name,
@@ -473,7 +464,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                       alignment: const AlignmentDirectional(0.0, 0.0),
                                       child: Text(
                                         dateTimeFormat(
-                                            "yMMMd",
+                                            "dd MMM , y",
                                             editChildParentStudentsRecord
                                                 .dateOfBirth!),
                                         style: FlutterFlowTheme.of(context)
@@ -506,7 +497,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                 textStyle: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: 'Inter',
+                                      fontFamily: 'Nunito',
                                       letterSpacing: 0.0,
                                     ),
                                 hintText: 'Gender',
@@ -554,7 +545,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                 textStyle: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: 'Inter',
+                                      fontFamily: 'Nunito',
                                       letterSpacing: 0.0,
                                     ),
                                 hintText: 'Blood Group',
@@ -599,7 +590,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Inter',
+                                            fontFamily: 'Nunito',
                                             color: FlutterFlowTheme.of(context)
                                                 .primaryText,
                                             letterSpacing: 0.0,
@@ -657,7 +648,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Inter',
+                                          fontFamily: 'Nunito',
                                           letterSpacing: 0.0,
                                         ),
                                     cursorColor: FlutterFlowTheme.of(context)
@@ -688,7 +679,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Inter',
+                                            fontFamily: 'Nunito',
                                             color: FlutterFlowTheme.of(context)
                                                 .primaryText,
                                             letterSpacing: 0.0,
@@ -746,7 +737,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Inter',
+                                          fontFamily: 'Nunito',
                                           letterSpacing: 0.0,
                                         ),
                                     maxLines: 3,

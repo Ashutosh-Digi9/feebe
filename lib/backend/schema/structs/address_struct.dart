@@ -1,5 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -105,6 +105,34 @@ class AddressStruct extends FFFirebaseStruct {
           data['state'],
           ParamType.String,
           false,
+        ),
+      );
+
+  static AddressStruct fromAlgoliaData(Map<String, dynamic> data) =>
+      AddressStruct(
+        locality: convertAlgoliaParam(
+          data['locality'],
+          ParamType.String,
+          false,
+        ),
+        pincode: convertAlgoliaParam(
+          data['pincode'],
+          ParamType.String,
+          false,
+        ),
+        city: convertAlgoliaParam(
+          data['city'],
+          ParamType.String,
+          false,
+        ),
+        state: convertAlgoliaParam(
+          data['state'],
+          ParamType.String,
+          false,
+        ),
+        firestoreUtilData: const FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
         ),
       );
 

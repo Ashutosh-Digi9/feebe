@@ -1,3 +1,4 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
 import '/components/editphoto_widget.dart';
@@ -8,6 +9,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/flutter_flow/upload_data.dart';
+import '/shimmer_effects/classshimmer/classshimmer_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -72,17 +74,7 @@ class _IndiEditStudentsWidgetState extends State<IndiEditStudentsWidget> {
         if (!snapshot.hasData) {
           return Scaffold(
             backgroundColor: FlutterFlowTheme.of(context).tertiary,
-            body: Center(
-              child: SizedBox(
-                width: 50.0,
-                height: 50.0,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    FlutterFlowTheme.of(context).primary,
-                  ),
-                ),
-              ),
-            ),
+            body: const ClassshimmerWidget(),
           );
         }
 
@@ -110,7 +102,7 @@ class _IndiEditStudentsWidgetState extends State<IndiEditStudentsWidget> {
                   size: 28.0,
                 ),
                 onPressed: () async {
-                  context.pop();
+                  context.safePop();
                 },
               ),
               title: Align(
@@ -133,797 +125,948 @@ class _IndiEditStudentsWidgetState extends State<IndiEditStudentsWidget> {
             body: SafeArea(
               top: true,
               child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(10.0, 20.0, 10.0, 20.0),
-                child: Material(
-                  color: Colors.transparent,
-                  elevation: 5.0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  child: Container(
-                    height: MediaQuery.sizeOf(context).height * 1.0,
-                    decoration: BoxDecoration(
-                      color: FlutterFlowTheme.of(context).secondary,
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Align(
-                            alignment: const AlignmentDirectional(0.0, -1.0),
-                            child: Builder(
-                              builder: (context) => Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 10.0, 0.0, 0.0),
-                                child: InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    await showDialog(
-                                      context: context,
-                                      builder: (dialogContext) {
-                                        return Dialog(
-                                          elevation: 0,
-                                          insetPadding: EdgeInsets.zero,
-                                          backgroundColor: Colors.transparent,
-                                          alignment: const AlignmentDirectional(
-                                                  0.0, 1.0)
-                                              .resolve(
-                                                  Directionality.of(context)),
-                                          child: GestureDetector(
-                                            onTap: () {
-                                              FocusScope.of(dialogContext)
-                                                  .unfocus();
-                                              FocusManager.instance.primaryFocus
-                                                  ?.unfocus();
-                                            },
-                                            child: SizedBox(
-                                              height: MediaQuery.sizeOf(context)
-                                                      .height *
-                                                  0.4,
-                                              width: MediaQuery.sizeOf(context)
-                                                      .width *
-                                                  1.0,
-                                              child: const EditphotoWidget(
-                                                person: true,
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: Container(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 0.3,
-                                    height:
-                                        MediaQuery.sizeOf(context).width * 0.3,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Image.network(
-                                      FFAppState().profileimagechanged == true
-                                          ? FFAppState().imageurl
-                                          : indiEditStudentsStudentsRecord
-                                              .studentImage,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Container(
+                          height: MediaQuery.sizeOf(context).height * 0.7,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context).secondary,
+                            borderRadius: BorderRadius.circular(0.0),
                           ),
-                          Padding(
+                          child: Padding(
                             padding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 10.0, 0.0, 0.0),
-                            child: SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.8,
-                              child: TextFormField(
-                                controller: _model.childnameTextController ??=
-                                    TextEditingController(
-                                  text: indiEditStudentsStudentsRecord
-                                      .studentName,
-                                ),
-                                focusNode: _model.childnameFocusNode,
-                                autofocus: false,
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  labelText: 'Child\'s name',
-                                  labelStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .override(
-                                        fontFamily: 'Nunito',
-                                        color: valueOrDefault<Color>(
-                                          (_model.childnameFocusNode
-                                                      ?.hasFocus ??
-                                                  false)
-                                              ? FlutterFlowTheme.of(context)
-                                                  .primary
-                                              : FlutterFlowTheme.of(context)
-                                                  .alternate,
-                                          FlutterFlowTheme.of(context)
-                                              .alternate,
-                                        ),
-                                        letterSpacing: 0.0,
-                                      ),
-                                  hintText: 'Child\'s name',
-                                  hintStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .override(
-                                        fontFamily: 'Nunito',
-                                        color: FlutterFlowTheme.of(context)
-                                            .tertiaryText,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:
-                                          FlutterFlowTheme.of(context).dIsable,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  filled: true,
-                                  fillColor: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Nunito',
-                                      letterSpacing: 0.0,
-                                    ),
-                                keyboardType: TextInputType.name,
-                                cursorColor:
-                                    FlutterFlowTheme.of(context).primaryText,
-                                validator: _model
-                                    .childnameTextControllerValidator
-                                    .asValidator(context),
-                              ),
-                            ),
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 10.0, 0.0),
-                                child: InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    final datePickedDate =
-                                        await showDatePicker(
-                                      context: context,
-                                      initialDate: getCurrentTimestamp,
-                                      firstDate: DateTime(1900),
-                                      lastDate: getCurrentTimestamp,
-                                      builder: (context, child) {
-                                        return wrapInMaterialDatePickerTheme(
-                                          context,
-                                          child!,
-                                          headerBackgroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                          headerForegroundColor:
-                                              FlutterFlowTheme.of(context).info,
-                                          headerTextStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .headlineLarge
-                                                  .override(
-                                                    fontFamily: 'Nunito',
-                                                    fontSize: 32.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
+                                10.0, 0.0, 10.0, 10.0),
+                            child: SingleChildScrollView(
+                              primary: false,
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Align(
+                                    alignment: const AlignmentDirectional(0.0, -1.0),
+                                    child: Padding(
+                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 10.0, 0.0, 5.0),
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          await showModalBottomSheet(
+                                            isScrollControlled: true,
+                                            backgroundColor: Colors.transparent,
+                                            isDismissible: false,
+                                            enableDrag: false,
+                                            context: context,
+                                            builder: (context) {
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  FocusScope.of(context)
+                                                      .unfocus();
+                                                  FocusManager
+                                                      .instance.primaryFocus
+                                                      ?.unfocus();
+                                                },
+                                                child: Padding(
+                                                  padding:
+                                                      MediaQuery.viewInsetsOf(
+                                                          context),
+                                                  child: const SizedBox(
+                                                    height: 100.0,
+                                                    child: EditphotoWidget(
+                                                      person: true,
+                                                    ),
                                                   ),
-                                          pickerBackgroundColor:
+                                                ),
+                                              );
+                                            },
+                                          ).then(
+                                              (value) => safeSetState(() {}));
+
+                                          if (FFAppState().imageurl != '') {
+                                            Navigator.pop(context);
+                                          }
+                                        },
+                                        child: Container(
+                                          width:
+                                              MediaQuery.sizeOf(context).width *
+                                                  0.2,
+                                          height:
+                                              MediaQuery.sizeOf(context).width *
+                                                  0.2,
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: const BoxDecoration(
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Image.network(
+                                            FFAppState().profileimagechanged ==
+                                                    true
+                                                ? FFAppState().imageurl
+                                                : indiEditStudentsStudentsRecord
+                                                    .studentImage,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 10.0, 0.0, 10.0),
+                                    child: SizedBox(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.8,
+                                      child: TextFormField(
+                                        controller:
+                                            _model.childnameTextController ??=
+                                                TextEditingController(
+                                          text: indiEditStudentsStudentsRecord
+                                              .studentName,
+                                        ),
+                                        focusNode: _model.childnameFocusNode,
+                                        autofocus: false,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          labelText: 'Child\'s name',
+                                          labelStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .labelMedium
+                                              .override(
+                                                fontFamily: 'Nunito',
+                                                color: valueOrDefault<Color>(
+                                                  (_model.childnameFocusNode
+                                                              ?.hasFocus ??
+                                                          false)
+                                                      ? FlutterFlowTheme.of(
+                                                              context)
+                                                          .primary
+                                                      : FlutterFlowTheme.of(
+                                                              context)
+                                                          .alternate,
+                                                  FlutterFlowTheme.of(context)
+                                                      .alternate,
+                                                ),
+                                                letterSpacing: 0.0,
+                                              ),
+                                          hintText: 'Child\'s name',
+                                          hintStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .labelMedium
+                                              .override(
+                                                fontFamily: 'Nunito',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .tertiaryText,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .dIsable,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          filled: true,
+                                          fillColor:
                                               FlutterFlowTheme.of(context)
                                                   .secondaryBackground,
-                                          pickerForegroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primaryText,
-                                          selectedDateTimeBackgroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                          selectedDateTimeForegroundColor:
-                                              FlutterFlowTheme.of(context).info,
-                                          actionButtonForegroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primaryText,
-                                          iconSize: 24.0,
-                                        );
-                                      },
-                                    );
-
-                                    if (datePickedDate != null) {
-                                      safeSetState(() {
-                                        _model.datePicked = DateTime(
-                                          datePickedDate.year,
-                                          datePickedDate.month,
-                                          datePickedDate.day,
-                                        );
-                                      });
-                                    }
-                                  },
-                                  child: Container(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 0.25,
-                                    height: MediaQuery.sizeOf(context).height *
-                                        0.04,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                      borderRadius: BorderRadius.circular(0.0),
-                                      border: Border.all(
-                                        color: FlutterFlowTheme.of(context)
-                                            .dIsable,
-                                        width: 1.0,
-                                      ),
-                                    ),
-                                    child: Align(
-                                      alignment: const AlignmentDirectional(0.0, 0.0),
-                                      child: Text(
-                                        'Date of birth',
+                                        ),
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
                                               fontFamily: 'Nunito',
+                                              letterSpacing: 0.0,
+                                            ),
+                                        keyboardType: TextInputType.name,
+                                        cursorColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                        validator: _model
+                                            .childnameTextControllerValidator
+                                            .asValidator(context),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 10.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 10.0, 0.0),
+                                          child: InkWell(
+                                            splashColor: Colors.transparent,
+                                            focusColor: Colors.transparent,
+                                            hoverColor: Colors.transparent,
+                                            highlightColor: Colors.transparent,
+                                            onTap: () async {
+                                              final datePickedDate =
+                                                  await showDatePicker(
+                                                context: context,
+                                                initialDate:
+                                                    getCurrentTimestamp,
+                                                firstDate: DateTime(1900),
+                                                lastDate: getCurrentTimestamp,
+                                                builder: (context, child) {
+                                                  return wrapInMaterialDatePickerTheme(
+                                                    context,
+                                                    child!,
+                                                    headerBackgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .primary,
+                                                    headerForegroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .info,
+                                                    headerTextStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .headlineLarge
+                                                            .override(
+                                                              fontFamily:
+                                                                  'Nunito',
+                                                              fontSize: 32.0,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                            ),
+                                                    pickerBackgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .secondaryBackground,
+                                                    pickerForegroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .primaryText,
+                                                    selectedDateTimeBackgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .primary,
+                                                    selectedDateTimeForegroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .info,
+                                                    actionButtonForegroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .primaryText,
+                                                    iconSize: 24.0,
+                                                  );
+                                                },
+                                              );
+
+                                              if (datePickedDate != null) {
+                                                safeSetState(() {
+                                                  _model.datePicked = DateTime(
+                                                    datePickedDate.year,
+                                                    datePickedDate.month,
+                                                    datePickedDate.day,
+                                                  );
+                                                });
+                                              }
+                                            },
+                                            child: Container(
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width *
+                                                  0.25,
+                                              height: MediaQuery.sizeOf(context)
+                                                      .height *
+                                                  0.04,
+                                              decoration: BoxDecoration(
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryBackground,
+                                                borderRadius:
+                                                    BorderRadius.circular(0.0),
+                                                border: Border.all(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .dIsable,
+                                                  width: 1.0,
+                                                ),
+                                              ),
+                                              child: Align(
+                                                alignment: const AlignmentDirectional(
+                                                    0.0, 0.0),
+                                                child: Text(
+                                                  'Date of birth',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Nunito',
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryText,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                        if (_model.datePicked == null)
+                                          Align(
+                                            alignment:
+                                                const AlignmentDirectional(0.0, 0.0),
+                                            child: Text(
+                                              dateTimeFormat(
+                                                  "dd MMM , y",
+                                                  indiEditStudentsStudentsRecord
+                                                      .dateOfBirth!),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Nunito',
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .tertiaryText,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                            ),
+                                          ),
+                                        if (_model.datePicked != null)
+                                          Align(
+                                            alignment:
+                                                const AlignmentDirectional(0.0, 0.0),
+                                            child: Text(
+                                              dateTimeFormat("dd MMM , y",
+                                                  _model.datePicked),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    fontFamily: 'Nunito',
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .tertiaryText,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight: FontWeight.w500,
+                                                  ),
+                                            ),
+                                          ),
+                                      ],
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 10.0),
+                                    child: FlutterFlowDropDown<String>(
+                                      controller:
+                                          _model.genderValueController ??=
+                                              FormFieldController<String>(
+                                        _model.genderValue ??=
+                                            indiEditStudentsStudentsRecord
+                                                .studentGender,
+                                      ),
+                                      options: const ['Male', 'Female'],
+                                      onChanged: (val) => safeSetState(
+                                          () => _model.genderValue = val),
+                                      width: 200.0,
+                                      height:
+                                          MediaQuery.sizeOf(context).height *
+                                              0.05,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Nunito',
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                      hintText: 'Gender',
+                                      icon: Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: FlutterFlowTheme.of(context)
+                                            .tertiaryText,
+                                        size: 24.0,
+                                      ),
+                                      fillColor: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                      elevation: 2.0,
+                                      borderColor:
+                                          FlutterFlowTheme.of(context).dIsable,
+                                      borderWidth: 1.0,
+                                      borderRadius: 8.0,
+                                      margin: const EdgeInsetsDirectional.fromSTEB(
+                                          12.0, 0.0, 12.0, 0.0),
+                                      hidesUnderline: true,
+                                      isOverButton: false,
+                                      isSearchable: false,
+                                      isMultiSelect: false,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 10.0),
+                                    child: FlutterFlowDropDown<String>(
+                                      controller:
+                                          _model.bloodtypeValueController ??=
+                                              FormFieldController<String>(
+                                        _model.bloodtypeValue ??=
+                                            indiEditStudentsStudentsRecord
+                                                .bloodGroup,
+                                      ),
+                                      options: const [
+                                        'A+',
+                                        'A-',
+                                        'B+',
+                                        'B-',
+                                        'AB+',
+                                        'AB- ',
+                                        'O+ ',
+                                        'O- '
+                                      ],
+                                      onChanged: (val) => safeSetState(
+                                          () => _model.bloodtypeValue = val),
+                                      width: 200.0,
+                                      height:
+                                          MediaQuery.sizeOf(context).height *
+                                              0.05,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .override(
+                                            fontFamily: 'Nunito',
+                                            letterSpacing: 0.0,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                      hintText: 'Blood Group',
+                                      icon: Icon(
+                                        Icons.keyboard_arrow_down_rounded,
+                                        color: FlutterFlowTheme.of(context)
+                                            .tertiaryText,
+                                        size: 24.0,
+                                      ),
+                                      fillColor: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
+                                      elevation: 2.0,
+                                      borderColor:
+                                          FlutterFlowTheme.of(context).dIsable,
+                                      borderWidth: 1.0,
+                                      borderRadius: 8.0,
+                                      margin: const EdgeInsetsDirectional.fromSTEB(
+                                          12.0, 0.0, 12.0, 0.0),
+                                      hidesUnderline: true,
+                                      isOverButton: false,
+                                      isSearchable: false,
+                                      isMultiSelect: false,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 10.0),
+                                    child: SizedBox(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.8,
+                                      child: TextFormField(
+                                        controller:
+                                            _model.allergiesTextController ??=
+                                                TextEditingController(
+                                          text: indiEditStudentsStudentsRecord
+                                              .allergiesOthers,
+                                        ),
+                                        focusNode: _model.allergiesFocusNode,
+                                        autofocus: false,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          labelText: 'Allergies',
+                                          labelStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .labelMedium
+                                              .override(
+                                                fontFamily: 'Nunito',
+                                                color: valueOrDefault<Color>(
+                                                  (_model.allergiesFocusNode
+                                                              ?.hasFocus ??
+                                                          false)
+                                                      ? FlutterFlowTheme.of(
+                                                              context)
+                                                          .primary
+                                                      : FlutterFlowTheme.of(
+                                                              context)
+                                                          .alternate,
+                                                  FlutterFlowTheme.of(context)
+                                                      .alternate,
+                                                ),
+                                                letterSpacing: 0.0,
+                                              ),
+                                          hintText: 'Allergies(if any)',
+                                          hintStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .labelMedium
+                                              .override(
+                                                fontFamily: 'Nunito',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .tertiaryText,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
                                               color:
                                                   FlutterFlowTheme.of(context)
-                                                      .tertiaryText,
+                                                      .dIsable,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          filled: true,
+                                          fillColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryBackground,
+                                        ),
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Nunito',
                                               letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w500,
                                             ),
+                                        cursorColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                        validator: _model
+                                            .allergiesTextControllerValidator
+                                            .asValidator(context),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ),
-                              if (_model.datePicked == null)
-                                Align(
-                                  alignment: const AlignmentDirectional(0.0, 0.0),
-                                  child: Text(
-                                    dateTimeFormat(
-                                        "yMMMd",
-                                        indiEditStudentsStudentsRecord
-                                            .dateOfBirth!),
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Nunito',
-                                          color: FlutterFlowTheme.of(context)
-                                              .tertiaryText,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w500,
+                                  Padding(
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 10.0),
+                                    child: SizedBox(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.8,
+                                      child: TextFormField(
+                                        controller:
+                                            _model.addressTextController ??=
+                                                TextEditingController(
+                                          text: indiEditStudentsStudentsRecord
+                                              .studentAddress,
                                         ),
-                                  ),
-                                ),
-                              if (_model.datePicked != null)
-                                Align(
-                                  alignment: const AlignmentDirectional(0.0, 0.0),
-                                  child: Text(
-                                    dateTimeFormat("yMMMd", _model.datePicked),
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Nunito',
-                                          color: FlutterFlowTheme.of(context)
-                                              .tertiaryText,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w500,
+                                        focusNode: _model.addressFocusNode,
+                                        autofocus: false,
+                                        obscureText: false,
+                                        decoration: InputDecoration(
+                                          isDense: true,
+                                          labelText: 'Address',
+                                          labelStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .labelMedium
+                                              .override(
+                                                fontFamily: 'Nunito',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                letterSpacing: 0.0,
+                                              ),
+                                          hintText: 'Address',
+                                          hintStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .labelMedium
+                                              .override(
+                                                fontFamily: 'Nunito',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .tertiaryText,
+                                                letterSpacing: 0.0,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .dIsable,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          errorBorder: OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          focusedErrorBorder:
+                                              OutlineInputBorder(
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .error,
+                                              width: 1.0,
+                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                          ),
+                                          filled: true,
+                                          fillColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondaryBackground,
                                         ),
-                                  ),
-                                ),
-                            ],
-                          ),
-                          FlutterFlowDropDown<String>(
-                            controller: _model.genderValueController ??=
-                                FormFieldController<String>(
-                              _model.genderValue ??=
-                                  indiEditStudentsStudentsRecord.studentGender,
-                            ),
-                            options: const ['Male', 'Female'],
-                            onChanged: (val) =>
-                                safeSetState(() => _model.genderValue = val),
-                            width: 200.0,
-                            height: MediaQuery.sizeOf(context).height * 0.05,
-                            textStyle: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Nunito',
-                                  letterSpacing: 0.0,
-                                ),
-                            hintText: 'Gender',
-                            icon: Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              color: FlutterFlowTheme.of(context).tertiaryText,
-                              size: 24.0,
-                            ),
-                            fillColor: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            elevation: 2.0,
-                            borderColor: FlutterFlowTheme.of(context).dIsable,
-                            borderWidth: 1.0,
-                            borderRadius: 8.0,
-                            margin: const EdgeInsetsDirectional.fromSTEB(
-                                12.0, 0.0, 12.0, 0.0),
-                            hidesUnderline: true,
-                            isOverButton: false,
-                            isSearchable: false,
-                            isMultiSelect: false,
-                          ),
-                          FlutterFlowDropDown<String>(
-                            controller: _model.bloodtypeValueController ??=
-                                FormFieldController<String>(
-                              _model.bloodtypeValue ??=
-                                  indiEditStudentsStudentsRecord.bloodGroup,
-                            ),
-                            options: const [
-                              'A+',
-                              'A-',
-                              'B+',
-                              'B-',
-                              'AB+',
-                              'AB- ',
-                              'O+ ',
-                              'O- '
-                            ],
-                            onChanged: (val) =>
-                                safeSetState(() => _model.bloodtypeValue = val),
-                            width: 200.0,
-                            height: MediaQuery.sizeOf(context).height * 0.05,
-                            textStyle: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Nunito',
-                                  letterSpacing: 0.0,
-                                ),
-                            hintText: 'Blood Group',
-                            icon: Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              color: FlutterFlowTheme.of(context).tertiaryText,
-                              size: 24.0,
-                            ),
-                            fillColor: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                            elevation: 2.0,
-                            borderColor: FlutterFlowTheme.of(context).dIsable,
-                            borderWidth: 1.0,
-                            borderRadius: 8.0,
-                            margin: const EdgeInsetsDirectional.fromSTEB(
-                                12.0, 0.0, 12.0, 0.0),
-                            hidesUnderline: true,
-                            isOverButton: false,
-                            isSearchable: false,
-                            isMultiSelect: false,
-                          ),
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 10.0, 0.0, 0.0),
-                            child: SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.8,
-                              child: TextFormField(
-                                controller: _model.allergiesTextController ??=
-                                    TextEditingController(
-                                  text: indiEditStudentsStudentsRecord
-                                      .allergiesOthers,
-                                ),
-                                focusNode: _model.allergiesFocusNode,
-                                autofocus: false,
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  labelText: 'Allergies',
-                                  labelStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .override(
-                                        fontFamily: 'Nunito',
-                                        color: valueOrDefault<Color>(
-                                          (_model.allergiesFocusNode
-                                                      ?.hasFocus ??
-                                                  false)
-                                              ? FlutterFlowTheme.of(context)
-                                                  .primary
-                                              : FlutterFlowTheme.of(context)
-                                                  .alternate,
-                                          FlutterFlowTheme.of(context)
-                                              .alternate,
-                                        ),
-                                        letterSpacing: 0.0,
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              fontFamily: 'Nunito',
+                                              letterSpacing: 0.0,
+                                            ),
+                                        maxLines: 3,
+                                        cursorColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                        validator: _model
+                                            .addressTextControllerValidator
+                                            .asValidator(context),
                                       ),
-                                  hintText: 'Allergies(if any)',
-                                  hintStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .override(
-                                        fontFamily: 'Nunito',
-                                        color: FlutterFlowTheme.of(context)
-                                            .tertiaryText,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:
-                                          FlutterFlowTheme.of(context).dIsable,
-                                      width: 1.0,
                                     ),
-                                    borderRadius: BorderRadius.circular(8.0),
                                   ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  filled: true,
-                                  fillColor: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Nunito',
-                                      letterSpacing: 0.0,
-                                    ),
-                                cursorColor:
-                                    FlutterFlowTheme.of(context).primaryText,
-                                validator: _model
-                                    .allergiesTextControllerValidator
-                                    .asValidator(context),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 10.0, 0.0, 20.0),
-                            child: SizedBox(
-                              width: MediaQuery.sizeOf(context).width * 0.8,
-                              child: TextFormField(
-                                controller: _model.addressTextController ??=
-                                    TextEditingController(
-                                  text: indiEditStudentsStudentsRecord
-                                      .studentAddress,
-                                ),
-                                focusNode: _model.addressFocusNode,
-                                autofocus: false,
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  isDense: true,
-                                  labelText: 'Address',
-                                  labelStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .override(
-                                        fontFamily: 'Nunito',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        letterSpacing: 0.0,
-                                      ),
-                                  hintText: 'Address',
-                                  hintStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .override(
-                                        fontFamily: 'Nunito',
-                                        color: FlutterFlowTheme.of(context)
-                                            .tertiaryText,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:
-                                          FlutterFlowTheme.of(context).dIsable,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  errorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  focusedErrorBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                      color: FlutterFlowTheme.of(context).error,
-                                      width: 1.0,
-                                    ),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  filled: true,
-                                  fillColor: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Nunito',
-                                      letterSpacing: 0.0,
-                                    ),
-                                maxLines: 3,
-                                cursorColor:
-                                    FlutterFlowTheme.of(context).primaryText,
-                                validator: _model.addressTextControllerValidator
-                                    .asValidator(context),
-                              ),
-                            ),
-                          ),
-                          Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Align(
-                                alignment: const AlignmentDirectional(0.0, -1.0),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 10.0),
-                                  child: FFButtonWidget(
-                                    onPressed: () async {
-                                      final selectedFiles = await selectFiles(
-                                        allowedExtensions: ['pdf'],
-                                        multiFile: false,
-                                      );
-                                      if (selectedFiles != null) {
-                                        safeSetState(() =>
-                                            _model.isDataUploading = true);
-                                        var selectedUploadedFiles =
-                                            <FFUploadedFile>[];
+                                  Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Align(
+                                        alignment:
+                                            const AlignmentDirectional(0.0, -1.0),
+                                        child: Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 10.0),
+                                          child: FFButtonWidget(
+                                            onPressed: () async {
+                                              final selectedFiles =
+                                                  await selectFiles(
+                                                allowedExtensions: ['pdf'],
+                                                multiFile: false,
+                                              );
+                                              if (selectedFiles != null) {
+                                                safeSetState(() => _model
+                                                    .isDataUploading = true);
+                                                var selectedUploadedFiles =
+                                                    <FFUploadedFile>[];
 
-                                        var downloadUrls = <String>[];
-                                        try {
-                                          showUploadMessage(
-                                            context,
-                                            'Uploading file...',
-                                            showLoading: true,
-                                          );
-                                          selectedUploadedFiles = selectedFiles
-                                              .map((m) => FFUploadedFile(
-                                                    name: m.storagePath
-                                                        .split('/')
-                                                        .last,
-                                                    bytes: m.bytes,
+                                                var downloadUrls = <String>[];
+                                                try {
+                                                  showUploadMessage(
+                                                    context,
+                                                    'Uploading file...',
+                                                    showLoading: true,
+                                                  );
+                                                  selectedUploadedFiles =
+                                                      selectedFiles
+                                                          .map((m) =>
+                                                              FFUploadedFile(
+                                                                name: m
+                                                                    .storagePath
+                                                                    .split('/')
+                                                                    .last,
+                                                                bytes: m.bytes,
+                                                              ))
+                                                          .toList();
+
+                                                  downloadUrls =
+                                                      (await Future.wait(
+                                                    selectedFiles.map(
+                                                      (f) async =>
+                                                          await uploadData(
+                                                              f.storagePath,
+                                                              f.bytes),
+                                                    ),
                                                   ))
-                                              .toList();
-
-                                          downloadUrls = (await Future.wait(
-                                            selectedFiles.map(
-                                              (f) async => await uploadData(
-                                                  f.storagePath, f.bytes),
+                                                          .where(
+                                                              (u) => u != null)
+                                                          .map((u) => u!)
+                                                          .toList();
+                                                } finally {
+                                                  ScaffoldMessenger.of(context)
+                                                      .hideCurrentSnackBar();
+                                                  _model.isDataUploading =
+                                                      false;
+                                                }
+                                                if (selectedUploadedFiles
+                                                            .length ==
+                                                        selectedFiles.length &&
+                                                    downloadUrls.length ==
+                                                        selectedFiles.length) {
+                                                  safeSetState(() {
+                                                    _model.uploadedLocalFile =
+                                                        selectedUploadedFiles
+                                                            .first;
+                                                    _model.uploadedFileUrl =
+                                                        downloadUrls.first;
+                                                  });
+                                                  showUploadMessage(
+                                                    context,
+                                                    'Success!',
+                                                  );
+                                                } else {
+                                                  safeSetState(() {});
+                                                  showUploadMessage(
+                                                    context,
+                                                    'Failed to upload file',
+                                                  );
+                                                  return;
+                                                }
+                                              }
+                                            },
+                                            text: _model.uploadedFileUrl == ''
+                                                ? 'Upload Document proof'
+                                                : 'Change Document proof',
+                                            icon: const Icon(
+                                              Icons.upload_rounded,
+                                              size: 15.0,
                                             ),
-                                          ))
-                                              .where((u) => u != null)
-                                              .map((u) => u!)
-                                              .toList();
-                                        } finally {
-                                          ScaffoldMessenger.of(context)
-                                              .hideCurrentSnackBar();
-                                          _model.isDataUploading = false;
-                                        }
-                                        if (selectedUploadedFiles.length ==
-                                                selectedFiles.length &&
-                                            downloadUrls.length ==
-                                                selectedFiles.length) {
-                                          safeSetState(() {
-                                            _model.uploadedLocalFile =
-                                                selectedUploadedFiles.first;
-                                            _model.uploadedFileUrl =
-                                                downloadUrls.first;
-                                          });
-                                          showUploadMessage(
-                                            context,
-                                            'Success!',
-                                          );
-                                        } else {
-                                          safeSetState(() {});
-                                          showUploadMessage(
-                                            context,
-                                            'Failed to upload file',
-                                          );
-                                          return;
-                                        }
-                                      }
-                                    },
-                                    text: _model.uploadedFileUrl == ''
-                                        ? 'Upload Document proof'
-                                        : 'Change Document proof',
-                                    icon: const Icon(
-                                      Icons.upload_rounded,
-                                      size: 15.0,
-                                    ),
-                                    options: FFButtonOptions(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          0.6,
-                                      height:
-                                          MediaQuery.sizeOf(context).height *
-                                              0.04,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 0.0, 16.0, 0.0),
-                                      iconPadding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            fontFamily: 'Nunito',
-                                            color: Colors.white,
-                                            letterSpacing: 0.0,
+                                            options: FFButtonOptions(
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width *
+                                                  0.6,
+                                              height: MediaQuery.sizeOf(context)
+                                                      .height *
+                                                  0.04,
+                                              padding: const EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      16.0, 0.0, 16.0, 0.0),
+                                              iconPadding: const EdgeInsetsDirectional
+                                                  .fromSTEB(0.0, 0.0, 0.0, 0.0),
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              textStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .override(
+                                                        fontFamily: 'Nunito',
+                                                        color: Colors.white,
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                              elevation: 0.0,
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ),
                                           ),
-                                      elevation: 0.0,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              if ((indiEditStudentsStudentsRecord.document !=
-                                          '') ||
-                                  (_model.uploadedFileUrl != ''))
-                                Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 10.0),
-                                  child: FFButtonWidget(
-                                    onPressed: () async {
-                                      if (_model.uploadedFileUrl != '') {
-                                        await launchURL(_model.uploadedFileUrl);
-                                      } else {
-                                        await launchURL(
-                                            indiEditStudentsStudentsRecord
-                                                .document);
-                                      }
-                                    },
-                                    text: 'View',
-                                    icon: const Icon(
-                                      Icons.visibility,
-                                      size: 15.0,
-                                    ),
-                                    options: FFButtonOptions(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          0.6,
-                                      height:
-                                          MediaQuery.sizeOf(context).height *
-                                              0.04,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 0.0, 16.0, 0.0),
-                                      iconPadding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color:
-                                          FlutterFlowTheme.of(context).primary,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            fontFamily: 'Nunito',
-                                            color: Colors.white,
-                                            letterSpacing: 0.0,
-                                          ),
-                                      elevation: 0.0,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                  ),
-                                ),
-                              FFButtonWidget(
-                                onPressed: () async {
-                                  await indiEditStudentsStudentsRecord.reference
-                                      .update(createStudentsRecordData(
-                                    studentName:
-                                        _model.childnameTextController.text,
-                                    studentGender:
-                                        indiEditStudentsStudentsRecord
-                                            .studentGender,
-                                    studentAddress:
-                                        _model.addressTextController.text,
-                                    dateOfBirth: _model.datePicked ?? indiEditStudentsStudentsRecord
-                                            .dateOfBirth,
-                                    bloodGroup: _model.bloodtypeValue,
-                                    allergiesOthers:
-                                        _model.allergiesTextController.text,
-                                    document: _model.uploadedFileUrl,
-                                    studentImage:
-                                        FFAppState().profileimagechanged == true
-                                            ? FFAppState().imageurl
-                                            : indiEditStudentsStudentsRecord
-                                                .studentImage,
-                                  ));
-                                  _model.school =
-                                      await SchoolRecord.getDocumentOnce(
-                                          widget.schoolref!);
-
-                                  await widget.schoolref!.update({
-                                    ...mapToFirestore(
-                                      {
-                                        'student_data_list':
-                                            getStudentListListFirestoreData(
-                                          functions.updateStudentData(
-                                              _model.school!.studentDataList
-                                                  .toList(),
-                                              widget.studentref!,
-                                              _model
-                                                  .childnameTextController.text,
-                                              FFAppState().profileimagechanged
-                                                  ? FFAppState().imageurl
-                                                  : indiEditStudentsStudentsRecord
-                                                      .studentImage),
                                         ),
-                                      },
-                                    ),
-                                  });
-                                  FFAppState().loopmin = 0;
-                                  safeSetState(() {});
-                                  while (FFAppState().loopmin ==
-                                      widget.classref?.length) {
-                                    _model.classes =
-                                        await SchoolClassRecord.getDocumentOnce(
-                                            (widget.classref!.elementAtOrNull(
-                                                FFAppState().loopmin))!);
+                                      ),
+                                      if ((indiEditStudentsStudentsRecord
+                                                      .document !=
+                                                  '') ||
+                                          (_model.uploadedFileUrl != ''))
+                                        Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 10.0),
+                                          child: FFButtonWidget(
+                                            onPressed: () async {
+                                              if (_model.uploadedFileUrl !=
+                                                      '') {
+                                                await launchURL(
+                                                    _model.uploadedFileUrl);
+                                              } else {
+                                                await launchURL(
+                                                    indiEditStudentsStudentsRecord
+                                                        .document);
+                                              }
+                                            },
+                                            text: 'View file',
+                                            options: FFButtonOptions(
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width *
+                                                  0.6,
+                                              height: MediaQuery.sizeOf(context)
+                                                      .height *
+                                                  0.04,
+                                              padding: const EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      16.0, 0.0, 16.0, 0.0),
+                                              iconPadding: const EdgeInsetsDirectional
+                                                  .fromSTEB(0.0, 0.0, 0.0, 0.0),
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBackground,
+                                              textStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .override(
+                                                        fontFamily: 'Nunito',
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .primaryBackground,
+                                                        letterSpacing: 0.0,
+                                                      ),
+                                              elevation: 0.0,
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                            ),
+                                          ),
+                                        ),
+                                    ],
+                                  ),
+                                ].addToEnd(const SizedBox(height: 20.0)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding:
+                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
+                        child: Material(
+                          color: Colors.transparent,
+                          elevation: 2.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Container(
+                            width: MediaQuery.sizeOf(context).width * 1.0,
+                            height: MediaQuery.sizeOf(context).height * 0.08,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              borderRadius: BorderRadius.circular(10.0),
+                              border: Border.all(
+                                color: const Color(0xFFF4F4F4),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                FFButtonWidget(
+                                  onPressed: () async {
+                                    await indiEditStudentsStudentsRecord
+                                        .reference
+                                        .update(createStudentsRecordData(
+                                      studentName:
+                                          _model.childnameTextController.text,
+                                      studentGender:
+                                          indiEditStudentsStudentsRecord
+                                              .studentGender,
+                                      studentAddress:
+                                          _model.addressTextController.text,
+                                      dateOfBirth: _model.datePicked ?? indiEditStudentsStudentsRecord
+                                              .dateOfBirth,
+                                      bloodGroup: _model.bloodtypeValue,
+                                      allergiesOthers:
+                                          _model.allergiesTextController.text,
+                                      document: _model.uploadedFileUrl,
+                                      studentImage:
+                                          FFAppState().profileimagechanged ==
+                                                  true
+                                              ? FFAppState().imageurl
+                                              : indiEditStudentsStudentsRecord
+                                                  .studentImage,
+                                    ));
+                                    _model.school =
+                                        await SchoolRecord.getDocumentOnce(
+                                            widget.schoolref!);
 
-                                    await (widget.classref!.elementAtOrNull(
-                                            FFAppState().loopmin))!
-                                        .update({
+                                    await widget.schoolref!.update({
                                       ...mapToFirestore(
                                         {
-                                          'student_data':
+                                          'student_data_list':
                                               getStudentListListFirestoreData(
                                             functions.updateStudentData(
-                                                _model.classes!.studentData
+                                                _model.school!.studentDataList
                                                     .toList(),
                                                 widget.studentref!,
                                                 _model.childnameTextController
@@ -936,92 +1079,176 @@ class _IndiEditStudentsWidgetState extends State<IndiEditStudentsWidget> {
                                         },
                                       ),
                                     });
-                                    FFAppState().loopmin =
-                                        FFAppState().loopmin + 1;
+                                    FFAppState().loopmin = 0;
                                     safeSetState(() {});
-                                  }
-                                  FFAppState().loopmin = 0;
-                                  safeSetState(() {});
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                        'Student Profile updated',
-                                        style: TextStyle(
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondary,
+                                    while (FFAppState().loopmin ==
+                                        widget.classref?.length) {
+                                      _model.classes = await SchoolClassRecord
+                                          .getDocumentOnce((widget.classref!
+                                              .elementAtOrNull(
+                                                  FFAppState().loopmin))!);
+
+                                      await (widget.classref!.elementAtOrNull(
+                                              FFAppState().loopmin))!
+                                          .update({
+                                        ...mapToFirestore(
+                                          {
+                                            'student_data':
+                                                getStudentListListFirestoreData(
+                                              functions.updateStudentData(
+                                                  _model.classes!.studentData
+                                                      .toList(),
+                                                  widget.studentref!,
+                                                  _model.childnameTextController
+                                                      .text,
+                                                  FFAppState()
+                                                          .profileimagechanged
+                                                      ? FFAppState().imageurl
+                                                      : indiEditStudentsStudentsRecord
+                                                          .studentImage),
+                                            ),
+                                          },
                                         ),
+                                      });
+                                      FFAppState().loopmin =
+                                          FFAppState().loopmin + 1;
+                                      safeSetState(() {});
+                                    }
+                                    FFAppState().loopmin = 0;
+                                    safeSetState(() {});
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Student Profile updated',
+                                          style: TextStyle(
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondary,
+                                          ),
+                                        ),
+                                        duration: const Duration(milliseconds: 2849),
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .primaryText,
                                       ),
-                                      duration: const Duration(milliseconds: 2849),
-                                      backgroundColor:
-                                          FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                    ),
-                                  );
-                                  FFAppState().imageurl =
-                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/kqg7tnob6oub/Add_profile_pic_(2).png';
-                                  FFAppState().profileimagechanged = false;
-                                  safeSetState(() {});
+                                    );
+                                    FFAppState().imageurl =
+                                        'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
+                                    FFAppState().profileimagechanged = false;
+                                    safeSetState(() {});
+                                    if (_model.allergiesTextController.text !=
+                                            '') {
+                                      await NotificationsRecord.collection
+                                          .doc()
+                                          .set({
+                                        ...createNotificationsRecordData(
+                                          content:
+                                              '${_model.childnameTextController.text} allergies update',
+                                          isread: false,
+                                          notification:
+                                              updateNotificationStruct(
+                                            NotificationStruct(
+                                              notificationTitle:
+                                                  '${_model.childnameTextController.text}\'s allergies update',
+                                              descriptions: _model
+                                                  .allergiesTextController.text,
+                                              timeStamp: getCurrentTimestamp,
+                                              isRead: true,
+                                            ),
+                                            clearUnsetFields: false,
+                                            create: true,
+                                          ),
+                                          createDate: getCurrentTimestamp,
+                                          descri: _model
+                                              .allergiesTextController.text,
+                                          addedby: currentUserReference,
+                                          heading: 'Student allergy',
+                                        ),
+                                        ...mapToFirestore(
+                                          {
+                                            'userref': [
+                                              _model.school?.principalDetails
+                                                  .principalId
+                                            ],
+                                            'schoolref': [
+                                              _model.school?.reference
+                                            ],
+                                          },
+                                        ),
+                                      });
 
-                                  context.goNamed(
-                                    'IndiStudentAdmin',
-                                    queryParameters: {
-                                      'studentsref': serializeParam(
-                                        indiEditStudentsStudentsRecord
-                                            .reference,
-                                        ParamType.DocumentReference,
-                                      ),
-                                      'classref': serializeParam(
-                                        widget.classref,
-                                        ParamType.DocumentReference,
-                                        isList: true,
-                                      ),
-                                      'schoolref': serializeParam(
-                                        widget.schoolref,
-                                        ParamType.DocumentReference,
-                                      ),
-                                    }.withoutNulls,
-                                    extra: <String, dynamic>{
-                                      kTransitionInfoKey: const TransitionInfo(
-                                        hasTransition: true,
-                                        transitionType: PageTransitionType.fade,
-                                      ),
-                                    },
-                                  );
+                                      await NotificationsRecord.collection
+                                          .doc()
+                                          .set({
+                                        ...createNotificationsRecordData(
+                                          content:
+                                              '${_model.childnameTextController.text} allergies update',
+                                          isread: false,
+                                          notification:
+                                              updateNotificationStruct(
+                                            NotificationStruct(
+                                              notificationTitle:
+                                                  '${_model.childnameTextController.text}\'s allergies update',
+                                              descriptions: _model
+                                                  .allergiesTextController.text,
+                                              timeStamp: getCurrentTimestamp,
+                                              isRead: true,
+                                            ),
+                                            clearUnsetFields: false,
+                                            create: true,
+                                          ),
+                                          createDate: getCurrentTimestamp,
+                                          descri: _model
+                                              .allergiesTextController.text,
+                                          addedby: currentUserReference,
+                                          heading: 'Student allergy',
+                                        ),
+                                        ...mapToFirestore(
+                                          {
+                                            'userref': _model
+                                                .school?.listOfteachersuser,
+                                          },
+                                        ),
+                                      });
+                                    }
+                                    context.safePop();
 
-                                  safeSetState(() {});
-                                },
-                                text: 'Update',
-                                options: FFButtonOptions(
-                                  width: MediaQuery.sizeOf(context).width * 0.6,
-                                  height:
-                                      MediaQuery.sizeOf(context).height * 0.04,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 0.0, 16.0, 0.0),
-                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 0.0),
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .override(
-                                        fontFamily: 'Nunito',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primary,
-                                        letterSpacing: 0.0,
-                                      ),
-                                  elevation: 0.0,
-                                  borderSide: BorderSide(
+                                    safeSetState(() {});
+                                  },
+                                  text: 'Update',
+                                  options: FFButtonOptions(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.7,
+                                    height: MediaQuery.sizeOf(context).height *
+                                        0.05,
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 0.0, 16.0, 0.0),
+                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
                                     color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
+                                        .secondaryBackground,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                          fontFamily: 'Nunito',
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          letterSpacing: 0.0,
+                                        ),
+                                    elevation: 0.0,
+                                    borderSide: BorderSide(
+                                      color:
+                                          FlutterFlowTheme.of(context).dIsable,
+                                      width: 2.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
                                   ),
-                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ].divide(const SizedBox(height: 15.0)),
+                        ),
                       ),
-                    ),
+                    ].addToEnd(const SizedBox(height: 20.0)),
                   ),
                 ),
               ),

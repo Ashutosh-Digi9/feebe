@@ -87,9 +87,10 @@ class _TeacherNoticeTeacherWidgetState
                   borderColor: Colors.transparent,
                   borderRadius: 8.0,
                   buttonSize: MediaQuery.sizeOf(context).width * 0.16,
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    color: Color(0x58001B36),
+                  icon: Icon(
+                    Icons.chevron_left,
+                    color: FlutterFlowTheme.of(context).bgColor1,
+                    size: 30.0,
                   ),
                   onPressed: () async {
                     context.pushNamed(
@@ -108,10 +109,10 @@ class _TeacherNoticeTeacherWidgetState
                   child: Text(
                     'Notice',
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Inter',
+                          fontFamily: 'Nunito',
                           fontSize: 16.0,
                           letterSpacing: 0.0,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                         ),
                   ),
                 ),
@@ -123,7 +124,6 @@ class _TeacherNoticeTeacherWidgetState
             body: SafeArea(
               top: true,
               child: SingleChildScrollView(
-                primary: false,
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   children: [
@@ -246,7 +246,8 @@ class _TeacherNoticeTeacherWidgetState
                               },
                               child: Icon(
                                 Icons.calendar_month,
-                                color: FlutterFlowTheme.of(context).primaryText,
+                                color: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
                                 size: 24.0,
                               ),
                             ),
@@ -272,7 +273,13 @@ class _TeacherNoticeTeacherWidgetState
                           }
 
                           return ListView.separated(
-                            padding: EdgeInsets.zero,
+                            padding: const EdgeInsets.fromLTRB(
+                              0,
+                              0,
+                              0,
+                              30.0,
+                            ),
+                            primary: false,
                             shrinkWrap: true,
                             scrollDirection: Axis.vertical,
                             itemCount: notice.length,
@@ -288,6 +295,8 @@ class _TeacherNoticeTeacherWidgetState
                                     borderRadius: BorderRadius.circular(16.0),
                                   ),
                                   child: Container(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 1.0,
                                     decoration: BoxDecoration(
                                       color: FlutterFlowTheme.of(context)
                                           .secondary,
@@ -298,172 +307,286 @@ class _TeacherNoticeTeacherWidgetState
                                           8.0, 0.0, 8.0, 0.0),
                                       child: Column(
                                         mainAxisSize: MainAxisSize.max,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                noticeItem.eventTitle,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
+                                          Padding(
+                                            padding:
+                                                const EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 0.0, 0.0, 10.0),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Container(
+                                                  width:
+                                                      MediaQuery.sizeOf(context)
+                                                              .width *
+                                                          0.3,
+                                                  decoration: const BoxDecoration(),
+                                                  child: Text(
+                                                    noticeItem.eventTitle,
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily: 'Inter',
+                                                          fontFamily: 'Nunito',
                                                           fontSize: 14.0,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.w500,
                                                         ),
-                                              ),
-                                              Text(
-                                                dateTimeFormat("yMMMd",
-                                                    noticeItem.eventDate!),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Inter',
-                                                          fontSize: 14.0,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FontWeight.w500,
+                                                  ),
+                                                ),
+                                                Container(
+                                                  height:
+                                                      MediaQuery.sizeOf(context)
+                                                              .height *
+                                                          0.06,
+                                                  decoration: BoxDecoration(
+                                                    color: const Color(0xFFFFFCF0),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            10.0),
+                                                    border: Border.all(
+                                                      color: const Color(0xFFB0FF6A),
+                                                    ),
+                                                  ),
+                                                  child: Padding(
+                                                    padding:
+                                                        const EdgeInsetsDirectional
+                                                            .fromSTEB(0.0, 0.0,
+                                                                10.0, 0.0),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      children: [
+                                                        if (noticeItem
+                                                                .eventName ==
+                                                            'Notice')
+                                                          Icon(
+                                                            Icons.push_pin,
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .checkBg,
+                                                            size: 24.0,
+                                                          ),
+                                                        if (noticeItem
+                                                                .eventName ==
+                                                            'Reminder')
+                                                          Icon(
+                                                            Icons.alarm_on,
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .error,
+                                                            size: 24.0,
+                                                          ),
+                                                        if (noticeItem
+                                                                .eventName ==
+                                                            'General')
+                                                          Icon(
+                                                            Icons.mode_comment,
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .warning,
+                                                            size: 24.0,
+                                                          ),
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      10.0,
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0),
+                                                          child: Text(
+                                                            noticeItem
+                                                                .eventName,
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Nunito',
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                          ),
                                                         ),
-                                              ),
-                                            ],
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                          Align(
-                                            alignment:
-                                                const AlignmentDirectional(-1.0, 0.0),
-                                            child: Text(
-                                              noticeItem.eventDescription,
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Inter',
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                          Text(
+                                            dateTimeFormat("dd MMM , y",
+                                                noticeItem.eventDate!),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  fontFamily: 'Nunito',
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .tertiaryText,
+                                                  fontSize: 14.0,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                const EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 10.0, 0.0, 0.0),
+                                            child: Container(
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width *
+                                                  0.8,
+                                              decoration: const BoxDecoration(),
+                                              child: Text(
+                                                noticeItem.eventDescription,
+                                                style:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Nunito',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .tertiaryText,
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                              ),
                                             ),
                                           ),
                                           if (noticeItem.eventImages.isNotEmpty)
-                                            Container(
-                                              height: MediaQuery.sizeOf(context)
-                                                      .height *
-                                                  0.2,
-                                              decoration: const BoxDecoration(),
-                                              child: Builder(
-                                                builder: (context) {
-                                                  final uploadedimages =
-                                                      noticeItem.eventImages
-                                                          .toList();
-                                                  if (uploadedimages.isEmpty) {
-                                                    return const EmptyWidget();
-                                                  }
+                                            Padding(
+                                              padding: const EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      0.0, 0.0, 0.0, 10.0),
+                                              child: Container(
+                                                decoration: const BoxDecoration(),
+                                                child: Builder(
+                                                  builder: (context) {
+                                                    final uploadedimages =
+                                                        noticeItem.eventImages
+                                                            .toList();
+                                                    if (uploadedimages
+                                                        .isEmpty) {
+                                                      return const EmptyWidget();
+                                                    }
 
-                                                  return GridView.builder(
-                                                    padding: EdgeInsets.zero,
-                                                    gridDelegate:
-                                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                                      crossAxisCount: 3,
-                                                      crossAxisSpacing: 10.0,
-                                                      mainAxisSpacing: 10.0,
-                                                      childAspectRatio: 1.0,
-                                                    ),
-                                                    primary: false,
-                                                    shrinkWrap: true,
-                                                    scrollDirection:
-                                                        Axis.vertical,
-                                                    itemCount:
-                                                        uploadedimages.length,
-                                                    itemBuilder: (context,
-                                                        uploadedimagesIndex) {
-                                                      final uploadedimagesItem =
-                                                          uploadedimages[
-                                                              uploadedimagesIndex];
-                                                      return Padding(
-                                                        padding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    5.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        child: Container(
-                                                          width:
-                                                              MediaQuery.sizeOf(
-                                                                          context)
-                                                                      .width *
-                                                                  0.25,
-                                                          height:
-                                                              MediaQuery.sizeOf(
-                                                                          context)
-                                                                      .height *
-                                                                  0.15,
-                                                          decoration:
-                                                              const BoxDecoration(),
-                                                          child: InkWell(
-                                                            splashColor: Colors
-                                                                .transparent,
-                                                            focusColor: Colors
-                                                                .transparent,
-                                                            hoverColor: Colors
-                                                                .transparent,
-                                                            highlightColor:
-                                                                Colors
-                                                                    .transparent,
-                                                            onLongPress:
-                                                                () async {
-                                                              await Navigator
-                                                                  .push(
-                                                                context,
-                                                                PageTransition(
-                                                                  type:
-                                                                      PageTransitionType
-                                                                          .fade,
-                                                                  child:
-                                                                      FlutterFlowExpandedImageView(
-                                                                    image: Image
-                                                                        .network(
-                                                                      uploadedimagesItem,
-                                                                      fit: BoxFit
-                                                                          .contain,
-                                                                    ),
-                                                                    allowRotation:
-                                                                        false,
-                                                                    tag:
+                                                    return GridView.builder(
+                                                      padding:
+                                                          const EdgeInsets.fromLTRB(
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        10.0,
+                                                      ),
+                                                      gridDelegate:
+                                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                                        crossAxisCount: 3,
+                                                        crossAxisSpacing: 10.0,
+                                                        mainAxisSpacing: 10.0,
+                                                        childAspectRatio: 1.2,
+                                                      ),
+                                                      primary: false,
+                                                      shrinkWrap: true,
+                                                      scrollDirection:
+                                                          Axis.vertical,
+                                                      itemCount:
+                                                          uploadedimages.length,
+                                                      itemBuilder: (context,
+                                                          uploadedimagesIndex) {
+                                                        final uploadedimagesItem =
+                                                            uploadedimages[
+                                                                uploadedimagesIndex];
+                                                        return Padding(
+                                                          padding:
+                                                              const EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      5.0,
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0),
+                                                          child: Container(
+                                                            width: MediaQuery
+                                                                        .sizeOf(
+                                                                            context)
+                                                                    .width *
+                                                                0.25,
+                                                            height: MediaQuery
+                                                                        .sizeOf(
+                                                                            context)
+                                                                    .height *
+                                                                0.15,
+                                                            decoration:
+                                                                const BoxDecoration(),
+                                                            child: InkWell(
+                                                              splashColor: Colors
+                                                                  .transparent,
+                                                              focusColor: Colors
+                                                                  .transparent,
+                                                              hoverColor: Colors
+                                                                  .transparent,
+                                                              highlightColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              onLongPress:
+                                                                  () async {
+                                                                await Navigator
+                                                                    .push(
+                                                                  context,
+                                                                  PageTransition(
+                                                                    type: PageTransitionType
+                                                                        .fade,
+                                                                    child:
+                                                                        FlutterFlowExpandedImageView(
+                                                                      image: Image
+                                                                          .network(
                                                                         uploadedimagesItem,
-                                                                    useHeroAnimation:
-                                                                        true,
+                                                                        fit: BoxFit
+                                                                            .contain,
+                                                                      ),
+                                                                      allowRotation:
+                                                                          false,
+                                                                      tag:
+                                                                          uploadedimagesItem,
+                                                                      useHeroAnimation:
+                                                                          true,
+                                                                    ),
                                                                   ),
-                                                                ),
-                                                              );
-                                                            },
-                                                            child: Hero(
-                                                              tag:
-                                                                  uploadedimagesItem,
-                                                              transitionOnUserGestures:
-                                                                  true,
-                                                              child: ClipRRect(
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8.0),
-                                                                child: Image
-                                                                    .network(
-                                                                  uploadedimagesItem,
-                                                                  fit: BoxFit
-                                                                      .cover,
+                                                                );
+                                                              },
+                                                              child: Hero(
+                                                                tag:
+                                                                    uploadedimagesItem,
+                                                                transitionOnUserGestures:
+                                                                    true,
+                                                                child:
+                                                                    ClipRRect(
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8.0),
+                                                                  child: Image
+                                                                      .network(
+                                                                    uploadedimagesItem,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ),
-                                                      );
-                                                    },
-                                                  );
-                                                },
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                ),
                                               ),
                                             ),
                                         ]
@@ -479,7 +602,7 @@ class _TeacherNoticeTeacherWidgetState
                         },
                       ),
                     ),
-                  ],
+                  ].addToEnd(const SizedBox(height: 20.0)),
                 ),
               ),
             ),

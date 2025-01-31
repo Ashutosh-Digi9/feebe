@@ -1,17 +1,17 @@
 import '/admin_dashboard/search_student_admin/search_student_admin_widget.dart';
 import '/admin_dashboard/search_teacher_admin/search_teacher_admin_widget.dart';
 import '/backend/backend.dart';
+import '/confirmationpages/classedited/classedited_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
-import '/flutter_flow/flutter_flow_toggle_icon.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/shimmer_effects/addclasss_shimmer/addclasss_shimmer_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
-import 'package:smooth_page_indicator/smooth_page_indicator.dart'
-    as smooth_page_indicator;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'editclassadmin_model.dart';
 export 'editclassadmin_model.dart';
@@ -79,17 +79,7 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
         if (!snapshot.hasData) {
           return Scaffold(
             backgroundColor: FlutterFlowTheme.of(context).tertiary,
-            body: Center(
-              child: SizedBox(
-                width: 50.0,
-                height: 50.0,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    FlutterFlowTheme.of(context).primary,
-                  ),
-                ),
-              ),
-            ),
+            body: const AddclasssShimmerWidget(),
           );
         }
 
@@ -136,48 +126,266 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
             ),
             body: SafeArea(
               top: true,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  StreamBuilder<SchoolRecord>(
-                    stream: SchoolRecord.getDocument(widget.schoolref!),
-                    builder: (context, snapshot) {
-                      // Customize what your widget looks like when it's loading.
-                      if (!snapshot.hasData) {
-                        return Center(
-                          child: SizedBox(
-                            width: 50.0,
-                            height: 50.0,
-                            child: CircularProgressIndicator(
-                              valueColor: AlwaysStoppedAnimation<Color>(
-                                FlutterFlowTheme.of(context).primary,
-                              ),
-                            ),
+              child: StreamBuilder<SchoolRecord>(
+                stream: SchoolRecord.getDocument(widget.schoolref!),
+                builder: (context, snapshot) {
+                  // Customize what your widget looks like when it's loading.
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: SizedBox(
+                        width: 50.0,
+                        height: 50.0,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            FlutterFlowTheme.of(context).primary,
                           ),
-                        );
-                      }
+                        ),
+                      ),
+                    );
+                  }
 
-                      final containerSchoolRecord = snapshot.data!;
+                  final stackSchoolRecord = snapshot.data!;
 
-                      return Container(
-                        height: MediaQuery.sizeOf(context).height * 0.85,
+                  return Stack(
+                    children: [
+                      Container(
+                        height: MediaQuery.sizeOf(context).height * 0.8,
                         decoration: const BoxDecoration(),
                         child: SizedBox(
                           width: double.infinity,
-                          child: Stack(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 40.0),
-                                child: PageView(
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  controller: _model.pageViewController ??=
-                                      PageController(initialPage: 0),
-                                  scrollDirection: Axis.horizontal,
-                                  children: [
-                                    Column(
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 40.0),
+                            child: PageView(
+                              physics: const NeverScrollableScrollPhysics(),
+                              controller: _model.pageViewController ??=
+                                  PageController(initialPage: 0),
+                              scrollDirection: Axis.horizontal,
+                              children: [
+                                Container(
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 0.8,
+                                  decoration: const BoxDecoration(),
+                                  child: SingleChildScrollView(
+                                    child: Column(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 5.0, 0.0, 10.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Container(
+                                                    width: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        0.099,
+                                                    height: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        0.099,
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .primaryBackground,
+                                                      ),
+                                                    ),
+                                                    child: Align(
+                                                      alignment:
+                                                          const AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                      child: Text(
+                                                        '01',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Nunito',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryBackground,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'Teacher',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Nunito',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryBackground,
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Container(
+                                                width: 100.0,
+                                                height: 10.0,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .tertiaryText,
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          8.0),
+                                                ),
+                                              ),
+                                              Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Container(
+                                                    width: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        0.099,
+                                                    height: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        0.099,
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .tertiaryText,
+                                                      ),
+                                                    ),
+                                                    child: Align(
+                                                      alignment:
+                                                          const AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                      child: Text(
+                                                        '02',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Nunito',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .tertiaryText,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'Student',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Nunito',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Align(
+                                                alignment: const AlignmentDirectional(
+                                                    0.0, 0.0),
+                                                child: Container(
+                                                  width: 100.0,
+                                                  height: 10.0,
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .tertiaryText,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                ),
+                                              ),
+                                              Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Container(
+                                                    width: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        0.099,
+                                                    height: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        0.099,
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .tertiaryText,
+                                                      ),
+                                                    ),
+                                                    child: Align(
+                                                      alignment:
+                                                          const AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                      child: Text(
+                                                        '03',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Nunito',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .tertiaryText,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'Save',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Nunito',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
                                         Form(
                                           key: _model.formKey,
                                           autovalidateMode:
@@ -193,7 +401,7 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                   width:
                                                       MediaQuery.sizeOf(context)
                                                               .width *
-                                                          0.93,
+                                                          1.0,
                                                   child: TextFormField(
                                                     controller: _model
                                                             .classNameTextController ??=
@@ -216,22 +424,16 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                               .override(
                                                                 fontFamily:
                                                                     'Nunito',
-                                                                color:
-                                                                    valueOrDefault<
-                                                                        Color>(
-                                                                  (_model.classNameFocusNode
-                                                                              ?.hasFocus ??
-                                                                          false)
-                                                                      ? FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primary
-                                                                      : FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .alternate,
-                                                                  FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .alternate,
-                                                                ),
+                                                                color: (_model
+                                                                            .classNameFocusNode
+                                                                            ?.hasFocus ??
+                                                                        false)
+                                                                    ? FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primary
+                                                                    : FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .alternate,
                                                                 letterSpacing:
                                                                     0.0,
                                                               ),
@@ -243,9 +445,8 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                               .override(
                                                                 fontFamily:
                                                                     'Nunito',
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .tertiaryText,
+                                                                color: const Color(
+                                                                    0xFF747373),
                                                                 letterSpacing:
                                                                     0.0,
                                                                 fontStyle:
@@ -326,7 +527,7 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                       const AlignmentDirectional(
                                                           -1.0, 0.0),
                                                   child: Text(
-                                                    'Select teachers for this class',
+                                                    'Select Teachers for this Class',
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyMedium
@@ -413,7 +614,7 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                             MediaQuery.sizeOf(
                                                                         context)
                                                                     .height *
-                                                                0.05,
+                                                                0.06,
                                                         decoration:
                                                             BoxDecoration(
                                                           color: FlutterFlowTheme
@@ -446,24 +647,26 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                                           0.0,
                                                                           0.0),
                                                               child: Text(
-                                                                'Search teacher',
+                                                                'Search Teacher',
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
                                                                     .override(
                                                                       fontFamily:
                                                                           'Nunito',
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .alternate,
+                                                                      color: const Color(
+                                                                          0xFF747373),
                                                                       letterSpacing:
                                                                           0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
                                                                     ),
                                                               ),
                                                             ),
-                                                            Padding(
+                                                            const Padding(
                                                               padding:
-                                                                  const EdgeInsetsDirectional
+                                                                  EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           10.0,
                                                                           0.0,
@@ -472,9 +675,8 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                               child: Icon(
                                                                 Icons
                                                                     .search_sharp,
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .alternate,
+                                                                color: Color(
+                                                                    0xFF747373),
                                                                 size: 24.0,
                                                               ),
                                                             ),
@@ -504,18 +706,177 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                             CrossAxisAlignment
                                                                 .start,
                                                         children: [
+                                                          Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            10.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                child: Text(
+                                                                  'Selected - ${FFAppState().AddTeachersClass.length.toString()}',
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Nunito',
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                      ),
+                                                                ),
+                                                              ),
+                                                              Align(
+                                                                alignment:
+                                                                    const AlignmentDirectional(
+                                                                        -1.0,
+                                                                        0.0),
+                                                                child: InkWell(
+                                                                  splashColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  focusColor: Colors
+                                                                      .transparent,
+                                                                  hoverColor: Colors
+                                                                      .transparent,
+                                                                  highlightColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  onTap:
+                                                                      () async {
+                                                                    if (_model
+                                                                        .selectAllTeachers) {
+                                                                      FFAppState()
+                                                                          .SelectedTeachers = [];
+                                                                      FFAppState()
+                                                                          .AddTeachersClass = [];
+                                                                      safeSetState(
+                                                                          () {});
+                                                                      _model.selectAllTeachers =
+                                                                          false;
+                                                                      safeSetState(
+                                                                          () {});
+                                                                      ScaffoldMessenger.of(
+                                                                              context)
+                                                                          .showSnackBar(
+                                                                        SnackBar(
+                                                                          content:
+                                                                              Text(
+                                                                            'All Teachers Removed',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                            ),
+                                                                          ),
+                                                                          duration:
+                                                                              const Duration(milliseconds: 750),
+                                                                          backgroundColor:
+                                                                              FlutterFlowTheme.of(context).primaryText,
+                                                                        ),
+                                                                      );
+                                                                    } else {
+                                                                      FFAppState().SelectedTeachers = stackSchoolRecord
+                                                                          .listOfTeachers
+                                                                          .toList()
+                                                                          .cast<
+                                                                              DocumentReference>();
+                                                                      FFAppState().AddTeachersClass = stackSchoolRecord
+                                                                          .teachersDataList
+                                                                          .toList()
+                                                                          .cast<
+                                                                              TeacherListStruct>();
+                                                                      safeSetState(
+                                                                          () {});
+                                                                      _model.selectAllTeachers =
+                                                                          true;
+                                                                      safeSetState(
+                                                                          () {});
+                                                                      ScaffoldMessenger.of(
+                                                                              context)
+                                                                          .showSnackBar(
+                                                                        SnackBar(
+                                                                          content:
+                                                                              Text(
+                                                                            'All Teachers Seleted',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                            ),
+                                                                          ),
+                                                                          duration:
+                                                                              const Duration(milliseconds: 750),
+                                                                          backgroundColor:
+                                                                              FlutterFlowTheme.of(context).primaryText,
+                                                                        ),
+                                                                      );
+                                                                    }
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    width: MediaQuery.sizeOf(context)
+                                                                            .width *
+                                                                        0.2,
+                                                                    decoration:
+                                                                        const BoxDecoration(),
+                                                                    child:
+                                                                        Align(
+                                                                      alignment:
+                                                                          const AlignmentDirectional(
+                                                                              0.0,
+                                                                              0.0),
+                                                                      child:
+                                                                          Text(
+                                                                        _model.selectAllTeachers
+                                                                            ? 'De-select all'
+                                                                            : 'Select all',
+                                                                        textAlign:
+                                                                            TextAlign.center,
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              fontFamily: 'Nunito',
+                                                                              color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                              fontSize: 14.0,
+                                                                              letterSpacing: 0.0,
+                                                                              fontWeight: FontWeight.w500,
+                                                                            ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
                                                           Builder(
                                                             builder: (context) {
-                                                              final teachers =
-                                                                  containerSchoolRecord
-                                                                      .teachersDataList
-                                                                      .toList();
+                                                              final teachers = stackSchoolRecord
+                                                                  .teachersDataList
+                                                                  .sortedList(
+                                                                      keyOf: (e) => e
+                                                                          .teacherName,
+                                                                      desc:
+                                                                          false)
+                                                                  .toList();
 
                                                               return GridView
                                                                   .builder(
                                                                 padding:
-                                                                    EdgeInsets
-                                                                        .zero,
+                                                                    const EdgeInsets
+                                                                        .fromLTRB(
+                                                                  0,
+                                                                  0,
+                                                                  0,
+                                                                  30.0,
+                                                                ),
                                                                 gridDelegate:
                                                                     const SliverGridDelegateWithFixedCrossAxisCount(
                                                                   crossAxisCount:
@@ -527,6 +888,7 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                                   childAspectRatio:
                                                                       1.0,
                                                                 ),
+                                                                primary: false,
                                                                 shrinkWrap:
                                                                     true,
                                                                 scrollDirection:
@@ -578,22 +940,6 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                                         ));
                                                                         safeSetState(
                                                                             () {});
-                                                                        ScaffoldMessenger.of(context)
-                                                                            .showSnackBar(
-                                                                          SnackBar(
-                                                                            content:
-                                                                                Text(
-                                                                              '${teachersItem.teacherName} added',
-                                                                              style: TextStyle(
-                                                                                color: FlutterFlowTheme.of(context).secondaryText,
-                                                                              ),
-                                                                            ),
-                                                                            duration:
-                                                                                const Duration(milliseconds: 3000),
-                                                                            backgroundColor:
-                                                                                FlutterFlowTheme.of(context).primaryText,
-                                                                          ),
-                                                                        );
                                                                       } else {
                                                                         FFAppState()
                                                                             .removeFromSelectedTeachers(teachersItem.teachersId!);
@@ -614,22 +960,6 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                                         ));
                                                                         safeSetState(
                                                                             () {});
-                                                                        ScaffoldMessenger.of(context)
-                                                                            .showSnackBar(
-                                                                          SnackBar(
-                                                                            content:
-                                                                                Text(
-                                                                              '${teachersItem.teacherName} removed',
-                                                                              style: TextStyle(
-                                                                                color: FlutterFlowTheme.of(context).secondaryText,
-                                                                              ),
-                                                                            ),
-                                                                            duration:
-                                                                                const Duration(milliseconds: 4000),
-                                                                            backgroundColor:
-                                                                                FlutterFlowTheme.of(context).primaryText,
-                                                                          ),
-                                                                        );
                                                                       }
                                                                     },
                                                                     child:
@@ -670,7 +1000,7 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                                                   ),
                                                                                 ),
                                                                               ),
-                                                                              if (FFAppState().AddTeachersClass.contains(teachersItem))
+                                                                              if (FFAppState().SelectedTeachers.contains(teachersItem.teachersId))
                                                                                 Icon(
                                                                                   Icons.check_circle_sharp,
                                                                                   color: FlutterFlowTheme.of(context).primaryBackground,
@@ -715,181 +1045,636 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                             ),
                                           ),
                                         ),
+                                      ].addToEnd(const SizedBox(height: 10.0)),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      5.0, 0.0, 5.0, 0.0),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
                                         Padding(
                                           padding:
                                               const EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 10.0, 0.0, 0.0),
-                                          child: FFButtonWidget(
-                                            onPressed: () async {
-                                              if (_model.formKey.currentState ==
-                                                      null ||
-                                                  !_model.formKey.currentState!
-                                                      .validate()) {
-                                                return;
-                                              }
-                                              await _model.pageViewController
-                                                  ?.nextPage(
-                                                duration:
-                                                    const Duration(milliseconds: 300),
-                                                curve: Curves.ease,
-                                              );
-                                            },
-                                            text: 'Next',
-                                            icon: const Icon(
-                                              Icons.east,
-                                              size: 15.0,
-                                            ),
-                                            options: FFButtonOptions(
-                                              width: MediaQuery.sizeOf(context)
-                                                      .width *
-                                                  0.8,
-                                              height: MediaQuery.sizeOf(context)
-                                                      .height *
-                                                  0.05,
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      16.0, 0.0, 16.0, 0.0),
-                                              iconAlignment: IconAlignment.end,
-                                              iconPadding: const EdgeInsetsDirectional
-                                                  .fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryBackground,
-                                              textStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmall
-                                                      .override(
-                                                        fontFamily: 'Nunito',
-                                                        color: Colors.white,
-                                                        letterSpacing: 0.0,
+                                                  5.0, 8.0, 5.0, 0.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Container(
+                                                    width: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        0.099,
+                                                    height: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        0.099,
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .primaryBackground,
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .primaryBackground,
                                                       ),
-                                              elevation: 0.0,
-                                              borderRadius:
-                                                  BorderRadius.circular(12.0),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          5.0, 0.0, 5.0, 0.0),
-                                      child: SingleChildScrollView(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          children: [
-                                            Container(
-                                              decoration: const BoxDecoration(),
-                                              child: Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 10.0, 0.0, 0.0),
-                                                child: SingleChildScrollView(
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      Align(
-                                                        alignment:
-                                                            const AlignmentDirectional(
-                                                                -1.0, -1.0),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      10.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      20.0),
-                                                          child: Text(
-                                                            _model
-                                                                .classNameTextController
-                                                                .text,
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.check_circle,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .secondary,
+                                                      size: 24.0,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'Teacher',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Nunito',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryText,
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                              LinearPercentIndicator(
+                                                percent: 1.0,
+                                                width: 100.0,
+                                                lineHeight: 12.0,
+                                                animation: true,
+                                                animateFromLastPercent: true,
+                                                progressColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                backgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .accent4,
+                                                barRadius: const Radius.circular(8.0),
+                                                padding: EdgeInsets.zero,
+                                              ),
+                                              Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Container(
+                                                    width: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        0.099,
+                                                    height: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        0.099,
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                      ),
+                                                    ),
+                                                    child: Align(
+                                                      alignment:
+                                                          const AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                      child: Text(
+                                                        '02',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
                                                                 .bodyMedium
                                                                 .override(
                                                                   fontFamily:
                                                                       'Nunito',
-                                                                  fontSize:
-                                                                      20.0,
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'Student',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Nunito',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primary,
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Align(
+                                                alignment: const AlignmentDirectional(
+                                                    0.0, 0.0),
+                                                child: Container(
+                                                  width: 100.0,
+                                                  height: 10.0,
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .tertiaryText,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                  child: LinearPercentIndicator(
+                                                    percent: 0.0,
+                                                    width: 100.0,
+                                                    lineHeight: 12.0,
+                                                    animation: true,
+                                                    animateFromLastPercent:
+                                                        true,
+                                                    progressColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .primary,
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .accent4,
+                                                    barRadius:
+                                                        const Radius.circular(8.0),
+                                                    padding: EdgeInsets.zero,
+                                                  ),
+                                                ),
+                                              ),
+                                              Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Container(
+                                                    width: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        0.099,
+                                                    height: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        0.099,
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .tertiaryText,
+                                                      ),
+                                                    ),
+                                                    child: Align(
+                                                      alignment:
+                                                          const AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                      child: Text(
+                                                        '03',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Nunito',
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .tertiaryText,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'Save',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Nunito',
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Container(
+                                          decoration: const BoxDecoration(),
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 10.0, 0.0, 0.0),
+                                            child: SingleChildScrollView(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Container(
+                                                    width: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        1.0,
+                                                    height: MediaQuery.sizeOf(
+                                                                context)
+                                                            .height *
+                                                        0.12,
+                                                    decoration: BoxDecoration(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .lightblue,
+                                                    ),
+                                                    child: Column(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Padding(
+                                                          padding:
+                                                              const EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      0.0,
+                                                                      2.0,
+                                                                      0.0,
+                                                                      0.0),
+                                                          child: RichText(
+                                                            textScaler:
+                                                                MediaQuery.of(
+                                                                        context)
+                                                                    .textScaler,
+                                                            text: TextSpan(
+                                                              children: [
+                                                                TextSpan(
+                                                                  text: FFAppState()
+                                                                      .AddTeachersClass
+                                                                      .length
+                                                                      .toString(),
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Nunito',
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .snackbar,
+                                                                        fontSize:
+                                                                            16.0,
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
+                                                                ),
+                                                                TextSpan(
+                                                                  text:
+                                                                      ' Teachers Selected',
+                                                                  style: GoogleFonts
+                                                                      .getFont(
+                                                                    'Nunito',
+                                                                  ),
+                                                                )
+                                                              ],
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    fontFamily:
+                                                                        'Nunito',
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        Builder(
+                                                          builder: (context) {
+                                                            final teachersref = FFAppState()
+                                                                .AddTeachersClass
+                                                                .sortedList(
+                                                                    keyOf: (e) =>
+                                                                        e.teacherName,
+                                                                    desc: false)
+                                                                .toList();
+
+                                                            return SingleChildScrollView(
+                                                              scrollDirection:
+                                                                  Axis.horizontal,
+                                                              child: Row(
+                                                                mainAxisSize:
+                                                                    MainAxisSize
+                                                                        .max,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
+                                                                children: List.generate(
+                                                                    teachersref
+                                                                        .length,
+                                                                    (teachersrefIndex) {
+                                                                  final teachersrefItem =
+                                                                      teachersref[
+                                                                          teachersrefIndex];
+                                                                  return Padding(
+                                                                    padding: const EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            5.0,
+                                                                            0.0),
+                                                                    child:
+                                                                        Container(
+                                                                      decoration:
+                                                                          const BoxDecoration(),
+                                                                      child:
+                                                                          Column(
+                                                                        mainAxisSize:
+                                                                            MainAxisSize.max,
+                                                                        mainAxisAlignment:
+                                                                            MainAxisAlignment.spaceEvenly,
+                                                                        crossAxisAlignment:
+                                                                            CrossAxisAlignment.center,
+                                                                        children: [
+                                                                          Container(
+                                                                            width:
+                                                                                MediaQuery.sizeOf(context).width * 0.14,
+                                                                            height:
+                                                                                MediaQuery.sizeOf(context).width * 0.14,
+                                                                            clipBehavior:
+                                                                                Clip.antiAlias,
+                                                                            decoration:
+                                                                                const BoxDecoration(
+                                                                              shape: BoxShape.circle,
+                                                                            ),
+                                                                            child:
+                                                                                Image.network(
+                                                                              teachersrefItem.teacherImage,
+                                                                              fit: BoxFit.cover,
+                                                                            ),
+                                                                          ),
+                                                                          Text(
+                                                                            teachersrefItem.teacherName,
+                                                                            textAlign:
+                                                                                TextAlign.center,
+                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                  fontFamily: 'Nunito',
+                                                                                  color: FlutterFlowTheme.of(context).primaryText,
+                                                                                  fontSize: 14.0,
+                                                                                  letterSpacing: 0.0,
+                                                                                  fontWeight: FontWeight.normal,
+                                                                                ),
+                                                                          ),
+                                                                        ],
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                }),
+                                                              ),
+                                                            );
+                                                          },
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Align(
+                                                    alignment:
+                                                        const AlignmentDirectional(
+                                                            -1.0, 0.0),
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  10.0,
+                                                                  10.0,
+                                                                  0.0,
+                                                                  10.0),
+                                                      child: Text(
+                                                        'Select students for this class',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  fontFamily:
+                                                                      'Nunito',
                                                                   letterSpacing:
                                                                       0.0,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
                                                                 ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsetsDirectional
+                                                            .fromSTEB(10.0, 0.0,
+                                                                10.0, 10.0),
+                                                    child: InkWell(
+                                                      splashColor:
+                                                          Colors.transparent,
+                                                      focusColor:
+                                                          Colors.transparent,
+                                                      hoverColor:
+                                                          Colors.transparent,
+                                                      highlightColor:
+                                                          Colors.transparent,
+                                                      onTap: () async {
+                                                        await showModalBottomSheet(
+                                                          isScrollControlled:
+                                                              true,
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          context: context,
+                                                          builder: (context) {
+                                                            return GestureDetector(
+                                                              onTap: () {
+                                                                FocusScope.of(
+                                                                        context)
+                                                                    .unfocus();
+                                                                FocusManager
+                                                                    .instance
+                                                                    .primaryFocus
+                                                                    ?.unfocus();
+                                                              },
+                                                              child: Padding(
+                                                                padding: MediaQuery
+                                                                    .viewInsetsOf(
+                                                                        context),
+                                                                child:
+                                                                    SizedBox(
+                                                                  height: MediaQuery.sizeOf(
+                                                                              context)
+                                                                          .height *
+                                                                      0.8,
+                                                                  child:
+                                                                      SearchStudentAdminWidget(
+                                                                    school: widget
+                                                                        .schoolref!,
+                                                                    editclass:
+                                                                        true,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            );
+                                                          },
+                                                        ).then((value) =>
+                                                            safeSetState(
+                                                                () {}));
+                                                      },
+                                                      child: Material(
+                                                        color:
+                                                            Colors.transparent,
+                                                        elevation: 1.0,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      8.0),
+                                                        ),
+                                                        child: Container(
+                                                          width:
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .width *
+                                                                  1.0,
+                                                          height:
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .height *
+                                                                  0.05,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondary,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                            border: Border.all(
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .dIsable,
+                                                              width: 1.0,
+                                                            ),
+                                                          ),
+                                                          child: Row(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceBetween,
+                                                            children: [
+                                                              Padding(
+                                                                padding:
+                                                                    const EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            10.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                child: Text(
+                                                                  'Search student',
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Nunito',
+                                                                        color: const Color(
+                                                                            0xFF747373),
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
+                                                                ),
+                                                              ),
+                                                              const Padding(
+                                                                padding: EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        10.0,
+                                                                        0.0,
+                                                                        20.0,
+                                                                        0.0),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .search_sharp,
+                                                                  color: Color(
+                                                                      0xFF747373),
+                                                                  size: 24.0,
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
                                                       ),
-                                                      Container(
-                                                        width:
-                                                            MediaQuery.sizeOf(
-                                                                        context)
-                                                                    .width *
-                                                                1.0,
-                                                        height:
-                                                            MediaQuery.sizeOf(
-                                                                        context)
-                                                                    .height *
-                                                                0.12,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .lightblue,
-                                                        ),
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          2.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: RichText(
-                                                                textScaler: MediaQuery.of(
-                                                                        context)
-                                                                    .textScaler,
-                                                                text: TextSpan(
-                                                                  children: [
-                                                                    TextSpan(
-                                                                      text: FFAppState()
-                                                                          .AddTeachersClass
-                                                                          .length
-                                                                          .toString(),
-                                                                      style: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Nunito',
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).snackbar,
-                                                                            fontSize:
-                                                                                16.0,
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                            fontWeight:
-                                                                                FontWeight.w500,
-                                                                          ),
-                                                                    ),
-                                                                    TextSpan(
-                                                                      text:
-                                                                          ' Teachers Selected',
-                                                                      style: GoogleFonts
-                                                                          .getFont(
-                                                                        'Nunito',
-                                                                      ),
-                                                                    )
-                                                                  ],
+                                                    ),
+                                                  ),
+                                                  Padding(
+                                                    padding:
+                                                        const EdgeInsetsDirectional
+                                                            .fromSTEB(0.0, 0.0,
+                                                                0.0, 30.0),
+                                                    child: Container(
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          1.0,
+                                                      height: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .height *
+                                                          0.5,
+                                                      decoration:
+                                                          const BoxDecoration(),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        children: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets.all(
+                                                                    10.0),
+                                                            child: Row(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceBetween,
+                                                              children: [
+                                                                Text(
+                                                                  'Selected - ${FFAppState().selectedstudents.length.toString()}',
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyMedium
@@ -900,456 +1685,254 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                                             0.0,
                                                                       ),
                                                                 ),
-                                                              ),
-                                                            ),
-                                                            Builder(
-                                                              builder:
-                                                                  (context) {
-                                                                final teachersref =
-                                                                    FFAppState()
-                                                                        .AddTeachersClass
-                                                                        .toList();
-
-                                                                return SingleChildScrollView(
-                                                                  scrollDirection:
-                                                                      Axis.horizontal,
-                                                                  child: Row(
-                                                                    mainAxisSize:
-                                                                        MainAxisSize
-                                                                            .max,
-                                                                    mainAxisAlignment:
-                                                                        MainAxisAlignment
-                                                                            .start,
-                                                                    children: List.generate(
-                                                                        teachersref
-                                                                            .length,
-                                                                        (teachersrefIndex) {
-                                                                      final teachersrefItem =
-                                                                          teachersref[
-                                                                              teachersrefIndex];
-                                                                      return Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            5.0,
-                                                                            0.0),
-                                                                        child:
-                                                                            Container(
-                                                                          decoration:
-                                                                              const BoxDecoration(),
-                                                                          child:
-                                                                              Column(
-                                                                            mainAxisSize:
-                                                                                MainAxisSize.max,
-                                                                            mainAxisAlignment:
-                                                                                MainAxisAlignment.spaceEvenly,
-                                                                            crossAxisAlignment:
-                                                                                CrossAxisAlignment.center,
-                                                                            children: [
-                                                                              Container(
-                                                                                width: MediaQuery.sizeOf(context).width * 0.14,
-                                                                                height: MediaQuery.sizeOf(context).width * 0.14,
-                                                                                clipBehavior: Clip.antiAlias,
-                                                                                decoration: const BoxDecoration(
-                                                                                  shape: BoxShape.circle,
-                                                                                ),
-                                                                                child: Image.network(
-                                                                                  teachersrefItem.teacherImage,
-                                                                                  fit: BoxFit.cover,
-                                                                                ),
-                                                                              ),
+                                                                InkWell(
+                                                                  splashColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  focusColor: Colors
+                                                                      .transparent,
+                                                                  hoverColor: Colors
+                                                                      .transparent,
+                                                                  highlightColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  onTap:
+                                                                      () async {
+                                                                    if (_model
+                                                                        .selectAllStudents) {
+                                                                      FFAppState()
+                                                                          .selectedstudents = [];
+                                                                      FFAppState()
+                                                                          .AddStudentClass = [];
+                                                                      safeSetState(
+                                                                          () {});
+                                                                      _model.selectAllStudents =
+                                                                          false;
+                                                                      safeSetState(
+                                                                          () {});
+                                                                      ScaffoldMessenger.of(
+                                                                              context)
+                                                                          .showSnackBar(
+                                                                        SnackBar(
+                                                                          content:
                                                                               Text(
-                                                                                teachersrefItem.teacherName,
-                                                                                textAlign: TextAlign.center,
-                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                      fontFamily: 'Nunito',
-                                                                                      color: FlutterFlowTheme.of(context).primaryText,
-                                                                                      fontSize: 14.0,
-                                                                                      letterSpacing: 0.0,
-                                                                                      fontWeight: FontWeight.normal,
-                                                                                    ),
-                                                                              ),
-                                                                            ],
+                                                                            'All Students are removed',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: FlutterFlowTheme.of(context).secondary,
+                                                                            ),
                                                                           ),
+                                                                          duration:
+                                                                              const Duration(milliseconds: 650),
+                                                                          backgroundColor:
+                                                                              FlutterFlowTheme.of(context).primaryText,
                                                                         ),
                                                                       );
-                                                                    }),
-                                                                  ),
-                                                                );
-                                                              },
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Align(
-                                                        alignment:
-                                                            const AlignmentDirectional(
-                                                                -1.0, 0.0),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      10.0,
-                                                                      10.0,
-                                                                      0.0,
-                                                                      10.0),
-                                                          child: Text(
-                                                            'Select students for this class',
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    10.0,
-                                                                    0.0,
-                                                                    10.0,
-                                                                    10.0),
-                                                        child: InkWell(
-                                                          splashColor: Colors
-                                                              .transparent,
-                                                          focusColor: Colors
-                                                              .transparent,
-                                                          hoverColor: Colors
-                                                              .transparent,
-                                                          highlightColor: Colors
-                                                              .transparent,
-                                                          onTap: () async {
-                                                            await showModalBottomSheet(
-                                                              isScrollControlled:
-                                                                  true,
-                                                              backgroundColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              context: context,
-                                                              builder:
-                                                                  (context) {
-                                                                return GestureDetector(
-                                                                  onTap: () {
-                                                                    FocusScope.of(
-                                                                            context)
-                                                                        .unfocus();
-                                                                    FocusManager
-                                                                        .instance
-                                                                        .primaryFocus
-                                                                        ?.unfocus();
+                                                                    } else {
+                                                                      FFAppState().selectedstudents = stackSchoolRecord
+                                                                          .studentDataList
+                                                                          .where((e) =>
+                                                                              e.isDraft ==
+                                                                              false)
+                                                                          .toList()
+                                                                          .map((e) => e
+                                                                              .studentId)
+                                                                          .withoutNulls
+                                                                          .toList()
+                                                                          .cast<
+                                                                              DocumentReference>();
+                                                                      FFAppState().AddStudentClass = stackSchoolRecord
+                                                                          .studentDataList
+                                                                          .where((e) =>
+                                                                              e.isDraft ==
+                                                                              false)
+                                                                          .toList()
+                                                                          .cast<
+                                                                              StudentListStruct>();
+                                                                      safeSetState(
+                                                                          () {});
+                                                                      _model.selectAllStudents =
+                                                                          true;
+                                                                      safeSetState(
+                                                                          () {});
+                                                                      ScaffoldMessenger.of(
+                                                                              context)
+                                                                          .showSnackBar(
+                                                                        SnackBar(
+                                                                          content:
+                                                                              Text(
+                                                                            'All Students are selected',
+                                                                            style:
+                                                                                TextStyle(
+                                                                              color: FlutterFlowTheme.of(context).secondary,
+                                                                            ),
+                                                                          ),
+                                                                          duration:
+                                                                              const Duration(milliseconds: 900),
+                                                                          backgroundColor:
+                                                                              FlutterFlowTheme.of(context).primaryText,
+                                                                        ),
+                                                                      );
+                                                                    }
                                                                   },
                                                                   child:
-                                                                      Padding(
-                                                                    padding: MediaQuery
-                                                                        .viewInsetsOf(
-                                                                            context),
+                                                                      Container(
+                                                                    width: MediaQuery.sizeOf(context)
+                                                                            .width *
+                                                                        0.2,
+                                                                    decoration:
+                                                                        BoxDecoration(
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .secondaryBackground,
+                                                                    ),
                                                                     child:
-                                                                        SizedBox(
-                                                                      height:
-                                                                          MediaQuery.sizeOf(context).height *
-                                                                              0.8,
+                                                                        Align(
+                                                                      alignment:
+                                                                          const AlignmentDirectional(
+                                                                              0.0,
+                                                                              0.0),
                                                                       child:
-                                                                          SearchStudentAdminWidget(
-                                                                        school:
-                                                                            widget.schoolref!,
-                                                                        editclass:
-                                                                            true,
+                                                                          Text(
+                                                                        _model.selectAllStudents
+                                                                            ? 'Deselect all'
+                                                                            : 'Select all',
+                                                                        style: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .override(
+                                                                              fontFamily: 'Nunito',
+                                                                              color: FlutterFlowTheme.of(context).primary,
+                                                                              fontSize: 14.0,
+                                                                              letterSpacing: 0.0,
+                                                                              fontWeight: FontWeight.w500,
+                                                                            ),
                                                                       ),
                                                                     ),
-                                                                  ),
-                                                                );
-                                                              },
-                                                            ).then((value) =>
-                                                                safeSetState(
-                                                                    () {}));
-                                                          },
-                                                          child: Container(
-                                                            width: MediaQuery
-                                                                        .sizeOf(
-                                                                            context)
-                                                                    .width *
-                                                                1.0,
-                                                            height: MediaQuery
-                                                                        .sizeOf(
-                                                                            context)
-                                                                    .height *
-                                                                0.06,
-                                                            decoration:
-                                                                BoxDecoration(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .secondary,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8.0),
-                                                              border:
-                                                                  Border.all(
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .dIsable,
-                                                                width: 1.0,
-                                                              ),
-                                                            ),
-                                                            child: Row(
-                                                              mainAxisSize:
-                                                                  MainAxisSize
-                                                                      .max,
-                                                              mainAxisAlignment:
-                                                                  MainAxisAlignment
-                                                                      .spaceBetween,
-                                                              children: [
-                                                                Padding(
-                                                                  padding: const EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          10.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                  child: Text(
-                                                                    'Search student',
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Inter',
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).tertiaryText,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                                Padding(
-                                                                  padding: const EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          10.0,
-                                                                          0.0,
-                                                                          20.0,
-                                                                          0.0),
-                                                                  child: Icon(
-                                                                    Icons
-                                                                        .search_sharp,
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .tertiaryText,
-                                                                    size: 24.0,
                                                                   ),
                                                                 ),
                                                               ],
                                                             ),
                                                           ),
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.all(
-                                                            10.0),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceEvenly,
-                                                          children: [
-                                                            Container(
-                                                              width: 20.0,
-                                                              height: 20.0,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .checkBg,
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              'Green Border: This student already exists\nin one or more classes.',
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Nunito',
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .alternate,
-                                                                    letterSpacing:
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        10.0,
                                                                         0.0,
-                                                                  ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Padding(
-                                                        padding: const EdgeInsets.all(
-                                                            10.0),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceEvenly,
-                                                          children: [
-                                                            Container(
-                                                              width: 20.0,
-                                                              height: 20.0,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .secondaryBackground,
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                                border:
-                                                                    Border.all(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .text1,
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Text(
-                                                              'No Border: This is a new student who has \nnot been added to any class yet.',
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Nunito',
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .alternate,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                      Container(
-                                                        width:
-                                                            MediaQuery.sizeOf(
-                                                                        context)
-                                                                    .width *
-                                                                1.0,
-                                                        height:
-                                                            MediaQuery.sizeOf(
-                                                                        context)
-                                                                    .height *
-                                                                0.5,
-                                                        decoration:
-                                                            const BoxDecoration(),
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          children: [
-                                                            Padding(
-                                                              padding:
-                                                                  const EdgeInsets
-                                                                      .all(
-                                                                          10.0),
-                                                              child: Builder(
-                                                                builder:
-                                                                    (context) {
-                                                                  final students =
-                                                                      containerSchoolRecord
-                                                                          .studentDataList
-                                                                          .toList();
+                                                                        10.0,
+                                                                        40.0),
+                                                            child: Builder(
+                                                              builder:
+                                                                  (context) {
+                                                                final students = stackSchoolRecord
+                                                                    .studentDataList
+                                                                    .sortedList(
+                                                                        keyOf: (e) => e
+                                                                            .studentName,
+                                                                        desc:
+                                                                            false)
+                                                                    .where((e) =>
+                                                                        e.isDraft ==
+                                                                        false)
+                                                                    .toList();
 
-                                                                  return GridView
-                                                                      .builder(
-                                                                    padding:
-                                                                        EdgeInsets
-                                                                            .zero,
-                                                                    gridDelegate:
-                                                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                                                      crossAxisCount:
-                                                                          3,
-                                                                      crossAxisSpacing:
-                                                                          10.0,
-                                                                      mainAxisSpacing:
-                                                                          10.0,
-                                                                      childAspectRatio:
-                                                                          0.9,
-                                                                    ),
-                                                                    primary:
-                                                                        false,
-                                                                    shrinkWrap:
-                                                                        true,
-                                                                    scrollDirection:
-                                                                        Axis.vertical,
-                                                                    itemCount:
-                                                                        students
-                                                                            .length,
-                                                                    itemBuilder:
-                                                                        (context,
-                                                                            studentsIndex) {
-                                                                      final studentsItem =
-                                                                          students[
-                                                                              studentsIndex];
-                                                                      return Stack(
-                                                                        children: [
-                                                                          InkWell(
-                                                                            splashColor:
+                                                                return GridView
+                                                                    .builder(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                          .fromLTRB(
+                                                                    0,
+                                                                    0,
+                                                                    0,
+                                                                    30.0,
+                                                                  ),
+                                                                  gridDelegate:
+                                                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                                                    crossAxisCount:
+                                                                        3,
+                                                                    crossAxisSpacing:
+                                                                        10.0,
+                                                                    mainAxisSpacing:
+                                                                        10.0,
+                                                                    childAspectRatio:
+                                                                        1.0,
+                                                                  ),
+                                                                  primary:
+                                                                      false,
+                                                                  shrinkWrap:
+                                                                      true,
+                                                                  scrollDirection:
+                                                                      Axis.vertical,
+                                                                  itemCount:
+                                                                      students
+                                                                          .length,
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          studentsIndex) {
+                                                                    final studentsItem =
+                                                                        students[
+                                                                            studentsIndex];
+                                                                    return Stack(
+                                                                      children: [
+                                                                        InkWell(
+                                                                          splashColor:
+                                                                              Colors.transparent,
+                                                                          focusColor:
+                                                                              Colors.transparent,
+                                                                          hoverColor:
+                                                                              Colors.transparent,
+                                                                          highlightColor:
+                                                                              Colors.transparent,
+                                                                          onTap:
+                                                                              () async {
+                                                                            if (!FFAppState().selectedstudents.contains(studentsItem.studentId)) {
+                                                                              FFAppState().addToSelectedstudents(studentsItem.studentId!);
+                                                                              FFAppState().addToAddStudentClass(StudentListStruct(
+                                                                                studentName: studentsItem.studentName,
+                                                                                studentId: studentsItem.studentId,
+                                                                                studentImage: studentsItem.studentImage,
+                                                                                parentList: studentsItem.parentList,
+                                                                                isAddedinClass: true,
+                                                                                classref: studentsItem.classref,
+                                                                              ));
+                                                                              safeSetState(() {});
+                                                                            } else {
+                                                                              FFAppState().removeFromSelectedstudents(studentsItem.studentId!);
+                                                                              FFAppState().removeFromAddStudentClass(StudentListStruct(
+                                                                                studentName: studentsItem.studentName,
+                                                                                studentId: studentsItem.studentId,
+                                                                                studentImage: studentsItem.studentImage,
+                                                                                parentList: studentsItem.parentList,
+                                                                                isAddedinClass: true,
+                                                                                classref: studentsItem.classref,
+                                                                              ));
+                                                                              safeSetState(() {});
+                                                                            }
+                                                                          },
+                                                                          child:
+                                                                              Material(
+                                                                            color:
                                                                                 Colors.transparent,
-                                                                            focusColor:
-                                                                                Colors.transparent,
-                                                                            hoverColor:
-                                                                                Colors.transparent,
-                                                                            highlightColor:
-                                                                                Colors.transparent,
-                                                                            onTap:
-                                                                                () async {
-                                                                              if (!FFAppState().selectedstudents.contains(studentsItem.studentId)) {
-                                                                                FFAppState().addToSelectedstudents(studentsItem.studentId!);
-                                                                                FFAppState().addToAddStudentClass(StudentListStruct(
-                                                                                  studentName: studentsItem.studentName,
-                                                                                  studentId: studentsItem.studentId,
-                                                                                  studentImage: studentsItem.studentImage,
-                                                                                  parentList: studentsItem.parentList,
-                                                                                  isAddedinClass: true,
-                                                                                  classref: studentsItem.classref,
-                                                                                ));
-                                                                                safeSetState(() {});
-                                                                              } else {
-                                                                                FFAppState().removeFromSelectedstudents(studentsItem.studentId!);
-                                                                                FFAppState().removeFromAddStudentClass(StudentListStruct(
-                                                                                  studentName: studentsItem.studentName,
-                                                                                  studentId: studentsItem.studentId,
-                                                                                  studentImage: studentsItem.studentImage,
-                                                                                  parentList: studentsItem.parentList,
-                                                                                  isAddedinClass: true,
-                                                                                  classref: studentsItem.classref,
-                                                                                ));
-                                                                                safeSetState(() {});
-                                                                              }
-                                                                            },
+                                                                            elevation:
+                                                                                3.0,
+                                                                            shape:
+                                                                                RoundedRectangleBorder(
+                                                                              borderRadius: BorderRadius.circular(10.0),
+                                                                            ),
                                                                             child:
                                                                                 Container(
                                                                               width: MediaQuery.sizeOf(context).width * 0.3,
                                                                               decoration: BoxDecoration(
                                                                                 color: valueOrDefault<Color>(
-                                                                                  FFAppState().selectedstudents.contains(studentsItem.studentId) ? FlutterFlowTheme.of(context).lightblue : FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                  FFAppState().selectedstudents.contains(studentsItem.studentId) ? const Color(0xFFA8C0F4) : FlutterFlowTheme.of(context).secondaryBackground,
                                                                                   FlutterFlowTheme.of(context).lightblue,
                                                                                 ),
                                                                                 borderRadius: BorderRadius.circular(10.0),
                                                                                 border: Border.all(
                                                                                   color: valueOrDefault<Color>(
-                                                                                    studentsItem.classref.isNotEmpty ? FlutterFlowTheme.of(context).checkBg : FlutterFlowTheme.of(context).secondary,
+                                                                                    studentsItem.classref.isNotEmpty ? const Color(0xFFEDF1F3) : const Color(0xFFEDF1F3),
                                                                                     FlutterFlowTheme.of(context).secondary,
                                                                                   ),
-                                                                                  width: 4.0,
                                                                                 ),
                                                                               ),
                                                                               child: Column(
@@ -1357,8 +1940,8 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                                                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                                                 children: [
                                                                                   Container(
-                                                                                    width: MediaQuery.sizeOf(context).width * 0.2,
-                                                                                    height: MediaQuery.sizeOf(context).width * 0.2,
+                                                                                    width: MediaQuery.sizeOf(context).width * 0.15,
+                                                                                    height: MediaQuery.sizeOf(context).width * 0.15,
                                                                                     clipBehavior: Clip.antiAlias,
                                                                                     decoration: const BoxDecoration(
                                                                                       shape: BoxShape.circle,
@@ -1392,218 +1975,330 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                                               ),
                                                                             ),
                                                                           ),
+                                                                        ),
+                                                                        if (FFAppState()
+                                                                            .selectedstudents
+                                                                            .contains(studentsItem.studentId))
                                                                           Align(
                                                                             alignment:
                                                                                 const AlignmentDirectional(1.0, -1.0),
                                                                             child:
-                                                                                ToggleIcon(
-                                                                              onPressed: () async {
-                                                                                safeSetState(
-                                                                                  () => FFAppState().selectedstudents.contains(studentsItem.studentId) ? FFAppState().removeFromSelectedstudents(studentsItem.studentId!) : FFAppState().addToSelectedstudents(studentsItem.studentId!),
-                                                                                );
-                                                                              },
-                                                                              value: FFAppState().selectedstudents.contains(studentsItem.studentId),
-                                                                              onIcon: Icon(
-                                                                                Icons.check_box,
-                                                                                color: FlutterFlowTheme.of(context).primary,
-                                                                                size: 24.0,
-                                                                              ),
-                                                                              offIcon: Icon(
-                                                                                Icons.check_box_outline_blank,
-                                                                                color: FlutterFlowTheme.of(context).alternate,
-                                                                                size: 24.0,
-                                                                              ),
+                                                                                Icon(
+                                                                              Icons.check_box,
+                                                                              color: FlutterFlowTheme.of(context).primary,
+                                                                              size: 24.0,
                                                                             ),
                                                                           ),
-                                                                        ],
-                                                                      );
-                                                                    },
-                                                                  );
-                                                                },
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                FFButtonWidget(
-                                                  onPressed: () async {
-                                                    await _model
-                                                        .pageViewController
-                                                        ?.previousPage(
-                                                      duration: const Duration(
-                                                          milliseconds: 300),
-                                                      curve: Curves.ease,
-                                                    );
-                                                  },
-                                                  text: 'Back',
-                                                  icon: const Icon(
-                                                    Icons.keyboard_backspace,
-                                                    size: 15.0,
-                                                  ),
-                                                  options: FFButtonOptions(
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.4,
-                                                    height: MediaQuery.sizeOf(
-                                                                context)
-                                                            .height *
-                                                        0.05,
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(16.0, 0.0,
-                                                                16.0, 0.0),
-                                                    iconAlignment:
-                                                        IconAlignment.start,
-                                                    iconPadding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 0.0),
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                    textStyle: FlutterFlowTheme
-                                                            .of(context)
-                                                        .titleSmall
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          color: Colors.white,
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                    elevation: 0.0,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12.0),
-                                                  ),
-                                                ),
-                                                FFButtonWidget(
-                                                  onPressed: () async {
-                                                    if (FFAppState()
-                                                            .selectedstudents.isNotEmpty) {
-                                                      await _model
-                                                          .pageViewController
-                                                          ?.nextPage(
-                                                        duration: const Duration(
-                                                            milliseconds: 300),
-                                                        curve: Curves.ease,
-                                                      );
-                                                    } else {
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                        SnackBar(
-                                                          content: Text(
-                                                            'Atleast one students should be select',
-                                                            style: TextStyle(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .secondaryBackground,
+                                                                      ],
+                                                                    );
+                                                                  },
+                                                                );
+                                                              },
                                                             ),
                                                           ),
-                                                          duration: const Duration(
-                                                              milliseconds:
-                                                                  4000),
-                                                          backgroundColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .primaryText,
-                                                        ),
-                                                      );
-                                                    }
-                                                  },
-                                                  text: 'Next',
-                                                  icon: const Icon(
-                                                    Icons.east,
-                                                    size: 15.0,
+                                                        ],
+                                                      ),
+                                                    ),
                                                   ),
-                                                  options: FFButtonOptions(
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.4,
-                                                    height: MediaQuery.sizeOf(
-                                                                context)
-                                                            .height *
-                                                        0.05,
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(16.0, 0.0,
-                                                                16.0, 0.0),
-                                                    iconAlignment:
-                                                        IconAlignment.end,
-                                                    iconPadding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 0.0),
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                    textStyle: FlutterFlowTheme
-                                                            .of(context)
-                                                        .titleSmall
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          color: Colors.white,
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                    elevation: 0.0,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12.0),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          5.0, 10.0, 5.0, 0.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          Align(
-                                            alignment:
-                                                const AlignmentDirectional(-1.0, 0.0),
-                                            child: Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      10.0, 0.0, 0.0, 10.0),
-                                              child: Text(
-                                                _model.classNameTextController
-                                                    .text,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          fontSize: 20.0,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
+                                                ],
                                               ),
                                             ),
                                           ),
-                                          Container(
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      5.0, 10.0, 5.0, 0.0),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  5.0, 8.0, 10.0, 8.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        5.0, 0.0, 8.0, 0.0),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Container(
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.099,
+                                                      height: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.099,
+                                                      decoration: BoxDecoration(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .primaryBackground,
+                                                        shape: BoxShape.circle,
+                                                        border: Border.all(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryBackground,
+                                                        ),
+                                                      ),
+                                                      child: Icon(
+                                                        Icons.check_circle,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .secondary,
+                                                        size: 24.0,
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Teacher',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Nunito',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              LinearPercentIndicator(
+                                                percent: 1.0,
+                                                width: 100.0,
+                                                lineHeight: 12.0,
+                                                animation: false,
+                                                animateFromLastPercent: true,
+                                                progressColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                backgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .accent4,
+                                                barRadius: const Radius.circular(8.0),
+                                                padding: EdgeInsets.zero,
+                                              ),
+                                              Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Container(
+                                                    width: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        0.099,
+                                                    height: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        0.099,
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .primaryBackground,
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                      ),
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.check_circle,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .secondary,
+                                                      size: 24.0,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    'Student',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Nunito',
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primary,
+                                                          letterSpacing: 0.0,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                              Align(
+                                                alignment: const AlignmentDirectional(
+                                                    0.0, 0.0),
+                                                child: Container(
+                                                  width: 100.0,
+                                                  height: 10.0,
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .tertiaryText,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            8.0),
+                                                  ),
+                                                  child: LinearPercentIndicator(
+                                                    percent: 1.0,
+                                                    width: 100.0,
+                                                    lineHeight: 12.0,
+                                                    animation: true,
+                                                    animateFromLastPercent:
+                                                        true,
+                                                    progressColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .primary,
+                                                    backgroundColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .accent4,
+                                                    barRadius:
+                                                        const Radius.circular(8.0),
+                                                    padding: EdgeInsets.zero,
+                                                  ),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding: const EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 0.0, 5.0, 0.0),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Container(
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.099,
+                                                      height: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.099,
+                                                      decoration: BoxDecoration(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
+                                                        shape: BoxShape.circle,
+                                                        border: Border.all(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .tertiaryText,
+                                                        ),
+                                                      ),
+                                                      child: Align(
+                                                        alignment:
+                                                            const AlignmentDirectional(
+                                                                0.0, 0.0),
+                                                        child: Text(
+                                                          '03',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Nunito',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primary,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      'Save',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Nunito',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primary,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                              ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  10.0, 20.0, 0.0, 10.0),
+                                          child: Text(
+                                            'You\'re almost done! Please review the class details below to ensure everything is correct before finalizing.',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  fontFamily: 'Nunito',
+                                                  fontSize: 14.0,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.normal,
+                                                ),
+                                          ),
+                                        ),
+                                        Align(
+                                          alignment:
+                                              const AlignmentDirectional(-1.0, 0.0),
+                                          child: Padding(
+                                            padding:
+                                                const EdgeInsetsDirectional.fromSTEB(
+                                                    10.0, 0.0, 0.0, 10.0),
+                                            child: Text(
+                                              _model
+                                                  .classNameTextController.text,
+                                              style:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Poppins',
+                                                        fontSize: 16.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                            ),
+                                          ),
+                                        ),
+                                        Align(
+                                          alignment:
+                                              const AlignmentDirectional(-1.0, 0.0),
+                                          child: Container(
                                             width: MediaQuery.sizeOf(context)
                                                     .width *
                                                 1.0,
                                             height: MediaQuery.sizeOf(context)
                                                     .height *
-                                                0.11,
+                                                0.12,
                                             decoration: BoxDecoration(
                                               color:
                                                   FlutterFlowTheme.of(context)
@@ -1611,9 +2306,61 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                             ),
                                             child: Column(
                                               mainAxisSize: MainAxisSize.max,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceAround,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
+                                                Padding(
+                                                  padding: const EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 2.0, 0.0, 0.0),
+                                                  child: RichText(
+                                                    textScaler:
+                                                        MediaQuery.of(context)
+                                                            .textScaler,
+                                                    text: TextSpan(
+                                                      children: [
+                                                        TextSpan(
+                                                          text: FFAppState()
+                                                              .AddTeachersClass
+                                                              .length
+                                                              .toString(),
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                fontFamily:
+                                                                    'Nunito',
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .snackbar,
+                                                                fontSize: 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                              ),
+                                                        ),
+                                                        TextSpan(
+                                                          text:
+                                                              ' Teachers Selected',
+                                                          style: GoogleFonts
+                                                              .getFont(
+                                                            'Nunito',
+                                                          ),
+                                                        )
+                                                      ],
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            fontFamily:
+                                                                'Nunito',
+                                                            letterSpacing: 0.0,
+                                                          ),
+                                                    ),
+                                                  ),
+                                                ),
                                                 Align(
                                                   alignment:
                                                       const AlignmentDirectional(
@@ -1623,6 +2370,10 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                       final teacherref =
                                                           FFAppState()
                                                               .AddTeachersClass
+                                                              .sortedList(
+                                                                  keyOf: (e) =>
+                                                                      e.teacherName,
+                                                                  desc: false)
                                                               .toList();
 
                                                       return Row(
@@ -1630,7 +2381,7 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                             MainAxisSize.max,
                                                         mainAxisAlignment:
                                                             MainAxisAlignment
-                                                                .spaceEvenly,
+                                                                .start,
                                                         children: List.generate(
                                                             teacherref.length,
                                                             (teacherrefIndex) {
@@ -1645,7 +2396,7 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                               padding:
                                                                   const EdgeInsetsDirectional
                                                                       .fromSTEB(
-                                                                          0.0,
+                                                                          5.0,
                                                                           0.0,
                                                                           5.0,
                                                                           0.0),
@@ -1717,88 +2468,66 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                               ],
                                             ),
                                           ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    10.0, 0.0, 0.0, 0.0),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Align(
-                                                  alignment:
-                                                      const AlignmentDirectional(
-                                                          -1.0, 0.0),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(10.0, 0.0,
-                                                                0.0, 0.0),
-                                                    child: Text(
-                                                      'Students ',
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Nunito',
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                          ),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  10.0, 10.0, 0.0, 10.0),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Align(
+                                                alignment: const AlignmentDirectional(
+                                                    -1.0, 0.0),
+                                                child: Padding(
                                                   padding: const EdgeInsetsDirectional
                                                       .fromSTEB(
-                                                          0.0, 2.0, 0.0, 0.0),
-                                                  child: Container(
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.15,
-                                                    height: MediaQuery.sizeOf(
-                                                                context)
-                                                            .height *
-                                                        0.03,
-                                                    decoration: BoxDecoration(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .primaryBackground,
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20.0),
-                                                    ),
-                                                    child: Align(
-                                                      alignment:
-                                                          const AlignmentDirectional(
-                                                              0.0, 0.0),
-                                                      child: Text(
-                                                        FFAppState()
-                                                            .selectedstudents
-                                                            .length
-                                                            .toString(),
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Inter',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .secondaryText,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
-                                                      ),
-                                                    ),
+                                                          10.0, 0.0, 0.0, 0.0),
+                                                  child: Text(
+                                                    'Selected Students - ',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          fontFamily: 'Nunito',
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
                                                   ),
                                                 ),
-                                              ].divide(const SizedBox(width: 5.0)),
-                                            ),
+                                              ),
+                                              Align(
+                                                alignment: const AlignmentDirectional(
+                                                    0.0, 0.0),
+                                                child: Text(
+                                                  FFAppState()
+                                                      .selectedstudents
+                                                      .length
+                                                      .toString(),
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        fontFamily: 'Nunito',
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryText,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                ),
+                                              ),
+                                            ].divide(const SizedBox(width: 5.0)),
                                           ),
-                                          Container(
+                                        ),
+                                        Padding(
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 30.0),
+                                          child: Container(
                                             width: MediaQuery.sizeOf(context)
                                                     .width *
                                                 0.95,
@@ -1806,391 +2535,676 @@ class _EditclassadminWidgetState extends State<EditclassadminWidget> {
                                                     .height *
                                                 0.4,
                                             decoration: const BoxDecoration(),
-                                            child: Builder(
-                                              builder: (context) {
-                                                final editstudents =
-                                                    FFAppState()
-                                                        .AddStudentClass
-                                                        .toList();
+                                            child: Padding(
+                                              padding: const EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      0.0, 10.0, 0.0, 20.0),
+                                              child: Builder(
+                                                builder: (context) {
+                                                  final editstudents =
+                                                      FFAppState()
+                                                          .AddStudentClass
+                                                          .sortedList(
+                                                              keyOf: (e) =>
+                                                                  e.studentName,
+                                                              desc: false)
+                                                          .toList();
 
-                                                return GridView.builder(
-                                                  padding: EdgeInsets.zero,
-                                                  gridDelegate:
-                                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 3,
-                                                    crossAxisSpacing: 10.0,
-                                                    mainAxisSpacing: 10.0,
-                                                    childAspectRatio: 1.0,
-                                                  ),
-                                                  scrollDirection:
-                                                      Axis.vertical,
-                                                  itemCount:
-                                                      editstudents.length,
-                                                  itemBuilder: (context,
-                                                      editstudentsIndex) {
-                                                    final editstudentsItem =
-                                                        editstudents[
-                                                            editstudentsIndex];
-                                                    return Container(
-                                                      width: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width *
-                                                          0.3,
-                                                      height: 100.0,
-                                                      decoration: BoxDecoration(
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
-                                                      ),
-                                                      child: Column(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceEvenly,
+                                                  return GridView.builder(
+                                                    padding:
+                                                        const EdgeInsets.fromLTRB(
+                                                      0,
+                                                      0,
+                                                      0,
+                                                      20.0,
+                                                    ),
+                                                    gridDelegate:
+                                                        const SliverGridDelegateWithFixedCrossAxisCount(
+                                                      crossAxisCount: 3,
+                                                      crossAxisSpacing: 10.0,
+                                                      mainAxisSpacing: 10.0,
+                                                      childAspectRatio: 1.0,
+                                                    ),
+                                                    scrollDirection:
+                                                        Axis.vertical,
+                                                    itemCount:
+                                                        editstudents.length,
+                                                    itemBuilder: (context,
+                                                        editstudentsIndex) {
+                                                      final editstudentsItem =
+                                                          editstudents[
+                                                              editstudentsIndex];
+                                                      return Stack(
                                                         children: [
                                                           Container(
                                                             width: MediaQuery
                                                                         .sizeOf(
                                                                             context)
                                                                     .width *
-                                                                0.15,
-                                                            height: MediaQuery
-                                                                        .sizeOf(
-                                                                            context)
-                                                                    .width *
-                                                                0.15,
-                                                            clipBehavior:
-                                                                Clip.antiAlias,
+                                                                0.3,
                                                             decoration:
-                                                                const BoxDecoration(
-                                                              shape: BoxShape
-                                                                  .circle,
+                                                                BoxDecoration(
+                                                              color: const Color(
+                                                                  0xFFA8C0F4),
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          10.0),
+                                                              border:
+                                                                  Border.all(
+                                                                color: const Color(
+                                                                    0xFFEDF1F3),
+                                                              ),
                                                             ),
-                                                            child:
-                                                                Image.network(
-                                                              editstudentsItem
-                                                                  .studentImage,
-                                                              fit: BoxFit.cover,
+                                                            child: Column(
+                                                              mainAxisSize:
+                                                                  MainAxisSize
+                                                                      .max,
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .spaceEvenly,
+                                                              children: [
+                                                                Container(
+                                                                  width: MediaQuery.sizeOf(
+                                                                              context)
+                                                                          .width *
+                                                                      0.15,
+                                                                  height: MediaQuery.sizeOf(
+                                                                              context)
+                                                                          .width *
+                                                                      0.15,
+                                                                  clipBehavior:
+                                                                      Clip.antiAlias,
+                                                                  decoration:
+                                                                      const BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle,
+                                                                  ),
+                                                                  child: Image
+                                                                      .network(
+                                                                    editstudentsItem
+                                                                        .studentImage,
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                ),
+                                                                Text(
+                                                                  editstudentsItem
+                                                                      .studentName,
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        fontFamily:
+                                                                            'Nunito',
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                      ),
+                                                                ),
+                                                              ],
                                                             ),
                                                           ),
-                                                          Text(
-                                                            editstudentsItem
-                                                                .studentName,
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500,
-                                                                ),
+                                                          Align(
+                                                            alignment:
+                                                                const AlignmentDirectional(
+                                                                    1.0, -1.0),
+                                                            child:
+                                                                FlutterFlowIconButton(
+                                                              borderRadius: 8.0,
+                                                              buttonSize:
+                                                                  MediaQuery.sizeOf(
+                                                                              context)
+                                                                          .width *
+                                                                      0.06,
+                                                              fillColor:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                              icon: Icon(
+                                                                Icons.check,
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .info,
+                                                                size: 10.0,
+                                                              ),
+                                                              onPressed: () {
+                                                                print(
+                                                                    'IconButton pressed ...');
+                                                              },
+                                                            ),
                                                           ),
                                                         ],
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              },
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                              ),
                                             ),
                                           ),
-                                          Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 10.0, 0.0, 0.0),
-                                                child: FFButtonWidget(
-                                                  onPressed: () async {
-                                                    await _model
-                                                        .pageViewController
-                                                        ?.previousPage(
-                                                      duration: const Duration(
-                                                          milliseconds: 300),
-                                                      curve: Curves.ease,
-                                                    );
-                                                  },
-                                                  text: 'Back',
-                                                  icon: const Icon(
-                                                    Icons.keyboard_backspace,
-                                                    size: 15.0,
-                                                  ),
-                                                  options: FFButtonOptions(
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.4,
-                                                    height: MediaQuery.sizeOf(
-                                                                context)
-                                                            .height *
-                                                        0.04,
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(16.0, 0.0,
-                                                                16.0, 0.0),
-                                                    iconPadding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 0.0),
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                    textStyle: FlutterFlowTheme
-                                                            .of(context)
-                                                        .titleSmall
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          color: Colors.white,
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                    elevation: 0.0,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12.0),
-                                                  ),
+                                        ),
+                                      ].addToEnd(const SizedBox(height: 20.0)),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      if (_model.pageno == 0)
+                        Align(
+                          alignment: const AlignmentDirectional(0.0, 1.0),
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 5.0),
+                            child: Material(
+                              color: Colors.transparent,
+                              elevation: 2.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Container(
+                                width: MediaQuery.sizeOf(context).width * 1.0,
+                                height: MediaQuery.sizeOf(context).height * 0.1,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context).secondary,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  border: Border.all(
+                                    color: const Color(0xFFF4F4F4),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    FFButtonWidget(
+                                      onPressed: () async {
+                                        if (_model.formKey.currentState ==
+                                                null ||
+                                            !_model.formKey.currentState!
+                                                .validate()) {
+                                          return;
+                                        }
+                                        if (FFAppState()
+                                                .SelectedTeachers.isEmpty) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Atleast one teacher should be selected',
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondary,
                                                 ),
                                               ),
-                                              Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 10.0, 0.0, 0.0),
-                                                child: FFButtonWidget(
-                                                  onPressed: () async {
-                                                    await widget
-                                                        .schoolclassref!
-                                                        .update({
-                                                      ...createSchoolClassRecordData(
-                                                        className: _model
-                                                            .classNameTextController
-                                                            .text,
-                                                      ),
-                                                      ...mapToFirestore(
-                                                        {
-                                                          'teachers_list':
-                                                              FFAppState()
-                                                                  .SelectedTeachers,
-                                                          'students_list':
-                                                              FFAppState()
-                                                                  .selectedstudents,
-                                                          'ListOfteachers':
-                                                              getTeacherListListFirestoreData(
-                                                            FFAppState()
-                                                                .AddTeachersClass,
-                                                          ),
-                                                          'student_data':
-                                                              getStudentListListFirestoreData(
-                                                            FFAppState()
-                                                                .AddStudentClass,
-                                                          ),
-                                                          'listOfteachersUser':
-                                                              FFAppState()
-                                                                  .AddTeachersClass
-                                                                  .map((e) =>
-                                                                      e.userRef)
-                                                                  .withoutNulls
-                                                                  .toList(),
-                                                        },
-                                                      ),
-                                                    });
-
-                                                    await containerSchoolRecord
-                                                        .reference
-                                                        .update({
-                                                      ...mapToFirestore(
-                                                        {
-                                                          'student_data_list':
-                                                              getStudentListListFirestoreData(
-                                                            functions.updateIsPresentStatus(
-                                                                containerSchoolRecord
-                                                                    .studentDataList
-                                                                    .toList(),
-                                                                FFAppState()
-                                                                    .AddStudentClass
-                                                                    .toList(),
-                                                                editclassadminSchoolClassRecord
-                                                                    .reference),
-                                                          ),
-                                                        },
-                                                      ),
-                                                    });
-                                                    FFAppState().loopmin = 0;
-                                                    safeSetState(() {});
-                                                    while (FFAppState()
-                                                            .loopmin <
-                                                        FFAppState()
-                                                            .selectedstudents
-                                                            .length) {
-                                                      await FFAppState()
-                                                          .selectedstudents
-                                                          .elementAtOrNull(
-                                                              FFAppState()
-                                                                  .loopmin)!
-                                                          .update({
-                                                        ...createStudentsRecordData(
-                                                          className: _model
-                                                              .classNameTextController
-                                                              .text,
-                                                        ),
-                                                        ...mapToFirestore(
-                                                          {
-                                                            'classref':
-                                                                FieldValue
-                                                                    .arrayUnion([
-                                                              widget
-                                                                  .schoolclassref
-                                                            ]),
-                                                          },
-                                                        ),
-                                                      });
-                                                      FFAppState().loopmin =
-                                                          FFAppState().loopmin +
-                                                              1;
-                                                      safeSetState(() {});
-                                                    }
-                                                    FFAppState().editclass =
-                                                        false;
-                                                    FFAppState()
-                                                        .SelectedTeachers = [];
-                                                    FFAppState()
-                                                        .selectedstudents = [];
-                                                    FFAppState().loopmin = 0;
-                                                    FFAppState()
-                                                        .AddTeachersClass = [];
-                                                    FFAppState()
-                                                        .AddStudentClass = [];
-                                                    safeSetState(() {});
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(
-                                                          'Class updated',
-                                                          style: TextStyle(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primaryText,
-                                                          ),
-                                                        ),
-                                                        duration: const Duration(
-                                                            milliseconds: 4000),
-                                                        backgroundColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .secondary,
-                                                      ),
-                                                    );
-
-                                                    context.goNamed(
-                                                      'Class_view',
-                                                      queryParameters: {
-                                                        'schoolclassref':
-                                                            serializeParam(
-                                                          editclassadminSchoolClassRecord
-                                                              .reference,
-                                                          ParamType
-                                                              .DocumentReference,
-                                                        ),
-                                                        'schoolref':
-                                                            serializeParam(
-                                                          widget.schoolref,
-                                                          ParamType
-                                                              .DocumentReference,
-                                                        ),
-                                                      }.withoutNulls,
-                                                    );
-                                                  },
-                                                  text: 'Update class',
-                                                  options: FFButtonOptions(
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.4,
-                                                    height: MediaQuery.sizeOf(
-                                                                context)
-                                                            .height *
-                                                        0.04,
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(16.0, 0.0,
-                                                                16.0, 0.0),
-                                                    iconPadding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 0.0),
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                    textStyle: FlutterFlowTheme
-                                                            .of(context)
-                                                        .titleSmall
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          color: Colors.white,
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                    elevation: 0.0,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12.0),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                              duration:
+                                                  const Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                            ),
+                                          );
+                                        } else {
+                                          _model.pageno = 1;
+                                          safeSetState(() {});
+                                          await _model.pageViewController
+                                              ?.nextPage(
+                                            duration:
+                                                const Duration(milliseconds: 300),
+                                            curve: Curves.ease,
+                                          );
+                                        }
+                                      },
+                                      text: 'Next',
+                                      icon: const Icon(
+                                        Icons.arrow_forward,
+                                        size: 20.0,
+                                      ),
+                                      options: FFButtonOptions(
+                                        width:
+                                            MediaQuery.sizeOf(context).width *
+                                                0.8,
+                                        height:
+                                            MediaQuery.sizeOf(context).height *
+                                                0.06,
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 0.0, 16.0, 0.0),
+                                        iconAlignment: IconAlignment.end,
+                                        iconPadding:
+                                            const EdgeInsetsDirectional.fromSTEB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .override(
+                                              fontFamily: 'Nunito',
+                                              color: Colors.white,
+                                              letterSpacing: 0.0,
+                                            ),
+                                        elevation: 0.0,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                       ),
                                     ),
                                   ],
                                 ),
                               ),
-                              Align(
-                                alignment: const AlignmentDirectional(0.0, 1.0),
+                            ),
+                          ),
+                        ),
+                      if (_model.pageno == 1)
+                        Align(
+                          alignment: const AlignmentDirectional(0.0, 1.0),
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 5.0),
+                            child: Material(
+                              color: Colors.transparent,
+                              elevation: 2.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Container(
+                                width: MediaQuery.sizeOf(context).width * 1.0,
+                                height: MediaQuery.sizeOf(context).height * 0.1,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context).secondary,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  border: Border.all(
+                                    color: const Color(0xFFF4F4F4),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    FFButtonWidget(
+                                      onPressed: () async {
+                                        _model.pageno = 0;
+                                        safeSetState(() {});
+                                        await _model.pageViewController
+                                            ?.previousPage(
+                                          duration: const Duration(milliseconds: 300),
+                                          curve: Curves.ease,
+                                        );
+                                      },
+                                      text: 'Back',
+                                      icon: const Icon(
+                                        Icons.arrow_back,
+                                        size: 20.0,
+                                      ),
+                                      options: FFButtonOptions(
+                                        width:
+                                            MediaQuery.sizeOf(context).width *
+                                                0.4,
+                                        height:
+                                            MediaQuery.sizeOf(context).height *
+                                                0.06,
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 0.0, 16.0, 0.0),
+                                        iconPadding:
+                                            const EdgeInsetsDirectional.fromSTEB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .override(
+                                              fontFamily: 'Nunito',
+                                              color: Colors.white,
+                                              letterSpacing: 0.0,
+                                            ),
+                                        elevation: 0.0,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                    ),
+                                    FFButtonWidget(
+                                      onPressed: () async {
+                                        if (FFAppState()
+                                                .selectedstudents.isNotEmpty) {
+                                          _model.pageno = 2;
+                                          safeSetState(() {});
+                                          await _model.pageViewController
+                                              ?.nextPage(
+                                            duration:
+                                                const Duration(milliseconds: 300),
+                                            curve: Curves.ease,
+                                          );
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Atleast one students should be select',
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondaryBackground,
+                                                ),
+                                              ),
+                                              duration:
+                                                  const Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                            ),
+                                          );
+                                        }
+                                      },
+                                      text: 'Next',
+                                      icon: const Icon(
+                                        Icons.arrow_forward,
+                                        size: 20.0,
+                                      ),
+                                      options: FFButtonOptions(
+                                        width:
+                                            MediaQuery.sizeOf(context).width *
+                                                0.4,
+                                        height:
+                                            MediaQuery.sizeOf(context).height *
+                                                0.06,
+                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 0.0, 16.0, 0.0),
+                                        iconAlignment: IconAlignment.end,
+                                        iconPadding:
+                                            const EdgeInsetsDirectional.fromSTEB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .override(
+                                              fontFamily: 'Nunito',
+                                              color: Colors.white,
+                                              letterSpacing: 0.0,
+                                            ),
+                                        elevation: 0.0,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      if (_model.pageno == 2)
+                        Align(
+                          alignment: const AlignmentDirectional(0.0, 1.0),
+                          child: Padding(
+                            padding: const EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 5.0),
+                            child: Material(
+                              color: Colors.transparent,
+                              elevation: 2.0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Container(
+                                width: MediaQuery.sizeOf(context).width * 1.0,
+                                height: MediaQuery.sizeOf(context).height * 0.1,
+                                decoration: BoxDecoration(
+                                  color: FlutterFlowTheme.of(context).secondary,
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  border: Border.all(
+                                    color: const Color(0xFFF4F4F4),
+                                  ),
+                                ),
                                 child: Padding(
                                   padding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 16.0),
-                                  child:
-                                      smooth_page_indicator.SmoothPageIndicator(
-                                    controller: _model.pageViewController ??=
-                                        PageController(initialPage: 0),
-                                    count: 3,
-                                    axisDirection: Axis.horizontal,
-                                    onDotClicked: (i) async {
-                                      await _model.pageViewController!
-                                          .animateToPage(
-                                        i,
-                                        duration: const Duration(milliseconds: 500),
-                                        curve: Curves.ease,
-                                      );
-                                      safeSetState(() {});
-                                    },
-                                    effect: smooth_page_indicator.SlideEffect(
-                                      spacing: 8.0,
-                                      radius: 8.0,
-                                      dotWidth: 8.0,
-                                      dotHeight: 8.0,
-                                      dotColor:
-                                          FlutterFlowTheme.of(context).accent1,
-                                      activeDotColor:
-                                          FlutterFlowTheme.of(context).primary,
-                                      paintStyle: PaintingStyle.fill,
-                                    ),
+                                      0.0, 0.0, 0.0, 15.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      FFButtonWidget(
+                                        onPressed: () async {
+                                          _model.pageno = 1;
+                                          safeSetState(() {});
+                                          await _model.pageViewController
+                                              ?.previousPage(
+                                            duration:
+                                                const Duration(milliseconds: 300),
+                                            curve: Curves.ease,
+                                          );
+                                        },
+                                        text: 'Edit',
+                                        icon: const Icon(
+                                          Icons.arrow_back,
+                                          size: 20.0,
+                                        ),
+                                        options: FFButtonOptions(
+                                          width:
+                                              MediaQuery.sizeOf(context).width *
+                                                  0.4,
+                                          height: MediaQuery.sizeOf(context)
+                                                  .height *
+                                              0.05,
+                                          padding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  16.0, 0.0, 16.0, 0.0),
+                                          iconPadding:
+                                              const EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .secondary,
+                                          textStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .titleSmall
+                                              .override(
+                                                fontFamily: 'Nunito',
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                letterSpacing: 0.0,
+                                              ),
+                                          elevation: 0.0,
+                                          borderSide: const BorderSide(
+                                            color: Color(0xFFEFF0F6),
+                                          ),
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                      ),
+                                      Builder(
+                                        builder: (context) => FFButtonWidget(
+                                          onPressed: () async {
+                                            await widget.schoolclassref!
+                                                .update({
+                                              ...createSchoolClassRecordData(
+                                                className: _model
+                                                    .classNameTextController
+                                                    .text,
+                                              ),
+                                              ...mapToFirestore(
+                                                {
+                                                  'teachers_list': FFAppState()
+                                                      .SelectedTeachers,
+                                                  'students_list': FFAppState()
+                                                      .selectedstudents,
+                                                  'ListOfteachers':
+                                                      getTeacherListListFirestoreData(
+                                                    FFAppState()
+                                                        .AddTeachersClass,
+                                                  ),
+                                                  'student_data':
+                                                      getStudentListListFirestoreData(
+                                                    FFAppState()
+                                                        .AddStudentClass,
+                                                  ),
+                                                  'listOfteachersUser':
+                                                      FFAppState()
+                                                          .AddTeachersClass
+                                                          .map((e) => e.userRef)
+                                                          .withoutNulls
+                                                          .toList(),
+                                                },
+                                              ),
+                                            });
+
+                                            await stackSchoolRecord.reference
+                                                .update({
+                                              ...mapToFirestore(
+                                                {
+                                                  'student_data_list':
+                                                      getStudentListListFirestoreData(
+                                                    functions.updateIsPresentStatus(
+                                                        stackSchoolRecord
+                                                            .studentDataList
+                                                            .toList(),
+                                                        FFAppState()
+                                                            .AddStudentClass
+                                                            .toList(),
+                                                        editclassadminSchoolClassRecord
+                                                            .reference),
+                                                  ),
+                                                },
+                                              ),
+                                            });
+                                            FFAppState().loopmin = 0;
+                                            safeSetState(() {});
+                                            while (FFAppState().loopmin <
+                                                FFAppState()
+                                                    .selectedstudents
+                                                    .length) {
+                                              await FFAppState()
+                                                  .selectedstudents
+                                                  .elementAtOrNull(
+                                                      FFAppState().loopmin)!
+                                                  .update({
+                                                ...createStudentsRecordData(
+                                                  className: _model
+                                                      .classNameTextController
+                                                      .text,
+                                                ),
+                                                ...mapToFirestore(
+                                                  {
+                                                    'classref':
+                                                        FieldValue.arrayUnion([
+                                                      widget.schoolclassref
+                                                    ]),
+                                                  },
+                                                ),
+                                              });
+                                              FFAppState().loopmin =
+                                                  FFAppState().loopmin + 1;
+                                              safeSetState(() {});
+                                            }
+                                            FFAppState().editclass = false;
+                                            FFAppState().SelectedTeachers = [];
+                                            FFAppState().selectedstudents = [];
+                                            FFAppState().loopmin = 0;
+                                            FFAppState().AddTeachersClass = [];
+                                            FFAppState().AddStudentClass = [];
+                                            safeSetState(() {});
+                                            await showDialog(
+                                              context: context,
+                                              builder: (dialogContext) {
+                                                return Dialog(
+                                                  elevation: 0,
+                                                  insetPadding: EdgeInsets.zero,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  alignment:
+                                                      const AlignmentDirectional(
+                                                              0.0, -0.8)
+                                                          .resolve(
+                                                              Directionality.of(
+                                                                  context)),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      FocusScope.of(
+                                                              dialogContext)
+                                                          .unfocus();
+                                                      FocusManager
+                                                          .instance.primaryFocus
+                                                          ?.unfocus();
+                                                    },
+                                                    child: SizedBox(
+                                                      height: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .height *
+                                                          0.08,
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.6,
+                                                      child:
+                                                          const ClasseditedWidget(),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            );
+
+                                            context.goNamed(
+                                              'Class_view',
+                                              queryParameters: {
+                                                'schoolclassref':
+                                                    serializeParam(
+                                                  editclassadminSchoolClassRecord
+                                                      .reference,
+                                                  ParamType.DocumentReference,
+                                                ),
+                                                'schoolref': serializeParam(
+                                                  widget.schoolref,
+                                                  ParamType.DocumentReference,
+                                                ),
+                                                'datePick': serializeParam(
+                                                  getCurrentTimestamp,
+                                                  ParamType.DateTime,
+                                                ),
+                                              }.withoutNulls,
+                                            );
+                                          },
+                                          text: 'Update class',
+                                          options: FFButtonOptions(
+                                            width: MediaQuery.sizeOf(context)
+                                                    .width *
+                                                0.4,
+                                            height: MediaQuery.sizeOf(context)
+                                                    .height *
+                                                0.05,
+                                            padding:
+                                                const EdgeInsetsDirectional.fromSTEB(
+                                                    16.0, 0.0, 16.0, 0.0),
+                                            iconPadding:
+                                                const EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 0.0, 0.0, 0.0),
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            textStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .override(
+                                                      fontFamily: 'Nunito',
+                                                      color: Colors.white,
+                                                      letterSpacing: 0.0,
+                                                    ),
+                                            elevation: 0.0,
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
                               ),
-                            ],
+                            ),
                           ),
                         ),
-                      );
-                    },
-                  ),
-                ],
+                    ],
+                  );
+                },
               ),
             ),
           ),

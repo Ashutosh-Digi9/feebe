@@ -132,23 +132,24 @@ class _AttendanceMarkedWidgetState extends State<AttendanceMarkedWidget> {
           top: true,
           child: Column(
             mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Lottie.asset(
                 'assets/jsons/Animation_-_1731654084345.json',
                 width: MediaQuery.sizeOf(context).width * 1.0,
-                height: MediaQuery.sizeOf(context).height * 0.3,
+                height: MediaQuery.sizeOf(context).height * 0.2,
                 fit: BoxFit.contain,
+                repeat: false,
                 animate: true,
               ),
               Text(
                 'Today’s attendance marked',
                 textAlign: TextAlign.center,
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Inter',
-                      fontSize: 32.0,
+                      fontFamily: 'Nunito',
+                      fontSize: 30.0,
                       letterSpacing: 0.0,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.w500,
                     ),
               ),
             ],

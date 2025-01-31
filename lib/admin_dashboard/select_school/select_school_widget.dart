@@ -139,7 +139,7 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                         labelStyle: FlutterFlowTheme.of(context)
                             .labelMedium
                             .override(
-                              fontFamily: 'Inter',
+                              fontFamily: 'Nunito',
                               color: FlutterFlowTheme.of(context).primaryText,
                               letterSpacing: 0.0,
                             ),
@@ -147,7 +147,7 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                         hintStyle: FlutterFlowTheme.of(context)
                             .labelMedium
                             .override(
-                              fontFamily: 'Inter',
+                              fontFamily: 'Nunito',
                               color: FlutterFlowTheme.of(context).primaryText,
                               letterSpacing: 0.0,
                             ),
@@ -187,7 +187,7 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                         ),
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Inter',
+                            fontFamily: 'Nunito',
                             letterSpacing: 0.0,
                           ),
                       cursorColor: FlutterFlowTheme.of(context).primaryText,
@@ -288,7 +288,7 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                           style: FlutterFlowTheme.of(context)
                               .bodyMedium
                               .override(
-                                fontFamily: 'Inter',
+                                fontFamily: 'Nunito',
                                 color:
                                     FlutterFlowTheme.of(context).tertiaryText,
                                 fontSize: 10.0,

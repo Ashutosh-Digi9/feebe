@@ -87,7 +87,19 @@ class _TeacherAttendenceHistoryWidgetState
                   size: 28.0,
                 ),
                 onPressed: () async {
-                  context.pop();
+                  context.pushNamed(
+                    'Teacher_profile',
+                    queryParameters: {
+                      'teacherRef': serializeParam(
+                        teacherAttendenceHistoryTeachersRecord.reference,
+                        ParamType.DocumentReference,
+                      ),
+                      'schoolref': serializeParam(
+                        widget.schoolref,
+                        ParamType.DocumentReference,
+                      ),
+                    }.withoutNulls,
+                  );
                 },
               ),
               title: Text(
@@ -446,7 +458,7 @@ class _TeacherAttendenceHistoryWidgetState
                                                                       0.0, 0.0),
                                                               child: Text(
                                                                 dateTimeFormat(
-                                                                    "d/M/y",
+                                                                    "dd MMM , y",
                                                                     attendaceItem
                                                                         .date!),
                                                                 style: FlutterFlowTheme.of(
@@ -546,77 +558,99 @@ class _TeacherAttendenceHistoryWidgetState
                   ),
                   Align(
                     alignment: const AlignmentDirectional(0.0, 0.0),
-                    child: Container(
-                      width: MediaQuery.sizeOf(context).width * 1.0,
-                      decoration: const BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0x33F3DFDF),
-                            offset: Offset(
-                              0.0,
-                              4.0,
-                            ),
-                          )
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            15.0, 10.0, 15.0, 20.0),
-                        child: FFButtonWidget(
-                          onPressed: (teacherAttendenceHistoryTeachersRecord
-                                      .teacherAttendance
-                                      .where((e) =>
-                                          dateTimeFormat("MMM/y", e.date) ==
-                                          dateTimeFormat("MMM/y",
-                                              _model.currentmonthandyear))
-                                      .toList()
-                                      .sortedList(
-                                          keyOf: (e) => e.date!, desc: true).isEmpty)
-                              ? null
-                              : () async {
-                                  await actions.generateAttendacePdfCopy(
-                                    teacherAttendenceHistoryTeachersRecord
-                                        .teacherName,
-                                    getCurrentTimestamp,
-                                    teacherAttendenceHistoryTeachersRecord
-                                        .teacherAttendance
-                                        .toList(),
-                                    teacherAttendenceHistoryTeachersRecord
-                                        .emailId,
-                                    teacherAttendenceHistoryTeachersRecord
-                                        .phoneNumber,
-                                    _model.currentmonthandyear!,
-                                  );
-                                },
-                          text: 'Download',
-                          icon: const Icon(
-                            Icons.download,
-                            size: 15.0,
-                          ),
-                          options: FFButtonOptions(
-                            width: MediaQuery.sizeOf(context).width * 0.4,
-                            height: MediaQuery.sizeOf(context).height * 0.054,
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                16.0, 0.0, 16.0, 0.0),
-                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            textStyle: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .override(
-                                  fontFamily: 'Nunito',
-                                  color: Colors.white,
-                                  letterSpacing: 0.0,
+                    child: Padding(
+                      padding:
+                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
+                      child: Material(
+                        color: Colors.transparent,
+                        elevation: 2.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Container(
+                          width: MediaQuery.sizeOf(context).width * 1.0,
+                          height: MediaQuery.sizeOf(context).height * 0.1,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context).secondary,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color(0x33F3DFDF),
+                                offset: Offset(
+                                  0.0,
+                                  4.0,
                                 ),
-                            elevation: 0.0,
-                            borderRadius: BorderRadius.circular(8.0),
-                            disabledColor:
-                                FlutterFlowTheme.of(context).alternate,
-                            disabledTextColor:
-                                FlutterFlowTheme.of(context).tertiary,
+                              )
+                            ],
+                            borderRadius: BorderRadius.circular(10.0),
+                            border: Border.all(
+                              color: const Color(0xFFF4F4F4),
+                            ),
                           ),
-                          showLoadingIndicator: false,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              FFButtonWidget(
+                                onPressed: (teacherAttendenceHistoryTeachersRecord
+                                            .teacherAttendance
+                                            .where((e) =>
+                                                dateTimeFormat(
+                                                    "MMM/y", e.date) ==
+                                                dateTimeFormat("MMM/y",
+                                                    _model.currentmonthandyear))
+                                            .toList()
+                                            .sortedList(
+                                                keyOf: (e) => e.date!,
+                                                desc: true).isEmpty)
+                                    ? null
+                                    : () async {
+                                        await actions.generateAttendacePdfCopy(
+                                          teacherAttendenceHistoryTeachersRecord
+                                              .teacherName,
+                                          getCurrentTimestamp,
+                                          teacherAttendenceHistoryTeachersRecord
+                                              .teacherAttendance
+                                              .toList(),
+                                          teacherAttendenceHistoryTeachersRecord
+                                              .emailId,
+                                          teacherAttendenceHistoryTeachersRecord
+                                              .phoneNumber,
+                                          _model.currentmonthandyear!,
+                                        );
+                                      },
+                                text: 'Download',
+                                icon: const Icon(
+                                  Icons.download,
+                                  size: 15.0,
+                                ),
+                                options: FFButtonOptions(
+                                  width: MediaQuery.sizeOf(context).width * 0.7,
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 0.054,
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 0.0, 16.0, 0.0),
+                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: FlutterFlowTheme.of(context)
+                                      .primaryBackground,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                        fontFamily: 'Nunito',
+                                        color: Colors.white,
+                                        letterSpacing: 0.0,
+                                      ),
+                                  elevation: 0.0,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  disabledColor:
+                                      FlutterFlowTheme.of(context).alternate,
+                                  disabledTextColor:
+                                      FlutterFlowTheme.of(context).tertiary,
+                                ),
+                                showLoadingIndicator: false,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

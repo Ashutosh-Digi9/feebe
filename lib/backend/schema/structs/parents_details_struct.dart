@@ -1,5 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -190,6 +190,54 @@ class ParentsDetailsStruct extends FFFirebaseStruct {
           data['document'],
           ParamType.String,
           false,
+        ),
+      );
+
+  static ParentsDetailsStruct fromAlgoliaData(Map<String, dynamic> data) =>
+      ParentsDetailsStruct(
+        parentsId: convertAlgoliaParam(
+          data['parents_id'],
+          ParamType.int,
+          false,
+        ),
+        parentsName: convertAlgoliaParam(
+          data['parents_name'],
+          ParamType.String,
+          false,
+        ),
+        parentImage: convertAlgoliaParam(
+          data['parentImage'],
+          ParamType.String,
+          false,
+        ),
+        parentsEmail: convertAlgoliaParam(
+          data['parents_email'],
+          ParamType.String,
+          false,
+        ),
+        parentsPhone: convertAlgoliaParam(
+          data['parents_phone'],
+          ParamType.String,
+          false,
+        ),
+        userRef: convertAlgoliaParam(
+          data['userRef'],
+          ParamType.DocumentReference,
+          false,
+        ),
+        parentRelation: convertAlgoliaParam(
+          data['ParentRelation'],
+          ParamType.String,
+          false,
+        ),
+        document: convertAlgoliaParam(
+          data['document'],
+          ParamType.String,
+          false,
+        ),
+        firestoreUtilData: const FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
         ),
       );
 

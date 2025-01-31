@@ -22,18 +22,24 @@ class AddCalenderDetailsModel
 
   DocumentReference? schoolref;
 
+  NotificationUSerefStruct? useref;
+  void updateUserefStruct(Function(NotificationUSerefStruct) updateFn) {
+    updateFn(useref ??= NotificationUSerefStruct());
+  }
+
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
   // Stores action output result for [Firestore Query - Query a collection] action in add_calender_details widget.
   SchoolRecord? school;
+  DateTime? datePicked;
   // State field(s) for eventname widget.
   FocusNode? eventnameFocusNode;
   TextEditingController? eventnameTextController;
   String? Function(BuildContext, String?)? eventnameTextControllerValidator;
   String? _eventnameTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter title of notice';
+      return 'Please enter title of the event';
     }
 
     if (val.length > 50) {
@@ -51,18 +57,25 @@ class AddCalenderDetailsModel
   String? _descriptionNoticeTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter Description of notice';
+      return 'Please enter Description of the event';
     }
 
     return null;
   }
 
-  bool isDataUploading = false;
-  List<FFUploadedFile> uploadedLocalFiles = [];
-  List<String> uploadedFileUrls = [];
+  bool isDataUploading1 = false;
+  List<FFUploadedFile> uploadedLocalFiles1 = [];
+  List<String> uploadedFileUrls1 = [];
+
+  bool isDataUploading2 = false;
+  FFUploadedFile uploadedLocalFile2 =
+      FFUploadedFile(bytes: Uint8List.fromList([]));
+  String uploadedFileUrl2 = '';
 
   // Stores action output result for [Firestore Query - Query a collection] action in send widget.
   List<StudentsRecord>? students;
+  // Stores action output result for [Firestore Query - Query a collection] action in send widget.
+  SchoolRecord? school12356;
 
   @override
   void initState(BuildContext context) {

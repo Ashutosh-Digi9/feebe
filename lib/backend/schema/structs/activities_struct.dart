@@ -1,5 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -107,6 +107,34 @@ class ActivitiesStruct extends FFFirebaseStruct {
           data['addedby_name'],
           ParamType.String,
           false,
+        ),
+      );
+
+  static ActivitiesStruct fromAlgoliaData(Map<String, dynamic> data) =>
+      ActivitiesStruct(
+        activityName: convertAlgoliaParam(
+          data['activity_name'],
+          ParamType.String,
+          false,
+        ),
+        activityDescription: convertAlgoliaParam(
+          data['activity_description'],
+          ParamType.String,
+          false,
+        ),
+        activityDate: convertAlgoliaParam(
+          data['activity_date'],
+          ParamType.DateTime,
+          false,
+        ),
+        addedbyName: convertAlgoliaParam(
+          data['addedby_name'],
+          ParamType.String,
+          false,
+        ),
+        firestoreUtilData: const FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
         ),
       );
 

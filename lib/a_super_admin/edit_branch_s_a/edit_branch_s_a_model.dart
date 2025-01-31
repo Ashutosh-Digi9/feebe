@@ -12,6 +12,8 @@ class EditBranchSAModel extends FlutterFlowModel<EditBranchSAWidget> {
 
   String? state;
 
+  bool pincodechange = false;
+
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();

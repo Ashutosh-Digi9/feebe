@@ -23,6 +23,15 @@ class SelectTeacherNoticeModel
 
   bool search = false;
 
+  List<String> towhome = [];
+  void addToTowhome(String item) => towhome.add(item);
+  void removeFromTowhome(String item) => towhome.remove(item);
+  void removeAtIndexFromTowhome(int index) => towhome.removeAt(index);
+  void insertAtIndexInTowhome(int index, String item) =>
+      towhome.insert(index, item);
+  void updateTowhomeAtIndex(int index, Function(String) updateFn) =>
+      towhome[index] = updateFn(towhome[index]);
+
   ///  State fields for stateful widgets in this component.
 
   // State field(s) for TextField widget.

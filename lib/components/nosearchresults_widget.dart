@@ -43,7 +43,7 @@ class _NosearchresultsWidgetState extends State<NosearchresultsWidget> {
         Lottie.asset(
           'assets/jsons/Animation_-_1731314874616.json',
           width: MediaQuery.sizeOf(context).width * 0.9,
-          height: MediaQuery.sizeOf(context).height * 0.5,
+          height: MediaQuery.sizeOf(context).height * 0.2,
           fit: BoxFit.contain,
           animate: true,
         ),

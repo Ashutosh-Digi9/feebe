@@ -1,5 +1,6 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
+import '/confirmationpages/schoolapproved12/schoolapproved12_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_toggle_icon.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -180,7 +181,7 @@ class _SubscriptionWidgetState extends State<SubscriptionWidget> {
                                           Padding(
                                             padding:
                                                 const EdgeInsetsDirectional.fromSTEB(
-                                                    0.0, 0.0, 0.0, 10.0),
+                                                    0.0, 0.0, 0.0, 4.0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
                                               mainAxisAlignment:
@@ -251,7 +252,7 @@ class _SubscriptionWidgetState extends State<SubscriptionWidget> {
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .primary,
-                                                        size: 24.0,
+                                                        size: 16.0,
                                                       ),
                                                       offIcon: Icon(
                                                         Icons.circle_outlined,
@@ -268,7 +269,8 @@ class _SubscriptionWidgetState extends State<SubscriptionWidget> {
                                                               .of(context)
                                                           .bodyMedium
                                                           .override(
-                                                            fontFamily: 'Inter',
+                                                            fontFamily:
+                                                                'Nunito',
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primary,
@@ -293,7 +295,8 @@ class _SubscriptionWidgetState extends State<SubscriptionWidget> {
                                                               .of(context)
                                                           .bodyMedium
                                                           .override(
-                                                            fontFamily: 'Inter',
+                                                            fontFamily:
+                                                                'Nunito',
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primary,
@@ -339,13 +342,14 @@ class _SubscriptionWidgetState extends State<SubscriptionWidget> {
                                                             .bodyMedium
                                                             .override(
                                                               fontFamily:
-                                                                  'Inter',
-                                                              fontSize: 12.0,
+                                                                  'Nunito',
+                                                              fontSize: 14.0,
                                                               letterSpacing:
                                                                   0.0,
                                                             ),
                                                       );
-                                                    }),
+                                                    }).divide(
+                                                        const SizedBox(height: 2.0)),
                                                   );
                                                 },
                                               ),
@@ -432,132 +436,177 @@ class _SubscriptionWidgetState extends State<SubscriptionWidget> {
                               ),
                             Align(
                               alignment: const AlignmentDirectional(0.0, 0.0),
-                              child: FFButtonWidget(
-                                onPressed: () async {
-                                  if (FFAppState().selectedSubscriptionId !=
-                                      10) {
-                                    var confirmDialogResponse =
-                                        await showDialog<bool>(
-                                              context: context,
-                                              builder: (alertDialogContext) {
-                                                return AlertDialog(
-                                                  title: const Text('Approve school'),
-                                                  content: const Text(
-                                                      'Are you sure you want to approve this school ?'),
-                                                  actions: [
-                                                    TextButton(
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              alertDialogContext,
-                                                              false),
-                                                      child: const Text('Cancel'),
-                                                    ),
-                                                    TextButton(
-                                                      onPressed: () =>
-                                                          Navigator.pop(
-                                                              alertDialogContext,
-                                                              true),
-                                                      child: const Text('Confirm'),
-                                                    ),
-                                                  ],
-                                                );
-                                              },
-                                            ) ??
-                                            false;
-                                    if (confirmDialogResponse) {
-                                      await widget.schoolRef!
-                                          .update(createSchoolRecordData(
-                                        schoolStatus: 2,
-                                        subscriptionDetails:
-                                            updateSubscribtionDetailsStruct(
-                                          FFAppState().subscription,
-                                          clearUnsetFields: false,
-                                        ),
-                                        subscriptionStatus:
-                                            FFAppState().subscription.subId == 0
-                                                ? 2
-                                                : 0,
-                                      ));
-
-                                      await columnSchoolRecord
-                                          .principalDetails.principalId!
-                                          .update(createUsersRecordData(
-                                        subcriptiondetails:
-                                            updateSubscribtionDetailsStruct(
-                                          FFAppState().subscription,
-                                          clearUnsetFields: false,
-                                        ),
-                                        subscriptionStatus:
-                                            FFAppState().subscription.subId == 0
-                                                ? 2
-                                                : 0,
-                                      ));
-                                      FFAppState().subscription =
-                                          SubscribtionDetailsStruct();
-                                      safeSetState(() {});
-
-                                      context.goNamed(
-                                        'Schoolapproved',
-                                        extra: <String, dynamic>{
-                                          kTransitionInfoKey: const TransitionInfo(
-                                            hasTransition: true,
-                                            transitionType:
-                                                PageTransitionType.fade,
+                              child: Builder(
+                                builder: (context) => FFButtonWidget(
+                                  onPressed: () async {
+                                    if (FFAppState().selectedSubscriptionId !=
+                                        10) {
+                                      var confirmDialogResponse =
+                                          await showDialog<bool>(
+                                                context: context,
+                                                builder: (alertDialogContext) {
+                                                  return AlertDialog(
+                                                    title:
+                                                        const Text('Approve school'),
+                                                    content: const Text(
+                                                        'Are you sure you want to approve this school ?'),
+                                                    actions: [
+                                                      TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                alertDialogContext,
+                                                                false),
+                                                        child: const Text('Cancel'),
+                                                      ),
+                                                      TextButton(
+                                                        onPressed: () =>
+                                                            Navigator.pop(
+                                                                alertDialogContext,
+                                                                true),
+                                                        child: const Text('Confirm'),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
+                                              ) ??
+                                              false;
+                                      if (confirmDialogResponse) {
+                                        await widget.schoolRef!
+                                            .update(createSchoolRecordData(
+                                          schoolStatus: 2,
+                                          subscriptionDetails:
+                                              updateSubscribtionDetailsStruct(
+                                            FFAppState().subscription,
+                                            clearUnsetFields: false,
                                           ),
-                                        },
+                                          subscriptionStatus:
+                                              FFAppState().subscription.subId ==
+                                                      0
+                                                  ? 2
+                                                  : 0,
+                                        ));
+
+                                        await columnSchoolRecord
+                                            .principalDetails.principalId!
+                                            .update(createUsersRecordData(
+                                          subcriptiondetails:
+                                              updateSubscribtionDetailsStruct(
+                                            FFAppState().subscription,
+                                            clearUnsetFields: false,
+                                          ),
+                                          subscriptionStatus:
+                                              FFAppState().subscription.subId ==
+                                                      0
+                                                  ? 2
+                                                  : 0,
+                                        ));
+                                        FFAppState().subscription =
+                                            SubscribtionDetailsStruct();
+                                        safeSetState(() {});
+                                        await showDialog(
+                                          context: context,
+                                          builder: (dialogContext) {
+                                            return Dialog(
+                                              elevation: 0,
+                                              insetPadding: EdgeInsets.zero,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              alignment: const AlignmentDirectional(
+                                                      0.0, -0.8)
+                                                  .resolve(Directionality.of(
+                                                      context)),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  FocusScope.of(dialogContext)
+                                                      .unfocus();
+                                                  FocusManager
+                                                      .instance.primaryFocus
+                                                      ?.unfocus();
+                                                },
+                                                child: SizedBox(
+                                                  height:
+                                                      MediaQuery.sizeOf(context)
+                                                              .height *
+                                                          0.08,
+                                                  width:
+                                                      MediaQuery.sizeOf(context)
+                                                              .width *
+                                                          0.6,
+                                                  child:
+                                                      const Schoolapproved12Widget(),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        );
+
+                                        context.goNamed(
+                                          'Dashboard',
+                                          extra: <String, dynamic>{
+                                            kTransitionInfoKey: const TransitionInfo(
+                                              hasTransition: true,
+                                              transitionType:
+                                                  PageTransitionType.fade,
+                                            ),
+                                          },
+                                        );
+                                      }
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Choose subscription',
+                                            style: TextStyle(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondary,
+                                            ),
+                                          ),
+                                          duration:
+                                              const Duration(milliseconds: 4000),
+                                          backgroundColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primaryText,
+                                        ),
                                       );
                                     }
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Choose subscription',
-                                          style: TextStyle(
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                          ),
-                                        ),
-                                        duration: const Duration(milliseconds: 4000),
-                                        backgroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .secondary,
-                                      ),
-                                    );
-                                  }
-                                },
-                                text: 'Select Plan',
-                                options: FFButtonOptions(
-                                  width: MediaQuery.sizeOf(context).width * 0.8,
-                                  height:
-                                      MediaQuery.sizeOf(context).height * 0.06,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 0.0, 16.0, 0.0),
-                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 0.0),
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .override(
-                                    fontFamily: 'Nunito',
+                                  },
+                                  text: 'Select Plan',
+                                  options: FFButtonOptions(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.8,
+                                    height: MediaQuery.sizeOf(context).height *
+                                        0.06,
+                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 0.0, 16.0, 0.0),
+                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
                                     color: FlutterFlowTheme.of(context)
-                                        .secondaryText,
-                                    letterSpacing: 0.0,
-                                    shadows: [
-                                      const Shadow(
-                                        color: Color(0x77253EA7),
-                                        offset: Offset(0.0, 1.0),
-                                        blurRadius: 2.0,
-                                      ),
-                                      const Shadow(
-                                        color: Color(0xFF375DFB),
-                                        offset: Offset(0.0, 0.0),
-                                        blurRadius: 0.0,
-                                      )
-                                    ],
+                                        .primaryBackground,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                      fontFamily: 'Nunito',
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryText,
+                                      letterSpacing: 0.0,
+                                      shadows: [
+                                        const Shadow(
+                                          color: Color(0x77253EA7),
+                                          offset: Offset(0.0, 1.0),
+                                          blurRadius: 2.0,
+                                        ),
+                                        const Shadow(
+                                          color: Color(0xFF375DFB),
+                                          offset: Offset(0.0, 0.0),
+                                          blurRadius: 0.0,
+                                        )
+                                      ],
+                                    ),
+                                    elevation: 0.0,
+                                    borderRadius: BorderRadius.circular(8.0),
                                   ),
-                                  elevation: 0.0,
-                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
                               ),
                             ),

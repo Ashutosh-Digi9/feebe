@@ -84,7 +84,7 @@ class FFAppState extends ChangeNotifier {
   late SharedPreferences prefs;
 
   String _imageurl =
-      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/kqg7tnob6oub/Add_profile_pic_(2).png';
+      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
   String get imageurl => _imageurl;
   set imageurl(String value) {
     _imageurl = value;
@@ -97,7 +97,7 @@ class FFAppState extends ChangeNotifier {
   }
 
   String _schoolimage =
-      'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2FFrame%20731.png?alt=media&token=4abe77e8-804d-485c-9b4a-d9532c4a190a';
+      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png';
   String get schoolimage => _schoolimage;
   set schoolimage(String value) {
     _schoolimage = value;
@@ -468,6 +468,59 @@ class FFAppState extends ChangeNotifier {
     value != null
         ? prefs.setInt('ff_currentdate', value.millisecondsSinceEpoch)
         : prefs.remove('ff_currentdate');
+  }
+
+  List<String> _eventnoticeimage = [];
+  List<String> get eventnoticeimage => _eventnoticeimage;
+  set eventnoticeimage(List<String> value) {
+    _eventnoticeimage = value;
+  }
+
+  void addToEventnoticeimage(String value) {
+    eventnoticeimage.add(value);
+  }
+
+  void removeFromEventnoticeimage(String value) {
+    eventnoticeimage.remove(value);
+  }
+
+  void removeAtIndexFromEventnoticeimage(int index) {
+    eventnoticeimage.removeAt(index);
+  }
+
+  void updateEventnoticeimageAtIndex(
+    int index,
+    String Function(String) updateFn,
+  ) {
+    eventnoticeimage[index] = updateFn(_eventnoticeimage[index]);
+  }
+
+  void insertAtIndexInEventnoticeimage(int index, String value) {
+    eventnoticeimage.insert(index, value);
+  }
+
+  String _studentimage = '';
+  String get studentimage => _studentimage;
+  set studentimage(String value) {
+    _studentimage = value;
+  }
+
+  String _studenttimelinevideo = '';
+  String get studenttimelinevideo => _studenttimelinevideo;
+  set studenttimelinevideo(String value) {
+    _studenttimelinevideo = value;
+  }
+
+  String _studentphotovideo = '';
+  String get studentphotovideo => _studentphotovideo;
+  set studentphotovideo(String value) {
+    _studentphotovideo = value;
+  }
+
+  String _url = '';
+  String get url => _url;
+  set url(String value) {
+    _url = value;
   }
 }
 

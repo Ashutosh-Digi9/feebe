@@ -1,5 +1,5 @@
 // ignore_for_file: unnecessary_getters_setters
-
+import '/backend/algolia/serialization_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '/backend/schema/util/firestore_util.dart';
@@ -129,6 +129,39 @@ class PrincipalDetailsStruct extends FFFirebaseStruct {
           data['principal_image'],
           ParamType.String,
           false,
+        ),
+      );
+
+  static PrincipalDetailsStruct fromAlgoliaData(Map<String, dynamic> data) =>
+      PrincipalDetailsStruct(
+        principalId: convertAlgoliaParam(
+          data['principal_id'],
+          ParamType.DocumentReference,
+          false,
+        ),
+        principalName: convertAlgoliaParam(
+          data['principal_name'],
+          ParamType.String,
+          false,
+        ),
+        phoneNumber: convertAlgoliaParam(
+          data['phone_number'],
+          ParamType.String,
+          false,
+        ),
+        emailId: convertAlgoliaParam(
+          data['email_id'],
+          ParamType.String,
+          false,
+        ),
+        principalImage: convertAlgoliaParam(
+          data['principal_image'],
+          ParamType.String,
+          false,
+        ),
+        firestoreUtilData: const FirestoreUtilData(
+          clearUnsetFields: false,
+          create: true,
         ),
       );
 

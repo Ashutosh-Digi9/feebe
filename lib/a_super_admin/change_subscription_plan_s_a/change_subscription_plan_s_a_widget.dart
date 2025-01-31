@@ -154,8 +154,6 @@ class _ChangeSubscriptionPlanSAWidgetState
                                     subscriptionVar[subscriptionVarIndex];
                                 return Card(
                                   clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
                                   elevation: 5.0,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8.0),
@@ -245,7 +243,7 @@ class _ChangeSubscriptionPlanSAWidgetState
                                                           context)
                                                       .bodyMedium
                                                       .override(
-                                                        fontFamily: 'Inter',
+                                                        fontFamily: 'Nunito',
                                                         color:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -270,7 +268,7 @@ class _ChangeSubscriptionPlanSAWidgetState
                                                           context)
                                                       .bodyMedium
                                                       .override(
-                                                        fontFamily: 'Inter',
+                                                        fontFamily: 'Nunito',
                                                         color:
                                                             FlutterFlowTheme.of(
                                                                     context)
@@ -314,7 +312,8 @@ class _ChangeSubscriptionPlanSAWidgetState
                                                               .of(context)
                                                           .bodyMedium
                                                           .override(
-                                                            fontFamily: 'Inter',
+                                                            fontFamily:
+                                                                'Nunito',
                                                             letterSpacing: 0.0,
                                                           ),
                                                     );

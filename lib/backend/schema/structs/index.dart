@@ -17,5 +17,6 @@ export 'activities_struct.dart';
 export 'address_struct.dart';
 export 'checkin_struct.dart';
 export 'notification_struct.dart';
+export 'notification_u_seref_struct.dart';
 export 'recentsearch_admin_struct.dart';
 export 'searchitems_struct.dart';

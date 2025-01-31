@@ -91,6 +91,36 @@ List<SchoolDetailsStruct>? removeSchoolAtIndex(
   return updatedSchoolDocs;
 }
 
+List<StudentListStruct> updateStudentDataCopy(
+  List<StudentListStruct> studentList,
+  DocumentReference studentRef,
+  String newName,
+  String newImagePath,
+  List<DocumentReference> parentlist,
+  bool isAddedtoclass,
+  List<DocumentReference>? classref,
+  bool isDraft,
+) {
+  for (var student in studentList) {
+    if (student.studentId == studentRef) {
+      // Update the student data
+      student.studentName = newName;
+      student.studentImage = newImagePath;
+      student.classref = classref;
+      student.isAddedinClass = isAddedtoclass;
+      student.parentList = parentlist;
+      student.studentId = studentRef;
+      student.isDraft = isDraft;
+    }
+  }
+
+  return studentList;
+}
+
+String convertvideoPathToString(String videoPath) {
+  return videoPath;
+}
+
 DateTime? prevDate(DateTime? currentdate) {
   // WAP to get next date of current date
   if (currentdate == null) {
@@ -144,6 +174,10 @@ List<SchoolDetailsStruct> updateBranchDetailsAtIndex(
   return branchDetailsList;
 }
 
+String converttovideo(String video) {
+  return video;
+}
+
 DateTime? nextDate(DateTime? currentdate) {
   // WAP to get next date of current date
   if (currentdate == null) {
@@ -166,6 +200,28 @@ int? generateUniqueId() {
   int uniqueId = random + timestamp;
 
   return uniqueId;
+}
+
+String extractFileNameFromFirebaseLinkCopy(String firebaseLink) {
+  if (firebaseLink.isEmpty) {
+    return ''; // Return empty string if the link is empty.
+  }
+
+  try {
+    // Split the URL by '/' to isolate the file path components.
+    final parts = firebaseLink.split('/');
+
+    // The file name is usually the last part of the URL before query parameters.
+    final lastPart = parts.last;
+
+    // Remove query parameters if any (e.g., '?alt=media').
+    final fileName = lastPart.split('?').first;
+
+    return fileName;
+  } catch (e) {
+    // Handle unexpected formats by returning an empty string or logging the error.
+    return '';
+  }
 }
 
 int findTotalAbsent(
@@ -340,6 +396,28 @@ List<TeachersAttendanceStruct> updateCheckoutTime(
   return attendanceList;
 }
 
+DateTime getAdjacentMonthDateCopy(
+  bool next,
+  DateTime currentDate,
+) {
+  int newYear = currentDate.year;
+  int newMonth = next ? currentDate.month + 1 : currentDate.month - 1;
+
+  if (newMonth > 12) {
+    newYear++;
+    newMonth = 1;
+  } else if (newMonth < 1) {
+    newYear--;
+    newMonth = 12;
+  }
+
+  // Ensure the day is valid for the new month
+  int newDay =
+      math.min(currentDate.day, DateTime(newYear, newMonth + 1, 0).day);
+
+  return DateTime(newYear, newMonth, newDay);
+}
+
 DateTime getDateThreeYearsBack(DateTime today) {
   return DateTime(today.year - 3, today.month, today.day);
 }
@@ -460,6 +538,21 @@ int calculateAttendancePercentage(
   // Calculate percentage
   double percentage = (presentCount / totalRecords) * 100;
   return percentage.round();
+}
+
+DateTime? noticedate(DateTime? currentdate) {
+  // WAP to get next date of current date
+  if (currentdate == null) {
+    return null;
+  }
+
+  // Get the previous date
+  final prevDate = currentdate.subtract(Duration(days: 1));
+
+  // Set the time to 10:00 AM
+  final prevDateWithTime =
+      DateTime(prevDate.year, prevDate.month, prevDate.day, 11, 30, 0);
+  return prevDateWithTime;
 }
 
 List<StudentListStruct> updateStudentsInClass(
@@ -620,4 +713,208 @@ List<TeacherListStruct> removeTeacherByRef(
   return teacherList
       .where((teacher) => teacher.teachersId != teacherRef)
       .toList();
+}
+
+List<EventsNoticeStruct> filterEventsAfterTwoDays(
+  List<EventsNoticeStruct> events,
+  DateTime currentDate,
+) {
+  return events
+      .where((event) =>
+          event.eventDate!.isAfter(currentDate.add(Duration(days: 2))))
+      .toList();
+}
+
+List<SearchitemsStruct> removeItemsByType(
+  List<SearchitemsStruct> items,
+  String searchTerm,
+) {
+// Find the type of the item with the given searchTerm
+  return items.where((item) => item.searchterm != searchTerm).toList();
+}
+
+List<String> getClassNames(
+  List<SchoolClassRecord> classCollections,
+  List<DocumentReference> classRefs,
+) {
+  // Start with the "All" class name
+  List<String> classNames = ["All"];
+
+  // Iterate over the class collections
+  for (var classCollection in classCollections) {
+    // Check if the class reference exists in the provided class references
+    if (classRefs.contains(classCollection.reference)) {
+      classNames.add(classCollection.className);
+    }
+  }
+
+  return classNames;
+}
+
+List<TeacherListStruct> sortTeachersByCheckInDate(
+  List<TeacherListStruct> teachersList,
+  List<UsersRecord> userDocs,
+  DateTime dateToCheck,
+) {
+  final userDocsMap = {for (var user in userDocs) user.reference: user};
+
+  teachersList.sort((a, b) {
+    final userA = userDocsMap[a.userRef];
+    final userB = userDocsMap[b.userRef];
+
+    // Handle cases where user documents are not found.
+    if (userA == null || userB == null) {
+      return 0;
+    }
+
+    final checkInDateA = userA.checkin;
+    final checkInDateB = userB.checkin;
+
+    // Check if the check-in date matches the specified date.
+    final isCheckInDateAOnTargetDate = checkInDateA != null &&
+        DateFormat('yyyy-MM-dd').format(checkInDateA) ==
+            DateFormat('yyyy-MM-dd').format(dateToCheck);
+    final isCheckInDateBOnTargetDate = checkInDateB != null &&
+        DateFormat('yyyy-MM-dd').format(checkInDateB) ==
+            DateFormat('yyyy-MM-dd').format(dateToCheck);
+
+    if (isCheckInDateAOnTargetDate && !isCheckInDateBOnTargetDate) {
+      return -1; // Place `a` before `b` if `a` has the check-in date.
+    }
+    if (!isCheckInDateAOnTargetDate && isCheckInDateBOnTargetDate) {
+      return 1; // Place `b` before `a` if `b` has the check-in date.
+    }
+
+    // Handle cases where both or neither match the target date.
+    if (checkInDateA == null && checkInDateB == null) {
+      // If both check-in dates are null, sort alphabetically by user name.
+      return userA.displayName.compareTo(userB.displayName);
+    }
+
+    if (checkInDateA == null) {
+      return 1; // Place `a` after `b` if `a` has no check-in date.
+    }
+
+    if (checkInDateB == null) {
+      return -1; // Place `b` after `a` if `b` has no check-in date.
+    }
+
+    // Compare check-in dates when both are available.
+    return checkInDateA.compareTo(checkInDateB);
+  });
+
+  return teachersList;
+}
+
+String extractFileNameFromFirebaseLink(String firebaseLink) {
+  if (firebaseLink.isEmpty) {
+    return ''; // Return empty string if the link is empty.
+  }
+
+  try {
+    // Split the URL by '/' to isolate the file path components.
+    final parts = firebaseLink.split('/');
+
+    // The file name is usually the last part of the URL before query parameters.
+    final lastPart = parts.last;
+
+    // Remove query parameters if any (e.g., '?alt=media').
+    final fileName = lastPart.split('?').first;
+
+    return fileName;
+  } catch (e) {
+    // Handle unexpected formats by returning an empty string or logging the error.
+    return '';
+  }
+}
+
+List<ClassAttendanceStruct> updateattendance(
+  List<ClassAttendanceStruct> oldattendance,
+  DateTime datenew,
+  List<DocumentReference> newstudnetlist,
+  int totalnopresnt,
+  int totalnoabsent,
+  List<StudentAttendanceStruct> studentattendance,
+) {
+  final dateFormat = DateFormat('dd-MM-yyyy');
+
+  for (int i = 0; i < oldattendance.length; i++) {
+    String newfDate = dateFormat.format(datenew);
+    if (oldattendance[i].date != null) {
+      String listDate = dateFormat.format(oldattendance[i].date!);
+      if (newfDate == listDate) {
+        oldattendance[i].id = oldattendance[i].id;
+        oldattendance[i].date = oldattendance[i].date;
+        oldattendance[i].studentPresentList = newstudnetlist;
+
+        oldattendance[i].totalPresent = totalnopresnt;
+        oldattendance[i].totalAbsent = totalnoabsent;
+        oldattendance[i].totalStudents = oldattendance[i].totalStudents;
+        oldattendance[i].studenttimelines = studentattendance;
+        break;
+      }
+    }
+  }
+  return oldattendance;
+}
+
+List<StudentAttendanceStruct> removeanstudent(
+  DocumentReference studentref,
+  List<StudentAttendanceStruct> studentlist,
+) {
+  return studentlist
+      .where((student) => student.studentref != studentref)
+      .toList();
+}
+
+bool isVideoFile(String fileUrl) {
+  List<String> videoExtensions = ['.mp4', '.mov', '.avi', '.mkv', '.flv'];
+
+  // Extract the path before any query parameters
+  String cleanUrl = fileUrl.split('?').first;
+
+  // Check if the cleaned URL ends with any of the video file extensions
+  return videoExtensions.any((ext) => cleanUrl.toLowerCase().endsWith(ext));
+}
+
+String converttoimagepath(String image) {
+  return image;
+}
+
+List<String> removeaname(
+  List<String> strings,
+  String removename,
+) {
+  return strings.where((name) => name != removename).toList();
+}
+
+String getFormattedDate(
+  DateTime inputDate,
+  DateTime currentDate,
+) {
+  // Check if the input date is today
+  if (inputDate.year == currentDate.year &&
+      inputDate.month == currentDate.month &&
+      inputDate.day == currentDate.day) {
+    return "Today";
+  }
+
+  // Check if the input date is yesterday
+  final yesterday = currentDate.subtract(const Duration(days: 1));
+  if (inputDate.year == yesterday.year &&
+      inputDate.month == yesterday.month &&
+      inputDate.day == yesterday.day) {
+    return "Yesterday";
+  }
+
+  // Otherwise, format the date as 'dd MMM, y'
+  return DateFormat('dd MMM, y').format(inputDate);
+}
+
+String convertToStringclass(List<String> towhom) {
+  if (towhom == null || towhom.isEmpty) {
+    return '';
+  }
+  // Join the list items with a comma and return the result
+  return towhom.join(', ');
 }

@@ -56,7 +56,7 @@ class _ProgressionCreatClassWidgetState
           Text(
             'Please wait till we add all the students to a class',
             style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  fontFamily: 'Inter',
+                  fontFamily: 'Nunito',
                   letterSpacing: 0.0,
                 ),
           ),

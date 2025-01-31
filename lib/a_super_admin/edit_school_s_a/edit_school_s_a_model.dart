@@ -12,6 +12,8 @@ class EditSchoolSAModel extends FlutterFlowModel<EditSchoolSAWidget> {
 
   String? state;
 
+  bool pincodechange = false;
+
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
@@ -25,6 +27,22 @@ class EditSchoolSAModel extends FlutterFlowModel<EditSchoolSAWidget> {
       return 'Please enter school name ';
     }
 
+    return null;
+  }
+
+  // State field(s) for Noofbranches widget.
+  FocusNode? noofbranchesFocusNode;
+  TextEditingController? noofbranchesTextController;
+  String? Function(BuildContext, String?)? noofbranchesTextControllerValidator;
+  String? _noofbranchesTextControllerValidator(
+      BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Please enter count of branches';
+    }
+
+    if (!RegExp('^[0-9]\\d*\$').hasMatch(val)) {
+      return 'Please enter a valid number ';
+    }
     return null;
   }
 
@@ -44,19 +62,16 @@ class EditSchoolSAModel extends FlutterFlowModel<EditSchoolSAWidget> {
     return null;
   }
 
-  // State field(s) for Noofbranches widget.
-  FocusNode? noofbranchesFocusNode;
-  TextEditingController? noofbranchesTextController;
-  String? Function(BuildContext, String?)? noofbranchesTextControllerValidator;
-  String? _noofbranchesTextControllerValidator(
+  // State field(s) for SchoolAddress widget.
+  FocusNode? schoolAddressFocusNode;
+  TextEditingController? schoolAddressTextController;
+  String? Function(BuildContext, String?)? schoolAddressTextControllerValidator;
+  String? _schoolAddressTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter count of branches';
+      return 'Please enter school address';
     }
 
-    if (!RegExp('^[0-9]\\d*\$').hasMatch(val)) {
-      return 'Please enter a valid number ';
-    }
     return null;
   }
 
@@ -81,19 +96,6 @@ class EditSchoolSAModel extends FlutterFlowModel<EditSchoolSAWidget> {
 
   // Stores action output result for [Backend Call - API (getcityandstate)] action in pincode widget.
   ApiCallResponse? apiResultjlv;
-  // State field(s) for SchoolAddress widget.
-  FocusNode? schoolAddressFocusNode;
-  TextEditingController? schoolAddressTextController;
-  String? Function(BuildContext, String?)? schoolAddressTextControllerValidator;
-  String? _schoolAddressTextControllerValidator(
-      BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return 'Please enter school address';
-    }
-
-    return null;
-  }
-
   // State field(s) for cityold widget.
   FocusNode? cityoldFocusNode;
   TextEditingController? cityoldTextController;
@@ -164,12 +166,12 @@ class EditSchoolSAModel extends FlutterFlowModel<EditSchoolSAWidget> {
   @override
   void initState(BuildContext context) {
     schoolnameTextControllerValidator = _schoolnameTextControllerValidator;
+    noofbranchesTextControllerValidator = _noofbranchesTextControllerValidator;
     nooffacultiesTextControllerValidator =
         _nooffacultiesTextControllerValidator;
-    noofbranchesTextControllerValidator = _noofbranchesTextControllerValidator;
-    pincodeTextControllerValidator = _pincodeTextControllerValidator;
     schoolAddressTextControllerValidator =
         _schoolAddressTextControllerValidator;
+    pincodeTextControllerValidator = _pincodeTextControllerValidator;
     contactNameTextControllerValidator = _contactNameTextControllerValidator;
     contactPhonenumberTextControllerValidator =
         _contactPhonenumberTextControllerValidator;
@@ -181,17 +183,17 @@ class EditSchoolSAModel extends FlutterFlowModel<EditSchoolSAWidget> {
     schoolnameFocusNode?.dispose();
     schoolnameTextController?.dispose();
 
-    nooffacultiesFocusNode?.dispose();
-    nooffacultiesTextController?.dispose();
-
     noofbranchesFocusNode?.dispose();
     noofbranchesTextController?.dispose();
 
-    pincodeFocusNode?.dispose();
-    pincodeTextController?.dispose();
+    nooffacultiesFocusNode?.dispose();
+    nooffacultiesTextController?.dispose();
 
     schoolAddressFocusNode?.dispose();
     schoolAddressTextController?.dispose();
+
+    pincodeFocusNode?.dispose();
+    pincodeTextController?.dispose();
 
     cityoldFocusNode?.dispose();
     cityoldTextController?.dispose();

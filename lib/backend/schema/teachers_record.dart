@@ -77,6 +77,11 @@ class TeachersRecord extends FirestoreRecord {
   List<String> get images => _images ?? const [];
   bool hasImages() => _images != null;
 
+  // "checkin" field.
+  DateTime? _checkin;
+  DateTime? get checkin => _checkin;
+  bool hasCheckin() => _checkin != null;
+
   void _initializeFields() {
     _teacherName = snapshotData['teacher_name'] as String?;
     _phoneNumber = snapshotData['phone_number'] as String?;
@@ -99,6 +104,7 @@ class TeachersRecord extends FirestoreRecord {
       EventsNoticeStruct.fromMap,
     );
     _images = getDataList(snapshotData['images']);
+    _checkin = snapshotData['checkin'] as DateTime?;
   }
 
   static CollectionReference get collection =>
@@ -143,6 +149,7 @@ Map<String, dynamic> createTeachersRecordData({
   DateTime? updatedAt,
   String? teacherImage,
   DocumentReference? useref,
+  DateTime? checkin,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -153,6 +160,7 @@ Map<String, dynamic> createTeachersRecordData({
       'updated_at': updatedAt,
       'teacher_image': teacherImage,
       'useref': useref,
+      'checkin': checkin,
     }.withoutNulls,
   );
 
@@ -176,7 +184,8 @@ class TeachersRecordDocumentEquality implements Equality<TeachersRecord> {
         e1?.teacherImage == e2?.teacherImage &&
         e1?.useref == e2?.useref &&
         listEquality.equals(e1?.notices, e2?.notices) &&
-        listEquality.equals(e1?.images, e2?.images);
+        listEquality.equals(e1?.images, e2?.images) &&
+        e1?.checkin == e2?.checkin;
   }
 
   @override
@@ -192,7 +201,8 @@ class TeachersRecordDocumentEquality implements Equality<TeachersRecord> {
         e?.teacherImage,
         e?.useref,
         e?.notices,
-        e?.images
+        e?.images,
+        e?.checkin
       ]);
 
   @override

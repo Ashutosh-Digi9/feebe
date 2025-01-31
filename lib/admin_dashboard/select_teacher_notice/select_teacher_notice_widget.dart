@@ -1,6 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/push_notifications/push_notifications_util.dart';
+import '/components/nosearchresults_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -8,6 +9,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
 import 'package:text_search/text_search.dart';
@@ -53,6 +55,12 @@ class _SelectTeacherNoticeWidgetState extends State<SelectTeacherNoticeWidget>
   void initState() {
     super.initState();
     _model = createModel(context, () => SelectTeacherNoticeModel());
+
+    // On component load action.
+    SchedulerBinding.instance.addPostFrameCallback((_) async {
+      FFAppState().SelectedTeachers = [];
+      safeSetState(() {});
+    });
 
     _model.textController ??= TextEditingController();
     _model.textFieldFocusNode ??= FocusNode();
@@ -191,7 +199,7 @@ class _SelectTeacherNoticeWidgetState extends State<SelectTeacherNoticeWidget>
                               labelStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Inter',
+                                    fontFamily: 'Nunito',
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     letterSpacing: 0.0,
@@ -200,7 +208,7 @@ class _SelectTeacherNoticeWidgetState extends State<SelectTeacherNoticeWidget>
                               hintStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Inter',
+                                    fontFamily: 'Nunito',
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     letterSpacing: 0.0,
@@ -243,7 +251,7 @@ class _SelectTeacherNoticeWidgetState extends State<SelectTeacherNoticeWidget>
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Inter',
+                                  fontFamily: 'Nunito',
                                   letterSpacing: 0.0,
                                 ),
                             cursorColor:
@@ -338,9 +346,15 @@ class _SelectTeacherNoticeWidgetState extends State<SelectTeacherNoticeWidget>
                                                       .cast<
                                                           DocumentReference>();
                                               safeSetState(() {});
+                                              _model.towhome = [];
+                                              safeSetState(() {});
+                                              _model.addToTowhome('');
+                                              safeSetState(() {});
                                             } else {
                                               FFAppState().SelectedTeachers =
                                                   [];
+                                              safeSetState(() {});
+                                              _model.towhome = [];
                                               safeSetState(() {});
                                             }
                                           },
@@ -364,7 +378,7 @@ class _SelectTeacherNoticeWidgetState extends State<SelectTeacherNoticeWidget>
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        fontFamily: 'Inter',
+                                        fontFamily: 'Nunito',
                                         color: FlutterFlowTheme.of(context)
                                             .tertiaryText,
                                         fontSize: 10.0,
@@ -384,6 +398,14 @@ class _SelectTeacherNoticeWidgetState extends State<SelectTeacherNoticeWidget>
                           builder: (context) {
                             final schools =
                                 containerSchoolRecord.teachersDataList.toList();
+                            if (schools.isEmpty) {
+                              return Center(
+                                child: SizedBox(
+                                  width: MediaQuery.sizeOf(context).width * 1.0,
+                                  child: const NosearchresultsWidget(),
+                                ),
+                              );
+                            }
 
                             return GridView.builder(
                               padding: EdgeInsets.zero,
@@ -410,9 +432,24 @@ class _SelectTeacherNoticeWidgetState extends State<SelectTeacherNoticeWidget>
                                       FFAppState().addToSelectedTeachers(
                                           schoolsItem.teachersId!);
                                       safeSetState(() {});
+                                      _model.towhome = functions
+                                          .removeaname(_model.towhome.toList(),
+                                              'Everyone')
+                                          .toList()
+                                          .cast<String>();
+                                      safeSetState(() {});
+                                      _model.addToTowhome(
+                                          schoolsItem.teacherName);
+                                      safeSetState(() {});
                                     } else {
                                       FFAppState().removeFromSelectedTeachers(
                                           schoolsItem.teachersId!);
+                                      safeSetState(() {});
+                                      _model.towhome = functions
+                                          .removeaname(_model.towhome.toList(),
+                                              schoolsItem.teacherName)
+                                          .toList()
+                                          .cast<String>();
                                       safeSetState(() {});
                                     }
                                   },
@@ -493,7 +530,7 @@ class _SelectTeacherNoticeWidgetState extends State<SelectTeacherNoticeWidget>
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Inter',
+                                              fontFamily: 'Nunito',
                                               letterSpacing: 0.0,
                                             ),
                                       ),
@@ -512,6 +549,14 @@ class _SelectTeacherNoticeWidgetState extends State<SelectTeacherNoticeWidget>
                         child: Builder(
                           builder: (context) {
                             final schools = _model.simpleSearchResults.toList();
+                            if (schools.isEmpty) {
+                              return Center(
+                                child: SizedBox(
+                                  width: MediaQuery.sizeOf(context).width * 1.0,
+                                  child: const NosearchresultsWidget(),
+                                ),
+                              );
+                            }
 
                             return GridView.builder(
                               padding: EdgeInsets.zero,
@@ -538,9 +583,24 @@ class _SelectTeacherNoticeWidgetState extends State<SelectTeacherNoticeWidget>
                                       FFAppState().addToSelectedTeachers(
                                           schoolsItem.reference);
                                       safeSetState(() {});
+                                      _model.towhome = functions
+                                          .removeaname(_model.towhome.toList(),
+                                              'Everyone')
+                                          .toList()
+                                          .cast<String>();
+                                      safeSetState(() {});
+                                      _model.addToTowhome(
+                                          schoolsItem.teacherName);
+                                      safeSetState(() {});
                                     } else {
                                       FFAppState().removeFromSelectedTeachers(
                                           schoolsItem.reference);
+                                      safeSetState(() {});
+                                      _model.towhome = functions
+                                          .removeaname(_model.towhome.toList(),
+                                              schoolsItem.teacherName)
+                                          .toList()
+                                          .cast<String>();
                                       safeSetState(() {});
                                     }
                                   },
@@ -621,7 +681,7 @@ class _SelectTeacherNoticeWidgetState extends State<SelectTeacherNoticeWidget>
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Inter',
+                                              fontFamily: 'Nunito',
                                               letterSpacing: 0.0,
                                             ),
                                       ),
@@ -726,7 +786,7 @@ class _SelectTeacherNoticeWidgetState extends State<SelectTeacherNoticeWidget>
 
                               await NotificationsRecord.collection.doc().set({
                                 ...createNotificationsRecordData(
-                                  content: widget.eventtitle,
+                                  content: widget.eventname,
                                   descri: widget.description,
                                   datetimeofevent: widget.datetime,
                                   notification: updateNotificationStruct(
@@ -743,6 +803,8 @@ class _SelectTeacherNoticeWidgetState extends State<SelectTeacherNoticeWidget>
                                   ),
                                   isread: false,
                                   createDate: getCurrentTimestamp,
+                                  addedby: currentUserReference,
+                                  heading: 'Added a notice',
                                 ),
                                 ...mapToFirestore(
                                   {
@@ -754,6 +816,7 @@ class _SelectTeacherNoticeWidgetState extends State<SelectTeacherNoticeWidget>
                                         .map((e) => e.useref)
                                         .withoutNulls
                                         .toList(),
+                                    'towhome': _model.towhome,
                                   },
                                 ),
                               });
@@ -774,16 +837,8 @@ class _SelectTeacherNoticeWidgetState extends State<SelectTeacherNoticeWidget>
                               FFAppState().loopmin = 0;
                               FFAppState().SelectedTeachers = [];
                               safeSetState(() {});
-
-                              context.pushNamed(
-                                'class_dashboard',
-                                queryParameters: {
-                                  'schoolref': serializeParam(
-                                    widget.scoolref,
-                                    ParamType.DocumentReference,
-                                  ),
-                                }.withoutNulls,
-                              );
+                              Navigator.pop(context);
+                              Navigator.pop(context);
                             } else {
                               await showDialog(
                                 context: context,

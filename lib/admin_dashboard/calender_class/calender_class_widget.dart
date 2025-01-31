@@ -1,3 +1,4 @@
+import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -12,10 +13,12 @@ class CalenderClassWidget extends StatefulWidget {
     super.key,
     required this.schoolclassref,
     this.schoolref,
-  });
+    bool? mainpage,
+  }) : mainpage = mainpage ?? false;
 
   final DocumentReference? schoolclassref;
   final DocumentReference? schoolref;
+  final bool mainpage;
 
   @override
   State<CalenderClassWidget> createState() => _CalenderClassWidgetState();
@@ -42,7 +45,14 @@ class _CalenderClassWidgetState extends State<CalenderClassWidget> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<SchoolClassRecord>(
-      stream: SchoolClassRecord.getDocument(widget.schoolclassref!),
+      stream: SchoolClassRecord.getDocument(widget.schoolclassref!)
+        ..listen((calenderClassSchoolClassRecord) async {
+          if (_model.calenderClassPreviousSnapshot != null &&
+              !const SchoolClassRecordDocumentEquality().equals(
+                  calenderClassSchoolClassRecord,
+                  _model.calenderClassPreviousSnapshot)) {}
+          _model.calenderClassPreviousSnapshot = calenderClassSchoolClassRecord;
+        }),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -86,7 +96,39 @@ class _CalenderClassWidgetState extends State<CalenderClassWidget> {
                   size: 28.0,
                 ),
                 onPressed: () async {
-                  context.pop();
+                  if (widget.mainpage == true) {
+                    if (valueOrDefault(currentUserDocument?.userRole, 0) == 3) {
+                      context.pushNamed('Dashboard');
+                    } else {
+                      context.pushNamed(
+                        'class_dashboard',
+                        queryParameters: {
+                          'schoolref': serializeParam(
+                            widget.schoolref,
+                            ParamType.DocumentReference,
+                          ),
+                        }.withoutNulls,
+                      );
+                    }
+                  } else {
+                    context.pushNamed(
+                      'Class_view',
+                      queryParameters: {
+                        'schoolclassref': serializeParam(
+                          calenderClassSchoolClassRecord.reference,
+                          ParamType.DocumentReference,
+                        ),
+                        'schoolref': serializeParam(
+                          widget.schoolref,
+                          ParamType.DocumentReference,
+                        ),
+                        'datePick': serializeParam(
+                          getCurrentTimestamp,
+                          ParamType.DateTime,
+                        ),
+                      }.withoutNulls,
+                    );
+                  }
                 },
               ),
               title: Text(
@@ -115,6 +157,7 @@ class _CalenderClassWidgetState extends State<CalenderClassWidget> {
                       height: MediaQuery.sizeOf(context).height * 0.8,
                       timrlinewidget: calenderClassSchoolClassRecord.calendar,
                       schoolclassref: widget.schoolclassref!,
+                      classname: calenderClassSchoolClassRecord.className,
                     ),
                   ),
                 ],

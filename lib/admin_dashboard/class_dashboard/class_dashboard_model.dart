@@ -1,5 +1,6 @@
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/form_field_controller.dart';
 import '/navbar/navbaradmin/navbaradmin_widget.dart';
 import 'class_dashboard_widget.dart' show ClassDashboardWidget;
 import 'package:flutter/material.dart';
@@ -30,6 +31,21 @@ class ClassDashboardModel extends FlutterFlowModel<ClassDashboardWidget> {
   DocumentReference? classref;
 
   String? teacherNotice;
+
+  String? camerimages;
+
+  DocumentReference? selectedclass;
+
+  List<EventsNoticeStruct> classevents = [];
+  void addToClassevents(EventsNoticeStruct item) => classevents.add(item);
+  void removeFromClassevents(EventsNoticeStruct item) =>
+      classevents.remove(item);
+  void removeAtIndexFromClassevents(int index) => classevents.removeAt(index);
+  void insertAtIndexInClassevents(int index, EventsNoticeStruct item) =>
+      classevents.insert(index, item);
+  void updateClasseventsAtIndex(
+          int index, Function(EventsNoticeStruct) updateFn) =>
+      classevents[index] = updateFn(classevents[index]);
 
   ///  State fields for stateful widgets in this page.
 
@@ -70,10 +86,22 @@ class ClassDashboardModel extends FlutterFlowModel<ClassDashboardWidget> {
     return null;
   }
 
-  bool isDataUploading = false;
-  List<FFUploadedFile> uploadedLocalFiles = [];
-  List<String> uploadedFileUrls = [];
+  bool isDataUploading1 = false;
+  List<FFUploadedFile> uploadedLocalFiles1 = [];
+  List<String> uploadedFileUrls1 = [];
 
+  bool isDataUploading2 = false;
+  FFUploadedFile uploadedLocalFile2 =
+      FFUploadedFile(bytes: Uint8List.fromList([]));
+  String uploadedFileUrl2 = '';
+
+  DateTime? datePicked;
+  // State field(s) for DropDown widget.
+  String? dropDownValue;
+  FormFieldController<String>? dropDownValueController;
+  List<SchoolClassRecord>? dropDownPreviousSnapshot;
+  // Stores action output result for [Backend Call - Read Document] action in DropDown widget.
+  SchoolClassRecord? class45;
   // State field(s) for PageView widget.
   PageController? pageViewController;
 

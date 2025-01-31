@@ -35,6 +35,19 @@ class AddSchoolManuallySAModel
     return null;
   }
 
+  // State field(s) for SchoolAddress widget.
+  FocusNode? schoolAddressFocusNode;
+  TextEditingController? schoolAddressTextController;
+  String? Function(BuildContext, String?)? schoolAddressTextControllerValidator;
+  String? _schoolAddressTextControllerValidator(
+      BuildContext context, String? val) {
+    if (val == null || val.isEmpty) {
+      return 'Please enter school address';
+    }
+
+    return null;
+  }
+
   // State field(s) for Nooffaculties widget.
   FocusNode? nooffacultiesFocusNode;
   TextEditingController? nooffacultiesTextController;
@@ -88,19 +101,6 @@ class AddSchoolManuallySAModel
 
   // Stores action output result for [Backend Call - API (getcityandstate)] action in Pincode widget.
   ApiCallResponse? apiResultkps;
-  // State field(s) for SchoolAddress widget.
-  FocusNode? schoolAddressFocusNode;
-  TextEditingController? schoolAddressTextController;
-  String? Function(BuildContext, String?)? schoolAddressTextControllerValidator;
-  String? _schoolAddressTextControllerValidator(
-      BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return 'Please enter school address';
-    }
-
-    return null;
-  }
-
   // State field(s) for City widget.
   FocusNode? cityFocusNode;
   TextEditingController? cityTextController;
@@ -155,6 +155,8 @@ class AddSchoolManuallySAModel
     return null;
   }
 
+  // Stores action output result for [Custom Action - fetchlatlng] action in Send widget.
+  LatLng? address1;
   // Stores action output result for [Backend Call - API (Create Account)] action in Send widget.
   ApiCallResponse? createaccount2;
   // Stores action output result for [Firestore Query - Query a collection] action in Send widget.
@@ -169,12 +171,12 @@ class AddSchoolManuallySAModel
   @override
   void initState(BuildContext context) {
     schoolnameTextControllerValidator = _schoolnameTextControllerValidator;
+    schoolAddressTextControllerValidator =
+        _schoolAddressTextControllerValidator;
     nooffacultiesTextControllerValidator =
         _nooffacultiesTextControllerValidator;
     noofbranchesTextControllerValidator = _noofbranchesTextControllerValidator;
     pincodeTextControllerValidator = _pincodeTextControllerValidator;
-    schoolAddressTextControllerValidator =
-        _schoolAddressTextControllerValidator;
     contactNameTextControllerValidator = _contactNameTextControllerValidator;
     contactPhonenumberTextControllerValidator =
         _contactPhonenumberTextControllerValidator;
@@ -186,6 +188,9 @@ class AddSchoolManuallySAModel
     schoolnameFocusNode?.dispose();
     schoolnameTextController?.dispose();
 
+    schoolAddressFocusNode?.dispose();
+    schoolAddressTextController?.dispose();
+
     nooffacultiesFocusNode?.dispose();
     nooffacultiesTextController?.dispose();
 
@@ -194,9 +199,6 @@ class AddSchoolManuallySAModel
 
     pincodeFocusNode?.dispose();
     pincodeTextController?.dispose();
-
-    schoolAddressFocusNode?.dispose();
-    schoolAddressTextController?.dispose();
 
     cityFocusNode?.dispose();
     cityTextController?.dispose();

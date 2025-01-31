@@ -209,8 +209,11 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                 },
                                 child: Padding(
                                   padding: MediaQuery.viewInsetsOf(context),
-                                  child: const EditphotoWidget(
-                                    person: false,
+                                  child: const SizedBox(
+                                    height: 201.0,
+                                    child: EditphotoWidget(
+                                      person: false,
+                                    ),
                                   ),
                                 ),
                               );
@@ -226,14 +229,14 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                 image: Image.network(
                                   valueOrDefault<String>(
                                     FFAppState().schoolimage,
-                                    'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fhappy-children-back-school-background_23-2147852164.jpg?alt=media&token=e1069716-5656-42e7-a945-ff9fe1565ec6',
+                                    'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png',
                                   ),
                                   fit: BoxFit.contain,
                                 ),
                                 allowRotation: false,
                                 tag: valueOrDefault<String>(
                                   FFAppState().schoolimage,
-                                  'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fhappy-children-back-school-background_23-2147852164.jpg?alt=media&token=e1069716-5656-42e7-a945-ff9fe1565ec6',
+                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png',
                                 ),
                                 useHeroAnimation: true,
                               ),
@@ -243,7 +246,7 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                         child: Hero(
                           tag: valueOrDefault<String>(
                             FFAppState().schoolimage,
-                            'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fhappy-children-back-school-background_23-2147852164.jpg?alt=media&token=e1069716-5656-42e7-a945-ff9fe1565ec6',
+                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png',
                           ),
                           transitionOnUserGestures: true,
                           child: Container(
@@ -256,7 +259,7 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                             child: Image.network(
                               valueOrDefault<String>(
                                 FFAppState().schoolimage,
-                                'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fhappy-children-back-school-background_23-2147852164.jpg?alt=media&token=e1069716-5656-42e7-a945-ff9fe1565ec6',
+                                'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png',
                               ),
                               fit: BoxFit.cover,
                             ),
@@ -278,8 +281,13 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                 .labelMedium
                                 .override(
                                   fontFamily: 'Nunito',
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
+                                  color:
+                                      (_model.schoolnameFocusNode?.hasFocus ??
+                                              false)
+                                          ? FlutterFlowTheme.of(context)
+                                              .primaryBackground
+                                          : FlutterFlowTheme.of(context)
+                                              .textfieldText,
                                   letterSpacing: 0.0,
                                 ),
                             hintText: 'Branch Name',
@@ -287,7 +295,8 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                 .labelMedium
                                 .override(
                                   fontFamily: 'Nunito',
-                                  color: FlutterFlowTheme.of(context).text,
+                                  color: FlutterFlowTheme.of(context)
+                                      .textfieldText,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.w200,
                                 ),
@@ -326,13 +335,12 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                     ? FlutterFlowTheme.of(context).secondary
                                     : FlutterFlowTheme.of(context).tertiary,
                           ),
-                          style: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .override(
-                                fontFamily: 'Nunito',
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                letterSpacing: 0.0,
-                              ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Nunito',
+                                    color: FlutterFlowTheme.of(context).text1,
+                                    letterSpacing: 0.0,
+                                  ),
                           maxLines: 2,
                           cursorColor: FlutterFlowTheme.of(context).primaryText,
                           validator: _model.schoolnameTextControllerValidator
@@ -353,8 +361,13 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                 .labelMedium
                                 .override(
                                   fontFamily: 'Nunito',
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
+                                  color: (_model.nooffacultiesFocusNode
+                                              ?.hasFocus ??
+                                          false)
+                                      ? FlutterFlowTheme.of(context)
+                                          .primaryBackground
+                                      : FlutterFlowTheme.of(context)
+                                          .textfieldText,
                                   letterSpacing: 0.0,
                                 ),
                             hintText: 'No. of Employee',
@@ -362,7 +375,8 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                 .labelMedium
                                 .override(
                                   fontFamily: 'Nunito',
-                                  color: FlutterFlowTheme.of(context).text,
+                                  color: FlutterFlowTheme.of(context)
+                                      .textfieldText,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.w200,
                                 ),
@@ -402,13 +416,12 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                     ? FlutterFlowTheme.of(context).secondary
                                     : FlutterFlowTheme.of(context).tertiary,
                           ),
-                          style: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .override(
-                                fontFamily: 'Nunito',
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                letterSpacing: 0.0,
-                              ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Nunito',
+                                    color: FlutterFlowTheme.of(context).text1,
+                                    letterSpacing: 0.0,
+                                  ),
                           keyboardType: TextInputType.number,
                           cursorColor: FlutterFlowTheme.of(context).primaryText,
                           validator: _model.nooffacultiesTextControllerValidator
@@ -433,8 +446,12 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                 .labelMedium
                                 .override(
                                   fontFamily: 'Nunito',
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
+                                  color: (_model.pincodeFocusNode?.hasFocus ??
+                                          false)
+                                      ? FlutterFlowTheme.of(context)
+                                          .primaryBackground
+                                      : FlutterFlowTheme.of(context)
+                                          .textfieldText,
                                   letterSpacing: 0.0,
                                 ),
                             hintText: 'Pincode',
@@ -442,7 +459,8 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                 .labelMedium
                                 .override(
                                   fontFamily: 'Nunito',
-                                  color: FlutterFlowTheme.of(context).text,
+                                  color: FlutterFlowTheme.of(context)
+                                      .textfieldText,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.w200,
                                 ),
@@ -481,13 +499,12 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                     ? FlutterFlowTheme.of(context).secondary
                                     : FlutterFlowTheme.of(context).tertiary,
                           ),
-                          style: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .override(
-                                fontFamily: 'Nunito',
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                letterSpacing: 0.0,
-                              ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Nunito',
+                                    color: FlutterFlowTheme.of(context).text1,
+                                    letterSpacing: 0.0,
+                                  ),
                           keyboardType: TextInputType.number,
                           cursorColor: FlutterFlowTheme.of(context).primaryText,
                           validator: _model.pincodeTextControllerValidator
@@ -512,8 +529,13 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                 .labelMedium
                                 .override(
                                   fontFamily: 'Nunito',
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
+                                  color: (_model.schoolAddressFocusNode
+                                              ?.hasFocus ??
+                                          false)
+                                      ? FlutterFlowTheme.of(context)
+                                          .primaryBackground
+                                      : FlutterFlowTheme.of(context)
+                                          .textfieldText,
                                   letterSpacing: 0.0,
                                 ),
                             hintText: 'School address',
@@ -521,13 +543,14 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                 .labelMedium
                                 .override(
                                   fontFamily: 'Nunito',
-                                  color: FlutterFlowTheme.of(context).text,
+                                  color: FlutterFlowTheme.of(context)
+                                      .textfieldText,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.w200,
                                 ),
                             enabledBorder: OutlineInputBorder(
                               borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).tertiary,
+                                color: FlutterFlowTheme.of(context).dIsable,
                                 width: 1.0,
                               ),
                               borderRadius: BorderRadius.circular(8.0),
@@ -577,13 +600,17 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                         alignment: const AlignmentDirectional(-0.9, 0.0),
                         child: Text(
                           'City',
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Inter',
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    fontSize: 12.0,
-                                    letterSpacing: 0.0,
-                                  ),
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: 'Nunito',
+                                color: _model.city != null && _model.city != ''
+                                    ? FlutterFlowTheme.of(context)
+                                        .primaryBackground
+                                    : FlutterFlowTheme.of(context).alternate,
+                                fontSize: 12.0,
+                                letterSpacing: 0.0,
+                              ),
                         ),
                       ),
                       SizedBox(
@@ -602,8 +629,7 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                 .labelMedium
                                 .override(
                                   fontFamily: 'Nunito',
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
+                                  color: FlutterFlowTheme.of(context).text1,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.w200,
                                 ),
@@ -641,13 +667,12 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                 ? FlutterFlowTheme.of(context).secondary
                                 : FlutterFlowTheme.of(context).tertiary,
                           ),
-                          style: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .override(
-                                fontFamily: 'Nunito',
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                letterSpacing: 0.0,
-                              ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Nunito',
+                                    color: FlutterFlowTheme.of(context).text1,
+                                    letterSpacing: 0.0,
+                                  ),
                           cursorColor: FlutterFlowTheme.of(context).primaryText,
                           validator: _model.cityTextControllerValidator
                               .asValidator(context),
@@ -657,13 +682,18 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                         alignment: const AlignmentDirectional(-0.9, 0.0),
                         child: Text(
                           'State',
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Inter',
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    fontSize: 12.0,
-                                    letterSpacing: 0.0,
-                                  ),
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                fontFamily: 'Nunito',
+                                color: _model.state != null &&
+                                        _model.state != ''
+                                    ? FlutterFlowTheme.of(context)
+                                        .primaryBackground
+                                    : FlutterFlowTheme.of(context).alternate,
+                                fontSize: 12.0,
+                                letterSpacing: 0.0,
+                              ),
                         ),
                       ),
                       SizedBox(
@@ -682,8 +712,7 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                 .labelMedium
                                 .override(
                                   fontFamily: 'Nunito',
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
+                                  color: FlutterFlowTheme.of(context).text1,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.w200,
                                 ),
@@ -722,13 +751,12 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                     ? FlutterFlowTheme.of(context).secondary
                                     : FlutterFlowTheme.of(context).tertiary,
                           ),
-                          style: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .override(
-                                fontFamily: 'Nunito',
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                letterSpacing: 0.0,
-                              ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    fontFamily: 'Nunito',
+                                    color: FlutterFlowTheme.of(context).text1,
+                                    letterSpacing: 0.0,
+                                  ),
                           cursorColor: FlutterFlowTheme.of(context).primaryText,
                           validator: _model.stateTextControllerValidator
                               .asValidator(context),
@@ -745,310 +773,337 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                   !_model.formKey.currentState!.validate()) {
                                 return;
                               }
-                              if (!functions.checknumberofbranches(
-                                  addBranchSASchoolRecord.branchDetails.length,
-                                  addBranchSASchoolRecord
-                                      .schoolDetails.noOfBranches)) {
-                                await widget.schoolref!
-                                    .update(createSchoolRecordData(
-                                  schoolDetails: updateSchoolDetailsStruct(
-                                    SchoolDetailsStruct(
-                                      schoolId: addBranchSASchoolRecord
-                                          .schoolDetails.schoolId,
-                                      schoolName: addBranchSASchoolRecord
-                                          .schoolDetails.schoolName,
-                                      address: addBranchSASchoolRecord
-                                          .schoolDetails.address,
-                                      pincode: addBranchSASchoolRecord
-                                          .schoolDetails.pincode,
-                                      city: addBranchSASchoolRecord
-                                          .schoolDetails.city,
-                                      state: addBranchSASchoolRecord
-                                          .schoolDetails.state,
-                                      noOfStudents: addBranchSASchoolRecord
-                                          .schoolDetails.noOfStudents,
-                                      noOfFaculties: addBranchSASchoolRecord
-                                          .schoolDetails.noOfFaculties,
-                                      noOfBranches: functions.serialnumber(
-                                          addBranchSASchoolRecord
-                                              .schoolDetails.noOfBranches),
-                                      schoolImage: addBranchSASchoolRecord
-                                          .schoolDetails.schoolImage,
-                                      listOfclasses: addBranchSASchoolRecord
-                                          .schoolDetails.listOfclasses,
+                              if ((_model.city != null && _model.city != '') &&
+                                  (_model.city != ' ')) {
+                                if (functions.serialnumber(
+                                        addBranchSASchoolRecord
+                                            .branchDetails.length) ==
+                                    addBranchSASchoolRecord
+                                        .schoolDetails.noOfBranches) {
+                                  await widget.schoolref!
+                                      .update(createSchoolRecordData(
+                                    schoolDetails: updateSchoolDetailsStruct(
+                                      SchoolDetailsStruct(
+                                        schoolId: addBranchSASchoolRecord
+                                            .schoolDetails.schoolId,
+                                        schoolName: addBranchSASchoolRecord
+                                            .schoolDetails.schoolName,
+                                        address: addBranchSASchoolRecord
+                                            .schoolDetails.address,
+                                        pincode: addBranchSASchoolRecord
+                                            .schoolDetails.pincode,
+                                        city: addBranchSASchoolRecord
+                                            .schoolDetails.city,
+                                        state: addBranchSASchoolRecord
+                                            .schoolDetails.state,
+                                        noOfStudents: addBranchSASchoolRecord
+                                            .schoolDetails.noOfStudents,
+                                        noOfFaculties: addBranchSASchoolRecord
+                                            .schoolDetails.noOfFaculties,
+                                        noOfBranches: functions.serialnumber(
+                                            addBranchSASchoolRecord
+                                                .schoolDetails.noOfBranches),
+                                        schoolImage: addBranchSASchoolRecord
+                                            .schoolDetails.schoolImage,
+                                        listOfclasses: addBranchSASchoolRecord
+                                            .schoolDetails.listOfclasses,
+                                      ),
+                                      clearUnsetFields: false,
                                     ),
-                                    clearUnsetFields: false,
-                                  ),
-                                ));
-                              }
-                              _model.addressdata = AddressStruct(
-                                locality:
-                                    _model.schoolAddressTextController.text,
-                                pincode: _model.pincodeTextController.text,
-                                city: _model.city,
-                                state: _model.state,
-                              );
-                              safeSetState(() {});
-                              _model.address = await actions.fetchlatlng(
-                                '${_model.schoolAddressTextController.text}${_model.stateTextController.text}${_model.cityTextController.text}${_model.pincodeTextController.text}',
-                              );
+                                  ));
+                                }
+                                _model.addressdata = AddressStruct(
+                                  locality:
+                                      _model.schoolAddressTextController.text,
+                                  pincode: _model.pincodeTextController.text,
+                                  city: _model.city,
+                                  state: _model.state,
+                                );
+                                safeSetState(() {});
+                                _model.address = await actions.fetchlatlng(
+                                  '${_model.schoolAddressTextController.text}${_model.stateTextController.text}${_model.cityTextController.text}${_model.pincodeTextController.text}',
+                                );
 
-                              var schoolRecordReference =
-                                  SchoolRecord.collection.doc();
-                              await schoolRecordReference.set({
-                                ...createSchoolRecordData(
-                                  schoolDetails: updateSchoolDetailsStruct(
-                                    SchoolDetailsStruct(
-                                      schoolName:
-                                          _model.schoolnameTextController.text,
-                                      address: _model
-                                          .schoolAddressTextController.text,
-                                      schoolId: functions.generateUniqueId(),
-                                      noOfFaculties: int.tryParse(_model
-                                          .nooffacultiesTextController.text),
-                                      schoolImage: FFAppState().schoolimage,
-                                      pincode:
-                                          _model.pincodeTextController.text,
-                                      city: _model.city,
-                                      state: _model.state,
+                                var schoolRecordReference =
+                                    SchoolRecord.collection.doc();
+                                await schoolRecordReference.set({
+                                  ...createSchoolRecordData(
+                                    schoolDetails: updateSchoolDetailsStruct(
+                                      SchoolDetailsStruct(
+                                        schoolName: _model
+                                            .schoolnameTextController.text,
+                                        address: _model
+                                            .schoolAddressTextController.text,
+                                        schoolId: functions.generateUniqueId(),
+                                        noOfFaculties: int.tryParse(_model
+                                            .nooffacultiesTextController.text),
+                                        schoolImage: FFAppState().schoolimage,
+                                        pincode:
+                                            _model.pincodeTextController.text,
+                                        city: _model.city,
+                                        state: _model.state,
+                                      ),
+                                      clearUnsetFields: false,
+                                      create: true,
                                     ),
-                                    clearUnsetFields: false,
-                                    create: true,
-                                  ),
-                                  principalDetails:
-                                      updatePrincipalDetailsStruct(
-                                    PrincipalDetailsStruct(
-                                      principalId: addBranchSASchoolRecord
-                                          .principalDetails.principalId,
-                                      principalName: addBranchSASchoolRecord
-                                          .principalDetails.principalName,
-                                      phoneNumber: addBranchSASchoolRecord
-                                          .principalDetails.phoneNumber,
-                                      emailId: addBranchSASchoolRecord
-                                          .principalDetails.emailId,
+                                    principalDetails:
+                                        updatePrincipalDetailsStruct(
+                                      PrincipalDetailsStruct(
+                                        principalId: addBranchSASchoolRecord
+                                            .principalDetails.principalId,
+                                        principalName: addBranchSASchoolRecord
+                                            .principalDetails.principalName,
+                                        phoneNumber: addBranchSASchoolRecord
+                                            .principalDetails.phoneNumber,
+                                        emailId: addBranchSASchoolRecord
+                                            .principalDetails.emailId,
+                                      ),
+                                      clearUnsetFields: false,
+                                      create: true,
                                     ),
-                                    clearUnsetFields: false,
-                                    create: true,
-                                  ),
-                                  schoolStatus: 2,
-                                  isBranchPresent: true,
-                                  createdAt: getCurrentTimestamp,
-                                  latlng: _model.address,
-                                  subscriptionStatus: addBranchSASchoolRecord
-                                      .subscriptionStatus,
-                                  subscriptionDetails:
-                                      updateSubscribtionDetailsStruct(
-                                    addBranchSASchoolRecord.subscriptionDetails,
-                                    clearUnsetFields: false,
-                                    create: true,
-                                  ),
-                                ),
-                                ...mapToFirestore(
-                                  {
-                                    'branch_details': [
-                                      getSchoolDetailsFirestoreData(
-                                        updateSchoolDetailsStruct(
-                                          SchoolDetailsStruct(
-                                            schoolName: _model
-                                                .schoolnameTextController.text,
-                                            address: _model
-                                                .schoolAddressTextController
-                                                .text,
-                                            schoolId:
-                                                functions.generateUniqueId(),
-                                            noOfStudents: int.tryParse(_model
-                                                .pincodeTextController.text),
-                                            noOfFaculties: int.tryParse(_model
-                                                .nooffacultiesTextController
-                                                .text),
-                                            schoolImage:
-                                                FFAppState().schoolimage,
-                                          ),
-                                          clearUnsetFields: false,
-                                          create: true,
-                                        ),
-                                        true,
-                                      )
-                                    ],
-                                  },
-                                ),
-                              });
-                              _model.branchadded =
-                                  SchoolRecord.getDocumentFromData({
-                                ...createSchoolRecordData(
-                                  schoolDetails: updateSchoolDetailsStruct(
-                                    SchoolDetailsStruct(
-                                      schoolName:
-                                          _model.schoolnameTextController.text,
-                                      address: _model
-                                          .schoolAddressTextController.text,
-                                      schoolId: functions.generateUniqueId(),
-                                      noOfFaculties: int.tryParse(_model
-                                          .nooffacultiesTextController.text),
-                                      schoolImage: FFAppState().schoolimage,
-                                      pincode:
-                                          _model.pincodeTextController.text,
-                                      city: _model.city,
-                                      state: _model.state,
-                                    ),
-                                    clearUnsetFields: false,
-                                    create: true,
-                                  ),
-                                  principalDetails:
-                                      updatePrincipalDetailsStruct(
-                                    PrincipalDetailsStruct(
-                                      principalId: addBranchSASchoolRecord
-                                          .principalDetails.principalId,
-                                      principalName: addBranchSASchoolRecord
-                                          .principalDetails.principalName,
-                                      phoneNumber: addBranchSASchoolRecord
-                                          .principalDetails.phoneNumber,
-                                      emailId: addBranchSASchoolRecord
-                                          .principalDetails.emailId,
-                                    ),
-                                    clearUnsetFields: false,
-                                    create: true,
-                                  ),
-                                  schoolStatus: 2,
-                                  isBranchPresent: true,
-                                  createdAt: getCurrentTimestamp,
-                                  latlng: _model.address,
-                                  subscriptionStatus: addBranchSASchoolRecord
-                                      .subscriptionStatus,
-                                  subscriptionDetails:
-                                      updateSubscribtionDetailsStruct(
-                                    addBranchSASchoolRecord.subscriptionDetails,
-                                    clearUnsetFields: false,
-                                    create: true,
-                                  ),
-                                ),
-                                ...mapToFirestore(
-                                  {
-                                    'branch_details': [
-                                      getSchoolDetailsFirestoreData(
-                                        updateSchoolDetailsStruct(
-                                          SchoolDetailsStruct(
-                                            schoolName: _model
-                                                .schoolnameTextController.text,
-                                            address: _model
-                                                .schoolAddressTextController
-                                                .text,
-                                            schoolId:
-                                                functions.generateUniqueId(),
-                                            noOfStudents: int.tryParse(_model
-                                                .pincodeTextController.text),
-                                            noOfFaculties: int.tryParse(_model
-                                                .nooffacultiesTextController
-                                                .text),
-                                            schoolImage:
-                                                FFAppState().schoolimage,
-                                          ),
-                                          clearUnsetFields: false,
-                                          create: true,
-                                        ),
-                                        true,
-                                      )
-                                    ],
-                                  },
-                                ),
-                              }, schoolRecordReference);
-
-                              await widget.schoolref!.update({
-                                ...mapToFirestore(
-                                  {
-                                    'branch_details': FieldValue.arrayUnion([
-                                      getSchoolDetailsFirestoreData(
-                                        updateSchoolDetailsStruct(
-                                          SchoolDetailsStruct(
-                                            schoolName: _model
-                                                .schoolnameTextController.text,
-                                            address: _model
-                                                .schoolAddressTextController
-                                                .text,
-                                            schoolId:
-                                                functions.generateUniqueId(),
-                                            noOfStudents: int.tryParse(_model
-                                                .pincodeTextController.text),
-                                            noOfFaculties: int.tryParse(_model
-                                                .nooffacultiesTextController
-                                                .text),
-                                            schoolImage:
-                                                FFAppState().schoolimage,
-                                          ),
-                                          clearUnsetFields: false,
-                                        ),
-                                        true,
-                                      )
-                                    ]),
-                                  },
-                                ),
-                              });
-
-                              await addBranchSASchoolRecord
-                                  .principalDetails.principalId!
-                                  .update({
-                                ...mapToFirestore(
-                                  {
-                                    'ListofSchool': FieldValue.arrayUnion(
-                                        [_model.branchadded?.reference]),
-                                  },
-                                ),
-                              });
-                              FFAppState().imageurl =
-                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/kqg7tnob6oub/Add_profile_pic_(2).png';
-                              FFAppState().profileimagechanged = false;
-                              FFAppState().schoolimage =
-                                  'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2FFrame%20731.png?alt=media&token=4abe77e8-804d-485c-9b4a-d9532c4a190a';
-                              FFAppState().schoolimagechanged = false;
-                              safeSetState(() {});
-                              triggerPushNotification(
-                                notificationTitle: 'Branch update',
-                                notificationText: 'New branch added',
-                                userRefs: [
-                                  addBranchSASchoolRecord
-                                      .principalDetails.principalId!
-                                ],
-                                initialPageName: 'Dashboard',
-                                parameterData: {},
-                              );
-
-                              await NotificationsRecord.collection.doc().set({
-                                ...createNotificationsRecordData(
-                                  content:
-                                      'New Branch ${_model.schoolnameTextController.text} added',
-                                  createDate: getCurrentTimestamp,
-                                  notification: updateNotificationStruct(
-                                    NotificationStruct(
-                                      notificationTitle: 'Branch added',
-                                      descriptions:
-                                          'New Branch ${_model.schoolnameTextController.text} added',
-                                      timeStamp: getCurrentTimestamp,
-                                      isRead: false,
-                                    ),
-                                    clearUnsetFields: false,
-                                    create: true,
-                                  ),
-                                  isread: false,
-                                ),
-                                ...mapToFirestore(
-                                  {
-                                    'userref': [
+                                    schoolStatus: 2,
+                                    isBranchPresent: true,
+                                    createdAt: getCurrentTimestamp,
+                                    latlng: _model.address,
+                                    subscriptionStatus: addBranchSASchoolRecord
+                                        .subscriptionStatus,
+                                    subscriptionDetails:
+                                        updateSubscribtionDetailsStruct(
                                       addBranchSASchoolRecord
-                                          .principalDetails.principalId
-                                    ],
-                                  },
-                                ),
-                              });
-
-                              context.pushNamed(
-                                'BranchAdded',
-                                queryParameters: {
-                                  'schoolref': serializeParam(
-                                    widget.schoolref,
-                                    ParamType.DocumentReference,
+                                          .subscriptionDetails,
+                                      clearUnsetFields: false,
+                                      create: true,
+                                    ),
                                   ),
-                                }.withoutNulls,
-                              );
+                                  ...mapToFirestore(
+                                    {
+                                      'branch_details': [
+                                        getSchoolDetailsFirestoreData(
+                                          updateSchoolDetailsStruct(
+                                            SchoolDetailsStruct(
+                                              schoolName: _model
+                                                  .schoolnameTextController
+                                                  .text,
+                                              address: _model
+                                                  .schoolAddressTextController
+                                                  .text,
+                                              schoolId:
+                                                  functions.generateUniqueId(),
+                                              noOfStudents: int.tryParse(_model
+                                                  .pincodeTextController.text),
+                                              noOfFaculties: int.tryParse(_model
+                                                  .nooffacultiesTextController
+                                                  .text),
+                                              schoolImage:
+                                                  FFAppState().schoolimage,
+                                            ),
+                                            clearUnsetFields: false,
+                                            create: true,
+                                          ),
+                                          true,
+                                        )
+                                      ],
+                                    },
+                                  ),
+                                });
+                                _model.branchadded =
+                                    SchoolRecord.getDocumentFromData({
+                                  ...createSchoolRecordData(
+                                    schoolDetails: updateSchoolDetailsStruct(
+                                      SchoolDetailsStruct(
+                                        schoolName: _model
+                                            .schoolnameTextController.text,
+                                        address: _model
+                                            .schoolAddressTextController.text,
+                                        schoolId: functions.generateUniqueId(),
+                                        noOfFaculties: int.tryParse(_model
+                                            .nooffacultiesTextController.text),
+                                        schoolImage: FFAppState().schoolimage,
+                                        pincode:
+                                            _model.pincodeTextController.text,
+                                        city: _model.city,
+                                        state: _model.state,
+                                      ),
+                                      clearUnsetFields: false,
+                                      create: true,
+                                    ),
+                                    principalDetails:
+                                        updatePrincipalDetailsStruct(
+                                      PrincipalDetailsStruct(
+                                        principalId: addBranchSASchoolRecord
+                                            .principalDetails.principalId,
+                                        principalName: addBranchSASchoolRecord
+                                            .principalDetails.principalName,
+                                        phoneNumber: addBranchSASchoolRecord
+                                            .principalDetails.phoneNumber,
+                                        emailId: addBranchSASchoolRecord
+                                            .principalDetails.emailId,
+                                      ),
+                                      clearUnsetFields: false,
+                                      create: true,
+                                    ),
+                                    schoolStatus: 2,
+                                    isBranchPresent: true,
+                                    createdAt: getCurrentTimestamp,
+                                    latlng: _model.address,
+                                    subscriptionStatus: addBranchSASchoolRecord
+                                        .subscriptionStatus,
+                                    subscriptionDetails:
+                                        updateSubscribtionDetailsStruct(
+                                      addBranchSASchoolRecord
+                                          .subscriptionDetails,
+                                      clearUnsetFields: false,
+                                      create: true,
+                                    ),
+                                  ),
+                                  ...mapToFirestore(
+                                    {
+                                      'branch_details': [
+                                        getSchoolDetailsFirestoreData(
+                                          updateSchoolDetailsStruct(
+                                            SchoolDetailsStruct(
+                                              schoolName: _model
+                                                  .schoolnameTextController
+                                                  .text,
+                                              address: _model
+                                                  .schoolAddressTextController
+                                                  .text,
+                                              schoolId:
+                                                  functions.generateUniqueId(),
+                                              noOfStudents: int.tryParse(_model
+                                                  .pincodeTextController.text),
+                                              noOfFaculties: int.tryParse(_model
+                                                  .nooffacultiesTextController
+                                                  .text),
+                                              schoolImage:
+                                                  FFAppState().schoolimage,
+                                            ),
+                                            clearUnsetFields: false,
+                                            create: true,
+                                          ),
+                                          true,
+                                        )
+                                      ],
+                                    },
+                                  ),
+                                }, schoolRecordReference);
+
+                                await widget.schoolref!.update({
+                                  ...mapToFirestore(
+                                    {
+                                      'branch_details': FieldValue.arrayUnion([
+                                        getSchoolDetailsFirestoreData(
+                                          updateSchoolDetailsStruct(
+                                            SchoolDetailsStruct(
+                                              schoolName: _model
+                                                  .schoolnameTextController
+                                                  .text,
+                                              address: _model
+                                                  .schoolAddressTextController
+                                                  .text,
+                                              schoolId:
+                                                  functions.generateUniqueId(),
+                                              noOfStudents: int.tryParse(_model
+                                                  .pincodeTextController.text),
+                                              noOfFaculties: int.tryParse(_model
+                                                  .nooffacultiesTextController
+                                                  .text),
+                                              schoolImage:
+                                                  FFAppState().schoolimage,
+                                            ),
+                                            clearUnsetFields: false,
+                                          ),
+                                          true,
+                                        )
+                                      ]),
+                                    },
+                                  ),
+                                });
+
+                                await addBranchSASchoolRecord
+                                    .principalDetails.principalId!
+                                    .update({
+                                  ...mapToFirestore(
+                                    {
+                                      'ListofSchool': FieldValue.arrayUnion(
+                                          [_model.branchadded?.reference]),
+                                    },
+                                  ),
+                                });
+                                FFAppState().imageurl =
+                                    'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
+                                FFAppState().profileimagechanged = false;
+                                FFAppState().schoolimage =
+                                    'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png';
+                                FFAppState().schoolimagechanged = false;
+                                safeSetState(() {});
+                                triggerPushNotification(
+                                  notificationTitle: 'Branch update',
+                                  notificationText: 'New branch added',
+                                  userRefs: [
+                                    addBranchSASchoolRecord
+                                        .principalDetails.principalId!
+                                  ],
+                                  initialPageName: 'Dashboard',
+                                  parameterData: {},
+                                );
+
+                                await NotificationsRecord.collection.doc().set({
+                                  ...createNotificationsRecordData(
+                                    content:
+                                        'New Branch ${_model.schoolnameTextController.text} added',
+                                    createDate: getCurrentTimestamp,
+                                    notification: updateNotificationStruct(
+                                      NotificationStruct(
+                                        notificationTitle: 'Branch added',
+                                        descriptions:
+                                            'New Branch ${_model.schoolnameTextController.text} added',
+                                        timeStamp: getCurrentTimestamp,
+                                        isRead: false,
+                                      ),
+                                      clearUnsetFields: false,
+                                      create: true,
+                                    ),
+                                    isread: false,
+                                  ),
+                                  ...mapToFirestore(
+                                    {
+                                      'userref': [
+                                        addBranchSASchoolRecord
+                                            .principalDetails.principalId
+                                      ],
+                                    },
+                                  ),
+                                });
+
+                                context.pushNamed(
+                                  'BranchAdded',
+                                  queryParameters: {
+                                    'schoolref': serializeParam(
+                                      widget.schoolref,
+                                      ParamType.DocumentReference,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Please enter a valid pin code',
+                                      style: TextStyle(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                      ),
+                                    ),
+                                    duration: const Duration(milliseconds: 4000),
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context).secondary,
+                                  ),
+                                );
+                                safeSetState(() {
+                                  _model.pincodeTextController?.clear();
+                                });
+                              }
 
                               safeSetState(() {});
                             },
@@ -1065,11 +1120,23 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                               textStyle: FlutterFlowTheme.of(context)
                                   .titleSmall
                                   .override(
-                                    fontFamily: 'Nunito',
-                                    color: Colors.white,
-                                    letterSpacing: 0.0,
+                                fontFamily: 'Nunito',
+                                color: Colors.white,
+                                letterSpacing: 0.0,
+                                shadows: [
+                                  const Shadow(
+                                    color: Color(0xFF357DFB),
+                                    offset: Offset(0.0, 0.0),
+                                    blurRadius: 0.0,
                                   ),
-                              elevation: 0.0,
+                                  const Shadow(
+                                    color: Color(0x63253EA7),
+                                    offset: Offset(0.0, 1.0),
+                                    blurRadius: 2.0,
+                                  )
+                                ],
+                              ),
+                              elevation: 3.0,
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                           ),

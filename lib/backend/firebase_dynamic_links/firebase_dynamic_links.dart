@@ -5,7 +5,8 @@ import '../../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 
 const _kDynamicLinksUrl = 'https://feebe.page.link';
-const _kAppBundleId = 'com.mycompany.feebe';
+const _kAppBundleId = 'com.digi9.feebe';
+const _kIosAppId = '6741058480';
 
 Future<String> generateCurrentPageLink(
   BuildContext context, {
@@ -22,6 +23,7 @@ Future<String> generateCurrentPageLink(
     androidParameters: const AndroidParameters(packageName: _kAppBundleId),
     iosParameters: const IOSParameters(
       bundleId: _kAppBundleId,
+      appStoreId: _kIosAppId,
     ),
     socialMetaTagParameters: SocialMetaTagParameters(
       title: title,

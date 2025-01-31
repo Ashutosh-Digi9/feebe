@@ -12,6 +12,7 @@ class AddEventsDetailsModel extends FlutterFlowModel<AddEventsDetailsWidget> {
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
+  DateTime? datePicked;
   // State field(s) for Title_notice widget.
   FocusNode? titleNoticeFocusNode;
   TextEditingController? titleNoticeTextController;
@@ -43,9 +44,14 @@ class AddEventsDetailsModel extends FlutterFlowModel<AddEventsDetailsWidget> {
     return null;
   }
 
-  bool isDataUploading = false;
-  List<FFUploadedFile> uploadedLocalFiles = [];
-  List<String> uploadedFileUrls = [];
+  bool isDataUploading1 = false;
+  List<FFUploadedFile> uploadedLocalFiles1 = [];
+  List<String> uploadedFileUrls1 = [];
+
+  bool isDataUploading2 = false;
+  FFUploadedFile uploadedLocalFile2 =
+      FFUploadedFile(bytes: Uint8List.fromList([]));
+  String uploadedFileUrl2 = '';
 
   @override
   void initState(BuildContext context) {

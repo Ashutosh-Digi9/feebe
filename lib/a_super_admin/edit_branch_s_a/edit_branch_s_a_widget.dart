@@ -2,10 +2,12 @@ import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/backend/push_notifications/push_notifications_util.dart';
 import '/components/editphoto_widget.dart';
+import '/confirmationpages/editsavedsuccessfully/editsavedsuccessfully_widget.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/shimmer_effects/classshimmer/classshimmer_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -43,9 +45,9 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
       FFAppState().profileimagechanged = false;
       FFAppState().schoolimagechanged = false;
       FFAppState().imageurl =
-          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/kqg7tnob6oub/Add_profile_pic_(2).png';
+          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
       FFAppState().schoolimage =
-          'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2FFrame%20731.png?alt=media&token=4abe77e8-804d-485c-9b4a-d9532c4a190a';
+          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png';
       safeSetState(() {});
     });
 
@@ -67,6 +69,7 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
           _model.state = GetcityandstateCall.state(
             (_model.apiResultut5?.jsonBody ?? ''),
           );
+          _model.pincodechange = true;
           safeSetState(() {});
         }
 
@@ -105,17 +108,7 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
         if (!snapshot.hasData) {
           return Scaffold(
             backgroundColor: FlutterFlowTheme.of(context).tertiary,
-            body: Center(
-              child: SizedBox(
-                width: 50.0,
-                height: 50.0,
-                child: CircularProgressIndicator(
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    FlutterFlowTheme.of(context).primary,
-                  ),
-                ),
-              ),
-            ),
+            body: const ClassshimmerWidget(),
           );
         }
 
@@ -132,10 +125,33 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
             appBar: AppBar(
               backgroundColor: FlutterFlowTheme.of(context).info,
               automaticallyImplyLeading: false,
-              leading: Icon(
-                Icons.chevron_left,
-                color: FlutterFlowTheme.of(context).bgColor1,
-                size: 26.0,
+              leading: InkWell(
+                splashColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: () async {
+                  context.goNamed(
+                    'ExistingSchoolDetails_SA',
+                    queryParameters: {
+                      'schoolrefMain': serializeParam(
+                        widget.mainschoolref,
+                        ParamType.DocumentReference,
+                      ),
+                    }.withoutNulls,
+                    extra: <String, dynamic>{
+                      kTransitionInfoKey: const TransitionInfo(
+                        hasTransition: true,
+                        transitionType: PageTransitionType.fade,
+                      ),
+                    },
+                  );
+                },
+                child: Icon(
+                  Icons.chevron_left,
+                  color: FlutterFlowTheme.of(context).bgColor1,
+                  size: 26.0,
+                ),
               ),
               title: Text(
                 'Edit Branch',
@@ -218,8 +234,12 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
                                 },
                                 child: Padding(
                                   padding: MediaQuery.viewInsetsOf(context),
-                                  child: const EditphotoWidget(
-                                    person: false,
+                                  child: const SizedBox(
+                                    height: 201.0,
+                                    child: EditphotoWidget(
+                                      person: false,
+                                      child: false,
+                                    ),
                                   ),
                                 ),
                               );
@@ -238,7 +258,7 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
                                         ? FFAppState().schoolimage
                                         : editBranchSASchoolRecord
                                             .schoolDetails.schoolImage,
-                                    'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fhappy-children-back-school-background_23-2147852164.jpg?alt=media&token=e1069716-5656-42e7-a945-ff9fe1565ec6',
+                                    'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png',
                                   ),
                                   fit: BoxFit.contain,
                                 ),
@@ -248,7 +268,7 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
                                       ? FFAppState().schoolimage
                                       : editBranchSASchoolRecord
                                           .schoolDetails.schoolImage,
-                                  'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fhappy-children-back-school-background_23-2147852164.jpg?alt=media&token=e1069716-5656-42e7-a945-ff9fe1565ec6',
+                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png',
                                 ),
                                 useHeroAnimation: true,
                               ),
@@ -261,7 +281,7 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
                                 ? FFAppState().schoolimage
                                 : editBranchSASchoolRecord
                                     .schoolDetails.schoolImage,
-                            'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fhappy-children-back-school-background_23-2147852164.jpg?alt=media&token=e1069716-5656-42e7-a945-ff9fe1565ec6',
+                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png',
                           ),
                           transitionOnUserGestures: true,
                           child: Container(
@@ -277,7 +297,7 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
                                     ? FFAppState().schoolimage
                                     : editBranchSASchoolRecord
                                         .schoolDetails.schoolImage,
-                                'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fhappy-children-back-school-background_23-2147852164.jpg?alt=media&token=e1069716-5656-42e7-a945-ff9fe1565ec6',
+                                'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png',
                               ),
                               fit: BoxFit.cover,
                             ),
@@ -312,7 +332,8 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
                                 .labelMedium
                                 .override(
                                   fontFamily: 'Nunito',
-                                  color: FlutterFlowTheme.of(context).text,
+                                  color: FlutterFlowTheme.of(context)
+                                      .textfieldText,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.w200,
                                 ),
@@ -392,7 +413,8 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
                                 .labelMedium
                                 .override(
                                   fontFamily: 'Nunito',
-                                  color: FlutterFlowTheme.of(context).text,
+                                  color: FlutterFlowTheme.of(context)
+                                      .textfieldText,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.w200,
                                 ),
@@ -475,7 +497,8 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
                                 .labelMedium
                                 .override(
                                   fontFamily: 'Nunito',
-                                  color: FlutterFlowTheme.of(context).text,
+                                  color: FlutterFlowTheme.of(context)
+                                      .textfieldText,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.w200,
                                 ),
@@ -557,7 +580,8 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
                                 .labelMedium
                                 .override(
                                   fontFamily: 'Nunito',
-                                  color: FlutterFlowTheme.of(context).text,
+                                  color: FlutterFlowTheme.of(context)
+                                      .textfieldText,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.w200,
                                 ),
@@ -610,20 +634,17 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
                         ),
                       ),
                       Align(
-                        alignment: const AlignmentDirectional(-1.0, 0.0),
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              20.0, 0.0, 0.0, 0.0),
-                          child: Text(
-                            'City',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Inter',
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  letterSpacing: 0.0,
-                                ),
-                          ),
+                        alignment: const AlignmentDirectional(-0.88, 0.0),
+                        child: Text(
+                          'City',
+                          style:
+                              FlutterFlowTheme.of(context).labelMedium.override(
+                                    fontFamily: 'Nunito',
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                    fontSize: 12.0,
+                                    letterSpacing: 0.0,
+                                  ),
                         ),
                       ),
                       if (_model.city == null || _model.city == '')
@@ -654,7 +675,8 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
                                   .labelMedium
                                   .override(
                                     fontFamily: 'Nunito',
-                                    color: FlutterFlowTheme.of(context).text,
+                                    color: FlutterFlowTheme.of(context)
+                                        .textfieldText,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w200,
                                   ),
@@ -731,9 +753,9 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
                                   .labelMedium
                                   .override(
                                     fontFamily: 'Nunito',
-                                    color: FlutterFlowTheme.of(context).text,
+                                    color: FlutterFlowTheme.of(context).text1,
                                     letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w200,
+                                    fontWeight: FontWeight.normal,
                                   ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -784,20 +806,17 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
                           ),
                         ),
                       Align(
-                        alignment: const AlignmentDirectional(-1.0, 0.0),
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              20.0, 0.0, 0.0, 0.0),
-                          child: Text(
-                            'State',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .override(
-                                  fontFamily: 'Inter',
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  letterSpacing: 0.0,
-                                ),
-                          ),
+                        alignment: const AlignmentDirectional(-0.88, 0.0),
+                        child: Text(
+                          'State',
+                          style:
+                              FlutterFlowTheme.of(context).labelMedium.override(
+                                    fontFamily: 'Nunito',
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                    fontSize: 12.0,
+                                    letterSpacing: 0.0,
+                                  ),
                         ),
                       ),
                       if (_model.state == null || _model.state == '')
@@ -829,7 +848,8 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
                                   .labelMedium
                                   .override(
                                     fontFamily: 'Nunito',
-                                    color: FlutterFlowTheme.of(context).text,
+                                    color: FlutterFlowTheme.of(context)
+                                        .textfieldText,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w200,
                                   ),
@@ -906,9 +926,9 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
                                   .labelMedium
                                   .override(
                                     fontFamily: 'Nunito',
-                                    color: FlutterFlowTheme.of(context).text,
+                                    color: FlutterFlowTheme.of(context).text1,
                                     letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w200,
+                                    fontWeight: FontWeight.normal,
                                   ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -978,187 +998,304 @@ class _EditBranchSAWidgetState extends State<EditBranchSAWidget> {
                         ),
                         child: Align(
                           alignment: const AlignmentDirectional(0.0, 0.0),
-                          child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 10.0),
-                            child: FFButtonWidget(
-                              onPressed: () async {
-                                if (_model.formKey.currentState == null ||
-                                    !_model.formKey.currentState!.validate()) {
-                                  return;
-                                }
-                                if (_model.city == null || _model.city == '') {
-                                  _model.latlng = await actions.fetchlatlng(
-                                    '${_model.schoolAddressTextController.text}${_model.stateTextController1.text}${_model.cityTextController1.text}${_model.pincodeTextController.text}',
-                                  );
-
-                                  await widget.schoolref!
-                                      .update(createSchoolRecordData(
-                                    schoolDetails: updateSchoolDetailsStruct(
-                                      SchoolDetailsStruct(
-                                        schoolName: _model
-                                            .schoolnameTextController.text,
-                                        address: _model
-                                            .schoolAddressTextController.text,
-                                        noOfFaculties: int.tryParse(_model
-                                            .nooffacultiesTextController.text),
-                                        schoolImage:
-                                            FFAppState().schoolimagechanged
-                                                ? FFAppState().schoolimage
-                                                : editBranchSASchoolRecord
-                                                    .schoolDetails.schoolImage,
-                                        pincode:
-                                            _model.pincodeTextController.text,
-                                        city: _model.city != null &&
-                                                _model.city != ''
-                                            ? _model.city
-                                            : _model.cityTextController1.text,
-                                        state: _model.state != null &&
-                                                _model.state != ''
-                                            ? _model.state
-                                            : _model.stateTextController1.text,
+                          child: Builder(
+                            builder: (context) => Padding(
+                              padding: const EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 0.0, 10.0),
+                              child: FFButtonWidget(
+                                onPressed: () async {
+                                  if (_model.formKey.currentState == null ||
+                                      !_model.formKey.currentState!
+                                          .validate()) {
+                                    return;
+                                  }
+                                  if ((_model.pincodechange == true) &&
+                                      (_model.city == null ||
+                                          _model.city == '')) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          'Please enter a valid pincode',
+                                          style: TextStyle(
+                                            color: FlutterFlowTheme.of(context)
+                                                .primaryText,
+                                          ),
+                                        ),
+                                        duration: const Duration(milliseconds: 4000),
+                                        backgroundColor:
+                                            FlutterFlowTheme.of(context)
+                                                .secondary,
                                       ),
-                                      clearUnsetFields: false,
-                                    ),
-                                    isBranchPresent: true,
-                                    latlng: _model.latlng,
-                                  ));
-                                  triggerPushNotification(
-                                    notificationTitle: ' Edit Branch',
-                                    notificationText:
-                                        'Your Branch details has been edited',
-                                    userRefs: [
-                                      editBranchSASchoolRecord
-                                          .principalDetails.principalId!
-                                    ],
-                                    initialPageName: 'Dashboard',
-                                    parameterData: {},
-                                  );
-                                  FFAppState().imageurl =
-                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/kqg7tnob6oub/Add_profile_pic_(2).png';
-                                  FFAppState().profileimagechanged = false;
-                                  FFAppState().schoolimage =
-                                      'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2FFrame%20731.png?alt=media&token=4abe77e8-804d-485c-9b4a-d9532c4a190a';
-                                  FFAppState().schoolimagechanged = false;
+                                    );
+                                    safeSetState(() {
+                                      _model.pincodeTextController?.clear();
+                                    });
+                                  } else {
+                                    if (_model.city == null ||
+                                        _model.city == '') {
+                                      _model.latlng = await actions.fetchlatlng(
+                                        '${_model.schoolAddressTextController.text}${_model.stateTextController1.text}${_model.cityTextController1.text}${_model.pincodeTextController.text}',
+                                      );
+
+                                      await widget.schoolref!
+                                          .update(createSchoolRecordData(
+                                        schoolDetails:
+                                            updateSchoolDetailsStruct(
+                                          SchoolDetailsStruct(
+                                            schoolName: _model
+                                                .schoolnameTextController.text,
+                                            address: _model
+                                                .schoolAddressTextController
+                                                .text,
+                                            noOfFaculties: int.tryParse(_model
+                                                .nooffacultiesTextController
+                                                .text),
+                                            schoolImage:
+                                                FFAppState().schoolimagechanged
+                                                    ? FFAppState().schoolimage
+                                                    : editBranchSASchoolRecord
+                                                        .schoolDetails
+                                                        .schoolImage,
+                                            pincode: _model
+                                                .pincodeTextController.text,
+                                            city: _model.city != null &&
+                                                    _model.city != ''
+                                                ? _model.city
+                                                : _model
+                                                    .cityTextController1.text,
+                                            state: _model.state != null &&
+                                                    _model.state != ''
+                                                ? _model.state
+                                                : _model
+                                                    .stateTextController1.text,
+                                          ),
+                                          clearUnsetFields: false,
+                                        ),
+                                        isBranchPresent: true,
+                                        latlng: _model.latlng,
+                                      ));
+                                      triggerPushNotification(
+                                        notificationTitle: ' Edit Branch',
+                                        notificationText:
+                                            'Your Branch details has been edited',
+                                        userRefs: [
+                                          editBranchSASchoolRecord
+                                              .principalDetails.principalId!
+                                        ],
+                                        initialPageName: 'Dashboard',
+                                        parameterData: {},
+                                      );
+                                      FFAppState().imageurl =
+                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
+                                      FFAppState().profileimagechanged = false;
+                                      FFAppState().schoolimage =
+                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png';
+                                      FFAppState().schoolimagechanged = false;
+                                      safeSetState(() {});
+                                      await showDialog(
+                                        context: context,
+                                        builder: (dialogContext) {
+                                          return Dialog(
+                                            elevation: 0,
+                                            insetPadding: EdgeInsets.zero,
+                                            backgroundColor: Colors.transparent,
+                                            alignment: const AlignmentDirectional(
+                                                    0.0, -0.8)
+                                                .resolve(
+                                                    Directionality.of(context)),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                FocusScope.of(dialogContext)
+                                                    .unfocus();
+                                                FocusManager
+                                                    .instance.primaryFocus
+                                                    ?.unfocus();
+                                              },
+                                              child: SizedBox(
+                                                height:
+                                                    MediaQuery.sizeOf(context)
+                                                            .height *
+                                                        0.08,
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        0.6,
+                                                child:
+                                                    const EditsavedsuccessfullyWidget(),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+
+                                      context.goNamed(
+                                        'ExistingSchoolDetails_SA',
+                                        queryParameters: {
+                                          'schoolrefMain': serializeParam(
+                                            widget.mainschoolref,
+                                            ParamType.DocumentReference,
+                                          ),
+                                        }.withoutNulls,
+                                        extra: <String, dynamic>{
+                                          kTransitionInfoKey: const TransitionInfo(
+                                            hasTransition: true,
+                                            transitionType:
+                                                PageTransitionType.fade,
+                                          ),
+                                        },
+                                      );
+                                    } else {
+                                      _model.latlng12 =
+                                          await actions.fetchlatlng(
+                                        '${_model.schoolAddressTextController.text}${_model.state}${_model.city}${_model.pincodeTextController.text}',
+                                      );
+
+                                      await widget.schoolref!
+                                          .update(createSchoolRecordData(
+                                        schoolDetails:
+                                            updateSchoolDetailsStruct(
+                                          SchoolDetailsStruct(
+                                            schoolName: _model
+                                                .schoolnameTextController.text,
+                                            address: _model
+                                                .schoolAddressTextController
+                                                .text,
+                                            noOfFaculties: int.tryParse(_model
+                                                .nooffacultiesTextController
+                                                .text),
+                                            schoolImage:
+                                                FFAppState().schoolimagechanged
+                                                    ? FFAppState().schoolimage
+                                                    : editBranchSASchoolRecord
+                                                        .schoolDetails
+                                                        .schoolImage,
+                                            pincode: _model
+                                                .pincodeTextController.text,
+                                            city: _model.city != null &&
+                                                    _model.city != ''
+                                                ? _model.city
+                                                : _model
+                                                    .cityTextController1.text,
+                                            state: _model.state != null &&
+                                                    _model.state != ''
+                                                ? _model.state
+                                                : _model
+                                                    .stateTextController1.text,
+                                          ),
+                                          clearUnsetFields: false,
+                                        ),
+                                        isBranchPresent: true,
+                                        latlng: _model.latlng12,
+                                      ));
+                                      triggerPushNotification(
+                                        notificationTitle: ' Edit Branch',
+                                        notificationText:
+                                            'Your Branch details has been edited',
+                                        userRefs: [
+                                          editBranchSASchoolRecord
+                                              .principalDetails.principalId!
+                                        ],
+                                        initialPageName: 'Dashboard',
+                                        parameterData: {},
+                                      );
+                                      FFAppState().imageurl =
+                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
+                                      FFAppState().profileimagechanged = false;
+                                      FFAppState().schoolimage =
+                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png';
+                                      FFAppState().schoolimagechanged = false;
+                                      safeSetState(() {});
+                                      await showDialog(
+                                        context: context,
+                                        builder: (dialogContext) {
+                                          return Dialog(
+                                            elevation: 0,
+                                            insetPadding: EdgeInsets.zero,
+                                            backgroundColor: Colors.transparent,
+                                            alignment: const AlignmentDirectional(
+                                                    0.0, -0.8)
+                                                .resolve(
+                                                    Directionality.of(context)),
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                FocusScope.of(dialogContext)
+                                                    .unfocus();
+                                                FocusManager
+                                                    .instance.primaryFocus
+                                                    ?.unfocus();
+                                              },
+                                              child: SizedBox(
+                                                height:
+                                                    MediaQuery.sizeOf(context)
+                                                            .height *
+                                                        0.08,
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        0.6,
+                                                child:
+                                                    const EditsavedsuccessfullyWidget(),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      );
+
+                                      context.goNamed(
+                                        'ExistingSchoolDetails_SA',
+                                        queryParameters: {
+                                          'schoolrefMain': serializeParam(
+                                            widget.mainschoolref,
+                                            ParamType.DocumentReference,
+                                          ),
+                                        }.withoutNulls,
+                                        extra: <String, dynamic>{
+                                          kTransitionInfoKey: const TransitionInfo(
+                                            hasTransition: true,
+                                            transitionType:
+                                                PageTransitionType.fade,
+                                          ),
+                                        },
+                                      );
+                                    }
+                                  }
+
                                   safeSetState(() {});
-
-                                  context.pushNamed(
-                                    'BranchUpdated',
-                                    queryParameters: {
-                                      'schoolref': serializeParam(
-                                        widget.schoolref,
-                                        ParamType.DocumentReference,
+                                },
+                                text: 'Update ',
+                                options: FFButtonOptions(
+                                  width:
+                                      MediaQuery.sizeOf(context).width * 0.85,
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 0.05,
+                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                      16.0, 0.0, 16.0, 0.0),
+                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                      0.0, 0.0, 0.0, 0.0),
+                                  color: FlutterFlowTheme.of(context)
+                                      .primaryBackground,
+                                  textStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .override(
+                                    fontFamily: 'Nunito',
+                                    color: Colors.white,
+                                    letterSpacing: 0.0,
+                                    shadows: [
+                                      const Shadow(
+                                        color: Color(0xFF375DFB),
+                                        offset: Offset(0.0, 0.0),
+                                        blurRadius: 0.0,
                                       ),
-                                      'mainschoolref': serializeParam(
-                                        widget.mainschoolref,
-                                        ParamType.DocumentReference,
-                                      ),
-                                    }.withoutNulls,
-                                    extra: <String, dynamic>{
-                                      kTransitionInfoKey: const TransitionInfo(
-                                        hasTransition: true,
-                                        transitionType: PageTransitionType.fade,
-                                      ),
-                                    },
-                                  );
-                                } else {
-                                  _model.latlng12 = await actions.fetchlatlng(
-                                    '${_model.schoolAddressTextController.text}${_model.state}${_model.city}${_model.pincodeTextController.text}',
-                                  );
-
-                                  await widget.schoolref!
-                                      .update(createSchoolRecordData(
-                                    schoolDetails: updateSchoolDetailsStruct(
-                                      SchoolDetailsStruct(
-                                        schoolName: _model
-                                            .schoolnameTextController.text,
-                                        address: _model
-                                            .schoolAddressTextController.text,
-                                        noOfFaculties: int.tryParse(_model
-                                            .nooffacultiesTextController.text),
-                                        schoolImage:
-                                            FFAppState().schoolimagechanged
-                                                ? FFAppState().schoolimage
-                                                : editBranchSASchoolRecord
-                                                    .schoolDetails.schoolImage,
-                                        pincode:
-                                            _model.pincodeTextController.text,
-                                        city: _model.city != null &&
-                                                _model.city != ''
-                                            ? _model.city
-                                            : _model.cityTextController1.text,
-                                        state: _model.state != null &&
-                                                _model.state != ''
-                                            ? _model.state
-                                            : _model.stateTextController1.text,
-                                      ),
-                                      clearUnsetFields: false,
-                                    ),
-                                    isBranchPresent: true,
-                                    latlng: _model.latlng12,
-                                  ));
-                                  triggerPushNotification(
-                                    notificationTitle: ' Edit Branch',
-                                    notificationText:
-                                        'Your Branch details has been edited',
-                                    userRefs: [
-                                      editBranchSASchoolRecord
-                                          .principalDetails.principalId!
+                                      const Shadow(
+                                        color: Color(0xFF253EA7),
+                                        offset: Offset(0.0, 1.0),
+                                        blurRadius: 2.0,
+                                      )
                                     ],
-                                    initialPageName: 'Dashboard',
-                                    parameterData: {},
-                                  );
-                                  FFAppState().imageurl =
-                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/kqg7tnob6oub/Add_profile_pic_(2).png';
-                                  FFAppState().profileimagechanged = false;
-                                  FFAppState().schoolimage =
-                                      'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2FFrame%20731.png?alt=media&token=4abe77e8-804d-485c-9b4a-d9532c4a190a';
-                                  FFAppState().schoolimagechanged = false;
-                                  safeSetState(() {});
-
-                                  context.pushNamed(
-                                    'BranchUpdated',
-                                    queryParameters: {
-                                      'schoolref': serializeParam(
-                                        widget.schoolref,
-                                        ParamType.DocumentReference,
-                                      ),
-                                      'mainschoolref': serializeParam(
-                                        widget.mainschoolref,
-                                        ParamType.DocumentReference,
-                                      ),
-                                    }.withoutNulls,
-                                    extra: <String, dynamic>{
-                                      kTransitionInfoKey: const TransitionInfo(
-                                        hasTransition: true,
-                                        transitionType: PageTransitionType.fade,
-                                      ),
-                                    },
-                                  );
-                                }
-
-                                safeSetState(() {});
-                              },
-                              text: 'Update ',
-                              options: FFButtonOptions(
-                                width: MediaQuery.sizeOf(context).width * 0.85,
-                                height:
-                                    MediaQuery.sizeOf(context).height * 0.05,
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    16.0, 0.0, 16.0, 0.0),
-                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 0.0),
-                                color: FlutterFlowTheme.of(context)
-                                    .primaryBackground,
-                                textStyle: FlutterFlowTheme.of(context)
-                                    .titleSmall
-                                    .override(
-                                      fontFamily: 'Nunito',
-                                      color: Colors.white,
-                                      letterSpacing: 0.0,
-                                    ),
-                                elevation: 0.0,
-                                borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                  elevation: 3.0,
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
                               ),
                             ),
                           ),
