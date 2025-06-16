@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'nosearchresults_copy_model.dart';
 export 'nosearchresults_copy_model.dart';
 
@@ -37,29 +38,26 @@ class _NosearchresultsCopyWidgetState extends State<NosearchresultsCopyWidget> {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: const AlignmentDirectional(0.0, 0.0),
+      alignment: AlignmentDirectional(0.0, 0.0),
       child: Column(
         mainAxisSize: MainAxisSize.max,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(8.0),
-            child: Image.asset(
-              'assets/images/OBJECTS.png',
-              width: MediaQuery.sizeOf(context).width * 1.0,
-              height: MediaQuery.sizeOf(context).height * 0.2,
-              fit: BoxFit.contain,
-            ),
-          ),
           Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+            padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
             child: Text(
               'No search results found',
               style: FlutterFlowTheme.of(context).bodyMedium.override(
-                    fontFamily: 'Nunito',
+                    font: GoogleFonts.nunito(
+                      fontWeight: FontWeight.bold,
+                      fontStyle:
+                          FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                    ),
                     fontSize: 18.0,
                     letterSpacing: 0.0,
                     fontWeight: FontWeight.bold,
+                    fontStyle:
+                        FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                   ),
             ),
           ),

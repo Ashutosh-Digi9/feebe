@@ -13,12 +13,14 @@ class TeachersAttendanceStruct extends FFFirebaseStruct {
     bool? ispresent,
     DateTime? checkInTime,
     DateTime? checkOutTime,
+    int? leaves,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _id = id,
         _date = date,
         _ispresent = ispresent,
         _checkInTime = checkInTime,
         _checkOutTime = checkOutTime,
+        _leaves = leaves,
         super(firestoreUtilData);
 
   // "id" field.
@@ -58,6 +60,15 @@ class TeachersAttendanceStruct extends FFFirebaseStruct {
 
   bool hasCheckOutTime() => _checkOutTime != null;
 
+  // "leaves" field.
+  int? _leaves;
+  int get leaves => _leaves ?? 0;
+  set leaves(int? val) => _leaves = val;
+
+  void incrementLeaves(int amount) => leaves = leaves + amount;
+
+  bool hasLeaves() => _leaves != null;
+
   static TeachersAttendanceStruct fromMap(Map<String, dynamic> data) =>
       TeachersAttendanceStruct(
         id: castToType<int>(data['id']),
@@ -65,6 +76,7 @@ class TeachersAttendanceStruct extends FFFirebaseStruct {
         ispresent: data['ispresent'] as bool?,
         checkInTime: data['check_in_time'] as DateTime?,
         checkOutTime: data['check_out_time'] as DateTime?,
+        leaves: castToType<int>(data['leaves']),
       );
 
   static TeachersAttendanceStruct? maybeFromMap(dynamic data) => data is Map
@@ -77,6 +89,7 @@ class TeachersAttendanceStruct extends FFFirebaseStruct {
         'ispresent': _ispresent,
         'check_in_time': _checkInTime,
         'check_out_time': _checkOutTime,
+        'leaves': _leaves,
       }.withoutNulls;
 
   @override
@@ -100,6 +113,10 @@ class TeachersAttendanceStruct extends FFFirebaseStruct {
         'check_out_time': serializeParam(
           _checkOutTime,
           ParamType.DateTime,
+        ),
+        'leaves': serializeParam(
+          _leaves,
+          ParamType.int,
         ),
       }.withoutNulls;
 
@@ -131,6 +148,11 @@ class TeachersAttendanceStruct extends FFFirebaseStruct {
           ParamType.DateTime,
           false,
         ),
+        leaves: deserializeParam(
+          data['leaves'],
+          ParamType.int,
+          false,
+        ),
       );
 
   static TeachersAttendanceStruct fromAlgoliaData(Map<String, dynamic> data) =>
@@ -160,7 +182,12 @@ class TeachersAttendanceStruct extends FFFirebaseStruct {
           ParamType.DateTime,
           false,
         ),
-        firestoreUtilData: const FirestoreUtilData(
+        leaves: convertAlgoliaParam(
+          data['leaves'],
+          ParamType.int,
+          false,
+        ),
+        firestoreUtilData: FirestoreUtilData(
           clearUnsetFields: false,
           create: true,
         ),
@@ -176,12 +203,13 @@ class TeachersAttendanceStruct extends FFFirebaseStruct {
         date == other.date &&
         ispresent == other.ispresent &&
         checkInTime == other.checkInTime &&
-        checkOutTime == other.checkOutTime;
+        checkOutTime == other.checkOutTime &&
+        leaves == other.leaves;
   }
 
   @override
   int get hashCode => const ListEquality()
-      .hash([id, date, ispresent, checkInTime, checkOutTime]);
+      .hash([id, date, ispresent, checkInTime, checkOutTime, leaves]);
 }
 
 TeachersAttendanceStruct createTeachersAttendanceStruct({
@@ -190,6 +218,7 @@ TeachersAttendanceStruct createTeachersAttendanceStruct({
   bool? ispresent,
   DateTime? checkInTime,
   DateTime? checkOutTime,
+  int? leaves,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -201,6 +230,7 @@ TeachersAttendanceStruct createTeachersAttendanceStruct({
       ispresent: ispresent,
       checkInTime: checkInTime,
       checkOutTime: checkOutTime,
+      leaves: leaves,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

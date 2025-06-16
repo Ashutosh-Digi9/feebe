@@ -2,14 +2,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 import 'filedownloadedsuccessfully_widget.dart'
     show FiledownloadedsuccessfullyWidget;
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 
 class FiledownloadedsuccessfullyModel
     extends FlutterFlowModel<FiledownloadedsuccessfullyWidget> {
-  ///  State fields for stateful widgets in this component.
-
-  AudioPlayer? soundPlayer;
-
   @override
   void initState(BuildContext context) {}
 

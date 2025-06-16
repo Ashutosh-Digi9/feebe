@@ -5,8 +5,10 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/shimmer_effects/notifications_shimmer/notifications_shimmer_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'teacher_timeline_model.dart';
 export 'teacher_timeline_model.dart';
 
@@ -19,6 +21,9 @@ class TeacherTimelineWidget extends StatefulWidget {
 
   final DocumentReference? teachersref;
   final DocumentReference? schoolref;
+
+  static String routeName = 'teacher_timeline';
+  static String routePath = '/Teacher_attendence_HistoryCopy';
 
   @override
   State<TeacherTimelineWidget> createState() => _TeacherTimelineWidgetState();
@@ -55,7 +60,7 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
-          return const Scaffold(
+          return Scaffold(
             body: NotificationsShimmerWidget(),
           );
         }
@@ -69,55 +74,72 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
           },
           child: Scaffold(
             key: scaffoldKey,
-            appBar: PreferredSize(
-              preferredSize:
-                  Size.fromHeight(MediaQuery.sizeOf(context).height * 0.06),
-              child: AppBar(
-                backgroundColor: FlutterFlowTheme.of(context).info,
-                automaticallyImplyLeading: false,
-                leading: FlutterFlowIconButton(
-                  borderColor: Colors.transparent,
-                  borderRadius: 8.0,
-                  buttonSize: 46.0,
-                  icon: const Icon(
-                    Icons.arrow_back_ios,
-                    color: Color(0x58001B36),
-                    size: 30.0,
-                  ),
-                  onPressed: () async {
-                    context.pushNamed(
-                      'Teacher_profile',
-                      queryParameters: {
-                        'teacherRef': serializeParam(
-                          widget.teachersref,
-                          ParamType.DocumentReference,
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? PreferredSize(
+                    preferredSize: Size.fromHeight(
+                        MediaQuery.sizeOf(context).height * 0.06),
+                    child: AppBar(
+                      backgroundColor: FlutterFlowTheme.of(context).info,
+                      automaticallyImplyLeading: false,
+                      leading: FlutterFlowIconButton(
+                        borderColor: Colors.transparent,
+                        borderRadius: 8.0,
+                        buttonSize: 46.0,
+                        icon: Icon(
+                          Icons.arrow_back_ios,
+                          color: Color(0x58001B36),
+                          size: 30.0,
                         ),
-                        'schoolref': serializeParam(
-                          widget.schoolref,
-                          ParamType.DocumentReference,
+                        onPressed: () async {
+                          context.pushNamed(
+                            TeacherProfileWidget.routeName,
+                            queryParameters: {
+                              'teacherRef': serializeParam(
+                                widget.teachersref,
+                                ParamType.DocumentReference,
+                              ),
+                              'schoolref': serializeParam(
+                                widget.schoolref,
+                                ParamType.DocumentReference,
+                              ),
+                            }.withoutNulls,
+                          );
+                        },
+                      ),
+                      title: Align(
+                        alignment: AlignmentDirectional(-1.0, 0.0),
+                        child: Text(
+                          'Teacher timeline',
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.w500,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                fontSize: 16.0,
+                                letterSpacing: 0.0,
+                                fontWeight: FontWeight.w500,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
                         ),
-                      }.withoutNulls,
-                    );
-                  },
-                ),
-                title: Align(
-                  alignment: const AlignmentDirectional(-1.0, 0.0),
-                  child: Text(
-                    'Teacher timeline',
-                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Nunito',
-                          color: FlutterFlowTheme.of(context).primaryText,
-                          fontSize: 16.0,
-                          letterSpacing: 0.0,
-                          fontWeight: FontWeight.w500,
-                        ),
-                  ),
-                ),
-                actions: const [],
-                centerTitle: true,
-                elevation: 0.0,
-              ),
-            ),
+                      ),
+                      actions: [],
+                      centerTitle: true,
+                      elevation: 0.0,
+                    ),
+                  )
+                : null,
             body: SafeArea(
               top: true,
               child: Container(
@@ -133,7 +155,7 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             0.0, 20.0, 0.0, 10.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
@@ -141,10 +163,10 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Align(
-                              alignment: const AlignmentDirectional(0.0, 0.0),
+                              alignment: AlignmentDirectional(0.0, 0.0),
                               child: Container(
                                 width: MediaQuery.sizeOf(context).width * 0.7,
-                                decoration: const BoxDecoration(),
+                                decoration: BoxDecoration(),
                                 child: Row(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment: MainAxisAlignment.center,
@@ -168,7 +190,7 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           10.0, 0.0, 10.0, 0.0),
                                       child: Text(
                                         dateTimeFormat("yMMMd",
@@ -176,15 +198,25 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.bold,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
                                               fontSize: 20.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.bold,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
                                             ),
                                       ),
                                     ),
                                     Align(
-                                      alignment: const AlignmentDirectional(1.0, 1.0),
+                                      alignment: AlignmentDirectional(1.0, 1.0),
                                       child: InkWell(
                                         splashColor: Colors.transparent,
                                         focusColor: Colors.transparent,
@@ -209,27 +241,31 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                               ),
                             ),
                             Align(
-                              alignment: const AlignmentDirectional(1.0, 1.0),
+                              alignment: AlignmentDirectional(1.0, 1.0),
                               child: InkWell(
                                 splashColor: Colors.transparent,
                                 focusColor: Colors.transparent,
                                 hoverColor: Colors.transparent,
                                 highlightColor: Colors.transparent,
                                 onTap: () async {
-                                  final datePickedDate = await showDatePicker(
+                                  final _datePickedDate = await showDatePicker(
                                     context: context,
                                     initialDate: getCurrentTimestamp,
                                     firstDate: DateTime(1900),
                                     lastDate: getCurrentTimestamp,
                                   );
 
-                                  if (datePickedDate != null) {
+                                  if (_datePickedDate != null) {
                                     safeSetState(() {
                                       _model.datePicked = DateTime(
-                                        datePickedDate.year,
-                                        datePickedDate.month,
-                                        datePickedDate.day,
+                                        _datePickedDate.year,
+                                        _datePickedDate.month,
+                                        _datePickedDate.day,
                                       );
+                                    });
+                                  } else if (_model.datePicked != null) {
+                                    safeSetState(() {
+                                      _model.datePicked = getCurrentTimestamp;
                                     });
                                   }
                                   _model.currentmonthandyear =
@@ -256,7 +292,7 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                           mainAxisSize: MainAxisSize.max,
                           children: [
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   10.0, 0.0, 10.0, 10.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -268,21 +304,31 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                                         MediaQuery.sizeOf(context).width * 0.2,
                                     height: MediaQuery.sizeOf(context).height *
                                         0.04,
-                                    decoration: const BoxDecoration(),
+                                    decoration: BoxDecoration(),
                                     child: Align(
-                                      alignment: const AlignmentDirectional(0.0, 0.0),
+                                      alignment: AlignmentDirectional(0.0, 0.0),
                                       child: Text(
                                         'Time',
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.w500,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .tertiaryText,
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
                                             ),
                                       ),
                                     ),
@@ -292,21 +338,31 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                                         MediaQuery.sizeOf(context).width * 0.28,
                                     height: MediaQuery.sizeOf(context).height *
                                         0.04,
-                                    decoration: const BoxDecoration(),
+                                    decoration: BoxDecoration(),
                                     child: Align(
-                                      alignment: const AlignmentDirectional(0.0, 0.0),
+                                      alignment: AlignmentDirectional(0.0, 0.0),
                                       child: Text(
                                         'Class',
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.w500,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .tertiaryText,
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
                                             ),
                                       ),
                                     ),
@@ -315,7 +371,7 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   10.0, 0.0, 10.0, 0.0),
                               child: Builder(
                                 builder: (context) {
@@ -331,7 +387,7 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                                               keyOf: (e) => e.date!, desc: true)
                                           .toList();
                                   if (attendace.isEmpty) {
-                                    return const EmptyWidget();
+                                    return EmptyWidget();
                                   }
 
                                   return ListView.builder(
@@ -343,7 +399,7 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                                       final attendaceItem =
                                           attendace[attendaceIndex];
                                       return Container(
-                                        decoration: const BoxDecoration(),
+                                        decoration: BoxDecoration(),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           children: [
@@ -362,10 +418,10 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                                                       MediaQuery.sizeOf(context)
                                                               .height *
                                                           0.06,
-                                                  decoration: const BoxDecoration(),
+                                                  decoration: BoxDecoration(),
                                                   child: Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
+                                                        AlignmentDirectional(
                                                             0.0, 0.0),
                                                     child: Text(
                                                       'Today',
@@ -373,8 +429,17 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                                                               .of(context)
                                                           .bodyMedium
                                                           .override(
-                                                            fontFamily:
-                                                                'Nunito',
+                                                            font: GoogleFonts
+                                                                .nunito(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primaryBackground,
@@ -382,6 +447,11 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                                                             letterSpacing: 0.0,
                                                             fontWeight:
                                                                 FontWeight.w600,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
                                                           ),
                                                     ),
                                                   ),
@@ -395,10 +465,10 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                                                       MediaQuery.sizeOf(context)
                                                               .height *
                                                           0.06,
-                                                  decoration: const BoxDecoration(),
+                                                  decoration: BoxDecoration(),
                                                   child: Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
+                                                        AlignmentDirectional(
                                                             0.0, 0.0),
                                                     child: Text(
                                                       '',
@@ -406,8 +476,17 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                                                               .of(context)
                                                           .bodyMedium
                                                           .override(
-                                                            fontFamily:
-                                                                'Nunito',
+                                                            font: GoogleFonts
+                                                                .nunito(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primaryText,
@@ -415,6 +494,11 @@ class _TeacherTimelineWidgetState extends State<TeacherTimelineWidget> {
                                                             letterSpacing: 0.0,
                                                             fontWeight:
                                                                 FontWeight.w600,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
                                                           ),
                                                     ),
                                                   ),

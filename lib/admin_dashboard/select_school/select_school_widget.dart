@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:text_search/text_search.dart';
 import 'select_school_model.dart';
@@ -97,24 +98,30 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
               Text(
                 'Send to',
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Nunito',
+                      font: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w500,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                      ),
                       fontSize: 20.0,
                       letterSpacing: 0.0,
                       fontWeight: FontWeight.w500,
+                      fontStyle:
+                          FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                     ),
               ),
               Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  SizedBox(
+                  Container(
                     width: MediaQuery.sizeOf(context).width * 0.6,
                     child: TextFormField(
                       controller: _model.textController,
                       focusNode: _model.textFieldFocusNode,
                       onChanged: (_) => EasyDebounce.debounce(
                         '_model.textController',
-                        const Duration(milliseconds: 2000),
+                        Duration(milliseconds: 2000),
                         () async {
                           _model.search = true;
                           safeSetState(() {});
@@ -129,6 +136,7 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                 .search(_model.textController.text)
                                 .map((r) => r.object)
                                 .toList();
+                            ;
                           });
                         },
                       ),
@@ -139,17 +147,43 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                         labelStyle: FlutterFlowTheme.of(context)
                             .labelMedium
                             .override(
-                              fontFamily: 'Nunito',
+                              font: GoogleFonts.nunito(
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontStyle,
+                              ),
                               color: FlutterFlowTheme.of(context).primaryText,
                               letterSpacing: 0.0,
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .fontStyle,
                             ),
                         hintText: 'Search School',
                         hintStyle: FlutterFlowTheme.of(context)
                             .labelMedium
                             .override(
-                              fontFamily: 'Nunito',
+                              font: GoogleFonts.nunito(
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontStyle,
+                              ),
                               color: FlutterFlowTheme.of(context).primaryText,
                               letterSpacing: 0.0,
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .fontStyle,
                             ),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
@@ -182,36 +216,42 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                         filled: true,
                         fillColor:
                             FlutterFlowTheme.of(context).secondaryBackground,
-                        prefixIcon: const Icon(
+                        prefixIcon: Icon(
                           Icons.search_sharp,
                         ),
                       ),
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Nunito',
+                            font: GoogleFonts.nunito(
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
                             letterSpacing: 0.0,
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
                           ),
                       cursorColor: FlutterFlowTheme.of(context).primaryText,
                       validator:
                           _model.textControllerValidator.asValidator(context),
                     ),
                   ),
-                  InkWell(
-                    splashColor: Colors.transparent,
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () async {},
-                    child: Icon(
-                      Icons.close,
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      size: 24.0,
-                    ),
+                  Icon(
+                    Icons.close,
+                    color: FlutterFlowTheme.of(context).primaryText,
+                    size: 24.0,
                   ),
                 ],
               ),
               Container(
                 width: MediaQuery.sizeOf(context).width * 0.6,
-                decoration: const BoxDecoration(),
+                decoration: BoxDecoration(),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -219,12 +259,20 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                     Text(
                       'Send to',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Nunito',
+                            font: GoogleFonts.nunito(
+                              fontWeight: FontWeight.w500,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
                             color:
                                 FlutterFlowTheme.of(context).primaryBackground,
                             fontSize: 15.0,
                             letterSpacing: 0.0,
                             fontWeight: FontWeight.w500,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
                           ),
                     ),
                     Column(
@@ -270,11 +318,15 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                       safeSetState(() {});
                                     }
                                   },
-                                  side: BorderSide(
-                                    width: 2,
-                                    color:
-                                        FlutterFlowTheme.of(context).alternate,
-                                  ),
+                                  side: (FlutterFlowTheme.of(context)
+                                              .alternate !=
+                                          null)
+                                      ? BorderSide(
+                                          width: 2,
+                                          color: FlutterFlowTheme.of(context)
+                                              .alternate,
+                                        )
+                                      : null,
                                   activeColor:
                                       FlutterFlowTheme.of(context).primary,
                                   checkColor: FlutterFlowTheme.of(context).info,
@@ -288,11 +340,24 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                           style: FlutterFlowTheme.of(context)
                               .bodyMedium
                               .override(
-                                fontFamily: 'Nunito',
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
                                 color:
                                     FlutterFlowTheme.of(context).tertiaryText,
                                 fontSize: 10.0,
                                 letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
                               ),
                         ),
                       ],
@@ -303,9 +368,9 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
               if (_model.search == false)
                 Container(
                   height: MediaQuery.sizeOf(context).height * 0.5,
-                  decoration: const BoxDecoration(),
+                  decoration: BoxDecoration(),
                   child: Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: EdgeInsets.all(10.0),
                     child: AuthUserStreamWidget(
                       builder: (context) => Builder(
                         builder: (context) {
@@ -323,7 +388,7 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                             itemBuilder: (context, schoolsIndex) {
                               final schoolsItem = schools[schoolsIndex];
                               return Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 16.0, 0.0, 0.0),
                                 child: StreamBuilder<SchoolRecord>(
                                   stream: SchoolRecord.getDocument(schoolsItem),
@@ -400,10 +465,10 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Align(
-                                                alignment: const AlignmentDirectional(
+                                                alignment: AlignmentDirectional(
                                                     0.0, 0.0),
                                                 child: Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 15.0, 0.0, 0.0),
                                                   child: Container(
@@ -411,7 +476,7 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                                     height: 60.0,
                                                     clipBehavior:
                                                         Clip.antiAlias,
-                                                    decoration: const BoxDecoration(
+                                                    decoration: BoxDecoration(
                                                       shape: BoxShape.circle,
                                                     ),
                                                     child: Image.network(
@@ -424,7 +489,7 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 5.0, 0.0, 5.0),
                                                 child: Column(
@@ -437,11 +502,11 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                                   children: [
                                                     Align(
                                                       alignment:
-                                                          const AlignmentDirectional(
+                                                          AlignmentDirectional(
                                                               -1.0, 0.0),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     0.0,
                                                                     0.0,
@@ -454,10 +519,10 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                                                       .width *
                                                                   0.54,
                                                           decoration:
-                                                              const BoxDecoration(),
+                                                              BoxDecoration(),
                                                           child: Align(
                                                             alignment:
-                                                                const AlignmentDirectional(
+                                                                AlignmentDirectional(
                                                                     -1.0, 0.0),
                                                             child: Text(
                                                               containerSchoolRecord
@@ -470,8 +535,16 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                                                       .of(context)
                                                                   .bodyMedium
                                                                   .override(
-                                                                    fontFamily:
-                                                                        'Nunito',
+                                                                    font: GoogleFonts
+                                                                        .nunito(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
                                                                     color: FlutterFlowTheme.of(
                                                                             context)
                                                                         .primaryBackground,
@@ -482,6 +555,10 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w500,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
                                                                   ),
                                                             ),
                                                           ),
@@ -490,11 +567,11 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                                     ),
                                                     Align(
                                                       alignment:
-                                                          const AlignmentDirectional(
+                                                          AlignmentDirectional(
                                                               -1.0, 0.0),
                                                       child: Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     0.0,
                                                                     0.0,
@@ -507,13 +584,13 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                                                       .width *
                                                                   0.54,
                                                           decoration:
-                                                              const BoxDecoration(),
+                                                              BoxDecoration(),
                                                         ),
                                                       ),
                                                     ),
                                                     Align(
                                                       alignment:
-                                                          const AlignmentDirectional(
+                                                          AlignmentDirectional(
                                                               -1.0, 0.0),
                                                       child: Text(
                                                         containerSchoolRecord
@@ -524,8 +601,16 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                                                     context)
                                                                 .bodyMedium
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .tertiaryText,
@@ -534,6 +619,10 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
                                                                 ),
                                                       ),
                                                     ),
@@ -558,7 +647,7 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
               if (_model.search == true)
                 Container(
                   height: MediaQuery.sizeOf(context).height * 0.4,
-                  decoration: const BoxDecoration(),
+                  decoration: BoxDecoration(),
                   child: Builder(
                     builder: (context) {
                       final schools = functions
@@ -577,7 +666,7 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                         itemBuilder: (context, schoolsIndex) {
                           final schoolsItem = schools[schoolsIndex];
                           return Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 16.0, 0.0, 0.0),
                             child: InkWell(
                               splashColor: Colors.transparent,
@@ -628,16 +717,16 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                     children: [
                                       Align(
                                         alignment:
-                                            const AlignmentDirectional(0.0, 0.0),
+                                            AlignmentDirectional(0.0, 0.0),
                                         child: Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 15.0, 0.0, 0.0),
                                           child: Container(
                                             width: 60.0,
                                             height: 60.0,
                                             clipBehavior: Clip.antiAlias,
-                                            decoration: const BoxDecoration(
+                                            decoration: BoxDecoration(
                                               shape: BoxShape.circle,
                                             ),
                                             child: Image.network(
@@ -649,7 +738,7 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 5.0, 0.0, 5.0),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
@@ -659,10 +748,10 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Align(
-                                              alignment: const AlignmentDirectional(
+                                              alignment: AlignmentDirectional(
                                                   -1.0, 0.0),
                                               child: Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 0.0, 0.0, 5.0),
                                                 child: Container(
@@ -670,10 +759,10 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                                       MediaQuery.sizeOf(context)
                                                               .width *
                                                           0.54,
-                                                  decoration: const BoxDecoration(),
+                                                  decoration: BoxDecoration(),
                                                   child: Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
+                                                        AlignmentDirectional(
                                                             -1.0, 0.0),
                                                     child: Text(
                                                       schoolsItem.schoolDetails
@@ -684,8 +773,17 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                                               .of(context)
                                                           .bodyMedium
                                                           .override(
-                                                            fontFamily:
-                                                                'Nunito',
+                                                            font: GoogleFonts
+                                                                .nunito(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w800,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primaryBackground,
@@ -693,6 +791,11 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                                             letterSpacing: 0.0,
                                                             fontWeight:
                                                                 FontWeight.w800,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
                                                           ),
                                                     ),
                                                   ),
@@ -700,10 +803,10 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                               ),
                                             ),
                                             Align(
-                                              alignment: const AlignmentDirectional(
+                                              alignment: AlignmentDirectional(
                                                   -1.0, 0.0),
                                               child: Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 0.0, 0.0, 5.0),
                                                 child: Container(
@@ -711,28 +814,42 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                                       MediaQuery.sizeOf(context)
                                                               .width *
                                                           0.54,
-                                                  decoration: const BoxDecoration(),
+                                                  decoration: BoxDecoration(),
                                                 ),
                                               ),
                                             ),
                                             Align(
-                                              alignment: const AlignmentDirectional(
+                                              alignment: AlignmentDirectional(
                                                   -1.0, 0.0),
                                               child: Text(
                                                 schoolsItem.principalDetails
                                                     .phoneNumber,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .bodyMedium
+                                                    .override(
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
                                                               .tertiaryText,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FontWeight.normal,
-                                                        ),
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
                                               ),
                                             ),
                                           ],
@@ -762,19 +879,32 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                       width: MediaQuery.sizeOf(context).width * 0.2,
                       height: MediaQuery.sizeOf(context).height * 0.04,
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                       iconPadding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                       color: FlutterFlowTheme.of(context).secondary,
                       textStyle:
                           FlutterFlowTheme.of(context).titleSmall.override(
-                                fontFamily: 'Nunito',
-                                color: FlutterFlowTheme.of(context).alternate,
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
+                                color: FlutterFlowTheme.of(context).primaryText,
                                 letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontStyle,
                               ),
                       elevation: 0.0,
                       borderSide: BorderSide(
-                        color: FlutterFlowTheme.of(context).dIsable,
+                        color: FlutterFlowTheme.of(context).primaryBackground,
                       ),
                       borderRadius: BorderRadius.circular(8.0),
                     ),
@@ -797,7 +927,6 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                                       eventName: widget.eventname,
                                       eventTitle: widget.eventtitle,
                                       eventDescription: widget.description,
-                                      eventImages: widget.images,
                                       eventDate: widget.datetime,
                                     ),
                                     clearUnsetFields: false,
@@ -819,7 +948,7 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                               color: FlutterFlowTheme.of(context).primaryText,
                             ),
                           ),
-                          duration: const Duration(milliseconds: 4000),
+                          duration: Duration(milliseconds: 4000),
                           backgroundColor:
                               FlutterFlowTheme.of(context).secondary,
                         ),
@@ -834,16 +963,29 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                       width: MediaQuery.sizeOf(context).width * 0.2,
                       height: MediaQuery.sizeOf(context).height * 0.04,
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                       iconPadding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                       color: FlutterFlowTheme.of(context).primaryBackground,
                       textStyle:
                           FlutterFlowTheme.of(context).titleSmall.override(
-                                fontFamily: 'Nunito',
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
                                 color: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
                                 letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontStyle,
                               ),
                       elevation: 0.0,
                       borderSide: BorderSide(

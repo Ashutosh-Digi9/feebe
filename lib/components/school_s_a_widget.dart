@@ -3,7 +3,9 @@ import '/components/reject_conf_s_a_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'school_s_a_model.dart';
 export 'school_s_a_model.dart';
 
@@ -73,7 +75,7 @@ class _SchoolSAWidgetState extends State<SchoolSAWidget> {
           onTap: () async {
             if (widget.newSchool == 1) {
               context.pushNamed(
-                'NewSchoolDetails_SA',
+                NewSchoolDetailsSAWidget.routeName,
                 queryParameters: {
                   'schoolref': serializeParam(
                     widget.schoolref,
@@ -81,7 +83,7 @@ class _SchoolSAWidgetState extends State<SchoolSAWidget> {
                   ),
                 }.withoutNulls,
                 extra: <String, dynamic>{
-                  kTransitionInfoKey: const TransitionInfo(
+                  kTransitionInfoKey: TransitionInfo(
                     hasTransition: true,
                     transitionType: PageTransitionType.fade,
                   ),
@@ -89,7 +91,7 @@ class _SchoolSAWidgetState extends State<SchoolSAWidget> {
               );
             } else {
               context.pushNamed(
-                'ExistingSchoolDetails_SA',
+                ExistingSchoolDetailsSAWidget.routeName,
                 queryParameters: {
                   'schoolrefMain': serializeParam(
                     widget.schoolref,
@@ -97,7 +99,7 @@ class _SchoolSAWidgetState extends State<SchoolSAWidget> {
                   ),
                 }.withoutNulls,
                 extra: <String, dynamic>{
-                  kTransitionInfoKey: const TransitionInfo(
+                  kTransitionInfoKey: TransitionInfo(
                     hasTransition: true,
                     transitionType: PageTransitionType.fade,
                   ),
@@ -127,9 +129,9 @@ class _SchoolSAWidgetState extends State<SchoolSAWidget> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Align(
-                          alignment: const AlignmentDirectional(0.0, 0.0),
+                          alignment: AlignmentDirectional(0.0, 0.0),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 15.0, 0.0, 0.0),
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8.0),
@@ -147,7 +149,7 @@ class _SchoolSAWidgetState extends State<SchoolSAWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               10.0, 5.0, 0.0, 5.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -155,15 +157,15 @@ class _SchoolSAWidgetState extends State<SchoolSAWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 5.0),
                                 child: Container(
                                   width: MediaQuery.sizeOf(context).width * 0.5,
                                   height:
                                       MediaQuery.sizeOf(context).height * 0.08,
-                                  decoration: const BoxDecoration(),
+                                  decoration: BoxDecoration(),
                                   child: Align(
-                                    alignment: const AlignmentDirectional(0.0, 0.0),
+                                    alignment: AlignmentDirectional(0.0, 0.0),
                                     child: Text(
                                       valueOrDefault<String>(
                                         containerSchoolRecord
@@ -173,12 +175,22 @@ class _SchoolSAWidgetState extends State<SchoolSAWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.bold,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .primaryBackground,
                                             fontSize: 16.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.bold,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
                                           ),
                                     ),
                                   ),
@@ -190,11 +202,19 @@ class _SchoolSAWidgetState extends State<SchoolSAWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FontWeight.normal,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
                                           .tertiaryText,
                                       letterSpacing: 0.0,
                                       fontWeight: FontWeight.normal,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
                                     ),
                               ),
                             ],
@@ -204,7 +224,7 @@ class _SchoolSAWidgetState extends State<SchoolSAWidget> {
                     ),
                     Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 8.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 8.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -219,7 +239,7 @@ class _SchoolSAWidgetState extends State<SchoolSAWidget> {
                                       elevation: 0,
                                       insetPadding: EdgeInsets.zero,
                                       backgroundColor: Colors.transparent,
-                                      alignment: const AlignmentDirectional(0.0, 0.0)
+                                      alignment: AlignmentDirectional(0.0, 0.0)
                                           .resolve(Directionality.of(context)),
                                       child: RejectConfSAWidget(
                                         schoolref: widget.schoolref!,
@@ -233,23 +253,37 @@ class _SchoolSAWidgetState extends State<SchoolSAWidget> {
                                 width: MediaQuery.sizeOf(context).width * 0.3,
                                 height:
                                     MediaQuery.sizeOf(context).height * 0.043,
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 0.0),
-                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
                                 color: FlutterFlowTheme.of(context)
                                     .secondaryBackground,
                                 textStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
                                           .primaryText,
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
                                     ),
                                 elevation: 0.0,
-                                borderSide: const BorderSide(
-                                  color: Color(0xFFEFF0F6),
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context).primary,
+                                  width: 1.0,
                                 ),
                                 borderRadius: BorderRadius.circular(0.0),
                               ),
@@ -259,7 +293,7 @@ class _SchoolSAWidgetState extends State<SchoolSAWidget> {
                           FFButtonWidget(
                             onPressed: () async {
                               context.pushNamed(
-                                'subscription',
+                                SubscriptionWidget.routeName,
                                 queryParameters: {
                                   'schoolRef': serializeParam(
                                     widget.schoolref,
@@ -272,27 +306,40 @@ class _SchoolSAWidgetState extends State<SchoolSAWidget> {
                             options: FFButtonOptions(
                               width: MediaQuery.sizeOf(context).width * 0.3,
                               height: MediaQuery.sizeOf(context).height * 0.043,
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   16.0, 0.0, 16.0, 0.0),
-                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
                               color: FlutterFlowTheme.of(context)
                                   .primaryBackground,
                               textStyle: FlutterFlowTheme.of(context)
                                   .titleSmall
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryText,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
                                   ),
                               elevation: 0.0,
                               borderRadius: BorderRadius.circular(0.0),
                             ),
                           ),
                         ]
-                            .divide(const SizedBox(width: 15.0))
-                            .around(const SizedBox(width: 15.0)),
+                            .divide(SizedBox(width: 15.0))
+                            .around(SizedBox(width: 15.0)),
                       ),
                     ),
                   ],

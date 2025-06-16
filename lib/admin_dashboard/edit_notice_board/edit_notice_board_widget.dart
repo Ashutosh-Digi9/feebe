@@ -13,7 +13,9 @@ import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'edit_notice_board_model.dart';
 export 'edit_notice_board_model.dart';
@@ -24,11 +26,13 @@ class EditNoticeBoardWidget extends StatefulWidget {
     required this.classref,
     required this.eventid,
     required this.school,
+    required this.eventdata,
   });
 
   final DocumentReference? classref;
   final int? eventid;
   final DocumentReference? school;
+  final EventsNoticeStruct? eventdata;
 
   @override
   State<EditNoticeBoardWidget> createState() => _EditNoticeBoardWidgetState();
@@ -64,7 +68,7 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
           .where((e) => e.eventId == widget.eventid)
           .toList()
           .firstOrNull!
-          .eventImages
+          .eventfiles
           .toList()
           .cast<String>();
       safeSetState(() {});
@@ -89,8 +93,8 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(0.0, 30.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(0.0, 30.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -109,7 +113,7 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
     context.watch<FFAppState>();
 
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: EdgeInsets.all(10.0),
       child: StreamBuilder<SchoolClassRecord>(
         stream: SchoolClassRecord.getDocument(widget.classref!),
         builder: (context, snapshot) {
@@ -148,21 +152,46 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                 autovalidateMode: AutovalidateMode.disabled,
                 child: Padding(
                   padding:
-                      const EdgeInsetsDirectional.fromSTEB(10.0, 20.0, 10.0, 20.0),
+                      EdgeInsetsDirectional.fromSTEB(10.0, 20.0, 10.0, 20.0),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
+                        Align(
+                          alignment: AlignmentDirectional(1.0, -1.0),
+                          child: FlutterFlowIconButton(
+                            borderRadius: 30.0,
+                            buttonSize: 40.0,
+                            fillColor:
+                                FlutterFlowTheme.of(context).secondaryText,
+                            hoverColor:
+                                FlutterFlowTheme.of(context).primaryBackground,
+                            hoverIconColor: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                            icon: Icon(
+                              Icons.close,
+                              color: FlutterFlowTheme.of(context)
+                                  .primaryBackground,
+                              size: 20.0,
+                            ),
+                            onPressed: () async {
+                              FFAppState().eventfiles = [];
+                              safeSetState(() {});
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              10.0, 0.0, 10.0, 0.0),
-                          child: SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              5.0, 0.0, 5.0, 0.0),
+                          child: Container(
+                            width: MediaQuery.sizeOf(context).width * 0.9,
+                            decoration: BoxDecoration(),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 InkWell(
                                   splashColor: Colors.transparent,
@@ -175,69 +204,58 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: valueOrDefault<Color>(
-                                        _model.eventName == 'General'
-                                            ? const Color(0xFFFFFCF0)
-                                            : const Color(0xFFF5F2F2),
-                                        FlutterFlowTheme.of(context).text,
-                                      ),
-                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: FlutterFlowTheme.of(context).event,
+                                      borderRadius: BorderRadius.circular(3.59),
                                       border: Border.all(
-                                        color: valueOrDefault<Color>(
-                                          _model.eventName == 'General'
-                                              ? const Color(0xFFFF976A)
-                                              : FlutterFlowTheme.of(context)
-                                                  .text,
-                                          FlutterFlowTheme.of(context).text,
-                                        ),
-                                        width: 1.0,
+                                        color: FlutterFlowTheme.of(context)
+                                            .generalBorder,
+                                        width: _model.eventName == 'General'
+                                            ? 3.0
+                                            : 1.0,
                                       ),
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 10.0, 0.0, 10.0),
+                                      padding: EdgeInsets.all(5.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.start,
                                         children: [
-                                          Icon(
-                                            Icons.mode_comment,
-                                            color: valueOrDefault<Color>(
-                                              _model.eventName == 'General'
-                                                  ? FlutterFlowTheme.of(context)
-                                                      .warning
-                                                  : FlutterFlowTheme.of(context)
-                                                      .warning,
-                                              FlutterFlowTheme.of(context).text,
-                                            ),
-                                            size: 20.0,
+                                          Image.asset(
+                                            'assets/images/9e73b2e5203026ba49a296de36e434f3.png',
+                                            width: 15.5,
+                                            height: 15.5,
+                                            fit: BoxFit.cover,
                                           ),
                                           Text(
                                             'General',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  fontFamily: 'Nunito',
-                                                  color: valueOrDefault<Color>(
-                                                    _model.eventName ==
-                                                            'General'
-                                                        ? FlutterFlowTheme.of(
+                                                  font: GoogleFonts.nunito(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
                                                                 context)
-                                                            .primaryText
-                                                        : FlutterFlowTheme.of(
-                                                                context)
-                                                            .text,
-                                                    FlutterFlowTheme.of(context)
-                                                        .text,
+                                                            .bodyMedium
+                                                            .fontStyle,
                                                   ),
-                                                  fontSize: 12.0,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                  fontSize: 14.0,
                                                   letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
                                                 ),
                                           ),
                                         ]
-                                            .divide(const SizedBox(width: 10.0))
-                                            .around(const SizedBox(width: 10.0)),
+                                            .divide(SizedBox(width: 3.0))
+                                            .around(SizedBox(width: 3.0)),
                                       ),
                                     ),
                                   ),
@@ -253,69 +271,59 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: valueOrDefault<Color>(
-                                        _model.eventName == 'Reminder'
-                                            ? const Color(0xC3FBF0FF)
-                                            : const Color(0xFFF5F2F2),
-                                        FlutterFlowTheme.of(context).text,
-                                      ),
-                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: FlutterFlowTheme.of(context)
+                                          .reminderfill,
+                                      borderRadius: BorderRadius.circular(3.59),
                                       border: Border.all(
-                                        color: valueOrDefault<Color>(
-                                          _model.eventName == 'Reminder'
-                                              ? const Color(0xFFADA6EB)
-                                              : FlutterFlowTheme.of(context)
-                                                  .text,
-                                          FlutterFlowTheme.of(context).text,
-                                        ),
-                                        width: 1.0,
+                                        color: FlutterFlowTheme.of(context)
+                                            .reminderborder,
+                                        width: _model.eventName == 'Reminder'
+                                            ? 3.0
+                                            : 1.0,
                                       ),
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 10.0, 0.0, 10.0),
+                                      padding: EdgeInsets.all(5.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.start,
                                         children: [
-                                          Icon(
-                                            Icons.alarm_on,
-                                            color: valueOrDefault<Color>(
-                                              _model.eventName == 'Reminder'
-                                                  ? FlutterFlowTheme.of(context)
-                                                      .error
-                                                  : FlutterFlowTheme.of(context)
-                                                      .warning,
-                                              FlutterFlowTheme.of(context).text,
-                                            ),
-                                            size: 20.0,
+                                          Image.asset(
+                                            'assets/images/3d-alarm.png',
+                                            width: 15.5,
+                                            height: 15.5,
+                                            fit: BoxFit.cover,
                                           ),
                                           Text(
                                             'Reminder',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  fontFamily: 'Nunito',
-                                                  color: valueOrDefault<Color>(
-                                                    _model.eventName ==
-                                                            'Reminder'
-                                                        ? FlutterFlowTheme.of(
+                                                  font: GoogleFonts.nunito(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
                                                                 context)
-                                                            .primaryText
-                                                        : FlutterFlowTheme.of(
-                                                                context)
-                                                            .text,
-                                                    FlutterFlowTheme.of(context)
-                                                        .text,
+                                                            .bodyMedium
+                                                            .fontStyle,
                                                   ),
-                                                  fontSize: 12.0,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                  fontSize: 14.0,
                                                   letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
                                                 ),
                                           ),
                                         ]
-                                            .divide(const SizedBox(width: 10.0))
-                                            .around(const SizedBox(width: 10.0)),
+                                            .divide(SizedBox(width: 3.0))
+                                            .around(SizedBox(width: 3.0)),
                                       ),
                                     ),
                                   ),
@@ -326,85 +334,76 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
-                                    _model.eventName = 'Notice';
+                                    _model.eventName = 'Homework';
                                     safeSetState(() {});
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: valueOrDefault<Color>(
-                                        _model.eventName == 'Notice'
-                                            ? const Color(0xFFFFFCF0)
-                                            : const Color(0xFFF5F2F2),
-                                        FlutterFlowTheme.of(context).text,
-                                      ),
-                                      borderRadius: BorderRadius.circular(10.0),
+                                      color:
+                                          FlutterFlowTheme.of(context).homework,
+                                      borderRadius: BorderRadius.circular(3.59),
                                       border: Border.all(
-                                        color: valueOrDefault<Color>(
-                                          _model.eventName == 'Notice'
-                                              ? const Color(0xFFB0FF6A)
-                                              : FlutterFlowTheme.of(context)
-                                                  .text,
-                                          FlutterFlowTheme.of(context).text,
-                                        ),
-                                        width: 1.0,
+                                        color: FlutterFlowTheme.of(context)
+                                            .homeworkborder,
+                                        width: _model.eventName == 'Homework'
+                                            ? 3.0
+                                            : 1.0,
                                       ),
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 10.0, 0.0, 10.0),
+                                      padding: EdgeInsets.all(5.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.start,
                                         children: [
-                                          Icon(
-                                            Icons.push_pin,
-                                            color: valueOrDefault<Color>(
-                                              _model.eventName == 'Notice'
-                                                  ? FlutterFlowTheme.of(context)
-                                                      .checkBg
-                                                  : FlutterFlowTheme.of(context)
-                                                      .warning,
-                                              FlutterFlowTheme.of(context).text,
-                                            ),
-                                            size: 20.0,
+                                          Image.asset(
+                                            'assets/images/d291c399c6895698b0bb48476409d42e.png',
+                                            width: 15.5,
+                                            height: 15.5,
+                                            fit: BoxFit.cover,
                                           ),
                                           Text(
-                                            'Notice',
+                                            'Homework',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  fontFamily: 'Nunito',
-                                                  color: valueOrDefault<Color>(
-                                                    _model.eventName == 'Notice'
-                                                        ? FlutterFlowTheme.of(
+                                                  font: GoogleFonts.nunito(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
                                                                 context)
-                                                            .primaryText
-                                                        : FlutterFlowTheme.of(
-                                                                context)
-                                                            .text,
-                                                    FlutterFlowTheme.of(context)
-                                                        .text,
+                                                            .bodyMedium
+                                                            .fontStyle,
                                                   ),
-                                                  fontSize: 12.0,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                  fontSize: 14.0,
                                                   letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
                                                 ),
                                           ),
                                         ]
-                                            .divide(const SizedBox(width: 10.0))
-                                            .around(const SizedBox(width: 10.0)),
+                                            .divide(SizedBox(width: 3.0))
+                                            .around(SizedBox(width: 3.0)),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ].divide(const SizedBox(width: 10.0)),
+                              ].divide(SizedBox(width: 10.0)),
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 10.0, 0.0, 0.0),
-                          child: SizedBox(
+                          child: Container(
                             width: MediaQuery.sizeOf(context).width * 0.9,
                             child: TextFormField(
                               controller: _model.eventnameTextController ??=
@@ -421,35 +420,63 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                               obscureText: false,
                               decoration: InputDecoration(
                                 isDense: true,
-                                labelText: 'Title',
+                                labelText: 'Title *',
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontStyle,
+                                      ),
                                       color: valueOrDefault<Color>(
                                         (_model.eventnameFocusNode?.hasFocus ??
                                                 false)
                                             ? FlutterFlowTheme.of(context)
                                                 .primary
-                                            : FlutterFlowTheme.of(context).text,
+                                            : FlutterFlowTheme.of(context)
+                                                .textfieldText,
                                         FlutterFlowTheme.of(context).text,
                                       ),
+                                      fontSize: (_model.eventnameFocusNode
+                                                  ?.hasFocus ??
+                                              false)
+                                          ? 12.0
+                                          : 16.0,
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
                                     ),
-                                hintText: 'Event name',
+                                hintText: 'Title',
                                 hintStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FontWeight.normal,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
-                                          .tertiaryText,
-                                      fontSize: 12.0,
+                                          .textfieldText,
+                                      fontSize: 16.0,
                                       letterSpacing: 0.0,
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.normal,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
                                     ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).dIsable,
+                                    color: FlutterFlowTheme.of(context)
+                                        .textfieldDisable,
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(8.0),
@@ -482,20 +509,45 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context).text2,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                               cursorColor:
                                   FlutterFlowTheme.of(context).primaryText,
                               validator: _model.eventnameTextControllerValidator
                                   .asValidator(context),
+                              inputFormatters: [
+                                if (!isAndroid && !isiOS)
+                                  TextInputFormatter.withFunction(
+                                      (oldValue, newValue) {
+                                    return TextEditingValue(
+                                      selection: newValue.selection,
+                                      text: newValue.text.toCapitalization(
+                                          TextCapitalization.sentences),
+                                    );
+                                  }),
+                              ],
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 10.0, 0.0, 10.0),
-                          child: SizedBox(
+                          child: Container(
                             width: MediaQuery.sizeOf(context).width * 0.9,
                             child: TextFormField(
                               controller: _model.descriptionTextController ??=
@@ -511,11 +563,18 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                               obscureText: false,
                               decoration: InputDecoration(
                                 isDense: true,
-                                labelText: 'Description',
+                                labelText: 'Description *',
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontStyle,
+                                      ),
                                       color: valueOrDefault<Color>(
                                         (_model.descriptionFocusNode
                                                     ?.hasFocus ??
@@ -525,22 +584,42 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                                             : FlutterFlowTheme.of(context).text,
                                         FlutterFlowTheme.of(context).text,
                                       ),
+                                      fontSize: (_model.descriptionFocusNode
+                                                  ?.hasFocus ??
+                                              false)
+                                          ? 12.0
+                                          : 16.0,
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
                                     ),
                                 hintText: 'Description',
                                 hintStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FontWeight.normal,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
-                                          .tertiaryText,
-                                      fontSize: 12.0,
+                                          .textfieldText,
+                                      fontSize: 16.0,
                                       letterSpacing: 0.0,
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.normal,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
                                     ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).dIsable,
+                                    color: FlutterFlowTheme.of(context)
+                                        .textfieldDisable,
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(8.0),
@@ -573,8 +652,22 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context).text2,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                               maxLines: 4,
                               cursorColor:
@@ -585,132 +678,17 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 10.0),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              FFButtonWidget(
-                                onPressed: () async {
-                                  final datePickedDate = await showDatePicker(
-                                    context: context,
-                                    initialDate: (containerSchoolClassRecord
-                                            .notice
-                                            .where((e) =>
-                                                e.eventId == widget.eventid)
-                                            .toList()
-                                            .firstOrNull
-                                            ?.eventDate ??
-                                        DateTime.now()),
-                                    firstDate:
-                                        (getCurrentTimestamp ?? DateTime(1900)),
-                                    lastDate: DateTime(2050),
-                                    builder: (context, child) {
-                                      return wrapInMaterialDatePickerTheme(
-                                        context,
-                                        child!,
-                                        headerBackgroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
-                                        headerForegroundColor:
-                                            FlutterFlowTheme.of(context).info,
-                                        headerTextStyle:
-                                            FlutterFlowTheme.of(context)
-                                                .headlineLarge
-                                                .override(
-                                                  fontFamily: 'Nunito',
-                                                  fontSize: 32.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
-                                        pickerBackgroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .secondaryBackground,
-                                        pickerForegroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                        selectedDateTimeBackgroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primary,
-                                        selectedDateTimeForegroundColor:
-                                            FlutterFlowTheme.of(context).info,
-                                        actionButtonForegroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                        iconSize: 24.0,
-                                      );
-                                    },
-                                  );
-
-                                  if (datePickedDate != null) {
-                                    safeSetState(() {
-                                      _model.datePicked = DateTime(
-                                        datePickedDate.year,
-                                        datePickedDate.month,
-                                        datePickedDate.day,
-                                      );
-                                    });
-                                  }
-                                },
-                                text: 'Change Date',
-                                options: FFButtonOptions(
-                                  height:
-                                      MediaQuery.sizeOf(context).height * 0.05,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 0.0, 16.0, 0.0),
-                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 0.0),
-                                  color: FlutterFlowTheme.of(context).secondary,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .override(
-                                        fontFamily: 'Nunito',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        letterSpacing: 0.0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                  elevation: 0.0,
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                  ),
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                              ),
-                              Text(
-                                _model.datePicked != null
-                                    ? dateTimeFormat(
-                                        "dd MMM , y", _model.datePicked)
-                                    : dateTimeFormat(
-                                        "dd MMM , y",
-                                        containerSchoolClassRecord.notice
-                                            .where((e) =>
-                                                e.eventId == widget.eventid)
-                                            .toList()
-                                            .firstOrNull!
-                                            .eventDate!),
-                                style: FlutterFlowTheme.of(context)
-                                    .bodyMedium
-                                    .override(
-                                      fontFamily: 'Nunito',
-                                      letterSpacing: 0.0,
-                                    ),
-                              ),
-                            ],
-                          ),
-                        ),
                         if (containerSchoolClassRecord.notice
-                                .where((e) => widget.eventid == e.eventId)
+                                .where((e) => e.eventId == widget.eventid)
                                 .toList()
                                 .firstOrNull
-                                ?.eventImages.isNotEmpty)
+                                ?.eventfiles
+                                .length !=
+                            0)
                           Align(
-                            alignment: const AlignmentDirectional(-1.0, 0.0),
+                            alignment: AlignmentDirectional(-1.0, 0.0),
                             child: Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 10.0),
                               child: Builder(
                                 builder: (context) {
@@ -720,44 +698,32 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                                     scrollDirection: Axis.horizontal,
                                     child: Row(
                                       mainAxisSize: MainAxisSize.max,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
                                       children: List.generate(images.length,
                                           (imagesIndex) {
                                         final imagesItem = images[imagesIndex];
-                                        return Align(
+                                        return Stack(
                                           alignment:
-                                              const AlignmentDirectional(1.0, -1.0),
-                                          child: Stack(
-                                            alignment:
-                                                const AlignmentDirectional(1.0, -1.0),
-                                            children: [
-                                              Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        0.0, 0.0, 10.0, 0.0),
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                          8.0),
-                                                  child: Image.network(
-                                                    imagesItem,
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.14,
-                                                    height: MediaQuery.sizeOf(
-                                                                context)
-                                                            .height *
-                                                        0.1,
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ),
-                                              Align(
-                                                alignment: const AlignmentDirectional(
-                                                    1.0, -1.0),
-                                                child: InkWell(
+                                              AlignmentDirectional(1.0, -1.0),
+                                          children: [
+                                            if ((dateTimeFormat(
+                                                        "yMd",
+                                                        containerSchoolClassRecord
+                                                            .notice
+                                                            .where((e) =>
+                                                                e.eventId ==
+                                                                widget.eventid)
+                                                            .toList()
+                                                            .firstOrNull
+                                                            ?.eventDate) !=
+                                                    dateTimeFormat("yMd",
+                                                        getCurrentTimestamp)) &&
+                                                (valueOrDefault(
+                                                        currentUserDocument
+                                                            ?.userRole,
+                                                        0) !=
+                                                    1))
+                                              AuthUserStreamWidget(
+                                                builder: (context) => InkWell(
                                                   splashColor:
                                                       Colors.transparent,
                                                   focusColor:
@@ -783,7 +749,7 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                                                                 .primaryText,
                                                           ),
                                                         ),
-                                                        duration: const Duration(
+                                                        duration: Duration(
                                                             milliseconds: 4000),
                                                         backgroundColor:
                                                             FlutterFlowTheme.of(
@@ -796,13 +762,164 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                                                     Icons.remove_circle,
                                                     color: FlutterFlowTheme.of(
                                                             context)
-                                                        .primaryText,
-                                                    size: 24.0,
+                                                        .text1,
+                                                    size: 15.0,
                                                   ),
                                                 ),
                                               ),
-                                            ],
-                                          ),
+                                            Row(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                if (functions
+                                                        .getFileTypeFromUrl(
+                                                            imagesItem) ==
+                                                    1)
+                                                  InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      await launchURL(
+                                                          imagesItem);
+                                                    },
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                      child: Image.asset(
+                                                        'assets/images/download-removebg-preview_(1).png',
+                                                        width: 46.0,
+                                                        height: 41.0,
+                                                        fit: BoxFit.contain,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                if (functions
+                                                        .getFileTypeFromUrl(
+                                                            imagesItem) ==
+                                                    2)
+                                                  InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      await launchURL(
+                                                          imagesItem);
+                                                    },
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                      child: Image.asset(
+                                                        'assets/images/download__1_-removebg-preview.png',
+                                                        width: 46.0,
+                                                        height: 41.0,
+                                                        fit: BoxFit.contain,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                if (functions
+                                                        .getFileTypeFromUrl(
+                                                            imagesItem) ==
+                                                    3)
+                                                  InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      await launchURL(
+                                                          imagesItem);
+                                                    },
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                      child: Image.asset(
+                                                        'assets/images/download__2_-removebg-preview.png',
+                                                        width: 46.0,
+                                                        height: 41.0,
+                                                        fit: BoxFit.contain,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                if (functions
+                                                        .getFileTypeFromUrl(
+                                                            imagesItem) ==
+                                                    4)
+                                                  InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      await launchURL(
+                                                          imagesItem);
+                                                    },
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                      child: Image.asset(
+                                                        'assets/images/clarity_image-gallery-line-removebg-preview.png',
+                                                        width: 46.0,
+                                                        height: 41.0,
+                                                        fit: BoxFit.contain,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                if (functions
+                                                        .getFileTypeFromUrl(
+                                                            imagesItem) ==
+                                                    5)
+                                                  InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      await launchURL(
+                                                          imagesItem);
+                                                    },
+                                                    child: ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              8.0),
+                                                      child: Image.asset(
+                                                        'assets/images/download-removebg-preview.png',
+                                                        width: 46.0,
+                                                        height: 41.0,
+                                                        fit: BoxFit.contain,
+                                                      ),
+                                                    ),
+                                                  ),
+                                              ]
+                                                  .divide(SizedBox(width: 5.0))
+                                                  .around(SizedBox(width: 5.0)),
+                                            ),
+                                          ],
                                         );
                                       }),
                                     ),
@@ -812,40 +929,144 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                             ),
                           ),
                         Align(
-                          alignment: const AlignmentDirectional(-1.0, 0.0),
+                          alignment: AlignmentDirectional(-1.0, 0.0),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 20.0),
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 10.0),
                             child: Builder(
                               builder: (context) {
-                                final images =
-                                    FFAppState().eventnoticeimage.toList();
+                                final imagesview =
+                                    FFAppState().eventfiles.toList();
 
                                 return SingleChildScrollView(
                                   scrollDirection: Axis.horizontal,
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: List.generate(images.length,
-                                        (imagesIndex) {
-                                      final imagesItem = images[imagesIndex];
-                                      return Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            0.0, 0.0, 10.0, 0.0),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                          child: Image.network(
-                                            imagesItem,
-                                            width: MediaQuery.sizeOf(context)
-                                                    .width *
-                                                0.14,
-                                            height: MediaQuery.sizeOf(context)
-                                                    .height *
-                                                0.1,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
+                                    children: List.generate(imagesview.length,
+                                        (imagesviewIndex) {
+                                      final imagesviewItem =
+                                          imagesview[imagesviewIndex];
+                                      return Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          if (functions.getFileTypeFromUrl(
+                                                  imagesviewItem) ==
+                                              1)
+                                            InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                await launchURL(imagesviewItem);
+                                              },
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: Image.asset(
+                                                  'assets/images/download-removebg-preview_(1).png',
+                                                  width: 46.0,
+                                                  height: 41.0,
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                            ),
+                                          if (functions.getFileTypeFromUrl(
+                                                  imagesviewItem) ==
+                                              2)
+                                            InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                await launchURL(imagesviewItem);
+                                              },
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: Image.asset(
+                                                  'assets/images/download__1_-removebg-preview.png',
+                                                  width: 46.0,
+                                                  height: 41.0,
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                            ),
+                                          if (functions.getFileTypeFromUrl(
+                                                  imagesviewItem) ==
+                                              3)
+                                            InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                await launchURL(imagesviewItem);
+                                              },
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: Image.asset(
+                                                  'assets/images/download__2_-removebg-preview.png',
+                                                  width: 46.0,
+                                                  height: 41.0,
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                            ),
+                                          if (functions.getFileTypeFromUrl(
+                                                  imagesviewItem) ==
+                                              4)
+                                            InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                await launchURL(imagesviewItem);
+                                              },
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: Image.asset(
+                                                  'assets/images/clarity_image-gallery-line-removebg-preview.png',
+                                                  width: 46.0,
+                                                  height: 41.0,
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                            ),
+                                          if (functions.getFileTypeFromUrl(
+                                                  imagesviewItem) ==
+                                              5)
+                                            InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                await launchURL(imagesviewItem);
+                                              },
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: Image.asset(
+                                                  'assets/images/download-removebg-preview.png',
+                                                  width: 46.0,
+                                                  height: 41.0,
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                            ),
+                                        ]
+                                            .divide(SizedBox(width: 5.0))
+                                            .around(SizedBox(width: 5.0)),
                                       );
                                     }),
                                   ),
@@ -854,7 +1075,8 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                             ),
                           ),
                         ),
-                        if (_model.isDataUploading1 || _model.isDataUploading2)
+                        if (_model.isDataUploading_uploadDataBiu ||
+                            _model.isDataUploading_uploadData1)
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
                             child: Image.asset(
@@ -864,547 +1086,654 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                               fit: BoxFit.contain,
                             ),
                           ),
-                        Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            FlutterFlowIconButton(
-                              borderColor:
-                                  FlutterFlowTheme.of(context).alternate,
-                              borderRadius: 8.0,
-                              borderWidth: 0.2,
-                              buttonSize: 40.0,
-                              icon: Icon(
-                                Icons.attach_file,
-                                color:
-                                    FlutterFlowTheme.of(context).tertiaryText,
-                                size: 24.0,
-                              ),
-                              showLoadingIndicator: true,
-                              onPressed: () async {
-                                safeSetState(() {
-                                  _model.isDataUploading1 = false;
-                                  _model.uploadedLocalFiles1 = [];
-                                  _model.uploadedFileUrls1 = [];
-                                });
-
-                                final selectedMedia = await selectMedia(
-                                  imageQuality: 10,
-                                  mediaSource: MediaSource.photoGallery,
-                                  multiImage: true,
-                                );
-                                if (selectedMedia != null &&
-                                    selectedMedia.every((m) =>
-                                        validateFileFormat(
-                                            m.storagePath, context))) {
-                                  safeSetState(
-                                      () => _model.isDataUploading1 = true);
-                                  var selectedUploadedFiles =
-                                      <FFUploadedFile>[];
-
-                                  var downloadUrls = <String>[];
-                                  try {
-                                    showUploadMessage(
-                                      context,
-                                      'Uploading file...',
-                                      showLoading: true,
-                                    );
-                                    selectedUploadedFiles = selectedMedia
-                                        .map((m) => FFUploadedFile(
-                                              name:
-                                                  m.storagePath.split('/').last,
-                                              bytes: m.bytes,
-                                              height: m.dimensions?.height,
-                                              width: m.dimensions?.width,
-                                              blurHash: m.blurHash,
-                                            ))
-                                        .toList();
-
-                                    downloadUrls = (await Future.wait(
-                                      selectedMedia.map(
-                                        (m) async => await uploadData(
-                                            m.storagePath, m.bytes),
-                                      ),
-                                    ))
-                                        .where((u) => u != null)
-                                        .map((u) => u!)
-                                        .toList();
-                                  } finally {
-                                    ScaffoldMessenger.of(context)
-                                        .hideCurrentSnackBar();
-                                    _model.isDataUploading1 = false;
-                                  }
-                                  if (selectedUploadedFiles.length ==
-                                          selectedMedia.length &&
-                                      downloadUrls.length ==
-                                          selectedMedia.length) {
-                                    safeSetState(() {
-                                      _model.uploadedLocalFiles1 =
-                                          selectedUploadedFiles;
-                                      _model.uploadedFileUrls1 = downloadUrls;
-                                    });
-                                    showUploadMessage(context, 'Success!');
-                                  } else {
-                                    safeSetState(() {});
-                                    showUploadMessage(
-                                        context, 'Failed to upload data');
-                                    return;
-                                  }
-                                }
-
-                                FFAppState().eventnoticeimage = functions
-                                    .combineImagePaths(
-                                        FFAppState().eventnoticeimage.toList(),
-                                        _model.uploadedFileUrls1.toList())
-                                    .toList()
-                                    .cast<String>();
-                                safeSetState(() {});
-                              },
-                            ),
-                            FlutterFlowIconButton(
-                              borderColor:
-                                  FlutterFlowTheme.of(context).alternate,
-                              borderRadius: 8.0,
-                              borderWidth: 0.2,
-                              buttonSize: 40.0,
-                              icon: Icon(
-                                Icons.photo_camera_outlined,
-                                color:
-                                    FlutterFlowTheme.of(context).tertiaryText,
-                                size: 24.0,
-                              ),
-                              showLoadingIndicator: true,
-                              onPressed: () async {
-                                safeSetState(() {
-                                  _model.isDataUploading1 = false;
-                                  _model.uploadedLocalFiles1 = [];
-                                  _model.uploadedFileUrls1 = [];
-                                });
-
-                                final selectedMedia = await selectMedia(
-                                  imageQuality: 10,
-                                  multiImage: false,
-                                );
-                                if (selectedMedia != null &&
-                                    selectedMedia.every((m) =>
-                                        validateFileFormat(
-                                            m.storagePath, context))) {
-                                  safeSetState(
-                                      () => _model.isDataUploading2 = true);
-                                  var selectedUploadedFiles =
-                                      <FFUploadedFile>[];
-
-                                  var downloadUrls = <String>[];
-                                  try {
-                                    showUploadMessage(
-                                      context,
-                                      'Uploading file...',
-                                      showLoading: true,
-                                    );
-                                    selectedUploadedFiles = selectedMedia
-                                        .map((m) => FFUploadedFile(
-                                              name:
-                                                  m.storagePath.split('/').last,
-                                              bytes: m.bytes,
-                                              height: m.dimensions?.height,
-                                              width: m.dimensions?.width,
-                                              blurHash: m.blurHash,
-                                            ))
-                                        .toList();
-
-                                    downloadUrls = (await Future.wait(
-                                      selectedMedia.map(
-                                        (m) async => await uploadData(
-                                            m.storagePath, m.bytes),
-                                      ),
-                                    ))
-                                        .where((u) => u != null)
-                                        .map((u) => u!)
-                                        .toList();
-                                  } finally {
-                                    ScaffoldMessenger.of(context)
-                                        .hideCurrentSnackBar();
-                                    _model.isDataUploading2 = false;
-                                  }
-                                  if (selectedUploadedFiles.length ==
-                                          selectedMedia.length &&
-                                      downloadUrls.length ==
-                                          selectedMedia.length) {
-                                    safeSetState(() {
-                                      _model.uploadedLocalFile2 =
-                                          selectedUploadedFiles.first;
-                                      _model.uploadedFileUrl2 =
-                                          downloadUrls.first;
-                                    });
-                                    showUploadMessage(context, 'Success!');
-                                  } else {
-                                    safeSetState(() {});
-                                    showUploadMessage(
-                                        context, 'Failed to upload data');
-                                    return;
-                                  }
-                                }
-
-                                FFAppState().addToEventnoticeimage(
-                                    _model.uploadedFileUrl2);
-                                safeSetState(() {});
-                              },
-                            ),
-                            Builder(
-                              builder: (context) => FFButtonWidget(
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              5.0, 0.0, 5.0, 0.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              FlutterFlowIconButton(
+                                borderColor:
+                                    FlutterFlowTheme.of(context).stroke,
+                                borderRadius: 10.0,
+                                borderWidth: 1.0,
+                                buttonSize: 50.0,
+                                icon: Icon(
+                                  Icons.attach_file,
+                                  color:
+                                      FlutterFlowTheme.of(context).tertiaryText,
+                                  size: 18.0,
+                                ),
                                 onPressed: () async {
-                                  if (_model.formKey.currentState == null ||
-                                      !_model.formKey.currentState!
-                                          .validate()) {
-                                    return;
+                                  safeSetState(() {
+                                    _model.isDataUploading_uploadDataBiu =
+                                        false;
+                                    _model.uploadedLocalFiles_uploadDataBiu =
+                                        [];
+                                    _model.uploadedFileUrls_uploadDataBiu = [];
+                                  });
+
+                                  final selectedFiles = await selectFiles(
+                                    multiFile: true,
+                                  );
+                                  if (selectedFiles != null) {
+                                    safeSetState(() => _model
+                                        .isDataUploading_uploadDataBiu = true);
+                                    var selectedUploadedFiles =
+                                        <FFUploadedFile>[];
+
+                                    var downloadUrls = <String>[];
+                                    try {
+                                      selectedUploadedFiles = selectedFiles
+                                          .map((m) => FFUploadedFile(
+                                                name: m.storagePath
+                                                    .split('/')
+                                                    .last,
+                                                bytes: m.bytes,
+                                              ))
+                                          .toList();
+
+                                      downloadUrls = (await Future.wait(
+                                        selectedFiles.map(
+                                          (f) async => await uploadData(
+                                              f.storagePath, f.bytes),
+                                        ),
+                                      ))
+                                          .where((u) => u != null)
+                                          .map((u) => u!)
+                                          .toList();
+                                    } finally {
+                                      _model.isDataUploading_uploadDataBiu =
+                                          false;
+                                    }
+                                    if (selectedUploadedFiles.length ==
+                                            selectedFiles.length &&
+                                        downloadUrls.length ==
+                                            selectedFiles.length) {
+                                      safeSetState(() {
+                                        _model.uploadedLocalFiles_uploadDataBiu =
+                                            selectedUploadedFiles;
+                                        _model.uploadedFileUrls_uploadDataBiu =
+                                            downloadUrls;
+                                      });
+                                    } else {
+                                      safeSetState(() {});
+                                      return;
+                                    }
                                   }
 
-                                  await widget.classref!.update({
-                                    ...mapToFirestore(
-                                      {
-                                        'notice':
-                                            getEventsNoticeListFirestoreData(
-                                          functions.updateEvent(
-                                              containerSchoolClassRecord.notice
-                                                  .toList(),
-                                              widget.eventid!,
+                                  if (_model.uploadedFileUrls_uploadDataBiu
+                                          .length !=
+                                      0) {
+                                    if (functions.isValidFileFormatCopy(_model
+                                        .uploadedFileUrls_uploadDataBiu
+                                        .toList())) {
+                                      FFAppState().eventfiles = functions
+                                          .combineImagePathsCopy(
+                                              FFAppState().eventfiles.toList(),
                                               _model
-                                                  .eventnameTextController.text,
-                                              _model.descriptionTextController
-                                                  .text,
-                                              (FFAppState()
-                                                              .eventnoticeimage.isEmpty
-                                                      ? _model.images56
-                                                      : functions
-                                                          .combineImagePaths(
-                                                              _model.images56
-                                                                  .toList(),
-                                                              FFAppState()
-                                                                  .eventnoticeimage
-                                                                  .toList()))
-                                                  .toList(),
-                                              _model.datePicked != null
-                                                  ? _model.datePicked!
-                                                  : containerSchoolClassRecord
-                                                      .notice
-                                                      .where((e) =>
-                                                          e.eventId ==
-                                                          widget.eventid)
-                                                      .toList()
-                                                      .firstOrNull!
-                                                      .eventDate!,
-                                              _model.eventName),
-                                        ),
-                                      },
-                                    ),
-                                  });
-                                  await Future.wait([
-                                    Future(() async {
-                                      triggerPushNotification(
-                                        notificationTitle:
-                                            'Notice has been edited ',
-                                        notificationText:
-                                            _model.eventnameTextController.text,
-                                        userRefs: containerSchoolClassRecord
-                                            .listOfteachers
-                                            .map((e) => e.userRef)
-                                            .withoutNulls
-                                            .toList(),
-                                        initialPageName: 'Dashboard',
-                                        parameterData: {},
-                                      );
-
-                                      await NotificationsRecord.collection
-                                          .doc()
-                                          .set({
-                                        ...createNotificationsRecordData(
-                                          content: _model
-                                              .eventnameTextController.text,
-                                          descri: _model
-                                              .descriptionTextController.text,
-                                          datetimeofevent:
-                                              _model.datePicked ?? containerSchoolClassRecord
-                                                      .notice
-                                                      .where((e) =>
-                                                          e.eventId ==
-                                                          widget.eventid)
-                                                      .toList()
-                                                      .firstOrNull
-                                                      ?.eventDate,
-                                          isread: false,
-                                          notification:
-                                              updateNotificationStruct(
-                                            NotificationStruct(
-                                              notificationTitle: _model
-                                                  .eventnameTextController.text,
-                                              descriptions: _model
-                                                  .descriptionTextController
-                                                  .text,
-                                              timeStamp: getCurrentTimestamp,
-                                              isRead: false,
-                                              eventDate: _model.datePicked ?? containerSchoolClassRecord
-                                                      .notice
-                                                      .where((e) =>
-                                                          e.eventId ==
-                                                          widget.eventid)
-                                                      .toList()
-                                                      .firstOrNull
-                                                      ?.eventDate,
-                                              notificationImages:
-                                                  functions.combineImagePaths(
-                                                      _model.uploadedFileUrls1
-                                                          .toList(),
-                                                      _model.images56.toList()),
-                                            ),
-                                            clearUnsetFields: false,
-                                            create: true,
-                                          ),
-                                          createDate: getCurrentTimestamp,
-                                          tag: _model.eventName,
-                                          addedby: currentUserReference,
-                                          heading: 'Edited a notice',
-                                        ),
-                                        ...mapToFirestore(
-                                          {
-                                            'userref':
-                                                containerSchoolClassRecord
-                                                    .listOfteachersUser,
-                                            'towhome': [
-                                              containerSchoolClassRecord
-                                                  .className
+                                                  .uploadedFileUrls_uploadDataBiu
+                                                  .toList())
+                                          .toList()
+                                          .cast<String>();
+                                      safeSetState(() {});
+                                    } else {
+                                      await showDialog(
+                                        context: context,
+                                        builder: (alertDialogContext) {
+                                          return AlertDialog(
+                                            content: Text(
+                                                'only pdf , docx , jpeg , png , jpg , mp3, ppt , pptx files are allowed '),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext),
+                                                child: Text('Ok'),
+                                              ),
                                             ],
-                                          },
-                                        ),
-                                      });
-                                    }),
-                                    Future(() async {
-                                      _model.students =
-                                          await queryStudentsRecordOnce();
-                                      triggerPushNotification(
-                                        notificationTitle:
-                                            'Notice has been edited ',
-                                        notificationText:
-                                            _model.eventnameTextController.text,
-                                        userRefs: functions
-                                            .extractParentUserRefs(_model
-                                                .students!
-                                                .where((e) =>
-                                                    containerSchoolClassRecord
-                                                        .studentsList
-                                                        .contains(e.reference))
-                                                .toList())
-                                            .toList(),
-                                        initialPageName: 'Dashboard',
-                                        parameterData: {},
+                                          );
+                                        },
                                       );
-
-                                      await NotificationsRecord.collection
-                                          .doc()
-                                          .set({
-                                        ...createNotificationsRecordData(
-                                          content: _model
-                                              .eventnameTextController.text,
-                                          descri: _model
-                                              .descriptionTextController.text,
-                                          datetimeofevent:
-                                              _model.datePicked ?? containerSchoolClassRecord
-                                                      .notice
-                                                      .where((e) =>
-                                                          e.eventId ==
-                                                          widget.eventid)
-                                                      .toList()
-                                                      .firstOrNull
-                                                      ?.eventDate,
-                                          isread: false,
-                                          notification:
-                                              updateNotificationStruct(
-                                            NotificationStruct(
-                                              notificationTitle: _model
-                                                  .eventnameTextController.text,
-                                              descriptions: _model
-                                                  .descriptionTextController
-                                                  .text,
-                                              timeStamp: getCurrentTimestamp,
-                                              isRead: false,
-                                              eventDate: _model.datePicked ?? containerSchoolClassRecord
-                                                      .notice
-                                                      .where((e) =>
-                                                          e.eventId ==
-                                                          widget.eventid)
-                                                      .toList()
-                                                      .firstOrNull
-                                                      ?.eventDate,
-                                              notificationImages:
-                                                  functions.combineImagePaths(
-                                                      _model.uploadedFileUrls1
-                                                          .toList(),
-                                                      _model.images56.toList()),
-                                            ),
-                                            clearUnsetFields: false,
-                                            create: true,
-                                          ),
-                                          createDate: getCurrentTimestamp,
-                                          tag: _model.eventName,
-                                          addedby: currentUserReference,
-                                          heading: 'Edited a notice',
-                                        ),
-                                        ...mapToFirestore(
-                                          {
-                                            'userref': functions
-                                                .extractParentUserRefs(_model
-                                                    .students!
-                                                    .where((e) =>
-                                                        containerSchoolClassRecord
-                                                            .studentsList
-                                                            .contains(
-                                                                e.reference))
-                                                    .toList()),
-                                            'towhome': [
-                                              containerSchoolClassRecord
-                                                  .className
-                                            ],
-                                          },
-                                        ),
-                                      });
-                                    }),
-                                    Future(() async {
-                                      _model.school =
-                                          await SchoolRecord.getDocumentOnce(
-                                              widget.school!);
-                                      triggerPushNotification(
-                                        notificationTitle:
-                                            'Notice has been edited ',
-                                        notificationText:
-                                            _model.eventnameTextController.text,
-                                        userRefs: [
-                                          _model.school!.principalDetails
-                                              .principalId!
-                                        ],
-                                        initialPageName: 'Dashboard',
-                                        parameterData: {},
-                                      );
-
-                                      await NotificationsRecord.collection
-                                          .doc()
-                                          .set({
-                                        ...createNotificationsRecordData(
-                                          content: _model
-                                              .eventnameTextController.text,
-                                          descri: _model
-                                              .descriptionTextController.text,
-                                          datetimeofevent:
-                                              _model.datePicked ?? containerSchoolClassRecord
-                                                      .notice
-                                                      .where((e) =>
-                                                          e.eventId ==
-                                                          widget.eventid)
-                                                      .toList()
-                                                      .firstOrNull
-                                                      ?.eventDate,
-                                          isread: false,
-                                          notification:
-                                              updateNotificationStruct(
-                                            NotificationStruct(
-                                              notificationTitle: _model
-                                                  .eventnameTextController.text,
-                                              descriptions: _model
-                                                  .descriptionTextController
-                                                  .text,
-                                              timeStamp: getCurrentTimestamp,
-                                              isRead: false,
-                                              eventDate: _model.datePicked ?? containerSchoolClassRecord
-                                                      .notice
-                                                      .where((e) =>
-                                                          e.eventId ==
-                                                          widget.eventid)
-                                                      .toList()
-                                                      .firstOrNull
-                                                      ?.eventDate,
-                                              notificationImages:
-                                                  functions.combineImagePaths(
-                                                      _model.uploadedFileUrls1
-                                                          .toList(),
-                                                      _model.images56.toList()),
-                                            ),
-                                            clearUnsetFields: false,
-                                            create: true,
-                                          ),
-                                          createDate: getCurrentTimestamp,
-                                          tag: _model.eventName,
-                                          addedby: currentUserReference,
-                                          heading: 'Edited a notice',
-                                        ),
-                                        ...mapToFirestore(
-                                          {
-                                            'schoolref': [widget.school],
-                                            'towhome': [
-                                              containerSchoolClassRecord
-                                                  .className
-                                            ],
-                                          },
-                                        ),
-                                      });
-                                    }),
-                                  ]);
-                                  FFAppState().eventnoticeimage = [];
-                                  safeSetState(() {});
-                                  await showDialog(
-                                    context: context,
-                                    builder: (dialogContext) {
-                                      return Dialog(
-                                        elevation: 0,
-                                        insetPadding: EdgeInsets.zero,
-                                        backgroundColor: Colors.transparent,
-                                        alignment:
-                                            const AlignmentDirectional(0.0, -0.8)
-                                                .resolve(
-                                                    Directionality.of(context)),
-                                        child: SizedBox(
-                                          height: MediaQuery.sizeOf(context)
-                                                  .height *
-                                              0.08,
-                                          width:
-                                              MediaQuery.sizeOf(context).width *
-                                                  0.6,
-                                          child: const NoticeeditedWidget(),
-                                        ),
-                                      );
-                                    },
-                                  );
-
-                                  Navigator.pop(context);
-
-                                  safeSetState(() {});
+                                    }
+                                  }
                                 },
-                                text: 'Save Notice',
-                                options: FFButtonOptions(
-                                  height:
-                                      MediaQuery.sizeOf(context).height * 0.05,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      16.0, 0.0, 16.0, 0.0),
-                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 0.0, 0.0),
-                                  color: FlutterFlowTheme.of(context).secondary,
-                                  textStyle: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .override(
-                                        fontFamily: 'Nunito',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        letterSpacing: 0.0,
+                              ),
+                              FlutterFlowIconButton(
+                                borderColor:
+                                    FlutterFlowTheme.of(context).stroke,
+                                borderRadius: 10.0,
+                                borderWidth: 1.0,
+                                buttonSize: 50.0,
+                                icon: Icon(
+                                  Icons.photo_camera_outlined,
+                                  color:
+                                      FlutterFlowTheme.of(context).tertiaryText,
+                                  size: 18.0,
+                                ),
+                                onPressed: () async {
+                                  safeSetState(() {
+                                    _model.isDataUploading_uploadData1 = false;
+                                    _model.uploadedLocalFile_uploadData1 =
+                                        FFUploadedFile(
+                                            bytes: Uint8List.fromList([]));
+                                    _model.uploadedFileUrl_uploadData1 = '';
+                                  });
+
+                                  final selectedMedia = await selectMedia(
+                                    imageQuality: 10,
+                                    multiImage: false,
+                                  );
+                                  if (selectedMedia != null &&
+                                      selectedMedia.every((m) =>
+                                          validateFileFormat(
+                                              m.storagePath, context))) {
+                                    safeSetState(() => _model
+                                        .isDataUploading_uploadData1 = true);
+                                    var selectedUploadedFiles =
+                                        <FFUploadedFile>[];
+
+                                    var downloadUrls = <String>[];
+                                    try {
+                                      selectedUploadedFiles = selectedMedia
+                                          .map((m) => FFUploadedFile(
+                                                name: m.storagePath
+                                                    .split('/')
+                                                    .last,
+                                                bytes: m.bytes,
+                                                height: m.dimensions?.height,
+                                                width: m.dimensions?.width,
+                                                blurHash: m.blurHash,
+                                              ))
+                                          .toList();
+
+                                      downloadUrls = (await Future.wait(
+                                        selectedMedia.map(
+                                          (m) async => await uploadData(
+                                              m.storagePath, m.bytes),
+                                        ),
+                                      ))
+                                          .where((u) => u != null)
+                                          .map((u) => u!)
+                                          .toList();
+                                    } finally {
+                                      _model.isDataUploading_uploadData1 =
+                                          false;
+                                    }
+                                    if (selectedUploadedFiles.length ==
+                                            selectedMedia.length &&
+                                        downloadUrls.length ==
+                                            selectedMedia.length) {
+                                      safeSetState(() {
+                                        _model.uploadedLocalFile_uploadData1 =
+                                            selectedUploadedFiles.first;
+                                        _model.uploadedFileUrl_uploadData1 =
+                                            downloadUrls.first;
+                                      });
+                                    } else {
+                                      safeSetState(() {});
+                                      return;
+                                    }
+                                  }
+
+                                  if (_model.uploadedFileUrl_uploadData1 !=
+                                          '') {
+                                    FFAppState().addToEventfiles(
+                                        _model.uploadedFileUrl_uploadData1);
+                                    safeSetState(() {});
+                                  }
+                                },
+                              ),
+                              Builder(
+                                builder: (context) => FFButtonWidget(
+                                  onPressed: () async {
+                                    if (_model.formKey.currentState == null ||
+                                        !_model.formKey.currentState!
+                                            .validate()) {
+                                      return;
+                                    }
+
+                                    await widget.classref!.update({
+                                      ...mapToFirestore(
+                                        {
+                                          'notice':
+                                              getEventsNoticeListFirestoreData(
+                                            functions.updateEvent(
+                                                containerSchoolClassRecord.notice
+                                                    .toList(),
+                                                widget.eventid!,
+                                                _model.eventnameTextController
+                                                    .text,
+                                                _model.descriptionTextController
+                                                    .text,
+                                                (FFAppState().eventfiles.length == 0
+                                                        ? containerSchoolClassRecord
+                                                            .notice
+                                                            .where((e) =>
+                                                                e.eventId ==
+                                                                widget.eventid)
+                                                            .toList()
+                                                            .firstOrNull
+                                                            ?.eventfiles
+                                                        : functions.combineImagePathsCopy(
+                                                            FFAppState()
+                                                                .eventfiles
+                                                                .toList(),
+                                                            containerSchoolClassRecord
+                                                                .notice
+                                                                .where((e) =>
+                                                                    e.eventId ==
+                                                                    widget
+                                                                        .eventid)
+                                                                .toList()
+                                                                .firstOrNull!
+                                                                .eventfiles
+                                                                .toList()))
+                                                    ?.toList(),
+                                                containerSchoolClassRecord
+                                                    .notice
+                                                    .where((e) => e.eventId == widget.eventid)
+                                                    .toList()
+                                                    .firstOrNull!
+                                                    .eventDate!,
+                                                _model.eventName,
+                                                widget.eventdata!.classref.toList()),
+                                          ),
+                                        },
                                       ),
-                                  elevation: 0.0,
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
+                                    });
+                                    _model.schoolref =
+                                        await SchoolRecord.getDocumentOnce(
+                                            widget.school!);
+
+                                    await _model.schoolref!.reference.update({
+                                      ...mapToFirestore(
+                                        {
+                                          'List_of_notice':
+                                              getEventsNoticeListFirestoreData(
+                                            functions.updateEvent(
+                                                _model.schoolref!.listOfNotice
+                                                    .toList(),
+                                                widget.eventid!,
+                                                _model.eventnameTextController
+                                                    .text,
+                                                _model.descriptionTextController
+                                                    .text,
+                                                (FFAppState().eventfiles.length == 0
+                                                        ? _model.schoolref?.listOfNotice
+                                                            .where((e) =>
+                                                                e.eventId ==
+                                                                widget.eventid)
+                                                            .toList()
+                                                            .firstOrNull
+                                                            ?.eventfiles
+                                                        : functions.combineImagePathsCopy(
+                                                            FFAppState()
+                                                                .eventfiles
+                                                                .toList(),
+                                                            _model.schoolref!
+                                                                .listOfNotice
+                                                                .where((e) =>
+                                                                    e.eventId ==
+                                                                    widget
+                                                                        .eventid)
+                                                                .toList()
+                                                                .firstOrNull!
+                                                                .eventfiles
+                                                                .toList()))
+                                                    ?.toList(),
+                                                _model.schoolref!.listOfNotice
+                                                    .where((e) => e.eventId == widget.eventid)
+                                                    .toList()
+                                                    .firstOrNull!
+                                                    .eventDate!,
+                                                _model.eventName,
+                                                widget.eventdata!.classref.toList()),
+                                          ),
+                                        },
+                                      ),
+                                    });
+                                    await Future.wait([
+                                      Future(() async {
+                                        triggerPushNotification(
+                                          notificationTitle:
+                                              'Notice has been edited ',
+                                          notificationText: _model
+                                              .eventnameTextController.text,
+                                          userRefs: containerSchoolClassRecord
+                                              .listOfteachers
+                                              .map((e) => e.userRef)
+                                              .withoutNulls
+                                              .toList(),
+                                          initialPageName: 'Dashboard',
+                                          parameterData: {},
+                                        );
+
+                                        await NotificationsRecord.collection
+                                            .doc()
+                                            .set({
+                                          ...createNotificationsRecordData(
+                                            content: _model
+                                                .eventnameTextController.text,
+                                            descri: _model
+                                                .descriptionTextController.text,
+                                            datetimeofevent:
+                                                containerSchoolClassRecord
+                                                    .notice
+                                                    .where((e) =>
+                                                        e.eventId ==
+                                                        widget.eventid)
+                                                    .toList()
+                                                    .firstOrNull
+                                                    ?.eventDate,
+                                            isread: false,
+                                            notification:
+                                                updateNotificationStruct(
+                                              NotificationStruct(
+                                                notificationTitle: _model
+                                                    .eventnameTextController
+                                                    .text,
+                                                descriptions: _model
+                                                    .descriptionTextController
+                                                    .text,
+                                                timeStamp: getCurrentTimestamp,
+                                                isRead: false,
+                                                eventDate:
+                                                    containerSchoolClassRecord
+                                                        .notice
+                                                        .where((e) =>
+                                                            e.eventId ==
+                                                            widget.eventid)
+                                                        .toList()
+                                                        .firstOrNull
+                                                        ?.eventDate,
+                                                notificationFiles: functions
+                                                    .combineImagePathsCopy(
+                                                        FFAppState()
+                                                            .eventfiles
+                                                            .toList(),
+                                                        _model.images56
+                                                            .toList()),
+                                              ),
+                                              clearUnsetFields: false,
+                                              create: true,
+                                            ),
+                                            createDate: getCurrentTimestamp,
+                                            tag: _model.eventName,
+                                            addedby: currentUserReference,
+                                            heading: 'Edited a notice',
+                                          ),
+                                          ...mapToFirestore(
+                                            {
+                                              'userref':
+                                                  containerSchoolClassRecord
+                                                      .listOfteachersUser,
+                                              'towhome': [
+                                                containerSchoolClassRecord
+                                                    .className
+                                              ],
+                                            },
+                                          ),
+                                        });
+                                      }),
+                                      Future(() async {
+                                        _model.students =
+                                            await queryStudentsRecordOnce();
+                                        triggerPushNotification(
+                                          notificationTitle:
+                                              'Notice has been edited ',
+                                          notificationText: _model
+                                              .eventnameTextController.text,
+                                          userRefs: functions
+                                              .extractParentUserRefs(_model
+                                                  .students!
+                                                  .where((e) =>
+                                                      containerSchoolClassRecord
+                                                          .studentsList
+                                                          .contains(
+                                                              e.reference))
+                                                  .toList())
+                                              .toList(),
+                                          initialPageName: 'Dashboard',
+                                          parameterData: {},
+                                        );
+
+                                        await NotificationsRecord.collection
+                                            .doc()
+                                            .set({
+                                          ...createNotificationsRecordData(
+                                            content: _model
+                                                .eventnameTextController.text,
+                                            descri: _model
+                                                .descriptionTextController.text,
+                                            datetimeofevent:
+                                                containerSchoolClassRecord
+                                                    .notice
+                                                    .where((e) =>
+                                                        e.eventId ==
+                                                        widget.eventid)
+                                                    .toList()
+                                                    .firstOrNull
+                                                    ?.eventDate,
+                                            isread: false,
+                                            notification:
+                                                updateNotificationStruct(
+                                              NotificationStruct(
+                                                notificationTitle: _model
+                                                    .eventnameTextController
+                                                    .text,
+                                                descriptions: _model
+                                                    .descriptionTextController
+                                                    .text,
+                                                timeStamp: getCurrentTimestamp,
+                                                isRead: false,
+                                                eventDate:
+                                                    containerSchoolClassRecord
+                                                        .notice
+                                                        .where((e) =>
+                                                            e.eventId ==
+                                                            widget.eventid)
+                                                        .toList()
+                                                        .firstOrNull
+                                                        ?.eventDate,
+                                                notificationFiles: functions
+                                                    .combineImagePathsCopy(
+                                                        _model.images56
+                                                            .toList(),
+                                                        FFAppState()
+                                                            .eventfiles
+                                                            .toList()),
+                                              ),
+                                              clearUnsetFields: false,
+                                              create: true,
+                                            ),
+                                            createDate: getCurrentTimestamp,
+                                            tag: _model.eventName,
+                                            addedby: currentUserReference,
+                                            heading: 'Edited a notice',
+                                          ),
+                                          ...mapToFirestore(
+                                            {
+                                              'userref': functions
+                                                  .extractParentUserRefs(_model
+                                                      .students!
+                                                      .where((e) =>
+                                                          containerSchoolClassRecord
+                                                              .studentsList
+                                                              .contains(
+                                                                  e.reference))
+                                                      .toList()),
+                                              'towhome': [
+                                                containerSchoolClassRecord
+                                                    .className
+                                              ],
+                                            },
+                                          ),
+                                        });
+                                      }),
+                                      Future(() async {
+                                        _model.school =
+                                            await SchoolRecord.getDocumentOnce(
+                                                widget.school!);
+                                        triggerPushNotification(
+                                          notificationTitle:
+                                              'Notice has been edited ',
+                                          notificationText: _model
+                                              .eventnameTextController.text,
+                                          userRefs: [
+                                            _model.school!.principalDetails
+                                                .principalId!
+                                          ],
+                                          initialPageName: 'Dashboard',
+                                          parameterData: {},
+                                        );
+
+                                        await NotificationsRecord.collection
+                                            .doc()
+                                            .set({
+                                          ...createNotificationsRecordData(
+                                            content: _model
+                                                .eventnameTextController.text,
+                                            descri: _model
+                                                .descriptionTextController.text,
+                                            datetimeofevent:
+                                                containerSchoolClassRecord
+                                                    .notice
+                                                    .where((e) =>
+                                                        e.eventId ==
+                                                        widget.eventid)
+                                                    .toList()
+                                                    .firstOrNull
+                                                    ?.eventDate,
+                                            isread: false,
+                                            notification:
+                                                updateNotificationStruct(
+                                              NotificationStruct(
+                                                notificationTitle: _model
+                                                    .eventnameTextController
+                                                    .text,
+                                                descriptions: _model
+                                                    .descriptionTextController
+                                                    .text,
+                                                timeStamp: getCurrentTimestamp,
+                                                isRead: false,
+                                                eventDate:
+                                                    containerSchoolClassRecord
+                                                        .notice
+                                                        .where((e) =>
+                                                            e.eventId ==
+                                                            widget.eventid)
+                                                        .toList()
+                                                        .firstOrNull
+                                                        ?.eventDate,
+                                                notificationFiles: functions
+                                                    .combineImagePathsCopy(
+                                                        _model.images56
+                                                            .toList(),
+                                                        FFAppState()
+                                                            .eventfiles
+                                                            .toList()),
+                                              ),
+                                              clearUnsetFields: false,
+                                              create: true,
+                                            ),
+                                            createDate: getCurrentTimestamp,
+                                            tag: _model.eventName,
+                                            addedby: currentUserReference,
+                                            heading: 'Edited a notice',
+                                          ),
+                                          ...mapToFirestore(
+                                            {
+                                              'schoolref': [widget.school],
+                                              'towhome': [
+                                                containerSchoolClassRecord
+                                                    .className
+                                              ],
+                                            },
+                                          ),
+                                        });
+                                      }),
+                                    ]);
+                                    FFAppState().eventfiles = [];
+                                    safeSetState(() {});
+                                    await showDialog(
+                                      context: context,
+                                      builder: (dialogContext) {
+                                        return Dialog(
+                                          elevation: 0,
+                                          insetPadding: EdgeInsets.zero,
+                                          backgroundColor: Colors.transparent,
+                                          alignment: AlignmentDirectional(
+                                                  0.0, -0.8)
+                                              .resolve(
+                                                  Directionality.of(context)),
+                                          child: Container(
+                                            height: MediaQuery.sizeOf(context)
+                                                    .height *
+                                                0.08,
+                                            width: MediaQuery.sizeOf(context)
+                                                    .width *
+                                                0.6,
+                                            child: NoticeeditedWidget(),
+                                          ),
+                                        );
+                                      },
+                                    );
+
+                                    Navigator.pop(context);
+
+                                    safeSetState(() {});
+                                  },
+                                  text: 'Save Notice',
+                                  options: FFButtonOptions(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.55,
+                                    height: MediaQuery.sizeOf(context).height *
+                                        0.055,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 0.0, 16.0, 0.0),
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
+                                    color:
+                                        FlutterFlowTheme.of(context).secondary,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontStyle,
+                                          ),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
+                                    elevation: 0.0,
+                                    borderSide: BorderSide(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryBackground,
+                                    ),
+                                    borderRadius: BorderRadius.circular(10.0),
                                   ),
-                                  borderRadius: BorderRadius.circular(8.0),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ].addToEnd(const SizedBox(height: 10.0)),
+                      ].addToEnd(SizedBox(height: 10.0)),
                     ),
                   ),
                 ),

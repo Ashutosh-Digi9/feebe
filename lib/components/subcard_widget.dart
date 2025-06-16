@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'subcard_model.dart';
 export 'subcard_model.dart';
@@ -48,7 +49,7 @@ class _SubcardWidgetState extends State<SubcardWidget> {
     context.watch<FFAppState>();
 
     return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
+      padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
       child: StreamBuilder<SubScriptionRecord>(
         stream: SubScriptionRecord.getDocument(widget.subref!),
         builder: (context, snapshot) {
@@ -91,7 +92,7 @@ class _SubcardWidgetState extends State<SubcardWidget> {
                           children: [
                             Container(
                               width: 200.0,
-                              decoration: const BoxDecoration(),
+                              decoration: BoxDecoration(),
                               child: Material(
                                 color: Colors.transparent,
                                 child: Theme(
@@ -147,8 +148,25 @@ class _SubcardWidgetState extends State<SubcardWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .titleLarge
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleLarge
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleLarge
+                                                      .fontStyle,
+                                            ),
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleLarge
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleLarge
+                                                    .fontStyle,
                                           ),
                                     ),
                                     tileColor: FlutterFlowTheme.of(context)
@@ -161,7 +179,7 @@ class _SubcardWidgetState extends State<SubcardWidget> {
                                     controlAffinity:
                                         ListTileControlAffinity.leading,
                                     contentPadding:
-                                        const EdgeInsetsDirectional.fromSTEB(
+                                        EdgeInsetsDirectional.fromSTEB(
                                             12.0, 0.0, 12.0, 0.0),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(8.0),
@@ -176,21 +194,29 @@ class _SubcardWidgetState extends State<SubcardWidget> {
                     ),
                     Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
                       child: Text(
                         '${cardSubScriptionRecord.amount.toString()}/${cardSubScriptionRecord.frequency}',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Nunito',
+                              font: GoogleFonts.nunito(
+                                fontWeight: FontWeight.w500,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
                               color: FlutterFlowTheme.of(context).primary,
                               letterSpacing: 0.0,
                               fontWeight: FontWeight.w500,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
                             ),
                       ),
                     ),
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
                   child: Builder(
                     builder: (context) {
                       final features =
@@ -216,22 +242,35 @@ class _SubcardWidgetState extends State<SubcardWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
                                           .tertiaryText,
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
                                     ),
                               ),
                             ]
-                                .divide(const SizedBox(width: 10.0))
-                                .around(const SizedBox(width: 10.0)),
+                                .divide(SizedBox(width: 10.0))
+                                .around(SizedBox(width: 10.0)),
                           );
                         }),
                       );
                     },
                   ),
                 ),
-              ].divide(const SizedBox(height: 5.0)),
+              ].divide(SizedBox(height: 5.0)),
             ),
           );
         },

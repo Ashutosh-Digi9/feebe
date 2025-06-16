@@ -9,9 +9,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class NotificationsRecord extends FirestoreRecord {
   NotificationsRecord._(
-    super.reference,
-    super.data,
-  ) {
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
     _initializeFields();
   }
 
@@ -91,6 +91,22 @@ class NotificationsRecord extends FirestoreRecord {
       _quickactionstudentref ?? const [];
   bool hasQuickactionstudentref() => _quickactionstudentref != null;
 
+  // "deletenotification" field.
+  List<DocumentReference>? _deletenotification;
+  List<DocumentReference> get deletenotification =>
+      _deletenotification ?? const [];
+  bool hasDeletenotification() => _deletenotification != null;
+
+  // "readschoolref" field.
+  List<DocumentReference>? _readschoolref;
+  List<DocumentReference> get readschoolref => _readschoolref ?? const [];
+  bool hasReadschoolref() => _readschoolref != null;
+
+  // "isquick" field.
+  bool? _isquick;
+  bool get isquick => _isquick ?? false;
+  bool hasIsquick() => _isquick != null;
+
   void _initializeFields() {
     _content = snapshotData['content'] as String?;
     _schoolref = getDataList(snapshotData['schoolref']);
@@ -109,6 +125,9 @@ class NotificationsRecord extends FirestoreRecord {
     _towhome = getDataList(snapshotData['towhome']);
     _heading = snapshotData['Heading'] as String?;
     _quickactionstudentref = getDataList(snapshotData['quickactionstudentref']);
+    _deletenotification = getDataList(snapshotData['deletenotification']);
+    _readschoolref = getDataList(snapshotData['readschoolref']);
+    _isquick = snapshotData['isquick'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -156,6 +175,7 @@ Map<String, dynamic> createNotificationsRecordData({
   DocumentReference? addedby,
   DocumentReference? studentref,
   String? heading,
+  bool? isquick,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -169,6 +189,7 @@ Map<String, dynamic> createNotificationsRecordData({
       'addedby': addedby,
       'studentref': studentref,
       'Heading': heading,
+      'isquick': isquick,
     }.withoutNulls,
   );
 
@@ -200,7 +221,10 @@ class NotificationsRecordDocumentEquality
         listEquality.equals(e1?.towhome, e2?.towhome) &&
         e1?.heading == e2?.heading &&
         listEquality.equals(
-            e1?.quickactionstudentref, e2?.quickactionstudentref);
+            e1?.quickactionstudentref, e2?.quickactionstudentref) &&
+        listEquality.equals(e1?.deletenotification, e2?.deletenotification) &&
+        listEquality.equals(e1?.readschoolref, e2?.readschoolref) &&
+        e1?.isquick == e2?.isquick;
   }
 
   @override
@@ -219,7 +243,10 @@ class NotificationsRecordDocumentEquality
         e?.studentref,
         e?.towhome,
         e?.heading,
-        e?.quickactionstudentref
+        e?.quickactionstudentref,
+        e?.deletenotification,
+        e?.readschoolref,
+        e?.isquick
       ]);
 
   @override

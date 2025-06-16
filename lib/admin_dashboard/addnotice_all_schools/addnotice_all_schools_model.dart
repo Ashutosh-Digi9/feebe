@@ -1,14 +1,11 @@
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'addnotice_all_schools_widget.dart' show AddnoticeAllSchoolsWidget;
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AddnoticeAllSchoolsModel
     extends FlutterFlowModel<AddnoticeAllSchoolsWidget> {
   ///  Local state fields for this page.
-
-  bool searchbool = false;
 
   List<DocumentReference> selectschoolref = [];
   void addToSelectschoolref(DocumentReference item) =>
@@ -23,22 +20,24 @@ class AddnoticeAllSchoolsModel
           int index, Function(DocumentReference) updateFn) =>
       selectschoolref[index] = updateFn(selectschoolref[index]);
 
-  bool selectall = false;
+  String noticename = 'General';
 
-  List<String> schoolnames = [];
-  void addToSchoolnames(String item) => schoolnames.add(item);
-  void removeFromSchoolnames(String item) => schoolnames.remove(item);
-  void removeAtIndexFromSchoolnames(int index) => schoolnames.removeAt(index);
-  void insertAtIndexInSchoolnames(int index, String item) =>
-      schoolnames.insert(index, item);
-  void updateSchoolnamesAtIndex(int index, Function(String) updateFn) =>
-      schoolnames[index] = updateFn(schoolnames[index]);
+  EventsNoticeStruct? noticedetails;
+  void updateNoticedetailsStruct(Function(EventsNoticeStruct) updateFn) {
+    updateFn(noticedetails ??= EventsNoticeStruct());
+  }
 
-  String? noticename;
+  bool enable = false;
+
+  DateTime? dateOfnotice;
+
+  bool last = false;
 
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
+  // Stores action output result for [Firestore Query - Query a collection] action in addnoticeAllSchools widget.
+  List<SchoolRecord>? school;
   // State field(s) for Eventname widget.
   FocusNode? eventnameFocusNode;
   TextEditingController? eventnameTextController;
@@ -55,34 +54,18 @@ class AddnoticeAllSchoolsModel
   FocusNode? descriptionFocusNode;
   TextEditingController? descriptionTextController;
   String? Function(BuildContext, String?)? descriptionTextControllerValidator;
-  String? _descriptionTextControllerValidator(
-      BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return 'Please add Description ';
-    }
+  bool isDataUploading_uploadDataXk7 = false;
+  List<FFUploadedFile> uploadedLocalFiles_uploadDataXk7 = [];
+  List<String> uploadedFileUrls_uploadDataXk7 = [];
 
-    return null;
-  }
-
-  bool isDataUploading = false;
-  List<FFUploadedFile> uploadedLocalFiles = [];
-  List<String> uploadedFileUrls = [];
-
-  DateTime? datePicked;
-  // State field(s) for search widget.
-  FocusNode? searchFocusNode;
-  TextEditingController? searchTextController;
-  String? Function(BuildContext, String?)? searchTextControllerValidator;
-  List<String> simpleSearchResults = [];
-  // Stores action output result for [Backend Call - Read Document] action in Button widget.
-  SchoolRecord? school;
-  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
-  List<StudentsRecord>? students;
+  bool isDataUploading_camera = false;
+  FFUploadedFile uploadedLocalFile_camera =
+      FFUploadedFile(bytes: Uint8List.fromList([]));
+  String uploadedFileUrl_camera = '';
 
   @override
   void initState(BuildContext context) {
     eventnameTextControllerValidator = _eventnameTextControllerValidator;
-    descriptionTextControllerValidator = _descriptionTextControllerValidator;
   }
 
   @override
@@ -92,8 +75,5 @@ class AddnoticeAllSchoolsModel
 
     descriptionFocusNode?.dispose();
     descriptionTextController?.dispose();
-
-    searchFocusNode?.dispose();
-    searchTextController?.dispose();
   }
 }

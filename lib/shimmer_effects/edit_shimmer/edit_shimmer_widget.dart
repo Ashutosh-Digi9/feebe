@@ -41,8 +41,8 @@ class _EditShimmerWidgetState extends State<EditShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -54,8 +54,8 @@ class _EditShimmerWidgetState extends State<EditShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -67,8 +67,8 @@ class _EditShimmerWidgetState extends State<EditShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -96,7 +96,7 @@ class _EditShimmerWidgetState extends State<EditShimmerWidget>
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+            padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
             child: Container(
               width: MediaQuery.sizeOf(context).width * 1.0,
               height: MediaQuery.sizeOf(context).height * 0.2,
@@ -132,7 +132,7 @@ class _EditShimmerWidgetState extends State<EditShimmerWidget>
             ),
           ),
           Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+            padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
             child: Container(
               width: MediaQuery.sizeOf(context).width * 1.0,
               height: MediaQuery.sizeOf(context).height * 0.2,
@@ -168,7 +168,7 @@ class _EditShimmerWidgetState extends State<EditShimmerWidget>
             ),
           ),
           Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+            padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
             child: Container(
               width: MediaQuery.sizeOf(context).width * 1.0,
               height: MediaQuery.sizeOf(context).height * 0.2,

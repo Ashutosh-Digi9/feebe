@@ -2,6 +2,7 @@ import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/index.dart';
 import 'add_student_manually_widget.dart' show AddStudentManuallyWidget;
 import 'package:flutter/material.dart';
 
@@ -34,12 +35,62 @@ class AddStudentManuallyModel
 
   int? pageno = 0;
 
+  List<DocumentReference> classRef = [];
+  void addToClassRef(DocumentReference item) => classRef.add(item);
+  void removeFromClassRef(DocumentReference item) => classRef.remove(item);
+  void removeAtIndexFromClassRef(int index) => classRef.removeAt(index);
+  void insertAtIndexInClassRef(int index, DocumentReference item) =>
+      classRef.insert(index, item);
+  void updateClassRefAtIndex(int index, Function(DocumentReference) updateFn) =>
+      classRef[index] = updateFn(classRef[index]);
+
+  int everyone = 0;
+
+  List<String> classname = [];
+  void addToClassname(String item) => classname.add(item);
+  void removeFromClassname(String item) => classname.remove(item);
+  void removeAtIndexFromClassname(int index) => classname.removeAt(index);
+  void insertAtIndexInClassname(int index, String item) =>
+      classname.insert(index, item);
+  void updateClassnameAtIndex(int index, Function(String) updateFn) =>
+      classname[index] = updateFn(classname[index]);
+
+  int guardianCount = 0;
+
+  bool isguardian = false;
+
+  List<ParentsaddStruct> parentid = [];
+  void addToParentid(ParentsaddStruct item) => parentid.add(item);
+  void removeFromParentid(ParentsaddStruct item) => parentid.remove(item);
+  void removeAtIndexFromParentid(int index) => parentid.removeAt(index);
+  void insertAtIndexInParentid(int index, ParentsaddStruct item) =>
+      parentid.insert(index, item);
+  void updateParentidAtIndex(int index, Function(ParentsaddStruct) updateFn) =>
+      parentid[index] = updateFn(parentid[index]);
+
+  List<int> emptypage = [];
+  void addToEmptypage(int item) => emptypage.add(item);
+  void removeFromEmptypage(int item) => emptypage.remove(item);
+  void removeAtIndexFromEmptypage(int index) => emptypage.removeAt(index);
+  void insertAtIndexInEmptypage(int index, int item) =>
+      emptypage.insert(index, item);
+  void updateEmptypageAtIndex(int index, Function(int) updateFn) =>
+      emptypage[index] = updateFn(emptypage[index]);
+
   ///  State fields for stateful widgets in this page.
 
   final formKey3 = GlobalKey<FormState>();
   final formKey4 = GlobalKey<FormState>();
   final formKey2 = GlobalKey<FormState>();
   final formKey1 = GlobalKey<FormState>();
+  // Stores action output result for [Backend Call - Create Document] action in BackButtonOverrider widget.
+  StudentsRecord? studentdraft12back;
+  // Stores action output result for [Backend Call - Create Document] action in BackButtonOverrider widget.
+  StudentsRecord? studentdraft123back;
+  // Stores action output result for [Backend Call - Create Document] action in BackButtonOverrider widget.
+  StudentsRecord? studentdraftParent1back;
+  // Stores action output result for [Backend Call - Create Document] action in BackButtonOverrider widget.
+  StudentsRecord? draftguardianback;
   // State field(s) for PageView widget.
   PageController? pageViewController;
 
@@ -60,13 +111,12 @@ class AddStudentManuallyModel
     return null;
   }
 
-  DateTime? datePicked;
-  // State field(s) for bloodtype widget.
-  String? bloodtypeValue;
-  FormFieldController<String>? bloodtypeValueController;
   // State field(s) for gender widget.
   String? genderValue;
   FormFieldController<String>? genderValueController;
+  // State field(s) for bloodtype widget.
+  String? bloodtypeValue;
+  FormFieldController<String>? bloodtypeValueController;
   // State field(s) for allergies widget.
   FocusNode? allergiesFocusNode;
   TextEditingController? allergiesTextController;
@@ -83,11 +133,6 @@ class AddStudentManuallyModel
     return null;
   }
 
-  bool isDataUploading1 = false;
-  FFUploadedFile uploadedLocalFile1 =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl1 = '';
-
   // State field(s) for Parentname widget.
   FocusNode? parentnameFocusNode;
   TextEditingController? parentnameTextController;
@@ -95,7 +140,7 @@ class AddStudentManuallyModel
   String? _parentnameTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter the Father\'s name';
+      return 'Please enter the parent\'s name.';
     }
 
     return null;
@@ -108,7 +153,7 @@ class AddStudentManuallyModel
   String? _numberfatherTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter Father\'s number';
+      return 'Please enter the parent\'s phone number.';
     }
 
     if (val.length > 10) {
@@ -127,19 +172,16 @@ class AddStudentManuallyModel
   String? _emailfatherTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter email';
+      return 'Please enter username / email';
     }
 
-    if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
+    if (!RegExp(
+            '^(?:[a-zA-Z0-9]+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})\$')
+        .hasMatch(val)) {
       return 'Please enter valid email';
     }
     return null;
   }
-
-  bool isDataUploading2 = false;
-  FFUploadedFile uploadedLocalFile2 =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl2 = '';
 
   // State field(s) for Parent2 widget.
   FocusNode? parent2FocusNode;
@@ -147,7 +189,7 @@ class AddStudentManuallyModel
   String? Function(BuildContext, String?)? parent2TextControllerValidator;
   String? _parent2TextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter Mother name';
+      return 'Please enter the parent\'s name.';
     }
 
     return null;
@@ -160,7 +202,7 @@ class AddStudentManuallyModel
   String? _numbermotherTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter mother phone number';
+      return 'Please enter the parent\'s phone number.';
     }
 
     if (val.length > 10) {
@@ -179,19 +221,16 @@ class AddStudentManuallyModel
   String? _emailmotherTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter email';
+      return 'Please enter username / email';
     }
 
-    if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
-      return 'PLease enter a alid email';
+    if (!RegExp(
+            '^(?:[a-zA-Z0-9]+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})\$')
+        .hasMatch(val)) {
+      return 'PLease enter a valid email';
     }
     return null;
   }
-
-  bool isDataUploading3 = false;
-  FFUploadedFile uploadedLocalFile3 =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl3 = '';
 
   // State field(s) for Gname widget.
   FocusNode? gnameFocusNode;
@@ -229,36 +268,52 @@ class AddStudentManuallyModel
   String? Function(BuildContext, String?)? gemailTextControllerValidator;
   String? _gemailTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter the Email';
+      return 'Please enter username / email';
     }
 
-    if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
+    if (!RegExp(
+            '^(?:[a-zA-Z0-9]+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})\$')
+        .hasMatch(val)) {
       return 'Please enter the valid email';
     }
     return null;
   }
 
-  // Stores action output result for [Firestore Query - Query a collection] action in Next12 widget.
+  // Stores action output result for [Firestore Query - Query a collection] action in save widget.
   List<UsersRecord>? userdocument1;
-  // Stores action output result for [Backend Call - API (Create Account)] action in Next12 widget.
+  // Stores action output result for [Backend Call - API (Create Account)] action in save widget.
   ApiCallResponse? parentapi12;
-  // Stores action output result for [Custom Action - stringToUser] action in Next12 widget.
+  // Stores action output result for [Custom Action - stringToUser] action in save widget.
   DocumentReference? parentuserref;
-  // Stores action output result for [Backend Call - API (Send Mail )] action in Next12 widget.
+  // Stores action output result for [Backend Call - API (Send Mail )] action in save widget.
   ApiCallResponse? parent1email;
-  // Stores action output result for [Backend Call - Create Document] action in Next12 widget.
+  // Stores action output result for [Backend Call - API (sendsms)] action in save widget.
+  ApiCallResponse? sms;
+  // Stores action output result for [Backend Call - Create Document] action in save widget.
   StudentsRecord? student1;
-  // Stores action output result for [Firestore Query - Query a collection] action in Next12 widget.
+  // Stores action output result for [Backend Call - Read Document] action in save widget.
+  SchoolClassRecord? classes;
+  // Stores action output result for [Firestore Query - Query a collection] action in save widget.
   UsersRecord? parent2;
-  // Stores action output result for [Firestore Query - Query a collection] action in Next12 widget.
+  // Stores action output result for [Firestore Query - Query a collection] action in save widget.
   StudentsRecord? student2Copy;
-  // Stores action output result for [Backend Call - Create Document] action in Next12 widget.
+  // Stores action output result for [Backend Call - Create Document] action in save widget.
   StudentsRecord? child2Copy;
-  // Stores action output result for [Backend Call - Create Document] action in IconButton widget.
+  // Stores action output result for [Backend Call - Create Document] action in Icon widget.
+  StudentsRecord? studentdraft12;
+  // Stores action output result for [Backend Call - Create Document] action in Icon widget.
+  StudentsRecord? studentdraft123;
+  // Stores action output result for [Backend Call - Create Document] action in Icon widget.
+  StudentsRecord? studentdraftParent1;
+  // Stores action output result for [Backend Call - Create Document] action in Icon widget.
+  StudentsRecord? draftguardian;
+  // Stores action output result for [Backend Call - Create Document] action in Text widget.
   StudentsRecord? studentdraft;
-  // Stores action output result for [Backend Call - Create Document] action in IconButton widget.
+  // Stores action output result for [Backend Call - Create Document] action in Text widget.
+  StudentsRecord? studentdraft1;
+  // Stores action output result for [Backend Call - Create Document] action in Text widget.
   StudentsRecord? studentdraftParent;
-  // Stores action output result for [Backend Call - Create Document] action in IconButton widget.
+  // Stores action output result for [Backend Call - Create Document] action in Text widget.
   StudentsRecord? studentdraftgau;
 
   @override

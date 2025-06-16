@@ -16,7 +16,7 @@ class SelectSchoolModel extends FlutterFlowModel<SelectSchoolWidget> {
           int index, Function(DocumentReference) updateFn) =>
       schoolref[index] = updateFn(schoolref[index]);
 
-  Color color = const Color(0xffffffff);
+  Color color = Color(4294967295);
 
   int everyone = 0;
 

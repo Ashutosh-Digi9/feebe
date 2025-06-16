@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'photo_download_model.dart';
 export 'photo_download_model.dart';
 
@@ -43,22 +44,22 @@ class _PhotoDownloadWidgetState extends State<PhotoDownloadWidget> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: EdgeInsets.all(10.0),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Align(
-              alignment: const AlignmentDirectional(0.0, 0.0),
+              alignment: AlignmentDirectional(0.0, 0.0),
               child: Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
                 child: Stack(
-                  alignment: const AlignmentDirectional(0.0, 0.0),
+                  alignment: AlignmentDirectional(0.0, 0.0),
                   children: [
                     Container(
                       width: MediaQuery.sizeOf(context).width * 0.06,
                       height: MediaQuery.sizeOf(context).width * 0.06,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Color(0xFF4BA22E),
                         shape: BoxShape.circle,
                       ),
@@ -75,10 +76,16 @@ class _PhotoDownloadWidgetState extends State<PhotoDownloadWidget> {
             Text(
               'Photo downloaded',
               style: FlutterFlowTheme.of(context).bodyMedium.override(
-                    fontFamily: 'Nunito',
+                    font: GoogleFonts.nunito(
+                      fontWeight: FontWeight.bold,
+                      fontStyle:
+                          FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                    ),
                     fontSize: 20.0,
                     letterSpacing: 0.0,
                     fontWeight: FontWeight.bold,
+                    fontStyle:
+                        FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                   ),
             ),
           ],

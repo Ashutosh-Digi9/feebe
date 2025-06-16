@@ -1,6 +1,7 @@
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'add_teacher_manually_admin_widget.dart'
     show AddTeacherManuallyAdminWidget;
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ class AddTeacherManuallyAdminModel
   ///  Local state fields for this page.
 
   int? pageno = 0;
+
+  bool lastfield = false;
 
   ///  State fields for stateful widgets in this page.
 
@@ -55,10 +58,12 @@ class AddTeacherManuallyAdminModel
   String? _contactemailTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter email ';
+      return 'Please enter email  / user name';
     }
 
-    if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
+    if (!RegExp(
+            '^(?:[a-zA-Z0-9]+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})\$')
+        .hasMatch(val)) {
       return 'Please enter valid email';
     }
     return null;

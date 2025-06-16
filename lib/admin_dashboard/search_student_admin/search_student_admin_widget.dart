@@ -1,13 +1,13 @@
 import '/backend/backend.dart';
 import '/components/nosearchresults_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:text_search/text_search.dart';
 import 'search_student_admin_model.dart';
@@ -20,7 +20,7 @@ class SearchStudentAdminWidget extends StatefulWidget {
     this.schoolclass,
     required this.school,
     bool? editclass,
-  }) : editclass = editclass ?? false;
+  }) : this.editclass = editclass ?? false;
 
   final List<StudentsRecord>? student;
   final DocumentReference? schoolclass;
@@ -67,8 +67,8 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(0.0, 30.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(0.0, 30.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -111,7 +111,7 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
           height: MediaQuery.sizeOf(context).height * 1.0,
           decoration: BoxDecoration(
             color: FlutterFlowTheme.of(context).secondary,
-            borderRadius: const BorderRadius.only(
+            borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(0.0),
               bottomRight: Radius.circular(0.0),
               topLeft: Radius.circular(16.0),
@@ -144,13 +144,13 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
 
                     return Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
-                      height: MediaQuery.sizeOf(context).height * 0.6,
+                      height: MediaQuery.sizeOf(context).height * 0.62,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).tertiary,
                       ),
                       child: Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                         child: SingleChildScrollView(
                           primary: false,
                           child: Column(
@@ -162,7 +162,7 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
                                 children: [
-                                  SizedBox(
+                                  Container(
                                     width:
                                         MediaQuery.sizeOf(context).width * 0.8,
                                     child: TextFormField(
@@ -170,7 +170,7 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                       focusNode: _model.studentsFocusNode,
                                       onChanged: (_) => EasyDebounce.debounce(
                                         '_model.studentsTextController',
-                                        const Duration(milliseconds: 2000),
+                                        Duration(milliseconds: 2000),
                                         () async {
                                           safeSetState(() {
                                             _model.simpleSearchResults =
@@ -195,6 +195,7 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                                         .text)
                                                     .map((r) => r.object)
                                                     .toList();
+                                            ;
                                           });
                                           _model.searchstudent = true;
                                           safeSetState(() {});
@@ -207,21 +208,55 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                         labelStyle: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryText,
                                               letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
                                             ),
-                                        hintText: 'Search Student name',
+                                        hintText: 'Search for students here',
                                         hintStyle: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .tertiaryText,
                                               letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
                                             ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
@@ -272,8 +307,25 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
                                           ),
                                       cursorColor: FlutterFlowTheme.of(context)
                                           .primaryText,
@@ -292,7 +344,7 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                   color: FlutterFlowTheme.of(context).tertiary,
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       10.0, 0.0, 0.0, 0.0),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -300,7 +352,7 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                         CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 2.0, 0.0, 0.0),
                                         child: RichText(
                                           textScaler:
@@ -312,48 +364,97 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                                     .AddStudentClass
                                                     .length
                                                     .toString(),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .bodyMedium
+                                                    .override(
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
                                                               .snackbar,
-                                                          fontSize: 16.0,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
+                                                      fontSize: 16.0,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
                                               ),
                                               TextSpan(
                                                 text: ' Students selected',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .bodyMedium
+                                                    .override(
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
                                                               .snackbar,
-                                                          fontSize: 16.0,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
+                                                      fontSize: 16.0,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
                                               )
                                             ],
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  fontFamily: 'Nunito',
+                                                  font: GoogleFonts.nunito(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
                                                   letterSpacing: 0.0,
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
                                                 ),
                                           ),
                                         ),
                                       ),
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 5.0, 0.0, 0.0),
                                         child: Builder(
                                           builder: (context) {
@@ -378,11 +479,11 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                                           studentrefIndex];
                                                   return Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
+                                                        AlignmentDirectional(
                                                             -1.0, 0.0),
                                                     child: Padding(
                                                       padding:
-                                                          const EdgeInsetsDirectional
+                                                          EdgeInsetsDirectional
                                                               .fromSTEB(
                                                                   0.0,
                                                                   0.0,
@@ -390,7 +491,7 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                                                   0.0),
                                                       child: Container(
                                                         decoration:
-                                                            const BoxDecoration(),
+                                                            BoxDecoration(),
                                                         child: Column(
                                                           mainAxisSize:
                                                               MainAxisSize.max,
@@ -415,7 +516,7 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                                               clipBehavior: Clip
                                                                   .antiAlias,
                                                               decoration:
-                                                                  const BoxDecoration(
+                                                                  BoxDecoration(
                                                                 shape: BoxShape
                                                                     .circle,
                                                               ),
@@ -437,8 +538,16 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                                                       .of(context)
                                                                   .bodyMedium
                                                                   .override(
-                                                                    fontFamily:
-                                                                        'Nunito',
+                                                                    font: GoogleFonts
+                                                                        .nunito(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
                                                                     color: FlutterFlowTheme.of(
                                                                             context)
                                                                         .primaryText,
@@ -449,6 +558,10 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
                                                                   ),
                                                             ),
                                                           ],
@@ -468,16 +581,16 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                               ),
                               if (_model.searchstudent)
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       10.0, 0.0, 10.0, 0.0),
                                   child: Container(
                                     width:
                                         MediaQuery.sizeOf(context).width * 1.0,
                                     height: MediaQuery.sizeOf(context).height *
                                         0.45,
-                                    decoration: const BoxDecoration(),
+                                    decoration: BoxDecoration(),
                                     child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
+                                      padding: EdgeInsets.all(10.0),
                                       child: Builder(
                                         builder: (context) {
                                           final students = _model
@@ -490,7 +603,7 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                               .toList();
                                           if (students.isEmpty) {
                                             return Center(
-                                              child: SizedBox(
+                                              child: Container(
                                                 width:
                                                     MediaQuery.sizeOf(context)
                                                             .width *
@@ -499,18 +612,23 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                                     MediaQuery.sizeOf(context)
                                                             .height *
                                                         0.35,
-                                                child: const NosearchresultsWidget(),
+                                                child: NosearchresultsWidget(),
                                               ),
                                             );
                                           }
 
                                           return GridView.builder(
-                                            padding: EdgeInsets.zero,
+                                            padding: EdgeInsets.fromLTRB(
+                                              0,
+                                              0,
+                                              0,
+                                              40.0,
+                                            ),
                                             gridDelegate:
-                                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                                SliverGridDelegateWithFixedCrossAxisCount(
                                               crossAxisCount: 3,
                                               crossAxisSpacing: 6.0,
-                                              mainAxisSpacing: 10.0,
+                                              mainAxisSpacing: 15.0,
                                               childAspectRatio: 0.9,
                                             ),
                                             primary: false,
@@ -586,7 +704,7 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                                     },
                                                     child: Material(
                                                       color: Colors.transparent,
-                                                      elevation: 3.0,
+                                                      elevation: 0.0,
                                                       shape:
                                                           RoundedRectangleBorder(
                                                         borderRadius:
@@ -613,10 +731,27 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                                               : FlutterFlowTheme
                                                                       .of(context)
                                                                   .secondary,
+                                                          boxShadow: [
+                                                            BoxShadow(
+                                                              blurRadius: 2.0,
+                                                              color: Color(
+                                                                  0xFFE4E5E7),
+                                                              offset: Offset(
+                                                                0.0,
+                                                                1.0,
+                                                              ),
+                                                              spreadRadius: 0.0,
+                                                            )
+                                                          ],
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(
                                                                       10.0),
+                                                          border: Border.all(
+                                                            color: Color(
+                                                                0xFFEDF1F3),
+                                                            width: 1.0,
+                                                          ),
                                                         ),
                                                         child: Column(
                                                           mainAxisSize:
@@ -639,7 +774,7 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                                               clipBehavior: Clip
                                                                   .antiAlias,
                                                               decoration:
-                                                                  const BoxDecoration(
+                                                                  BoxDecoration(
                                                                 shape: BoxShape
                                                                     .circle,
                                                               ),
@@ -653,7 +788,7 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                                             ),
                                                             Padding(
                                                               padding:
-                                                                  const EdgeInsetsDirectional
+                                                                  EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           0.0,
                                                                           0.0,
@@ -677,7 +812,7 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                                                 ),
                                                                 child: Align(
                                                                   alignment:
-                                                                      const AlignmentDirectional(
+                                                                      AlignmentDirectional(
                                                                           0.0,
                                                                           0.0),
                                                                   child: Text(
@@ -687,14 +822,22 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                                                             context)
                                                                         .bodyMedium
                                                                         .override(
-                                                                          fontFamily:
-                                                                              'Nunito',
+                                                                          font:
+                                                                              GoogleFonts.nunito(
+                                                                            fontWeight:
+                                                                                FontWeight.normal,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
                                                                           fontSize:
-                                                                              14.0,
+                                                                              12.0,
                                                                           letterSpacing:
                                                                               0.0,
                                                                           fontWeight:
-                                                                              FontWeight.w500,
+                                                                              FontWeight.normal,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontStyle,
                                                                         ),
                                                                   ),
                                                                 ),
@@ -711,38 +854,15 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                                                           .reference))
                                                     Align(
                                                       alignment:
-                                                          const AlignmentDirectional(
-                                                              1.0, -1.0),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    0.0,
-                                                                    5.0,
-                                                                    0.0),
-                                                        child:
-                                                            FlutterFlowIconButton(
-                                                          borderColor: Colors
-                                                              .transparent,
-                                                          borderRadius: 6.0,
-                                                          buttonSize: 30.0,
-                                                          fillColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .primary,
-                                                          icon: Icon(
-                                                            Icons.check_sharp,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .info,
-                                                            size: 15.0,
-                                                          ),
-                                                          onPressed: () {
-                                                            print(
-                                                                'IconButton pressed ...');
-                                                          },
-                                                        ),
+                                                          AlignmentDirectional(
+                                                              1.0, -1.2),
+                                                      child: Icon(
+                                                        Icons.check_box,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                        size: 24.0,
                                                       ),
                                                     ),
                                                 ],
@@ -774,7 +894,8 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                       color: FlutterFlowTheme.of(context).secondaryBackground,
                       borderRadius: BorderRadius.circular(10.0),
                       border: Border.all(
-                        color: FlutterFlowTheme.of(context).dIsable,
+                        color: FlutterFlowTheme.of(context).stroke,
+                        width: 1.0,
                       ),
                     ),
                     child: Row(
@@ -796,22 +917,35 @@ class _SearchStudentAdminWidgetState extends State<SearchStudentAdminWidget>
                           options: FFButtonOptions(
                             width: MediaQuery.sizeOf(context).width * 0.8,
                             height: MediaQuery.sizeOf(context).height * 0.06,
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 16.0, 0.0, 16.0, 0.0),
-                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 0.0),
                             color: FlutterFlowTheme.of(context).secondary,
                             textStyle: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
                                   color:
                                       FlutterFlowTheme.of(context).primaryText,
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
                                 ),
                             elevation: 0.0,
-                            borderSide: const BorderSide(
-                              color: Color(0xFFEFF0F6),
+                            borderSide: BorderSide(
+                              color: FlutterFlowTheme.of(context).primary,
                               width: 1.0,
                             ),
                             borderRadius: BorderRadius.circular(10.0),

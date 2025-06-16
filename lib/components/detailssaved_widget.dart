@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 import 'detailssaved_model.dart';
 export 'detailssaved_model.dart';
@@ -55,10 +56,15 @@ class _DetailssavedWidgetState extends State<DetailssavedWidget> {
           Text(
             'Details saved Successfully',
             style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  fontFamily: 'Nunito',
+                  font: GoogleFonts.nunito(
+                    fontWeight: FontWeight.w500,
+                    fontStyle:
+                        FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                  ),
                   fontSize: 28.0,
                   letterSpacing: 0.0,
                   fontWeight: FontWeight.w500,
+                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                 ),
           ),
         ],

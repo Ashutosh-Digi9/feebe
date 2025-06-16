@@ -17,6 +17,13 @@ int serialnumber(int count) {
   return count + 1;
 }
 
+List<String> combineImagePathsCopy(
+  List<String> list1,
+  List<String> list2,
+) {
+  return [...list1, ...list2];
+}
+
 List<SchoolRecord>? filterprinciserachresults(
   List<String> searchResults,
   List<SchoolRecord> schoolDocs,
@@ -37,7 +44,23 @@ List<SchoolRecord>? filterSchoolsBySearchResults(
   }).toList();
 }
 
-double calculateAttendancePercentageCopy(
+List<String> startfromimageList(List<String> inputList) {
+  List<String> modifiedList = [];
+
+  // Add a dummy value (or any placeholder) at index 0 to maintain the +1 offset
+  modifiedList.add(''); // Add an empty string or any placeholder value
+
+  // Add the actual list elements starting from index 1
+  modifiedList.addAll(inputList);
+
+  return modifiedList;
+}
+
+List<String> converttoimagepathCopy(String image) {
+  return [image];
+}
+
+int calculateAttendancePercentageCopy(
   List<ClassAttendanceStruct> attendanceRecords,
   DocumentReference studentRef,
 ) {
@@ -55,14 +78,43 @@ double calculateAttendancePercentageCopy(
     }
   }
 
-  // Calculate percentage
-  double percentage = (presentCount / totalRecords);
+  // Calculate percentage and round it
+  int percentage = ((presentCount / totalRecords) * 100).round();
   return percentage;
+}
+
+bool isValidFileFormatCopy(List<String> filePaths) {
+  final List<String> allowedExtensions = [
+    'pdf', 'doc', 'docx', // Document formats
+    'jpg', 'jpeg', 'png', 'mp3', 'ppt', 'pptx', // Image formats
+  ];
+
+  for (var filePath in filePaths) {
+    // Remove query parameters (everything after '?')
+    String cleanPath = filePath.split('?').first;
+
+    // Extract the file extension
+    String fileExtension = cleanPath.split('.').last.toLowerCase();
+
+    // Check if the extracted extension is in the allowed list
+    if (!allowedExtensions.contains(fileExtension)) {
+      return false; // If one file is invalid, return false
+    }
+  }
+
+  return true; // All files are valid if no inva
 }
 
 List<String> convertintoListString(String singleValue) {
   // convert single value to list
   return [singleValue];
+}
+
+String combineStringsCopy(List<String> strings) {
+  // Filter classDocuments where classRef is in classRefs
+
+  // Join matching class names with commas
+  return strings.join(', ');
 }
 
 bool isEmailInUsersCollection(
@@ -235,11 +287,25 @@ DateTime getAdjacentMonthDate(
   bool next,
   DateTime currentDate,
 ) {
-  return next
-      ? DateTime(currentDate.year + (currentDate.month == 12 ? 1 : 0),
-          currentDate.month == 12 ? 1 : currentDate.month + 1, currentDate.day)
-      : DateTime(currentDate.year - (currentDate.month == 1 ? 1 : 0),
-          currentDate.month == 1 ? 12 : currentDate.month - 1, currentDate.day);
+  // Determine new month and year
+  int newMonth = next ? currentDate.month + 1 : currentDate.month - 1;
+  int newYear = currentDate.year;
+
+  if (newMonth > 12) {
+    newMonth = 1;
+    newYear += 1;
+  } else if (newMonth < 1) {
+    newMonth = 12;
+    newYear -= 1;
+  }
+
+  // Get the last day of the new month to prevent overflow (e.g., Feb 31 issue)
+  int lastDayOfNewMonth = DateTime(newYear, newMonth + 1, 0).day;
+
+  // Ensure the day is within the valid range of the new month
+  int newDay = math.min(currentDate.day, lastDayOfNewMonth);
+
+  return DateTime(newYear, newMonth, newDay);
 }
 
 String calculateAgeInYears(DateTime dateofbirth) {
@@ -262,7 +328,7 @@ String calculateAgeInYears(DateTime dateofbirth) {
 DateTime? return30day(DateTime? currentdate) {
   // WAP to return date after 30 day
   if (currentdate != null) {
-    return currentdate.add(Duration(days: 30));
+    return currentdate.add(Duration(days: 365));
   }
   return null;
 }
@@ -301,9 +367,10 @@ List<EventsNoticeStruct> updateEvent(
   int eventId,
   String name,
   String description,
-  List<String>? images,
+  List<String>? files,
   DateTime date,
   String eventname,
+  List<DocumentReference> classref,
 ) {
   for (var i = 0; i < notices.length; i++) {
     if (notices[i].eventId == eventId) {
@@ -312,8 +379,9 @@ List<EventsNoticeStruct> updateEvent(
       notices[i].eventDescription = description;
       notices[i].eventDate = date;
       notices[i].eventName = eventname;
-      if (images != null) {
-        notices[i].eventImages = images; // Update the images if provided
+      notices[i].classref = classref;
+      if (files != null) {
+        notices[i].eventfiles = files; // Update the images if provided
       }
       break; // Exit the loop once the event is updated
     }
@@ -341,7 +409,14 @@ String calculateAge(DateTime dob) {
     months--;
   }
 
-  return "$years years and $months months";
+  // Return only years if age is in years, or only months if age is in months
+  if (years > 0) {
+    return "$years years";
+  } else if (months > 0) {
+    return "$months months";
+  } else {
+    return "Less than a month"; // In case the date is very close to the birthday
+  }
 }
 
 String convertImagePathToString(String imagePath) {
@@ -372,7 +447,7 @@ bool isWithin300kMeters(
   final distance = earthRadiusMeters * c;
 
   // Check if the distance is within 2 kilometers
-  return distance <= 2000;
+  return distance <= 50;
 }
 
 List<TeachersAttendanceStruct> updateCheckoutTime(
@@ -517,27 +592,21 @@ int multiplyByhundred(double percentageNumber) {
   return (percentageNumber * 100).toInt();
 }
 
-int calculateAttendancePercentage(
+double calculateAttendancePercentage(
   List<ClassAttendanceStruct> attendanceRecords,
   DocumentReference studentRef,
 ) {
   if (attendanceRecords.isEmpty) {
-    return 0; // No records, return 0% attendance
+    return 0.0; // No attendance records available
   }
 
-  int totalRecords = attendanceRecords.length;
-  int presentCount = 0;
+  int totalClasses = attendanceRecords.length;
+  int attendedClasses = attendanceRecords
+      .where((record) => (record.studentPresentList ?? []).contains(studentRef))
+      .length;
 
-  for (var record in attendanceRecords) {
-    if (record.studentPresentList != null &&
-        record.studentPresentList.contains(studentRef)) {
-      presentCount++;
-    }
-  }
-
-  // Calculate percentage
-  double percentage = (presentCount / totalRecords) * 100;
-  return percentage.round();
+  return (attendedClasses / totalClasses)
+      .clamp(0.0, 1.0); // Return as a fraction (0.0 to 1.0)
 }
 
 DateTime? noticedate(DateTime? currentdate) {
@@ -835,23 +904,29 @@ List<ClassAttendanceStruct> updateattendance(
   int totalnopresnt,
   int totalnoabsent,
   List<StudentAttendanceStruct> studentattendance,
+  int totalstudents,
+  bool checkin,
 ) {
   final dateFormat = DateFormat('dd-MM-yyyy');
+  String newfDate = dateFormat.format(datenew);
 
   for (int i = 0; i < oldattendance.length; i++) {
-    String newfDate = dateFormat.format(datenew);
     if (oldattendance[i].date != null) {
       String listDate = dateFormat.format(oldattendance[i].date!);
-      if (newfDate == listDate) {
-        oldattendance[i].id = oldattendance[i].id;
-        oldattendance[i].date = oldattendance[i].date;
-        oldattendance[i].studentPresentList = newstudnetlist;
 
-        oldattendance[i].totalPresent = totalnopresnt;
-        oldattendance[i].totalAbsent = totalnoabsent;
-        oldattendance[i].totalStudents = oldattendance[i].totalStudents;
-        oldattendance[i].studenttimelines = studentattendance;
-        break;
+      // ✅ Update only if date matches & checkIn matches
+      if (newfDate == listDate && oldattendance[i].checkIn == checkin) {
+        oldattendance[i] = ClassAttendanceStruct(
+          id: oldattendance[i].id,
+          date: oldattendance[i].date,
+          studentPresentList: newstudnetlist,
+          totalPresent: totalnopresnt,
+          totalAbsent: totalnoabsent,
+          totalStudents: totalstudents,
+          studenttimelines: studentattendance,
+          checkIn: checkin,
+        );
+        break; // Stop after updating the first match
       }
     }
   }
@@ -875,6 +950,19 @@ bool isVideoFile(String fileUrl) {
 
   // Check if the cleaned URL ends with any of the video file extensions
   return videoExtensions.any((ext) => cleanUrl.toLowerCase().endsWith(ext));
+}
+
+List<StudentListStruct> startfromfirststudents(
+    List<StudentListStruct> inputList) {
+  List<StudentListStruct> modifiedList = [];
+
+  // Add a dummy value (or any initial value) at index 0 to maintain the +1 offset
+  modifiedList.add(StudentListStruct()); // Add dummy element or any placeholder
+
+  // Add the actual list elements starting from index 1
+  modifiedList.addAll(inputList);
+
+  return modifiedList;
 }
 
 String converttoimagepath(String image) {
@@ -908,7 +996,7 @@ String getFormattedDate(
   }
 
   // Otherwise, format the date as 'dd MMM, y'
-  return DateFormat('dd MMM, y').format(inputDate);
+  return DateFormat('dd MMM y').format(inputDate);
 }
 
 String convertToStringclass(List<String> towhom) {
@@ -917,4 +1005,440 @@ String convertToStringclass(List<String> towhom) {
   }
   // Join the list items with a comma and return the result
   return towhom.join(', ');
+}
+
+bool isValidFileFormat(String filePath) {
+  final List<String> allowedExtensions = [
+    'pdf', 'doc', 'docx', // Document formats
+    'jpg', 'jpeg', 'png', // Image formats
+  ];
+
+  // Remove query parameters (everything after '?')
+  String cleanPath = filePath.split('?').first;
+
+  // Extract the file extension
+  String fileExtension = cleanPath.split('.').last.toLowerCase();
+
+  // Check if the extracted extension is in the allowed list
+  return allowedExtensions.contains(fileExtension);
+}
+
+List<DocumentReference> updateStudentClassRef(
+  StudentsRecord studentDoc,
+  List<DocumentReference> studentRefs,
+  DocumentReference classRef,
+) {
+  List<DocumentReference> classRefs = List.from(studentDoc.classref ?? []);
+
+  if (studentRefs.contains(studentDoc.reference)) {
+    if (!classRefs.contains(classRef)) {
+      classRefs.add(classRef);
+    }
+  } else {
+    if (classRefs.contains(classRef)) {
+      classRefs.remove(classRef);
+    }
+  }
+
+  return classRefs;
+}
+
+bool isCheckInOneDayPrior(
+  DateTime checkInDate,
+  DateTime passedDate,
+) {
+  DateTime yesterday = DateTime.now().subtract(Duration(days: 1));
+
+  /// Extract only the date part (ignoring time) for accurate comparison
+  DateTime checkDateOnly =
+      DateTime(checkInDate.year, checkInDate.month, checkInDate.day);
+  DateTime yesterdayOnly =
+      DateTime(yesterday.year, yesterday.month, yesterday.day);
+
+  /// Return true if check-in date is exactly yesterday
+  return checkDateOnly == yesterdayOnly;
+}
+
+List<TeachersAttendanceStruct> fillMissingAttendance(
+  List<TeachersAttendanceStruct> attendanceList,
+  DateTime checkInDate,
+  DateTime passingdate,
+  DateTime checkOutTime,
+) {
+  String formatDate(DateTime date) {
+    return DateFormat('yyyy-MM-dd').format(date);
+  }
+
+  // Convert attendance list to a map for quick lookup
+  Map<String, TeachersAttendanceStruct> attendanceMap = {
+    for (var record in attendanceList) formatDate(record.date!): record
+  };
+
+  List<TeachersAttendanceStruct> updatedAttendanceList =
+      List.from(attendanceList);
+
+  // Ensure last check-in date is recorded with provided check-in and check-out time
+  String checkInFormatted = formatDate(checkInDate);
+  if (!attendanceMap.containsKey(checkInFormatted)) {
+    int uniqueId =
+        math.Random().nextInt(10000) + DateTime.now().millisecondsSinceEpoch;
+
+    updatedAttendanceList.add(TeachersAttendanceStruct(
+      date: checkInDate,
+      ispresent: true,
+      id: uniqueId,
+      checkInTime: checkInDate,
+      checkOutTime: checkOutTime,
+    ));
+  }
+
+  // Fill all missing dates between checkInDate and the day before passingDate as absent
+  for (DateTime date = checkInDate.add(Duration(days: 1));
+      date.isBefore(passingdate);
+      date = date.add(Duration(days: 1))) {
+    String formattedDate = formatDate(date);
+
+    if (!attendanceMap.containsKey(formattedDate)) {
+      int uniqueId =
+          math.Random().nextInt(10000) + DateTime.now().millisecondsSinceEpoch;
+
+      updatedAttendanceList.add(TeachersAttendanceStruct(
+        date: date,
+        ispresent: false,
+        id: uniqueId,
+        checkInTime: null,
+        checkOutTime: null,
+      ));
+    }
+  }
+
+  return updatedAttendanceList;
+}
+
+List<TeacherListStruct> updateTeacherDetails(
+  List<TeacherListStruct> teachersList,
+  DocumentReference userRef,
+  String name,
+  String phoneNumber,
+  String image,
+) {
+  // Create a new list to avoid modifying the original list directly
+  List<TeacherListStruct> updatedTeachersList = List.from(teachersList);
+
+  for (int i = 0; i < updatedTeachersList.length; i++) {
+    if (updatedTeachersList[i].userRef == userRef) {
+      // Create a new TeacherListStruct object with updated values
+      updatedTeachersList[i] = TeacherListStruct(
+        userRef: updatedTeachersList[i].userRef, // Keep the same reference
+        teacherName: name, // Update name
+        phoneNumber: phoneNumber, // Update phone number
+        teacherImage: image, // Update image
+        emailId: updatedTeachersList[i].emailId, // Keep existing data
+        teachersId: updatedTeachersList[i].teachersId,
+        // Keep existing data
+        // Add any other existing fields here...
+      );
+      break; // Exit loop after updating the first match
+    }
+  }
+
+  return updatedTeachersList;
+}
+
+String combineStrings(
+  List<SchoolClassRecord> classDocuments,
+  List<DocumentReference> classRefs,
+) {
+  // Filter classDocuments where classRef is in classRefs
+  List<String> matchingClassNames = classDocuments
+      .where((doc) => classRefs.contains(doc.reference))
+      .map((doc) => doc.className)
+      .toList();
+
+  // Join matching class names with commas
+  return matchingClassNames.join(', ');
+}
+
+bool containsFirebaseLink(String input) {
+  if (input.isEmpty) {
+    return false;
+  }
+
+  // Updated regex to match all Firebase Storage URL variations
+  final firebaseUrlPattern = RegExp(
+    r'https:\/\/firebasestorage\.(googleapis\.com|[a-zA-Z0-9-]+\.firebasestorage\.app)\/v0\/b\/[a-zA-Z0-9-]+\/o\/[^?]+',
+    caseSensitive: false,
+  );
+
+  return input.isNotEmpty || firebaseUrlPattern.hasMatch(input);
+}
+
+List<TeacherListStruct> startfromfirst(List<TeacherListStruct> inputList) {
+  List<TeacherListStruct> modifiedList = [];
+
+  // Add a dummy value (or any initial value) at index 0 to maintain the +1 offset
+  modifiedList.add(TeacherListStruct()); // Add dummy element or any placeholder
+
+  // Add the actual list elements starting from index 1
+  modifiedList.addAll(inputList);
+
+  return modifiedList;
+}
+
+DateTime getPreviousDay(
+  DateTime date,
+  bool prev,
+) {
+  if (prev == true) {
+    return date.subtract(Duration(days: 1));
+  }
+
+  return date.add(Duration(days: 1));
+}
+
+int middelindex(int numberitems) {
+  return (numberitems / 2).floor();
+}
+
+List<ParentsDetailsStruct> placeUserRefInMiddle(
+  List<ParentsDetailsStruct> parents,
+  DocumentReference targetUserRef,
+  int targetIndex,
+) {
+  ParentsDetailsStruct? targetParent;
+  List<ParentsDetailsStruct> remainingParents = [];
+
+  for (var parent in parents) {
+    if (parent.userRef == targetUserRef) {
+      targetParent = parent;
+    } else {
+      remainingParents.add(parent);
+    }
+  }
+
+  if (targetParent == null) {
+    return parents; // If targetUserRef is not found, return the original list.
+  }
+
+  // Ensure the targetIndex is within valid bounds
+  targetIndex = targetIndex.clamp(0, remainingParents.length);
+
+  // Insert the targetParent at the specified index
+  remainingParents.insert(targetIndex, targetParent);
+
+  return remainingParents;
+}
+
+List<ParentStudentStruct> updateStudentDetailsparent(
+  List<ParentStudentStruct> studentList,
+  DocumentReference studentRef,
+  DateTime? dob,
+  String? gender,
+  String? address,
+  String? allergy,
+  String? docImage,
+  String? doc,
+  String? name,
+) {
+  return studentList.map((student) {
+    if (student.docref == studentRef) {
+      return ParentStudentStruct(
+        name: name ?? student.name,
+        dob: dob ?? student.dob,
+        gender: gender ?? student.gender,
+        address: address ?? student.address,
+        allergy: allergy ?? student.allergy,
+        image: docImage ?? student.image,
+        docref: student.docref, // Ensure docref remains unchanged
+        index: student.index, // Preserve the index
+        doc: doc ?? student.doc, // Update document if provided
+      );
+    }
+    return student;
+  }).toList();
+}
+
+List<ParentsDetailsStruct> updateParentDetailsCopy(
+  DocumentReference userRef,
+  String name,
+  String phoneNumber,
+  String email,
+  List<ParentsDetailsStruct> parentsList,
+) {
+  for (var parent in parentsList) {
+    if (parent.userRef == userRef) {
+      // Update fields only if they are provided (non-null)
+      if (name != null) {
+        parent.parentsName = name;
+      }
+      if (phoneNumber != null) {
+        parent.parentsPhone = phoneNumber;
+      }
+      if (email != null) {
+        parent.parentsEmail = email;
+      }
+      break; // Stop looping once the match is found
+    }
+  }
+  return parentsList;
+}
+
+bool eventnumber(int number) {
+  if (number % 2 == 0)
+    return true;
+  else
+    return false;
+}
+
+bool isValidEmail(String email) {
+  // Define the email regex pattern
+  final RegExp emailRegex = RegExp(
+    r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+  );
+
+  return emailRegex.hasMatch(email);
+}
+
+int getParentIndex(
+  List<ParentsDetailsStruct> parentList,
+  int eventParentId,
+) {
+  for (int i = 0; i < parentList.length; i++) {
+    if (parentList[i].parentsId == eventParentId) {
+      return i; // Return the index where the parentId matches
+    }
+  }
+
+  return -1; // Return -1 if no match is found
+}
+
+int getFileTypeFromUrl(String url) {
+  Uri uri = Uri.parse(url);
+  String path = uri.path;
+
+  // Extract the file extension from the path
+  String extension = path.split('.').last.toLowerCase();
+
+  // Check the file extension and return the corresponding value
+  if (extension == 'pdf') {
+    return 1; // PDF
+  } else if (extension == 'docx') {
+    return 2; // DOCX
+  } else if (extension == 'mp3') {
+    return 3; // Video (add more extensions as needed)
+  } else if (extension == 'jpg' || extension == 'jpeg' || extension == 'png') {
+    return 4; // Image (add more extensions as needed)
+  } else if (extension == 'ppt' || extension == 'pptx') {
+    return 5; // PPT
+  } else {
+    return 0; // Unknown type
+  }
+}
+
+List<String> converttostring(
+  String? imagepath,
+  String? videopath,
+) {
+  List<String> result = [];
+
+  if (imagepath != null && imagepath.isNotEmpty) {
+    result.add(imagepath);
+  }
+  if (videopath != null && videopath.isNotEmpty) {
+    result.add(videopath);
+  }
+
+  return result;
+}
+
+int index(int index1) {
+  return index1 - 1;
+}
+
+int plusIndex(int index) {
+  return index + 1;
+}
+
+String getUsernameFromEmail(String email) {
+  return email.split('@')[0];
+}
+
+List<ParentsDetailsStruct>? removeExactDuplicates(
+    List<ParentsDetailsStruct>? parentList) {
+  final seen = <String>{};
+  final result = <ParentsDetailsStruct>[];
+
+  if (parentList == null) return result;
+
+  for (var parent in parentList) {
+    final key =
+        '${parent.parentsName}_${parent.parentsPhone}_${parent.parentsEmail}';
+    if (!seen.contains(key)) {
+      seen.add(key);
+      result.add(parent);
+    }
+  }
+
+  return result;
+}
+
+bool isValidLatLng(LatLng latLng) {
+  if (latLng == null) {
+    return false;
+  }
+  if (latLng.latitude < -90 || latLng.latitude > 90) {
+    return false;
+  }
+  if (latLng.longitude < -180 || latLng.longitude > 180) {
+    return false;
+  }
+  return true;
+}
+
+bool isBlank(String? input) {
+  return input == null || input.trim().isEmpty;
+}
+
+List<TeacherListStruct> updateTeacherData(
+  List<TeacherListStruct> teacherList,
+  DocumentReference teacherRef,
+  String newName,
+  String newPhoneNumber,
+  String newImagePath,
+  DocumentReference teacherUserRef,
+) {
+  for (var teacher in teacherList) {
+    if (teacher.teachersId == teacherRef) {
+      teacher.teacherName = newName;
+      teacher.phoneNumber = newPhoneNumber;
+      teacher.teacherImage = newImagePath;
+      teacher.userRef = teacherUserRef;
+    }
+  }
+
+  return teacherList;
+}
+
+bool? isWithin30Days(
+  DateTime currentDate,
+  DateTime eventDate,
+) {
+  final difference = eventDate.difference(currentDate).inDays;
+  return difference >= 0 && difference <= 30;
+}
+
+List<GalleryStruct> startFromGallery(List<GalleryStruct> inputList) {
+  List<GalleryStruct> modifiedList = [];
+
+  // Add a dummy GalleryStruct at the beginning
+  modifiedList.add(GalleryStruct()); // Add default/placeholder if needed
+
+  // Add the actual list elements starting from index 1
+  modifiedList.addAll(inputList);
+
+  return modifiedList;
+}
+
+int? newCustomFunction(String number) {
+  return int.tryParse(number);
 }

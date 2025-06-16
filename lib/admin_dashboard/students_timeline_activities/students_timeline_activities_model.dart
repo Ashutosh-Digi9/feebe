@@ -1,5 +1,6 @@
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'students_timeline_activities_widget.dart'
     show StudentsTimelineActivitiesWidget;
 import 'package:flutter/material.dart';
@@ -82,17 +83,17 @@ class StudentsTimelineActivitiesModel
       return 'Please enter description';
     }
 
-    if (val.length > 50) {
-      return 'Maximum 50 characters allowed, currently ${val.length}.';
+    if (val.length > 120) {
+      return 'Maximum 120 characters allowed, currently ${val.length}.';
     }
 
     return null;
   }
 
-  // Stores action output result for [Backend Call - Read Document] action in sendupdate widget.
-  StudentsRecord? students1;
   // Stores action output result for [Firestore Query - Query a collection] action in sendupdate widget.
   List<StudentsRecord>? studenList;
+  // Stores action output result for [Backend Call - Read Document] action in sendupdate widget.
+  StudentsRecord? student;
   // Stores action output result for [Firestore Query - Query a collection] action in sendupdate widget.
   TeachersRecord? teachereref;
 

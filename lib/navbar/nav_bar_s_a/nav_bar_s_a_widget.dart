@@ -2,8 +2,10 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'nav_bar_s_a_model.dart';
 export 'nav_bar_s_a_model.dart';
 
@@ -11,7 +13,7 @@ class NavBarSAWidget extends StatefulWidget {
   const NavBarSAWidget({
     super.key,
     int? pageno,
-  }) : pageno = pageno ?? 1;
+  }) : this.pageno = pageno ?? 1;
 
   final int pageno;
 
@@ -44,21 +46,22 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: const AlignmentDirectional(0.0, -1.0),
+      alignment: AlignmentDirectional(0.0, -1.0),
       child: Container(
-        height: MediaQuery.sizeOf(context).height * 0.1,
-        decoration: const BoxDecoration(),
-        child: SizedBox(
+        width: MediaQuery.sizeOf(context).width * 1.0,
+        height: MediaQuery.sizeOf(context).height * 1.0,
+        decoration: BoxDecoration(),
+        child: Container(
           height: MediaQuery.sizeOf(context).height * 1.0,
           child: Stack(
-            alignment: const AlignmentDirectional(0.0, -1.0),
+            alignment: AlignmentDirectional(0.0, -1.0),
             children: [
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 15.0, 0.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 15.0, 0.0, 0.0),
                 child: Container(
                   decoration: BoxDecoration(
                     color: FlutterFlowTheme.of(context).secondary,
-                    borderRadius: const BorderRadius.only(
+                    borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(0.0),
                       bottomRight: Radius.circular(0.0),
                       topLeft: Radius.circular(20.0),
@@ -76,9 +79,9 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                         highlightColor: Colors.transparent,
                         onTap: () async {
                           context.pushNamed(
-                            'Dashboard',
+                            DashboardWidget.routeName,
                             extra: <String, dynamic>{
-                              kTransitionInfoKey: const TransitionInfo(
+                              kTransitionInfoKey: TransitionInfo(
                                 hasTransition: true,
                                 transitionType: PageTransitionType.fade,
                               ),
@@ -86,7 +89,7 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                           );
                         },
                         child: Container(
-                          decoration: const BoxDecoration(
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.only(
                               bottomLeft: Radius.circular(0.0),
                               bottomRight: Radius.circular(0.0),
@@ -95,7 +98,7 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                             ),
                           ),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 20.0, 0.0),
                             child: Column(
                               mainAxisSize: MainAxisSize.max,
@@ -106,7 +109,7 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                                   color: widget.pageno == 1
                                       ? FlutterFlowTheme.of(context)
                                           .primaryBackground
-                                      : const Color(0xFF959BA5),
+                                      : Color(0xFF959BA5),
                                   size: 35.0,
                                 ),
                                 Text(
@@ -114,14 +117,23 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        fontFamily: 'Nunito',
+                                        font: GoogleFonts.nunito(
+                                          fontWeight: FontWeight.w600,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
                                         color: widget.pageno == 1
                                             ? FlutterFlowTheme.of(context)
                                                 .primaryBackground
-                                            : const Color(0xFF626770),
+                                            : Color(0xFF626770),
                                         fontSize: 11.0,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.w600,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
                                       ),
                                 ),
                               ],
@@ -138,7 +150,7 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                         ),
                       ),
                       Align(
-                        alignment: const AlignmentDirectional(0.0, 0.0),
+                        alignment: AlignmentDirectional(0.0, 0.0),
                         child: InkWell(
                           splashColor: Colors.transparent,
                           focusColor: Colors.transparent,
@@ -146,9 +158,9 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                           highlightColor: Colors.transparent,
                           onTap: () async {
                             context.pushNamed(
-                              'Notifications_SA',
+                              NotificationsSAWidget.routeName,
                               extra: <String, dynamic>{
-                                kTransitionInfoKey: const TransitionInfo(
+                                kTransitionInfoKey: TransitionInfo(
                                   hasTransition: true,
                                   transitionType: PageTransitionType.fade,
                                 ),
@@ -161,7 +173,7 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                             ));
                           },
                           child: Container(
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(0.0),
                                 bottomRight: Radius.circular(0.0),
@@ -170,7 +182,7 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                               ),
                             ),
                             child: Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   20.0, 0.0, 0.0, 0.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
@@ -189,13 +201,23 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .titleSmall
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.w500,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmall
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
-                                                      .alternate,
+                                                      .secondary,
                                               fontSize: 14.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .fontStyle,
                                             ),
                                       ),
                                       showBadge: (currentUserDocument
@@ -203,12 +225,14 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                                                       .toList() ??
                                                   [])
                                               .where((e) => !e.isRead)
-                                              .toList().isNotEmpty,
+                                              .toList()
+                                              .length >
+                                          0,
                                       shape: badges.BadgeShape.circle,
-                                      badgeColor: FlutterFlowTheme.of(context)
-                                          .secondary,
+                                      badgeColor:
+                                          FlutterFlowTheme.of(context).primary,
                                       elevation: 4.0,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           8.0, 8.0, 8.0, 8.0),
                                       position: badges.BadgePosition.topEnd(),
                                       animationType:
@@ -219,7 +243,7 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                                         color: widget.pageno == 2
                                             ? FlutterFlowTheme.of(context)
                                                 .primaryBackground
-                                            : const Color(0xFF959BA5),
+                                            : Color(0xFF959BA5),
                                         size: 35.0,
                                       ),
                                     ),
@@ -229,14 +253,24 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight: FontWeight.w600,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                           color: widget.pageno == 2
                                               ? FlutterFlowTheme.of(context)
                                                   .primaryBackground
-                                              : const Color(0xFF626770),
+                                              : Color(0xFF626770),
                                           fontSize: 11.0,
                                           letterSpacing: 0.0,
                                           fontWeight: FontWeight.w600,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                         ),
                                   ),
                                 ],
@@ -249,27 +283,30 @@ class _NavBarSAWidgetState extends State<NavBarSAWidget> {
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
-                child: Container(
-                  width: 50.0,
-                  height: 50.0,
-                  decoration: const BoxDecoration(
-                    color: Color(0xFFF2981B),
-                    shape: BoxShape.circle,
-                  ),
-                  child: InkWell(
-                    splashColor: Colors.transparent,
-                    focusColor: Colors.transparent,
-                    hoverColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    onTap: () async {
-                      context.pushNamed('Add_School_manually_SA');
-                    },
-                    child: Icon(
-                      Icons.add,
-                      color: FlutterFlowTheme.of(context).tertiary,
-                      size: 20.0,
+              Align(
+                alignment: AlignmentDirectional(0.0, -1.0),
+                child: Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
+                  child: Container(
+                    width: 50.0,
+                    height: 50.0,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFF2981B),
+                      shape: BoxShape.circle,
+                    ),
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        context.pushNamed(AddSchoolManuallySAWidget.routeName);
+                      },
+                      child: Icon(
+                        Icons.add,
+                        color: FlutterFlowTheme.of(context).tertiary,
+                        size: 20.0,
+                      ),
                     ),
                   ),
                 ),

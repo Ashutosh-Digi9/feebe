@@ -8,6 +8,16 @@ class NotificationVIewModel extends FlutterFlowModel<NotificationVIewWidget> {
 
   DateTime? date;
 
+  bool viewpdf = false;
+
+  bool viewdoc = false;
+
+  bool viewmp3 = false;
+
+  bool viewimage = false;
+
+  bool viewppt = false;
+
   ///  State fields for stateful widgets in this page.
 
   // Stores action output result for [Backend Call - Read Document] action in NotificationVIew widget.

@@ -15,16 +15,16 @@ class NotificationStruct extends FFFirebaseStruct {
     DateTime? timeStamp,
     bool? isRead,
     DateTime? eventDate,
-    List<String>? notificationImages,
     DocumentReference? schoolRef,
+    List<String>? notificationFiles,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _notificationTitle = notificationTitle,
         _descriptions = descriptions,
         _timeStamp = timeStamp,
         _isRead = isRead,
         _eventDate = eventDate,
-        _notificationImages = notificationImages,
         _schoolRef = schoolRef,
+        _notificationFiles = notificationFiles,
         super(firestoreUtilData);
 
   // "notification_title" field.
@@ -62,23 +62,23 @@ class NotificationStruct extends FFFirebaseStruct {
 
   bool hasEventDate() => _eventDate != null;
 
-  // "notification_images" field.
-  List<String>? _notificationImages;
-  List<String> get notificationImages => _notificationImages ?? const [];
-  set notificationImages(List<String>? val) => _notificationImages = val;
-
-  void updateNotificationImages(Function(List<String>) updateFn) {
-    updateFn(_notificationImages ??= []);
-  }
-
-  bool hasNotificationImages() => _notificationImages != null;
-
   // "schoolRef" field.
   DocumentReference? _schoolRef;
   DocumentReference? get schoolRef => _schoolRef;
   set schoolRef(DocumentReference? val) => _schoolRef = val;
 
   bool hasSchoolRef() => _schoolRef != null;
+
+  // "notification_files" field.
+  List<String>? _notificationFiles;
+  List<String> get notificationFiles => _notificationFiles ?? const [];
+  set notificationFiles(List<String>? val) => _notificationFiles = val;
+
+  void updateNotificationFiles(Function(List<String>) updateFn) {
+    updateFn(_notificationFiles ??= []);
+  }
+
+  bool hasNotificationFiles() => _notificationFiles != null;
 
   static NotificationStruct fromMap(Map<String, dynamic> data) =>
       NotificationStruct(
@@ -87,8 +87,8 @@ class NotificationStruct extends FFFirebaseStruct {
         timeStamp: data['timeStamp'] as DateTime?,
         isRead: data['isRead'] as bool?,
         eventDate: data['eventDate'] as DateTime?,
-        notificationImages: getDataList(data['notification_images']),
         schoolRef: data['schoolRef'] as DocumentReference?,
+        notificationFiles: getDataList(data['notification_files']),
       );
 
   static NotificationStruct? maybeFromMap(dynamic data) => data is Map
@@ -101,8 +101,8 @@ class NotificationStruct extends FFFirebaseStruct {
         'timeStamp': _timeStamp,
         'isRead': _isRead,
         'eventDate': _eventDate,
-        'notification_images': _notificationImages,
         'schoolRef': _schoolRef,
+        'notification_files': _notificationFiles,
       }.withoutNulls;
 
   @override
@@ -127,14 +127,14 @@ class NotificationStruct extends FFFirebaseStruct {
           _eventDate,
           ParamType.DateTime,
         ),
-        'notification_images': serializeParam(
-          _notificationImages,
-          ParamType.String,
-          isList: true,
-        ),
         'schoolRef': serializeParam(
           _schoolRef,
           ParamType.DocumentReference,
+        ),
+        'notification_files': serializeParam(
+          _notificationFiles,
+          ParamType.String,
+          isList: true,
         ),
       }.withoutNulls;
 
@@ -165,16 +165,16 @@ class NotificationStruct extends FFFirebaseStruct {
           ParamType.DateTime,
           false,
         ),
-        notificationImages: deserializeParam<String>(
-          data['notification_images'],
-          ParamType.String,
-          true,
-        ),
         schoolRef: deserializeParam(
           data['schoolRef'],
           ParamType.DocumentReference,
           false,
           collectionNamePath: ['School'],
+        ),
+        notificationFiles: deserializeParam<String>(
+          data['notification_files'],
+          ParamType.String,
+          true,
         ),
       );
 
@@ -205,17 +205,17 @@ class NotificationStruct extends FFFirebaseStruct {
           ParamType.DateTime,
           false,
         ),
-        notificationImages: convertAlgoliaParam<String>(
-          data['notification_images'],
-          ParamType.String,
-          true,
-        ),
         schoolRef: convertAlgoliaParam(
           data['schoolRef'],
           ParamType.DocumentReference,
           false,
         ),
-        firestoreUtilData: const FirestoreUtilData(
+        notificationFiles: convertAlgoliaParam<String>(
+          data['notification_files'],
+          ParamType.String,
+          true,
+        ),
+        firestoreUtilData: FirestoreUtilData(
           clearUnsetFields: false,
           create: true,
         ),
@@ -233,8 +233,8 @@ class NotificationStruct extends FFFirebaseStruct {
         timeStamp == other.timeStamp &&
         isRead == other.isRead &&
         eventDate == other.eventDate &&
-        listEquality.equals(notificationImages, other.notificationImages) &&
-        schoolRef == other.schoolRef;
+        schoolRef == other.schoolRef &&
+        listEquality.equals(notificationFiles, other.notificationFiles);
   }
 
   @override
@@ -244,8 +244,8 @@ class NotificationStruct extends FFFirebaseStruct {
         timeStamp,
         isRead,
         eventDate,
-        notificationImages,
-        schoolRef
+        schoolRef,
+        notificationFiles
       ]);
 }
 

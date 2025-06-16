@@ -1,7 +1,9 @@
+import '/admin_dashboard/guardian_copy/guardian_copy_widget.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
+import '/index.dart';
 import 'student_draft_widget.dart' show StudentDraftWidget;
 import 'package:flutter/material.dart';
 
@@ -33,12 +35,27 @@ class StudentDraftModel extends FlutterFlowModel<StudentDraftWidget> {
 
   int? pageno = 0;
 
+  int? guardiancount = 0;
+
+  List<int> emptypage = [];
+  void addToEmptypage(int item) => emptypage.add(item);
+  void removeFromEmptypage(int item) => emptypage.remove(item);
+  void removeAtIndexFromEmptypage(int index) => emptypage.removeAt(index);
+  void insertAtIndexInEmptypage(int index, int item) =>
+      emptypage.insert(index, item);
+  void updateEmptypageAtIndex(int index, Function(int) updateFn) =>
+      emptypage[index] = updateFn(emptypage[index]);
+
   ///  State fields for stateful widgets in this page.
 
   final formKey3 = GlobalKey<FormState>();
   final formKey1 = GlobalKey<FormState>();
   final formKey4 = GlobalKey<FormState>();
   final formKey2 = GlobalKey<FormState>();
+  // Stores action output result for [Backend Call - Read Document] action in student_draft widget.
+  SchoolRecord? school1;
+  // Stores action output result for [Backend Call - Read Document] action in student_draft widget.
+  StudentsRecord? studen;
   // State field(s) for PageView widget.
   PageController? pageViewController;
 
@@ -59,13 +76,12 @@ class StudentDraftModel extends FlutterFlowModel<StudentDraftWidget> {
     return null;
   }
 
-  DateTime? datePicked;
-  // State field(s) for bloodtype widget.
-  String? bloodtypeValue;
-  FormFieldController<String>? bloodtypeValueController;
   // State field(s) for gender widget.
   String? genderValue;
   FormFieldController<String>? genderValueController;
+  // State field(s) for bloodtype widget.
+  String? bloodtypeValue;
+  FormFieldController<String>? bloodtypeValueController;
   // State field(s) for allergies widget.
   FocusNode? allergiesFocusNode;
   TextEditingController? allergiesTextController;
@@ -82,11 +98,6 @@ class StudentDraftModel extends FlutterFlowModel<StudentDraftWidget> {
     return null;
   }
 
-  bool isDataUploading1 = false;
-  FFUploadedFile uploadedLocalFile1 =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl1 = '';
-
   // State field(s) for Parentname widget.
   FocusNode? parentnameFocusNode;
   TextEditingController? parentnameTextController;
@@ -94,7 +105,7 @@ class StudentDraftModel extends FlutterFlowModel<StudentDraftWidget> {
   String? _parentnameTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please eneter the Father name';
+      return 'Please enter the parent\'s name.';
     }
 
     return null;
@@ -107,7 +118,7 @@ class StudentDraftModel extends FlutterFlowModel<StudentDraftWidget> {
   String? _numberfatherTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter Father\'s number';
+      return 'Please enter the parent\'s phone number.';
     }
 
     if (val.length > 10) {
@@ -126,19 +137,11 @@ class StudentDraftModel extends FlutterFlowModel<StudentDraftWidget> {
   String? _emailfatherTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter email';
+      return 'Please enter  User name';
     }
 
-    if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
-      return 'Please enter valid email';
-    }
     return null;
   }
-
-  bool isDataUploading2 = false;
-  FFUploadedFile uploadedLocalFile2 =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl2 = '';
 
   // State field(s) for Parent2 widget.
   FocusNode? parent2FocusNode;
@@ -146,7 +149,7 @@ class StudentDraftModel extends FlutterFlowModel<StudentDraftWidget> {
   String? Function(BuildContext, String?)? parent2TextControllerValidator;
   String? _parent2TextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter Mother name';
+      return 'Please enter the parent\'s name';
     }
 
     return null;
@@ -159,7 +162,7 @@ class StudentDraftModel extends FlutterFlowModel<StudentDraftWidget> {
   String? _numbermotherTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter mother phone number';
+      return 'Please enter the parents number';
     }
 
     if (val.length > 10) {
@@ -178,20 +181,14 @@ class StudentDraftModel extends FlutterFlowModel<StudentDraftWidget> {
   String? _emailmotherTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter email';
+      return 'Please enter Parent\'s Username';
     }
 
-    if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
-      return 'PLease enter a alid email';
-    }
     return null;
   }
 
-  bool isDataUploading3 = false;
-  FFUploadedFile uploadedLocalFile3 =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl3 = '';
-
+  // Models for guardianCopy dynamic component.
+  late FlutterFlowDynamicModels<GuardianCopyModel> guardianCopyModels;
   // State field(s) for Gname widget.
   FocusNode? gnameFocusNode;
   TextEditingController? gnameTextController;
@@ -228,12 +225,9 @@ class StudentDraftModel extends FlutterFlowModel<StudentDraftWidget> {
   String? Function(BuildContext, String?)? gemailTextControllerValidator;
   String? _gemailTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter the Email';
+      return 'Please enter username/ email';
     }
 
-    if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
-      return 'Please enter the valid email';
-    }
     return null;
   }
 
@@ -247,6 +241,8 @@ class StudentDraftModel extends FlutterFlowModel<StudentDraftWidget> {
   DocumentReference? parentuserref;
   // Stores action output result for [Backend Call - API (Send Mail )] action in Next12 widget.
   ApiCallResponse? parent1email;
+  // Stores action output result for [Backend Call - API (sendsms)] action in Next12 widget.
+  ApiCallResponse? sms;
   // Stores action output result for [Firestore Query - Query a collection] action in Next12 widget.
   UsersRecord? parent2;
   // Stores action output result for [Firestore Query - Query a collection] action in Next12 widget.
@@ -262,6 +258,7 @@ class StudentDraftModel extends FlutterFlowModel<StudentDraftWidget> {
     parent2TextControllerValidator = _parent2TextControllerValidator;
     numbermotherTextControllerValidator = _numbermotherTextControllerValidator;
     emailmotherTextControllerValidator = _emailmotherTextControllerValidator;
+    guardianCopyModels = FlutterFlowDynamicModels(() => GuardianCopyModel());
     gnameTextControllerValidator = _gnameTextControllerValidator;
     gnumberTextControllerValidator = _gnumberTextControllerValidator;
     gemailTextControllerValidator = _gemailTextControllerValidator;
@@ -296,6 +293,7 @@ class StudentDraftModel extends FlutterFlowModel<StudentDraftWidget> {
     emailmotherFocusNode?.dispose();
     emailmotherTextController?.dispose();
 
+    guardianCopyModels.dispose();
     gnameFocusNode?.dispose();
     gnameTextController?.dispose();
 

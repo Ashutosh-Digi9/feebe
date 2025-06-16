@@ -3,6 +3,18 @@ import 'class_event_view_widget.dart' show ClassEventViewWidget;
 import 'package:flutter/material.dart';
 
 class ClassEventViewModel extends FlutterFlowModel<ClassEventViewWidget> {
+  ///  Local state fields for this component.
+
+  bool viewpdf = false;
+
+  bool viewdoc = false;
+
+  bool viewmp3 = false;
+
+  bool viewimg = false;
+
+  bool viewppt = false;
+
   ///  State fields for stateful widgets in this component.
 
   // State field(s) for Eventname widget.

@@ -2,6 +2,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'class_view_event_model.dart';
 export 'class_view_event_model.dart';
 
@@ -56,7 +57,7 @@ class _ClassViewEventWidgetState extends State<ClassViewEventWidget> {
         mainAxisSize: MainAxisSize.max,
         children: [
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(10.0),
             child: StreamBuilder<SchoolRecord>(
               stream: SchoolRecord.getDocument(widget.school!),
               builder: (context, snapshot) {
@@ -94,9 +95,9 @@ class _ClassViewEventWidgetState extends State<ClassViewEventWidget> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 5.0, 0.0, 10.0),
-                          child: SizedBox(
+                          child: Container(
                             width: MediaQuery.sizeOf(context).width * 0.9,
                             child: TextFormField(
                               controller: _model.eventnameTextController ??=
@@ -114,21 +115,42 @@ class _ClassViewEventWidgetState extends State<ClassViewEventWidget> {
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
                                           .primaryText,
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
                                     ),
                                 hintText: 'Event name',
                                 hintStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
                                           .tertiaryText,
                                       fontSize: 12.0,
                                       letterSpacing: 0.0,
                                       fontWeight: FontWeight.w500,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
                                     ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -167,8 +189,21 @@ class _ClassViewEventWidgetState extends State<ClassViewEventWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                               maxLength: 25,
                               buildCounter: (context,
@@ -184,9 +219,9 @@ class _ClassViewEventWidgetState extends State<ClassViewEventWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 5.0, 0.0, 10.0),
-                          child: SizedBox(
+                          child: Container(
                             width: MediaQuery.sizeOf(context).width * 0.9,
                             child: TextFormField(
                               controller: _model.eventtitleTextController ??=
@@ -204,21 +239,42 @@ class _ClassViewEventWidgetState extends State<ClassViewEventWidget> {
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
                                           .primaryText,
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
                                     ),
                                 hintText: 'Event name',
                                 hintStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
                                           .tertiaryText,
                                       fontSize: 12.0,
                                       letterSpacing: 0.0,
                                       fontWeight: FontWeight.w500,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
                                     ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -257,8 +313,21 @@ class _ClassViewEventWidgetState extends State<ClassViewEventWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                               maxLength: 25,
                               buildCounter: (context,
@@ -275,15 +344,15 @@ class _ClassViewEventWidgetState extends State<ClassViewEventWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 5.0, 0.0, 10.0),
-                          child: SizedBox(
+                          child: Container(
                             width: MediaQuery.sizeOf(context).width * 0.9,
                             child: TextFormField(
                               controller: _model.dateTextController ??=
                                   TextEditingController(
                                 text: dateTimeFormat(
-                                    "dd MMM , y",
+                                    "dd MMM y",
                                     containerSchoolRecord.calendarList
                                         .elementAtOrNull(widget.eventid!)
                                         ?.eventDate),
@@ -297,21 +366,42 @@ class _ClassViewEventWidgetState extends State<ClassViewEventWidget> {
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
                                           .primaryText,
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
                                     ),
                                 hintText: 'Event name',
                                 hintStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
                                           .tertiaryText,
                                       fontSize: 12.0,
                                       letterSpacing: 0.0,
                                       fontWeight: FontWeight.w500,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
                                     ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -350,8 +440,21 @@ class _ClassViewEventWidgetState extends State<ClassViewEventWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                               maxLength: 25,
                               buildCounter: (context,
@@ -367,9 +470,9 @@ class _ClassViewEventWidgetState extends State<ClassViewEventWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 10.0, 0.0, 10.0),
-                          child: SizedBox(
+                          child: Container(
                             width: MediaQuery.sizeOf(context).width * 0.9,
                             child: TextFormField(
                               controller: _model.descriptionTextController ??=
@@ -387,21 +490,42 @@ class _ClassViewEventWidgetState extends State<ClassViewEventWidget> {
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
                                           .primaryText,
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
                                     ),
                                 hintText: 'Description',
                                 hintStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
                                           .tertiaryText,
                                       fontSize: 12.0,
                                       letterSpacing: 0.0,
                                       fontWeight: FontWeight.w500,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
                                     ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -440,8 +564,21 @@ class _ClassViewEventWidgetState extends State<ClassViewEventWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                               maxLines: 4,
                               cursorColor:
@@ -452,47 +589,6 @@ class _ClassViewEventWidgetState extends State<ClassViewEventWidget> {
                             ),
                           ),
                         ),
-                        if (containerSchoolRecord.calendarList
-                                .elementAtOrNull(widget.eventid!)
-                                ?.eventImages.isNotEmpty)
-                          Expanded(
-                            child: Builder(
-                              builder: (context) {
-                                final gallery = containerSchoolRecord
-                                        .calendarList
-                                        .where(
-                                            (e) => e.eventId == widget.eventid)
-                                        .toList()
-                                        .firstOrNull
-                                        ?.eventImages
-                                        .toList() ??
-                                    [];
-
-                                return GridView.builder(
-                                  padding: EdgeInsets.zero,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 4,
-                                    crossAxisSpacing: 10.0,
-                                    mainAxisSpacing: 10.0,
-                                    childAspectRatio: 1.8,
-                                  ),
-                                  scrollDirection: Axis.vertical,
-                                  itemCount: gallery.length,
-                                  itemBuilder: (context, galleryIndex) {
-                                    final galleryItem = gallery[galleryIndex];
-                                    return ClipRRect(
-                                      borderRadius: BorderRadius.circular(8.0),
-                                      child: Image.network(
-                                        galleryItem,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                            ),
-                          ),
                       ],
                     ),
                   ),

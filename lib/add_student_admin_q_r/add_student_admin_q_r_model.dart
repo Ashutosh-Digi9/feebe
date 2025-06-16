@@ -1,4 +1,5 @@
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'add_student_admin_q_r_widget.dart' show AddStudentAdminQRWidget;
 import 'package:flutter/material.dart';
 

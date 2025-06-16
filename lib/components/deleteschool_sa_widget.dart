@@ -2,6 +2,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'deleteschool_sa_model.dart';
 export 'deleteschool_sa_model.dart';
 
@@ -43,7 +44,7 @@ class _DeleteschoolSaWidgetState extends State<DeleteschoolSaWidget> {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: const AlignmentDirectional(0.0, 1.0),
+      alignment: AlignmentDirectional(0.0, 1.0),
       child: Container(
         width: MediaQuery.sizeOf(context).width * 1.0,
         height: MediaQuery.sizeOf(context).height * 0.1,
@@ -52,20 +53,20 @@ class _DeleteschoolSaWidgetState extends State<DeleteschoolSaWidget> {
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: EdgeInsets.all(10.0),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Align(
-                alignment: const AlignmentDirectional(0.0, 0.0),
+                alignment: AlignmentDirectional(0.0, 0.0),
                 child: Stack(
-                  alignment: const AlignmentDirectional(0.0, 0.0),
+                  alignment: AlignmentDirectional(0.0, 0.0),
                   children: [
                     Container(
                       width: 70.0,
                       height: 70.0,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Color(0xFFD7F9CB),
                         shape: BoxShape.circle,
                       ),
@@ -89,10 +90,16 @@ class _DeleteschoolSaWidgetState extends State<DeleteschoolSaWidget> {
               Text(
                 'Deleted school Successfully',
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Nunito',
+                      font: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w500,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                      ),
                       fontSize: 22.0,
                       letterSpacing: 0.0,
                       fontWeight: FontWeight.w500,
+                      fontStyle:
+                          FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                     ),
               ),
             ],

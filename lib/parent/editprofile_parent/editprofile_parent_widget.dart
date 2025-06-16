@@ -1,20 +1,24 @@
+import '/admin_dashboard/editphoto/editphoto_widget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/components/editphoto_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
-import 'package:styled_divider/styled_divider.dart';
+import '/index.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'editprofile_parent_model.dart';
 export 'editprofile_parent_model.dart';
 
 class EditprofileParentWidget extends StatefulWidget {
   const EditprofileParentWidget({super.key});
+
+  static String routeName = 'editprofile_parent';
+  static String routePath = '/editprofile';
 
   @override
   State<EditprofileParentWidget> createState() =>
@@ -80,37 +84,60 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).newBgcolor,
-            appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).info,
-              automaticallyImplyLeading: false,
-              leading: FlutterFlowIconButton(
-                borderColor: Colors.transparent,
-                borderRadius: 30.0,
-                borderWidth: 1.0,
-                buttonSize: 60.0,
-                icon: Icon(
-                  Icons.chevron_left,
-                  color: FlutterFlowTheme.of(context).bgColor1,
-                  size: 30.0,
-                ),
-                onPressed: () async {
-                  context.pop();
-                },
-              ),
-              title: Text(
-                'Edit Profile',
-                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Nunito',
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      fontSize: 16.0,
-                      letterSpacing: 0.0,
-                      fontWeight: FontWeight.w600,
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? AppBar(
+                    backgroundColor: FlutterFlowTheme.of(context).info,
+                    automaticallyImplyLeading: false,
+                    leading: FlutterFlowIconButton(
+                      borderColor: Colors.transparent,
+                      borderRadius: 30.0,
+                      borderWidth: 1.0,
+                      buttonSize: 60.0,
+                      icon: Icon(
+                        Icons.chevron_left,
+                        color: FlutterFlowTheme.of(context).bgColor1,
+                        size: 30.0,
+                      ),
+                      onPressed: () async {
+                        context.goNamed(
+                          DashboardWidget.routeName,
+                          extra: <String, dynamic>{
+                            kTransitionInfoKey: TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.fade,
+                            ),
+                          },
+                        );
+                      },
                     ),
-              ),
-              actions: const [],
-              centerTitle: false,
-              elevation: 0.0,
-            ),
+                    title: Text(
+                      'Edit Profile',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            font: GoogleFonts.nunito(
+                              fontWeight: FontWeight.w600,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            fontSize: 16.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.w600,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
+                    ),
+                    actions: [],
+                    centerTitle: false,
+                    elevation: 0.0,
+                  )
+                : null,
             body: SafeArea(
               top: true,
               child: Column(
@@ -118,7 +145,8 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
-                    decoration: const BoxDecoration(),
+                    height: MediaQuery.sizeOf(context).height * 0.7,
+                    decoration: BoxDecoration(),
                     child: Form(
                       key: _model.formKey,
                       autovalidateMode: AutovalidateMode.disabled,
@@ -128,15 +156,15 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 10.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 children: [
                                   Align(
-                                    alignment: const AlignmentDirectional(0.0, 0.0),
+                                    alignment: AlignmentDirectional(0.0, 0.0),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 20.0, 0.0, 0.0),
                                       child: InkWell(
                                         splashColor: Colors.transparent,
@@ -162,12 +190,12 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                                   padding:
                                                       MediaQuery.viewInsetsOf(
                                                           context),
-                                                  child: SizedBox(
+                                                  child: Container(
                                                     height: MediaQuery.sizeOf(
                                                                 context)
                                                             .height *
                                                         0.2,
-                                                    child: const EditphotoWidget(
+                                                    child: EditphotoWidget(
                                                       person: true,
                                                     ),
                                                   ),
@@ -185,7 +213,7 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                               MediaQuery.sizeOf(context).width *
                                                   0.3,
                                           clipBehavior: Clip.antiAlias,
-                                          decoration: const BoxDecoration(
+                                          decoration: BoxDecoration(
                                             shape: BoxShape.circle,
                                           ),
                                           child: Image.network(
@@ -195,7 +223,7 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                                   ? FFAppState().imageurl
                                                   : editprofileParentUsersRecord
                                                       .photoUrl,
-                                              'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
+                                              'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/yrpctln0zmxe/Frame_752_(1).png',
                                             ),
                                             fit: BoxFit.cover,
                                           ),
@@ -204,7 +232,7 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 10.0, 0.0, 0.0),
                                     child: InkWell(
                                       splashColor: Colors.transparent,
@@ -230,8 +258,14 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                                 padding:
                                                     MediaQuery.viewInsetsOf(
                                                         context),
-                                                child: const EditphotoWidget(
-                                                  person: true,
+                                                child: Container(
+                                                  height:
+                                                      MediaQuery.sizeOf(context)
+                                                              .height *
+                                                          0.3,
+                                                  child: EditphotoWidget(
+                                                    person: true,
+                                                  ),
                                                 ),
                                               ),
                                             );
@@ -243,36 +277,38 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryBackground,
                                               fontSize: 12.0,
                                               letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
                                             ),
                                       ),
                                     ),
-                                  ),
-                                  Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        height: 50.0,
-                                        child: StyledVerticalDivider(
-                                          thickness: 2.0,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryBackground,
-                                          lineStyle: DividerLineStyle.dashed,
-                                        ),
-                                      ),
-                                    ],
                                   ),
                                 ],
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   10.0, 0.0, 10.0, 0.0),
                               child: Container(
                                 width: MediaQuery.sizeOf(context).width * 1.0,
@@ -283,9 +319,9 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 10.0, 0.0, 10.0),
-                                      child: SizedBox(
+                                      child: Container(
                                         width:
                                             MediaQuery.sizeOf(context).width *
                                                 0.9,
@@ -309,7 +345,18 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                                     context)
                                                 .labelMedium
                                                 .override(
-                                                  fontFamily: 'Nunito',
+                                                  font: GoogleFonts.nunito(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .labelMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .labelMedium
+                                                            .fontStyle,
+                                                  ),
                                                   color: valueOrDefault<Color>(
                                                     (_model.nameFocusNode
                                                                 ?.hasFocus ??
@@ -324,18 +371,49 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                                         .alternate,
                                                   ),
                                                   letterSpacing: 0.0,
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .fontStyle,
                                                 ),
                                             hintText: 'Please enter the name',
                                             hintStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .labelMedium
                                                     .override(
-                                                      fontFamily: 'Nunito',
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelMedium
+                                                                .fontStyle,
+                                                      ),
                                                       color:
                                                           FlutterFlowTheme.of(
                                                                   context)
                                                               .tertiaryText,
                                                       letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelMedium
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelMedium
+                                                              .fontStyle,
                                                     ),
                                             enabledBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -386,9 +464,28 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Nunito',
+                                                font: GoogleFonts.nunito(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
                                                 fontSize: 14.0,
                                                 letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
                                               ),
                                           cursorColor:
                                               FlutterFlowTheme.of(context)
@@ -400,9 +497,9 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 0.0, 10.0),
-                                      child: SizedBox(
+                                      child: Container(
                                         width:
                                             MediaQuery.sizeOf(context).width *
                                                 0.9,
@@ -427,7 +524,18 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                                     context)
                                                 .labelMedium
                                                 .override(
-                                                  fontFamily: 'Nunito',
+                                                  font: GoogleFonts.nunito(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .labelMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .labelMedium
+                                                            .fontStyle,
+                                                  ),
                                                   color: valueOrDefault<Color>(
                                                     (_model.phonenumberFocusNode
                                                                 ?.hasFocus ??
@@ -442,6 +550,16 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                                         .alternate,
                                                   ),
                                                   letterSpacing: 0.0,
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .fontStyle,
                                                 ),
                                             hintText:
                                                 'Please enter the phone number',
@@ -449,13 +567,34 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                                 FlutterFlowTheme.of(context)
                                                     .labelMedium
                                                     .override(
-                                                      fontFamily: 'Nunito',
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelMedium
+                                                                .fontStyle,
+                                                      ),
                                                       color:
                                                           FlutterFlowTheme.of(
                                                                   context)
                                                               .tertiaryText,
                                                       fontSize: 14.0,
                                                       letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelMedium
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelMedium
+                                                              .fontStyle,
                                                     ),
                                             enabledBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -506,9 +645,28 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Nunito',
+                                                font: GoogleFonts.nunito(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
                                                 fontSize: 14.0,
                                                 letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
                                               ),
                                           maxLines: null,
                                           keyboardType: TextInputType.number,
@@ -522,9 +680,9 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 0.0, 10.0),
-                                      child: SizedBox(
+                                      child: Container(
                                         width:
                                             MediaQuery.sizeOf(context).width *
                                                 0.9,
@@ -549,7 +707,18 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                                     context)
                                                 .labelMedium
                                                 .override(
-                                                  fontFamily: 'Nunito',
+                                                  font: GoogleFonts.nunito(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .labelMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .labelMedium
+                                                            .fontStyle,
+                                                  ),
                                                   color: valueOrDefault<Color>(
                                                     (_model.emailFocusNode
                                                                 ?.hasFocus ??
@@ -564,19 +733,50 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                                         .alternate,
                                                   ),
                                                   letterSpacing: 0.0,
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .labelMedium
+                                                          .fontStyle,
                                                 ),
                                             hintText: 'Please enter the email',
                                             hintStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .labelMedium
                                                     .override(
-                                                      fontFamily: 'Nunito',
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .labelMedium
+                                                                .fontStyle,
+                                                      ),
                                                       color:
                                                           FlutterFlowTheme.of(
                                                                   context)
                                                               .tertiaryText,
                                                       fontSize: 14.0,
                                                       letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelMedium
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelMedium
+                                                              .fontStyle,
                                                     ),
                                             enabledBorder: OutlineInputBorder(
                                               borderSide: BorderSide(
@@ -592,7 +792,7 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                               borderSide: BorderSide(
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .primaryBackground,
+                                                        .dIsable,
                                                 width: 1.0,
                                               ),
                                               borderRadius:
@@ -627,9 +827,31 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Nunito',
+                                                font: GoogleFonts.nunito(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                                color:
+                                                    FlutterFlowTheme.of(context)
+                                                        .tertiaryText,
                                                 fontSize: 14.0,
                                                 letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
                                               ),
                                           keyboardType:
                                               TextInputType.emailAddress,
@@ -653,114 +875,186 @@ class _EditprofileParentWidgetState extends State<EditprofileParentWidget> {
                   ),
                   Container(
                     width: MediaQuery.sizeOf(context).width * 1.0,
-                    height: MediaQuery.sizeOf(context).height * 0.1,
+                    height: MediaQuery.sizeOf(context).height * 0.12,
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).secondaryBackground,
                     ),
-                    child: Align(
-                      alignment: const AlignmentDirectional(0.0, 0.0),
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
-                        child: FFButtonWidget(
-                          onPressed: () async {
-                            if (_model.formKey.currentState == null ||
-                                !_model.formKey.currentState!.validate()) {
-                              return;
-                            }
-                            _model.studentList = await queryStudentsRecordOnce(
-                              queryBuilder: (studentsRecord) =>
-                                  studentsRecord.where(
-                                'Parents_list',
-                                arrayContains: currentUserReference,
-                              ),
-                            );
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Align(
+                          alignment: AlignmentDirectional(0.0, 0.0),
+                          child: Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0.0, 0.0, 0.0, 10.0),
+                            child: FFButtonWidget(
+                              onPressed: ((_model.nameTextController.text ==
+                                              '') ||
+                                      (_model.phonenumberTextController
+                                                  .text ==
+                                              ''))
+                                  ? null
+                                  : () async {
+                                      if (_model.formKey.currentState == null ||
+                                          !_model.formKey.currentState!
+                                              .validate()) {
+                                        return;
+                                      }
+                                      _model.studentList =
+                                          await queryStudentsRecordOnce(
+                                        queryBuilder: (studentsRecord) =>
+                                            studentsRecord.where(
+                                          'Parents_list',
+                                          arrayContains: currentUserReference,
+                                        ),
+                                      );
 
-                            await editprofileParentUsersRecord.reference
-                                .update(createUsersRecordData(
-                              email: _model.emailTextController.text,
-                              displayName: _model.nameTextController.text,
-                              photoUrl: FFAppState().profileimagechanged == true
-                                  ? FFAppState().imageurl
-                                  : editprofileParentUsersRecord.photoUrl,
-                              phoneNumber:
-                                  editprofileParentUsersRecord.phoneNumber,
-                            ));
-                            while (FFAppState().loopmin <
-                                _model.studentList!.length) {
-                              await _model.studentList!
-                                  .elementAtOrNull(FFAppState().loopmin)!
-                                  .reference
-                                  .update({
-                                ...mapToFirestore(
-                                  {
-                                    'parents_details':
-                                        getParentsDetailsListFirestoreData(
-                                      functions.updateParentDetails(
-                                          currentUserReference!,
-                                          _model.nameTextController.text,
-                                          _model.phonenumberTextController.text,
-                                          _model.emailTextController.text,
-                                          FFAppState().profileimagechanged ==
-                                                  true
-                                              ? FFAppState().imageurl
-                                              : currentUserPhoto,
-                                          _model.studentList!
-                                              .elementAtOrNull(
-                                                  FFAppState().loopmin)!
-                                              .parentsDetails
-                                              .toList()),
+                                      await editprofileParentUsersRecord
+                                          .reference
+                                          .update(createUsersRecordData(
+                                        email: _model.emailTextController.text,
+                                        displayName:
+                                            _model.nameTextController.text,
+                                        photoUrl:
+                                            FFAppState().profileimagechanged ==
+                                                    true
+                                                ? FFAppState().imageurl
+                                                : editprofileParentUsersRecord
+                                                    .photoUrl,
+                                        phoneNumber:
+                                            editprofileParentUsersRecord
+                                                .phoneNumber,
+                                      ));
+                                      while (FFAppState().loopmin <
+                                          _model.studentList!.length) {
+                                        await _model.studentList!
+                                            .elementAtOrNull(
+                                                FFAppState().loopmin)!
+                                            .reference
+                                            .update({
+                                          ...mapToFirestore(
+                                            {
+                                              'parents_details':
+                                                  getParentsDetailsListFirestoreData(
+                                                functions.updateParentDetails(
+                                                    currentUserReference!,
+                                                    _model.nameTextController
+                                                        .text,
+                                                    _model
+                                                        .phonenumberTextController
+                                                        .text,
+                                                    _model.emailTextController
+                                                        .text,
+                                                    FFAppState().profileimagechanged ==
+                                                            true
+                                                        ? FFAppState().imageurl
+                                                        : currentUserPhoto,
+                                                    _model.studentList!
+                                                        .elementAtOrNull(
+                                                            FFAppState()
+                                                                .loopmin)!
+                                                        .parentsDetails
+                                                        .toList()),
+                                              ),
+                                            },
+                                          ),
+                                        });
+                                        FFAppState().loopmin =
+                                            FFAppState().loopmin + 1;
+                                        safeSetState(() {});
+                                      }
+                                      FFAppState().profileimagechanged = false;
+                                      FFAppState().imageurl = '';
+                                      FFAppState().schoolimage = '';
+                                      FFAppState().schoolimagechanged = false;
+                                      FFAppState().loopmin = 0;
+                                      safeSetState(() {});
+
+                                      context.pushNamed(
+                                        DashboardWidget.routeName,
+                                        extra: <String, dynamic>{
+                                          kTransitionInfoKey: TransitionInfo(
+                                            hasTransition: true,
+                                            transitionType:
+                                                PageTransitionType.fade,
+                                          ),
+                                        },
+                                      );
+
+                                      safeSetState(() {});
+                                    },
+                              text: 'Update',
+                              options: FFButtonOptions(
+                                width: MediaQuery.sizeOf(context).width * 0.8,
+                                height:
+                                    MediaQuery.sizeOf(context).height * 0.06,
+                                padding: EdgeInsetsDirectional.fromSTEB(
+                                    16.0, 0.0, 16.0, 0.0),
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                    0.0, 0.0, 0.0, 0.0),
+                                color: FlutterFlowTheme.of(context)
+                                    .primaryBackground,
+                                textStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .override(
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                      color: Colors.white,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
                                     ),
-                                  },
-                                ),
-                              });
-                              FFAppState().loopmin = FFAppState().loopmin + 1;
-                              safeSetState(() {});
-                            }
-                            FFAppState().profileimagechanged = false;
-                            FFAppState().imageurl =
-                                'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
-                            FFAppState().schoolimage =
-                                'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png';
-                            FFAppState().schoolimagechanged = false;
-                            FFAppState().loopmin = 0;
-                            safeSetState(() {});
-
-                            context.pushNamed(
-                              'Dashboard',
-                              extra: <String, dynamic>{
-                                kTransitionInfoKey: const TransitionInfo(
-                                  hasTransition: true,
-                                  transitionType: PageTransitionType.fade,
-                                ),
-                              },
-                            );
-
-                            safeSetState(() {});
-                          },
-                          text: 'Update',
-                          options: FFButtonOptions(
-                            width: MediaQuery.sizeOf(context).width * 0.8,
-                            height: MediaQuery.sizeOf(context).height * 0.06,
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                16.0, 0.0, 16.0, 0.0),
-                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            color:
-                                FlutterFlowTheme.of(context).primaryBackground,
-                            textStyle: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .override(
-                                  fontFamily: 'Nunito',
-                                  color: Colors.white,
-                                  letterSpacing: 0.0,
-                                ),
-                            elevation: 0.0,
-                            borderRadius: BorderRadius.circular(8.0),
+                                elevation: 0.0,
+                                borderRadius: BorderRadius.circular(8.0),
+                                disabledColor:
+                                    FlutterFlowTheme.of(context).dIsable,
+                                disabledTextColor:
+                                    FlutterFlowTheme.of(context).disabletext,
+                              ),
+                              showLoadingIndicator: false,
+                            ),
                           ),
-                          showLoadingIndicator: false,
                         ),
-                      ),
+                        InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            context.pushNamed(ChangePasswordWidget.routeName);
+                          },
+                          child: Text(
+                            'Change Password',
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FontWeight.w500,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                                  color: FlutterFlowTheme.of(context)
+                                      .primaryBackground,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.w500,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

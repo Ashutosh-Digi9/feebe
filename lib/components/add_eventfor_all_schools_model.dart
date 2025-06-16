@@ -47,9 +47,9 @@ class AddEventforAllSchoolsModel
   }
 
   DateTime? datePicked;
-  bool isDataUploading = false;
-  List<FFUploadedFile> uploadedLocalFiles = [];
-  List<String> uploadedFileUrls = [];
+  bool isDataUploading_uploadData8ae676 = false;
+  List<FFUploadedFile> uploadedLocalFiles_uploadData8ae676 = [];
+  List<String> uploadedFileUrls_uploadData8ae676 = [];
 
   @override
   void initState(BuildContext context) {

@@ -42,8 +42,8 @@ class _QuickActionSelectclassWidgetState
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -55,8 +55,8 @@ class _QuickActionSelectclassWidgetState
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -68,8 +68,8 @@ class _QuickActionSelectclassWidgetState
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -81,8 +81,8 @@ class _QuickActionSelectclassWidgetState
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -94,8 +94,8 @@ class _QuickActionSelectclassWidgetState
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -107,8 +107,8 @@ class _QuickActionSelectclassWidgetState
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -120,8 +120,8 @@ class _QuickActionSelectclassWidgetState
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -143,19 +143,19 @@ class _QuickActionSelectclassWidgetState
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
       ),
-      child: SizedBox(
+      child: Container(
         width: MediaQuery.sizeOf(context).width * 1.0,
         height: MediaQuery.sizeOf(context).height * 1.0,
         child: Stack(
           children: [
             Align(
-              alignment: const AlignmentDirectional(0.0, 0.0),
+              alignment: AlignmentDirectional(0.0, 0.0),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(20.0, 10.0, 20.0, 5.0),
+                        EdgeInsetsDirectional.fromSTEB(20.0, 10.0, 20.0, 5.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: MediaQuery.sizeOf(context).height * 0.12,
@@ -192,7 +192,7 @@ class _QuickActionSelectclassWidgetState
                   ),
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(20.0, 5.0, 20.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(20.0, 5.0, 20.0, 0.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: MediaQuery.sizeOf(context).height * 0.12,
@@ -229,7 +229,7 @@ class _QuickActionSelectclassWidgetState
                   ),
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(20.0, 5.0, 20.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(20.0, 5.0, 20.0, 0.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: MediaQuery.sizeOf(context).height * 0.12,
@@ -266,7 +266,7 @@ class _QuickActionSelectclassWidgetState
                   ),
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(20.0, 5.0, 20.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(20.0, 5.0, 20.0, 0.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: MediaQuery.sizeOf(context).height * 0.12,
@@ -303,7 +303,7 @@ class _QuickActionSelectclassWidgetState
                   ),
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(20.0, 5.0, 20.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(20.0, 5.0, 20.0, 0.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: MediaQuery.sizeOf(context).height * 0.12,
@@ -340,7 +340,7 @@ class _QuickActionSelectclassWidgetState
                   ),
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(20.0, 5.0, 20.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(20.0, 5.0, 20.0, 0.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: MediaQuery.sizeOf(context).height * 0.12,
@@ -377,7 +377,7 @@ class _QuickActionSelectclassWidgetState
                   ),
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(20.0, 5.0, 20.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(20.0, 5.0, 20.0, 0.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: MediaQuery.sizeOf(context).height * 0.12,

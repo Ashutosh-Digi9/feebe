@@ -1,5 +1,6 @@
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'class_notice_admin_teacher_widget.dart'
     show ClassNoticeAdminTeacherWidget;
 import 'package:flutter/material.dart';
@@ -10,7 +11,7 @@ class ClassNoticeAdminTeacherModel
 
   DateTime? date;
 
-  String? noticename = '';
+  String noticename = 'General';
 
   List<String> images = [];
   void addToImages(String item) => images.add(item);
@@ -21,10 +22,22 @@ class ClassNoticeAdminTeacherModel
   void updateImagesAtIndex(int index, Function(String) updateFn) =>
       images[index] = updateFn(images[index]);
 
+  bool last = false;
+
+  int? id;
+
+  List<DocumentReference> classref = [];
+  void addToClassref(DocumentReference item) => classref.add(item);
+  void removeFromClassref(DocumentReference item) => classref.remove(item);
+  void removeAtIndexFromClassref(int index) => classref.removeAt(index);
+  void insertAtIndexInClassref(int index, DocumentReference item) =>
+      classref.insert(index, item);
+  void updateClassrefAtIndex(int index, Function(DocumentReference) updateFn) =>
+      classref[index] = updateFn(classref[index]);
+
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
-  DateTime? datePicked;
   // State field(s) for Eventname widget.
   FocusNode? eventnameFocusNode;
   TextEditingController? eventnameTextController;
@@ -45,23 +58,14 @@ class ClassNoticeAdminTeacherModel
   FocusNode? descriptionFocusNode;
   TextEditingController? descriptionTextController;
   String? Function(BuildContext, String?)? descriptionTextControllerValidator;
-  String? _descriptionTextControllerValidator(
-      BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return 'Please add Description ';
-    }
+  bool isDataUploading_uploadDataTse = false;
+  List<FFUploadedFile> uploadedLocalFiles_uploadDataTse = [];
+  List<String> uploadedFileUrls_uploadDataTse = [];
 
-    return null;
-  }
-
-  bool isDataUploading1 = false;
-  List<FFUploadedFile> uploadedLocalFiles1 = [];
-  List<String> uploadedFileUrls1 = [];
-
-  bool isDataUploading2 = false;
-  FFUploadedFile uploadedLocalFile2 =
+  bool isDataUploading_uploadData8yc = false;
+  FFUploadedFile uploadedLocalFile_uploadData8yc =
       FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl2 = '';
+  String uploadedFileUrl_uploadData8yc = '';
 
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   List<StudentsRecord>? students;
@@ -71,7 +75,6 @@ class ClassNoticeAdminTeacherModel
   @override
   void initState(BuildContext context) {
     eventnameTextControllerValidator = _eventnameTextControllerValidator;
-    descriptionTextControllerValidator = _descriptionTextControllerValidator;
   }
 
   @override

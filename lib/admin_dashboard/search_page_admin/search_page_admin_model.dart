@@ -1,5 +1,6 @@
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'search_page_admin_widget.dart' show SearchPageAdminWidget;
 import 'package:flutter/material.dart';
 
@@ -20,12 +21,10 @@ class SearchPageAdminModel extends FlutterFlowModel<SearchPageAdminWidget> {
   String? Function(BuildContext, String?)?
       trySearchingforStudentTextControllerValidator;
   // Stores action output result for [Firestore Query - Query a collection] action in TrySearchingforStudent widget.
-  List<SchoolClassRecord>? classSchool;
-  List<SchoolClassRecord> simpleSearchResults = [];
-  // State field(s) for TabBar widget.
-  TabController? tabBarController;
-  int get tabBarCurrentIndex =>
-      tabBarController != null ? tabBarController!.index : 0;
+  List<StudentsRecord>? studnets;
+  List<StudentsRecord> simpleSearchResults = [];
+  // Stores action output result for [Backend Call - Read Document] action in Text widget.
+  StudentsRecord? studentsrecent;
 
   @override
   void initState(BuildContext context) {}
@@ -34,7 +33,5 @@ class SearchPageAdminModel extends FlutterFlowModel<SearchPageAdminWidget> {
   void dispose() {
     trySearchingforStudentFocusNode?.dispose();
     trySearchingforStudentTextController?.dispose();
-
-    tabBarController?.dispose();
   }
 }

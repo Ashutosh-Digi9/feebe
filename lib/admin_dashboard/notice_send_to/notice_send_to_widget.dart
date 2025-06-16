@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'notice_send_to_model.dart';
 export 'notice_send_to_model.dart';
 
@@ -76,20 +77,27 @@ class _NoticeSendToWidgetState extends State<NoticeSendToWidget> {
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                   child: Text(
                     'Send To',
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Nunito',
+                          font: GoogleFonts.nunito(
+                            fontWeight: FontWeight.w600,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
                           color: FlutterFlowTheme.of(context).tertiaryText,
                           fontSize: 20.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w600,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
                   child: InkWell(
                     splashColor: Colors.transparent,
                     focusColor: Colors.transparent,
@@ -121,18 +129,26 @@ class _NoticeSendToWidgetState extends State<NoticeSendToWidget> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 10.0),
                             child: Text(
                               'Everyone',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryBackground,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                             ),
                           ),
@@ -142,11 +158,19 @@ class _NoticeSendToWidgetState extends State<NoticeSendToWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FontWeight.w500,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
                                   color:
                                       FlutterFlowTheme.of(context).tertiaryText,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.w500,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
                                 ),
                           ),
                         ],
@@ -156,7 +180,7 @@ class _NoticeSendToWidgetState extends State<NoticeSendToWidget> {
                 ),
                 Container(
                   width: MediaQuery.sizeOf(context).width * 0.8,
-                  decoration: const BoxDecoration(),
+                  decoration: BoxDecoration(),
                   child: Builder(
                     builder: (context) {
                       final schoolList =
@@ -171,7 +195,7 @@ class _NoticeSendToWidgetState extends State<NoticeSendToWidget> {
                         itemBuilder: (context, schoolListIndex) {
                           final schoolListItem = schoolList[schoolListIndex];
                           return Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 10.0),
                             child: StreamBuilder<SchoolClassRecord>(
                               stream:
@@ -212,7 +236,7 @@ class _NoticeSendToWidgetState extends State<NoticeSendToWidget> {
                                       safeSetState(() {});
                                     }
 
-                                    if (_model.schoolref.isNotEmpty) {
+                                    if (_model.schoolref.length != 0) {
                                       _model.everyone = 2;
                                       safeSetState(() {});
                                     } else {
@@ -241,7 +265,7 @@ class _NoticeSendToWidgetState extends State<NoticeSendToWidget> {
                                       children: [
                                         Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   0.0, 0.0, 0.0, 10.0),
                                           child: Text(
                                             containerSchoolClassRecord
@@ -249,12 +273,24 @@ class _NoticeSendToWidgetState extends State<NoticeSendToWidget> {
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  fontFamily: 'Nunito',
+                                                  font: GoogleFonts.nunito(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .primaryBackground,
                                                   letterSpacing: 0.0,
                                                   fontWeight: FontWeight.bold,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
                                                 ),
                                           ),
                                         ),
@@ -265,12 +301,23 @@ class _NoticeSendToWidgetState extends State<NoticeSendToWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Nunito',
+                                                font: GoogleFonts.nunito(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .tertiaryText,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
                                               ),
                                         ),
                                       ],
@@ -297,21 +344,35 @@ class _NoticeSendToWidgetState extends State<NoticeSendToWidget> {
                       options: FFButtonOptions(
                         width: MediaQuery.sizeOf(context).width * 0.3,
                         height: MediaQuery.sizeOf(context).height * 0.04,
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         iconPadding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         color: FlutterFlowTheme.of(context).secondary,
                         textStyle: FlutterFlowTheme.of(context)
                             .titleSmall
                             .override(
-                              fontFamily: 'Nunito',
+                              font: GoogleFonts.nunito(
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontStyle,
+                              ),
                               color: FlutterFlowTheme.of(context).primaryText,
                               letterSpacing: 0.0,
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .fontStyle,
                             ),
                         elevation: 0.0,
-                        borderSide: const BorderSide(
-                          color: Color(0xFFEFF0F6),
+                        borderSide: BorderSide(
+                          color: FlutterFlowTheme.of(context).primary,
+                          width: 1.0,
                         ),
                         borderRadius: BorderRadius.circular(8.0),
                       ),
@@ -343,7 +404,7 @@ class _NoticeSendToWidgetState extends State<NoticeSendToWidget> {
                                       FlutterFlowTheme.of(context).primaryText,
                                 ),
                               ),
-                              duration: const Duration(milliseconds: 4000),
+                              duration: Duration(milliseconds: 4000),
                               backgroundColor:
                                   FlutterFlowTheme.of(context).secondary,
                             ),
@@ -373,7 +434,7 @@ class _NoticeSendToWidgetState extends State<NoticeSendToWidget> {
                                       FlutterFlowTheme.of(context).primaryText,
                                 ),
                               ),
-                              duration: const Duration(milliseconds: 4000),
+                              duration: Duration(milliseconds: 4000),
                               backgroundColor:
                                   FlutterFlowTheme.of(context).secondary,
                             ),
@@ -388,7 +449,7 @@ class _NoticeSendToWidgetState extends State<NoticeSendToWidget> {
                                       FlutterFlowTheme.of(context).primaryText,
                                 ),
                               ),
-                              duration: const Duration(milliseconds: 4000),
+                              duration: Duration(milliseconds: 4000),
                               backgroundColor:
                                   FlutterFlowTheme.of(context).secondary,
                             ),
@@ -403,19 +464,32 @@ class _NoticeSendToWidgetState extends State<NoticeSendToWidget> {
                       options: FFButtonOptions(
                         width: MediaQuery.sizeOf(context).width * 0.3,
                         height: MediaQuery.sizeOf(context).height * 0.04,
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         iconPadding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         color: FlutterFlowTheme.of(context).primaryBackground,
                         textStyle:
                             FlutterFlowTheme.of(context).titleSmall.override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
                                   color: FlutterFlowTheme.of(context).secondary,
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
                                 ),
                         elevation: 0.0,
-                        borderSide: const BorderSide(
+                        borderSide: BorderSide(
                           color: Color(0xFFEFF0F6),
                         ),
                         borderRadius: BorderRadius.circular(8.0),

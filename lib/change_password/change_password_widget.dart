@@ -4,12 +4,17 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
+import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'change_password_model.dart';
 export 'change_password_model.dart';
 
 class ChangePasswordWidget extends StatefulWidget {
   const ChangePasswordWidget({super.key});
+
+  static String routeName = 'ChangePassword';
+  static String routePath = '/changePassword';
 
   @override
   State<ChangePasswordWidget> createState() => _ChangePasswordWidgetState();
@@ -52,38 +57,34 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).bgColorNewOne,
-        appBar: AppBar(
-          backgroundColor: FlutterFlowTheme.of(context).info,
-          automaticallyImplyLeading: false,
-          leading: FlutterFlowIconButton(
-            borderColor: Colors.transparent,
-            borderRadius: 30.0,
-            borderWidth: 1.0,
-            buttonSize: 60.0,
-            icon: Icon(
-              Icons.chevron_left,
-              color: FlutterFlowTheme.of(context).bgColor1,
-              size: 30.0,
-            ),
-            onPressed: () async {
-              context.pop();
-            },
-          ),
-          title: Align(
-            alignment: const AlignmentDirectional(-0.32, 0.0),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(8.0),
-              child: Image.asset(
-                'assets/images/eebe_(500_x_200_px).png',
-                width: 100.0,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          actions: const [],
-          centerTitle: false,
-          elevation: 0.0,
-        ),
+        appBar: responsiveVisibility(
+          context: context,
+          tablet: false,
+          tabletLandscape: false,
+          desktop: false,
+        )
+            ? AppBar(
+                backgroundColor: FlutterFlowTheme.of(context).info,
+                automaticallyImplyLeading: false,
+                leading: FlutterFlowIconButton(
+                  borderColor: Colors.transparent,
+                  borderRadius: 30.0,
+                  borderWidth: 1.0,
+                  buttonSize: 60.0,
+                  icon: Icon(
+                    Icons.chevron_left,
+                    color: FlutterFlowTheme.of(context).bgColor1,
+                    size: 30.0,
+                  ),
+                  onPressed: () async {
+                    context.pop();
+                  },
+                ),
+                actions: [],
+                centerTitle: false,
+                elevation: 0.0,
+              )
+            : null,
         body: SafeArea(
           top: true,
           child: Column(
@@ -91,7 +92,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                decoration: const BoxDecoration(),
+                decoration: BoxDecoration(),
                 child: Form(
                   key: _model.formKey,
                   autovalidateMode: AutovalidateMode.disabled,
@@ -100,25 +101,33 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Align(
-                          alignment: const AlignmentDirectional(-1.0, 0.0),
+                          alignment: AlignmentDirectional(-1.0, 0.0),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 10.0, 10.0, 0.0, 0.0),
                             child: Text(
                               'Change Password',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context).text1,
                                     fontSize: 20.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w500,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                             ),
                           ),
                         ),
-                        SizedBox(
+                        Container(
                           width: MediaQuery.sizeOf(context).width * 0.9,
                           child: TextFormField(
                             controller: _model.oldPasswordTextController,
@@ -131,20 +140,41 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                               labelStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryBackground,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               hintText: 'Enter Old Password',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w200,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .textfieldText,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w200,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -202,9 +232,22 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
                                   color: FlutterFlowTheme.of(context).text1,
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
                                 ),
                             keyboardType: TextInputType.visiblePassword,
                             cursorColor:
@@ -213,7 +256,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                 .asValidator(context),
                           ),
                         ),
-                        SizedBox(
+                        Container(
                           width: MediaQuery.sizeOf(context).width * 0.9,
                           child: TextFormField(
                             controller: _model.newPasswordTextController,
@@ -226,20 +269,41 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                               labelStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryBackground,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               hintText: 'Enter New Password',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w200,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color:
                                         FlutterFlowTheme.of(context).alternate,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w200,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -297,9 +361,22 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
                                   color: FlutterFlowTheme.of(context).text1,
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
                                 ),
                             maxLength: 10,
                             buildCounter: (context,
@@ -314,7 +391,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                 .asValidator(context),
                           ),
                         ),
-                        SizedBox(
+                        Container(
                           width: MediaQuery.sizeOf(context).width * 0.9,
                           child: TextFormField(
                             controller: _model.confimPasswordTextController,
@@ -327,20 +404,41 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                               labelStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryBackground,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               hintText: 'Confirm New Password',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w200,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color:
                                         FlutterFlowTheme.of(context).alternate,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w200,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -398,9 +496,22 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
                                   color: FlutterFlowTheme.of(context).text1,
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
                                 ),
                             keyboardType: TextInputType.visiblePassword,
                             cursorColor:
@@ -410,7 +521,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                 .asValidator(context),
                           ),
                         ),
-                      ].divide(const SizedBox(height: 15.0)),
+                      ].divide(SizedBox(height: 15.0)),
                     ),
                   ),
                 ),
@@ -418,7 +529,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
               Container(
                 width: MediaQuery.sizeOf(context).width * 1.0,
                 height: MediaQuery.sizeOf(context).height * 0.1,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   boxShadow: [
                     BoxShadow(
                       blurRadius: 18.9,
@@ -432,10 +543,10 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                   ],
                 ),
                 child: Align(
-                  alignment: const AlignmentDirectional(0.0, 0.0),
+                  alignment: AlignmentDirectional(0.0, 0.0),
                   child: Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
                     child: FFButtonWidget(
                       onPressed: () async {
                         if (_model.formKey.currentState == null ||
@@ -459,16 +570,16 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                         .primaryText,
                                   ),
                                 ),
-                                duration: const Duration(milliseconds: 4000),
+                                duration: Duration(milliseconds: 4000),
                                 backgroundColor:
                                     FlutterFlowTheme.of(context).secondary,
                               ),
                             );
 
                             context.goNamed(
-                              'PasswordChanged',
+                              PasswordChangedWidget.routeName,
                               extra: <String, dynamic>{
-                                kTransitionInfoKey: const TransitionInfo(
+                                kTransitionInfoKey: TransitionInfo(
                                   hasTransition: true,
                                   transitionType: PageTransitionType.fade,
                                 ),
@@ -484,7 +595,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                         .primaryText,
                                   ),
                                 ),
-                                duration: const Duration(milliseconds: 4000),
+                                duration: Duration(milliseconds: 4000),
                                 backgroundColor:
                                     FlutterFlowTheme.of(context).secondary,
                               ),
@@ -500,7 +611,7 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                                       FlutterFlowTheme.of(context).primaryText,
                                 ),
                               ),
-                              duration: const Duration(milliseconds: 4000),
+                              duration: Duration(milliseconds: 4000),
                               backgroundColor:
                                   FlutterFlowTheme.of(context).secondary,
                             ),
@@ -513,18 +624,26 @@ class _ChangePasswordWidgetState extends State<ChangePasswordWidget> {
                       options: FFButtonOptions(
                         width: MediaQuery.sizeOf(context).width * 0.8,
                         height: MediaQuery.sizeOf(context).height * 0.06,
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         iconPadding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         color: FlutterFlowTheme.of(context).primaryBackground,
                         textStyle:
                             FlutterFlowTheme.of(context).titleSmall.override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
                                   color: Colors.white,
                                   fontSize: 16.0,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.w600,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
                                 ),
                         elevation: 3.0,
                         borderRadius: BorderRadius.circular(10.0),

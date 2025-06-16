@@ -1,6 +1,7 @@
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/push_notifications/push_notifications_util.dart';
+import '/components/notice_created_widget.dart';
 import '/confirmationpages/noticecreated/noticecreated_widget.dart';
 import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -8,9 +9,11 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/shimmer_effects/quick_action_selectclass/quick_action_selectclass_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'select_class_notice_model.dart';
 export 'select_class_notice_model.dart';
@@ -70,8 +73,8 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(0.0, 30.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(0.0, 30.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -89,8 +92,8 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(0.0, 30.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(0.0, 30.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -119,10 +122,10 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                 builder: (context, snapshot) {
                   // Customize what your widget looks like when it's loading.
                   if (!snapshot.hasData) {
-                    return SizedBox(
+                    return Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: MediaQuery.sizeOf(context).height * 1.0,
-                      child: const QuickActionSelectclassWidget(),
+                      child: QuickActionSelectclassWidget(),
                     );
                   }
 
@@ -133,6 +136,18 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                     height: MediaQuery.sizeOf(context).height * 1.0,
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).tertiary,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 16.0,
+                          color: Color(0x07000000),
+                          offset: Offset(
+                            0.0,
+                            0.0,
+                          ),
+                          spreadRadius: 0.0,
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(24.0),
                     ),
                     child: SingleChildScrollView(
                       child: Column(
@@ -141,9 +156,11 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                         children: [
                           Container(
                             height: MediaQuery.sizeOf(context).height * 0.6,
-                            decoration: const BoxDecoration(),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(0.0),
+                            ),
                             child: Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   20.0, 0.0, 20.0, 0.0),
                               child: SingleChildScrollView(
                                 primary: false,
@@ -151,27 +168,37 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsets.all(5.0),
+                                      padding: EdgeInsets.all(5.0),
                                       child: Text(
                                         'Select class',
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.w600,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .tertiaryText,
                                               fontSize: 20.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
                                             ),
                                       ),
                                     ),
                                     if ((_model.everyone == 0) ||
                                         (_model.everyone == 1))
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            10.0, 0.0, 10.0, 14.0),
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            10.0, 0.0, 10.0, 12.0),
                                         child: InkWell(
                                           splashColor: Colors.transparent,
                                           focusColor: Colors.transparent,
@@ -192,10 +219,10 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                           },
                                           child: Material(
                                             color: Colors.transparent,
-                                            elevation: 5.0,
+                                            elevation: 2.0,
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
-                                                  BorderRadius.circular(14.0),
+                                                  BorderRadius.circular(12.0),
                                             ),
                                             child: Container(
                                               width: MediaQuery.sizeOf(context)
@@ -212,10 +239,21 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                     : FlutterFlowTheme.of(
                                                             context)
                                                         .secondaryBackground,
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    blurRadius: 20.0,
+                                                    color: Color(0x05000000),
+                                                    offset: Offset(
+                                                      0.0,
+                                                      0.0,
+                                                    ),
+                                                    spreadRadius: 0.0,
+                                                  )
+                                                ],
                                                 borderRadius:
-                                                    BorderRadius.circular(14.0),
+                                                    BorderRadius.circular(12.0),
                                                 border: Border.all(
-                                                  color: const Color(0xFFDDF1F6),
+                                                  color: Color(0xFFDDF1F6),
                                                 ),
                                               ),
                                               child: Column(
@@ -226,7 +264,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                 children: [
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 5.0),
                                                     child: Text(
@@ -235,14 +273,28 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                               .of(context)
                                                           .bodyMedium
                                                           .override(
-                                                            fontFamily:
-                                                                'Nunito',
+                                                            font: GoogleFonts
+                                                                .nunito(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primary,
                                                             letterSpacing: 0.0,
                                                             fontWeight:
                                                                 FontWeight.bold,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
                                                           ),
                                                     ),
                                                   ),
@@ -296,16 +348,30 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                                     context)
                                                                 .bodyMedium
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .tertiaryText,
+                                                                  fontSize:
+                                                                      12.0,
                                                                   letterSpacing:
                                                                       0.0,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
                                                                 ),
                                                       );
                                                     },
@@ -319,7 +385,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                     if ((_model.everyone == 0) ||
                                         (_model.everyone == 2))
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             20.0, 0.0, 20.0, 0.0),
                                         child: Builder(
                                           builder: (context) {
@@ -340,9 +406,9 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                     schoolClassref[
                                                         schoolClassrefIndex];
                                                 return Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
-                                                          0.0, 0.0, 0.0, 14.0),
+                                                          0.0, 0.0, 0.0, 12.0),
                                                   child: StreamBuilder<
                                                       SchoolClassRecord>(
                                                     stream: SchoolClassRecord
@@ -352,7 +418,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                         (context, snapshot) {
                                                       // Customize what your widget looks like when it's loading.
                                                       if (!snapshot.hasData) {
-                                                        return SizedBox(
+                                                        return Container(
                                                           width:
                                                               MediaQuery.sizeOf(
                                                                           context)
@@ -364,7 +430,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                                       .height *
                                                                   0.4,
                                                           child:
-                                                              const QuickActionSelectclassWidget(),
+                                                              QuickActionSelectclassWidget(),
                                                         );
                                                       }
 
@@ -414,7 +480,9 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                             safeSetState(() {});
                                                           }
 
-                                                          if (_model.classref.isNotEmpty) {
+                                                          if (_model.classref
+                                                                  .length !=
+                                                              0) {
                                                             _model.everyone = 2;
                                                             safeSetState(() {});
                                                           } else {
@@ -425,15 +493,20 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                         child: Material(
                                                           color: Colors
                                                               .transparent,
-                                                          elevation: 5.0,
+                                                          elevation: 2.0,
                                                           shape:
                                                               RoundedRectangleBorder(
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
-                                                                        14.0),
+                                                                        12.0),
                                                           ),
                                                           child: Container(
+                                                            width: MediaQuery
+                                                                        .sizeOf(
+                                                                            context)
+                                                                    .width *
+                                                                0.8,
                                                             height: MediaQuery
                                                                         .sizeOf(
                                                                             context)
@@ -450,19 +523,34 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                                   : FlutterFlowTheme.of(
                                                                           context)
                                                                       .secondaryBackground,
+                                                              boxShadow: [
+                                                                BoxShadow(
+                                                                  blurRadius:
+                                                                      20.0,
+                                                                  color: Color(
+                                                                      0x06000000),
+                                                                  offset:
+                                                                      Offset(
+                                                                    0.0,
+                                                                    0.0,
+                                                                  ),
+                                                                  spreadRadius:
+                                                                      0.0,
+                                                                )
+                                                              ],
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
-                                                                          14.0),
+                                                                          12.0),
                                                               border:
                                                                   Border.all(
-                                                                color: const Color(
+                                                                color: Color(
                                                                     0xFFDDF1F6),
                                                               ),
                                                             ),
                                                             child: Padding(
                                                               padding:
-                                                                  const EdgeInsetsDirectional
+                                                                  EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           10.0,
                                                                           0.0,
@@ -477,7 +565,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                                         .spaceEvenly,
                                                                 children: [
                                                                   Padding(
-                                                                    padding: const EdgeInsetsDirectional
+                                                                    padding: EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             0.0,
@@ -490,14 +578,19 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                                               context)
                                                                           .bodyMedium
                                                                           .override(
-                                                                            fontFamily:
-                                                                                'Nunito',
+                                                                            font:
+                                                                                GoogleFonts.nunito(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                            ),
                                                                             color:
                                                                                 FlutterFlowTheme.of(context).primary,
                                                                             letterSpacing:
                                                                                 0.0,
                                                                             fontWeight:
                                                                                 FontWeight.bold,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                           ),
                                                                     ),
                                                                   ),
@@ -507,14 +600,24 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                                             context)
                                                                         .bodyMedium
                                                                         .override(
-                                                                          fontFamily:
-                                                                              'Nunito',
+                                                                          font:
+                                                                              GoogleFonts.nunito(
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
                                                                           color:
                                                                               FlutterFlowTheme.of(context).tertiaryText,
+                                                                          fontSize:
+                                                                              12.0,
                                                                           letterSpacing:
                                                                               0.0,
                                                                           fontWeight:
                                                                               FontWeight.w500,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontStyle,
                                                                         ),
                                                                   ),
                                                                 ],
@@ -531,19 +634,21 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                           },
                                         ),
                                       ),
-                                  ].addToEnd(const SizedBox(height: 20.0)),
+                                  ].addToEnd(SizedBox(height: 20.0)),
                                 ),
                               ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(20.0),
+                            padding: EdgeInsets.all(20.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 FFButtonWidget(
                                   onPressed: () async {
+                                    FFAppState().eventfiles = [];
+                                    safeSetState(() {});
                                     Navigator.pop(context);
                                   },
                                   text: 'Cancel',
@@ -551,32 +656,56 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                     width:
                                         MediaQuery.sizeOf(context).width * 0.3,
                                     height: MediaQuery.sizeOf(context).height *
-                                        0.05,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.055,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 16.0, 0.0),
-                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
                                     color:
                                         FlutterFlowTheme.of(context).secondary,
                                     textStyle: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .override(
-                                          fontFamily: 'Nunito',
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          letterSpacing: 0.0,
-                                        ),
-                                    elevation: 0.0,
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFFEFF0F6),
-                                      width: 2.0,
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      fontSize: 12.0,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                      shadows: [
+                                        Shadow(
+                                          color: Color(0x0CF4F5FA),
+                                          offset: Offset(0.0, -3.0),
+                                          blurRadius: 6.0,
+                                        )
+                                      ],
                                     ),
-                                    borderRadius: BorderRadius.circular(8.0),
+                                    elevation: 0.0,
+                                    borderSide: BorderSide(
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(4.0),
                                   ),
                                 ),
                                 Builder(
                                   builder: (context) => FFButtonWidget(
                                     onPressed: () async {
+                                      _model.id = functions.generateUniqueId();
+                                      safeSetState(() {});
                                       if (valueOrDefault(
                                               currentUserDocument?.userRole,
                                               0) ==
@@ -595,8 +724,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                     getEventsNoticeFirestoreData(
                                                       updateEventsNoticeStruct(
                                                         EventsNoticeStruct(
-                                                          eventId: functions
-                                                              .generateUniqueId(),
+                                                          eventId: _model.id,
                                                           eventName:
                                                               widget.eventname,
                                                           eventTitle: widget
@@ -606,7 +734,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                                   .description,
                                                           eventDate:
                                                               widget.datetime,
-                                                          eventImages:
+                                                          eventfiles:
                                                               widget.images,
                                                         ),
                                                         clearUnsetFields: false,
@@ -630,11 +758,41 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                           }
                                           FFAppState().loopmin = 0;
                                           safeSetState(() {});
+
+                                          await widget.schoolref!.update({
+                                            ...mapToFirestore(
+                                              {
+                                                'List_of_notice':
+                                                    FieldValue.arrayUnion([
+                                                  getEventsNoticeFirestoreData(
+                                                    createEventsNoticeStruct(
+                                                      eventId: _model.id,
+                                                      eventName:
+                                                          widget.eventname,
+                                                      eventTitle:
+                                                          widget.eventtitle,
+                                                      eventDescription:
+                                                          widget.description,
+                                                      eventDate:
+                                                          widget.datetime,
+                                                      fieldValues: {
+                                                        'eventfiles':
+                                                            widget.images,
+                                                        'classref':
+                                                            _model.classref,
+                                                      },
+                                                      clearUnsetFields: false,
+                                                    ),
+                                                    true,
+                                                  )
+                                                ]),
+                                              },
+                                            ),
+                                          });
                                           _model.listofclasses =
                                               await querySchoolClassRecordOnce();
                                           triggerPushNotification(
-                                            notificationTitle:
-                                                widget.eventtitle!,
+                                            notificationTitle: 'Notice',
                                             notificationText:
                                                 widget.eventtitle!,
                                             userRefs: functions
@@ -657,7 +815,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                               .doc()
                                               .set({
                                             ...createNotificationsRecordData(
-                                              content: 'Notice',
+                                              content: widget.eventtitle,
                                               descri: widget.description,
                                               datetimeofevent: widget.datetime,
                                               isread: false,
@@ -672,7 +830,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                       getCurrentTimestamp,
                                                   isRead: false,
                                                   eventDate: widget.datetime,
-                                                  notificationImages:
+                                                  notificationFiles:
                                                       widget.images,
                                                 ),
                                                 clearUnsetFields: false,
@@ -685,15 +843,11 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                             ),
                                             ...mapToFirestore(
                                               {
-                                                'userref': functions
-                                                    .filterClassesByReferences(
-                                                        _model.listofclasses!
-                                                            .where((e) => _model
-                                                                .classref
-                                                                .contains(e
-                                                                    .reference))
-                                                            .toList()),
                                                 'towhome': _model.toWHome,
+                                                'schoolref': [
+                                                  containerSchoolRecord
+                                                      .reference
+                                                ],
                                               },
                                             ),
                                           });
@@ -709,8 +863,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                             FFAppState()
                                                                 .loopmin)!);
                                             triggerPushNotification(
-                                              notificationTitle:
-                                                  widget.eventtitle!,
+                                              notificationTitle: 'Notice',
                                               notificationText:
                                                   widget.eventtitle!,
                                               userRefs: functions
@@ -726,53 +879,6 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                               initialPageName: 'Dashboard',
                                               parameterData: {},
                                             );
-
-                                            await NotificationsRecord.collection
-                                                .doc()
-                                                .set({
-                                              ...createNotificationsRecordData(
-                                                content: 'Notice',
-                                                descri: widget.description,
-                                                datetimeofevent:
-                                                    widget.datetime,
-                                                notification:
-                                                    updateNotificationStruct(
-                                                  NotificationStruct(
-                                                    notificationTitle:
-                                                        widget.eventtitle,
-                                                    descriptions:
-                                                        widget.description,
-                                                    timeStamp:
-                                                        getCurrentTimestamp,
-                                                    isRead: false,
-                                                    eventDate: widget.datetime,
-                                                    notificationImages:
-                                                        widget.images,
-                                                  ),
-                                                  clearUnsetFields: false,
-                                                  create: true,
-                                                ),
-                                                isread: false,
-                                                createDate: getCurrentTimestamp,
-                                                tag: widget.eventname,
-                                                addedby: currentUserReference,
-                                                heading: 'Added a notice',
-                                              ),
-                                              ...mapToFirestore(
-                                                {
-                                                  'userref': functions
-                                                      .extractParentUserRefs(_model
-                                                          .students!
-                                                          .where((e) => _model
-                                                              .classStudnt!
-                                                              .studentsList
-                                                              .contains(
-                                                                  e.reference))
-                                                          .toList()),
-                                                  'towhome': _model.toWHome,
-                                                },
-                                              ),
-                                            });
                                             FFAppState().loopmin =
                                                 FFAppState().loopmin + 1;
                                             safeSetState(() {});
@@ -791,13 +897,22 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                 ),
                                               ),
                                               duration:
-                                                  const Duration(milliseconds: 1700),
+                                                  Duration(milliseconds: 1700),
                                               backgroundColor:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryText,
                                             ),
                                           );
-                                          FFAppState().eventnoticeimage = [];
+                                          FFAppState().eventfiles = [];
+                                          FFAppState().update(() {});
+                                          _model.everyone = 0;
+                                          _model.toWHome = [];
+                                          _model.classref = [];
+                                          _model.color = Color(4294967295);
+                                          _model.classname = [];
+                                          _model.updatePage(() {});
+                                          FFAppState().eventname = 'General';
+                                          FFAppState().eventfiles = [];
                                           FFAppState().update(() {});
                                           await showDialog(
                                             context: context,
@@ -807,11 +922,11 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                 insetPadding: EdgeInsets.zero,
                                                 backgroundColor:
                                                     Colors.transparent,
-                                                alignment: const AlignmentDirectional(
+                                                alignment: AlignmentDirectional(
                                                         0.0, -0.8)
                                                     .resolve(Directionality.of(
                                                         context)),
-                                                child: SizedBox(
+                                                child: Container(
                                                   height:
                                                       MediaQuery.sizeOf(context)
                                                               .height *
@@ -819,18 +934,24 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                   width:
                                                       MediaQuery.sizeOf(context)
                                                               .width *
-                                                          0.6,
-                                                  child: const NoticecreatedWidget(),
+                                                          0.72,
+                                                  child: NoticeCreatedWidget(
+                                                    schoolref:
+                                                        containerSchoolRecord
+                                                            .reference,
+                                                  ),
                                                 ),
                                               );
                                             },
                                           );
 
+                                          Navigator.pop(context);
+
                                           context.goNamed(
-                                            'class_dashboard',
+                                            ClassDashboardWidget.routeName,
                                             queryParameters: {
                                               'schoolref': serializeParam(
-                                                widget.schoolref,
+                                                containerSchoolRecord.reference,
                                                 ParamType.DocumentReference,
                                               ),
                                               'tabindex': serializeParam(
@@ -848,8 +969,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                   getEventsNoticeFirestoreData(
                                                     updateEventsNoticeStruct(
                                                       EventsNoticeStruct(
-                                                        eventId: functions
-                                                            .generateUniqueId(),
+                                                        eventId: _model.id,
                                                         eventName:
                                                             widget.eventname,
                                                         eventTitle:
@@ -858,8 +978,11 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                             widget.description,
                                                         eventDate:
                                                             widget.datetime,
-                                                        eventImages:
+                                                        eventfiles:
                                                             widget.images,
+                                                        classref:
+                                                            containerSchoolRecord
+                                                                .listOfClass,
                                                       ),
                                                       clearUnsetFields: false,
                                                     ),
@@ -869,9 +992,53 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                               },
                                             ),
                                           });
+                                          while (FFAppState().loopmin <
+                                              containerSchoolRecord
+                                                  .listOfClass.length) {
+                                            await containerSchoolRecord
+                                                .listOfClass
+                                                .elementAtOrNull(
+                                                    FFAppState().loopmin)!
+                                                .update({
+                                              ...mapToFirestore(
+                                                {
+                                                  'notice':
+                                                      FieldValue.arrayUnion([
+                                                    getEventsNoticeFirestoreData(
+                                                      updateEventsNoticeStruct(
+                                                        EventsNoticeStruct(
+                                                          eventId: _model.id,
+                                                          eventName:
+                                                              widget.eventname,
+                                                          eventTitle: widget
+                                                              .eventtitle,
+                                                          eventDescription:
+                                                              widget
+                                                                  .description,
+                                                          eventDate:
+                                                              widget.datetime,
+                                                          eventfiles:
+                                                              widget.images,
+                                                          classref:
+                                                              containerSchoolRecord
+                                                                  .listOfClass,
+                                                        ),
+                                                        clearUnsetFields: false,
+                                                      ),
+                                                      true,
+                                                    )
+                                                  ]),
+                                                },
+                                              ),
+                                            });
+                                            FFAppState().loopmin =
+                                                FFAppState().loopmin + 1;
+                                            safeSetState(() {});
+                                          }
+                                          FFAppState().loopmin = 0;
+                                          safeSetState(() {});
                                           triggerPushNotification(
-                                            notificationTitle:
-                                                widget.eventtitle!,
+                                            notificationTitle: 'Notice',
                                             notificationText:
                                                 widget.eventtitle!,
                                             userRefs: containerSchoolRecord
@@ -888,7 +1055,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                               .doc()
                                               .set({
                                             ...createNotificationsRecordData(
-                                              content: 'Notice',
+                                              content: widget.eventtitle,
                                               notification:
                                                   updateNotificationStruct(
                                                 NotificationStruct(
@@ -900,33 +1067,34 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                       getCurrentTimestamp,
                                                   isRead: false,
                                                   eventDate: widget.datetime,
-                                                  notificationImages:
+                                                  notificationFiles:
                                                       widget.images,
                                                 ),
                                                 clearUnsetFields: false,
                                                 create: true,
                                               ),
-                                              descri: widget.description,
+                                              descri: '${widget.description}',
                                               datetimeofevent: widget.datetime,
                                               isread: false,
                                               createDate: getCurrentTimestamp,
                                               tag: widget.eventname,
                                               addedby: currentUserReference,
-                                              heading: 'Added a notice',
+                                              heading: 'Posted a notice',
                                             ),
                                             ...mapToFirestore(
                                               {
-                                                'userref': containerSchoolRecord
-                                                    .listOfteachersuser,
                                                 'towhome': _model.toWHome,
+                                                'schoolref': [
+                                                  containerSchoolRecord
+                                                      .reference
+                                                ],
                                               },
                                             ),
                                           });
                                           _model.studentEveryone =
                                               await queryStudentsRecordOnce();
                                           triggerPushNotification(
-                                            notificationTitle:
-                                                widget.eventtitle!,
+                                            notificationTitle: 'Notice',
                                             notificationText:
                                                 widget.eventtitle!,
                                             userRefs: functions
@@ -942,72 +1110,15 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                             initialPageName: 'Dashboard',
                                             parameterData: {},
                                           );
-
-                                          await NotificationsRecord.collection
-                                              .doc()
-                                              .set({
-                                            ...createNotificationsRecordData(
-                                              content: 'Notice',
-                                              notification:
-                                                  updateNotificationStruct(
-                                                NotificationStruct(
-                                                  notificationTitle:
-                                                      widget.eventtitle,
-                                                  descriptions:
-                                                      widget.description,
-                                                  timeStamp:
-                                                      getCurrentTimestamp,
-                                                  isRead: false,
-                                                  eventDate: widget.datetime,
-                                                  notificationImages:
-                                                      widget.images,
-                                                ),
-                                                clearUnsetFields: false,
-                                                create: true,
-                                              ),
-                                              descri: widget.description,
-                                              datetimeofevent: widget.datetime,
-                                              isread: false,
-                                              createDate: getCurrentTimestamp,
-                                              tag: widget.eventname,
-                                              addedby: currentUserReference,
-                                              heading: 'Added a notice',
-                                            ),
-                                            ...mapToFirestore(
-                                              {
-                                                'userref': functions
-                                                    .extractParentUserRefs(_model
-                                                        .studentEveryone!
-                                                        .where((e) =>
-                                                            containerSchoolRecord
-                                                                .listOfStudents
-                                                                .contains(e
-                                                                    .reference))
-                                                        .toList()),
-                                                'towhome': _model.toWHome,
-                                              },
-                                            ),
-                                          });
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'The notice has been added successfully.',
-                                                style: TextStyle(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondary,
-                                                ),
-                                              ),
-                                              duration:
-                                                  const Duration(milliseconds: 1700),
-                                              backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                            ),
-                                          );
-                                          FFAppState().eventnoticeimage = [];
+                                          FFAppState().eventname = 'General';
+                                          FFAppState().eventfiles = [];
                                           FFAppState().update(() {});
+                                          _model.everyone = 0;
+                                          _model.toWHome = [];
+                                          _model.classref = [];
+                                          _model.color = Color(4294967295);
+                                          _model.classname = [];
+                                          _model.updatePage(() {});
                                           await showDialog(
                                             context: context,
                                             builder: (dialogContext) {
@@ -1016,11 +1127,11 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                 insetPadding: EdgeInsets.zero,
                                                 backgroundColor:
                                                     Colors.transparent,
-                                                alignment: const AlignmentDirectional(
+                                                alignment: AlignmentDirectional(
                                                         0.0, -0.8)
                                                     .resolve(Directionality.of(
                                                         context)),
-                                                child: SizedBox(
+                                                child: Container(
                                                   height:
                                                       MediaQuery.sizeOf(context)
                                                               .height *
@@ -1028,18 +1139,24 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                   width:
                                                       MediaQuery.sizeOf(context)
                                                               .width *
-                                                          0.6,
-                                                  child: const NoticecreatedWidget(),
+                                                          0.72,
+                                                  child: NoticeCreatedWidget(
+                                                    schoolref:
+                                                        containerSchoolRecord
+                                                            .reference,
+                                                  ),
                                                 ),
                                               );
                                             },
                                           );
 
+                                          Navigator.pop(context);
+
                                           context.goNamed(
-                                            'class_dashboard',
+                                            ClassDashboardWidget.routeName,
                                             queryParameters: {
                                               'schoolref': serializeParam(
-                                                widget.schoolref,
+                                                containerSchoolRecord.reference,
                                                 ParamType.DocumentReference,
                                               ),
                                               'tabindex': serializeParam(
@@ -1053,15 +1170,15 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                             context: context,
                                             builder: (alertDialogContext) {
                                               return AlertDialog(
-                                                title: const Text('Select Class.'),
-                                                content: const Text(
-                                                    'Please select at least one class to send the notice.'),
+                                                title: Text('Alert!'),
+                                                content: Text(
+                                                    'Please select class.'),
                                                 actions: [
                                                   TextButton(
                                                     onPressed: () =>
                                                         Navigator.pop(
                                                             alertDialogContext),
-                                                    child: const Text('Ok'),
+                                                    child: Text('Ok'),
                                                   ),
                                                 ],
                                               );
@@ -1085,18 +1202,17 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                   getEventsNoticeFirestoreData(
                                                     updateEventsNoticeStruct(
                                                       EventsNoticeStruct(
-                                                        eventId: functions
-                                                            .generateUniqueId(),
+                                                        eventId: _model.id,
                                                         eventTitle:
                                                             widget.eventtitle,
                                                         eventDescription:
                                                             widget.description,
                                                         eventDate:
                                                             widget.datetime,
-                                                        eventImages:
-                                                            widget.images,
                                                         eventName:
                                                             widget.eventname,
+                                                        eventfiles: FFAppState()
+                                                            .eventfiles,
                                                       ),
                                                       clearUnsetFields: false,
                                                     ),
@@ -1145,7 +1261,8 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                           ...createNotificationsRecordData(
                                             content:
                                                 '${widget.eventtitle} on ${dateTimeFormat("yMMMd", widget.datetime)}',
-                                            descri: widget.description,
+                                            descri:
+                                                '\"${widget.eventname}\"  Notice- \"${widget.eventtitle}\" ${widget.description}',
                                             datetimeofevent: widget.datetime,
                                             isread: false,
                                             notification:
@@ -1158,7 +1275,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                 timeStamp: getCurrentTimestamp,
                                                 isRead: false,
                                                 eventDate: widget.datetime,
-                                                notificationImages:
+                                                notificationFiles:
                                                     widget.images,
                                               ),
                                               clearUnsetFields: false,
@@ -1208,52 +1325,6 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                             initialPageName: 'Dashboard',
                                             parameterData: {},
                                           );
-
-                                          await NotificationsRecord.collection
-                                              .doc()
-                                              .set({
-                                            ...createNotificationsRecordData(
-                                              content: 'Notice',
-                                              descri: widget.description,
-                                              datetimeofevent: widget.datetime,
-                                              notification:
-                                                  updateNotificationStruct(
-                                                NotificationStruct(
-                                                  notificationTitle:
-                                                      widget.eventtitle,
-                                                  descriptions:
-                                                      widget.description,
-                                                  timeStamp:
-                                                      getCurrentTimestamp,
-                                                  isRead: false,
-                                                  eventDate: widget.datetime,
-                                                  notificationImages:
-                                                      widget.images,
-                                                ),
-                                                clearUnsetFields: false,
-                                                create: true,
-                                              ),
-                                              isread: false,
-                                              createDate: getCurrentTimestamp,
-                                              tag: widget.eventname,
-                                              addedby: currentUserReference,
-                                              heading: 'Added a notice',
-                                            ),
-                                            ...mapToFirestore(
-                                              {
-                                                'userref': functions
-                                                    .extractParentUserRefs(
-                                                        _model.students1234!
-                                                            .where((e) => _model
-                                                                .classStudnt123!
-                                                                .studentsList
-                                                                .contains(e
-                                                                    .reference))
-                                                            .toList()),
-                                                'towhome': _model.toWHome,
-                                              },
-                                            ),
-                                          });
                                           FFAppState().loopmin =
                                               FFAppState().loopmin + 1;
                                           safeSetState(() {});
@@ -1270,7 +1341,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                               ),
                                             ),
                                             duration:
-                                                const Duration(milliseconds: 4000),
+                                                Duration(milliseconds: 4000),
                                             backgroundColor:
                                                 FlutterFlowTheme.of(context)
                                                     .primaryText,
@@ -1287,27 +1358,55 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                           0.3,
                                       height:
                                           MediaQuery.sizeOf(context).height *
-                                              0.05,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                              0.055,
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           16.0, 0.0, 16.0, 0.0),
                                       iconPadding:
-                                          const EdgeInsetsDirectional.fromSTEB(
+                                          EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
                                       color: FlutterFlowTheme.of(context)
                                           .primaryBackground,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .override(
-                                            fontFamily: 'Nunito',
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondary,
-                                            letterSpacing: 0.0,
+                                        font: GoogleFonts.nunito(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondary,
+                                        fontSize: 12.0,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                        shadows: [
+                                          Shadow(
+                                            color: Color(0xFF375DF8),
+                                            offset: Offset(0.0, 0.0),
+                                            blurRadius: 0.0,
                                           ),
+                                          Shadow(
+                                            color: Color(0x0B253EA7),
+                                            offset: Offset(2.0, 1.0),
+                                            blurRadius: 2.0,
+                                          )
+                                        ],
+                                      ),
                                       elevation: 0.0,
-                                      borderSide: const BorderSide(
+                                      borderSide: BorderSide(
                                         color: Color(0xFFEFF0F6),
                                       ),
-                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderRadius: BorderRadius.circular(4.0),
                                     ),
                                   ),
                                 ),
@@ -1333,10 +1432,10 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                 builder: (context, snapshot) {
                   // Customize what your widget looks like when it's loading.
                   if (!snapshot.hasData) {
-                    return SizedBox(
+                    return Container(
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: MediaQuery.sizeOf(context).height * 1.0,
-                      child: const QuickActionSelectclassWidget(),
+                      child: QuickActionSelectclassWidget(),
                     );
                   }
                   List<TeachersRecord> containerTeachersRecordList =
@@ -1355,6 +1454,18 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                     height: MediaQuery.sizeOf(context).height * 1.0,
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).tertiary,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 16.0,
+                          color: Color(0x0A000000),
+                          offset: Offset(
+                            0.0,
+                            20.0,
+                          ),
+                          spreadRadius: 0.0,
+                        )
+                      ],
+                      borderRadius: BorderRadius.circular(24.0),
                     ),
                     child: SingleChildScrollView(
                       child: Column(
@@ -1372,11 +1483,11 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                             builder: (context, snapshot) {
                               // Customize what your widget looks like when it's loading.
                               if (!snapshot.hasData) {
-                                return SizedBox(
+                                return Container(
                                   width: MediaQuery.sizeOf(context).width * 1.0,
                                   height:
                                       MediaQuery.sizeOf(context).height * 0.5,
-                                  child: const QuickActionSelectclassWidget(),
+                                  child: QuickActionSelectclassWidget(),
                                 );
                               }
                               List<SchoolClassRecord>
@@ -1390,7 +1501,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                   color: FlutterFlowTheme.of(context).tertiary,
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       20.0, 0.0, 20.0, 0.0),
                                   child: SingleChildScrollView(
                                     primary: false,
@@ -1398,25 +1509,37 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
                                         Padding(
-                                          padding: const EdgeInsets.all(5.0),
+                                          padding: EdgeInsets.all(5.0),
                                           child: Text(
                                             'Select class',
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  fontFamily: 'Nunito',
+                                                  font: GoogleFonts.nunito(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .tertiaryText,
                                                   fontSize: 20.0,
                                                   letterSpacing: 0.0,
                                                   fontWeight: FontWeight.w600,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
                                                 ),
                                           ),
                                         ),
                                         Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   10.0, 0.0, 10.0, 0.0),
                                           child: Builder(
                                             builder: (context) {
@@ -1436,7 +1559,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                       clases[clasesIndex];
                                                   return Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 12.0),
                                                     child: InkWell(
@@ -1478,13 +1601,13 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                       child: Material(
                                                         color:
                                                             Colors.transparent,
-                                                        elevation: 5.0,
+                                                        elevation: 2.0,
                                                         shape:
                                                             RoundedRectangleBorder(
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(
-                                                                      14.0),
+                                                                      12.0),
                                                         ),
                                                         child: Container(
                                                           width:
@@ -1510,21 +1633,35 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                                 : FlutterFlowTheme.of(
                                                                         context)
                                                                     .secondary,
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                blurRadius:
+                                                                    20.0,
+                                                                color: Color(
+                                                                    0x07000000),
+                                                                offset: Offset(
+                                                                  0.0,
+                                                                  20.0,
+                                                                ),
+                                                                spreadRadius:
+                                                                    0.0,
+                                                              )
+                                                            ],
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
-                                                                        14.0),
+                                                                        12.0),
                                                             border: Border.all(
-                                                              color: const Color(
+                                                              color: Color(
                                                                   0xFFDDF1F6),
                                                             ),
                                                           ),
                                                           child: Padding(
                                                             padding:
-                                                                const EdgeInsetsDirectional
+                                                                EdgeInsetsDirectional
                                                                     .fromSTEB(
                                                                         0.0,
-                                                                        5.0,
+                                                                        2.0,
                                                                         0.0,
                                                                         0.0),
                                                             child: Column(
@@ -1533,7 +1670,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                                       .max,
                                                               children: [
                                                                 Padding(
-                                                                  padding: const EdgeInsetsDirectional
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           0.0,
                                                                           0.0,
@@ -1546,14 +1683,22 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                                             context)
                                                                         .bodyMedium
                                                                         .override(
-                                                                          fontFamily:
-                                                                              'Nunito',
+                                                                          font:
+                                                                              GoogleFonts.nunito(
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
                                                                           color:
                                                                               FlutterFlowTheme.of(context).primary,
                                                                           letterSpacing:
                                                                               0.0,
                                                                           fontWeight:
                                                                               FontWeight.bold,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontStyle,
                                                                         ),
                                                                   ),
                                                                 ),
@@ -1563,14 +1708,25 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                                           context)
                                                                       .bodyMedium
                                                                       .override(
-                                                                        fontFamily:
-                                                                            'Nunito',
+                                                                        font: GoogleFonts
+                                                                            .nunito(
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontStyle,
+                                                                        ),
                                                                         color: FlutterFlowTheme.of(context)
                                                                             .tertiaryText,
+                                                                        fontSize:
+                                                                            12.0,
                                                                         letterSpacing:
                                                                             0.0,
                                                                         fontWeight:
                                                                             FontWeight.w500,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
                                                                       ),
                                                                 ),
                                                               ],
@@ -1585,7 +1741,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                             },
                                           ),
                                         ),
-                                      ].addToEnd(const SizedBox(height: 20.0)),
+                                      ].addToEnd(SizedBox(height: 20.0)),
                                     ),
                                   ),
                                 ),
@@ -1593,13 +1749,15 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                             },
                           ),
                           Padding(
-                            padding: const EdgeInsets.all(20.0),
+                            padding: EdgeInsets.all(20.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 FFButtonWidget(
                                   onPressed: () async {
+                                    FFAppState().eventfiles = [];
+                                    safeSetState(() {});
                                     Navigator.pop(context);
                                   },
                                   text: 'Cancel',
@@ -1607,33 +1765,57 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                     width:
                                         MediaQuery.sizeOf(context).width * 0.35,
                                     height: MediaQuery.sizeOf(context).height *
-                                        0.05,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                        0.055,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 16.0, 0.0),
-                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
                                     color:
                                         FlutterFlowTheme.of(context).secondary,
                                     textStyle: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .override(
-                                          fontFamily: 'Nunito',
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          letterSpacing: 0.0,
-                                        ),
-                                    elevation: 0.0,
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFFEFF0F6),
-                                      width: 2.0,
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      fontSize: 12.0,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                      shadows: [
+                                        Shadow(
+                                          color: Color(0x14F4F5FA),
+                                          offset: Offset(0.0, -3.0),
+                                          blurRadius: 6.0,
+                                        )
+                                      ],
                                     ),
-                                    borderRadius: BorderRadius.circular(8.0),
+                                    elevation: 0.0,
+                                    borderSide: BorderSide(
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(4.0),
                                   ),
                                 ),
                                 Builder(
                                   builder: (context) => FFButtonWidget(
                                     onPressed: () async {
-                                      if (_model.classref.isNotEmpty) {
+                                      _model.id = functions.generateUniqueId();
+                                      safeSetState(() {});
+                                      if (_model.classref.length != 0) {
                                         while (FFAppState().loopmin <
                                             _model.classref.length) {
                                           await _model.classref
@@ -1647,18 +1829,19 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                   getEventsNoticeFirestoreData(
                                                     updateEventsNoticeStruct(
                                                       EventsNoticeStruct(
-                                                        eventId: functions
-                                                            .generateUniqueId(),
+                                                        eventId: _model.id,
                                                         eventDescription:
                                                             widget.description,
                                                         eventDate:
                                                             widget.datetime,
                                                         eventTitle:
                                                             widget.eventtitle,
-                                                        eventImages:
-                                                            widget.images,
                                                         eventName:
                                                             widget.eventname,
+                                                        eventfiles:
+                                                            widget.images,
+                                                        classref:
+                                                            _model.classref,
                                                       ),
                                                       clearUnsetFields: false,
                                                     ),
@@ -1677,9 +1860,38 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                         _model.school =
                                             await SchoolRecord.getDocumentOnce(
                                                 widget.schoolref!);
+
+                                        await _model.school!.reference.update({
+                                          ...mapToFirestore(
+                                            {
+                                              'List_of_notice':
+                                                  FieldValue.arrayUnion([
+                                                getEventsNoticeFirestoreData(
+                                                  updateEventsNoticeStruct(
+                                                    EventsNoticeStruct(
+                                                      eventId: _model.id,
+                                                      eventDescription:
+                                                          widget.description,
+                                                      eventDate:
+                                                          widget.datetime,
+                                                      eventTitle:
+                                                          widget.eventtitle,
+                                                      eventName:
+                                                          widget.eventname,
+                                                      eventfiles:
+                                                          widget.images,
+                                                      classref: _model.classref,
+                                                    ),
+                                                    clearUnsetFields: false,
+                                                  ),
+                                                  true,
+                                                )
+                                              ]),
+                                            },
+                                          ),
+                                        });
                                         triggerPushNotification(
-                                          notificationTitle:
-                                              widget.eventtitle!,
+                                          notificationTitle: 'Notice',
                                           notificationText: widget.eventtitle!,
                                           userRefs: [
                                             _model.school!.principalDetails
@@ -1693,7 +1905,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                             .doc()
                                             .set({
                                           ...createNotificationsRecordData(
-                                            content: 'Notice',
+                                            content: widget.eventtitle,
                                             descri: widget.description,
                                             datetimeofevent: widget.datetime,
                                             notification:
@@ -1706,7 +1918,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                 timeStamp: getCurrentTimestamp,
                                                 isRead: false,
                                                 eventDate: widget.datetime,
-                                                notificationImages:
+                                                notificationFiles:
                                                     widget.images,
                                               ),
                                               clearUnsetFields: false,
@@ -1717,7 +1929,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                             tag: widget.eventname,
                                             addedby:
                                                 containerTeachersRecord?.useref,
-                                            heading: 'Added a Notice',
+                                            heading: 'Posted a notice',
                                           ),
                                           ...mapToFirestore(
                                             {
@@ -1740,8 +1952,7 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                           FFAppState()
                                                               .loopmin)!);
                                           triggerPushNotification(
-                                            notificationTitle:
-                                                widget.eventtitle!,
+                                            notificationTitle: 'Notice',
                                             notificationText:
                                                 widget.eventtitle!,
                                             userRefs: functions
@@ -1756,60 +1967,21 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                             initialPageName: 'Dashboard',
                                             parameterData: {},
                                           );
-
-                                          await NotificationsRecord.collection
-                                              .doc()
-                                              .set({
-                                            ...createNotificationsRecordData(
-                                              content: 'Notice',
-                                              descri: widget.description,
-                                              datetimeofevent: widget.datetime,
-                                              isread: false,
-                                              notification:
-                                                  updateNotificationStruct(
-                                                NotificationStruct(
-                                                  notificationTitle:
-                                                      widget.eventtitle,
-                                                  descriptions:
-                                                      widget.description,
-                                                  timeStamp:
-                                                      getCurrentTimestamp,
-                                                  isRead: false,
-                                                  eventDate: widget.datetime,
-                                                  notificationImages:
-                                                      widget.images,
-                                                ),
-                                                clearUnsetFields: false,
-                                                create: true,
-                                              ),
-                                              createDate: getCurrentTimestamp,
-                                              tag: widget.eventname,
-                                              addedby: currentUserReference,
-                                              heading: 'Added a notice',
-                                            ),
-                                            ...mapToFirestore(
-                                              {
-                                                'userref': functions
-                                                    .extractParentUserRefs(_model
-                                                        .studentquery!
-                                                        .where((e) => _model
-                                                            .classesstudentQuery!
-                                                            .studentsList
-                                                            .contains(
-                                                                e.reference))
-                                                        .toList()),
-                                                'towhome': _model.toWHome,
-                                              },
-                                            ),
-                                          });
                                           FFAppState().loopmin =
                                               FFAppState().loopmin + 1;
                                           safeSetState(() {});
                                         }
                                         FFAppState().loopmin = 0;
                                         safeSetState(() {});
-                                        FFAppState().eventnoticeimage = [];
+                                        FFAppState().eventname = 'General';
+                                        FFAppState().eventfiles = [];
                                         _model.updatePage(() {});
+                                        _model.everyone = 0;
+                                        _model.toWHome = [];
+                                        _model.classref = [];
+                                        _model.color = Color(4294967295);
+                                        _model.classname = [];
+                                        safeSetState(() {});
                                         await showDialog(
                                           context: context,
                                           builder: (dialogContext) {
@@ -1818,11 +1990,11 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                               insetPadding: EdgeInsets.zero,
                                               backgroundColor:
                                                   Colors.transparent,
-                                              alignment: const AlignmentDirectional(
+                                              alignment: AlignmentDirectional(
                                                       0.0, -0.8)
                                                   .resolve(Directionality.of(
                                                       context)),
-                                              child: SizedBox(
+                                              child: Container(
                                                 height:
                                                     MediaQuery.sizeOf(context)
                                                             .height *
@@ -1830,33 +2002,42 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                                 width:
                                                     MediaQuery.sizeOf(context)
                                                             .width *
-                                                        0.6,
-                                                child: const NoticecreatedWidget(),
+                                                        0.7,
+                                                child: NoticecreatedWidget(),
                                               ),
                                             );
                                           },
                                         );
 
+                                        context.goNamed(
+                                          DashboardWidget.routeName,
+                                          queryParameters: {
+                                            'tabindex': serializeParam(
+                                              1,
+                                              ParamType.int,
+                                            ),
+                                          }.withoutNulls,
+                                        );
+
                                         Navigator.pop(context);
                                       } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Atleast one class needs to be selected ',
-                                              style: TextStyle(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondary,
-                                                fontWeight: FontWeight.w500,
-                                              ),
-                                            ),
-                                            duration:
-                                                const Duration(milliseconds: 2000),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primaryText,
-                                          ),
+                                        await showDialog(
+                                          context: context,
+                                          builder: (alertDialogContext) {
+                                            return AlertDialog(
+                                              title: Text('Alert!'),
+                                              content:
+                                                  Text('Please select class.'),
+                                              actions: [
+                                                TextButton(
+                                                  onPressed: () =>
+                                                      Navigator.pop(
+                                                          alertDialogContext),
+                                                  child: Text('Ok'),
+                                                ),
+                                              ],
+                                            );
+                                          },
                                         );
                                       }
 
@@ -1868,27 +2049,56 @@ class _SelectClassNoticeWidgetState extends State<SelectClassNoticeWidget>
                                           0.35,
                                       height:
                                           MediaQuery.sizeOf(context).height *
-                                              0.05,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                              0.055,
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           16.0, 0.0, 16.0, 0.0),
                                       iconPadding:
-                                          const EdgeInsetsDirectional.fromSTEB(
+                                          EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
                                       color: FlutterFlowTheme.of(context)
                                           .primaryBackground,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .override(
-                                            fontFamily: 'Nunito',
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondary,
-                                            letterSpacing: 0.0,
+                                        font: GoogleFonts.nunito(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondary,
+                                        fontSize: 12.0,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                        shadows: [
+                                          Shadow(
+                                            color: Color(0xFF375DFB),
+                                            offset: Offset(0.0, 0.0),
+                                            blurRadius: 0.0,
                                           ),
-                                      elevation: 0.0,
-                                      borderSide: const BorderSide(
-                                        color: Color(0xFFEFF0F6),
+                                          Shadow(
+                                            color: Color(0x09253EA7),
+                                            offset: Offset(0.0, 1.0),
+                                            blurRadius: 2.0,
+                                          )
+                                        ],
                                       ),
-                                      borderRadius: BorderRadius.circular(8.0),
+                                      elevation: 0.0,
+                                      borderSide: BorderSide(
+                                        color: Color(0xFFEFF0F6),
+                                        width: 1.0,
+                                      ),
+                                      borderRadius: BorderRadius.circular(4.0),
                                     ),
                                   ),
                                 ),

@@ -14,6 +14,7 @@ class TeacherListStruct extends FFFirebaseStruct {
     String? teacherImage,
     DocumentReference? teachersId,
     DocumentReference? userRef,
+    bool? isemail,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _teacherName = teacherName,
         _phoneNumber = phoneNumber,
@@ -21,6 +22,7 @@ class TeacherListStruct extends FFFirebaseStruct {
         _teacherImage = teacherImage,
         _teachersId = teachersId,
         _userRef = userRef,
+        _isemail = isemail,
         super(firestoreUtilData);
 
   // "teacher_name" field.
@@ -65,6 +67,13 @@ class TeacherListStruct extends FFFirebaseStruct {
 
   bool hasUserRef() => _userRef != null;
 
+  // "isemail" field.
+  bool? _isemail;
+  bool get isemail => _isemail ?? false;
+  set isemail(bool? val) => _isemail = val;
+
+  bool hasIsemail() => _isemail != null;
+
   static TeacherListStruct fromMap(Map<String, dynamic> data) =>
       TeacherListStruct(
         teacherName: data['teacher_name'] as String?,
@@ -73,6 +82,7 @@ class TeacherListStruct extends FFFirebaseStruct {
         teacherImage: data['teacher_image'] as String?,
         teachersId: data['teachers_id'] as DocumentReference?,
         userRef: data['userRef'] as DocumentReference?,
+        isemail: data['isemail'] as bool?,
       );
 
   static TeacherListStruct? maybeFromMap(dynamic data) => data is Map
@@ -86,6 +96,7 @@ class TeacherListStruct extends FFFirebaseStruct {
         'teacher_image': _teacherImage,
         'teachers_id': _teachersId,
         'userRef': _userRef,
+        'isemail': _isemail,
       }.withoutNulls;
 
   @override
@@ -113,6 +124,10 @@ class TeacherListStruct extends FFFirebaseStruct {
         'userRef': serializeParam(
           _userRef,
           ParamType.DocumentReference,
+        ),
+        'isemail': serializeParam(
+          _isemail,
+          ParamType.bool,
         ),
       }.withoutNulls;
 
@@ -150,6 +165,11 @@ class TeacherListStruct extends FFFirebaseStruct {
           false,
           collectionNamePath: ['Users'],
         ),
+        isemail: deserializeParam(
+          data['isemail'],
+          ParamType.bool,
+          false,
+        ),
       );
 
   static TeacherListStruct fromAlgoliaData(Map<String, dynamic> data) =>
@@ -184,7 +204,12 @@ class TeacherListStruct extends FFFirebaseStruct {
           ParamType.DocumentReference,
           false,
         ),
-        firestoreUtilData: const FirestoreUtilData(
+        isemail: convertAlgoliaParam(
+          data['isemail'],
+          ParamType.bool,
+          false,
+        ),
+        firestoreUtilData: FirestoreUtilData(
           clearUnsetFields: false,
           create: true,
         ),
@@ -201,12 +226,20 @@ class TeacherListStruct extends FFFirebaseStruct {
         emailId == other.emailId &&
         teacherImage == other.teacherImage &&
         teachersId == other.teachersId &&
-        userRef == other.userRef;
+        userRef == other.userRef &&
+        isemail == other.isemail;
   }
 
   @override
-  int get hashCode => const ListEquality().hash(
-      [teacherName, phoneNumber, emailId, teacherImage, teachersId, userRef]);
+  int get hashCode => const ListEquality().hash([
+        teacherName,
+        phoneNumber,
+        emailId,
+        teacherImage,
+        teachersId,
+        userRef,
+        isemail
+      ]);
 }
 
 TeacherListStruct createTeacherListStruct({
@@ -216,6 +249,7 @@ TeacherListStruct createTeacherListStruct({
   String? teacherImage,
   DocumentReference? teachersId,
   DocumentReference? userRef,
+  bool? isemail,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -228,6 +262,7 @@ TeacherListStruct createTeacherListStruct({
       teacherImage: teacherImage,
       teachersId: teachersId,
       userRef: userRef,
+      isemail: isemail,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

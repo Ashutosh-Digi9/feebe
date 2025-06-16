@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'delete_branch_model.dart';
 export 'delete_branch_model.dart';
 
@@ -70,35 +71,48 @@ class _DeleteBranchWidgetState extends State<DeleteBranchWidget> {
             borderRadius: BorderRadius.circular(8.0),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: EdgeInsets.all(15.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Align(
-                  alignment: const AlignmentDirectional(-1.0, 0.0),
+                  alignment: AlignmentDirectional(-1.0, 0.0),
                   child: Text(
                     'Are you sure, you want to delete this Branch ${containerSchoolRecord.schoolDetails.schoolName} ?',
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Nunito',
+                          font: GoogleFonts.nunito(
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
                           fontSize: 18.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.bold,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
                   ),
                 ),
                 Text(
                   'Everything about this Branch school will be deleted and cannot be retreived again',
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Nunito',
+                        font: GoogleFonts.nunito(
+                          fontWeight: FontWeight.w500,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                        ),
                         fontSize: 14.0,
                         letterSpacing: 0.0,
                         fontWeight: FontWeight.w500,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                       ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -111,18 +125,31 @@ class _DeleteBranchWidgetState extends State<DeleteBranchWidget> {
                         options: FFButtonOptions(
                           width: MediaQuery.sizeOf(context).width * 0.2,
                           height: MediaQuery.sizeOf(context).height * 0.05,
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
-                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
                           textStyle:
                               FlutterFlowTheme.of(context).titleSmall.override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryBackground,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
                                   ),
                           elevation: 0.0,
                           borderSide: BorderSide(
@@ -156,7 +183,7 @@ class _DeleteBranchWidgetState extends State<DeleteBranchWidget> {
                                   fontWeight: FontWeight.w500,
                                 ),
                               ),
-                              duration: const Duration(milliseconds: 4000),
+                              duration: Duration(milliseconds: 4000),
                               backgroundColor:
                                   FlutterFlowTheme.of(context).secondary,
                             ),
@@ -166,17 +193,30 @@ class _DeleteBranchWidgetState extends State<DeleteBranchWidget> {
                         options: FFButtonOptions(
                           width: MediaQuery.sizeOf(context).width * 0.2,
                           height: MediaQuery.sizeOf(context).height * 0.05,
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
-                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).primaryBackground,
                           textStyle:
                               FlutterFlowTheme.of(context).titleSmall.override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
                                   ),
                           elevation: 0.0,
                           borderSide: BorderSide(
@@ -186,7 +226,7 @@ class _DeleteBranchWidgetState extends State<DeleteBranchWidget> {
                           borderRadius: BorderRadius.circular(8.0),
                         ),
                       ),
-                    ].divide(const SizedBox(width: 5.0)),
+                    ].divide(SizedBox(width: 5.0)),
                   ),
                 ),
               ],

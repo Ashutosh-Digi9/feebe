@@ -1,4 +1,5 @@
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'add_events_details_widget.dart' show AddEventsDetailsWidget;
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,10 @@ class AddEventsDetailsModel extends FlutterFlowModel<AddEventsDetailsWidget> {
   DateTime? calendarDate;
 
   String eventName = 'Event';
+
+  bool last = false;
+
+  int? id;
 
   ///  State fields for stateful widgets in this page.
 
@@ -35,29 +40,18 @@ class AddEventsDetailsModel extends FlutterFlowModel<AddEventsDetailsWidget> {
   TextEditingController? descriptionNoticeTextController;
   String? Function(BuildContext, String?)?
       descriptionNoticeTextControllerValidator;
-  String? _descriptionNoticeTextControllerValidator(
-      BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return 'Please enter description of the event ';
-    }
+  bool isDataUploading_uploadData1qw = false;
+  List<FFUploadedFile> uploadedLocalFiles_uploadData1qw = [];
+  List<String> uploadedFileUrls_uploadData1qw = [];
 
-    return null;
-  }
-
-  bool isDataUploading1 = false;
-  List<FFUploadedFile> uploadedLocalFiles1 = [];
-  List<String> uploadedFileUrls1 = [];
-
-  bool isDataUploading2 = false;
-  FFUploadedFile uploadedLocalFile2 =
+  bool isDataUploading_uploadcamera = false;
+  FFUploadedFile uploadedLocalFile_uploadcamera =
       FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl2 = '';
+  String uploadedFileUrl_uploadcamera = '';
 
   @override
   void initState(BuildContext context) {
     titleNoticeTextControllerValidator = _titleNoticeTextControllerValidator;
-    descriptionNoticeTextControllerValidator =
-        _descriptionNoticeTextControllerValidator;
   }
 
   @override

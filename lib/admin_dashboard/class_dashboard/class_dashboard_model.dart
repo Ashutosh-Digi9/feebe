@@ -2,6 +2,7 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/navbar/navbaradmin/navbaradmin_widget.dart';
+import '/index.dart';
 import 'class_dashboard_widget.dart' show ClassDashboardWidget;
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,7 @@ class ClassDashboardModel extends FlutterFlowModel<ClassDashboardWidget> {
 
   DateTime? date;
 
-  String? noticename = '';
+  String noticename = 'General';
 
   List<String> images = [];
   void addToImages(String item) => images.add(item);
@@ -47,6 +48,26 @@ class ClassDashboardModel extends FlutterFlowModel<ClassDashboardWidget> {
           int index, Function(EventsNoticeStruct) updateFn) =>
       classevents[index] = updateFn(classevents[index]);
 
+  String? title;
+
+  String? des;
+
+  List<DocumentReference> teacherRef = [];
+  void addToTeacherRef(DocumentReference item) => teacherRef.add(item);
+  void removeFromTeacherRef(DocumentReference item) => teacherRef.remove(item);
+  void removeAtIndexFromTeacherRef(int index) => teacherRef.removeAt(index);
+  void insertAtIndexInTeacherRef(int index, DocumentReference item) =>
+      teacherRef.insert(index, item);
+  void updateTeacherRefAtIndex(
+          int index, Function(DocumentReference) updateFn) =>
+      teacherRef[index] = updateFn(teacherRef[index]);
+
+  bool last = false;
+
+  bool isClicked = false;
+
+  int? tabindex = 0;
+
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
@@ -56,6 +77,8 @@ class ClassDashboardModel extends FlutterFlowModel<ClassDashboardWidget> {
   TabController? tabBarController;
   int get tabBarCurrentIndex =>
       tabBarController != null ? tabBarController!.index : 0;
+  int get tabBarPreviousIndex =>
+      tabBarController != null ? tabBarController!.previousIndex : 0;
 
   // State field(s) for title widget.
   FocusNode? titleFocusNode;
@@ -77,31 +100,19 @@ class ClassDashboardModel extends FlutterFlowModel<ClassDashboardWidget> {
   FocusNode? descriptionFocusNode;
   TextEditingController? descriptionTextController;
   String? Function(BuildContext, String?)? descriptionTextControllerValidator;
-  String? _descriptionTextControllerValidator(
-      BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return 'Please add Description ';
-    }
+  bool isDataUploading_uploadData9tz = false;
+  List<FFUploadedFile> uploadedLocalFiles_uploadData9tz = [];
+  List<String> uploadedFileUrls_uploadData9tz = [];
 
-    return null;
-  }
-
-  bool isDataUploading1 = false;
-  List<FFUploadedFile> uploadedLocalFiles1 = [];
-  List<String> uploadedFileUrls1 = [];
-
-  bool isDataUploading2 = false;
-  FFUploadedFile uploadedLocalFile2 =
+  bool isDataUploading_uploadDataK0455 = false;
+  FFUploadedFile uploadedLocalFile_uploadDataK0455 =
       FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl2 = '';
+  String uploadedFileUrl_uploadDataK0455 = '';
 
   DateTime? datePicked;
   // State field(s) for DropDown widget.
   String? dropDownValue;
   FormFieldController<String>? dropDownValueController;
-  List<SchoolClassRecord>? dropDownPreviousSnapshot;
-  // Stores action output result for [Backend Call - Read Document] action in DropDown widget.
-  SchoolClassRecord? class45;
   // State field(s) for PageView widget.
   PageController? pageViewController;
 
@@ -112,11 +123,12 @@ class ClassDashboardModel extends FlutterFlowModel<ClassDashboardWidget> {
       : 0;
   // Model for navbaradmin component.
   late NavbaradminModel navbaradminModel;
+  // Stores action output result for [Firestore Query - Query a collection] action in CircleImage widget.
+  List<StudentsRecord>? students12;
 
   @override
   void initState(BuildContext context) {
     titleTextControllerValidator = _titleTextControllerValidator;
-    descriptionTextControllerValidator = _descriptionTextControllerValidator;
     navbaradminModel = createModel(context, () => NavbaradminModel());
   }
 
@@ -131,4 +143,7 @@ class ClassDashboardModel extends FlutterFlowModel<ClassDashboardWidget> {
 
     navbaradminModel.dispose();
   }
+
+  /// Action blocks.
+  Future backbutton(BuildContext context) async {}
 }

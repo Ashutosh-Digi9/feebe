@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'file_dowload_model.dart';
 export 'file_dowload_model.dart';
 
@@ -43,20 +44,20 @@ class _FileDowloadWidgetState extends State<FileDowloadWidget> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: EdgeInsets.all(10.0),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Align(
-              alignment: const AlignmentDirectional(0.0, 0.0),
+              alignment: AlignmentDirectional(0.0, 0.0),
               child: Stack(
-                alignment: const AlignmentDirectional(0.0, 0.0),
+                alignment: AlignmentDirectional(0.0, 0.0),
                 children: [
                   Container(
                     width: MediaQuery.sizeOf(context).width * 0.04,
                     height: MediaQuery.sizeOf(context).width * 0.04,
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: Color(0xFF4BA22E),
                       shape: BoxShape.circle,
                     ),
@@ -72,10 +73,16 @@ class _FileDowloadWidgetState extends State<FileDowloadWidget> {
             Text(
               'File Downloaded Successfully',
               style: FlutterFlowTheme.of(context).bodyMedium.override(
-                    fontFamily: 'Nunito',
+                    font: GoogleFonts.nunito(
+                      fontWeight: FontWeight.bold,
+                      fontStyle:
+                          FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                    ),
                     fontSize: 20.0,
                     letterSpacing: 0.0,
                     fontWeight: FontWeight.bold,
+                    fontStyle:
+                        FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                   ),
             ),
           ],

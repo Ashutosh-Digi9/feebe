@@ -1,5 +1,5 @@
+import '/admin_dashboard/editphoto/editphoto_widget.dart';
 import '/backend/backend.dart';
-import '/components/editphoto_widget.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -8,9 +8,11 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/shimmer_effects/classshimmer/classshimmer_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
 import 'package:styled_divider/styled_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'edit_child_parent_model.dart';
 export 'edit_child_parent_model.dart';
@@ -22,6 +24,9 @@ class EditChildParentWidget extends StatefulWidget {
   });
 
   final DocumentReference? studentref;
+
+  static String routeName = 'Edit_childParent';
+  static String routePath = '/editprofileParent';
 
   @override
   State<EditChildParentWidget> createState() => _EditChildParentWidgetState();
@@ -62,7 +67,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
         if (!snapshot.hasData) {
           return Scaffold(
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-            body: const ClassshimmerWidget(),
+            body: ClassshimmerWidget(),
           );
         }
 
@@ -76,48 +81,63 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-            appBar: PreferredSize(
-              preferredSize:
-                  Size.fromHeight(MediaQuery.sizeOf(context).height * 0.05),
-              child: AppBar(
-                backgroundColor: FlutterFlowTheme.of(context).info,
-                automaticallyImplyLeading: false,
-                leading: FlutterFlowIconButton(
-                  borderColor: Colors.transparent,
-                  borderRadius: 30.0,
-                  borderWidth: 1.0,
-                  buttonSize: 60.0,
-                  icon: Icon(
-                    Icons.arrow_back_ios_sharp,
-                    color: FlutterFlowTheme.of(context).primaryText,
-                  ),
-                  onPressed: () async {
-                    context.goNamed(
-                      'Dashboard',
-                      extra: <String, dynamic>{
-                        kTransitionInfoKey: const TransitionInfo(
-                          hasTransition: true,
-                          transitionType: PageTransitionType.fade,
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? PreferredSize(
+                    preferredSize: Size.fromHeight(
+                        MediaQuery.sizeOf(context).height * 0.05),
+                    child: AppBar(
+                      backgroundColor: FlutterFlowTheme.of(context).info,
+                      automaticallyImplyLeading: false,
+                      leading: FlutterFlowIconButton(
+                        borderColor: Colors.transparent,
+                        borderRadius: 30.0,
+                        borderWidth: 1.0,
+                        buttonSize: 60.0,
+                        icon: Icon(
+                          Icons.arrow_back_ios_sharp,
+                          color: FlutterFlowTheme.of(context).primaryText,
                         ),
-                      },
-                    );
-                  },
-                ),
-                title: Text(
-                  'Edit Profile',
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Nunito',
-                        color: FlutterFlowTheme.of(context).primaryText,
-                        fontSize: 16.0,
-                        letterSpacing: 0.0,
-                        fontWeight: FontWeight.w500,
+                        onPressed: () async {
+                          context.goNamed(
+                            DashboardWidget.routeName,
+                            extra: <String, dynamic>{
+                              kTransitionInfoKey: TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.fade,
+                              ),
+                            },
+                          );
+                        },
                       ),
-                ),
-                actions: const [],
-                centerTitle: false,
-                elevation: 0.0,
-              ),
-            ),
+                      title: Text(
+                        'Edit Profile',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              font: GoogleFonts.nunito(
+                                fontWeight: FontWeight.w500,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
+                              color: FlutterFlowTheme.of(context).primaryText,
+                              fontSize: 16.0,
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.w500,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                      ),
+                      actions: [],
+                      centerTitle: false,
+                      elevation: 0.0,
+                    ),
+                  )
+                : null,
             body: SafeArea(
               top: true,
               child: Column(
@@ -132,7 +152,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                       key: _model.formKey,
                       autovalidateMode: AutovalidateMode.disabled,
                       child: Padding(
-                        padding: const EdgeInsets.all(10.0),
+                        padding: EdgeInsets.all(10.0),
                         child: SingleChildScrollView(
                           primary: false,
                           child: Column(
@@ -141,9 +161,9 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Align(
-                                alignment: const AlignmentDirectional(0.0, 0.0),
+                                alignment: AlignmentDirectional(0.0, 0.0),
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 20.0, 0.0, 0.0),
                                   child: InkWell(
                                     splashColor: Colors.transparent,
@@ -166,7 +186,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                             child: Padding(
                                               padding: MediaQuery.viewInsetsOf(
                                                   context),
-                                              child: const EditphotoWidget(
+                                              child: EditphotoWidget(
                                                 person: true,
                                               ),
                                             ),
@@ -180,7 +200,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                       height: MediaQuery.sizeOf(context).width *
                                           0.3,
                                       clipBehavior: Clip.antiAlias,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                       ),
                                       child: Image.network(
@@ -199,9 +219,9 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                 ),
                               ),
                               Align(
-                                alignment: const AlignmentDirectional(0.0, 0.0),
+                                alignment: AlignmentDirectional(0.0, 0.0),
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 10.0, 0.0, 0.0),
                                   child: InkWell(
                                     splashColor: Colors.transparent,
@@ -224,7 +244,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                             child: Padding(
                                               padding: MediaQuery.viewInsetsOf(
                                                   context),
-                                              child: const EditphotoWidget(
+                                              child: EditphotoWidget(
                                                 person: true,
                                               ),
                                             ),
@@ -237,11 +257,28 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .primaryBackground,
                                             fontSize: 12.0,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
                                           ),
                                     ),
                                   ),
@@ -263,9 +300,9 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                 ],
                               ),
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 10.0, 0.0, 0.0),
-                                child: SizedBox(
+                                child: Container(
                                   width: MediaQuery.sizeOf(context).width * 0.9,
                                   child: TextFormField(
                                     controller:
@@ -283,20 +320,47 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .primaryText,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       hintText: 'Child\'s name',
                                       hintStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.w600,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .tertiaryText,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w600,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -341,8 +405,25 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                         ),
                                     keyboardType: TextInputType.name,
                                     cursorColor: FlutterFlowTheme.of(context)
@@ -367,7 +448,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                     hoverColor: Colors.transparent,
                                     highlightColor: Colors.transparent,
                                     onTap: () async {
-                                      final datePickedDate =
+                                      final _datePickedDate =
                                           await showDatePicker(
                                         context: context,
                                         initialDate: getCurrentTimestamp,
@@ -387,11 +468,24 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                                 FlutterFlowTheme.of(context)
                                                     .headlineLarge
                                                     .override(
-                                                      fontFamily: 'Nunito',
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .headlineLarge
+                                                                .fontStyle,
+                                                      ),
                                                       fontSize: 32.0,
                                                       letterSpacing: 0.0,
                                                       fontWeight:
                                                           FontWeight.w600,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .headlineLarge
+                                                              .fontStyle,
                                                     ),
                                             pickerBackgroundColor:
                                                 FlutterFlowTheme.of(context)
@@ -413,13 +507,18 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                         },
                                       );
 
-                                      if (datePickedDate != null) {
+                                      if (_datePickedDate != null) {
                                         safeSetState(() {
                                           _model.datePicked = DateTime(
-                                            datePickedDate.year,
-                                            datePickedDate.month,
-                                            datePickedDate.day,
+                                            _datePickedDate.year,
+                                            _datePickedDate.month,
+                                            _datePickedDate.day,
                                           );
+                                        });
+                                      } else if (_model.datePicked != null) {
+                                        safeSetState(() {
+                                          _model.datePicked =
+                                              getCurrentTimestamp;
                                         });
                                       }
                                     },
@@ -442,18 +541,29 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                       ),
                                       child: Align(
                                         alignment:
-                                            const AlignmentDirectional(0.0, 0.0),
+                                            AlignmentDirectional(0.0, 0.0),
                                         child: Text(
                                           'Date of birth',
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Nunito',
+                                                font: GoogleFonts.nunito(
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .tertiaryText,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w500,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
                                               ),
                                         ),
                                       ),
@@ -461,7 +571,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                   ),
                                   if (_model.datePicked == null)
                                     Align(
-                                      alignment: const AlignmentDirectional(0.0, 0.0),
+                                      alignment: AlignmentDirectional(0.0, 0.0),
                                       child: Text(
                                         dateTimeFormat(
                                             "dd MMM , y",
@@ -470,16 +580,26 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.w500,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .tertiaryText,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
                                             ),
                                       ),
                                     ),
-                                ].divide(const SizedBox(width: 10.0)),
+                                ].divide(SizedBox(width: 10.0)),
                               ),
                               FlutterFlowDropDown<String>(
                                 controller: _model.genderValueController ??=
@@ -488,7 +608,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                       editChildParentStudentsRecord
                                           .studentGender,
                                 ),
-                                options: const ['Male', 'Female'],
+                                options: ['Male', 'Female'],
                                 onChanged: (val) => safeSetState(
                                     () => _model.genderValue = val),
                                 width: 200.0,
@@ -497,8 +617,21 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                 textStyle: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
                                     ),
                                 hintText: 'Gender',
                                 icon: Icon(
@@ -514,7 +647,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                     FlutterFlowTheme.of(context).lightBg,
                                 borderWidth: 1.0,
                                 borderRadius: 8.0,
-                                margin: const EdgeInsetsDirectional.fromSTEB(
+                                margin: EdgeInsetsDirectional.fromSTEB(
                                     12.0, 0.0, 12.0, 0.0),
                                 hidesUnderline: true,
                                 isOverButton: false,
@@ -527,7 +660,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                   _model.bloodtypeValue ??=
                                       editChildParentStudentsRecord.bloodGroup,
                                 ),
-                                options: const [
+                                options: [
                                   'A+',
                                   'A-',
                                   'B+',
@@ -545,8 +678,21 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                 textStyle: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
                                     ),
                                 hintText: 'Blood Group',
                                 icon: Icon(
@@ -562,7 +708,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                     FlutterFlowTheme.of(context).lightBg,
                                 borderWidth: 1.0,
                                 borderRadius: 8.0,
-                                margin: const EdgeInsetsDirectional.fromSTEB(
+                                margin: EdgeInsetsDirectional.fromSTEB(
                                     12.0, 0.0, 12.0, 0.0),
                                 hidesUnderline: true,
                                 isOverButton: false,
@@ -570,9 +716,9 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                 isMultiSelect: false,
                               ),
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 10.0, 0.0, 0.0),
-                                child: SizedBox(
+                                child: Container(
                                   width: MediaQuery.sizeOf(context).width * 0.9,
                                   child: TextFormField(
                                     controller:
@@ -590,20 +736,47 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .primaryText,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       hintText: 'Allergies(if any)',
                                       hintStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.w600,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .tertiaryText,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w600,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -648,8 +821,25 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                         ),
                                     cursorColor: FlutterFlowTheme.of(context)
                                         .primaryText,
@@ -660,9 +850,9 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 10.0, 0.0, 0.0),
-                                child: SizedBox(
+                                child: Container(
                                   width: MediaQuery.sizeOf(context).width * 0.9,
                                   child: TextFormField(
                                     controller: _model.addressTextController ??=
@@ -679,20 +869,47 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .primaryText,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       hintText: 'Address',
                                       hintStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.w600,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .tertiaryText,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w600,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
@@ -737,8 +954,25 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                         ),
                                     maxLines: 3,
                                     cursorColor: FlutterFlowTheme.of(context)
@@ -750,9 +984,9 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                 ),
                               ),
                               Container(
-                                decoration: const BoxDecoration(),
+                                decoration: BoxDecoration(),
                               ),
-                            ].divide(const SizedBox(height: 15.0)),
+                            ].divide(SizedBox(height: 15.0)),
                           ),
                         ),
                       ),
@@ -763,7 +997,7 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                     height: MediaQuery.sizeOf(context).height * 0.1,
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).secondaryBackground,
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
                           blurRadius: 18.9,
                           color: Color(0x17555555),
@@ -776,10 +1010,10 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                       ],
                     ),
                     child: Align(
-                      alignment: const AlignmentDirectional(0.0, 0.0),
+                      alignment: AlignmentDirectional(0.0, 0.0),
                       child: Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                         child: FFButtonWidget(
                           onPressed: () async {
                             if (_model.formKey.currentState == null ||
@@ -797,7 +1031,9 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                                   studentGender: _model.genderValue,
                                   studentAddress:
                                       _model.addressTextController.text,
-                                  dateOfBirth: _model.datePicked ?? editChildParentStudentsRecord
+                                  dateOfBirth: _model.datePicked != null
+                                      ? _model.datePicked
+                                      : editChildParentStudentsRecord
                                           .dateOfBirth,
                                   bloodGroup: _model.bloodtypeValue,
                                   studentImage: valueOrDefault<String>(
@@ -913,9 +1149,9 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                             }
 
                             context.goNamed(
-                              'ChildDetailsUpdated',
+                              ChildDetailsUpdatedWidget.routeName,
                               extra: <String, dynamic>{
-                                kTransitionInfoKey: const TransitionInfo(
+                                kTransitionInfoKey: TransitionInfo(
                                   hasTransition: true,
                                   transitionType: PageTransitionType.fade,
                                 ),
@@ -928,18 +1164,31 @@ class _EditChildParentWidgetState extends State<EditChildParentWidget> {
                           options: FFButtonOptions(
                             width: MediaQuery.sizeOf(context).width * 0.8,
                             height: MediaQuery.sizeOf(context).height * 0.06,
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 16.0, 0.0, 16.0, 0.0),
-                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 0.0),
                             color:
                                 FlutterFlowTheme.of(context).primaryBackground,
                             textStyle: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
                                   color: Colors.white,
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
                                 ),
                             elevation: 0.0,
                             borderRadius: BorderRadius.circular(8.0),

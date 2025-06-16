@@ -3,7 +3,9 @@ import '/backend/backend.dart';
 import '/confirmationpages/thenotificationhasbeensuccessfullyremoved/thenotificationhasbeensuccessfullyremoved_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'deletenotification_model.dart';
 export 'deletenotification_model.dart';
 
@@ -70,19 +72,19 @@ class _DeletenotificationWidgetState extends State<DeletenotificationWidget> {
                       context: context,
                       builder: (alertDialogContext) {
                         return AlertDialog(
-                          title: const Text('Confirm Notification Removal'),
-                          content: const Text(
+                          title: Text('Confirm Notification Removal'),
+                          content: Text(
                               'Are you sure you want to remove this notification? Once removed, it cannot be restored.'),
                           actions: [
                             TextButton(
                               onPressed: () =>
                                   Navigator.pop(alertDialogContext, false),
-                              child: const Text('Cancel'),
+                              child: Text('Cancel'),
                             ),
                             TextButton(
                               onPressed: () =>
                                   Navigator.pop(alertDialogContext, true),
-                              child: const Text('Confirm'),
+                              child: Text('Confirm'),
                             ),
                           ],
                         );
@@ -94,11 +96,49 @@ class _DeletenotificationWidgetState extends State<DeletenotificationWidget> {
                     await widget.notiref!.update({
                       ...mapToFirestore(
                         {
-                          'schoolref':
-                              FieldValue.arrayRemove([widget.schoolref]),
+                          'deletenotification':
+                              FieldValue.arrayUnion([currentUserReference]),
                         },
                       ),
                     });
+                    await showDialog(
+                      context: context,
+                      builder: (dialogContext) {
+                        return Dialog(
+                          elevation: 0,
+                          insetPadding: EdgeInsets.zero,
+                          backgroundColor: Colors.transparent,
+                          alignment: AlignmentDirectional(0.0, -0.8)
+                              .resolve(Directionality.of(context)),
+                          child: Container(
+                            height: MediaQuery.sizeOf(context).height * 0.08,
+                            width: MediaQuery.sizeOf(context).width * 0.6,
+                            child:
+                                ThenotificationhasbeensuccessfullyremovedWidget(),
+                          ),
+                        );
+                      },
+                    );
+
+                    context.goNamed(
+                      ClassDashboardWidget.routeName,
+                      queryParameters: {
+                        'schoolref': serializeParam(
+                          widget.schoolref,
+                          ParamType.DocumentReference,
+                        ),
+                        'pageno': serializeParam(
+                          0,
+                          ParamType.int,
+                        ),
+                      }.withoutNulls,
+                      extra: <String, dynamic>{
+                        kTransitionInfoKey: TransitionInfo(
+                          hasTransition: true,
+                          transitionType: PageTransitionType.fade,
+                        ),
+                      },
+                    );
                   } else if (valueOrDefault(currentUserDocument?.userRole, 0) ==
                       1) {
                     await currentUserReference!.update({
@@ -118,6 +158,34 @@ class _DeletenotificationWidgetState extends State<DeletenotificationWidget> {
                         },
                       ),
                     });
+                    await showDialog(
+                      context: context,
+                      builder: (dialogContext) {
+                        return Dialog(
+                          elevation: 0,
+                          insetPadding: EdgeInsets.zero,
+                          backgroundColor: Colors.transparent,
+                          alignment: AlignmentDirectional(0.0, -0.8)
+                              .resolve(Directionality.of(context)),
+                          child: Container(
+                            height: MediaQuery.sizeOf(context).height * 0.08,
+                            width: MediaQuery.sizeOf(context).width * 0.6,
+                            child:
+                                ThenotificationhasbeensuccessfullyremovedWidget(),
+                          ),
+                        );
+                      },
+                    );
+
+                    context.goNamed(
+                      DashboardWidget.routeName,
+                      extra: <String, dynamic>{
+                        kTransitionInfoKey: TransitionInfo(
+                          hasTransition: true,
+                          transitionType: PageTransitionType.fade,
+                        ),
+                      },
+                    );
                   } else {
                     await widget.notiref!.update({
                       ...mapToFirestore(
@@ -127,36 +195,35 @@ class _DeletenotificationWidgetState extends State<DeletenotificationWidget> {
                         },
                       ),
                     });
-                  }
+                    await showDialog(
+                      context: context,
+                      builder: (dialogContext) {
+                        return Dialog(
+                          elevation: 0,
+                          insetPadding: EdgeInsets.zero,
+                          backgroundColor: Colors.transparent,
+                          alignment: AlignmentDirectional(0.0, -0.8)
+                              .resolve(Directionality.of(context)),
+                          child: Container(
+                            height: MediaQuery.sizeOf(context).height * 0.08,
+                            width: MediaQuery.sizeOf(context).width * 0.6,
+                            child:
+                                ThenotificationhasbeensuccessfullyremovedWidget(),
+                          ),
+                        );
+                      },
+                    );
 
-                  await showDialog(
-                    context: context,
-                    builder: (dialogContext) {
-                      return Dialog(
-                        elevation: 0,
-                        insetPadding: EdgeInsets.zero,
-                        backgroundColor: Colors.transparent,
-                        alignment: const AlignmentDirectional(0.0, -0.8)
-                            .resolve(Directionality.of(context)),
-                        child: SizedBox(
-                          height: MediaQuery.sizeOf(context).height * 0.08,
-                          width: MediaQuery.sizeOf(context).width * 0.6,
-                          child:
-                              const ThenotificationhasbeensuccessfullyremovedWidget(),
+                    context.goNamed(
+                      DashboardWidget.routeName,
+                      extra: <String, dynamic>{
+                        kTransitionInfoKey: TransitionInfo(
+                          hasTransition: true,
+                          transitionType: PageTransitionType.fade,
                         ),
-                      );
-                    },
-                  );
-
-                  context.goNamed(
-                    'Dashboard',
-                    extra: <String, dynamic>{
-                      kTransitionInfoKey: const TransitionInfo(
-                        hasTransition: true,
-                        transitionType: PageTransitionType.fade,
-                      ),
-                    },
-                  );
+                      },
+                    );
+                  }
                 }
               },
               child: Row(
@@ -165,19 +232,27 @@ class _DeletenotificationWidgetState extends State<DeletenotificationWidget> {
                 children: [
                   Icon(
                     Icons.delete_outline,
-                    color: FlutterFlowTheme.of(context).primaryText,
+                    color: FlutterFlowTheme.of(context).tertiaryText,
                     size: 20.0,
                   ),
                   Text(
                     'Delete',
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Nunito',
+                          font: GoogleFonts.nunito(
+                            fontWeight: FontWeight.w500,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
+                          color: FlutterFlowTheme.of(context).tertiaryText,
                           fontSize: 16.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w500,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
                   ),
-                ].divide(const SizedBox(width: 15.0)).around(const SizedBox(width: 15.0)),
+                ].divide(SizedBox(width: 15.0)).around(SizedBox(width: 15.0)),
               ),
             ),
           ),

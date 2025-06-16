@@ -8,7 +8,7 @@ class SelectClassQAModel extends FlutterFlowModel<SelectClassQAWidget> {
 
   DocumentReference? schoolclass;
 
-  Color color = const Color(0xffffffff);
+  Color color = Color(4294967295);
 
   @override
   void initState(BuildContext context) {}

@@ -1,5 +1,7 @@
+import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/navbar/navbar_parent/navbar_parent_widget.dart';
+import '/index.dart';
 import 'notification_parent_widget.dart' show NotificationParentWidget;
 import 'package:flutter/material.dart';
 
@@ -13,6 +15,8 @@ class NotificationParentModel
 
   // Model for navbar_parent component.
   late NavbarParentModel navbarParentModel;
+  // Stores action output result for [Firestore Query - Query a collection] action in CircleImage widget.
+  List<StudentsRecord>? students12;
 
   @override
   void initState(BuildContext context) {

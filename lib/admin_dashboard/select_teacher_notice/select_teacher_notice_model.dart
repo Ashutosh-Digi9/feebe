@@ -17,7 +17,7 @@ class SelectTeacherNoticeModel
           int index, Function(DocumentReference) updateFn) =>
       schoolref[index] = updateFn(schoolref[index]);
 
-  Color color = const Color(0xffffffff);
+  Color color = Color(4294967295);
 
   int everyone = 0;
 
@@ -39,8 +39,6 @@ class SelectTeacherNoticeModel
   TextEditingController? textController;
   String? Function(BuildContext, String?)? textControllerValidator;
   List<TeachersRecord> simpleSearchResults = [];
-  // State field(s) for Checkbox widget.
-  bool? checkboxValue;
 
   @override
   void initState(BuildContext context) {}

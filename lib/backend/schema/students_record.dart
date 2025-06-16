@@ -9,9 +9,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class StudentsRecord extends FirestoreRecord {
   StudentsRecord._(
-    super.reference,
-    super.data,
-  ) {
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
     _initializeFields();
   }
 
@@ -86,11 +86,6 @@ class StudentsRecord extends FirestoreRecord {
   List<ParentsDetailsStruct> get parentsDetails => _parentsDetails ?? const [];
   bool hasParentsDetails() => _parentsDetails != null;
 
-  // "class_name" field.
-  String? _className;
-  String get className => _className ?? '';
-  bool hasClassName() => _className != null;
-
   // "student_image" field.
   String? _studentImage;
   String get studentImage => _studentImage ?? '';
@@ -100,11 +95,6 @@ class StudentsRecord extends FirestoreRecord {
   DocumentReference? _schoolref;
   DocumentReference? get schoolref => _schoolref;
   bool hasSchoolref() => _schoolref != null;
-
-  // "imageslist" field.
-  List<String>? _imageslist;
-  List<String> get imageslist => _imageslist ?? const [];
-  bool hasImageslist() => _imageslist != null;
 
   // "classref" field.
   List<DocumentReference>? _classref;
@@ -136,6 +126,26 @@ class StudentsRecord extends FirestoreRecord {
   String get path => _path ?? '';
   bool hasPath() => _path != null;
 
+  // "gallery" field.
+  List<GalleryStruct>? _gallery;
+  List<GalleryStruct> get gallery => _gallery ?? const [];
+  bool hasGallery() => _gallery != null;
+
+  // "class_name" field.
+  List<String>? _className;
+  List<String> get className => _className ?? const [];
+  bool hasClassName() => _className != null;
+
+  // "imageslistNew" field.
+  List<ImagesStruct>? _imageslistNew;
+  List<ImagesStruct> get imageslistNew => _imageslistNew ?? const [];
+  bool hasImageslistNew() => _imageslistNew != null;
+
+  // "viideonew" field.
+  List<VideoStruct>? _viideonew;
+  List<VideoStruct> get viideonew => _viideonew ?? const [];
+  bool hasViideonew() => _viideonew != null;
+
   void _initializeFields() {
     _studentName = snapshotData['student_name'] as String?;
     _studentGender = snapshotData['student_gender'] as String?;
@@ -161,16 +171,27 @@ class StudentsRecord extends FirestoreRecord {
       snapshotData['parents_details'],
       ParentsDetailsStruct.fromMap,
     );
-    _className = snapshotData['class_name'] as String?;
     _studentImage = snapshotData['student_image'] as String?;
     _schoolref = snapshotData['schoolref'] as DocumentReference?;
-    _imageslist = getDataList(snapshotData['imageslist']);
     _classref = getDataList(snapshotData['classref']);
     _document = snapshotData['document'] as String?;
     _isDraft = snapshotData['isDraft'] as bool?;
     _video = snapshotData['video'] as String?;
     _timelineVideo = getDataList(snapshotData['timelineVideo']);
     _path = snapshotData['path'] as String?;
+    _gallery = getStructList(
+      snapshotData['gallery'],
+      GalleryStruct.fromMap,
+    );
+    _className = getDataList(snapshotData['class_name']);
+    _imageslistNew = getStructList(
+      snapshotData['imageslistNew'],
+      ImagesStruct.fromMap,
+    );
+    _viideonew = getStructList(
+      snapshotData['viideonew'],
+      VideoStruct.fromMap,
+    );
   }
 
   static CollectionReference get collection =>
@@ -218,7 +239,6 @@ Map<String, dynamic> createStudentsRecordData({
   int? attendancePercentage,
   DateTime? createdAt,
   DateTime? updatedAt,
-  String? className,
   String? studentImage,
   DocumentReference? schoolref,
   String? document,
@@ -238,7 +258,6 @@ Map<String, dynamic> createStudentsRecordData({
       'attendance_percentage': attendancePercentage,
       'created_at': createdAt,
       'updated_at': updatedAt,
-      'class_name': className,
       'student_image': studentImage,
       'schoolref': schoolref,
       'document': document,
@@ -271,16 +290,18 @@ class StudentsRecordDocumentEquality implements Equality<StudentsRecord> {
         e1?.createdAt == e2?.createdAt &&
         e1?.updatedAt == e2?.updatedAt &&
         listEquality.equals(e1?.parentsDetails, e2?.parentsDetails) &&
-        e1?.className == e2?.className &&
         e1?.studentImage == e2?.studentImage &&
         e1?.schoolref == e2?.schoolref &&
-        listEquality.equals(e1?.imageslist, e2?.imageslist) &&
         listEquality.equals(e1?.classref, e2?.classref) &&
         e1?.document == e2?.document &&
         e1?.isDraft == e2?.isDraft &&
         e1?.video == e2?.video &&
         listEquality.equals(e1?.timelineVideo, e2?.timelineVideo) &&
-        e1?.path == e2?.path;
+        e1?.path == e2?.path &&
+        listEquality.equals(e1?.gallery, e2?.gallery) &&
+        listEquality.equals(e1?.className, e2?.className) &&
+        listEquality.equals(e1?.imageslistNew, e2?.imageslistNew) &&
+        listEquality.equals(e1?.viideonew, e2?.viideonew);
   }
 
   @override
@@ -299,16 +320,18 @@ class StudentsRecordDocumentEquality implements Equality<StudentsRecord> {
         e?.createdAt,
         e?.updatedAt,
         e?.parentsDetails,
-        e?.className,
         e?.studentImage,
         e?.schoolref,
-        e?.imageslist,
         e?.classref,
         e?.document,
         e?.isDraft,
         e?.video,
         e?.timelineVideo,
-        e?.path
+        e?.path,
+        e?.gallery,
+        e?.className,
+        e?.imageslistNew,
+        e?.viideonew
       ]);
 
   @override

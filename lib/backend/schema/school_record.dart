@@ -11,9 +11,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class SchoolRecord extends FirestoreRecord {
   SchoolRecord._(
-    super.reference,
-    super.data,
-  ) {
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
     _initializeFields();
   }
 
@@ -116,6 +116,21 @@ class SchoolRecord extends FirestoreRecord {
   DateTime? get popupdate => _popupdate;
   bool hasPopupdate() => _popupdate != null;
 
+  // "schoolNameforSearch" field.
+  String? _schoolNameforSearch;
+  String get schoolNameforSearch => _schoolNameforSearch ?? '';
+  bool hasSchoolNameforSearch() => _schoolNameforSearch != null;
+
+  // "principalNameforSearch" field.
+  String? _principalNameforSearch;
+  String get principalNameforSearch => _principalNameforSearch ?? '';
+  bool hasPrincipalNameforSearch() => _principalNameforSearch != null;
+
+  // "listOfAdmin" field.
+  List<DocumentReference>? _listOfAdmin;
+  List<DocumentReference> get listOfAdmin => _listOfAdmin ?? const [];
+  bool hasListOfAdmin() => _listOfAdmin != null;
+
   void _initializeFields() {
     _schoolDetails = snapshotData['school_details'] is SchoolDetailsStruct
         ? snapshotData['school_details']
@@ -161,6 +176,9 @@ class SchoolRecord extends FirestoreRecord {
     _listOfteachersuser = getDataList(snapshotData['listOfteachersuser']);
     _latlng = snapshotData['latlng'] as LatLng?;
     _popupdate = snapshotData['popupdate'] as DateTime?;
+    _schoolNameforSearch = snapshotData['schoolNameforSearch'] as String?;
+    _principalNameforSearch = snapshotData['principalNameforSearch'] as String?;
+    _listOfAdmin = getDataList(snapshotData['listOfAdmin']);
   }
 
   static CollectionReference get collection =>
@@ -279,6 +297,15 @@ class SchoolRecord extends FirestoreRecord {
             ParamType.DateTime,
             false,
           ),
+          'schoolNameforSearch': snapshot.data['schoolNameforSearch'],
+          'principalNameforSearch': snapshot.data['principalNameforSearch'],
+          'listOfAdmin': safeGet(
+            () => convertAlgoliaParam<DocumentReference>(
+              snapshot.data['listOfAdmin'],
+              ParamType.DocumentReference,
+              true,
+            ).toList(),
+          ),
         },
         SchoolRecord.collection.doc(snapshot.objectID),
       );
@@ -325,6 +352,8 @@ Map<String, dynamic> createSchoolRecordData({
   DateTime? updatedAt,
   LatLng? latlng,
   DateTime? popupdate,
+  String? schoolNameforSearch,
+  String? principalNameforSearch,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -338,6 +367,8 @@ Map<String, dynamic> createSchoolRecordData({
       'updated_at': updatedAt,
       'latlng': latlng,
       'popupdate': popupdate,
+      'schoolNameforSearch': schoolNameforSearch,
+      'principalNameforSearch': principalNameforSearch,
     }.withoutNulls,
   );
 
@@ -379,7 +410,10 @@ class SchoolRecordDocumentEquality implements Equality<SchoolRecord> {
         listEquality.equals(e1?.studentDataList, e2?.studentDataList) &&
         listEquality.equals(e1?.listOfteachersuser, e2?.listOfteachersuser) &&
         e1?.latlng == e2?.latlng &&
-        e1?.popupdate == e2?.popupdate;
+        e1?.popupdate == e2?.popupdate &&
+        e1?.schoolNameforSearch == e2?.schoolNameforSearch &&
+        e1?.principalNameforSearch == e2?.principalNameforSearch &&
+        listEquality.equals(e1?.listOfAdmin, e2?.listOfAdmin);
   }
 
   @override
@@ -402,7 +436,10 @@ class SchoolRecordDocumentEquality implements Equality<SchoolRecord> {
         e?.studentDataList,
         e?.listOfteachersuser,
         e?.latlng,
-        e?.popupdate
+        e?.popupdate,
+        e?.schoolNameforSearch,
+        e?.principalNameforSearch,
+        e?.listOfAdmin
       ]);
 
   @override

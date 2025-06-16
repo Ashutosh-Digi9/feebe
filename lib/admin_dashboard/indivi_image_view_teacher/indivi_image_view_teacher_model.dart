@@ -1,4 +1,5 @@
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'indivi_image_view_teacher_widget.dart'
     show IndiviImageViewTeacherWidget;
 import 'package:flutter/material.dart';

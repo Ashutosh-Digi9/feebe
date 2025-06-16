@@ -2,7 +2,9 @@ import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/teacher/delete_teacher/delete_teacher_widget.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'edit_teacher_model.dart';
 export 'edit_teacher_model.dart';
 
@@ -68,7 +70,7 @@ class _EditTeacherWidgetState extends State<EditTeacherWidget> {
           width: MediaQuery.sizeOf(context).width * 1.0,
           height: MediaQuery.sizeOf(context).height * 1.0,
           decoration: BoxDecoration(
-            color: const Color(0xFFE9F0FD),
+            color: Color(0xFFE9F0FD),
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Column(
@@ -89,9 +91,9 @@ class _EditTeacherWidgetState extends State<EditTeacherWidget> {
                           elevation: 0,
                           insetPadding: EdgeInsets.zero,
                           backgroundColor: Colors.transparent,
-                          alignment: const AlignmentDirectional(0.0, 0.0)
+                          alignment: AlignmentDirectional(0.0, 0.0)
                               .resolve(Directionality.of(context)),
-                          child: SizedBox(
+                          child: Container(
                             height: MediaQuery.sizeOf(context).height * 0.3,
                             width: MediaQuery.sizeOf(context).width * 0.7,
                             child: DeleteTeacherWidget(
@@ -110,22 +112,31 @@ class _EditTeacherWidgetState extends State<EditTeacherWidget> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Icon(
-                        Icons.delete_outline,
-                        color: FlutterFlowTheme.of(context).primaryText,
+                        FFIcons.ktrashEmpty,
+                        color: FlutterFlowTheme.of(context).tertiaryText,
                         size: 20.0,
                       ),
                       Text(
                         'Delete',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Nunito',
+                              font: GoogleFonts.nunito(
+                                fontWeight: FontWeight.w500,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
+                              color: FlutterFlowTheme.of(context).primaryText,
                               fontSize: 16.0,
                               letterSpacing: 0.0,
                               fontWeight: FontWeight.w500,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
                             ),
                       ),
                     ]
-                        .divide(const SizedBox(width: 15.0))
-                        .around(const SizedBox(width: 15.0)),
+                        .divide(SizedBox(width: 15.0))
+                        .around(SizedBox(width: 15.0)),
                   ),
                 ),
               ),
@@ -135,10 +146,11 @@ class _EditTeacherWidgetState extends State<EditTeacherWidget> {
                 hoverColor: Colors.transparent,
                 highlightColor: Colors.transparent,
                 onTap: () async {
-                  Navigator.pop(context);
+                  _model.teacher = await UsersRecord.getDocumentOnce(
+                      containerTeachersRecord.useref!);
 
                   context.pushNamed(
-                    'Edit_TeacherAdmin',
+                    EditTeacherAdminWidget.routeName,
                     queryParameters: {
                       'schoolRef': serializeParam(
                         widget.schoolref,
@@ -148,8 +160,22 @@ class _EditTeacherWidgetState extends State<EditTeacherWidget> {
                         widget.teacherref,
                         ParamType.DocumentReference,
                       ),
+                      'teacher': serializeParam(
+                        TeacherListStruct(
+                          teacherName: containerTeachersRecord.teacherName,
+                          phoneNumber: containerTeachersRecord.phoneNumber,
+                          emailId: containerTeachersRecord.emailId,
+                          teacherImage: containerTeachersRecord.teacherImage,
+                          teachersId: widget.teacherref,
+                          userRef: containerTeachersRecord.useref,
+                          isemail: _model.teacher?.isemail,
+                        ),
+                        ParamType.DataStruct,
+                      ),
                     }.withoutNulls,
                   );
+
+                  safeSetState(() {});
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
@@ -157,19 +183,28 @@ class _EditTeacherWidgetState extends State<EditTeacherWidget> {
                   children: [
                     Icon(
                       Icons.edit,
-                      color: FlutterFlowTheme.of(context).primaryText,
+                      color: FlutterFlowTheme.of(context).tertiaryText,
                       size: 20.0,
                     ),
                     Text(
                       'Edit',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Nunito',
+                            font: GoogleFonts.nunito(
+                              fontWeight: FontWeight.w500,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                            color: FlutterFlowTheme.of(context).primaryText,
                             fontSize: 16.0,
                             letterSpacing: 0.0,
                             fontWeight: FontWeight.w500,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
                           ),
                     ),
-                  ].divide(const SizedBox(width: 15.0)).around(const SizedBox(width: 15.0)),
+                  ].divide(SizedBox(width: 15.0)).around(SizedBox(width: 15.0)),
                 ),
               ),
             ],

@@ -3,6 +3,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'parentdetails_model.dart';
 export 'parentdetails_model.dart';
 
@@ -82,8 +83,8 @@ class _ParentdetailsWidgetState extends State<ParentdetailsWidget> {
             mainAxisSize: MainAxisSize.max,
             children: [
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
-                child: SizedBox(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
+                child: Container(
                   width: MediaQuery.sizeOf(context).width * 0.9,
                   child: TextFormField(
                     controller: _model.parentname1TextController ??=
@@ -97,16 +98,42 @@ class _ParentdetailsWidgetState extends State<ParentdetailsWidget> {
                       isDense: true,
                       labelStyle:
                           FlutterFlowTheme.of(context).labelMedium.override(
-                                fontFamily: 'Nunito',
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontStyle,
+                                ),
                                 letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontStyle,
                               ),
                       hintText: 'Parent\'s name',
                       hintStyle: FlutterFlowTheme.of(context)
                           .labelMedium
                           .override(
-                            fontFamily: 'Nunito',
+                            font: GoogleFonts.nunito(
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .fontStyle,
+                            ),
                             color: FlutterFlowTheme.of(context).tertiaryText,
                             letterSpacing: 0.0,
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .fontStyle,
                           ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
@@ -141,9 +168,21 @@ class _ParentdetailsWidgetState extends State<ParentdetailsWidget> {
                           FlutterFlowTheme.of(context).secondaryBackground,
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Nunito',
+                          font: GoogleFonts.nunito(
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
                           fontSize: 16.0,
                           letterSpacing: 0.0,
+                          fontWeight: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .fontWeight,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
                     keyboardType: TextInputType.name,
                     cursorColor: FlutterFlowTheme.of(context).primaryText,
@@ -156,8 +195,8 @@ class _ParentdetailsWidgetState extends State<ParentdetailsWidget> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
-                child: SizedBox(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
+                child: Container(
                   width: MediaQuery.sizeOf(context).width * 0.9,
                   child: TextFormField(
                     controller: _model.number1TextController ??=
@@ -171,16 +210,42 @@ class _ParentdetailsWidgetState extends State<ParentdetailsWidget> {
                       isDense: true,
                       labelStyle:
                           FlutterFlowTheme.of(context).labelMedium.override(
-                                fontFamily: 'Nunito',
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontStyle,
+                                ),
                                 letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontStyle,
                               ),
                       hintText: 'Number',
                       hintStyle: FlutterFlowTheme.of(context)
                           .labelMedium
                           .override(
-                            fontFamily: 'Nunito',
+                            font: GoogleFonts.nunito(
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .fontStyle,
+                            ),
                             color: FlutterFlowTheme.of(context).tertiaryText,
                             letterSpacing: 0.0,
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .fontStyle,
                           ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
@@ -215,9 +280,21 @@ class _ParentdetailsWidgetState extends State<ParentdetailsWidget> {
                           FlutterFlowTheme.of(context).secondaryBackground,
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Nunito',
+                          font: GoogleFonts.nunito(
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
                           fontSize: 16.0,
                           letterSpacing: 0.0,
+                          fontWeight: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .fontWeight,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
                     maxLength: 10,
                     buildCounter: (context,
@@ -236,8 +313,8 @@ class _ParentdetailsWidgetState extends State<ParentdetailsWidget> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
-                child: SizedBox(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
+                child: Container(
                   width: MediaQuery.sizeOf(context).width * 0.9,
                   child: TextFormField(
                     controller: _model.email1TextController ??=
@@ -252,16 +329,42 @@ class _ParentdetailsWidgetState extends State<ParentdetailsWidget> {
                       isDense: true,
                       labelStyle:
                           FlutterFlowTheme.of(context).labelMedium.override(
-                                fontFamily: 'Nunito',
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontStyle,
+                                ),
                                 letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontStyle,
                               ),
                       hintText: 'Email',
                       hintStyle: FlutterFlowTheme.of(context)
                           .labelMedium
                           .override(
-                            fontFamily: 'Nunito',
+                            font: GoogleFonts.nunito(
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .fontStyle,
+                            ),
                             color: FlutterFlowTheme.of(context).tertiaryText,
                             letterSpacing: 0.0,
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .fontStyle,
                           ),
                       enabledBorder: UnderlineInputBorder(
                         borderSide: BorderSide(
@@ -296,9 +399,21 @@ class _ParentdetailsWidgetState extends State<ParentdetailsWidget> {
                           FlutterFlowTheme.of(context).secondaryBackground,
                     ),
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Nunito',
+                          font: GoogleFonts.nunito(
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
                           fontSize: 16.0,
                           letterSpacing: 0.0,
+                          fontWeight: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .fontWeight,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
                     keyboardType: TextInputType.emailAddress,
                     cursorColor: FlutterFlowTheme.of(context).primaryText,

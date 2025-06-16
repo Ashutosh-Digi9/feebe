@@ -34,18 +34,40 @@ class AddStudentBottomsheetModel
 
   int? pageno = 0;
 
+  bool isguardian = false;
+
+  List<int> pagenumber = [];
+  void addToPagenumber(int item) => pagenumber.add(item);
+  void removeFromPagenumber(int item) => pagenumber.remove(item);
+  void removeAtIndexFromPagenumber(int index) => pagenumber.removeAt(index);
+  void insertAtIndexInPagenumber(int index, int item) =>
+      pagenumber.insert(index, item);
+  void updatePagenumberAtIndex(int index, Function(int) updateFn) =>
+      pagenumber[index] = updateFn(pagenumber[index]);
+
+  List<ParentsaddStruct> parentid = [];
+  void addToParentid(ParentsaddStruct item) => parentid.add(item);
+  void removeFromParentid(ParentsaddStruct item) => parentid.remove(item);
+  void removeAtIndexFromParentid(int index) => parentid.removeAt(index);
+  void insertAtIndexInParentid(int index, ParentsaddStruct item) =>
+      parentid.insert(index, item);
+  void updateParentidAtIndex(int index, Function(ParentsaddStruct) updateFn) =>
+      parentid[index] = updateFn(parentid[index]);
+
+  int guardiancount = 0;
+
   ///  State fields for stateful widgets in this component.
 
   final formKey2 = GlobalKey<FormState>();
   final formKey4 = GlobalKey<FormState>();
   final formKey1 = GlobalKey<FormState>();
   final formKey3 = GlobalKey<FormState>();
-  // Stores action output result for [Backend Call - Create Document] action in IconButton widget.
-  StudentsRecord? studentdraft;
-  // Stores action output result for [Backend Call - Create Document] action in IconButton widget.
-  StudentsRecord? studentdraft1;
-  // Stores action output result for [Backend Call - Create Document] action in IconButton widget.
-  StudentsRecord? studentdraft2;
+  // Stores action output result for [Backend Call - Create Document] action in Container widget.
+  StudentsRecord? studentdraftCopy;
+  // Stores action output result for [Backend Call - Create Document] action in Container widget.
+  StudentsRecord? studentdraft1Copy;
+  // Stores action output result for [Backend Call - Create Document] action in Container widget.
+  StudentsRecord? studentdraft2Copy;
   // State field(s) for PageView widget.
   PageController? pageViewController;
 
@@ -66,7 +88,6 @@ class AddStudentBottomsheetModel
     return null;
   }
 
-  DateTime? datePicked;
   // State field(s) for gender widget.
   String? genderValue;
   FormFieldController<String>? genderValueController;
@@ -89,11 +110,6 @@ class AddStudentBottomsheetModel
     return null;
   }
 
-  bool isDataUploading1 = false;
-  FFUploadedFile uploadedLocalFile1 =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl1 = '';
-
   // State field(s) for Parentname widget.
   FocusNode? parentnameFocusNode;
   TextEditingController? parentnameTextController;
@@ -101,7 +117,7 @@ class AddStudentBottomsheetModel
   String? _parentnameTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter the Father\'s name';
+      return 'Please enter the parent\'s name.';
     }
 
     return null;
@@ -113,7 +129,7 @@ class AddStudentBottomsheetModel
   String? Function(BuildContext, String?)? numberTextControllerValidator;
   String? _numberTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter Father\'s  phone number';
+      return 'Please enter the parent\'s phone number.';
     }
 
     if (val.length > 10) {
@@ -131,19 +147,16 @@ class AddStudentBottomsheetModel
   String? Function(BuildContext, String?)? emailpTextControllerValidator;
   String? _emailpTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter email';
+      return 'Please enter username / email';
     }
 
-    if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
+    if (!RegExp(
+            '^(?:[a-zA-Z0-9]+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})\$')
+        .hasMatch(val)) {
       return 'Please enter valid email ';
     }
     return null;
   }
-
-  bool isDataUploading2 = false;
-  FFUploadedFile uploadedLocalFile2 =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl2 = '';
 
   // State field(s) for Parent2 widget.
   FocusNode? parent2FocusNode;
@@ -151,7 +164,7 @@ class AddStudentBottomsheetModel
   String? Function(BuildContext, String?)? parent2TextControllerValidator;
   String? _parent2TextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter name ';
+      return 'Please enter the parent\'s name.';
     }
 
     return null;
@@ -164,7 +177,7 @@ class AddStudentBottomsheetModel
   String? _mothernumberTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter phone number ';
+      return 'Please enter the parent\'s phone number.';
     }
 
     if (val.length > 10) {
@@ -182,26 +195,22 @@ class AddStudentBottomsheetModel
   String? Function(BuildContext, String?)? email2TextControllerValidator;
   String? _email2TextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'please enter email ';
+      return 'Please enter username / email';
     }
 
-    if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
+    if (!RegExp(
+            '^(?:[a-zA-Z0-9]+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})\$')
+        .hasMatch(val)) {
       return 'Please enter valid email';
     }
     return null;
   }
 
-  bool isDataUploading3 = false;
-  FFUploadedFile uploadedLocalFile3 =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl3 = '';
-
-  // State field(s) for Guardiansname widget.
-  FocusNode? guardiansnameFocusNode;
-  TextEditingController? guardiansnameTextController;
-  String? Function(BuildContext, String?)? guardiansnameTextControllerValidator;
-  String? _guardiansnameTextControllerValidator(
-      BuildContext context, String? val) {
+  // State field(s) for Gname widget.
+  FocusNode? gnameFocusNode;
+  TextEditingController? gnameTextController;
+  String? Function(BuildContext, String?)? gnameTextControllerValidator;
+  String? _gnameTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
       return 'Please enter the Guardian\'s name';
     }
@@ -209,39 +218,37 @@ class AddStudentBottomsheetModel
     return null;
   }
 
-  // State field(s) for Guardiansnumber widget.
-  FocusNode? guardiansnumberFocusNode;
-  TextEditingController? guardiansnumberTextController;
-  String? Function(BuildContext, String?)?
-      guardiansnumberTextControllerValidator;
-  String? _guardiansnumberTextControllerValidator(
-      BuildContext context, String? val) {
+  // State field(s) for Gnumber widget.
+  FocusNode? gnumberFocusNode;
+  TextEditingController? gnumberTextController;
+  String? Function(BuildContext, String?)? gnumberTextControllerValidator;
+  String? _gnumberTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter the Guardian\'s number';
+      return 'Please enter the number';
     }
 
     if (val.length > 10) {
-      return 'Please enter the valid phone number';
+      return 'Please enter the 10 digit valid number';
     }
     if (!RegExp('^[6-9]\\d{9}\$').hasMatch(val)) {
-      return 'Please enter the valid 10 digit number';
+      return 'Please enter the valid number';
     }
     return null;
   }
 
-  // State field(s) for Guardiansemail widget.
-  FocusNode? guardiansemailFocusNode;
-  TextEditingController? guardiansemailTextController;
-  String? Function(BuildContext, String?)?
-      guardiansemailTextControllerValidator;
-  String? _guardiansemailTextControllerValidator(
-      BuildContext context, String? val) {
+  // State field(s) for Gemail widget.
+  FocusNode? gemailFocusNode;
+  TextEditingController? gemailTextController;
+  String? Function(BuildContext, String?)? gemailTextControllerValidator;
+  String? _gemailTextControllerValidator(BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter the Guardian\'s email';
+      return 'Please enter username / email';
     }
 
-    if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
-      return 'Please enter the valid email.';
+    if (!RegExp(
+            '^(?:[a-zA-Z0-9]+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,})\$')
+        .hasMatch(val)) {
+      return 'Please enter the valid email';
     }
     return null;
   }
@@ -254,6 +261,8 @@ class AddStudentBottomsheetModel
   DocumentReference? parentUseref1;
   // Stores action output result for [Backend Call - API (Send Mail )] action in Save widget.
   ApiCallResponse? parentfatherCopy;
+  // Stores action output result for [Backend Call - API (sendsms)] action in Save widget.
+  ApiCallResponse? sms;
   // Stores action output result for [Backend Call - Create Document] action in Save widget.
   StudentsRecord? createdstudent12;
   // Stores action output result for [Firestore Query - Query a collection] action in Save widget.
@@ -273,12 +282,9 @@ class AddStudentBottomsheetModel
     parent2TextControllerValidator = _parent2TextControllerValidator;
     mothernumberTextControllerValidator = _mothernumberTextControllerValidator;
     email2TextControllerValidator = _email2TextControllerValidator;
-    guardiansnameTextControllerValidator =
-        _guardiansnameTextControllerValidator;
-    guardiansnumberTextControllerValidator =
-        _guardiansnumberTextControllerValidator;
-    guardiansemailTextControllerValidator =
-        _guardiansemailTextControllerValidator;
+    gnameTextControllerValidator = _gnameTextControllerValidator;
+    gnumberTextControllerValidator = _gnumberTextControllerValidator;
+    gemailTextControllerValidator = _gemailTextControllerValidator;
   }
 
   @override
@@ -310,13 +316,13 @@ class AddStudentBottomsheetModel
     email2FocusNode?.dispose();
     email2TextController?.dispose();
 
-    guardiansnameFocusNode?.dispose();
-    guardiansnameTextController?.dispose();
+    gnameFocusNode?.dispose();
+    gnameTextController?.dispose();
 
-    guardiansnumberFocusNode?.dispose();
-    guardiansnumberTextController?.dispose();
+    gnumberFocusNode?.dispose();
+    gnumberTextController?.dispose();
 
-    guardiansemailFocusNode?.dispose();
-    guardiansemailTextController?.dispose();
+    gemailFocusNode?.dispose();
+    gemailTextController?.dispose();
   }
 }

@@ -1,14 +1,15 @@
-import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/components/empty_widget.dart';
-import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/shimmer_effects/notifications_shimmer/notifications_shimmer_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'calender_list_parent_model.dart';
 export 'calender_list_parent_model.dart';
 
@@ -21,6 +22,9 @@ class CalenderListParentWidget extends StatefulWidget {
 
   final DateTime? selectedDate;
   final DocumentReference? schoolclassref;
+
+  static String routeName = 'calender_list_parent';
+  static String routePath = '/calenderListParent';
 
   @override
   State<CalenderListParentWidget> createState() =>
@@ -60,7 +64,7 @@ class _CalenderListParentWidgetState extends State<CalenderListParentWidget> {
         if (!snapshot.hasData) {
           return Scaffold(
             backgroundColor: FlutterFlowTheme.of(context).tertiary,
-            body: const NotificationsShimmerWidget(),
+            body: NotificationsShimmerWidget(),
           );
         }
 
@@ -74,61 +78,34 @@ class _CalenderListParentWidgetState extends State<CalenderListParentWidget> {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).tertiary,
-            appBar: PreferredSize(
-              preferredSize:
-                  Size.fromHeight(MediaQuery.sizeOf(context).height * 0.06),
-              child: AppBar(
-                backgroundColor: FlutterFlowTheme.of(context).info,
-                automaticallyImplyLeading: false,
-                leading: FlutterFlowIconButton(
-                  borderColor: Colors.transparent,
-                  borderRadius: 8.0,
-                  buttonSize: 46.0,
-                  icon: Icon(
-                    Icons.chevron_left,
-                    color: FlutterFlowTheme.of(context).bgColor1,
-                    size: 28.0,
-                  ),
-                  onPressed: () async {
-                    context.safePop();
-                  },
-                ),
-                actions: [
-                  Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 10.0, 0.0),
-                    child: AuthUserStreamWidget(
-                      builder: (context) => InkWell(
-                        splashColor: Colors.transparent,
-                        focusColor: Colors.transparent,
-                        hoverColor: Colors.transparent,
-                        highlightColor: Colors.transparent,
-                        onTap: () async {
-                          context.pushNamed('EditProfile_SA');
-                        },
-                        child: Container(
-                          width: 40.0,
-                          height: 40.0,
-                          clipBehavior: Clip.antiAlias,
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                          ),
-                          child: Image.network(
-                            valueOrDefault<String>(
-                              currentUserPhoto,
-                              'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fflat-style-woman-avatar_90220-2876.jpg?alt=media&token=2c9154f7-595d-40d6-87fd-c0be9eb08d5a',
-                            ),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? AppBar(
+                    backgroundColor: FlutterFlowTheme.of(context).info,
+                    automaticallyImplyLeading: false,
+                    leading: FlutterFlowIconButton(
+                      borderColor: Colors.transparent,
+                      borderRadius: 30.0,
+                      borderWidth: 1.0,
+                      buttonSize: 60.0,
+                      icon: Icon(
+                        Icons.chevron_left,
+                        color: FlutterFlowTheme.of(context).alternate,
+                        size: 26.0,
                       ),
+                      onPressed: () async {
+                        context.pop();
+                      },
                     ),
-                  ),
-                ],
-                centerTitle: true,
-                elevation: 0.0,
-              ),
-            ),
+                    actions: [],
+                    centerTitle: false,
+                    elevation: 0.0,
+                  )
+                : null,
             body: SafeArea(
               top: true,
               child: SingleChildScrollView(
@@ -152,26 +129,34 @@ class _CalenderListParentWidgetState extends State<CalenderListParentWidget> {
                           },
                           child: Icon(
                             Icons.chevron_left_outlined,
-                            color: FlutterFlowTheme.of(context).alternate,
-                            size: 30.0,
+                            color: FlutterFlowTheme.of(context).tertiaryText,
+                            size: 26.0,
                           ),
                         ),
                         Align(
-                          alignment: const AlignmentDirectional(0.0, 0.0),
+                          alignment: AlignmentDirectional(0.0, 0.0),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 10.0, 0.0, 10.0, 0.0),
                             child: Text(
                               dateTimeFormat("dd MMM , y", _model.calendarDate),
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
-                                    fontSize: 18.0,
+                                    fontSize: 20.0,
                                     letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                             ),
                           ),
@@ -188,15 +173,15 @@ class _CalenderListParentWidgetState extends State<CalenderListParentWidget> {
                           },
                           child: Icon(
                             Icons.navigate_next_rounded,
-                            color: FlutterFlowTheme.of(context).alternate,
-                            size: 30.0,
+                            color: FlutterFlowTheme.of(context).tertiaryText,
+                            size: 26.0,
                           ),
                         ),
                       ],
                     ),
                     Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                       child: Builder(
                         builder: (context) {
                           final calendarlist =
@@ -209,16 +194,16 @@ class _CalenderListParentWidgetState extends State<CalenderListParentWidget> {
                                   .toList();
                           if (calendarlist.isEmpty) {
                             return Center(
-                              child: SizedBox(
+                              child: Container(
                                 width: MediaQuery.sizeOf(context).width * 1.0,
                                 height: MediaQuery.sizeOf(context).height * 0.4,
-                                child: const EmptyWidget(),
+                                child: EmptyWidget(),
                               ),
                             );
                           }
 
                           return ListView.builder(
-                            padding: const EdgeInsets.fromLTRB(
+                            padding: EdgeInsets.fromLTRB(
                               0,
                               0,
                               0,
@@ -232,7 +217,7 @@ class _CalenderListParentWidgetState extends State<CalenderListParentWidget> {
                               final calendarlistItem =
                                   calendarlist[calendarlistIndex];
                               return Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     10.0, 0.0, 10.0, 10.0),
                                 child: InkWell(
                                   splashColor: Colors.transparent,
@@ -241,7 +226,7 @@ class _CalenderListParentWidgetState extends State<CalenderListParentWidget> {
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
                                     context.pushNamed(
-                                      'calender_details_parent',
+                                      EventdetailsparentWidget.routeName,
                                       queryParameters: {
                                         'eventDetails': serializeParam(
                                           calendarlistItem,
@@ -252,66 +237,105 @@ class _CalenderListParentWidgetState extends State<CalenderListParentWidget> {
                                   },
                                   child: Material(
                                     color: Colors.transparent,
-                                    elevation: 5.0,
+                                    elevation: 0.0,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(16.0),
+                                      borderRadius: BorderRadius.circular(8.0),
                                     ),
                                     child: Container(
                                       decoration: BoxDecoration(
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryBackground,
+                                        boxShadow: [
+                                          BoxShadow(
+                                            blurRadius: 20.0,
+                                            color: Color(0x03000000),
+                                            offset: Offset(
+                                              0.0,
+                                              0.0,
+                                            ),
+                                            spreadRadius: 0.0,
+                                          )
+                                        ],
                                         borderRadius:
-                                            BorderRadius.circular(16.0),
+                                            BorderRadius.circular(8.0),
+                                        border: Border.all(
+                                          color: valueOrDefault<Color>(
+                                            () {
+                                              if (calendarlistItem.eventName ==
+                                                  'Event') {
+                                                return Color(0xFFFDF8E3);
+                                              } else if (calendarlistItem
+                                                      .eventName ==
+                                                  'Birthday') {
+                                                return Color(0xFFE5E2FF);
+                                              } else {
+                                                return Color(0xFFDDF1F6);
+                                              }
+                                            }(),
+                                            Color(0xFFFDF8E3),
+                                          ),
+                                          width: 1.0,
+                                        ),
                                       ),
                                       child: Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            10.0, 10.0, 10.0, 0.0),
+                                        padding: EdgeInsets.all(10.0),
                                         child: Column(
                                           mainAxisSize: MainAxisSize.max,
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(0.0, 5.0, 0.0, 5.0),
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(0.0, 5.0, 5.0, 0.0),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.max,
                                                 mainAxisAlignment:
                                                     MainAxisAlignment
                                                         .spaceBetween,
                                                 children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                10.0, 0.0),
-                                                    child: Container(
-                                                      width: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width *
-                                                          0.3,
-                                                      decoration: BoxDecoration(
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
-                                                      ),
-                                                      child: Text(
+                                                  Container(
+                                                    width: MediaQuery.sizeOf(
+                                                                context)
+                                                            .width *
+                                                        0.4,
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                    ),
+                                                    child: Text(
+                                                      valueOrDefault<String>(
                                                         calendarlistItem
                                                             .eventTitle,
-                                                        style: FlutterFlowTheme
-                                                                .of(context)
-                                                            .bodyMedium
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Nunito',
-                                                              fontSize: 16.0,
-                                                              letterSpacing:
-                                                                  0.0,
+                                                        'Assignment',
+                                                      ),
+                                                      style: FlutterFlowTheme
+                                                              .of(context)
+                                                          .bodyMedium
+                                                          .override(
+                                                            font: GoogleFonts
+                                                                .nunito(
                                                               fontWeight:
                                                                   FontWeight
-                                                                      .w500,
+                                                                      .w600,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
                                                             ),
-                                                      ),
+                                                            color: Color(
+                                                                0xFF151E28),
+                                                            fontSize: 16.0,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
                                                     ),
                                                   ),
                                                   Row(
@@ -323,171 +347,172 @@ class _CalenderListParentWidgetState extends State<CalenderListParentWidget> {
                                                     children: [
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     0.0,
                                                                     0.0,
                                                                     10.0,
                                                                     0.0),
                                                         child: Container(
-                                                          height:
-                                                              MediaQuery.sizeOf(
-                                                                          context)
-                                                                      .height *
-                                                                  0.03,
                                                           decoration:
                                                               BoxDecoration(
-                                                            color: () {
-                                                              if (calendarlistItem
-                                                                      .eventName ==
-                                                                  'Event') {
-                                                                return const Color(
-                                                                    0xFFFFFCF0);
-                                                              } else if (calendarlistItem
-                                                                      .eventName ==
-                                                                  'Birthday') {
-                                                                return const Color(
-                                                                    0xFFF0F0FF);
-                                                              } else {
-                                                                return const Color(
-                                                                    0xFFFBFCFF);
-                                                              }
-                                                            }(),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        4.0),
-                                                            border: Border.all(
-                                                              color: () {
+                                                            color:
+                                                                valueOrDefault<
+                                                                    Color>(
+                                                              () {
                                                                 if (calendarlistItem
                                                                         .eventName ==
                                                                     'Event') {
-                                                                  return const Color(
-                                                                      0xFFFFE26A);
+                                                                  return FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .event;
                                                                 } else if (calendarlistItem
                                                                         .eventName ==
                                                                     'Birthday') {
-                                                                  return const Color(
-                                                                      0xFF635AAC);
+                                                                  return FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .birthdayfill;
                                                                 } else {
-                                                                  return const Color(
-                                                                      0xFF7DD7FE);
+                                                                  return FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .holiday;
                                                                 }
                                                               }(),
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .event,
+                                                            ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        3.59),
+                                                            border: Border.all(
+                                                              color:
+                                                                  valueOrDefault<
+                                                                      Color>(
+                                                                () {
+                                                                  if (calendarlistItem
+                                                                          .eventName ==
+                                                                      'Event') {
+                                                                    return FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .eventborder;
+                                                                  } else if (calendarlistItem
+                                                                          .eventName ==
+                                                                      'Birthday') {
+                                                                    return FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .birthdayborder;
+                                                                  } else {
+                                                                    return FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .holidayborder;
+                                                                  }
+                                                                }(),
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .eventborder,
+                                                              ),
                                                               width: 1.0,
                                                             ),
                                                           ),
                                                           child: Padding(
                                                             padding:
-                                                                const EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0.0,
-                                                                        0.0,
-                                                                        10.0,
-                                                                        0.0),
+                                                                EdgeInsets.all(
+                                                                    5.0),
                                                             child: Row(
                                                               mainAxisSize:
                                                                   MainAxisSize
                                                                       .max,
                                                               mainAxisAlignment:
                                                                   MainAxisAlignment
-                                                                      .spaceBetween,
+                                                                      .center,
                                                               children: [
                                                                 if (calendarlistItem
                                                                         .eventName ==
                                                                     'Event')
-                                                                  const Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            5.0,
-                                                                            0.0),
-                                                                    child: Icon(
-                                                                      Icons
-                                                                          .bolt,
-                                                                      color: Color(
-                                                                          0xFFF8BA0B),
-                                                                      size:
-                                                                          24.0,
-                                                                    ),
+                                                                  Image.asset(
+                                                                    'assets/images/typcn--flash-removebg-preview.png',
+                                                                    width: 15.5,
+                                                                    height:
+                                                                        15.5,
+                                                                    fit: BoxFit
+                                                                        .cover,
                                                                   ),
                                                                 if (calendarlistItem
                                                                         .eventName ==
                                                                     'Holiday')
-                                                                  const Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            5.0,
-                                                                            0.0),
-                                                                    child: Icon(
-                                                                      Icons
-                                                                          .celebration_sharp,
-                                                                      color: Color(
-                                                                          0xFF072F78),
-                                                                      size:
-                                                                          24.0,
-                                                                    ),
+                                                                  Image.asset(
+                                                                    'assets/images/fxemoji--confetti-removebg-preview.png',
+                                                                    width: 15.5,
+                                                                    height:
+                                                                        15.5,
+                                                                    fit: BoxFit
+                                                                        .cover,
                                                                   ),
                                                                 if (calendarlistItem
                                                                         .eventName ==
                                                                     'Birthday')
-                                                                  const Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            5.0,
-                                                                            0.0),
-                                                                    child: Icon(
-                                                                      Icons
-                                                                          .cake,
-                                                                      color: Color(
-                                                                          0xFFB0A7FD),
-                                                                      size:
-                                                                          24.0,
-                                                                    ),
+                                                                  Image.asset(
+                                                                    'assets/images/noto--birthday-cake-removebg-preview.png',
+                                                                    width: 15.5,
+                                                                    height:
+                                                                        15.5,
+                                                                    fit: BoxFit
+                                                                        .cover,
                                                                   ),
                                                                 Padding(
-                                                                  padding: const EdgeInsetsDirectional
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           0.0,
                                                                           0.0,
                                                                           10.0,
                                                                           0.0),
                                                                   child: Text(
-                                                                    calendarlistItem
-                                                                        .eventName,
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                                      calendarlistItem
+                                                                          .eventName,
+                                                                      'Event',
+                                                                    ),
                                                                     style: FlutterFlowTheme.of(
                                                                             context)
                                                                         .bodyMedium
                                                                         .override(
-                                                                          fontFamily:
-                                                                              'Inter',
+                                                                          font:
+                                                                              GoogleFonts.nunito(
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
                                                                           color:
-                                                                              () {
-                                                                            if (calendarlistItem.eventName ==
-                                                                                'Event') {
-                                                                              return const Color(0xFFC29800);
-                                                                            } else if (calendarlistItem.eventName ==
-                                                                                'Holiday') {
-                                                                              return const Color(0xFF072F78);
-                                                                            } else {
-                                                                              return const Color(0xFF4E0B6B);
-                                                                            }
-                                                                          }(),
+                                                                              valueOrDefault<Color>(
+                                                                            () {
+                                                                              if (calendarlistItem.eventName == 'Event') {
+                                                                                return FlutterFlowTheme.of(context).eventtext;
+                                                                              } else if (calendarlistItem.eventName == 'Holiday') {
+                                                                                return FlutterFlowTheme.of(context).holidaytext;
+                                                                              } else {
+                                                                                return FlutterFlowTheme.of(context).birthdaytext;
+                                                                              }
+                                                                            }(),
+                                                                            FlutterFlowTheme.of(context).eventtext,
+                                                                          ),
                                                                           fontSize:
                                                                               14.0,
                                                                           letterSpacing:
                                                                               0.0,
                                                                           fontWeight:
                                                                               FontWeight.w500,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontStyle,
                                                                         ),
                                                                   ),
                                                                 ),
-                                                              ],
+                                                              ].divide(SizedBox(
+                                                                  width: 5.0)),
                                                             ),
                                                           ),
                                                         ),
@@ -498,152 +523,523 @@ class _CalenderListParentWidgetState extends State<CalenderListParentWidget> {
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       0.0, 0.0, 0.0, 10.0),
                                               child: Text(
                                                 dateTimeFormat(
-                                                    "dd MMM , y",
+                                                    "dd MMM y",
                                                     calendarlistItem
                                                         .eventDate!),
-                                                style:
-                                                    FlutterFlowTheme.of(context)
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .bodyMedium
+                                                    .override(
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .tertiaryText,
+                                                      fontSize: 14.0,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
+                                              ),
+                                            ),
+                                            Align(
+                                              alignment: AlignmentDirectional(
+                                                  0.0, 0.0),
+                                              child: Container(
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        0.9,
+                                                decoration: BoxDecoration(),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 10.0, 0.0, 0.0),
+                                                  child: Text(
+                                                    valueOrDefault<String>(
+                                                      calendarlistItem
+                                                          .eventDescription,
+                                                      'Assignment',
+                                                    ),
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily: 'Inter',
+                                                          font: GoogleFonts
+                                                              .nunito(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .tertiaryText,
-                                                          fontSize: 12.0,
+                                                          fontSize: 16.0,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.normal,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
                                                         ),
-                                              ),
-                                            ),
-                                            Container(
-                                              width: MediaQuery.sizeOf(context)
-                                                      .width *
-                                                  0.85,
-                                              decoration: const BoxDecoration(),
-                                              child: Text(
-                                                calendarlistItem
-                                                    .eventDescription,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Inter',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .tertiaryText,
-                                                          letterSpacing: 0.0,
-                                                        ),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       0.0, 10.0, 0.0, 0.0),
-                                              child: Builder(
-                                                builder: (context) {
-                                                  final uploadedImages =
-                                                      calendarlistItem
-                                                          .eventImages
-                                                          .toList();
-
-                                                  return SingleChildScrollView(
-                                                    scrollDirection:
-                                                        Axis.horizontal,
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      children: List.generate(
-                                                          uploadedImages.length,
-                                                          (uploadedImagesIndex) {
-                                                        final uploadedImagesItem =
-                                                            uploadedImages[
-                                                                uploadedImagesIndex];
-                                                        return Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      5.0,
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  if (calendarlistItem
+                                                          .eventfiles
+                                                          .where((e) =>
+                                                              functions
+                                                                  .getFileTypeFromUrl(
+                                                                      e) ==
+                                                              1)
+                                                          .toList()
+                                                          .length !=
+                                                      0)
+                                                    badges.Badge(
+                                                      badgeContent: Text(
+                                                        calendarlistItem
+                                                            .eventfiles
+                                                            .where((e) =>
+                                                                functions
+                                                                    .getFileTypeFromUrl(
+                                                                        e) ==
+                                                                1)
+                                                            .toList()
+                                                            .length
+                                                            .toString(),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondaryBackground,
+                                                                  fontSize:
+                                                                      12.0,
+                                                                  letterSpacing:
                                                                       0.0,
-                                                                      10.0,
-                                                                      0.0),
-                                                          child: Container(
-                                                            width: 50.0,
-                                                            height: 50.0,
-                                                            decoration:
-                                                                const BoxDecoration(),
-                                                            child: InkWell(
-                                                              splashColor: Colors
-                                                                  .transparent,
-                                                              focusColor: Colors
-                                                                  .transparent,
-                                                              hoverColor: Colors
-                                                                  .transparent,
-                                                              highlightColor:
-                                                                  Colors
-                                                                      .transparent,
-                                                              onTap: () async {
-                                                                await Navigator
-                                                                    .push(
-                                                                  context,
-                                                                  PageTransition(
-                                                                    type: PageTransitionType
-                                                                        .fade,
-                                                                    child:
-                                                                        FlutterFlowExpandedImageView(
-                                                                      image: Image
-                                                                          .network(
-                                                                        uploadedImagesItem,
-                                                                        fit: BoxFit
-                                                                            .contain,
-                                                                      ),
-                                                                      allowRotation:
-                                                                          false,
-                                                                      tag:
-                                                                          uploadedImagesItem,
-                                                                      useHeroAnimation:
-                                                                          true,
-                                                                    ),
-                                                                  ),
-                                                                );
-                                                              },
-                                                              child: Hero(
-                                                                tag:
-                                                                    uploadedImagesItem,
-                                                                transitionOnUserGestures:
-                                                                    true,
-                                                                child:
-                                                                    ClipRRect(
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8.0),
-                                                                  child: Image
-                                                                      .network(
-                                                                    uploadedImagesItem,
-                                                                    width: 50.0,
-                                                                    height:
-                                                                        50.0,
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                  ),
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontStyle,
                                                                 ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      }),
+                                                      ),
+                                                      showBadge: true,
+                                                      shape: badges
+                                                          .BadgeShape.circle,
+                                                      badgeColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      elevation: 5.0,
+                                                      padding:
+                                                          EdgeInsets.all(5.0),
+                                                      position:
+                                                          badges.BadgePosition
+                                                              .topEnd(),
+                                                      animationType: badges
+                                                          .BadgeAnimationType
+                                                          .scale,
+                                                      toAnimate: true,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                        child: Image.asset(
+                                                          'assets/images/download.png',
+                                                          width: 46.0,
+                                                          height: 41.0,
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                      ),
                                                     ),
-                                                  );
-                                                },
+                                                  if (calendarlistItem
+                                                          .eventfiles
+                                                          .where((e) =>
+                                                              functions
+                                                                  .getFileTypeFromUrl(
+                                                                      e) ==
+                                                              2)
+                                                          .toList()
+                                                          .length !=
+                                                      0)
+                                                    badges.Badge(
+                                                      badgeContent: Text(
+                                                        calendarlistItem
+                                                            .eventfiles
+                                                            .where((e) =>
+                                                                functions
+                                                                    .getFileTypeFromUrl(
+                                                                        e) ==
+                                                                2)
+                                                            .toList()
+                                                            .length
+                                                            .toString(),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondary,
+                                                                  fontSize:
+                                                                      12.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontStyle,
+                                                                ),
+                                                      ),
+                                                      showBadge: true,
+                                                      shape: badges
+                                                          .BadgeShape.circle,
+                                                      badgeColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      elevation: 0.0,
+                                                      padding:
+                                                          EdgeInsets.all(5.0),
+                                                      position:
+                                                          badges.BadgePosition
+                                                              .topEnd(),
+                                                      animationType: badges
+                                                          .BadgeAnimationType
+                                                          .scale,
+                                                      toAnimate: true,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                        child: Image.asset(
+                                                          'assets/images/download_(1).png',
+                                                          width: 46.0,
+                                                          height: 41.0,
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  if (calendarlistItem
+                                                          .eventfiles
+                                                          .where((e) =>
+                                                              functions
+                                                                  .getFileTypeFromUrl(
+                                                                      e) ==
+                                                              3)
+                                                          .toList()
+                                                          .length !=
+                                                      0)
+                                                    badges.Badge(
+                                                      badgeContent: Text(
+                                                        calendarlistItem
+                                                            .eventfiles
+                                                            .where((e) =>
+                                                                functions
+                                                                    .getFileTypeFromUrl(
+                                                                        e) ==
+                                                                3)
+                                                            .toList()
+                                                            .length
+                                                            .toString(),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondary,
+                                                                  fontSize:
+                                                                      12.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontStyle,
+                                                                ),
+                                                      ),
+                                                      showBadge: true,
+                                                      shape: badges
+                                                          .BadgeShape.circle,
+                                                      badgeColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      elevation: 0.0,
+                                                      padding:
+                                                          EdgeInsets.all(5.0),
+                                                      position:
+                                                          badges.BadgePosition
+                                                              .topEnd(),
+                                                      animationType: badges
+                                                          .BadgeAnimationType
+                                                          .scale,
+                                                      toAnimate: true,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                        child: Image.asset(
+                                                          'assets/images/download_(2).png',
+                                                          width: 46.0,
+                                                          height: 41.0,
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  if (calendarlistItem
+                                                          .eventfiles
+                                                          .where((e) =>
+                                                              functions
+                                                                  .getFileTypeFromUrl(
+                                                                      e) ==
+                                                              4)
+                                                          .toList()
+                                                          .length !=
+                                                      0)
+                                                    badges.Badge(
+                                                      badgeContent: Text(
+                                                        calendarlistItem
+                                                            .eventfiles
+                                                            .where((e) =>
+                                                                functions
+                                                                    .getFileTypeFromUrl(
+                                                                        e) ==
+                                                                4)
+                                                            .toList()
+                                                            .length
+                                                            .toString(),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondary,
+                                                                  fontSize:
+                                                                      12.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontStyle,
+                                                                ),
+                                                      ),
+                                                      showBadge: true,
+                                                      shape: badges
+                                                          .BadgeShape.circle,
+                                                      badgeColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      elevation: 0.0,
+                                                      padding:
+                                                          EdgeInsets.all(5.0),
+                                                      position:
+                                                          badges.BadgePosition
+                                                              .topEnd(),
+                                                      animationType: badges
+                                                          .BadgeAnimationType
+                                                          .scale,
+                                                      toAnimate: true,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                        child: Image.asset(
+                                                          'assets/images/clarity_image-gallery-line.png',
+                                                          width: 46.0,
+                                                          height: 41.0,
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  if (calendarlistItem
+                                                          .eventfiles
+                                                          .where((e) =>
+                                                              functions
+                                                                  .getFileTypeFromUrl(
+                                                                      e) ==
+                                                              5)
+                                                          .toList()
+                                                          .length !=
+                                                      0)
+                                                    badges.Badge(
+                                                      badgeContent: Text(
+                                                        calendarlistItem
+                                                            .eventfiles
+                                                            .where((e) =>
+                                                                functions
+                                                                    .getFileTypeFromUrl(
+                                                                        e) ==
+                                                                5)
+                                                            .toList()
+                                                            .length
+                                                            .toString(),
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondary,
+                                                                  fontSize:
+                                                                      12.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontStyle,
+                                                                ),
+                                                      ),
+                                                      showBadge: true,
+                                                      shape: badges
+                                                          .BadgeShape.circle,
+                                                      badgeColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      elevation: 0.0,
+                                                      padding:
+                                                          EdgeInsets.all(5.0),
+                                                      position:
+                                                          badges.BadgePosition
+                                                              .topEnd(),
+                                                      animationType: badges
+                                                          .BadgeAnimationType
+                                                          .scale,
+                                                      toAnimate: true,
+                                                      child: ClipRRect(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                        child: Image.asset(
+                                                          'assets/images/download-removebg-preview.png',
+                                                          width: 46.0,
+                                                          height: 41.0,
+                                                          fit: BoxFit.contain,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                ]
+                                                    .divide(
+                                                        SizedBox(width: 18.0))
+                                                    .around(
+                                                        SizedBox(width: 18.0)),
                                               ),
                                             ),
-                                          ].addToEnd(const SizedBox(height: 10.0)),
+                                          ].addToEnd(SizedBox(height: 5.0)),
                                         ),
                                       ),
                                     ),

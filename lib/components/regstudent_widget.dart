@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'regstudent_model.dart';
 export 'regstudent_model.dart';
 
@@ -43,39 +44,51 @@ class _RegstudentWidgetState extends State<RegstudentWidget> {
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: EdgeInsets.all(15.0),
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Align(
-              alignment: const AlignmentDirectional(0.0, 0.0),
+              alignment: AlignmentDirectional(0.0, 0.0),
               child: Text(
                 'Register a new student to ',
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Nunito',
+                      font: GoogleFonts.nunito(
+                        fontWeight: FontWeight.bold,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                      ),
                       fontSize: 18.0,
                       letterSpacing: 0.0,
                       fontWeight: FontWeight.bold,
+                      fontStyle:
+                          FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                     ),
               ),
             ),
             Align(
-              alignment: const AlignmentDirectional(0.0, 0.0),
+              alignment: AlignmentDirectional(0.0, 0.0),
               child: Text(
                 'L.K.G',
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Nunito',
+                      font: GoogleFonts.nunito(
+                        fontWeight: FontWeight.bold,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                      ),
                       color: FlutterFlowTheme.of(context).primaryBackground,
                       fontSize: 18.0,
                       letterSpacing: 0.0,
                       fontWeight: FontWeight.bold,
+                      fontStyle:
+                          FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                     ),
               ),
             ),
             Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -94,7 +107,7 @@ class _RegstudentWidgetState extends State<RegstudentWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Stack(
-                          alignment: const AlignmentDirectional(1.0, -1.0),
+                          alignment: AlignmentDirectional(1.0, -1.0),
                           children: [
                             Icon(
                               Icons.add_circle_outline_sharp,
@@ -104,16 +117,24 @@ class _RegstudentWidgetState extends State<RegstudentWidget> {
                           ],
                         ),
                         Align(
-                          alignment: const AlignmentDirectional(0.0, 0.0),
+                          alignment: AlignmentDirectional(0.0, 0.0),
                           child: Text(
                             'register\nstudent manually',
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
                                   fontSize: 14.0,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.bold,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
                                 ),
                           ),
                         ),
@@ -134,16 +155,24 @@ class _RegstudentWidgetState extends State<RegstudentWidget> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Align(
-                          alignment: const AlignmentDirectional(0.0, 0.0),
+                          alignment: AlignmentDirectional(0.0, 0.0),
                           child: Text(
                             'share  \nregistration link',
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
                                   fontSize: 14.0,
                                   letterSpacing: 0.0,
                                   fontWeight: FontWeight.bold,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
                                 ),
                           ),
                         ),

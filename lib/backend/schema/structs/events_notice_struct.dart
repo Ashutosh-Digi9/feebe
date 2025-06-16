@@ -15,14 +15,16 @@ class EventsNoticeStruct extends FFFirebaseStruct {
     String? eventTitle,
     String? eventDescription,
     DateTime? eventDate,
-    List<String>? eventImages,
+    List<String>? eventfiles,
+    List<DocumentReference>? classref,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _eventId = eventId,
         _eventName = eventName,
         _eventTitle = eventTitle,
         _eventDescription = eventDescription,
         _eventDate = eventDate,
-        _eventImages = eventImages,
+        _eventfiles = eventfiles,
+        _classref = classref,
         super(firestoreUtilData);
 
   // "Event_id" field.
@@ -62,16 +64,27 @@ class EventsNoticeStruct extends FFFirebaseStruct {
 
   bool hasEventDate() => _eventDate != null;
 
-  // "Event_images" field.
-  List<String>? _eventImages;
-  List<String> get eventImages => _eventImages ?? const [];
-  set eventImages(List<String>? val) => _eventImages = val;
+  // "eventfiles" field.
+  List<String>? _eventfiles;
+  List<String> get eventfiles => _eventfiles ?? const [];
+  set eventfiles(List<String>? val) => _eventfiles = val;
 
-  void updateEventImages(Function(List<String>) updateFn) {
-    updateFn(_eventImages ??= []);
+  void updateEventfiles(Function(List<String>) updateFn) {
+    updateFn(_eventfiles ??= []);
   }
 
-  bool hasEventImages() => _eventImages != null;
+  bool hasEventfiles() => _eventfiles != null;
+
+  // "classref" field.
+  List<DocumentReference>? _classref;
+  List<DocumentReference> get classref => _classref ?? const [];
+  set classref(List<DocumentReference>? val) => _classref = val;
+
+  void updateClassref(Function(List<DocumentReference>) updateFn) {
+    updateFn(_classref ??= []);
+  }
+
+  bool hasClassref() => _classref != null;
 
   static EventsNoticeStruct fromMap(Map<String, dynamic> data) =>
       EventsNoticeStruct(
@@ -80,7 +93,8 @@ class EventsNoticeStruct extends FFFirebaseStruct {
         eventTitle: data['Event_Title'] as String?,
         eventDescription: data['Event_description'] as String?,
         eventDate: data['Event_date'] as DateTime?,
-        eventImages: getDataList(data['Event_images']),
+        eventfiles: getDataList(data['eventfiles']),
+        classref: getDataList(data['classref']),
       );
 
   static EventsNoticeStruct? maybeFromMap(dynamic data) => data is Map
@@ -93,7 +107,8 @@ class EventsNoticeStruct extends FFFirebaseStruct {
         'Event_Title': _eventTitle,
         'Event_description': _eventDescription,
         'Event_date': _eventDate,
-        'Event_images': _eventImages,
+        'eventfiles': _eventfiles,
+        'classref': _classref,
       }.withoutNulls;
 
   @override
@@ -118,9 +133,14 @@ class EventsNoticeStruct extends FFFirebaseStruct {
           _eventDate,
           ParamType.DateTime,
         ),
-        'Event_images': serializeParam(
-          _eventImages,
+        'eventfiles': serializeParam(
+          _eventfiles,
           ParamType.String,
+          isList: true,
+        ),
+        'classref': serializeParam(
+          _classref,
+          ParamType.DocumentReference,
           isList: true,
         ),
       }.withoutNulls;
@@ -152,10 +172,16 @@ class EventsNoticeStruct extends FFFirebaseStruct {
           ParamType.DateTime,
           false,
         ),
-        eventImages: deserializeParam<String>(
-          data['Event_images'],
+        eventfiles: deserializeParam<String>(
+          data['eventfiles'],
           ParamType.String,
           true,
+        ),
+        classref: deserializeParam<DocumentReference>(
+          data['classref'],
+          ParamType.DocumentReference,
+          true,
+          collectionNamePath: ['School_class'],
         ),
       );
 
@@ -186,12 +212,17 @@ class EventsNoticeStruct extends FFFirebaseStruct {
           ParamType.DateTime,
           false,
         ),
-        eventImages: convertAlgoliaParam<String>(
-          data['Event_images'],
+        eventfiles: convertAlgoliaParam<String>(
+          data['eventfiles'],
           ParamType.String,
           true,
         ),
-        firestoreUtilData: const FirestoreUtilData(
+        classref: convertAlgoliaParam<DocumentReference>(
+          data['classref'],
+          ParamType.DocumentReference,
+          true,
+        ),
+        firestoreUtilData: FirestoreUtilData(
           clearUnsetFields: false,
           create: true,
         ),
@@ -209,7 +240,8 @@ class EventsNoticeStruct extends FFFirebaseStruct {
         eventTitle == other.eventTitle &&
         eventDescription == other.eventDescription &&
         eventDate == other.eventDate &&
-        listEquality.equals(eventImages, other.eventImages);
+        listEquality.equals(eventfiles, other.eventfiles) &&
+        listEquality.equals(classref, other.classref);
   }
 
   @override
@@ -219,7 +251,8 @@ class EventsNoticeStruct extends FFFirebaseStruct {
         eventTitle,
         eventDescription,
         eventDate,
-        eventImages
+        eventfiles,
+        classref
       ]);
 }
 

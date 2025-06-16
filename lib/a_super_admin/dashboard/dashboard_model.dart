@@ -4,6 +4,7 @@ import '/flutter_flow/form_field_controller.dart';
 import '/navbar/nav_bar_s_a/nav_bar_s_a_widget.dart';
 import '/navbar/navbar_parent/navbar_parent_widget.dart';
 import '/navbar/navbarteacher/navbarteacher_widget.dart';
+import '/index.dart';
 import 'dashboard_widget.dart' show DashboardWidget;
 import 'package:flutter/material.dart';
 
@@ -16,7 +17,7 @@ class DashboardModel extends FlutterFlowModel<DashboardWidget> {
 
   DocumentReference? selectedstudentref;
 
-  String? eventname;
+  String eventname = 'General';
 
   List<String> imagesnotice = [];
   void addToImagesnotice(String item) => imagesnotice.add(item);
@@ -42,6 +43,14 @@ class DashboardModel extends FlutterFlowModel<DashboardWidget> {
           int index, Function(EventsNoticeStruct) updateFn) =>
       classevents[index] = updateFn(classevents[index]);
 
+  String? title;
+
+  String? des;
+
+  bool isScroll = false;
+
+  int lastfield = 0;
+
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
@@ -51,25 +60,24 @@ class DashboardModel extends FlutterFlowModel<DashboardWidget> {
   List<SchoolRecord>? numberofSchool;
   // Stores action output result for [Firestore Query - Query a collection] action in Dashboard widget.
   SchoolRecord? teacherSchool;
-  // Stores action output result for [Firestore Query - Query a collection] action in Dashboard widget.
-  List<StudentsRecord>? studentsP;
+  // Stores action output result for [Firestore Query - Query a collection] action in CircleImage widget.
+  List<StudentsRecord>? students12;
   // State field(s) for TabBar widget.
-  TabController? tabBarController1;
-  int get tabBarCurrentIndex1 =>
-      tabBarController1 != null ? tabBarController1!.index : 0;
+  TabController? tabBarController;
+  int get tabBarCurrentIndex =>
+      tabBarController != null ? tabBarController!.index : 0;
+  int get tabBarPreviousIndex =>
+      tabBarController != null ? tabBarController!.previousIndex : 0;
 
   // Model for NavBarSA component.
   late NavBarSAModel navBarSAModel;
-  // State field(s) for TabBar widget.
-  TabController? tabBarController2;
-  int get tabBarCurrentIndex2 =>
-      tabBarController2 != null ? tabBarController2!.index : 0;
+  // State field(s) for Tabbarclass widget.
+  TabController? tabbarclassController;
+  int get tabbarclassCurrentIndex =>
+      tabbarclassController != null ? tabbarclassController!.index : 0;
+  int get tabbarclassPreviousIndex =>
+      tabbarclassController != null ? tabbarclassController!.previousIndex : 0;
 
-  // Stores action output result for [Backend Call - Create Document] action in Checkout_time widget.
-  NotificationsRecord? dfff;
-  // Stores action output result for [Backend Call - Create Document] action in Checkin_time widget.
-  NotificationsRecord? sc;
-  DateTime? datePicked;
   // State field(s) for Eventname widget.
   FocusNode? eventnameFocusNode;
   TextEditingController? eventnameTextController;
@@ -90,29 +98,19 @@ class DashboardModel extends FlutterFlowModel<DashboardWidget> {
   FocusNode? descriptionFocusNode;
   TextEditingController? descriptionTextController;
   String? Function(BuildContext, String?)? descriptionTextControllerValidator;
-  String? _descriptionTextControllerValidator(
-      BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return 'Please add Description ';
-    }
+  bool isDataUploading_uploadDataWee = false;
+  List<FFUploadedFile> uploadedLocalFiles_uploadDataWee = [];
+  List<String> uploadedFileUrls_uploadDataWee = [];
 
-    return null;
-  }
-
-  bool isDataUploading1 = false;
-  List<FFUploadedFile> uploadedLocalFiles1 = [];
-  List<String> uploadedFileUrls1 = [];
-
-  bool isDataUploading2 = false;
-  FFUploadedFile uploadedLocalFile2 =
+  bool isDataUploading_uploadData8ae66 = false;
+  FFUploadedFile uploadedLocalFile_uploadData8ae66 =
       FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl2 = '';
+  String uploadedFileUrl_uploadData8ae66 = '';
 
+  DateTime? datePicked;
   // State field(s) for DropDown widget.
   String? dropDownValue;
   FormFieldController<String>? dropDownValueController;
-  // Stores action output result for [Backend Call - Read Document] action in DropDown widget.
-  SchoolClassRecord? class1;
   // Model for navbarteacher component.
   late NavbarteacherModel navbarteacherModel;
   // State field(s) for studentPageview widget.
@@ -132,16 +130,15 @@ class DashboardModel extends FlutterFlowModel<DashboardWidget> {
   void initState(BuildContext context) {
     navBarSAModel = createModel(context, () => NavBarSAModel());
     eventnameTextControllerValidator = _eventnameTextControllerValidator;
-    descriptionTextControllerValidator = _descriptionTextControllerValidator;
     navbarteacherModel = createModel(context, () => NavbarteacherModel());
     navbarParentModel = createModel(context, () => NavbarParentModel());
   }
 
   @override
   void dispose() {
-    tabBarController1?.dispose();
+    tabBarController?.dispose();
     navBarSAModel.dispose();
-    tabBarController2?.dispose();
+    tabbarclassController?.dispose();
     eventnameFocusNode?.dispose();
     eventnameTextController?.dispose();
 

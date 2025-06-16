@@ -39,32 +39,24 @@ class EditCalenderSchoolModel
   FocusNode? descriptionFocusNode;
   TextEditingController? descriptionTextController;
   String? Function(BuildContext, String?)? descriptionTextControllerValidator;
-  String? _descriptionTextControllerValidator(
-      BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return 'Please enter description';
-    }
-
-    return null;
-  }
-
   DateTime? datePicked;
-  bool isDataUploading1 = false;
-  List<FFUploadedFile> uploadedLocalFiles1 = [];
-  List<String> uploadedFileUrls1 = [];
+  bool isDataUploading_uploadDataRms = false;
+  List<FFUploadedFile> uploadedLocalFiles_uploadDataRms = [];
+  List<String> uploadedFileUrls_uploadDataRms = [];
 
-  bool isDataUploading2 = false;
-  FFUploadedFile uploadedLocalFile2 =
+  bool isDataUploading_cameraupload = false;
+  FFUploadedFile uploadedLocalFile_cameraupload =
       FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl2 = '';
+  String uploadedFileUrl_cameraupload = '';
 
+  // Stores action output result for [Backend Call - Read Document] action in Button widget.
+  SchoolClassRecord? classref;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   List<StudentsRecord>? students;
 
   @override
   void initState(BuildContext context) {
     eventnameTextControllerValidator = _eventnameTextControllerValidator;
-    descriptionTextControllerValidator = _descriptionTextControllerValidator;
   }
 
   @override

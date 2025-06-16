@@ -1,4 +1,6 @@
+import '/backend/api_requests/api_calls.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'login_widget.dart' show LoginWidget;
 import 'package:flutter/material.dart';
 
@@ -6,6 +8,8 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
   ///  Local state fields for this page.
 
   bool incorrectPasword = false;
+
+  int lasfield = 0;
 
   ///  State fields for stateful widgets in this page.
 
@@ -19,9 +23,6 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
       return 'Please enter the email ';
     }
 
-    if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
-      return 'Please enter valid email';
-    }
     return null;
   }
 
@@ -37,6 +38,9 @@ class LoginModel extends FlutterFlowModel<LoginWidget> {
 
     return null;
   }
+
+  // Stores action output result for [Backend Call - API (forgotpassword)] action in ForgotPassword widget.
+  ApiCallResponse? apiResult7fm;
 
   @override
   void initState(BuildContext context) {

@@ -1,15 +1,16 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
-import 'package:just_audio/just_audio.dart';
-import 'package:lottie/lottie.dart';
 import 'schooldeletedsuccessfully_model.dart';
 export 'schooldeletedsuccessfully_model.dart';
 
 class SchooldeletedsuccessfullyWidget extends StatefulWidget {
   const SchooldeletedsuccessfullyWidget({super.key});
+
+  static String routeName = 'Schooldeletedsuccessfully';
+  static String routePath = '/schooldeletedsuccessfully';
 
   @override
   State<SchooldeletedsuccessfullyWidget> createState() =>
@@ -29,27 +30,8 @@ class _SchooldeletedsuccessfullyWidgetState
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.soundPlayer ??= AudioPlayer();
-      if (_model.soundPlayer!.playing) {
-        await _model.soundPlayer!.stop();
-      }
-      _model.soundPlayer!.setVolume(1.0);
-      _model.soundPlayer!
-          .setAsset('assets/audios/success_bell-6776.wav')
-          .then((_) => _model.soundPlayer!.play());
-
-      HapticFeedback.lightImpact();
       await Future.delayed(const Duration(milliseconds: 2000));
-
-      context.goNamed(
-        'Dashboard',
-        extra: <String, dynamic>{
-          kTransitionInfoKey: const TransitionInfo(
-            hasTransition: true,
-            transitionType: PageTransitionType.fade,
-          ),
-        },
-      );
+      context.safePop();
     });
   }
 
@@ -70,66 +52,66 @@ class _SchooldeletedsuccessfullyWidgetState
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).secondary,
-        appBar: AppBar(
-          backgroundColor: FlutterFlowTheme.of(context).info,
-          automaticallyImplyLeading: false,
-          actions: [
-            Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
-              child: InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () async {
-                  context.goNamed(
-                    'Dashboard',
-                    extra: <String, dynamic>{
-                      kTransitionInfoKey: const TransitionInfo(
-                        hasTransition: true,
-                        transitionType: PageTransitionType.fade,
+        appBar: responsiveVisibility(
+          context: context,
+          tablet: false,
+          tabletLandscape: false,
+          desktop: false,
+        )
+            ? AppBar(
+                backgroundColor: FlutterFlowTheme.of(context).info,
+                automaticallyImplyLeading: false,
+                actions: [
+                  Padding(
+                    padding:
+                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+                    child: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        context.goNamed(
+                          DashboardWidget.routeName,
+                          extra: <String, dynamic>{
+                            kTransitionInfoKey: TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.fade,
+                            ),
+                          },
+                        );
+                      },
+                      child: Icon(
+                        Icons.close,
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        size: 30.0,
                       ),
-                    },
-                  );
-                },
-                child: Icon(
-                  Icons.close,
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  size: 30.0,
-                ),
-              ),
-            ),
-          ],
-          centerTitle: true,
-          elevation: 0.0,
-        ),
+                    ),
+                  ),
+                ],
+                centerTitle: true,
+                elevation: 0.0,
+              )
+            : null,
         body: SafeArea(
           top: true,
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Lottie.asset(
-                'assets/jsons/Animation_-_1731740374224.json',
-                width: MediaQuery.sizeOf(context).width * 1.0,
-                height: MediaQuery.sizeOf(context).height * 0.4,
-                fit: BoxFit.contain,
-                animate: true,
-              ),
-              Align(
-                alignment: const AlignmentDirectional(0.0, 0.0),
-                child: Text(
-                  'School deleted successfully',
-                  textAlign: TextAlign.center,
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Nunito',
-                        fontSize: 30.0,
-                        letterSpacing: 0.0,
-                        fontWeight: FontWeight.w600,
-                      ),
+          child: Align(
+            alignment: AlignmentDirectional(0.0, 0.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Image.asset(
+                    'assets/images/Frame_61432.png',
+                    width: 300.0,
+                    height: 200.0,
+                    fit: BoxFit.cover,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

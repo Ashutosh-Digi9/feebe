@@ -2,7 +2,9 @@ import '/admin_dashboard/edit_calender_school/edit_calender_school_widget.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'notice_board_edit_model.dart';
 export 'notice_board_edit_model.dart';
 
@@ -80,7 +82,7 @@ class _NoticeBoardEditWidgetState extends State<NoticeBoardEditWidget> {
           width: MediaQuery.sizeOf(context).width * 1.0,
           height: 100.0,
           decoration: BoxDecoration(
-            color: const Color(0xFFE9F0FD),
+            color: Color(0xFFE9F0FD),
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Column(
@@ -89,7 +91,7 @@ class _NoticeBoardEditWidgetState extends State<NoticeBoardEditWidget> {
             children: [
               Builder(
                 builder: (context) => Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
                   child: InkWell(
                     splashColor: Colors.transparent,
                     focusColor: Colors.transparent,
@@ -103,11 +105,12 @@ class _NoticeBoardEditWidgetState extends State<NoticeBoardEditWidget> {
                             elevation: 0,
                             insetPadding: EdgeInsets.zero,
                             backgroundColor: Colors.transparent,
-                            alignment: const AlignmentDirectional(0.0, 0.0)
+                            alignment: AlignmentDirectional(0.0, 0.0)
                                 .resolve(Directionality.of(context)),
                             child: EditCalenderSchoolWidget(
                               school: widget.school!,
                               eventid: widget.eventid!,
+                              eventdata: widget.eventdatatype!,
                             ),
                           );
                         },
@@ -121,22 +124,30 @@ class _NoticeBoardEditWidgetState extends State<NoticeBoardEditWidget> {
                       children: [
                         Icon(
                           Icons.edit_sharp,
-                          color: FlutterFlowTheme.of(context).primaryText,
+                          color: FlutterFlowTheme.of(context).tertiaryText,
                           size: 20.0,
                         ),
                         Text(
                           'Edit Notice',
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     fontSize: 14.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w500,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                         ),
                       ]
-                          .divide(const SizedBox(width: 15.0))
-                          .around(const SizedBox(width: 15.0)),
+                          .divide(SizedBox(width: 15.0))
+                          .around(SizedBox(width: 15.0)),
                     ),
                   ),
                 ),
@@ -151,19 +162,19 @@ class _NoticeBoardEditWidgetState extends State<NoticeBoardEditWidget> {
                         context: context,
                         builder: (alertDialogContext) {
                           return AlertDialog(
-                            title: const Text('Alert!'),
-                            content: const Text(
+                            title: Text('Alert!'),
+                            content: Text(
                                 'Are you sure you want to delete this notice.'),
                             actions: [
                               TextButton(
                                 onPressed: () =>
                                     Navigator.pop(alertDialogContext, false),
-                                child: const Text('Cancel'),
+                                child: Text('Cancel'),
                               ),
                               TextButton(
                                 onPressed: () =>
                                     Navigator.pop(alertDialogContext, true),
-                                child: const Text('Confirm'),
+                                child: Text('Confirm'),
                               ),
                             ],
                           );
@@ -194,7 +205,7 @@ class _NoticeBoardEditWidgetState extends State<NoticeBoardEditWidget> {
                             color: FlutterFlowTheme.of(context).secondary,
                           ),
                         ),
-                        duration: const Duration(milliseconds: 4000),
+                        duration: Duration(milliseconds: 4000),
                         backgroundColor:
                             FlutterFlowTheme.of(context).primaryText,
                       ),
@@ -202,7 +213,7 @@ class _NoticeBoardEditWidgetState extends State<NoticeBoardEditWidget> {
                     Navigator.pop(context);
 
                     context.goNamed(
-                      'class_dashboard',
+                      ClassDashboardWidget.routeName,
                       queryParameters: {
                         'schoolref': serializeParam(
                           widget.school,
@@ -217,20 +228,28 @@ class _NoticeBoardEditWidgetState extends State<NoticeBoardEditWidget> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(
-                      Icons.delete,
-                      color: FlutterFlowTheme.of(context).primaryText,
+                      FFIcons.ktrashEmpty,
+                      color: FlutterFlowTheme.of(context).tertiaryText,
                       size: 20.0,
                     ),
                     Text(
                       'Delete Notice',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Nunito',
+                            font: GoogleFonts.nunito(
+                              fontWeight: FontWeight.w500,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
                             fontSize: 14.0,
                             letterSpacing: 0.0,
                             fontWeight: FontWeight.w500,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
                           ),
                     ),
-                  ].divide(const SizedBox(width: 15.0)).around(const SizedBox(width: 15.0)),
+                  ].divide(SizedBox(width: 15.0)).around(SizedBox(width: 15.0)),
                 ),
               ),
             ],

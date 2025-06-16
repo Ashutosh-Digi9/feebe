@@ -19,6 +19,8 @@ class TeachersTimelineStruct extends FFFirebaseStruct {
     String? eventName,
     String? eventDescr,
     String? images,
+    String? timelinevideo,
+    String? activityvideo,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _id = id,
         _date = date,
@@ -29,6 +31,8 @@ class TeachersTimelineStruct extends FFFirebaseStruct {
         _eventName = eventName,
         _eventDescr = eventDescr,
         _images = images,
+        _timelinevideo = timelinevideo,
+        _activityvideo = activityvideo,
         super(firestoreUtilData);
 
   // "id" field.
@@ -105,6 +109,20 @@ class TeachersTimelineStruct extends FFFirebaseStruct {
 
   bool hasImages() => _images != null;
 
+  // "timelinevideo" field.
+  String? _timelinevideo;
+  String get timelinevideo => _timelinevideo ?? '';
+  set timelinevideo(String? val) => _timelinevideo = val;
+
+  bool hasTimelinevideo() => _timelinevideo != null;
+
+  // "activityvideo" field.
+  String? _activityvideo;
+  String get activityvideo => _activityvideo ?? '';
+  set activityvideo(String? val) => _activityvideo = val;
+
+  bool hasActivityvideo() => _activityvideo != null;
+
   static TeachersTimelineStruct fromMap(Map<String, dynamic> data) =>
       TeachersTimelineStruct(
         id: castToType<int>(data['id']),
@@ -116,6 +134,8 @@ class TeachersTimelineStruct extends FFFirebaseStruct {
         eventName: data['eventName'] as String?,
         eventDescr: data['eventDescr'] as String?,
         images: data['images'] as String?,
+        timelinevideo: data['timelinevideo'] as String?,
+        activityvideo: data['activityvideo'] as String?,
       );
 
   static TeachersTimelineStruct? maybeFromMap(dynamic data) => data is Map
@@ -132,6 +152,8 @@ class TeachersTimelineStruct extends FFFirebaseStruct {
         'eventName': _eventName,
         'eventDescr': _eventDescr,
         'images': _images,
+        'timelinevideo': _timelinevideo,
+        'activityvideo': _activityvideo,
       }.withoutNulls;
 
   @override
@@ -171,6 +193,14 @@ class TeachersTimelineStruct extends FFFirebaseStruct {
         ),
         'images': serializeParam(
           _images,
+          ParamType.String,
+        ),
+        'timelinevideo': serializeParam(
+          _timelinevideo,
+          ParamType.String,
+        ),
+        'activityvideo': serializeParam(
+          _activityvideo,
           ParamType.String,
         ),
       }.withoutNulls;
@@ -224,6 +254,16 @@ class TeachersTimelineStruct extends FFFirebaseStruct {
           ParamType.String,
           false,
         ),
+        timelinevideo: deserializeParam(
+          data['timelinevideo'],
+          ParamType.String,
+          false,
+        ),
+        activityvideo: deserializeParam(
+          data['activityvideo'],
+          ParamType.String,
+          false,
+        ),
       );
 
   static TeachersTimelineStruct fromAlgoliaData(Map<String, dynamic> data) =>
@@ -273,7 +313,17 @@ class TeachersTimelineStruct extends FFFirebaseStruct {
           ParamType.String,
           false,
         ),
-        firestoreUtilData: const FirestoreUtilData(
+        timelinevideo: convertAlgoliaParam(
+          data['timelinevideo'],
+          ParamType.String,
+          false,
+        ),
+        activityvideo: convertAlgoliaParam(
+          data['activityvideo'],
+          ParamType.String,
+          false,
+        ),
+        firestoreUtilData: FirestoreUtilData(
           clearUnsetFields: false,
           create: true,
         ),
@@ -294,7 +344,9 @@ class TeachersTimelineStruct extends FFFirebaseStruct {
         eventid == other.eventid &&
         eventName == other.eventName &&
         eventDescr == other.eventDescr &&
-        images == other.images;
+        images == other.images &&
+        timelinevideo == other.timelinevideo &&
+        activityvideo == other.activityvideo;
   }
 
   @override
@@ -307,7 +359,9 @@ class TeachersTimelineStruct extends FFFirebaseStruct {
         eventid,
         eventName,
         eventDescr,
-        images
+        images,
+        timelinevideo,
+        activityvideo
       ]);
 }
 
@@ -320,6 +374,8 @@ TeachersTimelineStruct createTeachersTimelineStruct({
   String? eventName,
   String? eventDescr,
   String? images,
+  String? timelinevideo,
+  String? activityvideo,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -334,6 +390,8 @@ TeachersTimelineStruct createTeachersTimelineStruct({
       eventName: eventName,
       eventDescr: eventDescr,
       images: images,
+      timelinevideo: timelinevideo,
+      activityvideo: activityvideo,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

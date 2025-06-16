@@ -1,4 +1,5 @@
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'guest_page_widget.dart' show GuestPageWidget;
 import 'package:flutter/material.dart';
 
@@ -9,6 +10,8 @@ class GuestPageModel extends FlutterFlowModel<GuestPageWidget> {
   TabController? tabBarController;
   int get tabBarCurrentIndex =>
       tabBarController != null ? tabBarController!.index : 0;
+  int get tabBarPreviousIndex =>
+      tabBarController != null ? tabBarController!.previousIndex : 0;
 
   @override
   void initState(BuildContext context) {}

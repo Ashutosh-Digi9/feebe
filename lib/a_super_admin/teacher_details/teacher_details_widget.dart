@@ -4,11 +4,12 @@ import '/flutter_flow/flutter_flow_animations.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
-import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -65,8 +66,8 @@ class _TeacherDetailsWidgetState extends State<TeacherDetailsWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(0.0, 30.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(0.0, 30.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -91,7 +92,7 @@ class _TeacherDetailsWidgetState extends State<TeacherDetailsWidget>
     context.watch<FFAppState>();
 
     return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 1.0),
+      padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 1.0),
       child: StreamBuilder<TeachersRecord>(
         stream: TeachersRecord.getDocument(widget.teacherref!),
         builder: (context, snapshot) {
@@ -119,13 +120,13 @@ class _TeacherDetailsWidgetState extends State<TeacherDetailsWidget>
               boxShadow: [
                 BoxShadow(
                   color: FlutterFlowTheme.of(context).primaryBackground,
-                  offset: const Offset(
+                  offset: Offset(
                     0.0,
                     1.0,
                   ),
                 )
               ],
-              borderRadius: const BorderRadius.only(
+              borderRadius: BorderRadius.only(
                 bottomLeft: Radius.circular(0.0),
                 bottomRight: Radius.circular(0.0),
                 topLeft: Radius.circular(20.0),
@@ -140,16 +141,16 @@ class _TeacherDetailsWidgetState extends State<TeacherDetailsWidget>
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Align(
-                        alignment: const AlignmentDirectional(0.0, -1.0),
+                        alignment: AlignmentDirectional(0.0, -1.0),
                         child: Builder(
                           builder: (context) => Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 15.0, 0.0),
                             child: InkWell(
                               splashColor: Colors.transparent,
@@ -165,7 +166,8 @@ class _TeacherDetailsWidgetState extends State<TeacherDetailsWidget>
                               },
                               child: FaIcon(
                                 FontAwesomeIcons.share,
-                                color: FlutterFlowTheme.of(context).primary,
+                                color:
+                                    FlutterFlowTheme.of(context).tertiaryText,
                                 size: 30.0,
                               ),
                             ),
@@ -173,9 +175,9 @@ class _TeacherDetailsWidgetState extends State<TeacherDetailsWidget>
                         ),
                       ),
                       Align(
-                        alignment: const AlignmentDirectional(1.0, -1.0),
+                        alignment: AlignmentDirectional(1.0, -1.0),
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 10.0, 0.0),
                           child: InkWell(
                             splashColor: Colors.transparent,
@@ -190,19 +192,19 @@ class _TeacherDetailsWidgetState extends State<TeacherDetailsWidget>
                                         context: context,
                                         builder: (alertDialogContext) {
                                           return AlertDialog(
-                                            title: const Text('Are you sure ?'),
-                                            content: const Text(
+                                            title: Text('Are you sure ?'),
+                                            content: Text(
                                                 'Are you sure you want to delete this teacher ?'),
                                             actions: [
                                               TextButton(
                                                 onPressed: () => Navigator.pop(
                                                     alertDialogContext, false),
-                                                child: const Text('Cancel'),
+                                                child: Text('Cancel'),
                                               ),
                                               TextButton(
                                                 onPressed: () => Navigator.pop(
                                                     alertDialogContext, true),
-                                                child: const Text('Confirm'),
+                                                child: Text('Confirm'),
                                               ),
                                             ],
                                           );
@@ -316,7 +318,7 @@ class _TeacherDetailsWidgetState extends State<TeacherDetailsWidget>
                                             .primaryText,
                                       ),
                                     ),
-                                    duration: const Duration(milliseconds: 4000),
+                                    duration: Duration(milliseconds: 4000),
                                     backgroundColor:
                                         FlutterFlowTheme.of(context).secondary,
                                   ),
@@ -332,7 +334,7 @@ class _TeacherDetailsWidgetState extends State<TeacherDetailsWidget>
                             },
                             child: Icon(
                               Icons.delete_rounded,
-                              color: FlutterFlowTheme.of(context).alternate,
+                              color: FlutterFlowTheme.of(context).tertiaryText,
                               size: 30.0,
                             ),
                           ),
@@ -347,15 +349,15 @@ class _TeacherDetailsWidgetState extends State<TeacherDetailsWidget>
                   children: [
                     Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 8.0),
+                          EdgeInsetsDirectional.fromSTEB(12.0, 8.0, 12.0, 5.0),
                       child: Row(
                         mainAxisSize: MainAxisSize.max,
                         children: [
                           Align(
-                            alignment: const AlignmentDirectional(0.0, 0.0),
+                            alignment: AlignmentDirectional(0.0, 0.0),
                             child: Container(
-                              width: 60.0,
-                              height: 60.0,
+                              width: 50.0,
+                              height: 50.0,
                               decoration: BoxDecoration(
                                 image: DecorationImage(
                                   fit: BoxFit.cover,
@@ -380,37 +382,42 @@ class _TeacherDetailsWidgetState extends State<TeacherDetailsWidget>
                                       type: PageTransitionType.fade,
                                       child: FlutterFlowExpandedImageView(
                                         image: Image.network(
-                                          valueOrDefault<String>(
-                                            taskDetailsTeachersRecord
-                                                .teacherImage,
-                                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
-                                          ),
+                                          taskDetailsTeachersRecord
+                                                          .teacherImage !=
+                                                      ''
+                                              ? taskDetailsTeachersRecord
+                                                  .teacherImage
+                                              : FFAppConstants.addImage,
                                           fit: BoxFit.contain,
                                         ),
                                         allowRotation: false,
-                                        tag: valueOrDefault<String>(
-                                          taskDetailsTeachersRecord
-                                              .teacherImage,
-                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
-                                        ),
+                                        tag: taskDetailsTeachersRecord
+                                                        .teacherImage !=
+                                                    ''
+                                            ? taskDetailsTeachersRecord
+                                                .teacherImage
+                                            : FFAppConstants.addImage,
                                         useHeroAnimation: true,
                                       ),
                                     ),
                                   );
                                 },
                                 child: Hero(
-                                  tag: valueOrDefault<String>(
-                                    taskDetailsTeachersRecord.teacherImage,
-                                    'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
-                                  ),
+                                  tag: taskDetailsTeachersRecord
+                                                  .teacherImage !=
+                                              ''
+                                      ? taskDetailsTeachersRecord.teacherImage
+                                      : FFAppConstants.addImage,
                                   transitionOnUserGestures: true,
                                   child: ClipRRect(
                                     borderRadius: BorderRadius.circular(50.0),
                                     child: Image.network(
-                                      valueOrDefault<String>(
-                                        taskDetailsTeachersRecord.teacherImage,
-                                        'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
-                                      ),
+                                      taskDetailsTeachersRecord
+                                                      .teacherImage !=
+                                                  ''
+                                          ? taskDetailsTeachersRecord
+                                              .teacherImage
+                                          : FFAppConstants.addImage,
                                       width: MediaQuery.sizeOf(context).width *
                                           1.0,
                                       height:
@@ -425,7 +432,7 @@ class _TeacherDetailsWidgetState extends State<TeacherDetailsWidget>
                           ),
                           Expanded(
                             child: Padding(
-                              padding: const EdgeInsets.all(12.0),
+                              padding: EdgeInsets.all(12.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -436,41 +443,91 @@ class _TeacherDetailsWidgetState extends State<TeacherDetailsWidget>
                                     style: FlutterFlowTheme.of(context)
                                         .headlineSmall
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight: FontWeight.bold,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .headlineSmall
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .primary,
                                           fontSize: 16.0,
                                           letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w500,
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .headlineSmall
+                                                  .fontStyle,
                                         ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 5.0, 0.0, 0.0),
                                     child: Text(
                                       taskDetailsTeachersRecord.phoneNumber,
                                       style: FlutterFlowTheme.of(context)
                                           .bodySmall
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .primaryText,
+                                            fontSize: 14.0,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontStyle,
                                           ),
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 5.0, 0.0, 0.0),
                                     child: Text(
-                                      taskDetailsTeachersRecord.emailId,
+                                      taskDetailsTeachersRecord.isemail
+                                          ? taskDetailsTeachersRecord.emailId
+                                          : functions.getUsernameFromEmail(
+                                              taskDetailsTeachersRecord
+                                                  .emailId),
                                       style: FlutterFlowTheme.of(context)
                                           .bodySmall
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodySmall
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .primaryText,
+                                            fontSize: 14.0,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodySmall
+                                                    .fontStyle,
                                           ),
                                     ),
                                   ),
@@ -482,42 +539,85 @@ class _TeacherDetailsWidgetState extends State<TeacherDetailsWidget>
                       ),
                     ),
                     Align(
-                      alignment: const AlignmentDirectional(-1.0, 0.0),
+                      alignment: AlignmentDirectional(-1.0, 0.0),
                       child: Padding(
-                        padding: const EdgeInsetsDirectional.fromSTEB(
-                            10.0, 10.0, 0.0, 10.0),
-                        child: FFButtonWidget(
-                          onPressed: () async {
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 0.0, 0.0),
+                        child: InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
                             await launchUrl(Uri(
                               scheme: 'tel',
                               path: taskDetailsTeachersRecord.phoneNumber,
                             ));
                           },
-                          text: 'Contact',
-                          icon: Icon(
-                            Icons.call,
-                            color: FlutterFlowTheme.of(context).primary,
-                            size: 20.0,
-                          ),
-                          options: FFButtonOptions(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                10.0, 16.0, 10.0, 16.0),
-                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 0.0, 0.0),
-                            color: FlutterFlowTheme.of(context).secondary,
-                            textStyle: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .override(
-                                  fontFamily: 'Nunito',
-                                  color: FlutterFlowTheme.of(context).primary,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                            elevation: 0.0,
-                            borderSide: BorderSide(
-                              color: FlutterFlowTheme.of(context).alternate,
+                          child: Container(
+                            width: 120.0,
+                            height: 40.0,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context).secondary,
+                              boxShadow: [
+                                BoxShadow(
+                                  blurRadius: 6.0,
+                                  color: Color(0x13F4F5FA),
+                                  offset: Offset(
+                                    0.0,
+                                    -3.0,
+                                  ),
+                                  spreadRadius: 0.0,
+                                )
+                              ],
+                              borderRadius: BorderRadius.circular(10.0),
+                              border: Border.all(
+                                color: Color(0xFFEFF0F6),
+                                width: 1.0,
+                              ),
                             ),
-                            borderRadius: BorderRadius.circular(8.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Container(
+                                  width: 23.0,
+                                  height: 23.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.call,
+                                    color:
+                                        FlutterFlowTheme.of(context).secondary,
+                                    size: 12.0,
+                                  ),
+                                ),
+                                Text(
+                                  'Contact',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        font: GoogleFonts.nunito(
+                                          fontWeight: FontWeight.w600,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primary,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FontWeight.w600,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

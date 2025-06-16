@@ -1,6 +1,6 @@
 import '/backend/backend.dart';
-import '/backend/custom_cloud_functions/custom_cloud_function_response_manager.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'profile_view_widget.dart' show ProfileViewWidget;
 import 'package:flutter/material.dart';
 
@@ -12,8 +12,6 @@ class ProfileViewModel extends FlutterFlowModel<ProfileViewWidget> {
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
-  // Stores action output result for [Cloud Function - cleanupOldNotifications] action in Profile_view widget.
-  CleanupOldNotificationsCloudFunctionCallResponse? cloudFunction0w5;
   // State field(s) for UserName widget.
   FocusNode? userNameFocusNode;
   TextEditingController? userNameTextController;
@@ -61,7 +59,7 @@ class ProfileViewModel extends FlutterFlowModel<ProfileViewWidget> {
     return null;
   }
 
-  // Stores action output result for [Firestore Query - Query a collection] action in Text widget.
+  // Stores action output result for [Firestore Query - Query a collection] action in replaceWidget widget.
   TeachersRecord? teacher;
 
   @override

@@ -1,5 +1,5 @@
-import '/components/empty_widget.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'teacher_timeline_new_widget.dart' show TeacherTimelineNewWidget;
 import 'package:flutter/material.dart';
 
@@ -11,16 +11,11 @@ class TeacherTimelineNewModel
 
   ///  State fields for stateful widgets in this page.
 
-  // Model for Empty component.
-  late EmptyModel emptyModel;
+  DateTime? datePicked;
 
   @override
-  void initState(BuildContext context) {
-    emptyModel = createModel(context, () => EmptyModel());
-  }
+  void initState(BuildContext context) {}
 
   @override
-  void dispose() {
-    emptyModel.dispose();
-  }
+  void dispose() {}
 }

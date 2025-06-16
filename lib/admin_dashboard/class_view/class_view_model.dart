@@ -1,4 +1,5 @@
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'class_view_widget.dart' show ClassViewWidget;
 import 'package:flutter/material.dart';
 

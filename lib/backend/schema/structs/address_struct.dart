@@ -130,7 +130,7 @@ class AddressStruct extends FFFirebaseStruct {
           ParamType.String,
           false,
         ),
-        firestoreUtilData: const FirestoreUtilData(
+        firestoreUtilData: FirestoreUtilData(
           clearUnsetFields: false,
           create: true,
         ),

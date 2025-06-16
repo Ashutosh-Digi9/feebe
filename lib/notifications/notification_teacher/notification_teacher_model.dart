@@ -1,5 +1,6 @@
 import '/flutter_flow/flutter_flow_util.dart';
 import '/navbar/navbarteacher/navbarteacher_widget.dart';
+import '/index.dart';
 import 'notification_teacher_widget.dart' show NotificationTeacherWidget;
 import 'package:flutter/material.dart';
 

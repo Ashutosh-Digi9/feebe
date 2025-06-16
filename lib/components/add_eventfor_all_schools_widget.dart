@@ -8,6 +8,7 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'add_eventfor_all_schools_model.dart';
 export 'add_eventfor_all_schools_model.dart';
 
@@ -51,7 +52,7 @@ class _AddEventforAllSchoolsWidgetState
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: EdgeInsets.all(10.0),
       child: Material(
         color: Colors.transparent,
         elevation: 2.0,
@@ -66,7 +67,7 @@ class _AddEventforAllSchoolsWidgetState
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Padding(
-            padding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+            padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -79,8 +80,8 @@ class _AddEventforAllSchoolsWidgetState
                     children: [
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
-                        child: SizedBox(
+                            EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
+                        child: Container(
                           width: MediaQuery.sizeOf(context).width * 0.9,
                           child: TextFormField(
                             controller: _model.eventnameTextController,
@@ -92,21 +93,42 @@ class _AddEventforAllSchoolsWidgetState
                               labelStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               hintText: 'Event name',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .titleSmall
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .tertiaryText,
                                     fontSize: 12.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w500,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
                                   ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -144,8 +166,21 @@ class _AddEventforAllSchoolsWidgetState
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
                                 ),
                             maxLength: 25,
                             buildCounter: (context,
@@ -162,8 +197,8 @@ class _AddEventforAllSchoolsWidgetState
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
-                        child: SizedBox(
+                            EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                        child: Container(
                           width: MediaQuery.sizeOf(context).width * 0.9,
                           child: TextFormField(
                             controller: _model.descriptionTextController,
@@ -175,21 +210,42 @@ class _AddEventforAllSchoolsWidgetState
                               labelStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               hintText: 'Description',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .titleSmall
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .tertiaryText,
                                     fontSize: 12.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w500,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
                                   ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -227,8 +283,21 @@ class _AddEventforAllSchoolsWidgetState
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
                                 ),
                             maxLines: 4,
                             cursorColor:
@@ -240,7 +309,7 @@ class _AddEventforAllSchoolsWidgetState
                       ),
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                         child: Row(
                           mainAxisSize: MainAxisSize.max,
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -250,7 +319,7 @@ class _AddEventforAllSchoolsWidgetState
                                 await showModalBottomSheet<bool>(
                                     context: context,
                                     builder: (context) {
-                                      final datePickedCupertinoTheme =
+                                      final _datePickedCupertinoTheme =
                                           CupertinoTheme.of(context);
                                       return Container(
                                         height:
@@ -261,21 +330,43 @@ class _AddEventforAllSchoolsWidgetState
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryBackground,
                                         child: CupertinoTheme(
-                                          data: datePickedCupertinoTheme
+                                          data: _datePickedCupertinoTheme
                                               .copyWith(
-                                            textTheme: datePickedCupertinoTheme
+                                            textTheme: _datePickedCupertinoTheme
                                                 .textTheme
                                                 .copyWith(
                                               dateTimePickerTextStyle:
                                                   FlutterFlowTheme.of(context)
                                                       .headlineMedium
                                                       .override(
-                                                        fontFamily: 'Nunito',
+                                                        font:
+                                                            GoogleFonts.nunito(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .headlineMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .headlineMedium
+                                                                  .fontStyle,
+                                                        ),
                                                         color:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .primaryText,
                                                         letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .headlineMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .headlineMedium
+                                                                .fontStyle,
                                                       ),
                                             ),
                                           ),
@@ -302,17 +393,30 @@ class _AddEventforAllSchoolsWidgetState
                               options: FFButtonOptions(
                                 height:
                                     MediaQuery.sizeOf(context).height * 0.06,
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 0.0),
-                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
                                 color: FlutterFlowTheme.of(context).primary,
                                 textStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
                                       color: Colors.white,
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
                                     ),
                                 elevation: 0.0,
                                 borderRadius: BorderRadius.circular(8.0),
@@ -324,21 +428,35 @@ class _AddEventforAllSchoolsWidgetState
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
                                     ),
                               ),
-                          ].divide(const SizedBox(width: 10.0)),
+                          ].divide(SizedBox(width: 10.0)),
                         ),
                       ),
                     ],
                   ),
                 ),
                 Align(
-                  alignment: const AlignmentDirectional(-1.0, 0.0),
+                  alignment: AlignmentDirectional(-1.0, 0.0),
                   child: Builder(
                     builder: (context) {
-                      final uplodedImage = _model.uploadedFileUrls.toList();
+                      final uplodedImage =
+                          _model.uploadedFileUrls_uploadData8ae676.toList();
 
                       return SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
@@ -349,7 +467,7 @@ class _AddEventforAllSchoolsWidgetState
                             final uplodedImageItem =
                                 uplodedImage[uplodedImageIndex];
                             return Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 10.0, 0.0),
                               child: InkWell(
                                 splashColor: Colors.transparent,
@@ -416,7 +534,8 @@ class _AddEventforAllSchoolsWidgetState
                         if (selectedMedia != null &&
                             selectedMedia.every((m) =>
                                 validateFileFormat(m.storagePath, context))) {
-                          safeSetState(() => _model.isDataUploading = true);
+                          safeSetState(() =>
+                              _model.isDataUploading_uploadData8ae676 = true);
                           var selectedUploadedFiles = <FFUploadedFile>[];
 
                           var downloadUrls = <String>[];
@@ -447,14 +566,16 @@ class _AddEventforAllSchoolsWidgetState
                                 .toList();
                           } finally {
                             ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                            _model.isDataUploading = false;
+                            _model.isDataUploading_uploadData8ae676 = false;
                           }
                           if (selectedUploadedFiles.length ==
                                   selectedMedia.length &&
                               downloadUrls.length == selectedMedia.length) {
                             safeSetState(() {
-                              _model.uploadedLocalFiles = selectedUploadedFiles;
-                              _model.uploadedFileUrls = downloadUrls;
+                              _model.uploadedLocalFiles_uploadData8ae676 =
+                                  selectedUploadedFiles;
+                              _model.uploadedFileUrls_uploadData8ae676 =
+                                  downloadUrls;
                             });
                             showUploadMessage(context, 'Success!');
                           } else {
@@ -472,7 +593,7 @@ class _AddEventforAllSchoolsWidgetState
                                 color: FlutterFlowTheme.of(context).primaryText,
                               ),
                             ),
-                            duration: const Duration(milliseconds: 4000),
+                            duration: Duration(milliseconds: 4000),
                             backgroundColor:
                                 FlutterFlowTheme.of(context).secondary,
                           ),
@@ -489,7 +610,7 @@ class _AddEventforAllSchoolsWidgetState
                           if ((_model.eventName != null &&
                                   _model.eventName != '') &&
                               (_model.datePicked != null)) {
-                            if (_model.images.isEmpty) {
+                            if (_model.images.length == 0) {
                               await showDialog(
                                 context: context,
                                 builder: (dialogContext) {
@@ -497,7 +618,7 @@ class _AddEventforAllSchoolsWidgetState
                                     elevation: 0,
                                     insetPadding: EdgeInsets.zero,
                                     backgroundColor: Colors.transparent,
-                                    alignment: const AlignmentDirectional(0.0, 0.0)
+                                    alignment: AlignmentDirectional(0.0, 0.0)
                                         .resolve(Directionality.of(context)),
                                     child: SelectSchoolWidget(
                                       eventtitle:
@@ -518,7 +639,7 @@ class _AddEventforAllSchoolsWidgetState
                                     elevation: 0,
                                     insetPadding: EdgeInsets.zero,
                                     backgroundColor: Colors.transparent,
-                                    alignment: const AlignmentDirectional(0.0, 0.0)
+                                    alignment: AlignmentDirectional(0.0, 0.0)
                                         .resolve(Directionality.of(context)),
                                     child: SelectSchoolWidget(
                                       eventtitle:
@@ -527,7 +648,8 @@ class _AddEventforAllSchoolsWidgetState
                                       description:
                                           _model.descriptionTextController.text,
                                       datetime: _model.datePicked!,
-                                      images: _model.uploadedFileUrls,
+                                      images: _model
+                                          .uploadedFileUrls_uploadData8ae676,
                                     ),
                                   );
                                 },
@@ -545,7 +667,7 @@ class _AddEventforAllSchoolsWidgetState
                                         .primaryText,
                                   ),
                                 ),
-                                duration: const Duration(milliseconds: 4000),
+                                duration: Duration(milliseconds: 4000),
                                 backgroundColor:
                                     FlutterFlowTheme.of(context).secondary,
                               ),
@@ -555,17 +677,30 @@ class _AddEventforAllSchoolsWidgetState
                         text: 'Create Notice',
                         options: FFButtonOptions(
                           height: MediaQuery.sizeOf(context).height * 0.07,
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
-                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).secondary,
                           textStyle: FlutterFlowTheme.of(context)
                               .titleSmall
                               .override(
-                                fontFamily: 'Nunito',
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
                                 color: FlutterFlowTheme.of(context).primaryText,
                                 letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontStyle,
                               ),
                           elevation: 0.0,
                           borderSide: BorderSide(

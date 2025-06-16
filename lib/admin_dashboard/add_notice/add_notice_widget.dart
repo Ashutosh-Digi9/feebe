@@ -13,6 +13,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'add_notice_model.dart';
 export 'add_notice_model.dart';
@@ -67,8 +68,8 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 600.0.ms,
-            begin: const Offset(0.0, 30.0),
-            end: const Offset(0.0, 0.0),
+            begin: Offset(0.0, 30.0),
+            end: Offset(0.0, 0.0),
           ),
         ],
       ),
@@ -87,7 +88,7 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
     context.watch<FFAppState>();
 
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: EdgeInsets.all(10.0),
       child: Material(
         color: Colors.transparent,
         elevation: 2.0,
@@ -102,7 +103,7 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(20.0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
@@ -115,23 +116,36 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Align(
-                          alignment: const AlignmentDirectional(-1.0, -1.0),
+                          alignment: AlignmentDirectional(-1.0, -1.0),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 10.0),
                             child: Text(
                               'Add Notice Details',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               10.0, 0.0, 10.0, 0.0),
                           child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
@@ -150,25 +164,20 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                   },
                                   child: Container(
                                     decoration: BoxDecoration(
-                                      color: valueOrDefault<Color>(
-                                        _model.eventName == 'General'
-                                            ? const Color(0xFFFFFCF0)
-                                            : const Color(0xFFF5F2F2),
-                                        FlutterFlowTheme.of(context).text,
-                                      ),
+                                      color: Color(0xFFFFFCF0),
                                       borderRadius: BorderRadius.circular(8.0),
                                       border: Border.all(
-                                        color: valueOrDefault<Color>(
+                                        color: Color(0xFFFF976A),
+                                        width: valueOrDefault<double>(
                                           _model.eventName == 'General'
-                                              ? const Color(0xFFFF976A)
-                                              : FlutterFlowTheme.of(context)
-                                                  .text,
-                                          FlutterFlowTheme.of(context).text,
+                                              ? 2.0
+                                              : 1.0,
+                                          2.0,
                                         ),
                                       ),
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 10.0, 0.0, 10.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -192,7 +201,18 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  fontFamily: 'Nunito',
+                                                  font: GoogleFonts.nunito(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
                                                   color: valueOrDefault<Color>(
                                                     _model.eventName ==
                                                             'Home work'
@@ -207,11 +227,21 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                                   ),
                                                   fontSize: 12.0,
                                                   letterSpacing: 0.0,
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
                                                 ),
                                           ),
                                         ]
-                                            .divide(const SizedBox(width: 10.0))
-                                            .around(const SizedBox(width: 10.0)),
+                                            .divide(SizedBox(width: 10.0))
+                                            .around(SizedBox(width: 10.0)),
                                       ),
                                     ),
                                   ),
@@ -229,15 +259,15 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                     decoration: BoxDecoration(
                                       color: valueOrDefault<Color>(
                                         _model.eventName == 'Reminder'
-                                            ? const Color(0xFFFBF0FF)
-                                            : const Color(0xFFF5F2F2),
+                                            ? Color(0xFFFBF0FF)
+                                            : Color(0xFFF5F2F2),
                                         FlutterFlowTheme.of(context).text,
                                       ),
                                       borderRadius: BorderRadius.circular(8.0),
                                       border: Border.all(
                                         color: valueOrDefault<Color>(
                                           _model.eventName == 'Reminder'
-                                              ? const Color(0xFFADA6EB)
+                                              ? Color(0xFFADA6EB)
                                               : FlutterFlowTheme.of(context)
                                                   .text,
                                           FlutterFlowTheme.of(context).text,
@@ -245,7 +275,7 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                       ),
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 10.0, 0.0, 10.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -269,7 +299,18 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  fontFamily: 'Nunito',
+                                                  font: GoogleFonts.nunito(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
                                                   color: valueOrDefault<Color>(
                                                     _model.eventName ==
                                                             'Holiday'
@@ -284,11 +325,21 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                                   ),
                                                   fontSize: 12.0,
                                                   letterSpacing: 0.0,
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
                                                 ),
                                           ),
                                         ]
-                                            .divide(const SizedBox(width: 10.0))
-                                            .around(const SizedBox(width: 10.0)),
+                                            .divide(SizedBox(width: 10.0))
+                                            .around(SizedBox(width: 10.0)),
                                       ),
                                     ),
                                   ),
@@ -306,15 +357,15 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                     decoration: BoxDecoration(
                                       color: valueOrDefault<Color>(
                                         _model.eventName == 'Notice'
-                                            ? const Color(0xFFFFFCF0)
-                                            : const Color(0xFFF5F2F2),
+                                            ? Color(0xFFFFFCF0)
+                                            : Color(0xFFF5F2F2),
                                         FlutterFlowTheme.of(context).text,
                                       ),
                                       borderRadius: BorderRadius.circular(8.0),
                                       border: Border.all(
                                         color: valueOrDefault<Color>(
                                           _model.eventName == 'Notice'
-                                              ? const Color(0xFFB0FF6A)
+                                              ? Color(0xFFB0FF6A)
                                               : FlutterFlowTheme.of(context)
                                                   .text,
                                           FlutterFlowTheme.of(context).text,
@@ -322,7 +373,7 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                       ),
                                     ),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 10.0, 0.0, 10.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -346,7 +397,18 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  fontFamily: 'Nunito',
+                                                  font: GoogleFonts.nunito(
+                                                    fontWeight:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontWeight,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
                                                   color: valueOrDefault<Color>(
                                                     _model.eventName == 'Notice'
                                                         ? FlutterFlowTheme.of(
@@ -360,23 +422,33 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                                   ),
                                                   fontSize: 12.0,
                                                   letterSpacing: 0.0,
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
                                                 ),
                                           ),
                                         ]
-                                            .divide(const SizedBox(width: 10.0))
-                                            .around(const SizedBox(width: 10.0)),
+                                            .divide(SizedBox(width: 10.0))
+                                            .around(SizedBox(width: 10.0)),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ].divide(const SizedBox(width: 10.0)),
+                              ].divide(SizedBox(width: 10.0)),
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 10.0, 0.0, 0.0),
-                          child: SizedBox(
+                          child: Container(
                             width: MediaQuery.sizeOf(context).width * 0.9,
                             child: TextFormField(
                               controller: _model.evnettitileTextController,
@@ -389,7 +461,14 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontStyle,
+                                      ),
                                       color: valueOrDefault<Color>(
                                         (_model.evnettitileFocusNode
                                                     ?.hasFocus ??
@@ -401,18 +480,37 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                         FlutterFlowTheme.of(context)
                                             .textfieldText,
                                       ),
+                                      fontSize: (_model.evnettitileFocusNode
+                                                  ?.hasFocus ??
+                                              false)
+                                          ? 12.0
+                                          : 16.0,
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
                                     ),
                                 hintText: 'Title',
                                 hintStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FontWeight.normal,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
-                                          .tertiaryText,
-                                      fontSize: 12.0,
+                                          .textfieldText,
+                                      fontSize: 16.0,
                                       letterSpacing: 0.0,
                                       fontWeight: FontWeight.normal,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
                                     ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -450,8 +548,21 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                               maxLength: 25,
                               buildCounter: (context,
@@ -468,9 +579,9 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 10.0, 0.0, 0.0),
-                          child: SizedBox(
+                          child: Container(
                             width: MediaQuery.sizeOf(context).width * 0.9,
                             child: TextFormField(
                               controller: _model.descriptionTextController,
@@ -483,7 +594,14 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontStyle,
+                                      ),
                                       color: valueOrDefault<Color>(
                                         (_model.descriptionFocusNode
                                                     ?.hasFocus ??
@@ -495,18 +613,37 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                         FlutterFlowTheme.of(context)
                                             .textfieldText,
                                       ),
+                                      fontSize: (_model.descriptionFocusNode
+                                                  ?.hasFocus ??
+                                              false)
+                                          ? 12.0
+                                          : 16.0,
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
                                     ),
                                 hintText: 'Description',
                                 hintStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FontWeight.normal,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
-                                          .tertiaryText,
-                                      fontSize: 12.0,
+                                          .textfieldText,
+                                      fontSize: 16.0,
                                       letterSpacing: 0.0,
                                       fontWeight: FontWeight.normal,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
                                     ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -544,8 +681,21 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                               maxLines: 4,
                               cursorColor:
@@ -557,7 +707,7 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 10.0, 0.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -565,7 +715,7 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                             children: [
                               FFButtonWidget(
                                 onPressed: () async {
-                                  final datePickedDate = await showDatePicker(
+                                  final _datePickedDate = await showDatePicker(
                                     context: context,
                                     initialDate: getCurrentTimestamp,
                                     firstDate: getCurrentTimestamp,
@@ -579,15 +729,25 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                                 .primary,
                                         headerForegroundColor:
                                             FlutterFlowTheme.of(context).info,
-                                        headerTextStyle:
-                                            FlutterFlowTheme.of(context)
-                                                .headlineLarge
-                                                .override(
-                                                  fontFamily: 'Nunito',
-                                                  fontSize: 32.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.w600,
-                                                ),
+                                        headerTextStyle: FlutterFlowTheme.of(
+                                                context)
+                                            .headlineLarge
+                                            .override(
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.w600,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .headlineLarge
+                                                        .fontStyle,
+                                              ),
+                                              fontSize: 32.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight: FontWeight.w600,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .headlineLarge
+                                                      .fontStyle,
+                                            ),
                                         pickerBackgroundColor:
                                             FlutterFlowTheme.of(context)
                                                 .secondaryBackground,
@@ -607,13 +767,17 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                     },
                                   );
 
-                                  if (datePickedDate != null) {
+                                  if (_datePickedDate != null) {
                                     safeSetState(() {
                                       _model.datePicked = DateTime(
-                                        datePickedDate.year,
-                                        datePickedDate.month,
-                                        datePickedDate.day,
+                                        _datePickedDate.year,
+                                        _datePickedDate.month,
+                                        _datePickedDate.day,
                                       );
+                                    });
+                                  } else if (_model.datePicked != null) {
+                                    safeSetState(() {
+                                      _model.datePicked = getCurrentTimestamp;
                                     });
                                   }
                                 },
@@ -621,17 +785,32 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                 options: FFButtonOptions(
                                   height:
                                       MediaQuery.sizeOf(context).height * 0.06,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 16.0, 0.0),
-                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
                                   color: FlutterFlowTheme.of(context).primary,
                                   textStyle: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .override(
-                                        fontFamily: 'Nunito',
+                                        font: GoogleFonts.nunito(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
                                         color: Colors.white,
                                         letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
                                       ),
                                   elevation: 0.0,
                                   borderRadius: BorderRadius.circular(8.0),
@@ -644,59 +823,168 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        fontFamily: 'Nunito',
+                                        font: GoogleFonts.nunito(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
                                         letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
                                       ),
                                 ),
-                            ].divide(const SizedBox(width: 10.0)),
+                            ].divide(SizedBox(width: 10.0)),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  Align(
-                    alignment: const AlignmentDirectional(-1.0, 0.0),
-                    child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(10.0, 10.0, 0.0, 0.0),
-                      child: Builder(
-                        builder: (context) {
-                          final imagesuploaded = FFAppState()
-                              .eventnoticeimage
-                              .toList()
-                              .take(5)
-                              .toList();
+                  if (FFAppState().eventfiles.isNotEmpty)
+                    Builder(
+                      builder: (context) {
+                        final imagesview = FFAppState().eventfiles.toList();
 
-                          return SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              children: List.generate(imagesuploaded.length,
-                                  (imagesuploadedIndex) {
-                                final imagesuploadedItem =
-                                    imagesuploaded[imagesuploadedIndex];
-                                return Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 0.0, 10.0, 0.0),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8.0),
-                                    child: Image.network(
-                                      imagesuploadedItem,
-                                      width: 50.0,
-                                      height: 50.0,
-                                      fit: BoxFit.cover,
+                        return SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            children: List.generate(imagesview.length,
+                                (imagesviewIndex) {
+                              final imagesviewItem =
+                                  imagesview[imagesviewIndex];
+                              return Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  if (functions
+                                          .getFileTypeFromUrl(imagesviewItem) ==
+                                      1)
+                                    InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        await launchURL(imagesviewItem);
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.asset(
+                                          'assets/images/download.png',
+                                          width: 46.0,
+                                          height: 41.0,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                );
-                              }),
-                            ),
-                          );
-                        },
-                      ),
+                                  if (functions
+                                          .getFileTypeFromUrl(imagesviewItem) ==
+                                      2)
+                                    InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        await launchURL(imagesviewItem);
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.asset(
+                                          'assets/images/download_(1).png',
+                                          width: 46.0,
+                                          height: 41.0,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
+                                  if (functions
+                                          .getFileTypeFromUrl(imagesviewItem) ==
+                                      3)
+                                    InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        await launchURL(imagesviewItem);
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.asset(
+                                          'assets/images/download_(2).png',
+                                          width: 46.0,
+                                          height: 41.0,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
+                                  if (functions
+                                          .getFileTypeFromUrl(imagesviewItem) ==
+                                      4)
+                                    InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        await launchURL(imagesviewItem);
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.asset(
+                                          'assets/images/clarity_image-gallery-line.png',
+                                          width: 46.0,
+                                          height: 41.0,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
+                                  if (functions
+                                          .getFileTypeFromUrl(imagesviewItem) ==
+                                      5)
+                                    InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onTap: () async {
+                                        await launchURL(imagesviewItem);
+                                      },
+                                      child: ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                        child: Image.asset(
+                                          'assets/images/download-removebg-preview.png',
+                                          width: 46.0,
+                                          height: 41.0,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      ),
+                                    ),
+                                ]
+                                    .divide(SizedBox(width: 5.0))
+                                    .around(SizedBox(width: 5.0)),
+                              );
+                            }),
+                          ),
+                        );
+                      },
                     ),
-                  ),
-                  if ((_model.isDataUploading1 == true) ||
-                      _model.isDataUploading2)
+                  if ((_model.isDataUploading_uploadData5a4 == true) ||
+                      _model.isDataUploading_uploadCamera)
                     ClipRRect(
                       borderRadius: BorderRadius.circular(8.0),
                       child: Image.asset(
@@ -708,7 +996,7 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                     ),
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 10.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 8.0, 0.0, 10.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -725,78 +1013,82 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                           ),
                           onPressed: () async {
                             safeSetState(() {
-                              _model.isDataUploading1 = false;
-                              _model.uploadedLocalFiles1 = [];
-                              _model.uploadedFileUrls1 = [];
+                              _model.isDataUploading_uploadData5a4 = false;
+                              _model.uploadedLocalFiles_uploadData5a4 = [];
+                              _model.uploadedFileUrls_uploadData5a4 = [];
                             });
 
-                            final selectedMedia = await selectMedia(
-                              imageQuality: 10,
-                              mediaSource: MediaSource.photoGallery,
-                              multiImage: true,
+                            final selectedFiles = await selectFiles(
+                              multiFile: true,
                             );
-                            if (selectedMedia != null &&
-                                selectedMedia.every((m) => validateFileFormat(
-                                    m.storagePath, context))) {
-                              safeSetState(
-                                  () => _model.isDataUploading1 = true);
+                            if (selectedFiles != null) {
+                              safeSetState(() =>
+                                  _model.isDataUploading_uploadData5a4 = true);
                               var selectedUploadedFiles = <FFUploadedFile>[];
 
                               var downloadUrls = <String>[];
                               try {
-                                showUploadMessage(
-                                  context,
-                                  'Uploading file...',
-                                  showLoading: true,
-                                );
-                                selectedUploadedFiles = selectedMedia
+                                selectedUploadedFiles = selectedFiles
                                     .map((m) => FFUploadedFile(
                                           name: m.storagePath.split('/').last,
                                           bytes: m.bytes,
-                                          height: m.dimensions?.height,
-                                          width: m.dimensions?.width,
-                                          blurHash: m.blurHash,
                                         ))
                                     .toList();
 
                                 downloadUrls = (await Future.wait(
-                                  selectedMedia.map(
-                                    (m) async => await uploadData(
-                                        m.storagePath, m.bytes),
+                                  selectedFiles.map(
+                                    (f) async => await uploadData(
+                                        f.storagePath, f.bytes),
                                   ),
                                 ))
                                     .where((u) => u != null)
                                     .map((u) => u!)
                                     .toList();
                               } finally {
-                                ScaffoldMessenger.of(context)
-                                    .hideCurrentSnackBar();
-                                _model.isDataUploading1 = false;
+                                _model.isDataUploading_uploadData5a4 = false;
                               }
                               if (selectedUploadedFiles.length ==
-                                      selectedMedia.length &&
-                                  downloadUrls.length == selectedMedia.length) {
+                                      selectedFiles.length &&
+                                  downloadUrls.length == selectedFiles.length) {
                                 safeSetState(() {
-                                  _model.uploadedLocalFiles1 =
+                                  _model.uploadedLocalFiles_uploadData5a4 =
                                       selectedUploadedFiles;
-                                  _model.uploadedFileUrls1 = downloadUrls;
+                                  _model.uploadedFileUrls_uploadData5a4 =
+                                      downloadUrls;
                                 });
-                                showUploadMessage(context, 'Success!');
                               } else {
                                 safeSetState(() {});
-                                showUploadMessage(
-                                    context, 'Failed to upload data');
                                 return;
                               }
                             }
 
-                            FFAppState().eventnoticeimage = functions
-                                .combineImagePaths(
-                                    FFAppState().eventnoticeimage.toList(),
-                                    _model.uploadedFileUrls1.toList())
-                                .toList()
-                                .cast<String>();
-                            safeSetState(() {});
+                            if (functions.isValidFileFormatCopy(_model
+                                .uploadedFileUrls_uploadData5a4
+                                .toList())) {
+                              FFAppState().eventfiles = functions
+                                  .combineImagePathsCopy(
+                                      FFAppState().eventfiles.toList(),
+                                      _model.uploadedFileUrls_uploadData5a4
+                                          .toList())
+                                  .toList()
+                                  .cast<String>();
+                              safeSetState(() {});
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'only pdf , docx , jpeg , png , jpg , mp3, ppt , pptx files are allowed ',
+                                    style: TextStyle(
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                    ),
+                                  ),
+                                  duration: Duration(milliseconds: 4000),
+                                  backgroundColor:
+                                      FlutterFlowTheme.of(context).secondary,
+                                ),
+                              );
+                            }
                           },
                         ),
                         FlutterFlowIconButton(
@@ -811,10 +1103,10 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                           ),
                           onPressed: () async {
                             safeSetState(() {
-                              _model.isDataUploading2 = false;
-                              _model.uploadedLocalFile2 =
+                              _model.isDataUploading_uploadCamera = false;
+                              _model.uploadedLocalFile_uploadCamera =
                                   FFUploadedFile(bytes: Uint8List.fromList([]));
-                              _model.uploadedFileUrl2 = '';
+                              _model.uploadedFileUrl_uploadCamera = '';
                             });
 
                             final selectedMedia = await selectMedia(
@@ -824,8 +1116,8 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                             if (selectedMedia != null &&
                                 selectedMedia.every((m) => validateFileFormat(
                                     m.storagePath, context))) {
-                              safeSetState(
-                                  () => _model.isDataUploading2 = true);
+                              safeSetState(() =>
+                                  _model.isDataUploading_uploadCamera = true);
                               var selectedUploadedFiles = <FFUploadedFile>[];
 
                               var downloadUrls = <String>[];
@@ -857,15 +1149,16 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                               } finally {
                                 ScaffoldMessenger.of(context)
                                     .hideCurrentSnackBar();
-                                _model.isDataUploading2 = false;
+                                _model.isDataUploading_uploadCamera = false;
                               }
                               if (selectedUploadedFiles.length ==
                                       selectedMedia.length &&
                                   downloadUrls.length == selectedMedia.length) {
                                 safeSetState(() {
-                                  _model.uploadedLocalFile2 =
+                                  _model.uploadedLocalFile_uploadCamera =
                                       selectedUploadedFiles.first;
-                                  _model.uploadedFileUrl2 = downloadUrls.first;
+                                  _model.uploadedFileUrl_uploadCamera =
+                                      downloadUrls.first;
                                 });
                                 showUploadMessage(context, 'Success!');
                               } else {
@@ -876,8 +1169,8 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                               }
                             }
 
-                            FFAppState()
-                                .addToEventnoticeimage(_model.uploadedFileUrl2);
+                            FFAppState().addToEventfiles(
+                                _model.uploadedFileUrl_uploadCamera);
                             safeSetState(() {});
                           },
                         ),
@@ -887,28 +1180,34 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                 !_model.formKey.currentState!.validate()) {
                               return;
                             }
+                            _model.id = functions.generateUniqueId();
+                            safeSetState(() {});
                             if (_model.datePicked != null) {
                               if (_model.eventName != null &&
                                   _model.eventName != '') {
-                                if (FFAppState().eventnoticeimage.isEmpty) {
+                                if (FFAppState().eventfiles.length == 0) {
                                   await widget.classref!.update({
                                     ...mapToFirestore(
                                       {
                                         'notice': FieldValue.arrayUnion([
                                           getEventsNoticeFirestoreData(
-                                            updateEventsNoticeStruct(
-                                              EventsNoticeStruct(
-                                                eventId: functions
-                                                    .generateUniqueId(),
-                                                eventName: _model.eventName,
-                                                eventTitle: _model
-                                                    .evnettitileTextController
-                                                    .text,
-                                                eventDescription: _model
-                                                    .descriptionTextController
-                                                    .text,
-                                                eventDate: _model.datePicked,
-                                              ),
+                                            createEventsNoticeStruct(
+                                              eventId: _model.id,
+                                              eventName: _model.eventName,
+                                              eventTitle: _model
+                                                  .evnettitileTextController
+                                                  .text,
+                                              eventDescription: _model
+                                                  .descriptionTextController
+                                                  .text,
+                                              eventDate: _model.datePicked,
+                                              fieldValues: {
+                                                'eventfiles':
+                                                    FFAppState().eventfiles,
+                                                'classref':
+                                                    FieldValue.arrayUnion(
+                                                        [widget.classref]),
+                                              },
                                               clearUnsetFields: false,
                                             ),
                                             true,
@@ -923,21 +1222,20 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                       {
                                         'notice': FieldValue.arrayUnion([
                                           getEventsNoticeFirestoreData(
-                                            updateEventsNoticeStruct(
-                                              EventsNoticeStruct(
-                                                eventId: functions
-                                                    .generateUniqueId(),
-                                                eventName: _model.eventName,
-                                                eventTitle: _model
-                                                    .evnettitileTextController
-                                                    .text,
-                                                eventDescription: _model
-                                                    .descriptionTextController
-                                                    .text,
-                                                eventImages: FFAppState()
-                                                    .eventnoticeimage,
-                                                eventDate: _model.datePicked,
-                                              ),
+                                            createEventsNoticeStruct(
+                                              eventId: _model.id,
+                                              eventName: _model.eventName,
+                                              eventTitle: _model
+                                                  .evnettitileTextController
+                                                  .text,
+                                              eventDescription: _model
+                                                  .descriptionTextController
+                                                  .text,
+                                              eventDate: _model.datePicked,
+                                              fieldValues: {
+                                                'eventfiles':
+                                                    FFAppState().eventfiles,
+                                              },
                                               clearUnsetFields: false,
                                             ),
                                             true,
@@ -986,8 +1284,8 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                         timeStamp: getCurrentTimestamp,
                                         isRead: false,
                                         eventDate: _model.datePicked,
-                                        notificationImages:
-                                            _model.uploadedFileUrls1,
+                                        notificationFiles:
+                                            FFAppState().eventfiles,
                                       ),
                                       clearUnsetFields: false,
                                       create: true,
@@ -1038,8 +1336,8 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                         timeStamp: getCurrentTimestamp,
                                         isRead: false,
                                         eventDate: _model.datePicked,
-                                        notificationImages:
-                                            _model.uploadedFileUrls1,
+                                        notificationFiles:
+                                            FFAppState().eventfiles,
                                       ),
                                       clearUnsetFields: false,
                                       create: true,
@@ -1100,8 +1398,8 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                           timeStamp: getCurrentTimestamp,
                                           isRead: false,
                                           eventDate: _model.datePicked,
-                                          notificationImages:
-                                              _model.uploadedFileUrls1,
+                                          notificationFiles:
+                                              FFAppState().eventfiles,
                                         ),
                                         clearUnsetFields: false,
                                         create: true,
@@ -1128,13 +1426,13 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                             .secondary,
                                       ),
                                     ),
-                                    duration: const Duration(milliseconds: 4000),
+                                    duration: Duration(milliseconds: 4000),
                                     backgroundColor:
                                         FlutterFlowTheme.of(context)
                                             .primaryText,
                                   ),
                                 );
-                                FFAppState().eventnoticeimage = [];
+                                FFAppState().eventfiles = [];
                                 safeSetState(() {});
                                 Navigator.pop(context);
                               } else {
@@ -1142,14 +1440,14 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                   context: context,
                                   builder: (alertDialogContext) {
                                     return AlertDialog(
-                                      title: const Text('Alert!'),
+                                      title: Text('Alert!'),
                                       content:
-                                          const Text('Please select the Notice name'),
+                                          Text('Please select the Notice name'),
                                       actions: [
                                         TextButton(
                                           onPressed: () =>
                                               Navigator.pop(alertDialogContext),
-                                          child: const Text('Ok'),
+                                          child: Text('Ok'),
                                         ),
                                       ],
                                     );
@@ -1161,14 +1459,14 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                                 context: context,
                                 builder: (alertDialogContext) {
                                   return AlertDialog(
-                                    title: const Text('Alert!'),
+                                    title: Text('Alert!'),
                                     content:
-                                        const Text('Please select the Notice date.'),
+                                        Text('Please select the Notice date.'),
                                     actions: [
                                       TextButton(
                                         onPressed: () =>
                                             Navigator.pop(alertDialogContext),
-                                        child: const Text('Ok'),
+                                        child: Text('Ok'),
                                       ),
                                     ],
                                   );
@@ -1178,21 +1476,34 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
 
                             safeSetState(() {});
                           },
-                          text: 'Create Notice',
+                          text: 'Post',
                           options: FFButtonOptions(
                             height: MediaQuery.sizeOf(context).height * 0.05,
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 16.0, 0.0, 16.0, 0.0),
-                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 0.0),
                             color: FlutterFlowTheme.of(context).secondary,
                             textStyle: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
                                   color:
                                       FlutterFlowTheme.of(context).primaryText,
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
                                 ),
                             elevation: 0.0,
                             borderSide: BorderSide(
@@ -1205,7 +1516,7 @@ class _AddNoticeWidgetState extends State<AddNoticeWidget>
                       ],
                     ),
                   ),
-                ].divide(const SizedBox(height: 6.0)),
+                ].divide(SizedBox(height: 6.0)),
               ),
             ),
           ),

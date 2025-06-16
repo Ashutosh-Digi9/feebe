@@ -1,6 +1,8 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'no_teacher_model.dart';
 export 'no_teacher_model.dart';
 
@@ -44,18 +46,23 @@ class _NoTeacherWidgetState extends State<NoTeacherWidget> {
       mainAxisSize: MainAxisSize.max,
       children: [
         Align(
-          alignment: const AlignmentDirectional(-1.0, 0.0),
+          alignment: AlignmentDirectional(-1.0, 0.0),
           child: Text(
             'It looks like no teachers have been added yet. \nAdd a teacher to continue.',
             style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  fontFamily: 'Nunito',
+                  font: GoogleFonts.nunito(
+                    fontWeight: FontWeight.w500,
+                    fontStyle:
+                        FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                  ),
                   letterSpacing: 0.0,
                   fontWeight: FontWeight.w500,
+                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                 ),
           ),
         ),
         Align(
-          alignment: const AlignmentDirectional(-1.0, -1.0),
+          alignment: AlignmentDirectional(-1.0, -1.0),
           child: InkWell(
             splashColor: Colors.transparent,
             focusColor: Colors.transparent,
@@ -63,7 +70,7 @@ class _NoTeacherWidgetState extends State<NoTeacherWidget> {
             highlightColor: Colors.transparent,
             onTap: () async {
               context.pushNamed(
-                'add_Teacher_manually_Admin',
+                AddTeacherManuallyAdminWidget.routeName,
                 queryParameters: {
                   'schoolRef': serializeParam(
                     widget.schoolRef,
@@ -71,7 +78,7 @@ class _NoTeacherWidgetState extends State<NoTeacherWidget> {
                   ),
                 }.withoutNulls,
                 extra: <String, dynamic>{
-                  kTransitionInfoKey: const TransitionInfo(
+                  kTransitionInfoKey: TransitionInfo(
                     hasTransition: true,
                     transitionType: PageTransitionType.fade,
                   ),
@@ -80,26 +87,26 @@ class _NoTeacherWidgetState extends State<NoTeacherWidget> {
             },
             child: Container(
               width: MediaQuery.sizeOf(context).width * 0.2,
-              decoration: const BoxDecoration(),
+              decoration: BoxDecoration(),
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Align(
-                    alignment: const AlignmentDirectional(0.0, 0.0),
+                    alignment: AlignmentDirectional(0.0, 0.0),
                     child: Container(
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Color(0xFFEADFFF),
                         shape: BoxShape.circle,
                       ),
                       child: Stack(
-                        alignment: const AlignmentDirectional(0.0, 1.0),
+                        alignment: AlignmentDirectional(0.0, 1.0),
                         children: [
                           Container(
                             width: MediaQuery.sizeOf(context).width * 0.15,
                             height: MediaQuery.sizeOf(context).width * 0.15,
                             clipBehavior: Clip.antiAlias,
-                            decoration: const BoxDecoration(
+                            decoration: BoxDecoration(
                               shape: BoxShape.circle,
                             ),
                             child: Image.network(
@@ -108,7 +115,7 @@ class _NoTeacherWidgetState extends State<NoTeacherWidget> {
                             ),
                           ),
                           Align(
-                            alignment: const AlignmentDirectional(1.0, 1.0),
+                            alignment: AlignmentDirectional(1.0, 1.0),
                             child: Icon(
                               Icons.add_circle_outline_sharp,
                               color: FlutterFlowTheme.of(context)
@@ -121,17 +128,25 @@ class _NoTeacherWidgetState extends State<NoTeacherWidget> {
                     ),
                   ),
                   Align(
-                    alignment: const AlignmentDirectional(-1.0, 0.0),
+                    alignment: AlignmentDirectional(-1.0, 0.0),
                     child: Text(
                       'No teacher yet',
                       textAlign: TextAlign.center,
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Nunito',
+                            font: GoogleFonts.nunito(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
                             color:
                                 FlutterFlowTheme.of(context).primaryBackground,
                             fontSize: 14.0,
                             letterSpacing: 0.0,
                             fontWeight: FontWeight.bold,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
                           ),
                     ),
                   ),

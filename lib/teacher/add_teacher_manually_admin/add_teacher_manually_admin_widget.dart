@@ -1,16 +1,18 @@
+import '/admin_dashboard/editphoto/editphoto_widget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
-import '/components/editphoto_widget.dart';
 import '/confirmationpages/messagesenttotheteacher/messagesenttotheteacher_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'add_teacher_manually_admin_model.dart';
@@ -23,6 +25,9 @@ class AddTeacherManuallyAdminWidget extends StatefulWidget {
   });
 
   final DocumentReference? schoolRef;
+
+  static String routeName = 'add_Teacher_manually_Admin';
+  static String routePath = '/addTeacherManuallyAdmin';
 
   @override
   State<AddTeacherManuallyAdminWidget> createState() =>
@@ -42,11 +47,9 @@ class _AddTeacherManuallyAdminWidgetState
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      FFAppState().imageurl =
-          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
+      FFAppState().imageurl = '';
       FFAppState().profileimagechanged = false;
-      FFAppState().schoolimage =
-          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png';
+      FFAppState().schoolimage = '';
       FFAppState().schoolimagechanged = false;
       safeSetState(() {});
       _model.currentPageLink = await generateCurrentPageLink(
@@ -66,6 +69,12 @@ class _AddTeacherManuallyAdminWidgetState
 
     _model.contactemailTextController ??= TextEditingController();
     _model.contactemailFocusNode ??= FocusNode();
+    _model.contactemailFocusNode!.addListener(
+      () async {
+        _model.lastfield = true;
+        safeSetState(() {});
+      },
+    );
   }
 
   @override
@@ -110,37 +119,52 @@ class _AddTeacherManuallyAdminWidgetState
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).tertiary,
-            appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).info,
-              automaticallyImplyLeading: false,
-              leading: InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () async {
-                  context.pop();
-                },
-                child: Icon(
-                  Icons.chevron_left,
-                  color: FlutterFlowTheme.of(context).bgColor1,
-                  size: 28.0,
-                ),
-              ),
-              title: Text(
-                'Add Teacher ',
-                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Nunito',
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      fontSize: 16.0,
-                      letterSpacing: 0.0,
-                      fontWeight: FontWeight.w600,
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? AppBar(
+                    backgroundColor: FlutterFlowTheme.of(context).info,
+                    automaticallyImplyLeading: false,
+                    leading: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        context.pop();
+                      },
+                      child: Icon(
+                        Icons.chevron_left,
+                        color: FlutterFlowTheme.of(context).bgColor1,
+                        size: 28.0,
+                      ),
                     ),
-              ),
-              actions: const [],
-              centerTitle: false,
-              elevation: 0.0,
-            ),
+                    title: Text(
+                      'Add Teacher ',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            font: GoogleFonts.nunito(
+                              fontWeight: FontWeight.w600,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            fontSize: 16.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.w600,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
+                    ),
+                    actions: [],
+                    centerTitle: false,
+                    elevation: 0.0,
+                  )
+                : null,
             body: SafeArea(
               top: true,
               child: SingleChildScrollView(
@@ -150,7 +174,7 @@ class _AddTeacherManuallyAdminWidgetState
                   children: [
                     Container(
                       height: MediaQuery.sizeOf(context).height * 0.8,
-                      decoration: const BoxDecoration(),
+                      decoration: BoxDecoration(),
                       child: Form(
                         key: _model.formKey,
                         autovalidateMode: AutovalidateMode.disabled,
@@ -160,11 +184,11 @@ class _AddTeacherManuallyAdminWidgetState
                             children: [
                               Container(
                                 width: MediaQuery.sizeOf(context).width * 1.0,
-                                decoration: const BoxDecoration(
+                                decoration: BoxDecoration(
                                   color: Color(0x151D61E7),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 5.0, 0.0, 5.0),
                                   child: Column(
                                     mainAxisSize: MainAxisSize.max,
@@ -172,12 +196,12 @@ class _AddTeacherManuallyAdminWidgetState
                                     children: [
                                       Align(
                                         alignment:
-                                            const AlignmentDirectional(0.0, 0.0),
+                                            AlignmentDirectional(0.0, 0.0),
                                         child: Container(
                                           width:
                                               MediaQuery.sizeOf(context).width *
                                                   0.8,
-                                          decoration: const BoxDecoration(),
+                                          decoration: BoxDecoration(),
                                           child: Builder(
                                             builder: (context) => InkWell(
                                               splashColor: Colors.transparent,
@@ -200,19 +224,32 @@ class _AddTeacherManuallyAdminWidgetState
                                                   'School name ',
                                                 ),
                                                 textAlign: TextAlign.center,
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                          fontSize: 20.0,
-                                                          letterSpacing: 0.0,
-                                                          fontWeight:
-                                                              FontWeight.w500,
-                                                        ),
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .bodyMedium
+                                                    .override(
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .primaryBackground,
+                                                      fontSize: 20.0,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
                                               ),
                                             ),
                                           ),
@@ -220,7 +257,7 @@ class _AddTeacherManuallyAdminWidgetState
                                       ),
                                       Align(
                                         alignment:
-                                            const AlignmentDirectional(0.0, 0.0),
+                                            AlignmentDirectional(0.0, 0.0),
                                         child: Builder(
                                           builder: (context) => InkWell(
                                             splashColor: Colors.transparent,
@@ -245,21 +282,34 @@ class _AddTeacherManuallyAdminWidgetState
                                                       context)
                                                   .bodyMedium
                                                   .override(
-                                                    fontFamily: 'Nunito',
+                                                    font: GoogleFonts.nunito(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
                                                     color: FlutterFlowTheme.of(
                                                             context)
                                                         .primaryBackground,
                                                     fontSize: 16.0,
                                                     letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w500,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
                                                   ),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ]
-                                        .divide(const SizedBox(height: 10.0))
-                                        .around(const SizedBox(height: 10.0)),
+                                        .divide(SizedBox(height: 10.0))
+                                        .around(SizedBox(height: 10.0)),
                                   ),
                                 ),
                               ),
@@ -284,11 +334,11 @@ class _AddTeacherManuallyAdminWidgetState
                                         child: Padding(
                                           padding:
                                               MediaQuery.viewInsetsOf(context),
-                                          child: SizedBox(
+                                          child: Container(
                                             height: MediaQuery.sizeOf(context)
                                                     .height *
                                                 0.2,
-                                            child: const EditphotoWidget(
+                                            child: EditphotoWidget(
                                               person: true,
                                             ),
                                           ),
@@ -298,26 +348,22 @@ class _AddTeacherManuallyAdminWidgetState
                                   ).then((value) => safeSetState(() {}));
                                 },
                                 child: Container(
-                                  width:
-                                      MediaQuery.sizeOf(context).width * 0.45,
+                                  width: MediaQuery.sizeOf(context).width * 0.3,
                                   height:
-                                      MediaQuery.sizeOf(context).width * 0.45,
+                                      MediaQuery.sizeOf(context).width * 0.3,
                                   clipBehavior: Clip.antiAlias,
-                                  decoration: const BoxDecoration(
+                                  decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                   ),
                                   child: Image.network(
-                                    valueOrDefault<String>(
-                                      FFAppState().profileimagechanged == true
-                                          ? FFAppState().imageurl
-                                          : FFAppConstants.addImage,
-                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
-                                    ),
+                                    FFAppState().profileimagechanged == true
+                                        ? FFAppState().imageurl
+                                        : FFAppConstants.addImage,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
-                              SizedBox(
+                              Container(
                                 width: MediaQuery.sizeOf(context).width * 0.9,
                                 child: TextFormField(
                                   controller: _model.contactNameTextController,
@@ -327,11 +373,20 @@ class _AddTeacherManuallyAdminWidgetState
                                   obscureText: false,
                                   decoration: InputDecoration(
                                     isDense: true,
-                                    labelText: 'Teacher\'s Name ',
+                                    labelText: 'Teacher\'s Name *',
                                     labelStyle: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
                                           color: valueOrDefault<Color>(
                                             (_model.contactNameFocusNode
                                                         ?.hasFocus ??
@@ -339,26 +394,50 @@ class _AddTeacherManuallyAdminWidgetState
                                                 ? FlutterFlowTheme.of(context)
                                                     .primary
                                                 : FlutterFlowTheme.of(context)
-                                                    .textfieldText,
+                                                    .text,
                                             FlutterFlowTheme.of(context)
                                                 .textfieldText,
                                           ),
+                                          fontSize: (_model.contactNameFocusNode
+                                                      ?.hasFocus ??
+                                                  false)
+                                              ? 12.0
+                                              : 16.0,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
                                         ),
                                     hintText: 'Teacher’s name',
                                     hintStyle: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight: FontWeight.normal,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
                                           color:
                                               FlutterFlowTheme.of(context).text,
+                                          fontSize: 16.0,
                                           letterSpacing: 0.0,
                                           fontWeight: FontWeight.normal,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
                                         ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                         color: FlutterFlowTheme.of(context)
-                                            .dIsable,
+                                            .textfieldDisable,
                                         width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(8.0),
@@ -398,10 +477,25 @@ class _AddTeacherManuallyAdminWidgetState
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        fontFamily: 'Nunito',
+                                        font: GoogleFonts.nunito(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
                                         color: FlutterFlowTheme.of(context)
                                             .primaryText,
                                         letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
                                       ),
                                   keyboardType: TextInputType.name,
                                   cursorColor:
@@ -409,9 +503,20 @@ class _AddTeacherManuallyAdminWidgetState
                                   validator: _model
                                       .contactNameTextControllerValidator
                                       .asValidator(context),
+                                  inputFormatters: [
+                                    if (!isAndroid && !isiOS)
+                                      TextInputFormatter.withFunction(
+                                          (oldValue, newValue) {
+                                        return TextEditingValue(
+                                          selection: newValue.selection,
+                                          text: newValue.text.toCapitalization(
+                                              TextCapitalization.words),
+                                        );
+                                      }),
+                                  ],
                                 ),
                               ),
-                              SizedBox(
+                              Container(
                                 width: MediaQuery.sizeOf(context).width * 0.9,
                                 child: TextFormField(
                                   controller:
@@ -421,11 +526,20 @@ class _AddTeacherManuallyAdminWidgetState
                                   obscureText: false,
                                   decoration: InputDecoration(
                                     isDense: true,
-                                    labelText: 'Teacher\'s Phone number ',
+                                    labelText: 'Teacher\'s Phone number *',
                                     labelStyle: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
                                           color: valueOrDefault<Color>(
                                             (_model.contactPhonenumberFocusNode
                                                         ?.hasFocus ??
@@ -433,26 +547,51 @@ class _AddTeacherManuallyAdminWidgetState
                                                 ? FlutterFlowTheme.of(context)
                                                     .primary
                                                 : FlutterFlowTheme.of(context)
-                                                    .textfieldText,
+                                                    .text,
                                             FlutterFlowTheme.of(context)
                                                 .textfieldText,
                                           ),
+                                          fontSize:
+                                              (_model.contactPhonenumberFocusNode
+                                                          ?.hasFocus ??
+                                                      false)
+                                                  ? 12.0
+                                                  : 16.0,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
                                         ),
                                     hintText: 'Teacher’s  phone number',
                                     hintStyle: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight: FontWeight.normal,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
                                           color:
                                               FlutterFlowTheme.of(context).text,
+                                          fontSize: 16.0,
                                           letterSpacing: 0.0,
                                           fontWeight: FontWeight.normal,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
                                         ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                         color: FlutterFlowTheme.of(context)
-                                            .dIsable,
+                                            .textfieldDisable,
                                         width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(8.0),
@@ -493,10 +632,25 @@ class _AddTeacherManuallyAdminWidgetState
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        fontFamily: 'Nunito',
+                                        font: GoogleFonts.nunito(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
                                         color: FlutterFlowTheme.of(context)
                                             .primaryText,
                                         letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
                                       ),
                                   maxLength: 10,
                                   buildCounter: (context,
@@ -516,46 +670,81 @@ class _AddTeacherManuallyAdminWidgetState
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              Container(
                                 width: MediaQuery.sizeOf(context).width * 0.9,
                                 child: TextFormField(
                                   controller: _model.contactemailTextController,
                                   focusNode: _model.contactemailFocusNode,
                                   autofocus: false,
+                                  textCapitalization: TextCapitalization.none,
                                   obscureText: false,
                                   decoration: InputDecoration(
                                     isDense: true,
-                                    labelText: 'Teacher\'s Email ID',
+                                    labelText: 'Teacher\'s user name / Email *',
                                     labelStyle: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
                                           color: valueOrDefault<Color>(
                                             (_model.contactemailFocusNode?.hasFocus ??
                                                     false)
                                                 ? FlutterFlowTheme.of(context)
                                                     .primary
                                                 : FlutterFlowTheme.of(context)
-                                                    .textfieldText,
+                                                    .text,
                                             FlutterFlowTheme.of(context)
                                                 .textfieldText,
                                           ),
+                                          fontSize: (_model
+                                                      .contactemailFocusNode
+                                                      ?.hasFocus ??
+                                                  false)
+                                              ? 12.0
+                                              : 16.0,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
                                         ),
-                                    hintText: 'Teacher’s email ID',
+                                    hintText: 'Teacher\'s user name / Email',
                                     hintStyle: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight: FontWeight.normal,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
                                           color:
                                               FlutterFlowTheme.of(context).text,
+                                          fontSize: 16.0,
                                           letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w200,
+                                          fontWeight: FontWeight.normal,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
                                         ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                         color: FlutterFlowTheme.of(context)
-                                            .dIsable,
+                                            .textfieldDisable,
                                         width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(8.0),
@@ -595,43 +784,85 @@ class _AddTeacherManuallyAdminWidgetState
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        fontFamily: 'Nunito',
+                                        font: GoogleFonts.nunito(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
                                         color: FlutterFlowTheme.of(context)
                                             .primaryText,
                                         letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
                                       ),
-                                  keyboardType: TextInputType.emailAddress,
                                   cursorColor:
                                       FlutterFlowTheme.of(context).primaryText,
                                   validator: _model
                                       .contactemailTextControllerValidator
                                       .asValidator(context),
+                                  inputFormatters: [
+                                    if (!isAndroid && !isiOS)
+                                      TextInputFormatter.withFunction(
+                                          (oldValue, newValue) {
+                                        return TextEditingValue(
+                                          selection: newValue.selection,
+                                          text: newValue.text.toCapitalization(
+                                              TextCapitalization.none),
+                                        );
+                                      }),
+                                    FilteringTextInputFormatter.allow(
+                                        RegExp('[a-z0-9@.]'))
+                                  ],
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     10.0, 0.0, 10.0, 0.0),
                                 child: Text(
-                                  'Your teacher will now receive an email with the login credentials . ',
-                                  textAlign: TextAlign.center,
+                                  'Your teacher will now receive an email with the link to her profile. ',
+                                  textAlign: TextAlign.start,
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        fontFamily: 'Nunito',
+                                        font: GoogleFonts.nunito(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
                                         color: FlutterFlowTheme.of(context)
                                             .tertiaryText,
                                         fontSize: 16.0,
                                         letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
                                       ),
                                 ),
                               ),
-                            ].divide(const SizedBox(height: 15.0)),
+                            ].divide(SizedBox(height: 15.0)),
                           ),
                         ),
                       ),
                     ),
                     Align(
-                      alignment: const AlignmentDirectional(0.0, 0.0),
+                      alignment: AlignmentDirectional(0.0, 0.0),
                       child: Material(
                         color: Colors.transparent,
                         elevation: 2.0,
@@ -645,7 +876,7 @@ class _AddTeacherManuallyAdminWidgetState
                             color: FlutterFlowTheme.of(context).secondary,
                             borderRadius: BorderRadius.circular(10.0),
                             border: Border.all(
-                              color: const Color(0xFFF4F4F4),
+                              color: Color(0xFFF4F4F4),
                             ),
                           ),
                           child: Row(
@@ -654,365 +885,534 @@ class _AddTeacherManuallyAdminWidgetState
                             children: [
                               Builder(
                                 builder: (context) => Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 10.0),
                                   child: FFButtonWidget(
-                                    onPressed: () async {
-                                      var shouldSetState = false;
-                                      if (_model.formKey.currentState == null ||
-                                          !_model.formKey.currentState!
-                                              .validate()) {
-                                        return;
-                                      }
-                                      if (addTeacherManuallyAdminSchoolRecord
-                                              .schoolDetails.noOfFaculties ==
-                                          addTeacherManuallyAdminSchoolRecord
-                                              .listOfTeachers.length) {
-                                        await addTeacherManuallyAdminSchoolRecord
-                                            .reference
-                                            .update(createSchoolRecordData(
-                                          schoolDetails:
-                                              updateSchoolDetailsStruct(
-                                            SchoolDetailsStruct(
-                                              schoolId:
-                                                  addTeacherManuallyAdminSchoolRecord
-                                                      .schoolDetails.schoolId,
-                                              schoolName:
-                                                  addTeacherManuallyAdminSchoolRecord
-                                                      .schoolDetails.schoolName,
-                                              address:
-                                                  addTeacherManuallyAdminSchoolRecord
-                                                      .schoolDetails.address,
-                                              pincode:
-                                                  addTeacherManuallyAdminSchoolRecord
-                                                      .schoolDetails.pincode,
-                                              city:
-                                                  addTeacherManuallyAdminSchoolRecord
-                                                      .schoolDetails.city,
-                                              state:
-                                                  addTeacherManuallyAdminSchoolRecord
-                                                      .schoolDetails.state,
-                                              noOfStudents:
-                                                  addTeacherManuallyAdminSchoolRecord
-                                                      .schoolDetails
-                                                      .noOfStudents,
-                                              noOfFaculties: functions.serialnumber(
-                                                  addTeacherManuallyAdminSchoolRecord
-                                                      .schoolDetails
-                                                      .noOfFaculties),
-                                              noOfBranches:
-                                                  addTeacherManuallyAdminSchoolRecord
-                                                      .schoolDetails
-                                                      .noOfBranches,
-                                              schoolImage:
-                                                  addTeacherManuallyAdminSchoolRecord
-                                                      .schoolDetails
-                                                      .schoolImage,
-                                              listOfclasses:
-                                                  addTeacherManuallyAdminSchoolRecord
-                                                      .schoolDetails
-                                                      .listOfclasses,
-                                            ),
-                                            clearUnsetFields: false,
-                                          ),
-                                        ));
-                                      }
-                                      if (FFAppState().profileimagechanged ==
-                                          true) {
-                                        var confirmDialogResponse =
-                                            await showDialog<bool>(
-                                                  context: context,
-                                                  builder:
-                                                      (alertDialogContext) {
-                                                    return AlertDialog(
-                                                      title: const Text(
-                                                          'Add Teacher !!'),
-                                                      content: Text(
-                                                          'Are you sure you want to add this teacher to ${addTeacherManuallyAdminSchoolRecord.schoolDetails.schoolName}? '),
-                                                      actions: [
-                                                        TextButton(
-                                                          onPressed: () =>
-                                                              Navigator.pop(
-                                                                  alertDialogContext,
-                                                                  false),
-                                                          child: const Text('Cancel'),
-                                                        ),
-                                                        TextButton(
-                                                          onPressed: () =>
-                                                              Navigator.pop(
-                                                                  alertDialogContext,
-                                                                  true),
-                                                          child:
-                                                              const Text('Confirm'),
-                                                        ),
-                                                      ],
-                                                    );
-                                                  },
-                                                ) ??
-                                                false;
-                                        if (confirmDialogResponse) {
-                                          _model.teacherApi =
-                                              await CreateAccountCall.call(
-                                            email: _model
-                                                .contactemailTextController
-                                                .text,
-                                            displayName: _model
-                                                .contactNameTextController.text,
-                                            userRole: 3,
-                                            phoneNumber: _model
-                                                .contactPhonenumberTextController
-                                                .text,
-                                            password: _model
-                                                .contactPhonenumberTextController
-                                                .text,
-                                          );
-
-                                          shouldSetState = true;
-                                          if ((_model.teacherApi?.succeeded ??
-                                              true)) {
-                                            _model.teacherref =
-                                                await actions.stringToUser(
-                                              CreateAccountCall.userref(
-                                                (_model.teacherApi?.jsonBody ??
-                                                    ''),
-                                              )!,
-                                            );
-                                            shouldSetState = true;
-
-                                            var teachersRecordReference =
-                                                TeachersRecord.collection.doc();
-                                            await teachersRecordReference
-                                                .set(createTeachersRecordData(
-                                              teacherName: _model
-                                                  .contactNameTextController
-                                                  .text,
-                                              phoneNumber: _model
-                                                  .contactPhonenumberTextController
-                                                  .text,
-                                              emailId: _model
-                                                  .contactemailTextController
-                                                  .text,
-                                              teacherImage:
-                                                  FFAppState().imageurl,
-                                              createdAt: getCurrentTimestamp,
-                                              useref: _model.teacherref,
-                                            ));
-                                            _model.teacher = TeachersRecord
-                                                .getDocumentFromData(
-                                                    createTeachersRecordData(
-                                                      teacherName: _model
-                                                          .contactNameTextController
-                                                          .text,
-                                                      phoneNumber: _model
-                                                          .contactPhonenumberTextController
-                                                          .text,
-                                                      emailId: _model
-                                                          .contactemailTextController
-                                                          .text,
-                                                      teacherImage:
-                                                          FFAppState().imageurl,
-                                                      createdAt:
-                                                          getCurrentTimestamp,
-                                                      useref: _model.teacherref,
-                                                    ),
-                                                    teachersRecordReference);
-                                            shouldSetState = true;
-
-                                            await _model.teacherref!
-                                                .update(createUsersRecordData(
-                                              photoUrl: FFAppState().imageurl,
-                                              subscriptionStatus:
-                                                  addTeacherManuallyAdminSchoolRecord
-                                                      .subscriptionStatus,
-                                              subcriptiondetails:
-                                                  updateSubscribtionDetailsStruct(
+                                    onPressed: ((_model.contactNameTextController
+                                                        .text ==
+                                                    '') ||
+                                            (_model.contactPhonenumberTextController
+                                                        .text ==
+                                                    '') ||
+                                            !_model.lastfield)
+                                        ? null
+                                        : () async {
+                                            var _shouldSetState = false;
+                                            if (_model.formKey.currentState ==
+                                                    null ||
+                                                !_model.formKey.currentState!
+                                                    .validate()) {
+                                              return;
+                                            }
+                                            if (addTeacherManuallyAdminSchoolRecord
+                                                    .schoolDetails
+                                                    .noOfFaculties ==
                                                 addTeacherManuallyAdminSchoolRecord
-                                                    .subscriptionDetails,
-                                                clearUnsetFields: false,
-                                              ),
-                                            ));
-                                            _model.teacheremail =
-                                                await SendMailCall.call(
-                                              toEmail: _model
-                                                  .contactemailTextController
-                                                  .text,
-                                              userName: _model
-                                                  .contactemailTextController
-                                                  .text,
-                                              password: _model
-                                                  .contactPhonenumberTextController
-                                                  .text,
-                                            );
-
-                                            shouldSetState = true;
-                                            if ((_model
-                                                    .teacheremail?.succeeded ??
-                                                true)) {
+                                                    .listOfTeachers.length) {
                                               await addTeacherManuallyAdminSchoolRecord
                                                   .reference
-                                                  .update({
-                                                ...mapToFirestore(
-                                                  {
-                                                    'List_of_teachers':
-                                                        FieldValue.arrayUnion([
-                                                      _model.teacher?.reference
-                                                    ]),
-                                                    'teachers_data_list':
-                                                        FieldValue.arrayUnion([
-                                                      getTeacherListFirestoreData(
-                                                        updateTeacherListStruct(
-                                                          TeacherListStruct(
+                                                  .update(
+                                                      createSchoolRecordData(
+                                                schoolDetails:
+                                                    updateSchoolDetailsStruct(
+                                                  SchoolDetailsStruct(
+                                                    schoolId:
+                                                        addTeacherManuallyAdminSchoolRecord
+                                                            .schoolDetails
+                                                            .schoolId,
+                                                    schoolName:
+                                                        addTeacherManuallyAdminSchoolRecord
+                                                            .schoolDetails
+                                                            .schoolName,
+                                                    address:
+                                                        addTeacherManuallyAdminSchoolRecord
+                                                            .schoolDetails
+                                                            .address,
+                                                    pincode:
+                                                        addTeacherManuallyAdminSchoolRecord
+                                                            .schoolDetails
+                                                            .pincode,
+                                                    city:
+                                                        addTeacherManuallyAdminSchoolRecord
+                                                            .schoolDetails.city,
+                                                    state:
+                                                        addTeacherManuallyAdminSchoolRecord
+                                                            .schoolDetails
+                                                            .state,
+                                                    noOfStudents:
+                                                        addTeacherManuallyAdminSchoolRecord
+                                                            .schoolDetails
+                                                            .noOfStudents,
+                                                    noOfFaculties:
+                                                        functions.serialnumber(
+                                                            addTeacherManuallyAdminSchoolRecord
+                                                                .schoolDetails
+                                                                .noOfFaculties),
+                                                    noOfBranches:
+                                                        addTeacherManuallyAdminSchoolRecord
+                                                            .schoolDetails
+                                                            .noOfBranches,
+                                                    schoolImage:
+                                                        addTeacherManuallyAdminSchoolRecord
+                                                            .schoolDetails
+                                                            .schoolImage,
+                                                    listOfclasses:
+                                                        addTeacherManuallyAdminSchoolRecord
+                                                            .schoolDetails
+                                                            .listOfclasses,
+                                                  ),
+                                                  clearUnsetFields: false,
+                                                ),
+                                              ));
+                                            }
+                                            if (FFAppState()
+                                                    .profileimagechanged ==
+                                                true) {
+                                              var confirmDialogResponse =
+                                                  await showDialog<bool>(
+                                                        context: context,
+                                                        builder:
+                                                            (alertDialogContext) {
+                                                          return AlertDialog(
+                                                            title: Text(
+                                                                'Add Teacher !!'),
+                                                            content: Text(
+                                                                'Are you sure you want to add this teacher to ${addTeacherManuallyAdminSchoolRecord.schoolDetails.schoolName}? '),
+                                                            actions: [
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        alertDialogContext,
+                                                                        false),
+                                                                child: Text(
+                                                                    'Cancel'),
+                                                              ),
+                                                              TextButton(
+                                                                onPressed: () =>
+                                                                    Navigator.pop(
+                                                                        alertDialogContext,
+                                                                        true),
+                                                                child: Text(
+                                                                    'Confirm'),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      ) ??
+                                                      false;
+                                              if (confirmDialogResponse) {
+                                                await SendsmsteacherCall.call(
+                                                  toPhoneNumber: int.tryParse(_model
+                                                      .contactPhonenumberTextController
+                                                      .text),
+                                                  userName: _model
+                                                      .contactemailTextController
+                                                      .text,
+                                                  userPassword: _model
+                                                      .contactPhonenumberTextController
+                                                      .text,
+                                                );
+
+                                                _model.teacherApi =
+                                                    await CreateAccountCall
+                                                        .call(
+                                                  email: functions.isValidEmail(
+                                                          _model
+                                                              .contactemailTextController
+                                                              .text)
+                                                      ? _model
+                                                          .contactemailTextController
+                                                          .text
+                                                      : '${_model.contactemailTextController.text}@feebe.in',
+                                                  displayName: _model
+                                                      .contactNameTextController
+                                                      .text,
+                                                  userRole: 3,
+                                                  phoneNumber: _model
+                                                      .contactPhonenumberTextController
+                                                      .text,
+                                                  password: _model
+                                                      .contactPhonenumberTextController
+                                                      .text,
+                                                );
+
+                                                _shouldSetState = true;
+                                                if ((_model.teacherApi
+                                                        ?.succeeded ??
+                                                    true)) {
+                                                  _model.teacherref =
+                                                      await actions
+                                                          .stringToUser(
+                                                    CreateAccountCall.userref(
+                                                      (_model.teacherApi
+                                                              ?.jsonBody ??
+                                                          ''),
+                                                    )!,
+                                                  );
+                                                  _shouldSetState = true;
+
+                                                  var teachersRecordReference =
+                                                      TeachersRecord.collection
+                                                          .doc();
+                                                  await teachersRecordReference
+                                                      .set(
+                                                          createTeachersRecordData(
+                                                    teacherName: _model
+                                                        .contactNameTextController
+                                                        .text,
+                                                    phoneNumber: _model
+                                                        .contactPhonenumberTextController
+                                                        .text,
+                                                    emailId: functions
+                                                            .isValidEmail(_model
+                                                                .contactemailTextController
+                                                                .text)
+                                                        ? _model
+                                                            .contactemailTextController
+                                                            .text
+                                                        : '${_model.contactemailTextController.text}@feebe.in',
+                                                    teacherImage:
+                                                        FFAppState().imageurl,
+                                                    createdAt:
+                                                        getCurrentTimestamp,
+                                                    useref: _model.teacherref,
+                                                    isemail: functions
+                                                            .isValidEmail(_model
+                                                                .contactemailTextController
+                                                                .text)
+                                                        ? true
+                                                        : false,
+                                                  ));
+                                                  _model.teacher = TeachersRecord
+                                                      .getDocumentFromData(
+                                                          createTeachersRecordData(
                                                             teacherName: _model
                                                                 .contactNameTextController
                                                                 .text,
                                                             phoneNumber: _model
                                                                 .contactPhonenumberTextController
                                                                 .text,
-                                                            emailId: _model
-                                                                .contactemailTextController
-                                                                .text,
-                                                            teacherImage: _model
-                                                                .teacher
-                                                                ?.teacherImage,
-                                                            teachersId: _model
-                                                                .teacher
-                                                                ?.reference,
-                                                            userRef: _model
+                                                            emailId: functions
+                                                                    .isValidEmail(_model
+                                                                        .contactemailTextController
+                                                                        .text)
+                                                                ? _model
+                                                                    .contactemailTextController
+                                                                    .text
+                                                                : '${_model.contactemailTextController.text}@feebe.in',
+                                                            teacherImage:
+                                                                FFAppState()
+                                                                    .imageurl,
+                                                            createdAt:
+                                                                getCurrentTimestamp,
+                                                            useref: _model
                                                                 .teacherref,
+                                                            isemail: functions
+                                                                    .isValidEmail(_model
+                                                                        .contactemailTextController
+                                                                        .text)
+                                                                ? true
+                                                                : false,
                                                           ),
-                                                          clearUnsetFields:
-                                                              false,
-                                                        ),
-                                                        true,
-                                                      )
-                                                    ]),
-                                                    'listOfteachersuser':
-                                                        FieldValue.arrayUnion([
-                                                      _model.teacherref
-                                                    ]),
-                                                  },
-                                                ),
-                                              });
-                                              if (valueOrDefault(
-                                                      currentUserDocument
-                                                          ?.userRole,
-                                                      0) ==
-                                                  1) {
-                                                await showDialog(
-                                                  context: context,
-                                                  builder: (dialogContext) {
-                                                    return Dialog(
-                                                      elevation: 0,
-                                                      insetPadding:
-                                                          EdgeInsets.zero,
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      alignment:
-                                                          const AlignmentDirectional(
-                                                                  0.0, -0.8)
-                                                              .resolve(
-                                                                  Directionality.of(
-                                                                      context)),
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          FocusScope.of(
-                                                                  dialogContext)
-                                                              .unfocus();
-                                                          FocusManager.instance
-                                                              .primaryFocus
-                                                              ?.unfocus();
-                                                        },
-                                                        child: SizedBox(
-                                                          height:
-                                                              MediaQuery.sizeOf(
-                                                                          context)
-                                                                      .height *
-                                                                  0.08,
-                                                          width:
-                                                              MediaQuery.sizeOf(
-                                                                          context)
-                                                                      .width *
-                                                                  0.6,
-                                                          child:
-                                                              const MessagesenttotheteacherWidget(),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                );
+                                                          teachersRecordReference);
+                                                  _shouldSetState = true;
 
-                                                context.goNamed(
-                                                  'ExistingSchoolDetails_SA',
-                                                  queryParameters: {
-                                                    'schoolrefMain':
-                                                        serializeParam(
-                                                      widget.schoolRef,
-                                                      ParamType
-                                                          .DocumentReference,
+                                                  await _model.teacherref!
+                                                      .update(
+                                                          createUsersRecordData(
+                                                    photoUrl:
+                                                        FFAppState().imageurl,
+                                                    subscriptionStatus:
+                                                        addTeacherManuallyAdminSchoolRecord
+                                                            .subscriptionStatus,
+                                                    subcriptiondetails:
+                                                        updateSubscribtionDetailsStruct(
+                                                      addTeacherManuallyAdminSchoolRecord
+                                                          .subscriptionDetails,
+                                                      clearUnsetFields: false,
                                                     ),
-                                                  }.withoutNulls,
-                                                );
-                                              } else if (valueOrDefault(
-                                                      currentUserDocument
-                                                          ?.userRole,
-                                                      0) ==
-                                                  2) {
-                                                await showDialog(
-                                                  context: context,
-                                                  builder: (dialogContext) {
-                                                    return Dialog(
-                                                      elevation: 0,
-                                                      insetPadding:
-                                                          EdgeInsets.zero,
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      alignment:
-                                                          const AlignmentDirectional(
-                                                                  0.0, -0.8)
-                                                              .resolve(
-                                                                  Directionality.of(
-                                                                      context)),
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          FocusScope.of(
-                                                                  dialogContext)
-                                                              .unfocus();
-                                                          FocusManager.instance
-                                                              .primaryFocus
-                                                              ?.unfocus();
+                                                    isemail: functions
+                                                            .isValidEmail(_model
+                                                                .contactemailTextController
+                                                                .text)
+                                                        ? true
+                                                        : false,
+                                                  ));
+                                                  _model.teacheremail =
+                                                      await SendMailCall.call(
+                                                    toEmail: functions
+                                                            .isValidEmail(_model
+                                                                .contactemailTextController
+                                                                .text)
+                                                        ? _model
+                                                            .contactemailTextController
+                                                            .text
+                                                        : '${_model.contactemailTextController.text}@feebe.in',
+                                                    userName: _model
+                                                        .contactNameTextController
+                                                        .text,
+                                                    password: _model
+                                                        .contactPhonenumberTextController
+                                                        .text,
+                                                    message:
+                                                        'Welcome to Feebe! You have successfully been onboarded by ${addTeacherManuallyAdminSchoolRecord.schoolDetails.schoolName} Our platform is designed to make your daily tasks smoother, so you can focus on what truly matters—your students!',
+                                                  );
+
+                                                  _shouldSetState = true;
+                                                  if ((_model.teacheremail
+                                                          ?.succeeded ??
+                                                      true)) {
+                                                    await addTeacherManuallyAdminSchoolRecord
+                                                        .reference
+                                                        .update({
+                                                      ...mapToFirestore(
+                                                        {
+                                                          'List_of_teachers':
+                                                              FieldValue
+                                                                  .arrayUnion([
+                                                            _model.teacher
+                                                                ?.reference
+                                                          ]),
+                                                          'teachers_data_list':
+                                                              FieldValue
+                                                                  .arrayUnion([
+                                                            getTeacherListFirestoreData(
+                                                              updateTeacherListStruct(
+                                                                TeacherListStruct(
+                                                                  teacherName:
+                                                                      _model
+                                                                          .contactNameTextController
+                                                                          .text,
+                                                                  phoneNumber:
+                                                                      _model
+                                                                          .contactPhonenumberTextController
+                                                                          .text,
+                                                                  emailId: functions.isValidEmail(_model
+                                                                          .contactemailTextController
+                                                                          .text)
+                                                                      ? _model
+                                                                          .contactemailTextController
+                                                                          .text
+                                                                      : '${_model.contactemailTextController.text}@feebe.in',
+                                                                  teacherImage: _model
+                                                                      .teacher
+                                                                      ?.teacherImage,
+                                                                  teachersId: _model
+                                                                      .teacher
+                                                                      ?.reference,
+                                                                  userRef: _model
+                                                                      .teacherref,
+                                                                  isemail: functions.isValidEmail(_model
+                                                                          .contactemailTextController
+                                                                          .text)
+                                                                      ? true
+                                                                      : false,
+                                                                ),
+                                                                clearUnsetFields:
+                                                                    false,
+                                                              ),
+                                                              true,
+                                                            )
+                                                          ]),
+                                                          'listOfteachersuser':
+                                                              FieldValue
+                                                                  .arrayUnion([
+                                                            _model.teacherref
+                                                          ]),
                                                         },
-                                                        child: SizedBox(
-                                                          height:
-                                                              MediaQuery.sizeOf(
-                                                                          context)
-                                                                      .height *
-                                                                  0.08,
-                                                          width:
-                                                              MediaQuery.sizeOf(
-                                                                          context)
-                                                                      .width *
-                                                                  0.6,
-                                                          child:
-                                                              const MessagesenttotheteacherWidget(),
+                                                      ),
+                                                    });
+                                                    if (valueOrDefault(
+                                                            currentUserDocument
+                                                                ?.userRole,
+                                                            0) ==
+                                                        1) {
+                                                      await showDialog(
+                                                        context: context,
+                                                        builder:
+                                                            (dialogContext) {
+                                                          return Dialog(
+                                                            elevation: 0,
+                                                            insetPadding:
+                                                                EdgeInsets.zero,
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            alignment: AlignmentDirectional(
+                                                                    0.0, -0.8)
+                                                                .resolve(
+                                                                    Directionality.of(
+                                                                        context)),
+                                                            child:
+                                                                GestureDetector(
+                                                              onTap: () {
+                                                                FocusScope.of(
+                                                                        dialogContext)
+                                                                    .unfocus();
+                                                                FocusManager
+                                                                    .instance
+                                                                    .primaryFocus
+                                                                    ?.unfocus();
+                                                              },
+                                                              child: Container(
+                                                                height: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .height *
+                                                                    0.08,
+                                                                width: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .width *
+                                                                    0.8,
+                                                                child:
+                                                                    MessagesenttotheteacherWidget(),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
+
+                                                      if (Navigator.of(context)
+                                                          .canPop()) {
+                                                        context.pop();
+                                                      }
+                                                      context.pushNamed(
+                                                        ExistingSchoolDetailsSAWidget
+                                                            .routeName,
+                                                        queryParameters: {
+                                                          'schoolrefMain':
+                                                              serializeParam(
+                                                            widget.schoolRef,
+                                                            ParamType
+                                                                .DocumentReference,
+                                                          ),
+                                                        }.withoutNulls,
+                                                      );
+                                                    } else if (valueOrDefault(
+                                                            currentUserDocument
+                                                                ?.userRole,
+                                                            0) ==
+                                                        2) {
+                                                      await showDialog(
+                                                        context: context,
+                                                        builder:
+                                                            (dialogContext) {
+                                                          return Dialog(
+                                                            elevation: 0,
+                                                            insetPadding:
+                                                                EdgeInsets.zero,
+                                                            backgroundColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            alignment: AlignmentDirectional(
+                                                                    0.0, -0.8)
+                                                                .resolve(
+                                                                    Directionality.of(
+                                                                        context)),
+                                                            child:
+                                                                GestureDetector(
+                                                              onTap: () {
+                                                                FocusScope.of(
+                                                                        dialogContext)
+                                                                    .unfocus();
+                                                                FocusManager
+                                                                    .instance
+                                                                    .primaryFocus
+                                                                    ?.unfocus();
+                                                              },
+                                                              child: Container(
+                                                                height: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .height *
+                                                                    0.08,
+                                                                width: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .width *
+                                                                    0.8,
+                                                                child:
+                                                                    MessagesenttotheteacherWidget(),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      );
+
+                                                      context.safePop();
+                                                    }
+
+                                                    FFAppState().imageurl = '';
+                                                    FFAppState()
+                                                            .profileimagechanged =
+                                                        false;
+                                                    FFAppState().schoolimage =
+                                                        '';
+                                                    FFAppState()
+                                                            .schoolimagechanged =
+                                                        false;
+                                                    safeSetState(() {});
+                                                  } else {
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                          getJsonField(
+                                                            (_model.teacheremail
+                                                                    ?.jsonBody ??
+                                                                ''),
+                                                            r'''$.message''',
+                                                          ).toString(),
+                                                          style: TextStyle(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .secondary,
+                                                          ),
                                                         ),
+                                                        duration: Duration(
+                                                            milliseconds: 1250),
+                                                        backgroundColor:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primaryText,
                                                       ),
                                                     );
-                                                  },
-                                                );
-
-                                                context.safePop();
+                                                  }
+                                                } else {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        getJsonField(
+                                                          (_model.teacherApi
+                                                                  ?.jsonBody ??
+                                                              ''),
+                                                          r'''$.message''',
+                                                        ).toString(),
+                                                        style: TextStyle(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryText,
+                                                        ),
+                                                      ),
+                                                      duration: Duration(
+                                                          milliseconds: 4000),
+                                                      backgroundColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
+                                                    ),
+                                                  );
+                                                }
+                                              } else {
+                                                if (_shouldSetState)
+                                                  safeSetState(() {});
+                                                return;
                                               }
                                             } else {
                                               ScaffoldMessenger.of(context)
                                                   .showSnackBar(
                                                 SnackBar(
                                                   content: Text(
-                                                    getJsonField(
-                                                      (_model.teacheremail
-                                                              ?.jsonBody ??
-                                                          ''),
-                                                      r'''$.message''',
-                                                    ).toString(),
+                                                    'Please upload teacher\'s profile image',
                                                     style: TextStyle(
                                                       color:
                                                           FlutterFlowTheme.of(
@@ -1020,8 +1420,8 @@ class _AddTeacherManuallyAdminWidgetState
                                                               .secondary,
                                                     ),
                                                   ),
-                                                  duration: const Duration(
-                                                      milliseconds: 1250),
+                                                  duration: Duration(
+                                                      milliseconds: 2500),
                                                   backgroundColor:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -1029,69 +1429,10 @@ class _AddTeacherManuallyAdminWidgetState
                                                 ),
                                               );
                                             }
-                                          } else {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  getJsonField(
-                                                    (_model.teacherApi
-                                                            ?.jsonBody ??
-                                                        ''),
-                                                    r'''$.message''',
-                                                  ).toString(),
-                                                  style: TextStyle(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
-                                                  ),
-                                                ),
-                                                duration: const Duration(
-                                                    milliseconds: 4000),
-                                                backgroundColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                              ),
-                                            );
-                                          }
-                                        } else {
-                                          if (shouldSetState) {
-                                            safeSetState(() {});
-                                          }
-                                          return;
-                                        }
 
-                                        FFAppState().imageurl =
-                                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
-                                        FFAppState().profileimagechanged =
-                                            false;
-                                        FFAppState().schoolimage =
-                                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png';
-                                        FFAppState().schoolimagechanged = false;
-                                        safeSetState(() {});
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Please upload teacher\'s profile image',
-                                              style: TextStyle(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondary,
-                                              ),
-                                            ),
-                                            duration:
-                                                const Duration(milliseconds: 2500),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primaryText,
-                                          ),
-                                        );
-                                      }
-
-                                      if (shouldSetState) safeSetState(() {});
-                                    },
+                                            if (_shouldSetState)
+                                              safeSetState(() {});
+                                          },
                                     text: 'Send',
                                     options: FFButtonOptions(
                                       width: MediaQuery.sizeOf(context).width *
@@ -1099,22 +1440,44 @@ class _AddTeacherManuallyAdminWidgetState
                                       height:
                                           MediaQuery.sizeOf(context).height *
                                               0.06,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           16.0, 0.0, 16.0, 0.0),
                                       iconPadding:
-                                          const EdgeInsetsDirectional.fromSTEB(
+                                          EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
                                       color:
                                           FlutterFlowTheme.of(context).primary,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .fontStyle,
+                                            ),
                                             color: Colors.white,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontStyle,
                                           ),
                                       elevation: 3.0,
                                       borderRadius: BorderRadius.circular(8.0),
+                                      disabledColor:
+                                          FlutterFlowTheme.of(context).dIsable,
+                                      disabledTextColor:
+                                          FlutterFlowTheme.of(context)
+                                              .disabletext,
                                     ),
                                   ),
                                 ),

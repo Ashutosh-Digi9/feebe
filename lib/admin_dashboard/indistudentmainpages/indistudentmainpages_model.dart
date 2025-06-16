@@ -1,4 +1,5 @@
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'indistudentmainpages_widget.dart' show IndistudentmainpagesWidget;
 import 'package:flutter/material.dart';
 

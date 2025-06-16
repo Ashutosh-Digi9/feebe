@@ -15,7 +15,7 @@ class SelectClassNoticeModel extends FlutterFlowModel<SelectClassNoticeWidget> {
   void updateClassrefAtIndex(int index, Function(DocumentReference) updateFn) =>
       classref[index] = updateFn(classref[index]);
 
-  Color color = const Color(0xffffffff);
+  Color color = Color(4294967295);
 
   int everyone = 0;
 
@@ -36,6 +36,8 @@ class SelectClassNoticeModel extends FlutterFlowModel<SelectClassNoticeWidget> {
       toWHome.insert(index, item);
   void updateToWHomeAtIndex(int index, Function(String) updateFn) =>
       toWHome[index] = updateFn(toWHome[index]);
+
+  int? id;
 
   ///  State fields for stateful widgets in this component.
 

@@ -8,21 +8,14 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class RecentsearchAdminStruct extends FFFirebaseStruct {
   RecentsearchAdminStruct({
-    DocumentReference? classref,
     String? name,
     DateTime? createdtime,
+    DocumentReference? studentref,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
-  })  : _classref = classref,
-        _name = name,
+  })  : _name = name,
         _createdtime = createdtime,
+        _studentref = studentref,
         super(firestoreUtilData);
-
-  // "classref" field.
-  DocumentReference? _classref;
-  DocumentReference? get classref => _classref;
-  set classref(DocumentReference? val) => _classref = val;
-
-  bool hasClassref() => _classref != null;
 
   // "name" field.
   String? _name;
@@ -38,11 +31,18 @@ class RecentsearchAdminStruct extends FFFirebaseStruct {
 
   bool hasCreatedtime() => _createdtime != null;
 
+  // "studentref" field.
+  DocumentReference? _studentref;
+  DocumentReference? get studentref => _studentref;
+  set studentref(DocumentReference? val) => _studentref = val;
+
+  bool hasStudentref() => _studentref != null;
+
   static RecentsearchAdminStruct fromMap(Map<String, dynamic> data) =>
       RecentsearchAdminStruct(
-        classref: data['classref'] as DocumentReference?,
         name: data['name'] as String?,
         createdtime: data['createdtime'] as DateTime?,
+        studentref: data['studentref'] as DocumentReference?,
       );
 
   static RecentsearchAdminStruct? maybeFromMap(dynamic data) => data is Map
@@ -50,17 +50,13 @@ class RecentsearchAdminStruct extends FFFirebaseStruct {
       : null;
 
   Map<String, dynamic> toMap() => {
-        'classref': _classref,
         'name': _name,
         'createdtime': _createdtime,
+        'studentref': _studentref,
       }.withoutNulls;
 
   @override
   Map<String, dynamic> toSerializableMap() => {
-        'classref': serializeParam(
-          _classref,
-          ParamType.DocumentReference,
-        ),
         'name': serializeParam(
           _name,
           ParamType.String,
@@ -69,17 +65,15 @@ class RecentsearchAdminStruct extends FFFirebaseStruct {
           _createdtime,
           ParamType.DateTime,
         ),
+        'studentref': serializeParam(
+          _studentref,
+          ParamType.DocumentReference,
+        ),
       }.withoutNulls;
 
   static RecentsearchAdminStruct fromSerializableMap(
           Map<String, dynamic> data) =>
       RecentsearchAdminStruct(
-        classref: deserializeParam(
-          data['classref'],
-          ParamType.DocumentReference,
-          false,
-          collectionNamePath: ['School_class'],
-        ),
         name: deserializeParam(
           data['name'],
           ParamType.String,
@@ -90,15 +84,16 @@ class RecentsearchAdminStruct extends FFFirebaseStruct {
           ParamType.DateTime,
           false,
         ),
+        studentref: deserializeParam(
+          data['studentref'],
+          ParamType.DocumentReference,
+          false,
+          collectionNamePath: ['Students'],
+        ),
       );
 
   static RecentsearchAdminStruct fromAlgoliaData(Map<String, dynamic> data) =>
       RecentsearchAdminStruct(
-        classref: convertAlgoliaParam(
-          data['classref'],
-          ParamType.DocumentReference,
-          false,
-        ),
         name: convertAlgoliaParam(
           data['name'],
           ParamType.String,
@@ -109,7 +104,12 @@ class RecentsearchAdminStruct extends FFFirebaseStruct {
           ParamType.DateTime,
           false,
         ),
-        firestoreUtilData: const FirestoreUtilData(
+        studentref: convertAlgoliaParam(
+          data['studentref'],
+          ParamType.DocumentReference,
+          false,
+        ),
+        firestoreUtilData: FirestoreUtilData(
           clearUnsetFields: false,
           create: true,
         ),
@@ -121,28 +121,29 @@ class RecentsearchAdminStruct extends FFFirebaseStruct {
   @override
   bool operator ==(Object other) {
     return other is RecentsearchAdminStruct &&
-        classref == other.classref &&
         name == other.name &&
-        createdtime == other.createdtime;
+        createdtime == other.createdtime &&
+        studentref == other.studentref;
   }
 
   @override
-  int get hashCode => const ListEquality().hash([classref, name, createdtime]);
+  int get hashCode =>
+      const ListEquality().hash([name, createdtime, studentref]);
 }
 
 RecentsearchAdminStruct createRecentsearchAdminStruct({
-  DocumentReference? classref,
   String? name,
   DateTime? createdtime,
+  DocumentReference? studentref,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
   bool delete = false,
 }) =>
     RecentsearchAdminStruct(
-      classref: classref,
       name: name,
       createdtime: createdtime,
+      studentref: studentref,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

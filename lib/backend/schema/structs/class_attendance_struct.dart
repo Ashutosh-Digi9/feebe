@@ -16,6 +16,7 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
     int? totalAbsent,
     DateTime? date,
     List<StudentAttendanceStruct>? studenttimelines,
+    bool? checkIn,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _id = id,
         _totalStudents = totalStudents,
@@ -24,6 +25,7 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
         _totalAbsent = totalAbsent,
         _date = date,
         _studenttimelines = studenttimelines,
+        _checkIn = checkIn,
         super(firestoreUtilData);
 
   // "id" field.
@@ -98,6 +100,13 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
 
   bool hasStudenttimelines() => _studenttimelines != null;
 
+  // "checkIn" field.
+  bool? _checkIn;
+  bool get checkIn => _checkIn ?? false;
+  set checkIn(bool? val) => _checkIn = val;
+
+  bool hasCheckIn() => _checkIn != null;
+
   static ClassAttendanceStruct fromMap(Map<String, dynamic> data) =>
       ClassAttendanceStruct(
         id: castToType<int>(data['id']),
@@ -110,6 +119,7 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
           data['studenttimelines'],
           StudentAttendanceStruct.fromMap,
         ),
+        checkIn: data['checkIn'] as bool?,
       );
 
   static ClassAttendanceStruct? maybeFromMap(dynamic data) => data is Map
@@ -124,6 +134,7 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
         'Total_absent': _totalAbsent,
         'date': _date,
         'studenttimelines': _studenttimelines?.map((e) => e.toMap()).toList(),
+        'checkIn': _checkIn,
       }.withoutNulls;
 
   @override
@@ -157,6 +168,10 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
           _studenttimelines,
           ParamType.DataStruct,
           isList: true,
+        ),
+        'checkIn': serializeParam(
+          _checkIn,
+          ParamType.bool,
         ),
       }.withoutNulls;
 
@@ -199,6 +214,11 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
           true,
           structBuilder: StudentAttendanceStruct.fromSerializableMap,
         ),
+        checkIn: deserializeParam(
+          data['checkIn'],
+          ParamType.bool,
+          false,
+        ),
       );
 
   static ClassAttendanceStruct fromAlgoliaData(Map<String, dynamic> data) =>
@@ -239,7 +259,12 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
           true,
           structBuilder: StudentAttendanceStruct.fromAlgoliaData,
         ),
-        firestoreUtilData: const FirestoreUtilData(
+        checkIn: convertAlgoliaParam(
+          data['checkIn'],
+          ParamType.bool,
+          false,
+        ),
+        firestoreUtilData: FirestoreUtilData(
           clearUnsetFields: false,
           create: true,
         ),
@@ -258,7 +283,8 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
         totalPresent == other.totalPresent &&
         totalAbsent == other.totalAbsent &&
         date == other.date &&
-        listEquality.equals(studenttimelines, other.studenttimelines);
+        listEquality.equals(studenttimelines, other.studenttimelines) &&
+        checkIn == other.checkIn;
   }
 
   @override
@@ -269,7 +295,8 @@ class ClassAttendanceStruct extends FFFirebaseStruct {
         totalPresent,
         totalAbsent,
         date,
-        studenttimelines
+        studenttimelines,
+        checkIn
       ]);
 }
 
@@ -279,6 +306,7 @@ ClassAttendanceStruct createClassAttendanceStruct({
   int? totalPresent,
   int? totalAbsent,
   DateTime? date,
+  bool? checkIn,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -290,6 +318,7 @@ ClassAttendanceStruct createClassAttendanceStruct({
       totalPresent: totalPresent,
       totalAbsent: totalAbsent,
       date: date,
+      checkIn: checkIn,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

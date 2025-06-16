@@ -1,7 +1,7 @@
+import '/admin_dashboard/editphoto/editphoto_widget.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/backend/push_notifications/push_notifications_util.dart';
-import '/components/editphoto_widget.dart';
 import '/confirmationpages/editsavedsuccessfully/editsavedsuccessfully_widget.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
@@ -9,9 +9,11 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/shimmer_effects/classshimmer/classshimmer_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'edit_school_s_a_model.dart';
 export 'edit_school_s_a_model.dart';
@@ -25,6 +27,9 @@ class EditSchoolSAWidget extends StatefulWidget {
 
   final DocumentReference? schoolRef;
   final DocumentReference? mainschoolref;
+
+  static String routeName = 'editSchool_SA';
+  static String routePath = '/editSchoolSA';
 
   @override
   State<EditSchoolSAWidget> createState() => _EditSchoolSAWidgetState();
@@ -44,10 +49,8 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       FFAppState().profileimagechanged = false;
       FFAppState().schoolimagechanged = false;
-      FFAppState().imageurl =
-          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
-      FFAppState().schoolimage =
-          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png';
+      FFAppState().imageurl = '';
+      FFAppState().schoolimage = '';
       safeSetState(() {});
     });
 
@@ -90,12 +93,6 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
 
     _model.stateTextController ??= TextEditingController(text: _model.state);
     _model.stateFocusNode ??= FocusNode();
-
-    _model.contactNameFocusNode ??= FocusNode();
-
-    _model.contactPhonenumberFocusNode ??= FocusNode();
-
-    _model.contactemailFocusNode ??= FocusNode();
   }
 
   @override
@@ -116,7 +113,7 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
         if (!snapshot.hasData) {
           return Scaffold(
             backgroundColor: FlutterFlowTheme.of(context).tertiary,
-            body: const ClassshimmerWidget(),
+            body: ClassshimmerWidget(),
           );
         }
 
@@ -130,44 +127,59 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).tertiary,
-            appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).info,
-              automaticallyImplyLeading: false,
-              leading: InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () async {
-                  context.pop();
-                },
-                child: Icon(
-                  Icons.chevron_left,
-                  color: FlutterFlowTheme.of(context).bgColor1,
-                  size: 28.0,
-                ),
-              ),
-              title: Text(
-                'Edit School',
-                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Nunito',
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      fontSize: 16.0,
-                      letterSpacing: 0.0,
-                      fontWeight: FontWeight.bold,
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? AppBar(
+                    backgroundColor: FlutterFlowTheme.of(context).info,
+                    automaticallyImplyLeading: false,
+                    leading: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        context.pop();
+                      },
+                      child: Icon(
+                        Icons.chevron_left,
+                        color: FlutterFlowTheme.of(context).bgColor1,
+                        size: 26.0,
+                      ),
                     ),
-              ),
-              actions: const [],
-              centerTitle: false,
-              elevation: 0.0,
-            ),
+                    title: Text(
+                      'Edit School',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            font: GoogleFonts.nunito(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            fontSize: 16.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
+                    ),
+                    actions: [],
+                    centerTitle: false,
+                    elevation: 0.0,
+                  )
+                : null,
             body: SafeArea(
               top: true,
               child: Form(
                 key: _model.formKey,
                 autovalidateMode: AutovalidateMode.disabled,
                 child: Padding(
-                  padding: const EdgeInsets.all(10.0),
+                  padding: EdgeInsets.all(10.0),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
@@ -180,36 +192,44 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                             color: FlutterFlowTheme.of(context).tertiary,
                           ),
                           child: Align(
-                            alignment: const AlignmentDirectional(0.0, 0.0),
+                            alignment: AlignmentDirectional(0.0, 0.0),
                             child: Text(
                               editSchoolSASchoolRecord.schoolDetails.schoolName,
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryBackground,
                                     fontSize: 20.0,
                                     letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 0.0, 0.0, 10.0),
+                          padding: EdgeInsets.all(5.0),
                           child: Container(
                             decoration: BoxDecoration(
                               color: FlutterFlowTheme.of(context).secondaryText,
-                              boxShadow: const [
+                              boxShadow: [
                                 BoxShadow(
                                   blurRadius: 1.0,
-                                  color: Color(0x98000000),
+                                  color: Color(0x12000000),
                                   offset: Offset(
                                     0.0,
                                     0.0,
                                   ),
+                                  spreadRadius: 0.0,
                                 )
                               ],
                               borderRadius: BorderRadius.circular(12.0),
@@ -218,19 +238,29 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Align(
-                                  alignment: const AlignmentDirectional(-1.0, 0.0),
+                                  alignment: AlignmentDirectional(-1.0, 0.0),
                                   child: Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         10.0, 10.0, 0.0, 0.0),
                                     child: Text(
                                       'School Details',
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.bold,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
                                             fontSize: 18.0,
                                             letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w500,
+                                            fontWeight: FontWeight.bold,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
                                           ),
                                     ),
                                   ),
@@ -255,7 +285,7 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                           child: Padding(
                                             padding: MediaQuery.viewInsetsOf(
                                                 context),
-                                            child: const SizedBox(
+                                            child: Container(
                                               height: 201.0,
                                               child: EditphotoWidget(
                                                 person: false,
@@ -309,11 +339,11 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                     transitionOnUserGestures: true,
                                     child: Container(
                                       width: MediaQuery.sizeOf(context).width *
-                                          0.45,
+                                          0.3,
                                       height: MediaQuery.sizeOf(context).width *
-                                          0.45,
+                                          0.3,
                                       clipBehavior: Clip.antiAlias,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                       ),
                                       child: Image.network(
@@ -330,7 +360,7 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
+                                Container(
                                   width: MediaQuery.sizeOf(context).width * 0.9,
                                   child: TextFormField(
                                     controller:
@@ -346,29 +376,68 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'School Name',
+                                      labelText: 'School Name *',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBackground,
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                            color: (_model.schoolnameFocusNode
+                                                        ?.hasFocus ??
+                                                    false)
+                                                ? FlutterFlowTheme.of(context)
+                                                    .primary
+                                                : FlutterFlowTheme.of(context)
+                                                    .textfieldText,
+                                            fontSize: (_model
+                                                        .schoolnameFocusNode
+                                                        ?.hasFocus ??
+                                                    false)
+                                                ? 12.0
+                                                : 16.0,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       hintText: 'School Name',
                                       hintStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.normal,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .textfieldText,
+                                            fontSize: 16.0,
                                             letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w200,
+                                            fontWeight: FontWeight.normal,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .dIsable,
+                                              .textfieldDisable,
                                           width: 1.0,
                                         ),
                                         borderRadius:
@@ -413,19 +482,48 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .text1,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                         ),
                                     cursorColor: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     validator: _model
                                         .schoolnameTextControllerValidator
                                         .asValidator(context),
+                                    inputFormatters: [
+                                      if (!isAndroid && !isiOS)
+                                        TextInputFormatter.withFunction(
+                                            (oldValue, newValue) {
+                                          return TextEditingValue(
+                                            selection: newValue.selection,
+                                            text: newValue.text
+                                                .toCapitalization(
+                                                    TextCapitalization.words),
+                                          );
+                                        }),
+                                    ],
                                   ),
                                 ),
-                                SizedBox(
+                                Container(
                                   width: MediaQuery.sizeOf(context).width * 0.9,
                                   child: TextFormField(
                                     controller:
@@ -440,29 +538,68 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'No of branches',
+                                      labelText: 'No of branches *',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBackground,
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                            color: (_model.noofbranchesFocusNode
+                                                        ?.hasFocus ??
+                                                    false)
+                                                ? FlutterFlowTheme.of(context)
+                                                    .primary
+                                                : FlutterFlowTheme.of(context)
+                                                    .textfieldText,
+                                            fontSize: (_model
+                                                        .noofbranchesFocusNode
+                                                        ?.hasFocus ??
+                                                    false)
+                                                ? 12.0
+                                                : 16.0,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       hintText: 'No. of branches',
                                       hintStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.normal,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .textfieldText,
+                                            fontSize: 16.0,
                                             letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w200,
+                                            fontWeight: FontWeight.normal,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .dIsable,
+                                              .textfieldDisable,
                                           width: 1.0,
                                         ),
                                         borderRadius:
@@ -507,10 +644,27 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .text1,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                         ),
                                     keyboardType: TextInputType.number,
                                     cursorColor: FlutterFlowTheme.of(context)
@@ -524,7 +678,7 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(
+                                Container(
                                   width: MediaQuery.sizeOf(context).width * 0.9,
                                   child: TextFormField(
                                     controller:
@@ -541,29 +695,69 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'No. of employee',
+                                      labelText: 'No. of employee *',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBackground,
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                            color: (_model
+                                                        .nooffacultiesFocusNode
+                                                        ?.hasFocus ??
+                                                    false)
+                                                ? FlutterFlowTheme.of(context)
+                                                    .primary
+                                                : FlutterFlowTheme.of(context)
+                                                    .textfieldText,
+                                            fontSize: (_model
+                                                        .nooffacultiesFocusNode
+                                                        ?.hasFocus ??
+                                                    false)
+                                                ? 12.0
+                                                : 16.0,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       hintText: 'No. of employee',
                                       hintStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.normal,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .textfieldText,
+                                            fontSize: 16.0,
                                             letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w200,
+                                            fontWeight: FontWeight.normal,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .dIsable,
+                                              .textfieldDisable,
                                           width: 1.0,
                                         ),
                                         borderRadius:
@@ -608,10 +802,27 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .text1,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                         ),
                                     keyboardType: TextInputType.number,
                                     cursorColor: FlutterFlowTheme.of(context)
@@ -620,12 +831,23 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                         .nooffacultiesTextControllerValidator
                                         .asValidator(context),
                                     inputFormatters: [
+                                      if (!isAndroid && !isiOS)
+                                        TextInputFormatter.withFunction(
+                                            (oldValue, newValue) {
+                                          return TextEditingValue(
+                                            selection: newValue.selection,
+                                            text: newValue.text
+                                                .toCapitalization(
+                                                    TextCapitalization
+                                                        .sentences),
+                                          );
+                                        }),
                                       FilteringTextInputFormatter.allow(
                                           RegExp('[0-9]'))
                                     ],
                                   ),
                                 ),
-                                SizedBox(
+                                Container(
                                   width: MediaQuery.sizeOf(context).width * 0.9,
                                   child: TextFormField(
                                     controller:
@@ -641,29 +863,68 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'School address',
+                                      labelText: 'School address *',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBackground,
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                            color: (_model
+                                                        .schoolAddressFocusNode
+                                                        ?.hasFocus ??
+                                                    false)
+                                                ? FlutterFlowTheme.of(context)
+                                                    .primary
+                                                : FlutterFlowTheme.of(context)
+                                                    .textfieldText,
+                                            fontSize: (_model
+                                                        .schoolAddressFocusNode
+                                                        ?.hasFocus ??
+                                                    false)
+                                                ? 12.0
+                                                : 16.0,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       hintText: 'School address',
                                       hintStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.normal,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .textfieldText,
                                             letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w200,
+                                            fontWeight: FontWeight.normal,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .dIsable,
+                                              .textfieldDisable,
                                           width: 1.0,
                                         ),
                                         borderRadius:
@@ -708,10 +969,27 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .text1,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                         ),
                                     maxLines: 5,
                                     cursorColor: FlutterFlowTheme.of(context)
@@ -719,9 +997,22 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                     validator: _model
                                         .schoolAddressTextControllerValidator
                                         .asValidator(context),
+                                    inputFormatters: [
+                                      if (!isAndroid && !isiOS)
+                                        TextInputFormatter.withFunction(
+                                            (oldValue, newValue) {
+                                          return TextEditingValue(
+                                            selection: newValue.selection,
+                                            text: newValue.text
+                                                .toCapitalization(
+                                                    TextCapitalization
+                                                        .sentences),
+                                          );
+                                        }),
+                                    ],
                                   ),
                                 ),
-                                SizedBox(
+                                Container(
                                   width: MediaQuery.sizeOf(context).width * 0.9,
                                   child: TextFormField(
                                     controller: _model.pincodeTextController ??=
@@ -736,29 +1027,66 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'Pincode',
+                                      labelText: 'Pincode *',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBackground,
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                            color: (_model.pincodeFocusNode
+                                                        ?.hasFocus ??
+                                                    false)
+                                                ? FlutterFlowTheme.of(context)
+                                                    .primary
+                                                : FlutterFlowTheme.of(context)
+                                                    .textfieldText,
+                                            fontSize: (_model.pincodeFocusNode
+                                                        ?.hasFocus ??
+                                                    false)
+                                                ? 12.0
+                                                : 16.0,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       hintText: 'Pincode',
                                       hintStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.normal,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .textfieldText,
                                             letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w200,
+                                            fontWeight: FontWeight.normal,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .dIsable,
+                                              .textfieldDisable,
                                           width: 1.0,
                                         ),
                                         borderRadius:
@@ -803,10 +1131,27 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .text1,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                         ),
                                     keyboardType: TextInputType.number,
                                     cursorColor: FlutterFlowTheme.of(context)
@@ -815,28 +1160,56 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                         .pincodeTextControllerValidator
                                         .asValidator(context),
                                     inputFormatters: [
+                                      if (!isAndroid && !isiOS)
+                                        TextInputFormatter.withFunction(
+                                            (oldValue, newValue) {
+                                          return TextEditingValue(
+                                            selection: newValue.selection,
+                                            text: newValue.text
+                                                .toCapitalization(
+                                                    TextCapitalization
+                                                        .sentences),
+                                          );
+                                        }),
                                       FilteringTextInputFormatter.allow(
                                           RegExp('[0-9]'))
                                     ],
                                   ),
                                 ),
                                 Align(
-                                  alignment: const AlignmentDirectional(-0.88, 0.0),
+                                  alignment: AlignmentDirectional(-0.88, 0.0),
                                   child: Text(
                                     'City',
                                     style: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .primaryBackground,
                                           fontSize: 12.0,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
                                         ),
                                   ),
                                 ),
                                 if (_model.city == null || _model.city == '')
-                                  SizedBox(
+                                  Container(
                                     width:
                                         MediaQuery.sizeOf(context).width * 0.9,
                                     child: TextFormField(
@@ -857,27 +1230,56 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                         labelStyle: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryBackground,
+                                              fontSize: 12.0,
                                               letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
                                             ),
                                         hintText: _model.city,
                                         hintStyle: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.normal,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .text1,
+                                              fontSize: 16.0,
                                               letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w200,
+                                              fontWeight: FontWeight.normal,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
                                             ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: FlutterFlowTheme.of(context)
-                                                .dIsable,
+                                                .textfieldDisable,
                                             width: 1.0,
                                           ),
                                           borderRadius:
@@ -922,20 +1324,50 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .text1,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
                                           ),
                                       cursorColor: FlutterFlowTheme.of(context)
                                           .primaryText,
                                       validator: _model
                                           .cityoldTextControllerValidator
                                           .asValidator(context),
+                                      inputFormatters: [
+                                        if (!isAndroid && !isiOS)
+                                          TextInputFormatter.withFunction(
+                                              (oldValue, newValue) {
+                                            return TextEditingValue(
+                                              selection: newValue.selection,
+                                              text: newValue.text
+                                                  .toCapitalization(
+                                                      TextCapitalization
+                                                          .sentences),
+                                            );
+                                          }),
+                                      ],
                                     ),
                                   ),
                                 if (_model.city != null && _model.city != '')
-                                  SizedBox(
+                                  Container(
                                     width:
                                         MediaQuery.sizeOf(context).width * 0.9,
                                     child: TextFormField(
@@ -951,27 +1383,55 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                         labelStyle: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryBackground,
                                               letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
                                             ),
                                         hintText: _model.city,
                                         hintStyle: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.normal,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .text1,
+                                              fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.normal,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
                                             ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: FlutterFlowTheme.of(context)
-                                                .dIsable,
+                                                .textfieldDisable,
                                             width: 1.0,
                                           ),
                                           borderRadius:
@@ -1016,35 +1476,82 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .text1,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
                                           ),
                                       cursorColor: FlutterFlowTheme.of(context)
                                           .primaryText,
                                       validator: _model
                                           .cityTextControllerValidator
                                           .asValidator(context),
+                                      inputFormatters: [
+                                        if (!isAndroid && !isiOS)
+                                          TextInputFormatter.withFunction(
+                                              (oldValue, newValue) {
+                                            return TextEditingValue(
+                                              selection: newValue.selection,
+                                              text: newValue.text
+                                                  .toCapitalization(
+                                                      TextCapitalization
+                                                          .sentences),
+                                            );
+                                          }),
+                                      ],
                                     ),
                                   ),
                                 Align(
-                                  alignment: const AlignmentDirectional(-0.88, 0.0),
+                                  alignment: AlignmentDirectional(-0.88, 0.0),
                                   child: Text(
                                     'State',
                                     style: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .primaryBackground,
                                           fontSize: 12.0,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
                                         ),
                                   ),
                                 ),
                                 if (_model.state == null || _model.state == '')
-                                  SizedBox(
+                                  Container(
                                     width:
                                         MediaQuery.sizeOf(context).width * 0.9,
                                     child: TextFormField(
@@ -1065,27 +1572,55 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                         labelStyle: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryBackground,
                                               letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
                                             ),
                                         hintText: _model.state,
                                         hintStyle: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.normal,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .text1,
+                                              fontSize: 16.0,
                                               letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w200,
+                                              fontWeight: FontWeight.normal,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
                                             ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: FlutterFlowTheme.of(context)
-                                                .dIsable,
+                                                .textfieldDisable,
                                             width: 1.0,
                                           ),
                                           borderRadius:
@@ -1130,20 +1665,50 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .text1,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
                                           ),
                                       cursorColor: FlutterFlowTheme.of(context)
                                           .primaryText,
                                       validator: _model
                                           .stateoldTextControllerValidator
                                           .asValidator(context),
+                                      inputFormatters: [
+                                        if (!isAndroid && !isiOS)
+                                          TextInputFormatter.withFunction(
+                                              (oldValue, newValue) {
+                                            return TextEditingValue(
+                                              selection: newValue.selection,
+                                              text: newValue.text
+                                                  .toCapitalization(
+                                                      TextCapitalization
+                                                          .sentences),
+                                            );
+                                          }),
+                                      ],
                                     ),
                                   ),
                                 if (_model.state != null && _model.state != '')
-                                  SizedBox(
+                                  Container(
                                     width:
                                         MediaQuery.sizeOf(context).width * 0.9,
                                     child: TextFormField(
@@ -1159,27 +1724,55 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                         labelStyle: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryBackground,
                                               letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
                                             ),
                                         hintText: _model.state,
                                         hintStyle: FlutterFlowTheme.of(context)
                                             .labelMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.normal,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .labelMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .text1,
+                                              fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.normal,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
                                             ),
                                         enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: FlutterFlowTheme.of(context)
-                                                .dIsable,
+                                                .textfieldDisable,
                                             width: 1.0,
                                           ),
                                           borderRadius:
@@ -1224,435 +1817,52 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .text1,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
                                           ),
                                       cursorColor: FlutterFlowTheme.of(context)
                                           .primaryText,
                                       validator: _model
                                           .stateTextControllerValidator
                                           .asValidator(context),
+                                      inputFormatters: [
+                                        if (!isAndroid && !isiOS)
+                                          TextInputFormatter.withFunction(
+                                              (oldValue, newValue) {
+                                            return TextEditingValue(
+                                              selection: newValue.selection,
+                                              text: newValue.text
+                                                  .toCapitalization(
+                                                      TextCapitalization
+                                                          .sentences),
+                                            );
+                                          }),
+                                      ],
                                     ),
                                   ),
                               ]
-                                  .divide(const SizedBox(height: 15.0))
-                                  .around(const SizedBox(height: 15.0)),
+                                  .divide(SizedBox(height: 15.0))
+                                  .around(SizedBox(height: 15.0)),
                             ),
-                          ),
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context).secondaryText,
-                            boxShadow: const [
-                              BoxShadow(
-                                blurRadius: 1.0,
-                                color: Color(0x98000000),
-                                offset: Offset(
-                                  0.0,
-                                  0.0,
-                                ),
-                              )
-                            ],
-                            borderRadius: BorderRadius.circular(12.0),
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            children: [
-                              Align(
-                                alignment: const AlignmentDirectional(-1.0, 0.0),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      10.0, 10.0, 0.0, 0.0),
-                                  child: Text(
-                                    'Contact Details',
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          fontFamily: 'Nunito',
-                                          fontSize: 18.0,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                  ),
-                                ),
-                              ),
-                              InkWell(
-                                splashColor: Colors.transparent,
-                                focusColor: Colors.transparent,
-                                hoverColor: Colors.transparent,
-                                highlightColor: Colors.transparent,
-                                onTap: () async {
-                                  await showModalBottomSheet(
-                                    isScrollControlled: true,
-                                    backgroundColor: Colors.transparent,
-                                    context: context,
-                                    builder: (context) {
-                                      return GestureDetector(
-                                        onTap: () {
-                                          FocusScope.of(context).unfocus();
-                                          FocusManager.instance.primaryFocus
-                                              ?.unfocus();
-                                        },
-                                        child: Padding(
-                                          padding:
-                                              MediaQuery.viewInsetsOf(context),
-                                          child: const SizedBox(
-                                            height: 100.0,
-                                            child: EditphotoWidget(
-                                              person: true,
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ).then((value) => safeSetState(() {}));
-                                },
-                                onLongPress: () async {
-                                  await Navigator.push(
-                                    context,
-                                    PageTransition(
-                                      type: PageTransitionType.fade,
-                                      child: FlutterFlowExpandedImageView(
-                                        image: Image.network(
-                                          valueOrDefault<String>(
-                                            FFAppState().profileimagechanged ==
-                                                    true
-                                                ? FFAppState().imageurl
-                                                : editSchoolSASchoolRecord
-                                                    .principalDetails
-                                                    .principalImage,
-                                            'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fhappy-children-back-school-background_23-2147852164.jpg?alt=media&token=e1069716-5656-42e7-a945-ff9fe1565ec6',
-                                          ),
-                                          fit: BoxFit.contain,
-                                        ),
-                                        allowRotation: false,
-                                        tag: valueOrDefault<String>(
-                                          FFAppState().profileimagechanged ==
-                                                  true
-                                              ? FFAppState().imageurl
-                                              : editSchoolSASchoolRecord
-                                                  .principalDetails
-                                                  .principalImage,
-                                          'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fhappy-children-back-school-background_23-2147852164.jpg?alt=media&token=e1069716-5656-42e7-a945-ff9fe1565ec6',
-                                        ),
-                                        useHeroAnimation: true,
-                                      ),
-                                    ),
-                                  );
-                                },
-                                child: Hero(
-                                  tag: valueOrDefault<String>(
-                                    FFAppState().profileimagechanged == true
-                                        ? FFAppState().imageurl
-                                        : editSchoolSASchoolRecord
-                                            .principalDetails.principalImage,
-                                    'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fhappy-children-back-school-background_23-2147852164.jpg?alt=media&token=e1069716-5656-42e7-a945-ff9fe1565ec6',
-                                  ),
-                                  transitionOnUserGestures: true,
-                                  child: Container(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 0.45,
-                                    height:
-                                        MediaQuery.sizeOf(context).width * 0.45,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: const BoxDecoration(
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Image.network(
-                                      valueOrDefault<String>(
-                                        FFAppState().profileimagechanged == true
-                                            ? FFAppState().imageurl
-                                            : editSchoolSASchoolRecord
-                                                .principalDetails
-                                                .principalImage,
-                                        'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fhappy-children-back-school-background_23-2147852164.jpg?alt=media&token=e1069716-5656-42e7-a945-ff9fe1565ec6',
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: MediaQuery.sizeOf(context).width * 0.9,
-                                child: TextFormField(
-                                  controller:
-                                      _model.contactNameTextController ??=
-                                          TextEditingController(
-                                    text: editSchoolSASchoolRecord
-                                        .principalDetails.principalName,
-                                  ),
-                                  focusNode: _model.contactNameFocusNode,
-                                  autofocus: false,
-                                  textCapitalization: TextCapitalization.words,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    isDense: true,
-                                    labelText: 'Admin\'s name',
-                                    labelStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .override(
-                                          fontFamily: 'Nunito',
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryBackground,
-                                          letterSpacing: 0.0,
-                                        ),
-                                    hintText: 'Admin\'s name',
-                                    hintStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .override(
-                                          fontFamily: 'Nunito',
-                                          color: FlutterFlowTheme.of(context)
-                                              .textfieldText,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w200,
-                                        ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .dIsable,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryBackground,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    filled: true,
-                                    fillColor: (_model.contactNameFocusNode
-                                                ?.hasFocus ??
-                                            false)
-                                        ? FlutterFlowTheme.of(context).secondary
-                                        : FlutterFlowTheme.of(context).tertiary,
-                                  ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Nunito',
-                                        color:
-                                            FlutterFlowTheme.of(context).text1,
-                                        letterSpacing: 0.0,
-                                      ),
-                                  cursorColor:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  validator: _model
-                                      .contactNameTextControllerValidator
-                                      .asValidator(context),
-                                ),
-                              ),
-                              SizedBox(
-                                width: MediaQuery.sizeOf(context).width * 0.9,
-                                child: TextFormField(
-                                  controller: _model
-                                          .contactPhonenumberTextController ??=
-                                      TextEditingController(
-                                    text: editSchoolSASchoolRecord
-                                        .principalDetails.phoneNumber,
-                                  ),
-                                  focusNode: _model.contactPhonenumberFocusNode,
-                                  autofocus: false,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    isDense: true,
-                                    labelText: 'Admin\'s phone number',
-                                    labelStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .override(
-                                          fontFamily: 'Nunito',
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryBackground,
-                                          letterSpacing: 0.0,
-                                        ),
-                                    hintText: 'Admin\'s phone number',
-                                    hintStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .override(
-                                          fontFamily: 'Nunito',
-                                          color: FlutterFlowTheme.of(context)
-                                              .textfieldText,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w200,
-                                        ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .dIsable,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryBackground,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    filled: true,
-                                    fillColor: (_model
-                                                .contactPhonenumberFocusNode
-                                                ?.hasFocus ??
-                                            false)
-                                        ? FlutterFlowTheme.of(context).secondary
-                                        : FlutterFlowTheme.of(context).tertiary,
-                                  ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Nunito',
-                                        color:
-                                            FlutterFlowTheme.of(context).text1,
-                                        letterSpacing: 0.0,
-                                      ),
-                                  maxLength: 10,
-                                  buildCounter: (context,
-                                          {required currentLength,
-                                          required isFocused,
-                                          maxLength}) =>
-                                      null,
-                                  keyboardType: TextInputType.number,
-                                  cursorColor:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  validator: _model
-                                      .contactPhonenumberTextControllerValidator
-                                      .asValidator(context),
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.allow(
-                                        RegExp('[0-9]'))
-                                  ],
-                                ),
-                              ),
-                              SizedBox(
-                                width: MediaQuery.sizeOf(context).width * 0.9,
-                                child: TextFormField(
-                                  controller:
-                                      _model.contactemailTextController ??=
-                                          TextEditingController(
-                                    text: editSchoolSASchoolRecord
-                                        .principalDetails.emailId,
-                                  ),
-                                  focusNode: _model.contactemailFocusNode,
-                                  autofocus: false,
-                                  readOnly: true,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    isDense: true,
-                                    labelText: 'Admin\'s email',
-                                    labelStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .override(
-                                          fontFamily: 'Nunito',
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryBackground,
-                                          letterSpacing: 0.0,
-                                        ),
-                                    hintText: 'Admin\'s email',
-                                    hintStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .override(
-                                          fontFamily: 'Nunito',
-                                          color: FlutterFlowTheme.of(context)
-                                              .textfieldText,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w200,
-                                        ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .dIsable,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryBackground,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
-                                        width: 1.0,
-                                      ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    filled: true,
-                                    fillColor: (_model.contactemailFocusNode
-                                                ?.hasFocus ??
-                                            false)
-                                        ? FlutterFlowTheme.of(context).secondary
-                                        : FlutterFlowTheme.of(context).tertiary,
-                                  ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Nunito',
-                                        color:
-                                            FlutterFlowTheme.of(context).text1,
-                                        letterSpacing: 0.0,
-                                      ),
-                                  keyboardType: TextInputType.emailAddress,
-                                  cursorColor:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  validator: _model
-                                      .contactemailTextControllerValidator
-                                      .asValidator(context),
-                                ),
-                              ),
-                            ]
-                                .divide(const SizedBox(height: 15.0))
-                                .around(const SizedBox(height: 15.0)),
                           ),
                         ),
                         Container(
@@ -1660,7 +1870,7 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                           decoration: BoxDecoration(
                             color: FlutterFlowTheme.of(context)
                                 .secondaryBackground,
-                            boxShadow: const [
+                            boxShadow: [
                               BoxShadow(
                                 blurRadius: 10.0,
                                 color: Color(0x48B7B7B7),
@@ -1673,369 +1883,398 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                             ],
                           ),
                           child: Align(
-                            alignment: const AlignmentDirectional(0.0, 0.0),
+                            alignment: AlignmentDirectional(0.0, 0.0),
                             child: Builder(
                               builder: (context) => FFButtonWidget(
-                                onPressed: () async {
-                                  if (_model.formKey.currentState == null ||
-                                      !_model.formKey.currentState!
-                                          .validate()) {
-                                    return;
-                                  }
-                                  if ((_model.pincodechange == true) &&
-                                      (_model.city == null ||
-                                          _model.city == '')) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text(
-                                          'Please enter valid pincode',
-                                          style: TextStyle(
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryText,
-                                          ),
-                                        ),
-                                        duration: const Duration(milliseconds: 4000),
-                                        backgroundColor:
-                                            FlutterFlowTheme.of(context)
-                                                .secondary,
-                                      ),
-                                    );
-                                    safeSetState(() {
-                                      _model.pincodeTextController?.clear();
-                                    });
-                                  } else {
-                                    if (_model.city == null ||
-                                        _model.city == '') {
-                                      _model.latlng = await actions.fetchlatlng(
-                                        '${_model.schoolAddressTextController.text}${_model.stateoldTextController.text}${_model.cityTextController.text}${_model.pincodeTextController.text}',
-                                      );
-
-                                      await widget.schoolRef!
-                                          .update(createSchoolRecordData(
-                                        schoolDetails:
-                                            updateSchoolDetailsStruct(
-                                          SchoolDetailsStruct(
-                                            schoolId: editSchoolSASchoolRecord
-                                                .schoolDetails.schoolId,
-                                            schoolName: _model
-                                                .schoolnameTextController.text,
-                                            address: _model
-                                                .schoolAddressTextController
-                                                .text,
-                                            noOfFaculties: int.tryParse(_model
-                                                .nooffacultiesTextController
-                                                .text),
-                                            noOfBranches: int.tryParse(_model
-                                                .noofbranchesTextController
-                                                .text),
-                                            schoolImage:
-                                                FFAppState().schoolimagechanged
-                                                    ? FFAppState().schoolimage
-                                                    : editSchoolSASchoolRecord
-                                                        .schoolDetails
-                                                        .schoolImage,
-                                            pincode: _model
-                                                .pincodeTextController.text,
-                                            city: _model.city != null &&
-                                                    _model.city != ''
-                                                ? _model.city
-                                                : _model
-                                                    .cityoldTextController.text,
-                                            state: _model.state != null &&
-                                                    _model.state != ''
-                                                ? _model.state
-                                                : _model.stateoldTextController
-                                                    .text,
-                                          ),
-                                          clearUnsetFields: false,
-                                        ),
-                                        principalDetails:
-                                            updatePrincipalDetailsStruct(
-                                          PrincipalDetailsStruct(
-                                            principalName: _model
-                                                .contactNameTextController.text,
-                                            phoneNumber: _model
-                                                .contactPhonenumberTextController
-                                                .text,
-                                            principalImage:
-                                                FFAppState().profileimagechanged
-                                                    ? FFAppState().imageurl
-                                                    : editSchoolSASchoolRecord
-                                                        .principalDetails
-                                                        .principalImage,
-                                            emailId: _model
-                                                .contactemailTextController
-                                                .text,
-                                            principalId:
-                                                editSchoolSASchoolRecord
-                                                    .principalDetails
-                                                    .principalId,
-                                          ),
-                                          clearUnsetFields: false,
-                                        ),
-                                        latlng: _model.latlng,
-                                      ));
-
-                                      await editSchoolSASchoolRecord
-                                          .principalDetails.principalId!
-                                          .update(createUsersRecordData(
-                                        email: _model
-                                            .contactemailTextController.text,
-                                        displayName: _model
-                                            .contactNameTextController.text,
-                                        photoUrl:
-                                            FFAppState().profileimagechanged
-                                                ? FFAppState().imageurl
-                                                : editSchoolSASchoolRecord
-                                                    .principalDetails
-                                                    .principalImage,
-                                        phoneNumber: _model
-                                            .contactPhonenumberTextController
-                                            .text,
-                                      ));
-                                      triggerPushNotification(
-                                        notificationTitle: ' Edit school',
-                                        notificationText:
-                                            'Your school details has been edited',
-                                        userRefs: [
-                                          editSchoolSASchoolRecord
-                                              .principalDetails.principalId!
-                                        ],
-                                        initialPageName: 'Dashboard',
-                                        parameterData: {},
-                                      );
-                                      await showDialog(
-                                        context: context,
-                                        builder: (dialogContext) {
-                                          return Dialog(
-                                            elevation: 0,
-                                            insetPadding: EdgeInsets.zero,
-                                            backgroundColor: Colors.transparent,
-                                            alignment: const AlignmentDirectional(
-                                                    0.0, -0.8)
-                                                .resolve(
-                                                    Directionality.of(context)),
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                FocusScope.of(dialogContext)
-                                                    .unfocus();
-                                                FocusManager
-                                                    .instance.primaryFocus
-                                                    ?.unfocus();
-                                              },
-                                              child: SizedBox(
-                                                height:
-                                                    MediaQuery.sizeOf(context)
-                                                            .height *
-                                                        0.08,
-                                                width:
-                                                    MediaQuery.sizeOf(context)
-                                                            .width *
-                                                        0.6,
-                                                child:
-                                                    const EditsavedsuccessfullyWidget(),
+                                onPressed: ((_model
+                                                    .schoolnameTextController.text ==
+                                                '') ||
+                                        (_model.noofbranchesTextController
+                                                    .text ==
+                                                '') ||
+                                        (_model.nooffacultiesTextController
+                                                    .text ==
+                                                '') ||
+                                        (_model.schoolAddressTextController
+                                                    .text ==
+                                                '') ||
+                                        (_model.pincodeTextController.text ==
+                                                ''))
+                                    ? null
+                                    : () async {
+                                        await actions.hideKeyboard(
+                                          context,
+                                        );
+                                        if (_model.formKey.currentState ==
+                                                null ||
+                                            !_model.formKey.currentState!
+                                                .validate()) {
+                                          return;
+                                        }
+                                        if ((_model.pincodechange == true) &&
+                                            (_model.city == null ||
+                                                _model.city == '')) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Please enter valid pincode',
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                ),
                                               ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondary,
                                             ),
                                           );
-                                        },
-                                      );
+                                          safeSetState(() {
+                                            _model.pincodeTextController
+                                                ?.clear();
+                                          });
+                                        } else {
+                                          if (_model.city == null ||
+                                              _model.city == '') {
+                                            FFAppState().loopmin = 0;
+                                            safeSetState(() {});
+                                            _model.latlng =
+                                                await actions.fetchlatlng(
+                                              '${_model.schoolAddressTextController.text}${_model.stateoldTextController.text}${_model.cityTextController.text}${_model.pincodeTextController.text}',
+                                            );
 
-                                      context.goNamed(
-                                        'ExistingSchoolDetails_SA',
-                                        queryParameters: {
-                                          'schoolrefMain': serializeParam(
-                                            widget.mainschoolref,
-                                            ParamType.DocumentReference,
-                                          ),
-                                        }.withoutNulls,
-                                        extra: <String, dynamic>{
-                                          kTransitionInfoKey: const TransitionInfo(
-                                            hasTransition: true,
-                                            transitionType:
-                                                PageTransitionType.fade,
-                                          ),
-                                        },
-                                      );
-                                    } else {
-                                      _model.latlng1 =
-                                          await actions.fetchlatlng(
-                                        '${_model.schoolAddressTextController.text}${_model.state}${_model.city}${_model.pincodeTextController.text}',
-                                      );
-
-                                      await widget.schoolRef!
-                                          .update(createSchoolRecordData(
-                                        schoolDetails:
-                                            updateSchoolDetailsStruct(
-                                          SchoolDetailsStruct(
-                                            schoolId: editSchoolSASchoolRecord
-                                                .schoolDetails.schoolId,
-                                            schoolName: _model
-                                                .schoolnameTextController.text,
-                                            address: _model
-                                                .schoolAddressTextController
-                                                .text,
-                                            noOfFaculties: int.tryParse(_model
-                                                .nooffacultiesTextController
-                                                .text),
-                                            noOfBranches: int.tryParse(_model
-                                                .noofbranchesTextController
-                                                .text),
-                                            schoolImage:
-                                                FFAppState().schoolimagechanged
-                                                    ? FFAppState().schoolimage
-                                                    : editSchoolSASchoolRecord
-                                                        .schoolDetails
-                                                        .schoolImage,
-                                            pincode: _model
-                                                .pincodeTextController.text,
-                                            city: _model.city != null &&
-                                                    _model.city != ''
-                                                ? _model.city
-                                                : _model
-                                                    .cityoldTextController.text,
-                                            state: _model.state != null &&
-                                                    _model.state != ''
-                                                ? _model.state
-                                                : _model.stateoldTextController
-                                                    .text,
-                                          ),
-                                          clearUnsetFields: false,
-                                        ),
-                                        principalDetails:
-                                            updatePrincipalDetailsStruct(
-                                          PrincipalDetailsStruct(
-                                            principalName: _model
-                                                .contactNameTextController.text,
-                                            phoneNumber: _model
-                                                .contactPhonenumberTextController
-                                                .text,
-                                            principalImage:
-                                                FFAppState().profileimagechanged
-                                                    ? FFAppState().imageurl
-                                                    : editSchoolSASchoolRecord
-                                                        .principalDetails
-                                                        .principalImage,
-                                            emailId: _model
-                                                .contactemailTextController
-                                                .text,
-                                            principalId:
+                                            await widget.schoolRef!
+                                                .update(createSchoolRecordData(
+                                              schoolDetails:
+                                                  updateSchoolDetailsStruct(
+                                                SchoolDetailsStruct(
+                                                  schoolId:
+                                                      editSchoolSASchoolRecord
+                                                          .schoolDetails
+                                                          .schoolId,
+                                                  schoolName: _model
+                                                      .schoolnameTextController
+                                                      .text,
+                                                  address: _model
+                                                      .schoolAddressTextController
+                                                      .text,
+                                                  noOfFaculties: int.tryParse(_model
+                                                      .nooffacultiesTextController
+                                                      .text),
+                                                  noOfBranches: int.tryParse(_model
+                                                      .noofbranchesTextController
+                                                      .text),
+                                                  schoolImage: FFAppState()
+                                                          .schoolimagechanged
+                                                      ? FFAppState().schoolimage
+                                                      : editSchoolSASchoolRecord
+                                                          .schoolDetails
+                                                          .schoolImage,
+                                                  pincode: _model
+                                                      .pincodeTextController
+                                                      .text,
+                                                  city: _model.city != null &&
+                                                          _model.city != ''
+                                                      ? _model.city
+                                                      : _model
+                                                          .cityoldTextController
+                                                          .text,
+                                                  state: _model.state != null &&
+                                                          _model.state != ''
+                                                      ? _model.state
+                                                      : _model
+                                                          .stateoldTextController
+                                                          .text,
+                                                ),
+                                                clearUnsetFields: false,
+                                              ),
+                                              latlng: _model.latlng,
+                                            ));
+                                            while (FFAppState().loopmin <
+                                                editSchoolSASchoolRecord
+                                                    .listOfStudents.length) {
+                                              await editSchoolSASchoolRecord
+                                                  .listOfStudents
+                                                  .elementAtOrNull(
+                                                      FFAppState().loopmin)!
+                                                  .update(
+                                                      createStudentsRecordData(
+                                                    schoolName: _model
+                                                        .schoolnameTextController
+                                                        .text,
+                                                  ));
+                                              FFAppState().loopmin =
+                                                  FFAppState().loopmin + 1;
+                                              safeSetState(() {});
+                                            }
+                                            FFAppState().loopmin = 0;
+                                            safeSetState(() {});
+                                            triggerPushNotification(
+                                              notificationTitle: ' Edit school',
+                                              notificationText:
+                                                  'Your school details has been edited',
+                                              userRefs: [
                                                 editSchoolSASchoolRecord
                                                     .principalDetails
-                                                    .principalId,
-                                          ),
-                                          clearUnsetFields: false,
-                                        ),
-                                        latlng: _model.latlng1,
-                                      ));
-
-                                      await editSchoolSASchoolRecord
-                                          .principalDetails.principalId!
-                                          .update(createUsersRecordData(
-                                        email: _model
-                                            .contactemailTextController.text,
-                                        displayName: _model
-                                            .contactNameTextController.text,
-                                        photoUrl:
-                                            FFAppState().profileimagechanged
-                                                ? FFAppState().imageurl
-                                                : editSchoolSASchoolRecord
-                                                    .principalDetails
-                                                    .principalImage,
-                                        phoneNumber: _model
-                                            .contactPhonenumberTextController
-                                            .text,
-                                      ));
-                                      triggerPushNotification(
-                                        notificationTitle: ' Edit school',
-                                        notificationText:
-                                            'Your school details has been edited',
-                                        userRefs: [
-                                          editSchoolSASchoolRecord
-                                              .principalDetails.principalId!
-                                        ],
-                                        initialPageName: 'Dashboard',
-                                        parameterData: {},
-                                      );
-                                      await showDialog(
-                                        context: context,
-                                        builder: (dialogContext) {
-                                          return Dialog(
-                                            elevation: 0,
-                                            insetPadding: EdgeInsets.zero,
-                                            backgroundColor: Colors.transparent,
-                                            alignment: const AlignmentDirectional(
-                                                    0.0, -0.8)
-                                                .resolve(
-                                                    Directionality.of(context)),
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                FocusScope.of(dialogContext)
-                                                    .unfocus();
-                                                FocusManager
-                                                    .instance.primaryFocus
-                                                    ?.unfocus();
+                                                    .principalId!
+                                              ],
+                                              initialPageName: 'Dashboard',
+                                              parameterData: {},
+                                            );
+                                            await showDialog(
+                                              context: context,
+                                              builder: (dialogContext) {
+                                                return Dialog(
+                                                  elevation: 0,
+                                                  insetPadding: EdgeInsets.zero,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  alignment:
+                                                      AlignmentDirectional(
+                                                              0.0, -0.8)
+                                                          .resolve(
+                                                              Directionality.of(
+                                                                  context)),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      FocusScope.of(
+                                                              dialogContext)
+                                                          .unfocus();
+                                                      FocusManager
+                                                          .instance.primaryFocus
+                                                          ?.unfocus();
+                                                    },
+                                                    child: Container(
+                                                      height: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .height *
+                                                          0.08,
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.65,
+                                                      child:
+                                                          EditsavedsuccessfullyWidget(),
+                                                    ),
+                                                  ),
+                                                );
                                               },
-                                              child: SizedBox(
-                                                height:
-                                                    MediaQuery.sizeOf(context)
-                                                            .height *
-                                                        0.08,
-                                                width:
-                                                    MediaQuery.sizeOf(context)
-                                                            .width *
-                                                        0.6,
-                                                child:
-                                                    const EditsavedsuccessfullyWidget(),
+                                            );
+
+                                            if (Navigator.of(context)
+                                                .canPop()) {
+                                              context.pop();
+                                            }
+                                            context.pushNamed(
+                                              ExistingSchoolDetailsSAWidget
+                                                  .routeName,
+                                              queryParameters: {
+                                                'schoolrefMain': serializeParam(
+                                                  widget.mainschoolref,
+                                                  ParamType.DocumentReference,
+                                                ),
+                                              }.withoutNulls,
+                                              extra: <String, dynamic>{
+                                                kTransitionInfoKey:
+                                                    TransitionInfo(
+                                                  hasTransition: true,
+                                                  transitionType:
+                                                      PageTransitionType.fade,
+                                                ),
+                                              },
+                                            );
+                                          } else {
+                                            FFAppState().loopmin = 0;
+                                            safeSetState(() {});
+                                            _model.latlng1 =
+                                                await actions.fetchlatlng(
+                                              '${_model.schoolAddressTextController.text}${_model.state}${_model.city}${_model.pincodeTextController.text}',
+                                            );
+
+                                            await widget.schoolRef!
+                                                .update(createSchoolRecordData(
+                                              schoolDetails:
+                                                  updateSchoolDetailsStruct(
+                                                SchoolDetailsStruct(
+                                                  schoolId:
+                                                      editSchoolSASchoolRecord
+                                                          .schoolDetails
+                                                          .schoolId,
+                                                  schoolName: _model
+                                                      .schoolnameTextController
+                                                      .text,
+                                                  address: _model
+                                                      .schoolAddressTextController
+                                                      .text,
+                                                  noOfFaculties: int.tryParse(_model
+                                                      .nooffacultiesTextController
+                                                      .text),
+                                                  noOfBranches: int.tryParse(_model
+                                                      .noofbranchesTextController
+                                                      .text),
+                                                  schoolImage: FFAppState()
+                                                          .schoolimagechanged
+                                                      ? FFAppState().schoolimage
+                                                      : editSchoolSASchoolRecord
+                                                          .schoolDetails
+                                                          .schoolImage,
+                                                  pincode: _model
+                                                      .pincodeTextController
+                                                      .text,
+                                                  city: _model.city != null &&
+                                                          _model.city != ''
+                                                      ? _model.city
+                                                      : _model
+                                                          .cityoldTextController
+                                                          .text,
+                                                  state: _model.state != null &&
+                                                          _model.state != ''
+                                                      ? _model.state
+                                                      : _model
+                                                          .stateoldTextController
+                                                          .text,
+                                                ),
+                                                clearUnsetFields: false,
                                               ),
-                                            ),
-                                          );
-                                        },
-                                      );
+                                              latlng: _model.latlng1,
+                                            ));
+                                            while (FFAppState().loopmin <
+                                                editSchoolSASchoolRecord
+                                                    .listOfStudents.length) {
+                                              await editSchoolSASchoolRecord
+                                                  .listOfStudents
+                                                  .elementAtOrNull(
+                                                      FFAppState().loopmin)!
+                                                  .update(
+                                                      createStudentsRecordData(
+                                                    schoolName: _model
+                                                        .schoolnameTextController
+                                                        .text,
+                                                  ));
+                                              FFAppState().loopmin =
+                                                  FFAppState().loopmin + 1;
+                                              safeSetState(() {});
+                                            }
+                                            FFAppState().loopmin = 0;
+                                            safeSetState(() {});
+                                            triggerPushNotification(
+                                              notificationTitle: ' Edit school',
+                                              notificationText:
+                                                  'Your school details has been edited',
+                                              userRefs: [
+                                                editSchoolSASchoolRecord
+                                                    .principalDetails
+                                                    .principalId!
+                                              ],
+                                              initialPageName: 'Dashboard',
+                                              parameterData: {},
+                                            );
+                                            await showDialog(
+                                              context: context,
+                                              builder: (dialogContext) {
+                                                return Dialog(
+                                                  elevation: 0,
+                                                  insetPadding: EdgeInsets.zero,
+                                                  backgroundColor:
+                                                      Colors.transparent,
+                                                  alignment:
+                                                      AlignmentDirectional(
+                                                              0.0, -0.8)
+                                                          .resolve(
+                                                              Directionality.of(
+                                                                  context)),
+                                                  child: GestureDetector(
+                                                    onTap: () {
+                                                      FocusScope.of(
+                                                              dialogContext)
+                                                          .unfocus();
+                                                      FocusManager
+                                                          .instance.primaryFocus
+                                                          ?.unfocus();
+                                                    },
+                                                    child: Container(
+                                                      height: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .height *
+                                                          0.08,
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.65,
+                                                      child:
+                                                          EditsavedsuccessfullyWidget(),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                            );
 
-                                      context.goNamed(
-                                        'ExistingSchoolDetails_SA',
-                                        queryParameters: {
-                                          'schoolrefMain': serializeParam(
-                                            widget.mainschoolref,
-                                            ParamType.DocumentReference,
-                                          ),
-                                        }.withoutNulls,
-                                        extra: <String, dynamic>{
-                                          kTransitionInfoKey: const TransitionInfo(
-                                            hasTransition: true,
-                                            transitionType:
-                                                PageTransitionType.fade,
-                                          ),
-                                        },
-                                      );
-                                    }
-                                  }
+                                            if (Navigator.of(context)
+                                                .canPop()) {
+                                              context.pop();
+                                            }
+                                            context.pushNamed(
+                                              ExistingSchoolDetailsSAWidget
+                                                  .routeName,
+                                              queryParameters: {
+                                                'schoolrefMain': serializeParam(
+                                                  widget.mainschoolref,
+                                                  ParamType.DocumentReference,
+                                                ),
+                                              }.withoutNulls,
+                                              extra: <String, dynamic>{
+                                                kTransitionInfoKey:
+                                                    TransitionInfo(
+                                                  hasTransition: true,
+                                                  transitionType:
+                                                      PageTransitionType.fade,
+                                                ),
+                                              },
+                                            );
+                                          }
+                                        }
 
-                                  safeSetState(() {});
-                                },
+                                        safeSetState(() {});
+                                      },
                                 text: 'Update',
                                 options: FFButtonOptions(
                                   width: MediaQuery.sizeOf(context).width * 0.8,
                                   height:
                                       MediaQuery.sizeOf(context).height * 0.06,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 16.0, 16.0, 16.0),
-                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
                                   color: FlutterFlowTheme.of(context).primary,
                                   textStyle: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                    ),
                                     color: Colors.white,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
                                     shadows: [
-                                      const Shadow(
+                                      Shadow(
                                         color: Color(0x79253EA7),
                                         offset: Offset(0.0, 1.0),
                                         blurRadius: 2.0,
                                       ),
-                                      const Shadow(
+                                      Shadow(
                                         color: Color(0xFF375DFB),
                                         offset: Offset(0.0, 0.0),
                                         blurRadius: 0.0,
@@ -2044,12 +2283,16 @@ class _EditSchoolSAWidgetState extends State<EditSchoolSAWidget> {
                                   ),
                                   elevation: 3.0,
                                   borderRadius: BorderRadius.circular(8.0),
+                                  disabledColor:
+                                      FlutterFlowTheme.of(context).dIsable,
+                                  disabledTextColor:
+                                      FlutterFlowTheme.of(context).secondary,
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ].divide(const SizedBox(height: 15.0)),
+                      ].divide(SizedBox(height: 15.0)),
                     ),
                   ),
                 ),

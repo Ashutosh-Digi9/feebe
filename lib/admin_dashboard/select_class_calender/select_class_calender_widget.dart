@@ -7,8 +7,10 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/shimmer_effects/quick_action_selectclass/quick_action_selectclass_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'select_class_calender_model.dart';
 export 'select_class_calender_model.dart';
@@ -21,7 +23,7 @@ class SelectClassCalenderWidget extends StatefulWidget {
     required this.eventname,
     required this.description,
     required this.datetime,
-    this.images,
+    this.files,
   });
 
   final DocumentReference? schoolref;
@@ -29,7 +31,7 @@ class SelectClassCalenderWidget extends StatefulWidget {
   final String? eventname;
   final String? description;
   final DateTime? datetime;
-  final List<String>? images;
+  final List<String>? files;
 
   @override
   State<SelectClassCalenderWidget> createState() =>
@@ -93,6 +95,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                     height: MediaQuery.sizeOf(context).height * 0.75,
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).tertiary,
+                      borderRadius: BorderRadius.circular(24.0),
                     ),
                     child: SingleChildScrollView(
                       child: Column(
@@ -100,16 +103,22 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 10.0),
                             child: Container(
                               width: MediaQuery.sizeOf(context).width * 1.0,
                               height: MediaQuery.sizeOf(context).height * 0.6,
                               decoration: BoxDecoration(
                                 color: FlutterFlowTheme.of(context).tertiary,
+                                borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(0.0),
+                                  bottomRight: Radius.circular(0.0),
+                                  topLeft: Radius.circular(24.0),
+                                  topRight: Radius.circular(24.0),
+                                ),
                               ),
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     20.0, 0.0, 20.0, 0.0),
                                 child: SingleChildScrollView(
                                   primary: false,
@@ -121,20 +130,30 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.w600,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .tertiaryText,
                                               fontSize: 20.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
                                             ),
                                       ),
                                       if ((_model.everyone == 0) ||
                                           (_model.everyone == 1))
                                         Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   10.0, 0.0, 10.0, 12.0),
                                           child: InkWell(
                                             splashColor: Colors.transparent,
@@ -156,10 +175,10 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                             },
                                             child: Material(
                                               color: Colors.transparent,
-                                              elevation: 5.0,
+                                              elevation: 2.0,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
-                                                    BorderRadius.circular(14.0),
+                                                    BorderRadius.circular(12.0),
                                               ),
                                               child: Container(
                                                 width:
@@ -178,11 +197,22 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                       : FlutterFlowTheme.of(
                                                               context)
                                                           .secondaryBackground,
+                                                  boxShadow: [
+                                                    BoxShadow(
+                                                      blurRadius: 20.0,
+                                                      color: Color(0x08000000),
+                                                      offset: Offset(
+                                                        0.0,
+                                                        0.0,
+                                                      ),
+                                                      spreadRadius: 0.0,
+                                                    )
+                                                  ],
                                                   borderRadius:
                                                       BorderRadius.circular(
-                                                          14.0),
+                                                          12.0),
                                                   border: Border.all(
-                                                    color: const Color(0xFFDDF1F6),
+                                                    color: Color(0xFFDDF1F6),
                                                   ),
                                                 ),
                                                 child: Column(
@@ -198,14 +228,28 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                               .of(context)
                                                           .bodyMedium
                                                           .override(
-                                                            fontFamily:
-                                                                'Nunito',
+                                                            font: GoogleFonts
+                                                                .nunito(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primary,
                                                             letterSpacing: 0.0,
                                                             fontWeight:
                                                                 FontWeight.bold,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
                                                           ),
                                                     ),
                                                     Text(
@@ -214,14 +258,29 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                               .of(context)
                                                           .bodyMedium
                                                           .override(
-                                                            fontFamily:
-                                                                'Nunito',
+                                                            font: GoogleFonts
+                                                                .nunito(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .tertiaryText,
+                                                            fontSize: 12.0,
                                                             letterSpacing: 0.0,
                                                             fontWeight:
                                                                 FontWeight.w500,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
                                                           ),
                                                     ),
                                                   ],
@@ -234,7 +293,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                           (_model.everyone == 2))
                                         Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   20.0, 0.0, 20.0, 0.0),
                                           child: Builder(
                                             builder: (context) {
@@ -257,7 +316,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                           schoolClassrefIndex];
                                                   return Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 12.0),
                                                     child: StreamBuilder<
@@ -269,7 +328,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                           (context, snapshot) {
                                                         // Customize what your widget looks like when it's loading.
                                                         if (!snapshot.hasData) {
-                                                          return SizedBox(
+                                                          return Container(
                                                             width: MediaQuery
                                                                         .sizeOf(
                                                                             context)
@@ -281,7 +340,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                                     .height *
                                                                 0.4,
                                                             child:
-                                                                const QuickActionSelectclassWidget(),
+                                                                QuickActionSelectclassWidget(),
                                                           );
                                                         }
 
@@ -338,7 +397,9 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                             }
 
                                                             if (_model
-                                                                    .schoolclassref.isNotEmpty) {
+                                                                    .schoolclassref
+                                                                    .length !=
+                                                                0) {
                                                               _model.everyone =
                                                                   2;
                                                               safeSetState(
@@ -353,13 +414,13 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                           child: Material(
                                                             color: Colors
                                                                 .transparent,
-                                                            elevation: 5.0,
+                                                            elevation: 2.0,
                                                             shape:
                                                                 RoundedRectangleBorder(
                                                               borderRadius:
                                                                   BorderRadius
                                                                       .circular(
-                                                                          14.0),
+                                                                          12.0),
                                                             ),
                                                             child: Container(
                                                               width: MediaQuery
@@ -384,13 +445,28 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                                     : FlutterFlowTheme.of(
                                                                             context)
                                                                         .secondaryBackground,
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    blurRadius:
+                                                                        20.0,
+                                                                    color: Color(
+                                                                        0x08000000),
+                                                                    offset:
+                                                                        Offset(
+                                                                      0.0,
+                                                                      0.0,
+                                                                    ),
+                                                                    spreadRadius:
+                                                                        0.0,
+                                                                  )
+                                                                ],
                                                                 borderRadius:
                                                                     BorderRadius
                                                                         .circular(
-                                                                            14.0),
+                                                                            12.0),
                                                                 border:
                                                                     Border.all(
-                                                                  color: const Color(
+                                                                  color: Color(
                                                                       0xFFDDF1F6),
                                                                 ),
                                                               ),
@@ -409,14 +485,22 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                                             context)
                                                                         .bodyMedium
                                                                         .override(
-                                                                          fontFamily:
-                                                                              'Nunito',
+                                                                          font:
+                                                                              GoogleFonts.nunito(
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
                                                                           color:
                                                                               FlutterFlowTheme.of(context).primary,
                                                                           letterSpacing:
                                                                               0.0,
                                                                           fontWeight:
                                                                               FontWeight.bold,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontStyle,
                                                                         ),
                                                                   ),
                                                                   Text(
@@ -425,14 +509,24 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                                             context)
                                                                         .bodyMedium
                                                                         .override(
-                                                                          fontFamily:
-                                                                              'Nunito',
+                                                                          font:
+                                                                              GoogleFonts.nunito(
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
                                                                           color:
                                                                               FlutterFlowTheme.of(context).tertiaryText,
+                                                                          fontSize:
+                                                                              12.0,
                                                                           letterSpacing:
                                                                               0.0,
                                                                           fontWeight:
                                                                               FontWeight.w500,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontStyle,
                                                                         ),
                                                                   ),
                                                                 ],
@@ -448,7 +542,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                             },
                                           ),
                                         ),
-                                    ].addToEnd(const SizedBox(height: 20.0)),
+                                    ].addToEnd(SizedBox(height: 20.0)),
                                   ),
                                 ),
                               ),
@@ -460,6 +554,8 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                             children: [
                               FFButtonWidget(
                                 onPressed: () async {
+                                  FFAppState().eventfiles = [];
+                                  safeSetState(() {});
                                   Navigator.pop(context);
                                 },
                                 text: 'Cancel',
@@ -467,30 +563,53 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                   width: MediaQuery.sizeOf(context).width * 0.3,
                                   height:
                                       MediaQuery.sizeOf(context).height * 0.06,
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       16.0, 0.0, 16.0, 0.0),
-                                  iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                  iconPadding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 0.0, 0.0, 0.0),
                                   color: FlutterFlowTheme.of(context).secondary,
                                   textStyle: FlutterFlowTheme.of(context)
                                       .titleSmall
                                       .override(
-                                        fontFamily: 'Nunito',
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryText,
-                                        letterSpacing: 0.0,
-                                      ),
-                                  elevation: 0.0,
-                                  borderSide: const BorderSide(
-                                    color: Color(0xFFEFF0F6),
-                                    width: 2.0,
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    fontSize: 12.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                    shadows: [
+                                      Shadow(
+                                        color: Color(0x0FE4EAE4),
+                                        offset: Offset(0.0, -3.0),
+                                        blurRadius: 2.0,
+                                      )
+                                    ],
                                   ),
-                                  borderRadius: BorderRadius.circular(8.0),
+                                  elevation: 0.0,
+                                  borderSide: BorderSide(
+                                    color: FlutterFlowTheme.of(context).primary,
+                                    width: 1.0,
+                                  ),
+                                  borderRadius: BorderRadius.circular(4.0),
                                 ),
                               ),
                               Builder(
                                 builder: (context) => FFButtonWidget(
                                   onPressed: () async {
+                                    _model.id = functions.generateUniqueId();
+                                    safeSetState(() {});
                                     if (valueOrDefault(
                                             currentUserDocument?.userRole, 0) ==
                                         2) {
@@ -508,8 +627,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                   getEventsNoticeFirestoreData(
                                                     updateEventsNoticeStruct(
                                                       EventsNoticeStruct(
-                                                        eventId: functions
-                                                            .generateUniqueId(),
+                                                        eventId: _model.id,
                                                         eventName:
                                                             widget.eventname,
                                                         eventTitle:
@@ -518,8 +636,8 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                             widget.description,
                                                         eventDate:
                                                             widget.datetime,
-                                                        eventImages:
-                                                            widget.images,
+                                                        eventfiles:
+                                                            widget.files,
                                                       ),
                                                       clearUnsetFields: false,
                                                     ),
@@ -550,13 +668,42 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                         }
                                         FFAppState().loopmin = 0;
                                         safeSetState(() {});
+
+                                        await containerSchoolRecord.reference
+                                            .update({
+                                          ...mapToFirestore(
+                                            {
+                                              'Calendar_list':
+                                                  FieldValue.arrayUnion([
+                                                getEventsNoticeFirestoreData(
+                                                  updateEventsNoticeStruct(
+                                                    EventsNoticeStruct(
+                                                      eventId: _model.id,
+                                                      eventName:
+                                                          widget.eventname,
+                                                      eventTitle:
+                                                          widget.eventtitle,
+                                                      eventDescription:
+                                                          widget.description,
+                                                      eventDate:
+                                                          widget.datetime,
+                                                      eventfiles: widget.files,
+                                                      classref:
+                                                          _model.schoolclassref,
+                                                    ),
+                                                    clearUnsetFields: false,
+                                                  ),
+                                                  true,
+                                                )
+                                              ]),
+                                            },
+                                          ),
+                                        });
                                         _model.classes =
                                             await querySchoolClassRecordOnce();
                                         triggerPushNotification(
                                           notificationTitle: widget.eventname!,
                                           notificationText: widget.eventtitle!,
-                                          scheduledTime: functions
-                                              .noticedate(widget.datetime)!,
                                           notificationSound: 'default',
                                           userRefs: functions
                                               .filterClassesByReferences(_model
@@ -573,6 +720,8 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                 containerSchoolRecord.reference,
                                           },
                                         );
+                                        _model.students =
+                                            await queryStudentsRecordOnce();
 
                                         await NotificationsRecord.collection
                                             .doc()
@@ -591,8 +740,8 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                 isRead: false,
                                                 timeStamp: getCurrentTimestamp,
                                                 eventDate: widget.datetime,
-                                                notificationImages:
-                                                    widget.images,
+                                                notificationFiles:
+                                                    widget.files,
                                               ),
                                               clearUnsetFields: false,
                                               create: true,
@@ -601,7 +750,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                             createDate: getCurrentTimestamp,
                                             tag: widget.eventname,
                                             addedby: currentUserReference,
-                                            heading: 'Added a event',
+                                            heading: 'Posted an event',
                                           ),
                                           ...mapToFirestore(
                                             {
@@ -617,8 +766,6 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                             },
                                           ),
                                         });
-                                        _model.students =
-                                            await queryStudentsRecordOnce();
                                         while (FFAppState().loopmin ==
                                             _model.schoolclassref.length) {
                                           _model.classselect =
@@ -645,7 +792,209 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                             initialPageName: 'Dashboard',
                                             parameterData: {},
                                           );
+                                          if (functions.isWithin30Days(
+                                              getCurrentTimestamp,
+                                              widget.datetime!)!) {
+                                            await NotificationsRecord.collection
+                                                .doc()
+                                                .set({
+                                              ...createNotificationsRecordData(
+                                                content: widget.eventtitle,
+                                                descri: widget.description,
+                                                datetimeofevent:
+                                                    widget.datetime,
+                                                notification:
+                                                    updateNotificationStruct(
+                                                  NotificationStruct(
+                                                    notificationTitle:
+                                                        widget.eventtitle,
+                                                    descriptions:
+                                                        widget.description,
+                                                    timeStamp:
+                                                        getCurrentTimestamp,
+                                                    isRead: false,
+                                                    eventDate: widget.datetime,
+                                                    notificationFiles:
+                                                        widget.files,
+                                                  ),
+                                                  clearUnsetFields: false,
+                                                  create: true,
+                                                ),
+                                                isread: false,
+                                                createDate: getCurrentTimestamp,
+                                                tag: widget.eventname,
+                                                addedby: currentUserReference,
+                                                heading: 'Added a event',
+                                              ),
+                                              ...mapToFirestore(
+                                                {
+                                                  'userref': functions
+                                                      .extractParentUserRefs(_model
+                                                          .students!
+                                                          .where((e) => _model
+                                                              .classselect!
+                                                              .studentsList
+                                                              .contains(
+                                                                  e.reference))
+                                                          .toList()),
+                                                  'towhome': _model.toWhome,
+                                                },
+                                              ),
+                                            });
+                                          }
+                                        }
+                                        FFAppState().eventDetails =
+                                            EventsNoticeStruct();
+                                        FFAppState().eventfiles = [];
+                                        FFAppState().update(() {});
+                                        await showDialog(
+                                          context: context,
+                                          builder: (dialogContext) {
+                                            return Dialog(
+                                              elevation: 0,
+                                              insetPadding: EdgeInsets.zero,
+                                              backgroundColor:
+                                                  Colors.transparent,
+                                              alignment: AlignmentDirectional(
+                                                      0.0, -0.8)
+                                                  .resolve(Directionality.of(
+                                                      context)),
+                                              child: Container(
+                                                height:
+                                                    MediaQuery.sizeOf(context)
+                                                            .height *
+                                                        0.08,
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        0.7,
+                                                child:
+                                                    EventpostedsuccessfullyWidget(),
+                                              ),
+                                            );
+                                          },
+                                        );
 
+                                        context.goNamed(
+                                          ClassDashboardWidget.routeName,
+                                          queryParameters: {
+                                            'schoolref': serializeParam(
+                                              containerSchoolRecord.reference,
+                                              ParamType.DocumentReference,
+                                            ),
+                                            'tabindex': serializeParam(
+                                              2,
+                                              ParamType.int,
+                                            ),
+                                          }.withoutNulls,
+                                        );
+                                      } else if (_model.everyone == 1) {
+                                        await widget.schoolref!.update({
+                                          ...mapToFirestore(
+                                            {
+                                              'Calendar_list':
+                                                  FieldValue.arrayUnion([
+                                                getEventsNoticeFirestoreData(
+                                                  updateEventsNoticeStruct(
+                                                    EventsNoticeStruct(
+                                                      eventId: _model.id,
+                                                      eventName:
+                                                          widget.eventname,
+                                                      eventTitle:
+                                                          widget.eventtitle,
+                                                      eventDescription:
+                                                          widget.description,
+                                                      eventDate:
+                                                          widget.datetime,
+                                                      eventfiles: FFAppState()
+                                                          .eventfiles,
+                                                      classref:
+                                                          containerSchoolRecord
+                                                              .listOfClass,
+                                                    ),
+                                                    clearUnsetFields: false,
+                                                  ),
+                                                  true,
+                                                )
+                                              ]),
+                                            },
+                                          ),
+                                        });
+                                        while (FFAppState().loopmin <
+                                            containerSchoolRecord
+                                                .listOfClass.length) {
+                                          await containerSchoolRecord
+                                              .listOfClass
+                                              .elementAtOrNull(
+                                                  FFAppState().loopmin)!
+                                              .update({
+                                            ...mapToFirestore(
+                                              {
+                                                'calendar':
+                                                    FieldValue.arrayUnion([
+                                                  getEventsNoticeFirestoreData(
+                                                    updateEventsNoticeStruct(
+                                                      EventsNoticeStruct(
+                                                        eventId: _model.id,
+                                                        eventName:
+                                                            widget.eventname,
+                                                        eventTitle:
+                                                            widget.eventtitle,
+                                                        eventDescription:
+                                                            widget.description,
+                                                        eventDate:
+                                                            widget.datetime,
+                                                        eventfiles: FFAppState()
+                                                            .eventfiles,
+                                                        classref:
+                                                            containerSchoolRecord
+                                                                .listOfClass,
+                                                      ),
+                                                      clearUnsetFields: false,
+                                                    ),
+                                                    true,
+                                                  )
+                                                ]),
+                                              },
+                                            ),
+                                          });
+                                          FFAppState().loopmin =
+                                              FFAppState().loopmin + 1;
+                                          safeSetState(() {});
+                                        }
+                                        FFAppState().loopmin = 0;
+                                        safeSetState(() {});
+                                        triggerPushNotification(
+                                          notificationTitle: widget.eventname!,
+                                          notificationText: widget.eventtitle!,
+                                          notificationSound: 'default',
+                                          userRefs: containerSchoolRecord
+                                              .listOfteachersuser
+                                              .toList(),
+                                          initialPageName: 'Dashboard',
+                                          parameterData: {},
+                                        );
+                                        _model.studentsOfSchool =
+                                            await queryStudentsRecordOnce();
+                                        triggerPushNotification(
+                                          notificationTitle: widget.eventname!,
+                                          notificationText: widget.eventtitle!,
+                                          userRefs: functions
+                                              .extractParentUserRefs(_model
+                                                  .studentsOfSchool!
+                                                  .where((e) =>
+                                                      containerSchoolRecord
+                                                          .listOfStudents
+                                                          .contains(
+                                                              e.reference))
+                                                  .toList())
+                                              .toList(),
+                                          initialPageName: 'Dashboard',
+                                          parameterData: {},
+                                        );
+                                        if (functions.isWithin30Days(
+                                            getCurrentTimestamp,
+                                            widget.datetime!)!) {
                                           await NotificationsRecord.collection
                                               .doc()
                                               .set({
@@ -664,8 +1013,8 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                       getCurrentTimestamp,
                                                   isRead: false,
                                                   eventDate: widget.datetime,
-                                                  notificationImages:
-                                                      widget.images,
+                                                  notificationFiles:
+                                                      widget.files,
                                                 ),
                                                 clearUnsetFields: false,
                                                 create: true,
@@ -679,142 +1028,19 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                             ...mapToFirestore(
                                               {
                                                 'userref': functions
-                                                    .extractParentUserRefs(
-                                                        _model.students!
-                                                            .where((e) => _model
-                                                                .classselect!
-                                                                .studentsList
+                                                    .extractParentUserRefs(_model
+                                                        .studentsOfSchool!
+                                                        .where((e) =>
+                                                            containerSchoolRecord
+                                                                .listOfStudents
                                                                 .contains(e
                                                                     .reference))
-                                                            .toList()),
+                                                        .toList()),
                                                 'towhome': _model.toWhome,
                                               },
                                             ),
                                           });
                                         }
-                                        FFAppState().eventnoticeimage = [];
-                                        FFAppState().update(() {});
-                                        await showDialog(
-                                          context: context,
-                                          builder: (dialogContext) {
-                                            return Dialog(
-                                              elevation: 0,
-                                              insetPadding: EdgeInsets.zero,
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              alignment: const AlignmentDirectional(
-                                                      0.0, -0.8)
-                                                  .resolve(Directionality.of(
-                                                      context)),
-                                              child: SizedBox(
-                                                height:
-                                                    MediaQuery.sizeOf(context)
-                                                            .height *
-                                                        0.08,
-                                                width:
-                                                    MediaQuery.sizeOf(context)
-                                                            .width *
-                                                        0.6,
-                                                child:
-                                                    const EventpostedsuccessfullyWidget(),
-                                              ),
-                                            );
-                                          },
-                                        );
-
-                                        context.goNamed(
-                                          'class_dashboard',
-                                          queryParameters: {
-                                            'schoolref': serializeParam(
-                                              containerSchoolRecord.reference,
-                                              ParamType.DocumentReference,
-                                            ),
-                                            'tabindex': serializeParam(
-                                              0,
-                                              ParamType.int,
-                                            ),
-                                          }.withoutNulls,
-                                        );
-                                      } else if (_model.everyone == 1) {
-                                        await widget.schoolref!.update({
-                                          ...mapToFirestore(
-                                            {
-                                              'Calendar_list':
-                                                  FieldValue.arrayUnion([
-                                                getEventsNoticeFirestoreData(
-                                                  updateEventsNoticeStruct(
-                                                    EventsNoticeStruct(
-                                                      eventId: functions
-                                                          .generateUniqueId(),
-                                                      eventName:
-                                                          widget.eventname,
-                                                      eventTitle:
-                                                          widget.eventtitle,
-                                                      eventDescription:
-                                                          widget.description,
-                                                      eventDate:
-                                                          widget.datetime,
-                                                      eventImages:
-                                                          widget.images,
-                                                    ),
-                                                    clearUnsetFields: false,
-                                                  ),
-                                                  true,
-                                                )
-                                              ]),
-                                            },
-                                          ),
-                                        });
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              ' The event has been added successfully.',
-                                              style: TextStyle(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondary,
-                                              ),
-                                            ),
-                                            duration:
-                                                const Duration(milliseconds: 4000),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primaryText,
-                                          ),
-                                        );
-                                        triggerPushNotification(
-                                          notificationTitle: widget.eventname!,
-                                          notificationText: widget.eventtitle!,
-                                          scheduledTime: functions
-                                              .noticedate(widget.datetime)!,
-                                          notificationSound: 'default',
-                                          userRefs: containerSchoolRecord
-                                              .listOfteachersuser
-                                              .toList(),
-                                          initialPageName: 'Dashboard',
-                                          parameterData: {},
-                                        );
-                                        _model.studentsOfSchool =
-                                            await queryStudentsRecordOnce();
-                                        triggerPushNotification(
-                                          notificationTitle: widget.eventname!,
-                                          notificationText: widget.eventtitle!,
-                                          scheduledTime: functions
-                                              .noticedate(widget.datetime)!,
-                                          userRefs: functions
-                                              .extractParentUserRefs(_model
-                                                  .studentsOfSchool!
-                                                  .where((e) =>
-                                                      containerSchoolRecord
-                                                          .listOfStudents
-                                                          .contains(
-                                                              e.reference))
-                                                  .toList())
-                                              .toList(),
-                                          initialPageName: 'Dashboard',
-                                          parameterData: {},
-                                        );
 
                                         await NotificationsRecord.collection
                                             .doc()
@@ -833,8 +1059,8 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                 timeStamp: getCurrentTimestamp,
                                                 isRead: false,
                                                 eventDate: widget.datetime,
-                                                notificationImages:
-                                                    widget.images,
+                                                notificationFiles:
+                                                    widget.files,
                                               ),
                                               clearUnsetFields: false,
                                               create: true,
@@ -843,52 +1069,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                             createDate: getCurrentTimestamp,
                                             tag: widget.eventname,
                                             addedby: currentUserReference,
-                                            heading: 'Added a event',
-                                          ),
-                                          ...mapToFirestore(
-                                            {
-                                              'userref': functions
-                                                  .extractParentUserRefs(_model
-                                                      .studentsOfSchool!
-                                                      .where((e) =>
-                                                          containerSchoolRecord
-                                                              .listOfStudents
-                                                              .contains(
-                                                                  e.reference))
-                                                      .toList()),
-                                              'towhome': _model.toWhome,
-                                            },
-                                          ),
-                                        });
-
-                                        await NotificationsRecord.collection
-                                            .doc()
-                                            .set({
-                                          ...createNotificationsRecordData(
-                                            content: widget.eventtitle,
-                                            descri: widget.description,
-                                            datetimeofevent: widget.datetime,
-                                            notification:
-                                                updateNotificationStruct(
-                                              NotificationStruct(
-                                                notificationTitle:
-                                                    widget.eventtitle,
-                                                descriptions:
-                                                    widget.description,
-                                                timeStamp: getCurrentTimestamp,
-                                                isRead: false,
-                                                eventDate: widget.datetime,
-                                                notificationImages:
-                                                    widget.images,
-                                              ),
-                                              clearUnsetFields: false,
-                                              create: true,
-                                            ),
-                                            isread: false,
-                                            createDate: getCurrentTimestamp,
-                                            tag: widget.eventname,
-                                            addedby: currentUserReference,
-                                            heading: 'Added a event',
+                                            heading: 'Posted an event',
                                           ),
                                           ...mapToFirestore(
                                             {
@@ -899,7 +1080,9 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                             },
                                           ),
                                         });
-                                        FFAppState().eventnoticeimage = [];
+                                        FFAppState().eventDetails =
+                                            EventsNoticeStruct();
+                                        FFAppState().eventfiles = [];
                                         FFAppState().update(() {});
                                         await showDialog(
                                           context: context,
@@ -909,11 +1092,11 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                               insetPadding: EdgeInsets.zero,
                                               backgroundColor:
                                                   Colors.transparent,
-                                              alignment: const AlignmentDirectional(
+                                              alignment: AlignmentDirectional(
                                                       0.0, -0.8)
                                                   .resolve(Directionality.of(
                                                       context)),
-                                              child: SizedBox(
+                                              child: Container(
                                                 height:
                                                     MediaQuery.sizeOf(context)
                                                             .height *
@@ -921,42 +1104,43 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                 width:
                                                     MediaQuery.sizeOf(context)
                                                             .width *
-                                                        0.6,
+                                                        0.7,
                                                 child:
-                                                    const EventpostedsuccessfullyWidget(),
+                                                    EventpostedsuccessfullyWidget(),
                                               ),
                                             );
                                           },
                                         );
 
                                         context.goNamed(
-                                          'class_dashboard',
+                                          ClassDashboardWidget.routeName,
                                           queryParameters: {
                                             'schoolref': serializeParam(
                                               containerSchoolRecord.reference,
                                               ParamType.DocumentReference,
                                             ),
                                             'tabindex': serializeParam(
-                                              0,
+                                              2,
                                               ParamType.int,
                                             ),
                                           }.withoutNulls,
                                         );
                                       } else if (containerSchoolRecord
-                                              .listOfNotice.isEmpty) {
+                                              .listOfNotice.length ==
+                                          0) {
                                         await showDialog(
                                           context: context,
                                           builder: (alertDialogContext) {
                                             return AlertDialog(
-                                              title: const Text('Alert!'),
-                                              content: const Text(
-                                                  ' Please select at least one class.'),
+                                              title: Text('Alert!'),
+                                              content:
+                                                  Text('Please select class.'),
                                               actions: [
                                                 TextButton(
                                                   onPressed: () =>
                                                       Navigator.pop(
                                                           alertDialogContext),
-                                                  child: const Text('Ok'),
+                                                  child: Text('Ok'),
                                                 ),
                                               ],
                                             );
@@ -967,15 +1151,15 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                           context: context,
                                           builder: (alertDialogContext) {
                                             return AlertDialog(
-                                              title: const Text('Alert!'),
-                                              content: const Text(
-                                                  ' Please select at least one class.'),
+                                              title: Text('Alert!'),
+                                              content:
+                                                  Text('Please select class.'),
                                               actions: [
                                                 TextButton(
                                                   onPressed: () =>
                                                       Navigator.pop(
                                                           alertDialogContext),
-                                                  child: const Text('Ok'),
+                                                  child: Text('Ok'),
                                                 ),
                                               ],
                                             );
@@ -1008,8 +1192,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                           widget.description,
                                                       eventDate:
                                                           widget.datetime,
-                                                      eventImages:
-                                                          widget.images,
+                                                      eventfiles: widget.files,
                                                     ),
                                                     clearUnsetFields: false,
                                                   ),
@@ -1070,8 +1253,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                               timeStamp: getCurrentTimestamp,
                                               isRead: false,
                                               eventDate: widget.datetime,
-                                              notificationImages:
-                                                  widget.images,
+                                              notificationFiles: widget.files,
                                             ),
                                             clearUnsetFields: false,
                                             create: true,
@@ -1120,49 +1302,6 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                           initialPageName: 'Dashboard',
                                           parameterData: {},
                                         );
-
-                                        await NotificationsRecord.collection
-                                            .doc()
-                                            .set({
-                                          ...createNotificationsRecordData(
-                                            content:
-                                                '${widget.eventname} : ${widget.eventtitle} on ${dateTimeFormat("yMMMd", widget.datetime)}',
-                                            descri: widget.description,
-                                            datetimeofevent: widget.datetime,
-                                            createDate: getCurrentTimestamp,
-                                            notification:
-                                                updateNotificationStruct(
-                                              NotificationStruct(
-                                                notificationTitle:
-                                                    widget.eventtitle,
-                                                descriptions:
-                                                    widget.description,
-                                                timeStamp: getCurrentTimestamp,
-                                                isRead: false,
-                                                eventDate: widget.datetime,
-                                                notificationImages:
-                                                    widget.images,
-                                              ),
-                                              clearUnsetFields: false,
-                                              create: true,
-                                            ),
-                                            isread: false,
-                                            tag: widget.eventname,
-                                          ),
-                                          ...mapToFirestore(
-                                            {
-                                              'userref': functions
-                                                  .extractParentUserRefs(_model
-                                                      .students3!
-                                                      .where((e) => _model
-                                                          .classselect3!
-                                                          .studentsList
-                                                          .contains(
-                                                              e.reference))
-                                                      .toList()),
-                                            },
-                                          ),
-                                        });
                                       }
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
@@ -1176,13 +1315,13 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                             ),
                                           ),
                                           duration:
-                                              const Duration(milliseconds: 4000),
+                                              Duration(milliseconds: 4000),
                                           backgroundColor:
                                               FlutterFlowTheme.of(context)
                                                   .secondary,
                                         ),
                                       );
-                                      FFAppState().eventnoticeimage = [];
+                                      FFAppState().eventfiles = [];
                                       safeSetState(() {});
                                       await showDialog(
                                         context: context,
@@ -1191,11 +1330,11 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                             elevation: 0,
                                             insetPadding: EdgeInsets.zero,
                                             backgroundColor: Colors.transparent,
-                                            alignment: const AlignmentDirectional(
+                                            alignment: AlignmentDirectional(
                                                     0.0, -0.8)
                                                 .resolve(
                                                     Directionality.of(context)),
-                                            child: SizedBox(
+                                            child: Container(
                                               height: MediaQuery.sizeOf(context)
                                                       .height *
                                                   0.08,
@@ -1203,7 +1342,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                       .width *
                                                   0.6,
                                               child:
-                                                  const EventpostedsuccessfullyWidget(),
+                                                  EventpostedsuccessfullyWidget(),
                                             ),
                                           );
                                         },
@@ -1220,31 +1359,50 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                         MediaQuery.sizeOf(context).width * 0.3,
                                     height: MediaQuery.sizeOf(context).height *
                                         0.06,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 16.0, 0.0),
-                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryBackground,
                                     textStyle: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .secondary,
+                                          fontSize: 12.0,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
                                         ),
                                     elevation: 0.0,
-                                    borderSide: const BorderSide(
+                                    borderSide: BorderSide(
                                       color: Color(0xFFEFF0F6),
+                                      width: 1.0,
                                     ),
-                                    borderRadius: BorderRadius.circular(8.0),
+                                    borderRadius: BorderRadius.circular(4.0),
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                        ].divide(const SizedBox(height: 5.0)),
+                        ].divide(SizedBox(height: 5.0)),
                       ),
                     ),
                   );
@@ -1290,8 +1448,15 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                     height: MediaQuery.sizeOf(context).height * 0.75,
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).tertiary,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(0.0),
+                        bottomRight: Radius.circular(0.0),
+                        topLeft: Radius.circular(24.0),
+                        topRight: Radius.circular(24.0),
+                      ),
                     ),
                     child: SingleChildScrollView(
+                      primary: false,
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -1329,9 +1494,15 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                 height: MediaQuery.sizeOf(context).height * 0.6,
                                 decoration: BoxDecoration(
                                   color: FlutterFlowTheme.of(context).tertiary,
+                                  borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(0.0),
+                                    bottomRight: Radius.circular(0.0),
+                                    topLeft: Radius.circular(24.0),
+                                    topRight: Radius.circular(24.0),
+                                  ),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       20.0, 0.0, 20.0, 0.0),
                                   child: SingleChildScrollView(
                                     primary: false,
@@ -1343,18 +1514,29 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Nunito',
+                                                font: GoogleFonts.nunito(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .tertiaryText,
                                                 fontSize: 20.0,
                                                 letterSpacing: 0.0,
                                                 fontWeight: FontWeight.w600,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
                                               ),
                                         ),
                                         Padding(
                                           padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
+                                              EdgeInsetsDirectional.fromSTEB(
                                                   20.0, 0.0, 20.0, 0.0),
                                           child: Builder(
                                             builder: (context) {
@@ -1364,6 +1546,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
 
                                               return ListView.builder(
                                                 padding: EdgeInsets.zero,
+                                                primary: false,
                                                 shrinkWrap: true,
                                                 scrollDirection: Axis.vertical,
                                                 itemCount: clases.length,
@@ -1373,7 +1556,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                       clases[clasesIndex];
                                                   return Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 12.0),
                                                     child: InkWell(
@@ -1415,13 +1598,13 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                       child: Material(
                                                         color:
                                                             Colors.transparent,
-                                                        elevation: 5.0,
+                                                        elevation: 2.0,
                                                         shape:
                                                             RoundedRectangleBorder(
                                                           borderRadius:
                                                               BorderRadius
                                                                   .circular(
-                                                                      14.0),
+                                                                      12.0),
                                                         ),
                                                         child: Container(
                                                           width:
@@ -1447,12 +1630,26 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                                 : FlutterFlowTheme.of(
                                                                         context)
                                                                     .secondary,
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                blurRadius:
+                                                                    20.0,
+                                                                color: Color(
+                                                                    0x08000000),
+                                                                offset: Offset(
+                                                                  0.0,
+                                                                  0.0,
+                                                                ),
+                                                                spreadRadius:
+                                                                    0.0,
+                                                              )
+                                                            ],
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
-                                                                        14.0),
+                                                                        12.0),
                                                             border: Border.all(
-                                                              color: const Color(
+                                                              color: Color(
                                                                   0xFFDDF1F6),
                                                             ),
                                                           ),
@@ -1463,7 +1660,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                             children: [
                                                               Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
                                                                             0.0,
                                                                             0.0,
@@ -1476,14 +1673,23 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                                           context)
                                                                       .bodyMedium
                                                                       .override(
-                                                                        fontFamily:
-                                                                            'Nunito',
+                                                                        font: GoogleFonts
+                                                                            .nunito(
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontStyle,
+                                                                        ),
                                                                         color: FlutterFlowTheme.of(context)
                                                                             .primary,
                                                                         letterSpacing:
                                                                             0.0,
                                                                         fontWeight:
                                                                             FontWeight.bold,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
                                                                       ),
                                                                 ),
                                                               ),
@@ -1493,16 +1699,28 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                                         context)
                                                                     .bodyMedium
                                                                     .override(
-                                                                      fontFamily:
-                                                                          'Nunito',
+                                                                      font: GoogleFonts
+                                                                          .nunito(
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
                                                                       color: FlutterFlowTheme.of(
                                                                               context)
                                                                           .tertiaryText,
+                                                                      fontSize:
+                                                                          12.0,
                                                                       letterSpacing:
                                                                           0.0,
                                                                       fontWeight:
                                                                           FontWeight
                                                                               .w500,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
                                                                     ),
                                                               ),
                                                             ],
@@ -1516,7 +1734,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                             },
                                           ),
                                         ),
-                                      ].addToEnd(const SizedBox(height: 20.0)),
+                                      ].addToEnd(SizedBox(height: 20.0)),
                                     ),
                                   ),
                                 ),
@@ -1524,7 +1742,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                             },
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 10.0, 0.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -1532,6 +1750,8 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                               children: [
                                 FFButtonWidget(
                                   onPressed: () async {
+                                    FFAppState().eventfiles = [];
+                                    safeSetState(() {});
                                     Navigator.pop(context);
                                   },
                                   text: 'Cancel',
@@ -1540,32 +1760,55 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                         MediaQuery.sizeOf(context).width * 0.3,
                                     height: MediaQuery.sizeOf(context).height *
                                         0.06,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 16.0, 0.0),
-                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
                                     color:
                                         FlutterFlowTheme.of(context).secondary,
                                     textStyle: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .override(
-                                          fontFamily: 'Nunito',
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          letterSpacing: 0.0,
-                                        ),
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      fontSize: 12.0,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                      shadows: [
+                                        Shadow(
+                                          color: Color(0x11E4E5EA),
+                                          offset: Offset(0.0, -3.0),
+                                          blurRadius: 6.0,
+                                        )
+                                      ],
+                                    ),
                                     elevation: 0.0,
-                                    borderSide: const BorderSide(
-                                      color: Color(0xFFEFF0F6),
+                                    borderSide: BorderSide(
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
                                       width: 2.0,
                                     ),
-                                    borderRadius: BorderRadius.circular(8.0),
+                                    borderRadius: BorderRadius.circular(4.0),
                                   ),
                                 ),
                                 Builder(
                                   builder: (context) => FFButtonWidget(
                                     onPressed: () async {
-                                      if (_model.schoolclassref.isNotEmpty) {
+                                      safeSetState(() {});
+                                      if (_model.schoolclassref.length != 0) {
                                         while (FFAppState().loopmin <
                                             _model.schoolclassref.length) {
                                           await _model.schoolclassref
@@ -1579,8 +1822,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                   getEventsNoticeFirestoreData(
                                                     updateEventsNoticeStruct(
                                                       EventsNoticeStruct(
-                                                        eventId: functions
-                                                            .generateUniqueId(),
+                                                        eventId: _model.id,
                                                         eventName:
                                                             widget.eventname,
                                                         eventTitle:
@@ -1589,8 +1831,10 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                             widget.description,
                                                         eventDate:
                                                             widget.datetime,
-                                                        eventImages:
-                                                            widget.images,
+                                                        eventfiles:
+                                                            widget.files,
+                                                        classref: _model
+                                                            .schoolclassref,
                                                       ),
                                                       clearUnsetFields: false,
                                                     ),
@@ -1613,6 +1857,39 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                         }
                                         FFAppState().loopmin = 0;
                                         safeSetState(() {});
+                                        _model.school =
+                                            await SchoolRecord.getDocumentOnce(
+                                                widget.schoolref!);
+
+                                        await widget.schoolref!.update({
+                                          ...mapToFirestore(
+                                            {
+                                              'Calendar_list':
+                                                  FieldValue.arrayUnion([
+                                                getEventsNoticeFirestoreData(
+                                                  updateEventsNoticeStruct(
+                                                    EventsNoticeStruct(
+                                                      eventId: _model.id,
+                                                      eventName:
+                                                          widget.eventname,
+                                                      eventTitle:
+                                                          widget.eventtitle,
+                                                      eventDescription:
+                                                          widget.description,
+                                                      eventDate:
+                                                          widget.datetime,
+                                                      eventfiles: widget.files,
+                                                      classref: _model
+                                                          .school?.listOfClass,
+                                                    ),
+                                                    clearUnsetFields: false,
+                                                  ),
+                                                  true,
+                                                )
+                                              ]),
+                                            },
+                                          ),
+                                        });
                                         _model.classses1233 =
                                             await querySchoolClassRecordOnce();
                                         triggerPushNotification(
@@ -1650,8 +1927,8 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                 timeStamp: getCurrentTimestamp,
                                                 isRead: false,
                                                 eventDate: widget.datetime,
-                                                notificationImages:
-                                                    widget.images,
+                                                notificationFiles:
+                                                    widget.files,
                                               ),
                                               clearUnsetFields: false,
                                               create: true,
@@ -1660,7 +1937,7 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                             isread: false,
                                             tag: widget.eventname,
                                             addedby: currentUserReference,
-                                            heading: 'Added a event',
+                                            heading: 'Posted an event',
                                           ),
                                           ...mapToFirestore(
                                             {
@@ -1705,6 +1982,56 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                             initialPageName: 'Dashboard',
                                             parameterData: {},
                                           );
+                                          if (functions.isWithin30Days(
+                                              getCurrentTimestamp,
+                                              widget.datetime!)!) {
+                                            await NotificationsRecord.collection
+                                                .doc()
+                                                .set({
+                                              ...createNotificationsRecordData(
+                                                content: widget.eventtitle,
+                                                descri: widget.description,
+                                                datetimeofevent:
+                                                    widget.datetime,
+                                                createDate: getCurrentTimestamp,
+                                                notification:
+                                                    updateNotificationStruct(
+                                                  NotificationStruct(
+                                                    notificationTitle:
+                                                        widget.eventtitle,
+                                                    descriptions:
+                                                        widget.description,
+                                                    timeStamp:
+                                                        getCurrentTimestamp,
+                                                    isRead: false,
+                                                    eventDate: widget.datetime,
+                                                    notificationFiles:
+                                                        widget.files,
+                                                  ),
+                                                  clearUnsetFields: false,
+                                                  create: true,
+                                                ),
+                                                isread: false,
+                                                tag: widget.eventname,
+                                                addedby: currentUserReference,
+                                                heading: 'Added a event',
+                                              ),
+                                              ...mapToFirestore(
+                                                {
+                                                  'userref': functions
+                                                      .extractParentUserRefs(_model
+                                                          .students33!
+                                                          .where((e) => _model
+                                                              .classselect33!
+                                                              .studentsList
+                                                              .contains(
+                                                                  e.reference))
+                                                          .toList()),
+                                                  'towhome': _model.toWhome,
+                                                },
+                                              ),
+                                            });
+                                          }
 
                                           await NotificationsRecord.collection
                                               .doc()
@@ -1713,7 +2040,6 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                               content: widget.eventtitle,
                                               descri: widget.description,
                                               datetimeofevent: widget.datetime,
-                                              createDate: getCurrentTimestamp,
                                               notification:
                                                   updateNotificationStruct(
                                                 NotificationStruct(
@@ -1721,29 +2047,29 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                       widget.eventtitle,
                                                   descriptions:
                                                       widget.description,
+                                                  isRead: false,
                                                   timeStamp:
                                                       getCurrentTimestamp,
-                                                  isRead: false,
                                                   eventDate: widget.datetime,
-                                                  notificationImages:
-                                                      widget.images,
+                                                  notificationFiles:
+                                                      widget.files,
                                                 ),
                                                 clearUnsetFields: false,
                                                 create: true,
                                               ),
                                               isread: false,
+                                              createDate: getCurrentTimestamp,
                                               tag: widget.eventname,
                                               addedby: currentUserReference,
-                                              heading: 'Added a event',
+                                              heading: 'Posted an event',
                                             ),
                                             ...mapToFirestore(
                                               {
                                                 'userref': functions
-                                                    .extractParentUserRefs(
-                                                        _model.students33!
+                                                    .filterClassesByReferences(
+                                                        _model.classes!
                                                             .where((e) => _model
-                                                                .classselect33!
-                                                                .studentsList
+                                                                .schoolclassref
                                                                 .contains(e
                                                                     .reference))
                                                             .toList()),
@@ -1782,8 +2108,8 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                       getCurrentTimestamp,
                                                   isRead: false,
                                                   eventDate: widget.datetime,
-                                                  notificationImages:
-                                                      widget.images,
+                                                  notificationFiles:
+                                                      widget.files,
                                                 ),
                                                 clearUnsetFields: false,
                                                 create: true,
@@ -1803,25 +2129,9 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                             ),
                                           });
                                         }
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              ' The event has been added successfully.',
-                                              style: TextStyle(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondary,
-                                              ),
-                                            ),
-                                            duration:
-                                                const Duration(milliseconds: 4000),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primaryText,
-                                          ),
-                                        );
-                                        FFAppState().eventnoticeimage = [];
+                                        FFAppState().eventDetails =
+                                            EventsNoticeStruct();
+                                        FFAppState().eventfiles = [];
                                         safeSetState(() {});
                                         await showDialog(
                                           context: context,
@@ -1831,11 +2141,11 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                               insetPadding: EdgeInsets.zero,
                                               backgroundColor:
                                                   Colors.transparent,
-                                              alignment: const AlignmentDirectional(
+                                              alignment: AlignmentDirectional(
                                                       0.0, -0.8)
                                                   .resolve(Directionality.of(
                                                       context)),
-                                              child: SizedBox(
+                                              child: Container(
                                                 height:
                                                     MediaQuery.sizeOf(context)
                                                             .height *
@@ -1845,17 +2155,17 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                                             .width *
                                                         0.6,
                                                 child:
-                                                    const EventpostedsuccessfullyWidget(),
+                                                    EventpostedsuccessfullyWidget(),
                                               ),
                                             );
                                           },
                                         );
 
                                         context.goNamed(
-                                          'Dashboard',
+                                          DashboardWidget.routeName,
                                           queryParameters: {
                                             'tabindex': serializeParam(
-                                              0,
+                                              2,
                                               ParamType.int,
                                             ),
                                           }.withoutNulls,
@@ -1865,15 +2175,15 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                           context: context,
                                           builder: (alertDialogContext) {
                                             return AlertDialog(
-                                              title: const Text('Alert!'),
-                                              content: const Text(
-                                                  ' Please select at least one class.'),
+                                              title: Text('Alert!'),
+                                              content:
+                                                  Text('Please select class.'),
                                               actions: [
                                                 TextButton(
                                                   onPressed: () =>
                                                       Navigator.pop(
                                                           alertDialogContext),
-                                                  child: const Text('Ok'),
+                                                  child: Text('Ok'),
                                                 ),
                                               ],
                                             );
@@ -1890,26 +2200,45 @@ class _SelectClassCalenderWidgetState extends State<SelectClassCalenderWidget> {
                                       height:
                                           MediaQuery.sizeOf(context).height *
                                               0.06,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           16.0, 0.0, 16.0, 0.0),
                                       iconPadding:
-                                          const EdgeInsetsDirectional.fromSTEB(
+                                          EdgeInsetsDirectional.fromSTEB(
                                               0.0, 0.0, 0.0, 0.0),
                                       color: FlutterFlowTheme.of(context)
                                           .primaryBackground,
                                       textStyle: FlutterFlowTheme.of(context)
                                           .titleSmall
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .secondary,
+                                            fontSize: 12.0,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontStyle,
                                           ),
                                       elevation: 0.0,
-                                      borderSide: const BorderSide(
+                                      borderSide: BorderSide(
                                         color: Color(0xFFEFF0F6),
+                                        width: 1.0,
                                       ),
-                                      borderRadius: BorderRadius.circular(8.0),
+                                      borderRadius: BorderRadius.circular(4.0),
                                     ),
                                   ),
                                 ),

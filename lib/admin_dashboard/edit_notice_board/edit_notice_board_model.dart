@@ -38,25 +38,17 @@ class EditNoticeBoardModel extends FlutterFlowModel<EditNoticeBoardWidget> {
   FocusNode? descriptionFocusNode;
   TextEditingController? descriptionTextController;
   String? Function(BuildContext, String?)? descriptionTextControllerValidator;
-  String? _descriptionTextControllerValidator(
-      BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return 'Please enter the description';
-    }
+  bool isDataUploading_uploadDataBiu = false;
+  List<FFUploadedFile> uploadedLocalFiles_uploadDataBiu = [];
+  List<String> uploadedFileUrls_uploadDataBiu = [];
 
-    return null;
-  }
-
-  DateTime? datePicked;
-  bool isDataUploading1 = false;
-  List<FFUploadedFile> uploadedLocalFiles1 = [];
-  List<String> uploadedFileUrls1 = [];
-
-  bool isDataUploading2 = false;
-  FFUploadedFile uploadedLocalFile2 =
+  bool isDataUploading_uploadData1 = false;
+  FFUploadedFile uploadedLocalFile_uploadData1 =
       FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl2 = '';
+  String uploadedFileUrl_uploadData1 = '';
 
+  // Stores action output result for [Backend Call - Read Document] action in Button widget.
+  SchoolRecord? schoolref;
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   List<StudentsRecord>? students;
   // Stores action output result for [Backend Call - Read Document] action in Button widget.
@@ -65,7 +57,6 @@ class EditNoticeBoardModel extends FlutterFlowModel<EditNoticeBoardWidget> {
   @override
   void initState(BuildContext context) {
     eventnameTextControllerValidator = _eventnameTextControllerValidator;
-    descriptionTextControllerValidator = _descriptionTextControllerValidator;
   }
 
   @override

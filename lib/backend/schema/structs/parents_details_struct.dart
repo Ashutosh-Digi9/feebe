@@ -16,6 +16,7 @@ class ParentsDetailsStruct extends FFFirebaseStruct {
     DocumentReference? userRef,
     String? parentRelation,
     String? document,
+    bool? isemail,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _parentsId = parentsId,
         _parentsName = parentsName,
@@ -25,6 +26,7 @@ class ParentsDetailsStruct extends FFFirebaseStruct {
         _userRef = userRef,
         _parentRelation = parentRelation,
         _document = document,
+        _isemail = isemail,
         super(firestoreUtilData);
 
   // "parents_id" field.
@@ -85,6 +87,13 @@ class ParentsDetailsStruct extends FFFirebaseStruct {
 
   bool hasDocument() => _document != null;
 
+  // "isemail" field.
+  bool? _isemail;
+  bool get isemail => _isemail ?? false;
+  set isemail(bool? val) => _isemail = val;
+
+  bool hasIsemail() => _isemail != null;
+
   static ParentsDetailsStruct fromMap(Map<String, dynamic> data) =>
       ParentsDetailsStruct(
         parentsId: castToType<int>(data['parents_id']),
@@ -95,6 +104,7 @@ class ParentsDetailsStruct extends FFFirebaseStruct {
         userRef: data['userRef'] as DocumentReference?,
         parentRelation: data['ParentRelation'] as String?,
         document: data['document'] as String?,
+        isemail: data['isemail'] as bool?,
       );
 
   static ParentsDetailsStruct? maybeFromMap(dynamic data) => data is Map
@@ -110,6 +120,7 @@ class ParentsDetailsStruct extends FFFirebaseStruct {
         'userRef': _userRef,
         'ParentRelation': _parentRelation,
         'document': _document,
+        'isemail': _isemail,
       }.withoutNulls;
 
   @override
@@ -145,6 +156,10 @@ class ParentsDetailsStruct extends FFFirebaseStruct {
         'document': serializeParam(
           _document,
           ParamType.String,
+        ),
+        'isemail': serializeParam(
+          _isemail,
+          ParamType.bool,
         ),
       }.withoutNulls;
 
@@ -191,6 +206,11 @@ class ParentsDetailsStruct extends FFFirebaseStruct {
           ParamType.String,
           false,
         ),
+        isemail: deserializeParam(
+          data['isemail'],
+          ParamType.bool,
+          false,
+        ),
       );
 
   static ParentsDetailsStruct fromAlgoliaData(Map<String, dynamic> data) =>
@@ -235,7 +255,12 @@ class ParentsDetailsStruct extends FFFirebaseStruct {
           ParamType.String,
           false,
         ),
-        firestoreUtilData: const FirestoreUtilData(
+        isemail: convertAlgoliaParam(
+          data['isemail'],
+          ParamType.bool,
+          false,
+        ),
+        firestoreUtilData: FirestoreUtilData(
           clearUnsetFields: false,
           create: true,
         ),
@@ -254,7 +279,8 @@ class ParentsDetailsStruct extends FFFirebaseStruct {
         parentsPhone == other.parentsPhone &&
         userRef == other.userRef &&
         parentRelation == other.parentRelation &&
-        document == other.document;
+        document == other.document &&
+        isemail == other.isemail;
   }
 
   @override
@@ -266,7 +292,8 @@ class ParentsDetailsStruct extends FFFirebaseStruct {
         parentsPhone,
         userRef,
         parentRelation,
-        document
+        document,
+        isemail
       ]);
 }
 
@@ -279,6 +306,7 @@ ParentsDetailsStruct createParentsDetailsStruct({
   DocumentReference? userRef,
   String? parentRelation,
   String? document,
+  bool? isemail,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -293,6 +321,7 @@ ParentsDetailsStruct createParentsDetailsStruct({
       userRef: userRef,
       parentRelation: parentRelation,
       document: document,
+      isemail: isemail,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

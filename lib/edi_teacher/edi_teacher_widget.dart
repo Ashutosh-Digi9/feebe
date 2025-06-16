@@ -1,13 +1,15 @@
+import '/admin_dashboard/editphoto/editphoto_widget.dart';
 import '/backend/backend.dart';
-import '/components/editphoto_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/shimmer_effects/classshimmer/classshimmer_widget.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'edi_teacher_model.dart';
 export 'edi_teacher_model.dart';
@@ -21,6 +23,9 @@ class EdiTeacherWidget extends StatefulWidget {
 
   final DocumentReference? schoolRef;
   final DocumentReference? teacherref;
+
+  static String routeName = 'edi_teacher';
+  static String routePath = '/ediTeacher';
 
   @override
   State<EdiTeacherWidget> createState() => _EdiTeacherWidgetState();
@@ -38,11 +43,9 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      FFAppState().imageurl =
-          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
+      FFAppState().imageurl = '';
       FFAppState().profileimagechanged = false;
-      FFAppState().schoolimage =
-          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png';
+      FFAppState().schoolimage = '';
       FFAppState().schoolimagechanged = false;
       safeSetState(() {});
     });
@@ -72,7 +75,7 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
         if (!snapshot.hasData) {
           return Scaffold(
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-            body: const ClassshimmerWidget(),
+            body: ClassshimmerWidget(),
           );
         }
 
@@ -86,47 +89,64 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-            appBar: PreferredSize(
-              preferredSize:
-                  Size.fromHeight(MediaQuery.sizeOf(context).height * 0.06),
-              child: AppBar(
-                backgroundColor: FlutterFlowTheme.of(context).info,
-                automaticallyImplyLeading: false,
-                leading: Align(
-                  alignment: const AlignmentDirectional(0.0, 0.0),
-                  child: FlutterFlowIconButton(
-                    borderColor: Colors.transparent,
-                    borderRadius: 30.0,
-                    borderWidth: 1.0,
-                    buttonSize: 60.0,
-                    icon: const Icon(
-                      Icons.arrow_back_ios_sharp,
-                      color: Color(0x58001B36),
-                      size: 25.0,
-                    ),
-                    onPressed: () async {
-                      context.pop();
-                    },
-                  ),
-                ),
-                title: Align(
-                  alignment: const AlignmentDirectional(-1.0, 0.0),
-                  child: Text(
-                    'Edit Teacher',
-                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Nunito',
-                          color: FlutterFlowTheme.of(context).primaryText,
-                          fontSize: 16.0,
-                          letterSpacing: 0.0,
-                          fontWeight: FontWeight.w500,
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? PreferredSize(
+                    preferredSize: Size.fromHeight(
+                        MediaQuery.sizeOf(context).height * 0.06),
+                    child: AppBar(
+                      backgroundColor: FlutterFlowTheme.of(context).info,
+                      automaticallyImplyLeading: false,
+                      leading: Align(
+                        alignment: AlignmentDirectional(0.0, 0.0),
+                        child: FlutterFlowIconButton(
+                          borderColor: Colors.transparent,
+                          borderRadius: 30.0,
+                          borderWidth: 1.0,
+                          buttonSize: 60.0,
+                          icon: Icon(
+                            Icons.arrow_back_ios_sharp,
+                            color: Color(0x58001B36),
+                            size: 25.0,
+                          ),
+                          onPressed: () async {
+                            context.pop();
+                          },
                         ),
-                  ),
-                ),
-                actions: const [],
-                centerTitle: true,
-                elevation: 0.0,
-              ),
-            ),
+                      ),
+                      title: Align(
+                        alignment: AlignmentDirectional(-1.0, 0.0),
+                        child: Text(
+                          'Edit Teacher',
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.w500,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                fontSize: 16.0,
+                                letterSpacing: 0.0,
+                                fontWeight: FontWeight.w500,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
+                        ),
+                      ),
+                      actions: [],
+                      centerTitle: true,
+                      elevation: 0.0,
+                    ),
+                  )
+                : null,
             body: SafeArea(
               top: true,
               child: Column(
@@ -142,7 +162,7 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                       key: _model.formKey,
                       autovalidateMode: AutovalidateMode.disabled,
                       child: Align(
-                        alignment: const AlignmentDirectional(0.0, -1.0),
+                        alignment: AlignmentDirectional(0.0, -1.0),
                         child: SingleChildScrollView(
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -169,7 +189,7 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                                         child: Padding(
                                           padding:
                                               MediaQuery.viewInsetsOf(context),
-                                          child: const EditphotoWidget(
+                                          child: EditphotoWidget(
                                             person: true,
                                           ),
                                         ),
@@ -183,7 +203,7 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                                   height:
                                       MediaQuery.sizeOf(context).width * 0.45,
                                   clipBehavior: Clip.antiAlias,
-                                  decoration: const BoxDecoration(
+                                  decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                   ),
                                   child: Image.network(
@@ -219,7 +239,7 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                                         child: Padding(
                                           padding:
                                               MediaQuery.viewInsetsOf(context),
-                                          child: const EditphotoWidget(
+                                          child: EditphotoWidget(
                                             person: true,
                                           ),
                                         ),
@@ -232,14 +252,29 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        fontFamily: 'Nunito',
+                                        font: GoogleFonts.nunito(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
                                         color: FlutterFlowTheme.of(context)
                                             .primaryBackground,
                                         letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
                                       ),
                                 ),
                               ),
-                              SizedBox(
+                              Container(
                                 width: MediaQuery.sizeOf(context).width * 0.9,
                                 child: TextFormField(
                                   controller:
@@ -256,20 +291,47 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                                     labelStyle: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .primaryBackground,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
                                         ),
                                     hintText: 'Teacher’s name',
                                     hintStyle: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight: FontWeight.w200,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .primaryText,
                                           letterSpacing: 0.0,
                                           fontWeight: FontWeight.w200,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
                                         ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -310,8 +372,23 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        fontFamily: 'Nunito',
+                                        font: GoogleFonts.nunito(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
                                         letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
                                       ),
                                   cursorColor:
                                       FlutterFlowTheme.of(context).primaryText,
@@ -320,7 +397,7 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                                       .asValidator(context),
                                 ),
                               ),
-                              SizedBox(
+                              Container(
                                 width: MediaQuery.sizeOf(context).width * 0.9,
                                 child: TextFormField(
                                   controller: _model
@@ -337,20 +414,47 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                                     labelStyle: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .primaryBackground,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
                                         ),
                                     hintText: 'Teacher’s  phone number',
                                     hintStyle: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight: FontWeight.w200,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .primaryText,
                                           letterSpacing: 0.0,
                                           fontWeight: FontWeight.w200,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
                                         ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -391,8 +495,23 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        fontFamily: 'Nunito',
+                                        font: GoogleFonts.nunito(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
                                         letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
                                       ),
                                   maxLength: 10,
                                   buildCounter: (context,
@@ -412,7 +531,7 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                                   ],
                                 ),
                               ),
-                              SizedBox(
+                              Container(
                                 width: MediaQuery.sizeOf(context).width * 0.9,
                                 child: TextFormField(
                                   controller:
@@ -430,20 +549,47 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                                     labelStyle: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .primaryBackground,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
                                         ),
                                     hintText: 'Teacher’s email ID',
                                     hintStyle: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight: FontWeight.w200,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .primaryText,
                                           letterSpacing: 0.0,
                                           fontWeight: FontWeight.w200,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
                                         ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -484,8 +630,23 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        fontFamily: 'Nunito',
+                                        font: GoogleFonts.nunito(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
                                         letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
                                       ),
                                   keyboardType: TextInputType.emailAddress,
                                   cursorColor:
@@ -495,7 +656,7 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                                       .asValidator(context),
                                 ),
                               ),
-                            ].divide(const SizedBox(height: 15.0)),
+                            ].divide(SizedBox(height: 15.0)),
                           ),
                         ),
                       ),
@@ -506,7 +667,7 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                     height: MediaQuery.sizeOf(context).height * 0.13,
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).secondaryBackground,
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
                           blurRadius: 18.9,
                           color: Color(0x1B555555),
@@ -519,7 +680,7 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                       ],
                     ),
                     child: Align(
-                      alignment: const AlignmentDirectional(0.0, 0.0),
+                      alignment: AlignmentDirectional(0.0, 0.0),
                       child: FFButtonWidget(
                         onPressed: () async {
                           if (_model.formKey.currentState == null ||
@@ -536,16 +697,14 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                                 ? FFAppState().imageurl
                                 : ediTeacherTeachersRecord.teacherImage,
                           ));
-                          FFAppState().imageurl =
-                              'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
+                          FFAppState().imageurl = '';
                           FFAppState().profileimagechanged = false;
-                          FFAppState().schoolimage =
-                              'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png';
+                          FFAppState().schoolimage = '';
                           FFAppState().schoolimagechanged = false;
                           safeSetState(() {});
 
                           context.goNamed(
-                            'Teacherdetailsedited',
+                            TeacherdetailseditedWidget.routeName,
                             queryParameters: {
                               'schoolref': serializeParam(
                                 widget.schoolRef,
@@ -562,23 +721,36 @@ class _EdiTeacherWidgetState extends State<EdiTeacherWidget> {
                         options: FFButtonOptions(
                           width: MediaQuery.sizeOf(context).width * 0.8,
                           height: MediaQuery.sizeOf(context).height * 0.06,
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               16.0, 0.0, 16.0, 0.0),
-                          iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 0.0),
                           color: FlutterFlowTheme.of(context).primary,
                           textStyle:
                               FlutterFlowTheme.of(context).titleSmall.override(
-                            fontFamily: 'Nunito',
+                            font: GoogleFonts.nunito(
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .fontStyle,
+                            ),
                             color: Colors.white,
                             letterSpacing: 0.0,
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .fontStyle,
                             shadows: [
-                              const Shadow(
+                              Shadow(
                                 color: Color(0x7B253EA7),
                                 offset: Offset(0.0, 1.0),
                                 blurRadius: 2.0,
                               ),
-                              const Shadow(
+                              Shadow(
                                 color: Color(0xFF375DFB),
                                 offset: Offset(0.0, 0.0),
                                 blurRadius: 0.0,

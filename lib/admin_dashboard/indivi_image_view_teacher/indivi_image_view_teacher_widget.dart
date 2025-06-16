@@ -4,7 +4,9 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 import 'indivi_image_view_teacher_model.dart';
 export 'indivi_image_view_teacher_model.dart';
@@ -20,6 +22,9 @@ class IndiviImageViewTeacherWidget extends StatefulWidget {
   final DocumentReference? teacher;
   final int? index;
   final DocumentReference? schoolref;
+
+  static String routeName = 'indivi_image_viewTeacher';
+  static String routePath = '/indiviImageViewTeacher';
 
   @override
   State<IndiviImageViewTeacherWidget> createState() =>
@@ -78,59 +83,75 @@ class _IndiviImageViewTeacherWidgetState
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).newBgcolor,
-            appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).info,
-              automaticallyImplyLeading: false,
-              leading: FlutterFlowIconButton(
-                borderColor: Colors.transparent,
-                borderRadius: 30.0,
-                borderWidth: 1.0,
-                buttonSize: 60.0,
-                icon: const Icon(
-                  Icons.arrow_back_ios_sharp,
-                  color: Color(0x58001B36),
-                  size: 20.0,
-                ),
-                onPressed: () async {
-                  context.goNamed(
-                    'Teacher_profile',
-                    queryParameters: {
-                      'teacherRef': serializeParam(
-                        widget.teacher,
-                        ParamType.DocumentReference,
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? AppBar(
+                    backgroundColor: FlutterFlowTheme.of(context).info,
+                    automaticallyImplyLeading: false,
+                    leading: FlutterFlowIconButton(
+                      borderColor: Colors.transparent,
+                      borderRadius: 30.0,
+                      borderWidth: 1.0,
+                      buttonSize: 60.0,
+                      icon: Icon(
+                        Icons.arrow_back_ios_sharp,
+                        color: Color(0x58001B36),
+                        size: 20.0,
                       ),
-                      'schoolref': serializeParam(
-                        widget.schoolref,
-                        ParamType.DocumentReference,
-                      ),
-                    }.withoutNulls,
-                    extra: <String, dynamic>{
-                      kTransitionInfoKey: const TransitionInfo(
-                        hasTransition: true,
-                        transitionType: PageTransitionType.fade,
-                      ),
-                    },
-                  );
-                },
-              ),
-              title: Text(
-                'Gallery',
-                style: FlutterFlowTheme.of(context).headlineMedium.override(
-                      fontFamily: 'Nunito',
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      fontSize: 16.0,
-                      letterSpacing: 0.0,
-                      fontWeight: FontWeight.w500,
+                      onPressed: () async {
+                        context.goNamed(
+                          TeacherProfileWidget.routeName,
+                          queryParameters: {
+                            'teacherRef': serializeParam(
+                              widget.teacher,
+                              ParamType.DocumentReference,
+                            ),
+                            'schoolref': serializeParam(
+                              widget.schoolref,
+                              ParamType.DocumentReference,
+                            ),
+                          }.withoutNulls,
+                          extra: <String, dynamic>{
+                            kTransitionInfoKey: TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.fade,
+                            ),
+                          },
+                        );
+                      },
                     ),
-              ),
-              actions: const [],
-              centerTitle: false,
-              elevation: 0.0,
-            ),
+                    title: Text(
+                      'Gallery',
+                      style:
+                          FlutterFlowTheme.of(context).headlineMedium.override(
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.w500,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .headlineMedium
+                                      .fontStyle,
+                                ),
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                fontSize: 16.0,
+                                letterSpacing: 0.0,
+                                fontWeight: FontWeight.w500,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .headlineMedium
+                                    .fontStyle,
+                              ),
+                    ),
+                    actions: [],
+                    centerTitle: false,
+                    elevation: 0.0,
+                  )
+                : null,
             body: SafeArea(
               top: true,
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(10.0),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
@@ -141,10 +162,10 @@ class _IndiviImageViewTeacherWidgetState
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Align(
-                            alignment: const AlignmentDirectional(-1.0, 0.0),
+                            alignment: AlignmentDirectional(-1.0, 0.0),
                             child: Text(
                               dateTimeFormat(
-                                  "dd MMM , y",
+                                  "dd MMM y",
                                   indiviImageViewTeacherTeachersRecord
                                       .teacherTimeline
                                       .elementAtOrNull(widget.index!)!
@@ -152,16 +173,24 @@ class _IndiviImageViewTeacherWidgetState
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context).text1,
                                     fontSize: 18.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w500,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                             ),
                           ),
                           Align(
-                            alignment: const AlignmentDirectional(-1.0, 0.0),
+                            alignment: AlignmentDirectional(-1.0, 0.0),
                             child: Text(
                               dateTimeFormat(
                                   "jm",
@@ -172,29 +201,45 @@ class _IndiviImageViewTeacherWidgetState
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context).text1,
                                     fontSize: 18.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                             ),
                           ),
                         ],
                       ),
                       Align(
-                        alignment: const AlignmentDirectional(-1.0, 0.0),
+                        alignment: AlignmentDirectional(-1.0, 0.0),
                         child: Text(
                           'Class : ${indiviImageViewTeacherTeachersRecord.teacherTimeline.elementAtOrNull(widget.index!)?.className}',
                           style: FlutterFlowTheme.of(context)
                               .bodyMedium
                               .override(
-                                fontFamily: 'Nunito',
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.normal,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
                                 color:
                                     FlutterFlowTheme.of(context).tertiaryText,
                                 fontSize: 16.0,
                                 letterSpacing: 0.0,
                                 fontWeight: FontWeight.normal,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
                               ),
                         ),
                       ),
@@ -243,9 +288,9 @@ class _IndiviImageViewTeacherWidgetState
                         ),
                       ),
                       Align(
-                        alignment: const AlignmentDirectional(1.0, 1.0),
+                        alignment: AlignmentDirectional(1.0, 1.0),
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 10.0, 0.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -302,11 +347,11 @@ class _IndiviImageViewTeacherWidgetState
                                   size: 26.0,
                                 ),
                               ),
-                            ].divide(const SizedBox(width: 15.0)),
+                            ].divide(SizedBox(width: 15.0)),
                           ),
                         ),
                       ),
-                    ].divide(const SizedBox(height: 10.0)),
+                    ].divide(SizedBox(height: 10.0)),
                   ),
                 ),
               ),

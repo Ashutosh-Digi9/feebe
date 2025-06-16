@@ -1,6 +1,8 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'edit_students_options_model.dart';
 export 'edit_students_options_model.dart';
 
@@ -57,9 +59,17 @@ class _EditStudentsOptionsWidgetState extends State<EditStudentsOptionsWidget> {
           Text(
             'Add students to the class',
             style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  fontFamily: 'Nunito',
+                  font: GoogleFonts.nunito(
+                    fontWeight:
+                        FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                    fontStyle:
+                        FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                  ),
                   fontSize: 16.0,
                   letterSpacing: 0.0,
+                  fontWeight:
+                      FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                 ),
           ),
           InkWell(
@@ -69,7 +79,7 @@ class _EditStudentsOptionsWidgetState extends State<EditStudentsOptionsWidget> {
             highlightColor: Colors.transparent,
             onTap: () async {
               context.goNamed(
-                'SelectStudentsAdmin',
+                SelectStudentsAdminWidget.routeName,
                 queryParameters: {
                   'schoolref': serializeParam(
                     widget.schoolref,
@@ -81,7 +91,7 @@ class _EditStudentsOptionsWidgetState extends State<EditStudentsOptionsWidget> {
                   ),
                 }.withoutNulls,
                 extra: <String, dynamic>{
-                  kTransitionInfoKey: const TransitionInfo(
+                  kTransitionInfoKey: TransitionInfo(
                     hasTransition: true,
                     transitionType: PageTransitionType.fade,
                   ),
@@ -92,7 +102,7 @@ class _EditStudentsOptionsWidgetState extends State<EditStudentsOptionsWidget> {
               width: MediaQuery.sizeOf(context).width * 0.9,
               decoration: BoxDecoration(
                 color: FlutterFlowTheme.of(context).secondaryBackground,
-                boxShadow: const [
+                boxShadow: [
                   BoxShadow(
                     blurRadius: 6.0,
                     color: Color(0x99F4F5FA),
@@ -109,7 +119,7 @@ class _EditStudentsOptionsWidgetState extends State<EditStudentsOptionsWidget> {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(10.0),
                 child: Row(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -122,10 +132,18 @@ class _EditStudentsOptionsWidgetState extends State<EditStudentsOptionsWidget> {
                     Text(
                       'Select students',
                       style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Nunito',
+                            font: GoogleFonts.nunito(
+                              fontWeight: FontWeight.w600,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
                             fontSize: 16.0,
                             letterSpacing: 0.0,
                             fontWeight: FontWeight.w600,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
                           ),
                     ),
                   ],
@@ -137,7 +155,7 @@ class _EditStudentsOptionsWidgetState extends State<EditStudentsOptionsWidget> {
             width: MediaQuery.sizeOf(context).width * 0.9,
             decoration: BoxDecoration(
               color: FlutterFlowTheme.of(context).secondaryBackground,
-              boxShadow: const [
+              boxShadow: [
                 BoxShadow(
                   blurRadius: 6.0,
                   color: Color(0x99F4F5FA),
@@ -154,7 +172,7 @@ class _EditStudentsOptionsWidgetState extends State<EditStudentsOptionsWidget> {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(10.0),
               child: Row(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -167,10 +185,17 @@ class _EditStudentsOptionsWidgetState extends State<EditStudentsOptionsWidget> {
                   Text(
                     'Add new student',
                     style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Nunito',
+                          font: GoogleFonts.nunito(
+                            fontWeight: FontWeight.w600,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
                           fontSize: 16.0,
                           letterSpacing: 0.0,
                           fontWeight: FontWeight.w600,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                         ),
                   ),
                 ],

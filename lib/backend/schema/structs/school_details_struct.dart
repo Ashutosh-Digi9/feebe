@@ -326,7 +326,7 @@ class SchoolDetailsStruct extends FFFirebaseStruct {
           ParamType.DocumentReference,
           true,
         ),
-        firestoreUtilData: const FirestoreUtilData(
+        firestoreUtilData: FirestoreUtilData(
           clearUnsetFields: false,
           create: true,
         ),

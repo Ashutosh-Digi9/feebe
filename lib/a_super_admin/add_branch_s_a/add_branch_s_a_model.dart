@@ -1,6 +1,7 @@
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'add_branch_s_a_widget.dart' show AddBranchSAWidget;
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,8 @@ class AddBranchSAModel extends FlutterFlowModel<AddBranchSAWidget> {
   void updateAddressdataStruct(Function(AddressStruct) updateFn) {
     updateFn(addressdata ??= AddressStruct());
   }
+
+  bool lastfield = false;
 
   ///  State fields for stateful widgets in this page.
 
@@ -96,6 +99,8 @@ class AddBranchSAModel extends FlutterFlowModel<AddBranchSAWidget> {
   LatLng? address;
   // Stores action output result for [Backend Call - Create Document] action in Add widget.
   SchoolRecord? branchadded;
+  // Stores action output result for [Firestore Query - Query a collection] action in Add widget.
+  List<UsersRecord>? schoolref;
 
   @override
   void initState(BuildContext context) {

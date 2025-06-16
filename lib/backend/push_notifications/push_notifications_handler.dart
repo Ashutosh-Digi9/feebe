@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'serialization_util.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
+import '/backend/backend.dart';
 import '../../flutter_flow/flutter_flow_util.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,8 @@ import 'package:flutter/scheduler.dart';
 final _handledMessageIds = <String?>{};
 
 class PushNotificationsHandler extends StatefulWidget {
-  const PushNotificationsHandler({super.key, required this.child});
+  const PushNotificationsHandler({Key? key, required this.child})
+      : super(key: key);
 
   final Widget child;
 
@@ -48,11 +49,19 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
       final parametersBuilder = parametersBuilderMap[initialPageName];
       if (parametersBuilder != null) {
         final parameterData = await parametersBuilder(initialParameterData);
-        context.pushNamed(
-          initialPageName,
-          pathParameters: parameterData.pathParameters,
-          extra: parameterData.extra,
-        );
+        if (mounted) {
+          context.pushNamed(
+            initialPageName,
+            pathParameters: parameterData.pathParameters,
+            extra: parameterData.extra,
+          );
+        } else {
+          appNavigatorKey.currentContext?.pushNamed(
+            initialPageName,
+            pathParameters: parameterData.pathParameters,
+            extra: parameterData.extra,
+          );
+        }
       }
     } catch (e) {
       print('Error: $e');
@@ -72,10 +81,10 @@ class _PushNotificationsHandlerState extends State<PushNotificationsHandler> {
   @override
   Widget build(BuildContext context) => _loading
       ? Container(
-          color: FlutterFlowTheme.of(context).secondary,
+          color: Colors.transparent,
           child: Image.asset(
-            'assets/images/eebe_(500_x_200_px).png',
-            fit: BoxFit.contain,
+            'assets/images/Screenshot_2025-02-21_at_11.58.19.png',
+            fit: BoxFit.fitHeight,
           ),
         )
       : widget.child;
@@ -97,7 +106,7 @@ class ParameterData {
       );
 
   static Future<ParameterData> Function(Map<String, dynamic>) none() =>
-      (data) async => const ParameterData();
+      (data) async => ParameterData();
 }
 
 final parametersBuilderMap =
@@ -107,6 +116,7 @@ final parametersBuilderMap =
   'Dashboard': (data) async => ParameterData(
         allParams: {
           'tabindex': getParameter<int>(data, 'tabindex'),
+          'fromlogin': getParameter<bool>(data, 'fromlogin'),
         },
       ),
   'NewSchoolDetails_SA': (data) async => ParameterData(
@@ -131,8 +141,10 @@ final parametersBuilderMap =
           'date': getParameter<DateTime>(data, 'date'),
         },
       ),
-  'parent_profile': (data) async => const ParameterData(
-        allParams: {},
+  'parent_profile': (data) async => ParameterData(
+        allParams: {
+          'address': getParameter<String>(data, 'address'),
+        },
       ),
   'Notifications_SA': ParameterData.none(),
   'Add_School_QR_SA': ParameterData.none(),
@@ -146,7 +158,6 @@ final parametersBuilderMap =
           'studentref': getParameter<DocumentReference>(data, 'studentref'),
         },
       ),
-  'SchoolRejected': ParameterData.none(),
   'add_Teacher_manually_Admin': (data) async => ParameterData(
         allParams: {
           'schoolRef': getParameter<DocumentReference>(data, 'schoolRef'),
@@ -173,6 +184,7 @@ final parametersBuilderMap =
           'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
           'tabindex': getParameter<int>(data, 'tabindex'),
           'classname': getParameter<String>(data, 'classname'),
+          'pageno': getParameter<int>(data, 'pageno'),
         },
       ),
   'Teacher_profile': (data) async => ParameterData(
@@ -245,12 +257,6 @@ final parametersBuilderMap =
           'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
         },
       ),
-  'IndiStudentAdmin': (data) async => ParameterData(
-        allParams: {
-          'studentsref': getParameter<DocumentReference>(data, 'studentsref'),
-          'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
-        },
-      ),
   'noticedetails_class': (data) async => ParameterData(
         allParams: {
           'eventid': getParameter<int>(data, 'eventid'),
@@ -291,29 +297,11 @@ final parametersBuilderMap =
           'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
         },
       ),
-  'add_noticeboard_class': (data) async => ParameterData(
-        allParams: {
-          'schoolclassref':
-              getParameter<DocumentReference>(data, 'schoolclassref'),
-        },
-      ),
-  'indi_edit_students': (data) async => ParameterData(
-        allParams: {
-          'studentref': getParameter<DocumentReference>(data, 'studentref'),
-          'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
-        },
-      ),
   'Add_Student_Admin_QR': (data) async => ParameterData(
         allParams: {
           'schoolRef': getParameter<DocumentReference>(data, 'schoolRef'),
           'editclass': getParameter<bool>(data, 'editclass'),
           'classRef': getParameter<DocumentReference>(data, 'classRef'),
-        },
-      ),
-  'studentsprofile': (data) async => ParameterData(
-        allParams: {
-          'studentref': getParameter<DocumentReference>(data, 'studentref'),
-          'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
         },
       ),
   'ChangeSubscriptionPlan_SA': (data) async => ParameterData(
@@ -359,17 +347,19 @@ final parametersBuilderMap =
               getParameter<DocumentReference>(data, 'schoolclassref'),
           'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
           'mainpage': getParameter<bool>(data, 'mainpage'),
+          'studentpage': getParameter<bool>(data, 'studentpage'),
         },
       ),
   'Student_gallery': (data) async => ParameterData(
         allParams: {
           'student': getParameter<DocumentReference>(data, 'student'),
+          'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
         },
       ),
   'indivi_image_view': (data) async => ParameterData(
         allParams: {
           'student': getParameter<DocumentReference>(data, 'student'),
-          'index': getParameter<int>(data, 'index'),
+          'imagepath': getParameter<String>(data, 'imagepath'),
         },
       ),
   'add_calender_details': (data) async => ParameterData(
@@ -379,6 +369,7 @@ final parametersBuilderMap =
               getParameter<DocumentReference>(data, 'schoolclassref'),
           'tabindex': getParameter<int>(data, 'tabindex'),
           'classname': getParameter<String>(data, 'classname'),
+          'classpage': getParameter<bool>(data, 'classpage'),
         },
       ),
   'subscription': (data) async => ParameterData(
@@ -435,13 +426,6 @@ final parametersBuilderMap =
           'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
         },
       ),
-  'class_notice': (data) async => ParameterData(
-        allParams: {
-          'schoolclassref':
-              getParameter<DocumentReference>(data, 'schoolclassref'),
-          'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
-        },
-      ),
   'Teacher_notice': (data) async => ParameterData(
         allParams: {
           'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
@@ -475,18 +459,19 @@ final parametersBuilderMap =
         },
       ),
   'ChildDetailsUpdated': ParameterData.none(),
-  'PareentProfileUpdated': ParameterData.none(),
   'ClassNotice_Admin_Teacher': (data) async => ParameterData(
         allParams: {
           'classref': getParameter<DocumentReference>(data, 'classref'),
           'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
-          'date': getParameter<DateTime>(data, 'date'),
+          'notice': getParameter<bool>(data, 'notice'),
+          'studentpage': getParameter<bool>(data, 'studentpage'),
         },
       ),
   'NotificationVIew': (data) async => ParameterData(
         allParams: {
-          'notificationref':
-              getParameter<DocumentReference>(data, 'notificationref'),
+          'notiref': getParameter<DocumentReference>(data, 'notiref'),
+          'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
+          'index': getParameter<int>(data, 'index'),
         },
       ),
   'New_student': (data) async => ParameterData(
@@ -506,6 +491,7 @@ final parametersBuilderMap =
         allParams: {
           'studentsref': getParameter<DocumentReference>(data, 'studentsref'),
           'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
+          'mainpage': getParameter<bool>(data, 'mainpage'),
         },
       ),
   'indivi_image_viewTeacher': (data) async => ParameterData(
@@ -515,21 +501,11 @@ final parametersBuilderMap =
           'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
         },
       ),
-  'add_student_manuallyCopy': (data) async => ParameterData(
-        allParams: {
-          'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
-          'classref': getParameter<DocumentReference>(data, 'classref'),
-        },
-      ),
   'selectedstudents_sadmin': (data) async => ParameterData(
         allParams: {
           'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
           'classref': getParameter<DocumentReference>(data, 'classref'),
-        },
-      ),
-  'draft_student_maually': (data) async => ParameterData(
-        allParams: {
-          'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
+          'className': getParameter<String>(data, 'className'),
         },
       ),
   'student_draft': (data) async => ParameterData(
@@ -541,11 +517,10 @@ final parametersBuilderMap =
   'indivi_video_view': (data) async => ParameterData(
         allParams: {
           'student': getParameter<DocumentReference>(data, 'student'),
-          'index': getParameter<int>(data, 'index'),
         },
       ),
-  'calender_details_parent': (data) async => const ParameterData(
-        allParams: {},
+  'calender_details_parent': (data) async => ParameterData(
+        allParams: <String, dynamic>{},
       ),
   'attendance_history_students_card': (data) async => ParameterData(
         allParams: {
@@ -554,14 +529,102 @@ final parametersBuilderMap =
           'date': getParameter<DateTime>(data, 'date'),
         },
       ),
-  'Notice_details': (data) async => const ParameterData(
-        allParams: {},
+  'Notice_details': (data) async => ParameterData(
+        allParams: {
+          'classRef': getParameter<String>(data, 'classRef'),
+        },
       ),
-  'event_details': (data) async => const ParameterData(
-        allParams: {},
+  'event_details': (data) async => ParameterData(
+        allParams: {
+          'classRef': getParameter<String>(data, 'classRef'),
+        },
       ),
   'guest_page': ParameterData.none(),
   'Deletepage': ParameterData.none(),
+  'teacher_image_view': (data) async => ParameterData(
+        allParams: {
+          'teacher': getParameter<DocumentReference>(data, 'teacher'),
+          'index': getParameter<int>(data, 'index'),
+          'school': getParameter<DocumentReference>(data, 'school'),
+        },
+      ),
+  'teacher_video_view': (data) async => ParameterData(
+        allParams: {
+          'teacher': getParameter<DocumentReference>(data, 'teacher'),
+          'index': getParameter<int>(data, 'index'),
+          'school': getParameter<DocumentReference>(data, 'school'),
+        },
+      ),
+  'totalStudentListss': (data) async => ParameterData(
+        allParams: {
+          'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
+          'classref': getParameter<DocumentReference>(data, 'classref'),
+          'className': getParameter<String>(data, 'className'),
+        },
+      ),
+  'EditAdmin': (data) async => ParameterData(
+        allParams: {
+          'schoolRef': getParameter<DocumentReference>(data, 'schoolRef'),
+          'mainschoolref':
+              getParameter<DocumentReference>(data, 'mainschoolref'),
+        },
+      ),
+  'edit_parent': (data) async => ParameterData(
+        allParams: {
+          'address': getParameter<String>(data, 'address'),
+        },
+      ),
+  'addNewadmin': (data) async => ParameterData(
+        allParams: {
+          'mainschoolref':
+              getParameter<DocumentReference>(data, 'mainschoolref'),
+        },
+      ),
+  'EditAdminCopy': (data) async => ParameterData(
+        allParams: {
+          'mainschoolref':
+              getParameter<DocumentReference>(data, 'mainschoolref'),
+          'adminref': getParameter<DocumentReference>(data, 'adminref'),
+        },
+      ),
+  'app_update': ParameterData.none(),
+  'Staff_notice_view': (data) async => ParameterData(
+        allParams: {
+          'teacherRef': getParameter<DocumentReference>(data, 'teacherRef'),
+        },
+      ),
+  'requestLocation': ParameterData.none(),
+  'edit_parentCopy': (data) async => ParameterData(
+        allParams: {
+          'address': getParameter<String>(data, 'address'),
+        },
+      ),
+  'otpScreen': (data) async => ParameterData(
+        allParams: {
+          'phoneNumber': getParameter<String>(data, 'phoneNumber'),
+        },
+      ),
+  'edit_class_student': (data) async => ParameterData(
+        allParams: {
+          'studentref': getParameter<DocumentReference>(data, 'studentref'),
+          'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
+        },
+      ),
+  'edit_class_studentCopy': (data) async => ParameterData(
+        allParams: {
+          'studentref': getParameter<DocumentReference>(data, 'studentref'),
+          'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
+        },
+      ),
+  'add_student_manuallyCopy2': (data) async => ParameterData(
+        allParams: {
+          'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
+          'classref': getParameter<DocumentReference>(data, 'classref'),
+        },
+      ),
+  'eventdetailsparent': (data) async => ParameterData(
+        allParams: <String, dynamic>{},
+      ),
 };
 
 Map<String, dynamic> getInitialParameterData(Map<String, dynamic> data) {

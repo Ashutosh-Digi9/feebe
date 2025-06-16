@@ -1,20 +1,27 @@
+import '/backend/backend.dart';
+import '/backend/schema/structs/index.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'student_gallery_widget.dart' show StudentGalleryWidget;
 import 'package:flutter/material.dart';
 
 class StudentGalleryModel extends FlutterFlowModel<StudentGalleryWidget> {
-  ///  State fields for stateful widgets in this page.
+  ///  Local state fields for this page.
 
-  // State field(s) for TabBar widget.
-  TabController? tabBarController;
-  int get tabBarCurrentIndex =>
-      tabBarController != null ? tabBarController!.index : 0;
+  List<GalleryStruct> gallery = [];
+  void addToGallery(GalleryStruct item) => gallery.add(item);
+  void removeFromGallery(GalleryStruct item) => gallery.remove(item);
+  void removeAtIndexFromGallery(int index) => gallery.removeAt(index);
+  void insertAtIndexInGallery(int index, GalleryStruct item) =>
+      gallery.insert(index, item);
+  void updateGalleryAtIndex(int index, Function(GalleryStruct) updateFn) =>
+      gallery[index] = updateFn(gallery[index]);
+
+  int? pageno = 0;
 
   @override
   void initState(BuildContext context) {}
 
   @override
-  void dispose() {
-    tabBarController?.dispose();
-  }
+  void dispose() {}
 }

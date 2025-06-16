@@ -2,6 +2,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'reject_school_s_a_model.dart';
 export 'reject_school_s_a_model.dart';
 
@@ -43,7 +44,7 @@ class _RejectSchoolSAWidgetState extends State<RejectSchoolSAWidget> {
   @override
   Widget build(BuildContext context) {
     return Align(
-      alignment: const AlignmentDirectional(0.0, -1.0),
+      alignment: AlignmentDirectional(0.0, -1.0),
       child: Container(
         width: MediaQuery.sizeOf(context).width * 1.0,
         height: MediaQuery.sizeOf(context).height * 0.1,
@@ -52,20 +53,20 @@ class _RejectSchoolSAWidgetState extends State<RejectSchoolSAWidget> {
           borderRadius: BorderRadius.circular(10.0),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(10.0),
+          padding: EdgeInsets.all(10.0),
           child: Row(
             mainAxisSize: MainAxisSize.max,
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Align(
-                alignment: const AlignmentDirectional(0.0, 0.0),
+                alignment: AlignmentDirectional(0.0, 0.0),
                 child: Stack(
-                  alignment: const AlignmentDirectional(0.0, 0.0),
+                  alignment: AlignmentDirectional(0.0, 0.0),
                   children: [
                     Container(
                       width: 70.0,
                       height: 70.0,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Color(0xFFF4CCCC),
                         shape: BoxShape.circle,
                       ),
@@ -73,7 +74,7 @@ class _RejectSchoolSAWidgetState extends State<RejectSchoolSAWidget> {
                     Container(
                       width: 45.0,
                       height: 45.0,
-                      decoration: const BoxDecoration(
+                      decoration: BoxDecoration(
                         color: Color(0xFFD93333),
                         shape: BoxShape.circle,
                       ),
@@ -87,15 +88,21 @@ class _RejectSchoolSAWidgetState extends State<RejectSchoolSAWidget> {
                 ),
               ),
               Align(
-                alignment: const AlignmentDirectional(0.0, 0.0),
+                alignment: AlignmentDirectional(0.0, 0.0),
                 child: Text(
                   'School rejected',
                   style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Nunito',
+                        font: GoogleFonts.nunito(
+                          fontWeight: FontWeight.bold,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                        ),
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                         fontSize: 25.0,
                         letterSpacing: 0.0,
                         fontWeight: FontWeight.bold,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                       ),
                 ),
               ),

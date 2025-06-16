@@ -13,12 +13,14 @@ class StudentAttendanceStruct extends FFFirebaseStruct {
     bool? ispresent,
     String? addedBy,
     DocumentReference? studentref,
+    bool? checkIn,
     FirestoreUtilData firestoreUtilData = const FirestoreUtilData(),
   })  : _id = id,
         _date = date,
         _ispresent = ispresent,
         _addedBy = addedBy,
         _studentref = studentref,
+        _checkIn = checkIn,
         super(firestoreUtilData);
 
   // "id" field.
@@ -58,6 +60,13 @@ class StudentAttendanceStruct extends FFFirebaseStruct {
 
   bool hasStudentref() => _studentref != null;
 
+  // "checkIn" field.
+  bool? _checkIn;
+  bool get checkIn => _checkIn ?? false;
+  set checkIn(bool? val) => _checkIn = val;
+
+  bool hasCheckIn() => _checkIn != null;
+
   static StudentAttendanceStruct fromMap(Map<String, dynamic> data) =>
       StudentAttendanceStruct(
         id: castToType<int>(data['id']),
@@ -65,6 +74,7 @@ class StudentAttendanceStruct extends FFFirebaseStruct {
         ispresent: data['ispresent'] as bool?,
         addedBy: data['added_by'] as String?,
         studentref: data['studentref'] as DocumentReference?,
+        checkIn: data['checkIn'] as bool?,
       );
 
   static StudentAttendanceStruct? maybeFromMap(dynamic data) => data is Map
@@ -77,6 +87,7 @@ class StudentAttendanceStruct extends FFFirebaseStruct {
         'ispresent': _ispresent,
         'added_by': _addedBy,
         'studentref': _studentref,
+        'checkIn': _checkIn,
       }.withoutNulls;
 
   @override
@@ -100,6 +111,10 @@ class StudentAttendanceStruct extends FFFirebaseStruct {
         'studentref': serializeParam(
           _studentref,
           ParamType.DocumentReference,
+        ),
+        'checkIn': serializeParam(
+          _checkIn,
+          ParamType.bool,
         ),
       }.withoutNulls;
 
@@ -132,6 +147,11 @@ class StudentAttendanceStruct extends FFFirebaseStruct {
           false,
           collectionNamePath: ['Students'],
         ),
+        checkIn: deserializeParam(
+          data['checkIn'],
+          ParamType.bool,
+          false,
+        ),
       );
 
   static StudentAttendanceStruct fromAlgoliaData(Map<String, dynamic> data) =>
@@ -161,7 +181,12 @@ class StudentAttendanceStruct extends FFFirebaseStruct {
           ParamType.DocumentReference,
           false,
         ),
-        firestoreUtilData: const FirestoreUtilData(
+        checkIn: convertAlgoliaParam(
+          data['checkIn'],
+          ParamType.bool,
+          false,
+        ),
+        firestoreUtilData: FirestoreUtilData(
           clearUnsetFields: false,
           create: true,
         ),
@@ -177,12 +202,13 @@ class StudentAttendanceStruct extends FFFirebaseStruct {
         date == other.date &&
         ispresent == other.ispresent &&
         addedBy == other.addedBy &&
-        studentref == other.studentref;
+        studentref == other.studentref &&
+        checkIn == other.checkIn;
   }
 
   @override
-  int get hashCode =>
-      const ListEquality().hash([id, date, ispresent, addedBy, studentref]);
+  int get hashCode => const ListEquality()
+      .hash([id, date, ispresent, addedBy, studentref, checkIn]);
 }
 
 StudentAttendanceStruct createStudentAttendanceStruct({
@@ -191,6 +217,7 @@ StudentAttendanceStruct createStudentAttendanceStruct({
   bool? ispresent,
   String? addedBy,
   DocumentReference? studentref,
+  bool? checkIn,
   Map<String, dynamic> fieldValues = const {},
   bool clearUnsetFields = true,
   bool create = false,
@@ -202,6 +229,7 @@ StudentAttendanceStruct createStudentAttendanceStruct({
       ispresent: ispresent,
       addedBy: addedBy,
       studentref: studentref,
+      checkIn: checkIn,
       firestoreUtilData: FirestoreUtilData(
         clearUnsetFields: clearUnsetFields,
         create: create,

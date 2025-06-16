@@ -2,7 +2,7 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
 import '/backend/push_notifications/push_notifications_util.dart';
-import '/confirmationpages/noticecreated/noticecreated_widget.dart';
+import '/confirmationpages/noticecreated_copy/noticecreated_copy_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
@@ -10,8 +10,11 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
 import '/shimmer_effects/addclasss_shimmer/addclasss_shimmer_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'class_notice_admin_teacher_model.dart';
 export 'class_notice_admin_teacher_model.dart';
@@ -21,12 +24,18 @@ class ClassNoticeAdminTeacherWidget extends StatefulWidget {
     super.key,
     required this.classref,
     required this.schoolref,
-    required this.date,
-  });
+    bool? notice,
+    bool? studentpage,
+  })  : this.notice = notice ?? false,
+        this.studentpage = studentpage ?? false;
 
   final DocumentReference? classref;
   final DocumentReference? schoolref;
-  final DateTime? date;
+  final bool notice;
+  final bool studentpage;
+
+  static String routeName = 'ClassNotice_Admin_Teacher';
+  static String routePath = '/classNoticeAdminTeacher';
 
   @override
   State<ClassNoticeAdminTeacherWidget> createState() =>
@@ -46,7 +55,11 @@ class _ClassNoticeAdminTeacherWidgetState
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      _model.date = widget.date;
+      _model.date = getCurrentTimestamp;
+      _model.noticename = 'General';
+      _model.addToClassref(widget.classref!);
+      safeSetState(() {});
+      FFAppState().eventfiles = [];
       safeSetState(() {});
     });
 
@@ -75,7 +88,7 @@ class _ClassNoticeAdminTeacherWidgetState
         if (!snapshot.hasData) {
           return Scaffold(
             backgroundColor: FlutterFlowTheme.of(context).tertiary,
-            body: const AddclasssShimmerWidget(),
+            body: AddclasssShimmerWidget(),
           );
         }
 
@@ -89,62 +102,246 @@ class _ClassNoticeAdminTeacherWidgetState
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).tertiary,
-            appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).info,
-              automaticallyImplyLeading: false,
-              leading: FlutterFlowIconButton(
-                borderColor: Colors.transparent,
-                borderRadius: 30.0,
-                borderWidth: 1.0,
-                buttonSize: 60.0,
-                icon: Icon(
-                  Icons.chevron_left,
-                  color: FlutterFlowTheme.of(context).bgColor1,
-                  size: 28.0,
-                ),
-                onPressed: () async {
-                  if (valueOrDefault(currentUserDocument?.userRole, 0) == 3) {
-                    context.goNamed(
-                      'Dashboard',
-                      extra: <String, dynamic>{
-                        kTransitionInfoKey: const TransitionInfo(
-                          hasTransition: true,
-                          transitionType: PageTransitionType.fade,
-                        ),
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? AppBar(
+                    backgroundColor: FlutterFlowTheme.of(context).info,
+                    automaticallyImplyLeading: false,
+                    leading: FlutterFlowIconButton(
+                      borderColor: Colors.transparent,
+                      borderRadius: 30.0,
+                      borderWidth: 1.0,
+                      buttonSize: 60.0,
+                      icon: Icon(
+                        Icons.chevron_left,
+                        color: FlutterFlowTheme.of(context).bgColor1,
+                        size: 28.0,
+                      ),
+                      onPressed: () async {
+                        if ((_model.eventnameTextController.text != '') ||
+                            (_model.descriptionTextController.text != '')) {
+                          var confirmDialogResponse = await showDialog<bool>(
+                                context: context,
+                                builder: (alertDialogContext) {
+                                  return AlertDialog(
+                                    title:
+                                        Text('Are you sure you want to leave.'),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(
+                                            alertDialogContext, false),
+                                        child: Text('Cancel'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(
+                                            alertDialogContext, true),
+                                        child: Text('Confirm'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ) ??
+                              false;
+                          if (confirmDialogResponse) {
+                            FFAppState().eventfiles = [];
+                            safeSetState(() {});
+                            if (valueOrDefault(
+                                    currentUserDocument?.userRole, 0) ==
+                                3) {
+                              if (widget.notice == true) {
+                                context.goNamed(
+                                  DashboardWidget.routeName,
+                                  extra: <String, dynamic>{
+                                    kTransitionInfoKey: TransitionInfo(
+                                      hasTransition: true,
+                                      transitionType: PageTransitionType.fade,
+                                    ),
+                                  },
+                                );
+                              } else {
+                                if (widget.studentpage == true) {
+                                  context.safePop();
+                                } else {
+                                  context.pushNamed(
+                                    ClassViewWidget.routeName,
+                                    queryParameters: {
+                                      'schoolclassref': serializeParam(
+                                        classNoticeAdminTeacherSchoolClassRecord
+                                            .reference,
+                                        ParamType.DocumentReference,
+                                      ),
+                                      'schoolref': serializeParam(
+                                        widget.schoolref,
+                                        ParamType.DocumentReference,
+                                      ),
+                                      'datePick': serializeParam(
+                                        getCurrentTimestamp,
+                                        ParamType.DateTime,
+                                      ),
+                                    }.withoutNulls,
+                                  );
+                                }
+                              }
+                            } else {
+                              if (widget.notice == true) {
+                                context.goNamed(
+                                  ClassDashboardWidget.routeName,
+                                  queryParameters: {
+                                    'schoolref': serializeParam(
+                                      widget.schoolref,
+                                      ParamType.DocumentReference,
+                                    ),
+                                  }.withoutNulls,
+                                  extra: <String, dynamic>{
+                                    kTransitionInfoKey: TransitionInfo(
+                                      hasTransition: true,
+                                      transitionType: PageTransitionType.fade,
+                                    ),
+                                  },
+                                );
+                              } else {
+                                if (widget.studentpage == true) {
+                                  context.safePop();
+                                } else {
+                                  context.pushNamed(
+                                    ClassViewWidget.routeName,
+                                    queryParameters: {
+                                      'schoolclassref': serializeParam(
+                                        classNoticeAdminTeacherSchoolClassRecord
+                                            .reference,
+                                        ParamType.DocumentReference,
+                                      ),
+                                      'schoolref': serializeParam(
+                                        widget.schoolref,
+                                        ParamType.DocumentReference,
+                                      ),
+                                      'datePick': serializeParam(
+                                        getCurrentTimestamp,
+                                        ParamType.DateTime,
+                                      ),
+                                    }.withoutNulls,
+                                  );
+                                }
+                              }
+                            }
+                          }
+                        } else {
+                          FFAppState().eventfiles = [];
+                          safeSetState(() {});
+                          if (valueOrDefault(
+                                  currentUserDocument?.userRole, 0) ==
+                              3) {
+                            if (widget.notice == true) {
+                              context.goNamed(
+                                DashboardWidget.routeName,
+                                extra: <String, dynamic>{
+                                  kTransitionInfoKey: TransitionInfo(
+                                    hasTransition: true,
+                                    transitionType: PageTransitionType.fade,
+                                  ),
+                                },
+                              );
+                            } else {
+                              if (widget.studentpage == true) {
+                                context.safePop();
+                              } else {
+                                context.pushNamed(
+                                  ClassViewWidget.routeName,
+                                  queryParameters: {
+                                    'schoolclassref': serializeParam(
+                                      classNoticeAdminTeacherSchoolClassRecord
+                                          .reference,
+                                      ParamType.DocumentReference,
+                                    ),
+                                    'schoolref': serializeParam(
+                                      widget.schoolref,
+                                      ParamType.DocumentReference,
+                                    ),
+                                    'datePick': serializeParam(
+                                      getCurrentTimestamp,
+                                      ParamType.DateTime,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              }
+                            }
+                          } else {
+                            if (widget.notice == true) {
+                              context.goNamed(
+                                ClassDashboardWidget.routeName,
+                                queryParameters: {
+                                  'schoolref': serializeParam(
+                                    widget.schoolref,
+                                    ParamType.DocumentReference,
+                                  ),
+                                }.withoutNulls,
+                                extra: <String, dynamic>{
+                                  kTransitionInfoKey: TransitionInfo(
+                                    hasTransition: true,
+                                    transitionType: PageTransitionType.fade,
+                                  ),
+                                },
+                              );
+                            } else {
+                              if (widget.studentpage == true) {
+                                context.safePop();
+                              } else {
+                                context.pushNamed(
+                                  ClassViewWidget.routeName,
+                                  queryParameters: {
+                                    'schoolclassref': serializeParam(
+                                      classNoticeAdminTeacherSchoolClassRecord
+                                          .reference,
+                                      ParamType.DocumentReference,
+                                    ),
+                                    'schoolref': serializeParam(
+                                      widget.schoolref,
+                                      ParamType.DocumentReference,
+                                    ),
+                                    'datePick': serializeParam(
+                                      getCurrentTimestamp,
+                                      ParamType.DateTime,
+                                    ),
+                                  }.withoutNulls,
+                                );
+                              }
+                            }
+                          }
+                        }
                       },
-                    );
-                  } else {
-                    context.goNamed(
-                      'class_dashboard',
-                      queryParameters: {
-                        'schoolref': serializeParam(
-                          widget.schoolref,
-                          ParamType.DocumentReference,
-                        ),
-                      }.withoutNulls,
-                      extra: <String, dynamic>{
-                        kTransitionInfoKey: const TransitionInfo(
-                          hasTransition: true,
-                          transitionType: PageTransitionType.fade,
-                        ),
-                      },
-                    );
-                  }
-                },
-              ),
-              title: Text(
-                'Class Notice',
-                style: FlutterFlowTheme.of(context).headlineMedium.override(
-                      fontFamily: 'Nunito',
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      fontSize: 16.0,
-                      letterSpacing: 0.0,
                     ),
-              ),
-              actions: const [],
-              centerTitle: false,
-              elevation: 0.0,
-            ),
+                    title: Text(
+                      '${classNoticeAdminTeacherSchoolClassRecord.className} Class Notice',
+                      style:
+                          FlutterFlowTheme.of(context).headlineMedium.override(
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .headlineMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .headlineMedium
+                                      .fontStyle,
+                                ),
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                fontSize: 16.0,
+                                letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .headlineMedium
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .headlineMedium
+                                    .fontStyle,
+                              ),
+                    ),
+                    actions: [],
+                    centerTitle: false,
+                    elevation: 0.0,
+                  )
+                : null,
             body: SafeArea(
               top: true,
               child: Column(
@@ -152,920 +349,1025 @@ class _ClassNoticeAdminTeacherWidgetState
                 children: [
                   Container(
                     height: MediaQuery.sizeOf(context).height * 0.8,
-                    decoration: const BoxDecoration(),
+                    decoration: BoxDecoration(),
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 5.0, 0.0, 0.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                InkWell(
-                                  splashColor: Colors.transparent,
-                                  focusColor: Colors.transparent,
-                                  hoverColor: Colors.transparent,
-                                  highlightColor: Colors.transparent,
-                                  onTap: () async {
-                                    final datePickedDate =
-                                        await showDatePicker(
-                                      context: context,
-                                      initialDate: getCurrentTimestamp,
-                                      firstDate: getCurrentTimestamp,
-                                      lastDate: DateTime(2050),
-                                      builder: (context, child) {
-                                        return wrapInMaterialDatePickerTheme(
-                                          context,
-                                          child!,
-                                          headerBackgroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                          headerForegroundColor:
-                                              FlutterFlowTheme.of(context).info,
-                                          headerTextStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .headlineLarge
-                                                  .override(
-                                                    fontFamily: 'Nunito',
-                                                    fontSize: 32.0,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w600,
-                                                  ),
-                                          pickerBackgroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .secondaryBackground,
-                                          pickerForegroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primaryText,
-                                          selectedDateTimeBackgroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primary,
-                                          selectedDateTimeForegroundColor:
-                                              FlutterFlowTheme.of(context).info,
-                                          actionButtonForegroundColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .primaryText,
-                                          iconSize: 24.0,
-                                        );
-                                      },
-                                    );
-
-                                    if (datePickedDate != null) {
-                                      safeSetState(() {
-                                        _model.datePicked = DateTime(
-                                          datePickedDate.year,
-                                          datePickedDate.month,
-                                          datePickedDate.day,
-                                        );
-                                      });
-                                    }
-                                    _model.date = _model.datePicked;
-                                    safeSetState(() {});
-                                  },
-                                  child: Icon(
-                                    Icons.date_range_outlined,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
-                                    size: 30.0,
-                                  ),
-                                ),
-                                Align(
-                                  alignment: const AlignmentDirectional(0.0, 0.0),
-                                  child: Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        10.0, 0.0, 10.0, 0.0),
-                                    child: Text(
-                                      dateTimeFormat("dd MMM , y", _model.date),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .override(
-                                            fontFamily: 'Nunito',
-                                            fontSize: 16.0,
-                                            letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
                           if (!functions.isDatePassed(_model.date!) &&
                               (valueOrDefault(
                                       currentUserDocument?.userRole, 0) !=
                                   1))
                             Padding(
-                              padding: const EdgeInsets.all(10.0),
+                              padding: EdgeInsets.all(10.0),
                               child: AuthUserStreamWidget(
-                                builder: (context) => Material(
-                                  color: Colors.transparent,
-                                  elevation: 2.0,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(12.0),
-                                  ),
-                                  child: Container(
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 1.0,
-                                    decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
-                                      borderRadius: BorderRadius.circular(12.0),
+                                builder: (context) => Container(
+                                  width: MediaQuery.sizeOf(context).width * 1.0,
+                                  decoration: BoxDecoration(
+                                    color: FlutterFlowTheme.of(context)
+                                        .secondaryBackground,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    border: Border.all(
+                                      color: Color(0xFFF2F2F2),
+                                      width: 1.0,
                                     ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(10.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: [
-                                          Align(
-                                            alignment:
-                                                const AlignmentDirectional(-1.0, 0.0),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(12.0),
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional(-1.0, 0.0),
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    5.0, 0.0, 0.0, 0.0),
                                             child: Text(
                                               'New Notice',
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Nunito',
-                                                        letterSpacing: 0.0,
-                                                      ),
-                                            ),
-                                          ),
-                                          Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    10.0, 0.0, 10.0, 0.0),
-                                            child: SingleChildScrollView(
-                                              scrollDirection: Axis.horizontal,
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.max,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceEvenly,
-                                                children: [
-                                                  InkWell(
-                                                    splashColor:
-                                                        Colors.transparent,
-                                                    focusColor:
-                                                        Colors.transparent,
-                                                    hoverColor:
-                                                        Colors.transparent,
-                                                    highlightColor:
-                                                        Colors.transparent,
-                                                    onTap: () async {
-                                                      _model.noticename =
-                                                          'General';
-                                                      safeSetState(() {});
-                                                    },
-                                                    child: Container(
-                                                      width: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width *
-                                                          0.26,
-                                                      decoration: BoxDecoration(
-                                                        color: valueOrDefault<
-                                                            Color>(
-                                                          _model.noticename ==
-                                                                  'General'
-                                                              ? const Color(
-                                                                  0xFFFFFCF0)
-                                                              : const Color(
-                                                                  0xFFF5F2F2),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    font: GoogleFonts.nunito(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontStyle:
                                                           FlutterFlowTheme.of(
                                                                   context)
-                                                              .text,
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
+                                                    fontSize: 16.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                            ),
+                                          ),
+                                        ),
+                                        Container(
+                                          width:
+                                              MediaQuery.sizeOf(context).width *
+                                                  0.9,
+                                          decoration: BoxDecoration(),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              InkWell(
+                                                splashColor: Colors.transparent,
+                                                focusColor: Colors.transparent,
+                                                hoverColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                onTap: () async {
+                                                  _model.noticename = 'General';
+                                                  safeSetState(() {});
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .event,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            3.59),
+                                                    border: Border.all(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .generalBorder,
+                                                      width:
+                                                          _model.noticename ==
+                                                                  'General'
+                                                              ? 3.0
+                                                              : 1.0,
+                                                    ),
+                                                  ),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(5.0),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Image.asset(
+                                                          'assets/images/9e73b2e5203026ba49a296de36e434f3.png',
+                                                          width: 15.5,
+                                                          height: 15.5,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                        Text(
+                                                          'General',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                fontSize: 14.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                        ),
+                                                      ]
+                                                          .divide(SizedBox(
+                                                              width: 3.0))
+                                                          .around(SizedBox(
+                                                              width: 3.0)),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                splashColor: Colors.transparent,
+                                                focusColor: Colors.transparent,
+                                                hoverColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                onTap: () async {
+                                                  _model.noticename =
+                                                      'Reminder';
+                                                  safeSetState(() {});
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .reminderfill,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            3.59),
+                                                    border: Border.all(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .reminderborder,
+                                                      width:
+                                                          _model.noticename ==
+                                                                  'Reminder'
+                                                              ? 3.0
+                                                              : 1.0,
+                                                    ),
+                                                  ),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(5.0),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Image.asset(
+                                                          'assets/images/3d-alarm.png',
+                                                          width: 15.5,
+                                                          height: 15.5,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                        Text(
+                                                          'Reminder',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                fontSize: 14.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                        ),
+                                                      ]
+                                                          .divide(SizedBox(
+                                                              width: 3.0))
+                                                          .around(SizedBox(
+                                                              width: 3.0)),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                splashColor: Colors.transparent,
+                                                focusColor: Colors.transparent,
+                                                hoverColor: Colors.transparent,
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                onTap: () async {
+                                                  _model.noticename =
+                                                      'Homework';
+                                                  safeSetState(() {});
+                                                },
+                                                child: Container(
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .homework,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            3.59),
+                                                    border: Border.all(
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .homeworkborder,
+                                                      width:
+                                                          _model.noticename ==
+                                                                  'Homework'
+                                                              ? 3.0
+                                                              : 1.0,
+                                                    ),
+                                                  ),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(5.0),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceEvenly,
+                                                      children: [
+                                                        Image.asset(
+                                                          'assets/images/d291c399c6895698b0bb48476409d42e.png',
+                                                          width: 15.5,
+                                                          height: 15.5,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                        Text(
+                                                          'Homework',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryText,
+                                                                fontSize: 14.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                        ),
+                                                      ]
+                                                          .divide(SizedBox(
+                                                              width: 3.0))
+                                                          .around(SizedBox(
+                                                              width: 3.0)),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ].divide(SizedBox(width: 10.0)),
+                                          ),
+                                        ),
+                                        Form(
+                                          key: _model.formKey,
+                                          autovalidateMode:
+                                              AutovalidateMode.disabled,
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 5.0, 0.0, 10.0),
+                                                child: Container(
+                                                  width:
+                                                      MediaQuery.sizeOf(context)
+                                                              .width *
+                                                          0.9,
+                                                  child: TextFormField(
+                                                    controller: _model
+                                                        .eventnameTextController,
+                                                    focusNode: _model
+                                                        .eventnameFocusNode,
+                                                    autofocus: false,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .sentences,
+                                                    obscureText: false,
+                                                    decoration: InputDecoration(
+                                                      isDense: true,
+                                                      labelText: 'Title *',
+                                                      labelStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color:
+                                                                    valueOrDefault<
+                                                                        Color>(
+                                                                  (_model.eventnameFocusNode
+                                                                              ?.hasFocus ??
+                                                                          false)
+                                                                      ? FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary
+                                                                      : FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .textfieldText,
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .textfieldText,
+                                                                ),
+                                                                fontSize: (_model
+                                                                            .eventnameFocusNode
+                                                                            ?.hasFocus ??
+                                                                        false)
+                                                                    ? 12.0
+                                                                    : 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                      hintText: 'Title',
+                                                      hintStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .textfieldText,
+                                                                fontSize: 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleSmall
+                                                                    .fontStyle,
+                                                              ),
+                                                      enabledBorder:
+                                                          OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .textfieldDisable,
+                                                          width: 1.0,
                                                         ),
                                                         borderRadius:
                                                             BorderRadius
                                                                 .circular(8.0),
-                                                        border: Border.all(
-                                                          color: valueOrDefault<
-                                                              Color>(
-                                                            _model.noticename ==
-                                                                    'General'
-                                                                ? const Color(
-                                                                    0xFFFF976A)
-                                                                : FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .text,
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .text,
-                                                          ),
+                                                      ),
+                                                      focusedBorder:
+                                                          OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primary,
                                                           width: 1.0,
-                                                        ),
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    10.0,
-                                                                    0.0,
-                                                                    10.0),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceEvenly,
-                                                          children: [
-                                                            Icon(
-                                                              Icons
-                                                                  .mode_comment,
-                                                              color:
-                                                                  valueOrDefault<
-                                                                      Color>(
-                                                                _model.noticename ==
-                                                                        'General'
-                                                                    ? FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .warning
-                                                                    : FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .warning,
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .text,
-                                                              ),
-                                                              size: 20.0,
-                                                            ),
-                                                            Text(
-                                                              'General',
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Nunito',
-                                                                    color: valueOrDefault<
-                                                                        Color>(
-                                                                      _model.noticename ==
-                                                                              'General'
-                                                                          ? FlutterFlowTheme.of(context)
-                                                                              .primaryText
-                                                                          : FlutterFlowTheme.of(context)
-                                                                              .text,
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .text,
-                                                                    ),
-                                                                    fontSize:
-                                                                        12.0,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
-                                                            ),
-                                                          ]
-                                                              .divide(const SizedBox(
-                                                                  width: 10.0))
-                                                              .around(const SizedBox(
-                                                                  width: 10.0)),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  InkWell(
-                                                    splashColor:
-                                                        Colors.transparent,
-                                                    focusColor:
-                                                        Colors.transparent,
-                                                    hoverColor:
-                                                        Colors.transparent,
-                                                    highlightColor:
-                                                        Colors.transparent,
-                                                    onTap: () async {
-                                                      _model.noticename =
-                                                          'Reminder';
-                                                      safeSetState(() {});
-                                                    },
-                                                    child: Container(
-                                                      width: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width *
-                                                          0.26,
-                                                      decoration: BoxDecoration(
-                                                        color: valueOrDefault<
-                                                            Color>(
-                                                          _model.noticename ==
-                                                                  'Reminder'
-                                                              ? const Color(
-                                                                  0xC3FBF0FF)
-                                                              : const Color(
-                                                                  0xFFF5F2F2),
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .text,
                                                         ),
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(10.0),
-                                                        border: Border.all(
-                                                          color: valueOrDefault<
-                                                              Color>(
-                                                            _model.noticename ==
-                                                                    'Reminder'
-                                                                ? const Color(
-                                                                    0xFFADA6EB)
-                                                                : FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .text,
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .text,
-                                                          ),
+                                                                .circular(8.0),
+                                                      ),
+                                                      errorBorder:
+                                                          OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .error,
                                                           width: 1.0,
-                                                        ),
-                                                      ),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    10.0,
-                                                                    0.0,
-                                                                    10.0),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceEvenly,
-                                                          children: [
-                                                            Icon(
-                                                              Icons.alarm,
-                                                              color:
-                                                                  valueOrDefault<
-                                                                      Color>(
-                                                                _model.noticename ==
-                                                                        'Reminder'
-                                                                    ? FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .error
-                                                                    : FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .warning,
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .text,
-                                                              ),
-                                                              size: 20.0,
-                                                            ),
-                                                            Text(
-                                                              'Reminder',
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Nunito',
-                                                                    color: valueOrDefault<
-                                                                        Color>(
-                                                                      _model.noticename ==
-                                                                              'Reminder'
-                                                                          ? FlutterFlowTheme.of(context)
-                                                                              .primaryText
-                                                                          : FlutterFlowTheme.of(context)
-                                                                              .text,
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .text,
-                                                                    ),
-                                                                    fontSize:
-                                                                        12.0,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
-                                                            ),
-                                                          ]
-                                                              .divide(const SizedBox(
-                                                                  width: 10.0))
-                                                              .around(const SizedBox(
-                                                                  width: 10.0)),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  InkWell(
-                                                    splashColor:
-                                                        Colors.transparent,
-                                                    focusColor:
-                                                        Colors.transparent,
-                                                    hoverColor:
-                                                        Colors.transparent,
-                                                    highlightColor:
-                                                        Colors.transparent,
-                                                    onTap: () async {
-                                                      _model.noticename =
-                                                          'Notice';
-                                                      safeSetState(() {});
-                                                    },
-                                                    child: Container(
-                                                      width: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width *
-                                                          0.26,
-                                                      decoration: BoxDecoration(
-                                                        color: valueOrDefault<
-                                                            Color>(
-                                                          _model.noticename ==
-                                                                  'Notice'
-                                                              ? const Color(
-                                                                  0xFFFFFCF0)
-                                                              : const Color(
-                                                                  0xFFF5F2F2),
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .text,
                                                         ),
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(10.0),
-                                                        border: Border.all(
-                                                          color: valueOrDefault<
-                                                              Color>(
-                                                            _model.noticename ==
-                                                                    'Notice'
-                                                                ? const Color(
-                                                                    0xFFB0FF6A)
-                                                                : FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .text,
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .text,
-                                                          ),
+                                                                .circular(8.0),
+                                                      ),
+                                                      focusedErrorBorder:
+                                                          OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .error,
                                                           width: 1.0,
                                                         ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
                                                       ),
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    10.0,
-                                                                    0.0,
-                                                                    10.0),
-                                                        child: Row(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceEvenly,
-                                                          children: [
-                                                            Icon(
-                                                              Icons.push_pin,
-                                                              color:
-                                                                  valueOrDefault<
-                                                                      Color>(
-                                                                _model.noticename ==
-                                                                        'Notice'
-                                                                    ? const Color(
-                                                                        0xFF99D63C)
-                                                                    : FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .warning,
+                                                      filled: true,
+                                                      fillColor: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                    ),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .nunito(
+                                                            fontWeight:
                                                                 FlutterFlowTheme.of(
                                                                         context)
-                                                                    .text,
-                                                              ),
-                                                              size: 20.0,
-                                                            ),
-                                                            Text(
-                                                              'Notice',
-                                                              style: FlutterFlowTheme
-                                                                      .of(context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .text2,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
                                                                   .bodyMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Nunito',
-                                                                    color: valueOrDefault<
-                                                                        Color>(
-                                                                      _model.noticename ==
-                                                                              'Notice'
-                                                                          ? FlutterFlowTheme.of(context)
-                                                                              .primaryText
-                                                                          : FlutterFlowTheme.of(context)
-                                                                              .text,
-                                                                      FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .text,
-                                                                    ),
-                                                                    fontSize:
-                                                                        12.0,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
-                                                            ),
-                                                          ]
-                                                              .divide(const SizedBox(
-                                                                  width: 10.0))
-                                                              .around(const SizedBox(
-                                                                  width: 10.0)),
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
                                                         ),
-                                                      ),
-                                                    ),
+                                                    maxLength: 25,
+                                                    buildCounter: (context,
+                                                            {required currentLength,
+                                                            required isFocused,
+                                                            maxLength}) =>
+                                                        null,
+                                                    cursorColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .primaryText,
+                                                    validator: _model
+                                                        .eventnameTextControllerValidator
+                                                        .asValidator(context),
+                                                    inputFormatters: [
+                                                      if (!isAndroid && !isiOS)
+                                                        TextInputFormatter
+                                                            .withFunction(
+                                                                (oldValue,
+                                                                    newValue) {
+                                                          return TextEditingValue(
+                                                            selection: newValue
+                                                                .selection,
+                                                            text: newValue.text
+                                                                .toCapitalization(
+                                                                    TextCapitalization
+                                                                        .sentences),
+                                                          );
+                                                        }),
+                                                    ],
                                                   ),
-                                                ].divide(const SizedBox(width: 10.0)),
+                                                ),
                                               ),
-                                            ),
-                                          ),
-                                          Form(
-                                            key: _model.formKey,
-                                            autovalidateMode:
-                                                AutovalidateMode.disabled,
-                                            child: Column(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Padding(
-                                                  padding: const EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          10.0, 5.0, 10.0, 0.0),
-                                                  child: SizedBox(
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.9,
-                                                    child: TextFormField(
-                                                      controller: _model
-                                                          .eventnameTextController,
-                                                      focusNode: _model
-                                                          .eventnameFocusNode,
-                                                      autofocus: false,
-                                                      textCapitalization:
-                                                          TextCapitalization
-                                                              .sentences,
-                                                      obscureText: false,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        isDense: true,
-                                                        labelText: 'Title',
-                                                        labelStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .labelMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
-                                                                  color:
-                                                                      valueOrDefault<
-                                                                          Color>(
-                                                                    (_model.eventnameFocusNode?.hasFocus ??
-                                                                            false)
-                                                                        ? FlutterFlowTheme.of(context)
-                                                                            .primary
-                                                                        : FlutterFlowTheme.of(context)
-                                                                            .textfieldText,
-                                                                    FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .textfieldText,
-                                                                  ),
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
-                                                        hintText: 'Title',
-                                                        hintStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleSmall
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
-                                                                  color: FlutterFlowTheme.of(
+                                              Padding(
+                                                padding: EdgeInsetsDirectional
+                                                    .fromSTEB(
+                                                        0.0, 10.0, 0.0, 10.0),
+                                                child: Container(
+                                                  width:
+                                                      MediaQuery.sizeOf(context)
+                                                              .width *
+                                                          0.9,
+                                                  child: TextFormField(
+                                                    controller: _model
+                                                        .descriptionTextController,
+                                                    focusNode: _model
+                                                        .descriptionFocusNode,
+                                                    onFieldSubmitted:
+                                                        (_) async {
+                                                      _model.last = true;
+                                                      safeSetState(() {});
+                                                    },
+                                                    autofocus: false,
+                                                    textCapitalization:
+                                                        TextCapitalization
+                                                            .sentences,
+                                                    obscureText: false,
+                                                    decoration: InputDecoration(
+                                                      isDense: true,
+                                                      labelText:
+                                                          'Description *',
+                                                      labelStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .labelMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .tertiaryText,
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  letterSpacing:
-                                                                      0.0,
+                                                                      .labelMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color:
+                                                                    valueOrDefault<
+                                                                        Color>(
+                                                                  (_model.descriptionFocusNode
+                                                                              ?.hasFocus ??
+                                                                          false)
+                                                                      ? FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary
+                                                                      : FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .textfieldText,
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .textfieldText,
+                                                                ),
+                                                                fontSize: (_model
+                                                                            .descriptionFocusNode
+                                                                            ?.hasFocus ??
+                                                                        false)
+                                                                    ? 12.0
+                                                                    : 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                      hintText: 'Description',
+                                                      hintStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
-                                                                ),
-                                                        enabledBorder:
-                                                            OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .dIsable,
-                                                            width: 1.0,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                        ),
-                                                        focusedBorder:
-                                                            OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primary,
-                                                            width: 1.0,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                        ),
-                                                        errorBorder:
-                                                            OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .error,
-                                                            width: 1.0,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                        ),
-                                                        focusedErrorBorder:
-                                                            OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .error,
-                                                            width: 1.0,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                        ),
-                                                        filled: true,
-                                                        fillColor: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
-                                                      ),
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Nunito',
-                                                            letterSpacing: 0.0,
-                                                          ),
-                                                      maxLength: 25,
-                                                      buildCounter: (context,
-                                                              {required currentLength,
-                                                              required isFocused,
-                                                              maxLength}) =>
-                                                          null,
-                                                      cursorColor:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryText,
-                                                      validator: _model
-                                                          .eventnameTextControllerValidator
-                                                          .asValidator(context),
-                                                    ),
-                                                  ),
-                                                ),
-                                                Padding(
-                                                  padding: const EdgeInsetsDirectional
-                                                      .fromSTEB(10.0, 10.0,
-                                                          10.0, 0.0),
-                                                  child: SizedBox(
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.9,
-                                                    child: TextFormField(
-                                                      controller: _model
-                                                          .descriptionTextController,
-                                                      focusNode: _model
-                                                          .descriptionFocusNode,
-                                                      autofocus: false,
-                                                      textCapitalization:
-                                                          TextCapitalization
-                                                              .sentences,
-                                                      obscureText: false,
-                                                      decoration:
-                                                          InputDecoration(
-                                                        isDense: true,
-                                                        labelText:
-                                                            'Description',
-                                                        labelStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .labelMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
-                                                                  color:
-                                                                      valueOrDefault<
-                                                                          Color>(
-                                                                    (_model.descriptionFocusNode?.hasFocus ??
-                                                                            false)
-                                                                        ? FlutterFlowTheme.of(context)
-                                                                            .primary
-                                                                        : FlutterFlowTheme.of(context)
-                                                                            .textfieldText,
-                                                                    FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .textfieldText,
-                                                                  ),
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
-                                                        hintText: 'Description',
-                                                        hintStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleSmall
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
-                                                                  color: FlutterFlowTheme.of(
+                                                                  fontStyle: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .tertiaryText,
-                                                                  fontSize:
-                                                                      12.0,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .normal,
+                                                                      .titleSmall
+                                                                      .fontStyle,
                                                                 ),
-                                                        enabledBorder:
-                                                            OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .dIsable,
-                                                            width: 1.0,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .textfieldText,
+                                                                fontSize: 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleSmall
+                                                                    .fontStyle,
+                                                              ),
+                                                      enabledBorder:
+                                                          OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .textfieldDisable,
+                                                          width: 1.0,
                                                         ),
-                                                        focusedBorder:
-                                                            OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primary,
-                                                            width: 1.0,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                        ),
-                                                        errorBorder:
-                                                            OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .error,
-                                                            width: 1.0,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                        ),
-                                                        focusedErrorBorder:
-                                                            OutlineInputBorder(
-                                                          borderSide:
-                                                              BorderSide(
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .error,
-                                                            width: 1.0,
-                                                          ),
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      8.0),
-                                                        ),
-                                                        filled: true,
-                                                        fillColor: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
                                                       ),
-                                                      style: FlutterFlowTheme
+                                                      focusedBorder:
+                                                          OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primary,
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
+                                                      errorBorder:
+                                                          OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .error,
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
+                                                      focusedErrorBorder:
+                                                          OutlineInputBorder(
+                                                        borderSide: BorderSide(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .error,
+                                                          width: 1.0,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(8.0),
+                                                      ),
+                                                      filled: true,
+                                                      fillColor: FlutterFlowTheme
                                                               .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Nunito',
-                                                            letterSpacing: 0.0,
-                                                          ),
-                                                      maxLines: 4,
-                                                      cursorColor:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryText,
-                                                      validator: _model
-                                                          .descriptionTextControllerValidator
-                                                          .asValidator(context),
+                                                          .secondaryBackground,
                                                     ),
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .nunito(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .text2,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                    maxLines: 4,
+                                                    cursorColor:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .primaryText,
+                                                    validator: _model
+                                                        .descriptionTextControllerValidator
+                                                        .asValidator(context),
+                                                    inputFormatters: [
+                                                      if (!isAndroid && !isiOS)
+                                                        TextInputFormatter
+                                                            .withFunction(
+                                                                (oldValue,
+                                                                    newValue) {
+                                                          return TextEditingValue(
+                                                            selection: newValue
+                                                                .selection,
+                                                            text: newValue.text
+                                                                .toCapitalization(
+                                                                    TextCapitalization
+                                                                        .sentences),
+                                                          );
+                                                        }),
+                                                    ],
                                                   ),
                                                 ),
-                                              ],
-                                            ),
+                                              ),
+                                            ],
                                           ),
-                                          Container(
-                                            decoration: const BoxDecoration(),
-                                            child: Builder(
-                                              builder: (context) {
-                                                final imagesview = FFAppState()
-                                                    .eventnoticeimage
-                                                    .toList();
+                                        ),
+                                        Container(
+                                          decoration: BoxDecoration(),
+                                          child: Builder(
+                                            builder: (context) {
+                                              final imagesview = FFAppState()
+                                                  .eventfiles
+                                                  .toList();
 
-                                                return GridView.builder(
-                                                  padding: EdgeInsets.zero,
-                                                  gridDelegate:
-                                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 5,
-                                                    crossAxisSpacing: 10.0,
-                                                    mainAxisSpacing: 10.0,
-                                                    childAspectRatio: 1.0,
-                                                  ),
-                                                  shrinkWrap: true,
-                                                  scrollDirection:
-                                                      Axis.vertical,
-                                                  itemCount: imagesview.length,
-                                                  itemBuilder: (context,
-                                                      imagesviewIndex) {
-                                                    final imagesviewItem =
-                                                        imagesview[
-                                                            imagesviewIndex];
-                                                    return ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8.0),
-                                                      child: Image.network(
-                                                        imagesviewItem,
-                                                        fit: BoxFit.contain,
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                            ),
+                                              return Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: List.generate(
+                                                    imagesview.length,
+                                                    (imagesviewIndex) {
+                                                  final imagesviewItem =
+                                                      imagesview[
+                                                          imagesviewIndex];
+                                                  return Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      if (functions
+                                                              .getFileTypeFromUrl(
+                                                                  imagesviewItem) ==
+                                                          1)
+                                                        InkWell(
+                                                          splashColor: Colors
+                                                              .transparent,
+                                                          focusColor: Colors
+                                                              .transparent,
+                                                          hoverColor: Colors
+                                                              .transparent,
+                                                          highlightColor: Colors
+                                                              .transparent,
+                                                          onTap: () async {
+                                                            await launchURL(
+                                                                imagesviewItem);
+                                                          },
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                            child: Image.asset(
+                                                              'assets/images/download.png',
+                                                              width: 46.0,
+                                                              height: 41.0,
+                                                              fit: BoxFit
+                                                                  .contain,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      if (functions
+                                                              .getFileTypeFromUrl(
+                                                                  imagesviewItem) ==
+                                                          2)
+                                                        InkWell(
+                                                          splashColor: Colors
+                                                              .transparent,
+                                                          focusColor: Colors
+                                                              .transparent,
+                                                          hoverColor: Colors
+                                                              .transparent,
+                                                          highlightColor: Colors
+                                                              .transparent,
+                                                          onTap: () async {
+                                                            await launchURL(
+                                                                imagesviewItem);
+                                                          },
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                            child: Image.asset(
+                                                              'assets/images/download_(1).png',
+                                                              width: 46.0,
+                                                              height: 41.0,
+                                                              fit: BoxFit
+                                                                  .contain,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      if (functions
+                                                              .getFileTypeFromUrl(
+                                                                  imagesviewItem) ==
+                                                          3)
+                                                        InkWell(
+                                                          splashColor: Colors
+                                                              .transparent,
+                                                          focusColor: Colors
+                                                              .transparent,
+                                                          hoverColor: Colors
+                                                              .transparent,
+                                                          highlightColor: Colors
+                                                              .transparent,
+                                                          onTap: () async {
+                                                            await launchURL(
+                                                                imagesviewItem);
+                                                          },
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                            child: Image.asset(
+                                                              'assets/images/download_(2).png',
+                                                              width: 46.0,
+                                                              height: 41.0,
+                                                              fit: BoxFit
+                                                                  .contain,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      if (functions
+                                                              .getFileTypeFromUrl(
+                                                                  imagesviewItem) ==
+                                                          4)
+                                                        InkWell(
+                                                          splashColor: Colors
+                                                              .transparent,
+                                                          focusColor: Colors
+                                                              .transparent,
+                                                          hoverColor: Colors
+                                                              .transparent,
+                                                          highlightColor: Colors
+                                                              .transparent,
+                                                          onTap: () async {
+                                                            await launchURL(
+                                                                imagesviewItem);
+                                                          },
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                            child: Image.asset(
+                                                              'assets/images/clarity_image-gallery-line.png',
+                                                              width: 46.0,
+                                                              height: 41.0,
+                                                              fit: BoxFit
+                                                                  .contain,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      if (functions
+                                                              .getFileTypeFromUrl(
+                                                                  imagesviewItem) ==
+                                                          5)
+                                                        InkWell(
+                                                          splashColor: Colors
+                                                              .transparent,
+                                                          focusColor: Colors
+                                                              .transparent,
+                                                          hoverColor: Colors
+                                                              .transparent,
+                                                          highlightColor: Colors
+                                                              .transparent,
+                                                          onTap: () async {
+                                                            await launchURL(
+                                                                imagesviewItem);
+                                                          },
+                                                          child: ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8.0),
+                                                            child: Image.asset(
+                                                              'assets/images/download-removebg-preview.png',
+                                                              width: 46.0,
+                                                              height: 41.0,
+                                                              fit: BoxFit
+                                                                  .contain,
+                                                            ),
+                                                          ),
+                                                        ),
+                                                    ]
+                                                        .divide(SizedBox(
+                                                            width: 5.0))
+                                                        .around(SizedBox(
+                                                            width: 5.0)),
+                                                  );
+                                                }),
+                                              );
+                                            },
                                           ),
-                                          Row(
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 10.0, 0.0, 0.0),
+                                          child: Row(
                                             mainAxisSize: MainAxisSize.max,
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               FlutterFlowIconButton(
                                                 borderColor:
                                                     FlutterFlowTheme.of(context)
-                                                        .alternate,
-                                                borderRadius: 8.0,
-                                                borderWidth: 0.2,
-                                                buttonSize: 40.0,
+                                                        .stroke,
+                                                borderRadius: 10.0,
+                                                borderWidth: 1.0,
+                                                buttonSize: 50.0,
                                                 icon: Icon(
                                                   Icons.attach_file,
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .tertiaryText,
-                                                  size: 24.0,
+                                                  size: 18.0,
                                                 ),
+                                                showLoadingIndicator: true,
                                                 onPressed: () async {
                                                   safeSetState(() {
-                                                    _model.isDataUploading1 =
+                                                    _model.isDataUploading_uploadDataTse =
                                                         false;
-                                                    _model.uploadedLocalFiles1 =
+                                                    _model.uploadedLocalFiles_uploadDataTse =
                                                         [];
-                                                    _model.uploadedFileUrls1 =
+                                                    _model.uploadedFileUrls_uploadDataTse =
                                                         [];
                                                   });
 
-                                                  final selectedMedia =
-                                                      await selectMedia(
-                                                    imageQuality: 10,
-                                                    mediaSource: MediaSource
-                                                        .photoGallery,
-                                                    multiImage: true,
+                                                  final selectedFiles =
+                                                      await selectFiles(
+                                                    multiFile: true,
                                                   );
-                                                  if (selectedMedia != null &&
-                                                      selectedMedia.every((m) =>
-                                                          validateFileFormat(
-                                                              m.storagePath,
-                                                              context))) {
+                                                  if (selectedFiles != null) {
                                                     safeSetState(() => _model
-                                                            .isDataUploading1 =
+                                                            .isDataUploading_uploadDataTse =
                                                         true);
                                                     var selectedUploadedFiles =
                                                         <FFUploadedFile>[];
@@ -1073,13 +1375,8 @@ class _ClassNoticeAdminTeacherWidgetState
                                                     var downloadUrls =
                                                         <String>[];
                                                     try {
-                                                      showUploadMessage(
-                                                        context,
-                                                        'Uploading file...',
-                                                        showLoading: true,
-                                                      );
                                                       selectedUploadedFiles =
-                                                          selectedMedia
+                                                          selectedFiles
                                                               .map((m) =>
                                                                   FFUploadedFile(
                                                                     name: m
@@ -1089,24 +1386,16 @@ class _ClassNoticeAdminTeacherWidgetState
                                                                         .last,
                                                                     bytes:
                                                                         m.bytes,
-                                                                    height: m
-                                                                        .dimensions
-                                                                        ?.height,
-                                                                    width: m
-                                                                        .dimensions
-                                                                        ?.width,
-                                                                    blurHash: m
-                                                                        .blurHash,
                                                                   ))
                                                               .toList();
 
                                                       downloadUrls =
                                                           (await Future.wait(
-                                                        selectedMedia.map(
-                                                          (m) async =>
+                                                        selectedFiles.map(
+                                                          (f) async =>
                                                               await uploadData(
-                                                                  m.storagePath,
-                                                                  m.bytes),
+                                                                  f.storagePath,
+                                                                  f.bytes),
                                                         ),
                                                       ))
                                                               .where((u) =>
@@ -1114,73 +1403,98 @@ class _ClassNoticeAdminTeacherWidgetState
                                                               .map((u) => u!)
                                                               .toList();
                                                     } finally {
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .hideCurrentSnackBar();
-                                                      _model.isDataUploading1 =
+                                                      _model.isDataUploading_uploadDataTse =
                                                           false;
                                                     }
                                                     if (selectedUploadedFiles
                                                                 .length ==
-                                                            selectedMedia
+                                                            selectedFiles
                                                                 .length &&
                                                         downloadUrls.length ==
-                                                            selectedMedia
+                                                            selectedFiles
                                                                 .length) {
                                                       safeSetState(() {
-                                                        _model.uploadedLocalFiles1 =
+                                                        _model.uploadedLocalFiles_uploadDataTse =
                                                             selectedUploadedFiles;
-                                                        _model.uploadedFileUrls1 =
+                                                        _model.uploadedFileUrls_uploadDataTse =
                                                             downloadUrls;
                                                       });
-                                                      showUploadMessage(
-                                                          context, 'Success!');
                                                     } else {
                                                       safeSetState(() {});
-                                                      showUploadMessage(context,
-                                                          'Failed to upload data');
                                                       return;
                                                     }
                                                   }
 
-                                                  FFAppState()
-                                                          .eventnoticeimage =
-                                                      functions
-                                                          .combineImagePaths(
-                                                              _model
-                                                                  .uploadedFileUrls1
-                                                                  .toList(),
+                                                  if (_model
+                                                          .uploadedFileUrls_uploadDataTse
+                                                          .length !=
+                                                      0) {
+                                                    if (functions
+                                                        .isValidFileFormatCopy(
+                                                            _model
+                                                                .uploadedFileUrls_uploadDataTse
+                                                                .toList())) {
+                                                      FFAppState().eventfiles = functions
+                                                          .combineImagePathsCopy(
                                                               FFAppState()
-                                                                  .eventnoticeimage
+                                                                  .eventfiles
+                                                                  .toList(),
+                                                              _model
+                                                                  .uploadedFileUrls_uploadDataTse
                                                                   .toList())
                                                           .toList()
                                                           .cast<String>();
-                                                  safeSetState(() {});
+                                                      safeSetState(() {});
+                                                    } else {
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                            'only pdf , docx , jpeg , png , jpg , mp3, ppt , pptx files are allowed ',
+                                                            style: TextStyle(
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .secondary,
+                                                            ),
+                                                          ),
+                                                          duration: Duration(
+                                                              milliseconds:
+                                                                  1400),
+                                                          backgroundColor:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .primaryText,
+                                                        ),
+                                                      );
+                                                    }
+                                                  }
                                                 },
                                               ),
                                               FlutterFlowIconButton(
                                                 borderColor:
                                                     FlutterFlowTheme.of(context)
-                                                        .alternate,
-                                                borderRadius: 8.0,
-                                                borderWidth: 0.2,
-                                                buttonSize: 40.0,
+                                                        .stroke,
+                                                borderRadius: 10.0,
+                                                borderWidth: 1.0,
+                                                buttonSize: 50.0,
                                                 icon: Icon(
                                                   Icons.photo_camera_outlined,
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .tertiaryText,
-                                                  size: 24.0,
+                                                  size: 18.0,
                                                 ),
+                                                showLoadingIndicator: true,
                                                 onPressed: () async {
                                                   safeSetState(() {
-                                                    _model.isDataUploading2 =
+                                                    _model.isDataUploading_uploadData8yc =
                                                         false;
-                                                    _model.uploadedLocalFile2 =
+                                                    _model.uploadedLocalFile_uploadData8yc =
                                                         FFUploadedFile(
                                                             bytes: Uint8List
                                                                 .fromList([]));
-                                                    _model.uploadedFileUrl2 =
+                                                    _model.uploadedFileUrl_uploadData8yc =
                                                         '';
                                                   });
 
@@ -1195,7 +1509,7 @@ class _ClassNoticeAdminTeacherWidgetState
                                                               m.storagePath,
                                                               context))) {
                                                     safeSetState(() => _model
-                                                            .isDataUploading2 =
+                                                            .isDataUploading_uploadData8yc =
                                                         true);
                                                     var selectedUploadedFiles =
                                                         <FFUploadedFile>[];
@@ -1203,11 +1517,6 @@ class _ClassNoticeAdminTeacherWidgetState
                                                     var downloadUrls =
                                                         <String>[];
                                                     try {
-                                                      showUploadMessage(
-                                                        context,
-                                                        'Uploading file...',
-                                                        showLoading: true,
-                                                      );
                                                       selectedUploadedFiles =
                                                           selectedMedia
                                                               .map((m) =>
@@ -1244,10 +1553,7 @@ class _ClassNoticeAdminTeacherWidgetState
                                                               .map((u) => u!)
                                                               .toList();
                                                     } finally {
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .hideCurrentSnackBar();
-                                                      _model.isDataUploading2 =
+                                                      _model.isDataUploading_uploadData8yc =
                                                           false;
                                                     }
                                                     if (selectedUploadedFiles
@@ -1258,33 +1564,34 @@ class _ClassNoticeAdminTeacherWidgetState
                                                             selectedMedia
                                                                 .length) {
                                                       safeSetState(() {
-                                                        _model.uploadedLocalFile2 =
+                                                        _model.uploadedLocalFile_uploadData8yc =
                                                             selectedUploadedFiles
                                                                 .first;
-                                                        _model.uploadedFileUrl2 =
+                                                        _model.uploadedFileUrl_uploadData8yc =
                                                             downloadUrls.first;
                                                       });
-                                                      showUploadMessage(
-                                                          context, 'Success!');
                                                     } else {
                                                       safeSetState(() {});
-                                                      showUploadMessage(context,
-                                                          'Failed to upload data');
                                                       return;
                                                     }
                                                   }
 
-                                                  FFAppState()
-                                                      .addToEventnoticeimage(
-                                                          _model
-                                                              .uploadedFileUrl2);
-                                                  safeSetState(() {});
+                                                  if (_model.uploadedFileUrl_uploadData8yc !=
+                                                          '') {
+                                                    FFAppState()
+                                                        .addToEventfiles(_model
+                                                            .uploadedFileUrl_uploadData8yc);
+                                                    safeSetState(() {});
+                                                  }
                                                 },
                                               ),
                                               Builder(
                                                 builder: (context) =>
                                                     FFButtonWidget(
                                                   onPressed: () async {
+                                                    _model.id = functions
+                                                        .generateUniqueId();
+                                                    safeSetState(() {});
                                                     if (_model.formKey
                                                                 .currentState ==
                                                             null ||
@@ -1294,11 +1601,11 @@ class _ClassNoticeAdminTeacherWidgetState
                                                       return;
                                                     }
                                                     if (_model.noticename !=
-                                                            null &&
-                                                        _model.noticename !=
                                                             '') {
                                                       if (FFAppState()
-                                                              .eventnoticeimage.isEmpty) {
+                                                              .eventfiles
+                                                              .length ==
+                                                          0) {
                                                         await widget.classref!
                                                             .update({
                                                           ...mapToFirestore(
@@ -1306,24 +1613,28 @@ class _ClassNoticeAdminTeacherWidgetState
                                                               'notice': FieldValue
                                                                   .arrayUnion([
                                                                 getEventsNoticeFirestoreData(
-                                                                  updateEventsNoticeStruct(
-                                                                    EventsNoticeStruct(
-                                                                      eventId:
-                                                                          functions
-                                                                              .generateUniqueId(),
-                                                                      eventTitle: _model
-                                                                          .eventnameTextController
-                                                                          .text,
-                                                                      eventDescription: _model
-                                                                          .descriptionTextController
-                                                                          .text,
-                                                                      eventDate:
+                                                                  createEventsNoticeStruct(
+                                                                    eventId:
+                                                                        _model
+                                                                            .id,
+                                                                    eventName:
+                                                                        _model
+                                                                            .noticename,
+                                                                    eventTitle: _model
+                                                                        .eventnameTextController
+                                                                        .text,
+                                                                    eventDescription:
+                                                                        _model
+                                                                            .descriptionTextController
+                                                                            .text,
+                                                                    eventDate:
+                                                                        _model
+                                                                            .date,
+                                                                    fieldValues: {
+                                                                      'classref':
                                                                           _model
-                                                                              .date,
-                                                                      eventName:
-                                                                          _model
-                                                                              .noticename,
-                                                                    ),
+                                                                              .classref,
+                                                                    },
                                                                     clearUnsetFields:
                                                                         false,
                                                                   ),
@@ -1341,27 +1652,31 @@ class _ClassNoticeAdminTeacherWidgetState
                                                               'notice': FieldValue
                                                                   .arrayUnion([
                                                                 getEventsNoticeFirestoreData(
-                                                                  updateEventsNoticeStruct(
-                                                                    EventsNoticeStruct(
-                                                                      eventId:
-                                                                          functions
-                                                                              .generateUniqueId(),
-                                                                      eventTitle: _model
-                                                                          .eventnameTextController
-                                                                          .text,
-                                                                      eventDescription: _model
-                                                                          .descriptionTextController
-                                                                          .text,
-                                                                      eventImages:
+                                                                  createEventsNoticeStruct(
+                                                                    eventId:
+                                                                        _model
+                                                                            .id,
+                                                                    eventName:
+                                                                        _model
+                                                                            .noticename,
+                                                                    eventTitle: _model
+                                                                        .eventnameTextController
+                                                                        .text,
+                                                                    eventDescription:
+                                                                        _model
+                                                                            .descriptionTextController
+                                                                            .text,
+                                                                    eventDate:
+                                                                        _model
+                                                                            .date,
+                                                                    fieldValues: {
+                                                                      'classref':
+                                                                          _model
+                                                                              .classref,
+                                                                      'eventfiles':
                                                                           FFAppState()
-                                                                              .eventnoticeimage,
-                                                                      eventDate:
-                                                                          _model
-                                                                              .date,
-                                                                      eventName:
-                                                                          _model
-                                                                              .noticename,
-                                                                    ),
+                                                                              .eventfiles,
+                                                                    },
                                                                     clearUnsetFields:
                                                                         false,
                                                                   ),
@@ -1373,12 +1688,51 @@ class _ClassNoticeAdminTeacherWidgetState
                                                         });
                                                       }
 
+                                                      await widget.schoolref!
+                                                          .update({
+                                                        ...mapToFirestore(
+                                                          {
+                                                            'List_of_notice':
+                                                                FieldValue
+                                                                    .arrayUnion([
+                                                              getEventsNoticeFirestoreData(
+                                                                createEventsNoticeStruct(
+                                                                  eventId:
+                                                                      _model.id,
+                                                                  eventName: _model
+                                                                      .noticename,
+                                                                  eventTitle: _model
+                                                                      .eventnameTextController
+                                                                      .text,
+                                                                  eventDescription:
+                                                                      _model
+                                                                          .descriptionTextController
+                                                                          .text,
+                                                                  eventDate:
+                                                                      _model
+                                                                          .date,
+                                                                  fieldValues: {
+                                                                    'eventfiles':
+                                                                        FFAppState()
+                                                                            .eventfiles,
+                                                                    'classref':
+                                                                        _model
+                                                                            .classref,
+                                                                  },
+                                                                  clearUnsetFields:
+                                                                      false,
+                                                                ),
+                                                                true,
+                                                              )
+                                                            ]),
+                                                          },
+                                                        ),
+                                                      });
                                                       _model.students =
                                                           await queryStudentsRecordOnce();
                                                       triggerPushNotification(
-                                                        notificationTitle: _model
-                                                            .eventnameTextController
-                                                            .text,
+                                                        notificationTitle:
+                                                            'Notice',
                                                         notificationText: _model
                                                             .eventnameTextController
                                                             .text,
@@ -1401,8 +1755,9 @@ class _ClassNoticeAdminTeacherWidgetState
                                                           .doc()
                                                           .set({
                                                         ...createNotificationsRecordData(
-                                                          content:
-                                                              _model.noticename,
+                                                          content: _model
+                                                              .eventnameTextController
+                                                              .text,
                                                           descri: _model
                                                               .descriptionTextController
                                                               .text,
@@ -1424,9 +1779,9 @@ class _ClassNoticeAdminTeacherWidgetState
                                                               isRead: false,
                                                               eventDate:
                                                                   _model.date,
-                                                              notificationImages:
-                                                                  _model
-                                                                      .uploadedFileUrls1,
+                                                              notificationFiles:
+                                                                  FFAppState()
+                                                                      .eventfiles,
                                                             ),
                                                             clearUnsetFields:
                                                                 false,
@@ -1439,7 +1794,7 @@ class _ClassNoticeAdminTeacherWidgetState
                                                           tag:
                                                               _model.noticename,
                                                           heading:
-                                                              'Added a notice',
+                                                              'Posted a notice',
                                                         ),
                                                         ...mapToFirestore(
                                                           {
@@ -1459,9 +1814,8 @@ class _ClassNoticeAdminTeacherWidgetState
                                                         ),
                                                       });
                                                       triggerPushNotification(
-                                                        notificationTitle: _model
-                                                            .eventnameTextController
-                                                            .text,
+                                                        notificationTitle:
+                                                            'Notice',
                                                         notificationText: _model
                                                             .eventnameTextController
                                                             .text,
@@ -1479,8 +1833,9 @@ class _ClassNoticeAdminTeacherWidgetState
                                                           .doc()
                                                           .set({
                                                         ...createNotificationsRecordData(
-                                                          content:
-                                                              _model.noticename,
+                                                          content: _model
+                                                              .eventnameTextController
+                                                              .text,
                                                           descri: _model
                                                               .descriptionTextController
                                                               .text,
@@ -1502,9 +1857,9 @@ class _ClassNoticeAdminTeacherWidgetState
                                                               isRead: false,
                                                               eventDate:
                                                                   _model.date,
-                                                              notificationImages:
-                                                                  _model
-                                                                      .uploadedFileUrls1,
+                                                              notificationFiles:
+                                                                  FFAppState()
+                                                                      .eventfiles,
                                                             ),
                                                             clearUnsetFields:
                                                                 false,
@@ -1517,7 +1872,7 @@ class _ClassNoticeAdminTeacherWidgetState
                                                           addedby:
                                                               currentUserReference,
                                                           heading:
-                                                              'Added a notice',
+                                                              'Posted a notice',
                                                         ),
                                                         ...mapToFirestore(
                                                           {
@@ -1543,7 +1898,7 @@ class _ClassNoticeAdminTeacherWidgetState
                                                                   .secondary,
                                                             ),
                                                           ),
-                                                          duration: const Duration(
+                                                          duration: Duration(
                                                               milliseconds:
                                                                   3100),
                                                           backgroundColor:
@@ -1566,7 +1921,7 @@ class _ClassNoticeAdminTeacherWidgetState
                                                               ?.clear();
                                                         });
                                                         FFAppState()
-                                                            .eventnoticeimage = [];
+                                                            .eventfiles = [];
                                                         safeSetState(() {});
                                                         await showDialog(
                                                           context: context,
@@ -1580,7 +1935,7 @@ class _ClassNoticeAdminTeacherWidgetState
                                                               backgroundColor:
                                                                   Colors
                                                                       .transparent,
-                                                              alignment: const AlignmentDirectional(
+                                                              alignment: AlignmentDirectional(
                                                                       0.0, -0.8)
                                                                   .resolve(
                                                                       Directionality.of(
@@ -1597,7 +1952,7 @@ class _ClassNoticeAdminTeacherWidgetState
                                                                       ?.unfocus();
                                                                 },
                                                                 child:
-                                                                    SizedBox(
+                                                                    Container(
                                                                   height: MediaQuery.sizeOf(
                                                                               context)
                                                                           .height *
@@ -1607,19 +1962,25 @@ class _ClassNoticeAdminTeacherWidgetState
                                                                           .width *
                                                                       0.6,
                                                                   child:
-                                                                      const NoticecreatedWidget(),
+                                                                      NoticecreatedCopyWidget(),
                                                                 ),
                                                               ),
                                                             );
                                                           },
                                                         );
 
-                                                        context.goNamed(
-                                                          'Class_view',
+                                                        if (Navigator.of(
+                                                                context)
+                                                            .canPop()) {
+                                                          context.pop();
+                                                        }
+                                                        context.pushNamed(
+                                                          ClassViewWidget
+                                                              .routeName,
                                                           queryParameters: {
                                                             'datePick':
                                                                 serializeParam(
-                                                              _model.datePicked,
+                                                              getCurrentTimestamp,
                                                               ParamType
                                                                   .DateTime,
                                                             ),
@@ -1640,7 +2001,7 @@ class _ClassNoticeAdminTeacherWidgetState
                                                           extra: <String,
                                                               dynamic>{
                                                             kTransitionInfoKey:
-                                                                const TransitionInfo(
+                                                                TransitionInfo(
                                                               hasTransition:
                                                                   true,
                                                               transitionType:
@@ -1656,9 +2017,8 @@ class _ClassNoticeAdminTeacherWidgetState
                                                                     widget
                                                                         .schoolref!);
                                                         triggerPushNotification(
-                                                          notificationTitle: _model
-                                                              .eventnameTextController
-                                                              .text,
+                                                          notificationTitle:
+                                                              'Notice',
                                                           notificationText: _model
                                                               .eventnameTextController
                                                               .text,
@@ -1679,7 +2039,8 @@ class _ClassNoticeAdminTeacherWidgetState
                                                             .set({
                                                           ...createNotificationsRecordData(
                                                             content: _model
-                                                                .noticename,
+                                                                .eventnameTextController
+                                                                .text,
                                                             descri: _model
                                                                 .descriptionTextController
                                                                 .text,
@@ -1701,9 +2062,9 @@ class _ClassNoticeAdminTeacherWidgetState
                                                                 isRead: false,
                                                                 eventDate:
                                                                     _model.date,
-                                                                notificationImages:
-                                                                    _model
-                                                                        .uploadedFileUrls1,
+                                                                notificationFiles:
+                                                                    FFAppState()
+                                                                        .eventfiles,
                                                               ),
                                                               clearUnsetFields:
                                                                   false,
@@ -1716,7 +2077,7 @@ class _ClassNoticeAdminTeacherWidgetState
                                                             addedby:
                                                                 currentUserReference,
                                                             heading:
-                                                                'Added a notice',
+                                                                'Posted a notice',
                                                           ),
                                                           ...mapToFirestore(
                                                             {
@@ -1740,7 +2101,7 @@ class _ClassNoticeAdminTeacherWidgetState
                                                               ?.clear();
                                                         });
                                                         FFAppState()
-                                                            .eventnoticeimage = [];
+                                                            .eventfiles = [];
                                                         safeSetState(() {});
                                                         await showDialog(
                                                           context: context,
@@ -1754,7 +2115,7 @@ class _ClassNoticeAdminTeacherWidgetState
                                                               backgroundColor:
                                                                   Colors
                                                                       .transparent,
-                                                              alignment: const AlignmentDirectional(
+                                                              alignment: AlignmentDirectional(
                                                                       0.0, -0.8)
                                                                   .resolve(
                                                                       Directionality.of(
@@ -1771,7 +2132,7 @@ class _ClassNoticeAdminTeacherWidgetState
                                                                       ?.unfocus();
                                                                 },
                                                                 child:
-                                                                    SizedBox(
+                                                                    Container(
                                                                   height: MediaQuery.sizeOf(
                                                                               context)
                                                                           .height *
@@ -1781,19 +2142,25 @@ class _ClassNoticeAdminTeacherWidgetState
                                                                           .width *
                                                                       0.6,
                                                                   child:
-                                                                      const NoticecreatedWidget(),
+                                                                      NoticecreatedCopyWidget(),
                                                                 ),
                                                               ),
                                                             );
                                                           },
                                                         );
 
-                                                        context.goNamed(
-                                                          'Class_view',
+                                                        if (Navigator.of(
+                                                                context)
+                                                            .canPop()) {
+                                                          context.pop();
+                                                        }
+                                                        context.pushNamed(
+                                                          ClassViewWidget
+                                                              .routeName,
                                                           queryParameters: {
                                                             'datePick':
                                                                 serializeParam(
-                                                              _model.date,
+                                                              getCurrentTimestamp,
                                                               ParamType
                                                                   .DateTime,
                                                             ),
@@ -1814,7 +2181,7 @@ class _ClassNoticeAdminTeacherWidgetState
                                                           extra: <String,
                                                               dynamic>{
                                                             kTransitionInfoKey:
-                                                                const TransitionInfo(
+                                                                TransitionInfo(
                                                               hasTransition:
                                                                   true,
                                                               transitionType:
@@ -1837,7 +2204,7 @@ class _ClassNoticeAdminTeacherWidgetState
                                                                   .primaryText,
                                                             ),
                                                           ),
-                                                          duration: const Duration(
+                                                          duration: Duration(
                                                               milliseconds:
                                                                   4000),
                                                           backgroundColor:
@@ -1850,22 +2217,22 @@ class _ClassNoticeAdminTeacherWidgetState
 
                                                     safeSetState(() {});
                                                   },
-                                                  text: 'Create notice',
+                                                  text: 'Post',
                                                   options: FFButtonOptions(
                                                     width: MediaQuery.sizeOf(
                                                                 context)
                                                             .width *
-                                                        0.5,
+                                                        0.55,
                                                     height: MediaQuery.sizeOf(
                                                                 context)
                                                             .height *
-                                                        0.05,
+                                                        0.055,
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(16.0, 0.0,
                                                                 16.0, 0.0),
                                                     iconPadding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
                                                                 0.0, 0.0),
                                                     color: FlutterFlowTheme.of(
@@ -1875,32 +2242,47 @@ class _ClassNoticeAdminTeacherWidgetState
                                                             .of(context)
                                                         .titleSmall
                                                         .override(
-                                                          fontFamily: 'Nunito',
+                                                          font: GoogleFonts
+                                                              .nunito(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleSmall
+                                                                    .fontStyle,
+                                                          ),
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .primaryText,
                                                           letterSpacing: 0.0,
                                                           fontWeight:
                                                               FontWeight.w500,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .titleSmall
+                                                                  .fontStyle,
                                                         ),
                                                     elevation: 0.0,
                                                     borderSide: BorderSide(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .primaryBackground,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
                                                     ),
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            8.0),
+                                                            10.0),
                                                   ),
                                                 ),
                                               ),
                                             ],
                                           ),
-                                        ]
-                                            .divide(const SizedBox(height: 10.0))
-                                            .around(const SizedBox(height: 10.0)),
-                                      ),
+                                        ),
+                                      ]
+                                          .divide(SizedBox(height: 10.0))
+                                          .around(SizedBox(height: 10.0)),
                                     ),
                                   ),
                                 ),
@@ -1911,11 +2293,14 @@ class _ClassNoticeAdminTeacherWidgetState
                     ),
                   ),
                   Align(
-                    alignment: const AlignmentDirectional(0.0, 1.0),
+                    alignment: AlignmentDirectional(0.0, 1.0),
                     child: FFButtonWidget(
                       onPressed: () async {
-                        context.goNamed(
-                          'Class_view',
+                        if (Navigator.of(context).canPop()) {
+                          context.pop();
+                        }
+                        context.pushNamed(
+                          ClassViewWidget.routeName,
                           queryParameters: {
                             'schoolclassref': serializeParam(
                               widget.classref,
@@ -1931,7 +2316,7 @@ class _ClassNoticeAdminTeacherWidgetState
                             ),
                           }.withoutNulls,
                           extra: <String, dynamic>{
-                            kTransitionInfoKey: const TransitionInfo(
+                            kTransitionInfoKey: TransitionInfo(
                               hasTransition: true,
                               transitionType: PageTransitionType.fade,
                             ),
@@ -1942,16 +2327,29 @@ class _ClassNoticeAdminTeacherWidgetState
                       options: FFButtonOptions(
                         width: MediaQuery.sizeOf(context).width * 0.8,
                         height: MediaQuery.sizeOf(context).height * 0.05,
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         iconPadding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
                         color: FlutterFlowTheme.of(context).primary,
                         textStyle:
                             FlutterFlowTheme.of(context).titleSmall.override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
                                   color: Colors.white,
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
                                 ),
                         elevation: 0.0,
                         borderRadius: BorderRadius.circular(8.0),

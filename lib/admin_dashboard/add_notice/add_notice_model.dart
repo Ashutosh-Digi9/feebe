@@ -17,6 +17,8 @@ class AddNoticeModel extends FlutterFlowModel<AddNoticeWidget> {
 
   String? eventName;
 
+  int? id;
+
   ///  State fields for stateful widgets in this component.
 
   final formKey = GlobalKey<FormState>();
@@ -41,24 +43,15 @@ class AddNoticeModel extends FlutterFlowModel<AddNoticeWidget> {
   FocusNode? descriptionFocusNode;
   TextEditingController? descriptionTextController;
   String? Function(BuildContext, String?)? descriptionTextControllerValidator;
-  String? _descriptionTextControllerValidator(
-      BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return 'Please add Description ';
-    }
-
-    return null;
-  }
-
   DateTime? datePicked;
-  bool isDataUploading1 = false;
-  List<FFUploadedFile> uploadedLocalFiles1 = [];
-  List<String> uploadedFileUrls1 = [];
+  bool isDataUploading_uploadData5a4 = false;
+  List<FFUploadedFile> uploadedLocalFiles_uploadData5a4 = [];
+  List<String> uploadedFileUrls_uploadData5a4 = [];
 
-  bool isDataUploading2 = false;
-  FFUploadedFile uploadedLocalFile2 =
+  bool isDataUploading_uploadCamera = false;
+  FFUploadedFile uploadedLocalFile_uploadCamera =
       FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl2 = '';
+  String uploadedFileUrl_uploadCamera = '';
 
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   List<StudentsRecord>? students;
@@ -70,7 +63,6 @@ class AddNoticeModel extends FlutterFlowModel<AddNoticeWidget> {
   @override
   void initState(BuildContext context) {
     evnettitileTextControllerValidator = _evnettitileTextControllerValidator;
-    descriptionTextControllerValidator = _descriptionTextControllerValidator;
   }
 
   @override

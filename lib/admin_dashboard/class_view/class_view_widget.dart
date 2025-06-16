@@ -1,20 +1,19 @@
 import '/admin_dashboard/class_calendar_edit/class_calendar_edit_widget.dart';
 import '/admin_dashboard/edit_delete_notice/edit_delete_notice_widget.dart';
 import '/admin_dashboard/editclass/editclass_widget.dart';
-import '/admin_dashboard/options_add_students/options_add_students_widget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/components/emptynotice_widget.dart';
-import '/flutter_flow/flutter_flow_expanded_image_view.dart';
+import '/components/empty_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
+import 'package:badges/badges.dart' as badges;
 import 'package:aligned_dialog/aligned_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'class_view_model.dart';
 export 'class_view_model.dart';
@@ -30,6 +29,9 @@ class ClassViewWidget extends StatefulWidget {
   final DocumentReference? schoolclassref;
   final DocumentReference? schoolref;
   final DateTime? datePick;
+
+  static String routeName = 'Class_view';
+  static String routePath = '/classView';
 
   @override
   State<ClassViewWidget> createState() => _ClassViewWidgetState();
@@ -92,137 +94,172 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).tertiary,
-            appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).info,
-              automaticallyImplyLeading: false,
-              leading: FlutterFlowIconButton(
-                borderColor: Colors.transparent,
-                borderRadius: 30.0,
-                borderWidth: 1.0,
-                buttonSize: 60.0,
-                icon: Icon(
-                  Icons.chevron_left,
-                  color: FlutterFlowTheme.of(context).bgColor1,
-                  size: 28.0,
-                ),
-                onPressed: () async {
-                  if (valueOrDefault(currentUserDocument?.userRole, 0) == 2) {
-                    if (Navigator.of(context).canPop()) {
-                      context.pop();
-                    }
-                    context.pushNamed(
-                      'class_dashboard',
-                      queryParameters: {
-                        'schoolref': serializeParam(
-                          widget.schoolref,
-                          ParamType.DocumentReference,
-                        ),
-                      }.withoutNulls,
-                      extra: <String, dynamic>{
-                        kTransitionInfoKey: const TransitionInfo(
-                          hasTransition: true,
-                          transitionType: PageTransitionType.fade,
-                        ),
-                      },
-                    );
-                  } else if (valueOrDefault(currentUserDocument?.userRole, 0) ==
-                      1) {
-                    if (Navigator.of(context).canPop()) {
-                      context.pop();
-                    }
-                    context.pushNamed(
-                      'class_dashboard',
-                      queryParameters: {
-                        'schoolref': serializeParam(
-                          widget.schoolref,
-                          ParamType.DocumentReference,
-                        ),
-                      }.withoutNulls,
-                      extra: <String, dynamic>{
-                        kTransitionInfoKey: const TransitionInfo(
-                          hasTransition: true,
-                          transitionType: PageTransitionType.fade,
-                        ),
-                      },
-                    );
-                  } else {
-                    context.pushNamed(
-                      'Dashboard',
-                      extra: <String, dynamic>{
-                        kTransitionInfoKey: const TransitionInfo(
-                          hasTransition: true,
-                          transitionType: PageTransitionType.fade,
-                        ),
-                      },
-                    );
-                  }
-                },
-              ),
-              title: Text(
-                'Class',
-                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Nunito',
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      fontSize: 16.0,
-                      letterSpacing: 0.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-              ),
-              actions: [
-                Visibility(
-                  visible:
-                      valueOrDefault(currentUserDocument?.userRole, 0) == 2,
-                  child: Builder(
-                    builder: (context) => AuthUserStreamWidget(
-                      builder: (context) => FlutterFlowIconButton(
-                        buttonSize: MediaQuery.sizeOf(context).width * 0.2,
-                        icon: Icon(
-                          Icons.more_vert,
-                          color: FlutterFlowTheme.of(context).alternate,
-                          size: 25.0,
-                        ),
-                        onPressed: () async {
-                          await showAlignedDialog(
-                            context: context,
-                            isGlobal: false,
-                            avoidOverflow: false,
-                            targetAnchor: const AlignmentDirectional(1.0, -1.0)
-                                .resolve(Directionality.of(context)),
-                            followerAnchor: const AlignmentDirectional(1.0, -1.0)
-                                .resolve(Directionality.of(context)),
-                            builder: (dialogContext) {
-                              return Material(
-                                color: Colors.transparent,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    FocusScope.of(dialogContext).unfocus();
-                                    FocusManager.instance.primaryFocus
-                                        ?.unfocus();
-                                  },
-                                  child: SizedBox(
-                                    height: MediaQuery.sizeOf(context).height *
-                                        0.06,
-                                    width:
-                                        MediaQuery.sizeOf(context).width * 0.4,
-                                    child: EditclassWidget(
-                                      schoolRef: widget.schoolref!,
-                                      classref:
-                                          classViewSchoolClassRecord.reference,
-                                    ),
-                                  ),
-                                ),
-                              );
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? AppBar(
+                    backgroundColor: FlutterFlowTheme.of(context).info,
+                    automaticallyImplyLeading: false,
+                    leading: FlutterFlowIconButton(
+                      borderColor: Colors.transparent,
+                      borderRadius: 30.0,
+                      borderWidth: 1.0,
+                      buttonSize: 60.0,
+                      icon: Icon(
+                        Icons.chevron_left,
+                        color: FlutterFlowTheme.of(context).bgColor1,
+                        size: 26.0,
+                      ),
+                      onPressed: () async {
+                        if (valueOrDefault(currentUserDocument?.userRole, 0) ==
+                            2) {
+                          if (Navigator.of(context).canPop()) {
+                            context.pop();
+                          }
+                          context.pushNamed(
+                            ClassDashboardWidget.routeName,
+                            queryParameters: {
+                              'schoolref': serializeParam(
+                                widget.schoolref,
+                                ParamType.DocumentReference,
+                              ),
+                              'tabindex': serializeParam(
+                                0,
+                                ParamType.int,
+                              ),
+                            }.withoutNulls,
+                            extra: <String, dynamic>{
+                              kTransitionInfoKey: TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.fade,
+                              ),
                             },
                           );
-                        },
-                      ),
+                        } else if (valueOrDefault(
+                                currentUserDocument?.userRole, 0) ==
+                            1) {
+                          if (Navigator.of(context).canPop()) {
+                            context.pop();
+                          }
+                          context.pushNamed(
+                            ClassDashboardWidget.routeName,
+                            queryParameters: {
+                              'schoolref': serializeParam(
+                                widget.schoolref,
+                                ParamType.DocumentReference,
+                              ),
+                              'tabindex': serializeParam(
+                                0,
+                                ParamType.int,
+                              ),
+                            }.withoutNulls,
+                            extra: <String, dynamic>{
+                              kTransitionInfoKey: TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.fade,
+                              ),
+                            },
+                          );
+                        } else {
+                          if (Navigator.of(context).canPop()) {
+                            context.pop();
+                          }
+                          context.pushNamed(
+                            DashboardWidget.routeName,
+                            extra: <String, dynamic>{
+                              kTransitionInfoKey: TransitionInfo(
+                                hasTransition: true,
+                                transitionType: PageTransitionType.fade,
+                              ),
+                            },
+                          );
+                        }
+                      },
                     ),
-                  ),
-                ),
-              ],
-              centerTitle: false,
-              elevation: 0.0,
-            ),
+                    title: Text(
+                      'Class',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            font: GoogleFonts.nunito(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            fontSize: 16.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
+                    ),
+                    actions: [
+                      Visibility(
+                        visible:
+                            valueOrDefault(currentUserDocument?.userRole, 0) ==
+                                2,
+                        child: Builder(
+                          builder: (context) => AuthUserStreamWidget(
+                            builder: (context) => FlutterFlowIconButton(
+                              buttonSize:
+                                  MediaQuery.sizeOf(context).width * 0.2,
+                              icon: Icon(
+                                Icons.more_vert,
+                                color:
+                                    FlutterFlowTheme.of(context).tertiaryText,
+                                size: 25.0,
+                              ),
+                              onPressed: () async {
+                                await showAlignedDialog(
+                                  context: context,
+                                  isGlobal: false,
+                                  avoidOverflow: false,
+                                  targetAnchor: AlignmentDirectional(0.0, 0.0)
+                                      .resolve(Directionality.of(context)),
+                                  followerAnchor:
+                                      AlignmentDirectional(1.0, -1.0)
+                                          .resolve(Directionality.of(context)),
+                                  builder: (dialogContext) {
+                                    return Material(
+                                      color: Colors.transparent,
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          FocusScope.of(dialogContext)
+                                              .unfocus();
+                                          FocusManager.instance.primaryFocus
+                                              ?.unfocus();
+                                        },
+                                        child: Container(
+                                          height: MediaQuery.sizeOf(context)
+                                                  .height *
+                                              0.1,
+                                          width:
+                                              MediaQuery.sizeOf(context).width *
+                                                  0.42,
+                                          child: EditclassWidget(
+                                            schoolRef: widget.schoolref!,
+                                            classref: classViewSchoolClassRecord
+                                                .reference,
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                    centerTitle: false,
+                    elevation: 0.0,
+                  )
+                : null,
             body: SafeArea(
               top: true,
               child: Column(
@@ -232,7 +269,7 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                   Container(
                     width: MediaQuery.sizeOf(context).width * 1.0,
                     height: MediaQuery.sizeOf(context).height * 0.9,
-                    decoration: const BoxDecoration(),
+                    decoration: BoxDecoration(),
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
@@ -240,35 +277,43 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsets.all(10.0),
+                            padding: EdgeInsets.all(14.0),
                             child: Text(
                               classViewSchoolClassRecord.className,
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     fontSize: 16.0,
                                     letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                             ),
                           ),
                           Container(
                             width: MediaQuery.sizeOf(context).width * 1.0,
-                            height: MediaQuery.sizeOf(context).height * 0.12,
+                            height: MediaQuery.sizeOf(context).height * 0.11,
                             decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context).lightblue,
+                              color: Color(0x181D61E7),
                             ),
                             child: Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   10.0, 0.0, 0.0, 0.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 2.0, 0.0, 0.0),
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        5.0, 2.0, 0.0, 0.0),
                                     child: RichText(
                                       textScaler:
                                           MediaQuery.of(context).textScaler,
@@ -279,39 +324,68 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                             style: FlutterFlowTheme.of(context)
                                                 .bodyMedium
                                                 .override(
-                                                  fontFamily: 'Nunito',
+                                                  font: GoogleFonts.nunito(
+                                                    fontWeight: FontWeight.w600,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .tertiaryText,
                                                   fontSize: 16.0,
                                                   letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.w500,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
                                                 ),
                                           ),
                                           TextSpan(
                                             text: classViewSchoolClassRecord
                                                 .listOfteachers.length
                                                 .toString(),
-                                            style: GoogleFonts.getFont(
-                                              'Nunito',
+                                            style: GoogleFonts.nunito(
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryText,
-                                              fontWeight: FontWeight.w500,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 16.0,
                                             ),
                                           )
                                         ],
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
                                               letterSpacing: 0.0,
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
                                             ),
                                       ),
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 5.0, 0.0, 0.0),
                                     child: Builder(
                                       builder: (context) {
@@ -335,73 +409,107 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                               final teachersrefItem =
                                                   teachersref[teachersrefIndex];
                                               return Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
-                                                        0.0, 0.0, 5.0, 0.0),
+                                                        0.0, 0.0, 10.0, 0.0),
                                                 child: Container(
-                                                  decoration: const BoxDecoration(),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(5.0, 0.0,
-                                                                0.0, 0.0),
-                                                    child: Column(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceEvenly,
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          width:
-                                                              MediaQuery.sizeOf(
-                                                                          context)
-                                                                      .width *
-                                                                  0.1,
-                                                          height:
-                                                              MediaQuery.sizeOf(
-                                                                          context)
-                                                                      .width *
-                                                                  0.1,
-                                                          clipBehavior:
-                                                              Clip.antiAlias,
-                                                          decoration:
-                                                              const BoxDecoration(
-                                                            shape:
-                                                                BoxShape.circle,
-                                                          ),
-                                                          child: Image.network(
-                                                            teachersrefItem
-                                                                .teacherImage,
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          teachersrefItem
-                                                              .teacherName,
-                                                          textAlign:
-                                                              TextAlign.center,
-                                                          style: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Nunito',
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primaryText,
-                                                                fontSize: 14.0,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .normal,
+                                                  width:
+                                                      MediaQuery.sizeOf(context)
+                                                              .width *
+                                                          0.2,
+                                                  decoration: BoxDecoration(),
+                                                  child: Align(
+                                                    alignment:
+                                                        AlignmentDirectional(
+                                                            -1.0, 0.0),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  5.0,
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceEvenly,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            width: MediaQuery
+                                                                        .sizeOf(
+                                                                            context)
+                                                                    .width *
+                                                                0.1,
+                                                            height: MediaQuery
+                                                                        .sizeOf(
+                                                                            context)
+                                                                    .width *
+                                                                0.1,
+                                                            clipBehavior:
+                                                                Clip.antiAlias,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              shape: BoxShape
+                                                                  .circle,
+                                                            ),
+                                                            child:
+                                                                Image.network(
+                                                              valueOrDefault<
+                                                                  String>(
+                                                                teachersrefItem
+                                                                    .teacherImage,
+                                                                'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/g6wsb0sr5bbw/IMG_20250220_152326_1_-removebg-preview.png',
                                                               ),
-                                                        ),
-                                                      ],
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                          ),
+                                                          Text(
+                                                            teachersrefItem
+                                                                .teacherName
+                                                                .maybeHandleOverflow(
+                                                              maxChars: 10,
+                                                              replacement: '…',
+                                                            ),
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryText,
+                                                                  fontSize:
+                                                                      12.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -417,28 +525,29 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                10.0, 20.0, 10.0, 0.0),
+                            padding: EdgeInsets.all(14.0),
                             child: Material(
                               color: Colors.transparent,
-                              elevation: 5.0,
+                              elevation: 0.0,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16.0),
+                                borderRadius: BorderRadius.circular(8.0),
                               ),
                               child: Container(
                                 width: MediaQuery.sizeOf(context).width * 1.0,
-                                height:
-                                    MediaQuery.sizeOf(context).height * 0.15,
                                 decoration: BoxDecoration(
                                   color: FlutterFlowTheme.of(context).secondary,
-                                  borderRadius: BorderRadius.circular(16.0),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  border: Border.all(
+                                    color: Color(0xFFF2F2F2),
+                                    width: 1.0,
+                                  ),
                                 ),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           10.0, 10.0, 0.0, 0.0),
                                       child: RichText(
                                         textScaler:
@@ -451,45 +560,75 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                       context)
                                                   .bodyMedium
                                                   .override(
-                                                    fontFamily: 'Nunito',
+                                                    font: GoogleFonts.nunito(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
                                                     color: FlutterFlowTheme.of(
                                                             context)
                                                         .tertiaryText,
                                                     fontSize: 16.0,
                                                     letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w500,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
                                                   ),
                                             ),
                                             TextSpan(
                                               text: classViewSchoolClassRecord
                                                   .studentsList.length
                                                   .toString(),
-                                              style: GoogleFonts.getFont(
-                                                'Nunito',
+                                              style: GoogleFonts.nunito(
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .primaryText,
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 14.0,
+                                                fontWeight: FontWeight.w600,
+                                                fontSize: 16.0,
                                               ),
                                             )
                                           ],
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Nunito',
+                                                font: GoogleFonts.nunito(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
                                                 letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
                                               ),
                                         ),
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 10.0, 0.0, 0.0),
+                                      padding: EdgeInsets.all(10.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Material(
                                             color: Colors.transparent,
@@ -499,17 +638,20 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                   BorderRadius.circular(8.0),
                                             ),
                                             child: Container(
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width *
+                                                  0.25,
                                               height: MediaQuery.sizeOf(context)
                                                       .height *
-                                                  0.08,
+                                                  0.1,
                                               decoration: BoxDecoration(
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .secondary,
-                                                boxShadow: const [
+                                                boxShadow: [
                                                   BoxShadow(
                                                     blurRadius: 4.0,
-                                                    color: Color(0x491D61E7),
+                                                    color: Color(0x121D61E7),
                                                     offset: Offset(
                                                       0.0,
                                                       2.0,
@@ -519,6 +661,12 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                 ],
                                                 borderRadius:
                                                     BorderRadius.circular(8.0),
+                                                border: Border.all(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondary,
+                                                  width: 1.0,
+                                                ),
                                               ),
                                               child: InkWell(
                                                 splashColor: Colors.transparent,
@@ -528,7 +676,8 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                     Colors.transparent,
                                                 onTap: () async {
                                                   context.pushNamed(
-                                                    'calender_class',
+                                                    CalenderClassWidget
+                                                        .routeName,
                                                     queryParameters: {
                                                       'schoolclassref':
                                                           serializeParam(
@@ -544,6 +693,11 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                             .DocumentReference,
                                                       ),
                                                       'mainpage':
+                                                          serializeParam(
+                                                        false,
+                                                        ParamType.bool,
+                                                      ),
+                                                      'studentpage':
                                                           serializeParam(
                                                         false,
                                                         ParamType.bool,
@@ -573,25 +727,39 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                             MediaQuery.sizeOf(
                                                                         context)
                                                                     .height *
-                                                                0.04,
+                                                                0.05,
                                                         fit: BoxFit.contain,
                                                       ),
                                                     ),
                                                     Text(
-                                                      'Calendar',
+                                                      'Class Calendar',
                                                       style: FlutterFlowTheme
                                                               .of(context)
                                                           .bodyMedium
                                                           .override(
-                                                            fontFamily:
-                                                                'Nunito',
+                                                            font: GoogleFonts
+                                                                .nunito(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primary,
-                                                            fontSize: 14.0,
+                                                            fontSize: 12.0,
                                                             letterSpacing: 0.0,
                                                             fontWeight:
                                                                 FontWeight.w600,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
                                                           ),
                                                     ),
                                                   ],
@@ -607,17 +775,20 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                   BorderRadius.circular(8.0),
                                             ),
                                             child: Container(
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width *
+                                                  0.25,
                                               height: MediaQuery.sizeOf(context)
                                                       .height *
-                                                  0.08,
+                                                  0.1,
                                               decoration: BoxDecoration(
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .secondary,
-                                                boxShadow: const [
+                                                boxShadow: [
                                                   BoxShadow(
                                                     blurRadius: 4.0,
-                                                    color: Color(0x491D61E7),
+                                                    color: Color(0x111D61E7),
                                                     offset: Offset(
                                                       0.0,
                                                       2.0,
@@ -627,6 +798,12 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                 ],
                                                 borderRadius:
                                                     BorderRadius.circular(8.0),
+                                                border: Border.all(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondary,
+                                                  width: 1.0,
+                                                ),
                                               ),
                                               child: InkWell(
                                                 splashColor: Colors.transparent,
@@ -635,71 +812,30 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                 highlightColor:
                                                     Colors.transparent,
                                                 onTap: () async {
-                                                  if (valueOrDefault(
-                                                          currentUserDocument
-                                                              ?.userRole,
-                                                          0) ==
-                                                      1) {
-                                                    context.pushNamed(
-                                                      'selectedstudents_sadmin',
-                                                      queryParameters: {
-                                                        'schoolref':
-                                                            serializeParam(
-                                                          widget.schoolref,
-                                                          ParamType
-                                                              .DocumentReference,
-                                                        ),
-                                                        'classref':
-                                                            serializeParam(
-                                                          widget
-                                                              .schoolclassref,
-                                                          ParamType
-                                                              .DocumentReference,
-                                                        ),
-                                                      }.withoutNulls,
-                                                    );
-                                                  } else {
-                                                    await showModalBottomSheet(
-                                                      isScrollControlled: true,
-                                                      backgroundColor:
-                                                          Colors.transparent,
-                                                      enableDrag: false,
-                                                      context: context,
-                                                      builder: (context) {
-                                                        return GestureDetector(
-                                                          onTap: () {
-                                                            FocusScope.of(
-                                                                    context)
-                                                                .unfocus();
-                                                            FocusManager
-                                                                .instance
-                                                                .primaryFocus
-                                                                ?.unfocus();
-                                                          },
-                                                          child: Padding(
-                                                            padding: MediaQuery
-                                                                .viewInsetsOf(
-                                                                    context),
-                                                            child: SizedBox(
-                                                              height: MediaQuery
-                                                                          .sizeOf(
-                                                                              context)
-                                                                      .height *
-                                                                  0.3,
-                                                              child:
-                                                                  OptionsAddStudentsWidget(
-                                                                classref: widget
-                                                                    .schoolclassref!,
-                                                                schoolRef: widget
-                                                                    .schoolref!,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                    ).then((value) =>
-                                                        safeSetState(() {}));
-                                                  }
+                                                  context.pushNamed(
+                                                    TotalStudentListssWidget
+                                                        .routeName,
+                                                    queryParameters: {
+                                                      'schoolref':
+                                                          serializeParam(
+                                                        widget.schoolref,
+                                                        ParamType
+                                                            .DocumentReference,
+                                                      ),
+                                                      'className':
+                                                          serializeParam(
+                                                        classViewSchoolClassRecord
+                                                            .className,
+                                                        ParamType.String,
+                                                      ),
+                                                      'classref':
+                                                          serializeParam(
+                                                        widget.schoolclassref,
+                                                        ParamType
+                                                            .DocumentReference,
+                                                      ),
+                                                    }.withoutNulls,
+                                                  );
                                                 },
                                                 child: Column(
                                                   mainAxisSize:
@@ -723,7 +859,7 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                             MediaQuery.sizeOf(
                                                                         context)
                                                                     .height *
-                                                                0.04,
+                                                                0.05,
                                                         fit: BoxFit.contain,
                                                       ),
                                                     ),
@@ -733,15 +869,29 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                               .of(context)
                                                           .bodyMedium
                                                           .override(
-                                                            fontFamily:
-                                                                'Nunito',
+                                                            font: GoogleFonts
+                                                                .nunito(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primary,
-                                                            fontSize: 14.0,
+                                                            fontSize: 12.0,
                                                             letterSpacing: 0.0,
                                                             fontWeight:
                                                                 FontWeight.w600,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
                                                           ),
                                                     ),
                                                   ],
@@ -757,17 +907,20 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                   BorderRadius.circular(8.0),
                                             ),
                                             child: Container(
+                                              width: MediaQuery.sizeOf(context)
+                                                      .width *
+                                                  0.25,
                                               height: MediaQuery.sizeOf(context)
                                                       .height *
-                                                  0.08,
+                                                  0.1,
                                               decoration: BoxDecoration(
                                                 color:
                                                     FlutterFlowTheme.of(context)
                                                         .secondary,
-                                                boxShadow: const [
+                                                boxShadow: [
                                                   BoxShadow(
                                                     blurRadius: 4.0,
-                                                    color: Color(0x491D61E7),
+                                                    color: Color(0x111D61E7),
                                                     offset: Offset(
                                                       0.0,
                                                       2.0,
@@ -777,6 +930,12 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                 ],
                                                 borderRadius:
                                                     BorderRadius.circular(8.0),
+                                                border: Border.all(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondary,
+                                                  width: 1.0,
+                                                ),
                                               ),
                                               child: InkWell(
                                                 splashColor: Colors.transparent,
@@ -785,99 +944,34 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                 highlightColor:
                                                     Colors.transparent,
                                                 onTap: () async {
-                                                  if (valueOrDefault(
-                                                          currentUserDocument
-                                                              ?.userRole,
-                                                          0) ==
-                                                      1) {
-                                                    context.pushNamed(
-                                                      'class_attendence',
-                                                      queryParameters: {
-                                                        'classRef':
-                                                            serializeParam(
-                                                          classViewSchoolClassRecord
-                                                              .reference,
-                                                          ParamType
-                                                              .DocumentReference,
-                                                        ),
-                                                        'schoolref':
-                                                            serializeParam(
-                                                          widget.schoolref,
-                                                          ParamType
-                                                              .DocumentReference,
-                                                        ),
-                                                        'classattendence':
-                                                            serializeParam(
-                                                          false,
-                                                          ParamType.bool,
-                                                        ),
-                                                      }.withoutNulls,
-                                                    );
-                                                  } else {
-                                                    if (classViewSchoolClassRecord
-                                                            .attendance
-                                                            .where((e) =>
-                                                                dateTimeFormat(
-                                                                    "yMd",
-                                                                    e.date) ==
-                                                                dateTimeFormat(
-                                                                    "yMd",
-                                                                    getCurrentTimestamp))
-                                                            .toList().isNotEmpty) {
-                                                      context.pushNamed(
-                                                        'class_attendence',
-                                                        queryParameters: {
-                                                          'classRef':
-                                                              serializeParam(
-                                                            classViewSchoolClassRecord
-                                                                .reference,
-                                                            ParamType
-                                                                .DocumentReference,
-                                                          ),
-                                                          'schoolref':
-                                                              serializeParam(
-                                                            widget.schoolref,
-                                                            ParamType
-                                                                .DocumentReference,
-                                                          ),
-                                                          'classattendence':
-                                                              serializeParam(
-                                                            false,
-                                                            ParamType.bool,
-                                                          ),
-                                                        }.withoutNulls,
-                                                      );
-                                                    } else {
-                                                      context.pushNamed(
-                                                        'mark_attendence',
-                                                        queryParameters: {
-                                                          'classRef':
-                                                              serializeParam(
-                                                            classViewSchoolClassRecord
-                                                                .reference,
-                                                            ParamType
-                                                                .DocumentReference,
-                                                          ),
-                                                          'schoolref':
-                                                              serializeParam(
-                                                            widget.schoolref,
-                                                            ParamType
-                                                                .DocumentReference,
-                                                          ),
-                                                        }.withoutNulls,
-                                                        extra: <String,
-                                                            dynamic>{
-                                                          kTransitionInfoKey:
-                                                              const TransitionInfo(
-                                                            hasTransition: true,
-                                                            transitionType:
-                                                                PageTransitionType
-                                                                    .fade,
-                                                          ),
-                                                        },
-                                                      );
-                                                    }
-                                                  }
+                                                  context.pushNamed(
+                                                    ClassAttendenceWidget
+                                                        .routeName,
+                                                    queryParameters: {
+                                                      'classRef':
+                                                          serializeParam(
+                                                        classViewSchoolClassRecord
+                                                            .reference,
+                                                        ParamType
+                                                            .DocumentReference,
+                                                      ),
+                                                      'schoolref':
+                                                          serializeParam(
+                                                        widget.schoolref,
+                                                        ParamType
+                                                            .DocumentReference,
+                                                      ),
+                                                      'classattendence':
+                                                          serializeParam(
+                                                        false,
+                                                        ParamType.bool,
+                                                      ),
+                                                      'classes': serializeParam(
+                                                        false,
+                                                        ParamType.bool,
+                                                      ),
+                                                    }.withoutNulls,
+                                                  );
                                                 },
                                                 child: Column(
                                                   mainAxisSize:
@@ -901,7 +995,7 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                             MediaQuery.sizeOf(
                                                                         context)
                                                                     .height *
-                                                                0.04,
+                                                                0.05,
                                                         fit: BoxFit.contain,
                                                       ),
                                                     ),
@@ -911,15 +1005,29 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                               .of(context)
                                                           .bodyMedium
                                                           .override(
-                                                            fontFamily:
-                                                                'Nunito',
+                                                            font: GoogleFonts
+                                                                .nunito(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w600,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
                                                             color: FlutterFlowTheme
                                                                     .of(context)
                                                                 .primary,
-                                                            fontSize: 14.0,
+                                                            fontSize: 12.0,
                                                             letterSpacing: 0.0,
                                                             fontWeight:
                                                                 FontWeight.w600,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
                                                           ),
                                                     ),
                                                   ],
@@ -930,31 +1038,41 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                         ],
                                       ),
                                     ),
-                                  ],
+                                  ]
+                                      .divide(SizedBox(height: 10.0))
+                                      .around(SizedBox(height: 10.0)),
                                 ),
                               ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                10.0, 10.0, 0.0, 0.0),
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                10.0, 0.0, 0.0, 0.0),
                             child: Text(
                               'Upcoming Events for this class',
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
-                                    fontSize: 16.0,
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    fontSize: 14.0,
                                     letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w600,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 10.0, 10.0, 10.0, 10.0),
                             child: Container(
-                              decoration: const BoxDecoration(),
+                              decoration: BoxDecoration(),
                               child: SingleChildScrollView(
                                 scrollDirection: Axis.horizontal,
                                 child: Row(
@@ -968,7 +1086,9 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                     functions.isDatePassed(
                                                         e.eventDate!) ==
                                                     false)
-                                                .toList().isEmpty) &&
+                                                .toList()
+                                                .length ==
+                                            0) &&
                                         (valueOrDefault(
                                                 currentUserDocument?.userRole,
                                                 0) !=
@@ -976,8 +1096,12 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                       AuthUserStreamWidget(
                                         builder: (context) => FFButtonWidget(
                                           onPressed: () async {
+                                            if (Navigator.of(context)
+                                                .canPop()) {
+                                              context.pop();
+                                            }
                                             context.pushNamed(
-                                              'calender_class',
+                                              CalenderClassWidget.routeName,
                                               queryParameters: {
                                                 'schoolclassref':
                                                     serializeParam(
@@ -995,31 +1119,60 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                           text: 'Add Event',
                                           icon: Icon(
                                             Icons.add,
-                                            color: FlutterFlowTheme.of(context)
-                                                .primaryBackground,
                                             size: 20.0,
                                           ),
                                           options: FFButtonOptions(
                                             height: 40.0,
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     16.0, 0.0, 16.0, 0.0),
                                             iconAlignment: IconAlignment.end,
                                             iconPadding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 0.0, 0.0),
+                                            iconColor:
+                                                FlutterFlowTheme.of(context)
+                                                    .primaryBackground,
                                             color: FlutterFlowTheme.of(context)
                                                 .secondary,
                                             textStyle:
                                                 FlutterFlowTheme.of(context)
                                                     .titleSmall
                                                     .override(
-                                                      fontFamily: 'Nunito',
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .fontStyle,
+                                                      ),
                                                       color: FlutterFlowTheme
                                                               .of(context)
                                                           .primaryBackground,
                                                       letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall
+                                                              .fontStyle,
                                                     ),
+                                            elevation: 0.0,
+                                            borderSide: BorderSide(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondaryBorder,
+                                              width: 1.0,
+                                            ),
                                             borderRadius:
                                                 BorderRadius.circular(8.0),
                                           ),
@@ -1033,17 +1186,19 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                     functions.isDatePassed(
                                                         e.eventDate!) ==
                                                     false)
-                                                .toList().isNotEmpty) &&
+                                                .toList()
+                                                .length !=
+                                            0) &&
                                         (valueOrDefault(
                                                 currentUserDocument?.userRole,
                                                 0) !=
                                             1))
                                       AuthUserStreamWidget(
                                         builder: (context) => Container(
-                                          decoration: const BoxDecoration(),
+                                          decoration: BoxDecoration(),
                                           child: Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     0.0, 0.0, 10.0, 0.0),
                                             child: InkWell(
                                               splashColor: Colors.transparent,
@@ -1053,7 +1208,7 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                   Colors.transparent,
                                               onTap: () async {
                                                 context.pushNamed(
-                                                  'calender_class',
+                                                  CalenderClassWidget.routeName,
                                                   queryParameters: {
                                                     'schoolclassref':
                                                         serializeParam(
@@ -1073,25 +1228,70 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.max,
                                                 children: [
-                                                  Icon(
-                                                    Icons.add_circle_sharp,
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                    size: 35.0,
+                                                  Container(
+                                                    width: 35.0,
+                                                    height: 35.0,
+                                                    decoration: BoxDecoration(
+                                                      color: Color(0xFFE4EDFC),
+                                                      shape: BoxShape.circle,
+                                                    ),
+                                                    child: Icon(
+                                                      Icons.add,
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primary,
+                                                      size: 30.0,
+                                                    ),
                                                   ),
-                                                  Text(
-                                                    'Add',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                          letterSpacing: 0.0,
-                                                        ),
+                                                  Align(
+                                                    alignment:
+                                                        AlignmentDirectional(
+                                                            0.0, 0.0),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0.0,
+                                                                  2.0,
+                                                                  0.0,
+                                                                  0.0),
+                                                      child: Text(
+                                                        'Add',
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryBackground,
+                                                                  fontSize:
+                                                                      12.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ],
                                               ),
@@ -1127,9 +1327,9 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
-                                                          0.0, 0.0, 5.0, 0.0),
+                                                          0.0, 0.0, 8.0, 0.0),
                                                   child: InkWell(
                                                     splashColor:
                                                         Colors.transparent,
@@ -1145,6 +1345,7 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                             true,
                                                         backgroundColor:
                                                             Colors.transparent,
+                                                        isDismissible: false,
                                                         enableDrag: false,
                                                         context: context,
                                                         builder: (context) {
@@ -1162,7 +1363,7 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                               padding: MediaQuery
                                                                   .viewInsetsOf(
                                                                       context),
-                                                              child: SizedBox(
+                                                              child: Container(
                                                                 height: MediaQuery.sizeOf(
                                                                             context)
                                                                         .height *
@@ -1177,6 +1378,30 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                                           .eventId,
                                                                   school: widget
                                                                       .schoolref!,
+                                                                  eventdata:
+                                                                      EventsNoticeStruct(
+                                                                    eventId:
+                                                                        eventItem
+                                                                            .eventId,
+                                                                    eventTitle:
+                                                                        eventItem
+                                                                            .eventTitle,
+                                                                    eventDescription:
+                                                                        eventItem
+                                                                            .eventDescription,
+                                                                    eventDate:
+                                                                        eventItem
+                                                                            .eventDate,
+                                                                    eventName:
+                                                                        eventItem
+                                                                            .eventName,
+                                                                    classref:
+                                                                        eventItem
+                                                                            .classref,
+                                                                    eventfiles:
+                                                                        eventItem
+                                                                            .eventfiles,
+                                                                  ),
                                                                 ),
                                                               ),
                                                             ),
@@ -1186,167 +1411,161 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                           safeSetState(() {}));
                                                     },
                                                     child: Container(
-                                                      height: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .height *
-                                                          0.05,
                                                       decoration: BoxDecoration(
                                                         color: () {
                                                           if (eventItem
                                                                   .eventName ==
                                                               'Event') {
-                                                            return const Color(
-                                                                0xFFFFFCF0);
+                                                            return FlutterFlowTheme
+                                                                    .of(context)
+                                                                .event;
                                                           } else if (eventItem
                                                                   .eventName ==
                                                               'Birthday') {
-                                                            return const Color(
-                                                                0xFFF0F0FF);
+                                                            return FlutterFlowTheme
+                                                                    .of(context)
+                                                                .birthdayfill;
                                                           } else {
-                                                            return const Color(
-                                                                0xFFFBFCFF);
+                                                            return FlutterFlowTheme
+                                                                    .of(context)
+                                                                .holiday;
                                                           }
                                                         }(),
                                                         borderRadius:
                                                             BorderRadius
-                                                                .circular(8.0),
+                                                                .circular(3.59),
                                                         border: Border.all(
                                                           color: () {
                                                             if (eventItem
                                                                     .eventName ==
                                                                 'Event') {
-                                                              return const Color(
-                                                                  0xFFF8BA0B);
+                                                              return FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .eventborder;
                                                             } else if (eventItem
                                                                     .eventName ==
                                                                 'Birthday') {
-                                                              return const Color(
-                                                                  0xFF635AAC);
+                                                              return FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .birthdayborder;
                                                             } else {
-                                                              return const Color(
-                                                                  0xFF7DD7FE);
+                                                              return FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .holidayborder;
                                                             }
                                                           }(),
-                                                          width: 2.0,
+                                                          width: 1.76,
                                                         ),
                                                       ),
                                                       child: Padding(
-                                                        padding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    0.0,
-                                                                    5.0,
-                                                                    0.0),
+                                                        padding: EdgeInsets.all(
+                                                            10.0),
                                                         child: Row(
                                                           mainAxisSize:
                                                               MainAxisSize.max,
                                                           mainAxisAlignment:
                                                               MainAxisAlignment
-                                                                  .start,
+                                                                  .center,
                                                           children: [
                                                             if (eventItem
                                                                     .eventName ==
                                                                 'Event')
-                                                              const Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            10.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .bolt_sharp,
-                                                                  color: Color(
-                                                                      0xFFF8BA0B),
-                                                                  size: 24.0,
-                                                                ),
-                                                              ),
-                                                            if (eventItem
-                                                                    .eventName ==
-                                                                'Birthday')
-                                                              const Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            10.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                child: FaIcon(
-                                                                  FontAwesomeIcons
-                                                                      .birthdayCake,
-                                                                  color: Color(
-                                                                      0xFFB0A7FD),
-                                                                  size: 24.0,
-                                                                ),
+                                                              Image.asset(
+                                                                'assets/images/typcn--flash-removebg-preview.png',
+                                                                width: 18.0,
+                                                                height: 18.0,
+                                                                fit: BoxFit
+                                                                    .contain,
                                                               ),
                                                             if (eventItem
                                                                     .eventName ==
                                                                 'Holiday')
-                                                              const Padding(
-                                                                padding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            10.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                child: Icon(
-                                                                  Icons
-                                                                      .celebration_sharp,
-                                                                  color: Color(
-                                                                      0xFF072F78),
-                                                                  size: 24.0,
-                                                                ),
+                                                              Image.asset(
+                                                                'assets/images/fxemoji--confetti-removebg-preview.png',
+                                                                width: 18.0,
+                                                                height: 18.0,
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              ),
+                                                            if (eventItem
+                                                                    .eventName ==
+                                                                'Birthday')
+                                                              Image.asset(
+                                                                'assets/images/noto--birthday-cake-removebg-preview.png',
+                                                                width: 18.0,
+                                                                height: 18.0,
+                                                                fit: BoxFit
+                                                                    .contain,
                                                               ),
                                                             Padding(
                                                               padding:
-                                                                  const EdgeInsetsDirectional
+                                                                  EdgeInsetsDirectional
                                                                       .fromSTEB(
-                                                                          8.0,
                                                                           0.0,
                                                                           0.0,
+                                                                          10.0,
                                                                           0.0),
                                                               child: Text(
                                                                 eventItem
-                                                                    .eventTitle,
+                                                                    .eventTitle
+                                                                    .maybeHandleOverflow(
+                                                                  maxChars: 10,
+                                                                  replacement:
+                                                                      '…',
+                                                                ),
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
                                                                     .override(
-                                                                      fontFamily:
-                                                                          'Nunito',
+                                                                      font: GoogleFonts
+                                                                          .nunito(
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
                                                                       color:
                                                                           () {
                                                                         if (eventItem.eventName ==
                                                                             'Event') {
-                                                                          return const Color(
-                                                                              0xFFF8BA0B);
+                                                                          return FlutterFlowTheme.of(context)
+                                                                              .eventtext;
                                                                         } else if (eventItem.eventName ==
-                                                                            'Birthday') {
-                                                                          return const Color(
-                                                                              0xFF635AAC);
+                                                                            'Holiday') {
+                                                                          return FlutterFlowTheme.of(context)
+                                                                              .holidaytext;
                                                                         } else {
-                                                                          return const Color(
-                                                                              0xFF072F78);
+                                                                          return FlutterFlowTheme.of(context)
+                                                                              .birthdaytext;
                                                                         }
                                                                       }(),
+                                                                      fontSize:
+                                                                          14.0,
                                                                       letterSpacing:
                                                                           0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
                                                                     ),
                                                               ),
                                                             ),
-                                                          ],
+                                                          ]
+                                                              .divide(SizedBox(
+                                                                  width: 10.0))
+                                                              .around(SizedBox(
+                                                                  width: 10.0)),
                                                         ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 5.0, 0.0, 0.0),
                                                   child: Text(
@@ -1356,14 +1575,26 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                                 getCurrentTimestamp)
                                                         ? 'Today'
                                                         : dateTimeFormat(
-                                                            "MMM/d",
+                                                            "MMM d",
                                                             eventItem
                                                                 .eventDate!),
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily: 'Nunito',
+                                                          font: GoogleFonts
+                                                              .nunito(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
                                                           color: valueOrDefault<
                                                               Color>(
                                                             functions.formatDate(
@@ -1375,17 +1606,28 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                                 ? FlutterFlowTheme.of(
                                                                         context)
                                                                     .primaryBackground
-                                                                : const Color(
-                                                                    0xFFA0A0A1),
-                                                            const Color(0xFFA0A0A1),
+                                                                : FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .tertiaryText,
+                                                            Color(0xFFA0A0A1),
                                                           ),
                                                           letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
                                                         ),
                                                   ),
                                                 ),
                                               ],
                                             );
-                                          }).divide(const SizedBox(width: 10.0)),
+                                          }).divide(SizedBox(width: 10.0)),
                                         );
                                       },
                                     ),
@@ -1395,157 +1637,208 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 10.0, 0.0, 10.0, 0.0),
                             child: Container(
                               width: MediaQuery.sizeOf(context).width * 1.0,
-                              height: MediaQuery.sizeOf(context).height * 0.06,
+                              height: MediaQuery.sizeOf(context).height * 0.05,
                               decoration: BoxDecoration(
-                                color: const Color(0xFFF3F3F3),
-                                borderRadius: BorderRadius.circular(10.0),
+                                color: Color(0xFFF3F3F3),
+                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 10.0, 0.0, 10.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          10.0, 0.0, 0.0, 0.0),
-                                      child: Text(
-                                        'Latest Notices',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Nunito',
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                              fontSize: 16.0,
-                                              letterSpacing: 0.0,
-                                              fontWeight: FontWeight.w500,
-                                            ),
-                                      ),
-                                    ),
-                                    Row(
-                                      mainAxisSize: MainAxisSize.max,
-                                      children: [
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 5.0, 0.0),
-                                          child: InkWell(
-                                            splashColor: Colors.transparent,
-                                            focusColor: Colors.transparent,
-                                            hoverColor: Colors.transparent,
-                                            highlightColor: Colors.transparent,
-                                            onTap: () async {
-                                              final datePickedDate =
-                                                  await showDatePicker(
-                                                context: context,
-                                                initialDate:
-                                                    getCurrentTimestamp,
-                                                firstDate: DateTime(1900),
-                                                lastDate: DateTime(2050),
-                                                builder: (context, child) {
-                                                  return wrapInMaterialDatePickerTheme(
-                                                    context,
-                                                    child!,
-                                                    headerBackgroundColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .primary,
-                                                    headerForegroundColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .info,
-                                                    headerTextStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .headlineLarge
-                                                            .override(
-                                                              fontFamily:
-                                                                  'Nunito',
-                                                              fontSize: 32.0,
-                                                              letterSpacing:
-                                                                  0.0,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                            ),
-                                                    pickerBackgroundColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .secondaryBackground,
-                                                    pickerForegroundColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .primaryText,
-                                                    selectedDateTimeBackgroundColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .primary,
-                                                    selectedDateTimeForegroundColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .info,
-                                                    actionButtonForegroundColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .primaryText,
-                                                    iconSize: 24.0,
-                                                  );
-                                                },
-                                              );
-
-                                              if (datePickedDate != null) {
-                                                safeSetState(() {
-                                                  _model.datePicked = DateTime(
-                                                    datePickedDate.year,
-                                                    datePickedDate.month,
-                                                    datePickedDate.day,
-                                                  );
-                                                });
-                                              }
-                                              _model.date = _model.datePicked;
-                                              safeSetState(() {});
-                                            },
-                                            child: Icon(
-                                              Icons.date_range_rounded,
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              size: 32.0,
-                                            ),
-                                          ),
-                                        ),
-                                        Text(
-                                          dateTimeFormat(
-                                              "dd MMM y", _model.datePicked),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Container(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.25,
+                                    decoration: BoxDecoration(),
+                                    child: Visibility(
+                                      visible: _model.date == null,
+                                      child: Align(
+                                        alignment:
+                                            AlignmentDirectional(-1.0, 0.0),
+                                        child: Text(
+                                          'Latest notices',
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
-                                                fontFamily: 'Nunito',
+                                                font: GoogleFonts.nunito(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                                fontSize: 16.0,
+                                                        .text2,
+                                                fontSize: 14.0,
                                                 letterSpacing: 0.0,
-                                                fontWeight: FontWeight.w500,
+                                                fontWeight: FontWeight.bold,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
                                               ),
                                         ),
-                                      ],
+                                      ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  if (_model.date != null)
+                                    Container(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.35,
+                                      decoration: BoxDecoration(),
+                                      child: Visibility(
+                                        visible: _model.date != null,
+                                        child: Align(
+                                          alignment:
+                                              AlignmentDirectional(-1.0, 0.0),
+                                          child: Text(
+                                            dateTimeFormat(
+                                                "dd MMM y", _model.date),
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.nunito(
+                                                    fontWeight:
+                                                        FontWeight.normal,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .text2,
+                                                  fontSize: 16.0,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.normal,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  Container(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.18,
+                                    decoration: BoxDecoration(),
+                                    child: Align(
+                                      alignment: AlignmentDirectional(1.0, 0.0),
+                                      child: InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          final _datePickedDate =
+                                              await showDatePicker(
+                                            context: context,
+                                            initialDate: getCurrentTimestamp,
+                                            firstDate: DateTime(1900),
+                                            lastDate: getCurrentTimestamp,
+                                            builder: (context, child) {
+                                              return wrapInMaterialDatePickerTheme(
+                                                context,
+                                                child!,
+                                                headerBackgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                headerForegroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .info,
+                                                headerTextStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .headlineLarge
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .nunito(
+                                                            fontWeight:
+                                                                FontWeight.w600,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .headlineLarge
+                                                                    .fontStyle,
+                                                          ),
+                                                          fontSize: 32.0,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .headlineLarge
+                                                                  .fontStyle,
+                                                        ),
+                                                pickerBackgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondaryBackground,
+                                                pickerForegroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                selectedDateTimeBackgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primary,
+                                                selectedDateTimeForegroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .info,
+                                                actionButtonForegroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .primaryText,
+                                                iconSize: 24.0,
+                                              );
+                                            },
+                                          );
+
+                                          if (_datePickedDate != null) {
+                                            safeSetState(() {
+                                              _model.datePicked = DateTime(
+                                                _datePickedDate.year,
+                                                _datePickedDate.month,
+                                                _datePickedDate.day,
+                                              );
+                                            });
+                                          } else if (_model.datePicked !=
+                                              null) {
+                                            safeSetState(() {
+                                              _model.datePicked =
+                                                  getCurrentTimestamp;
+                                            });
+                                          }
+                                          if (_model.datePicked != null) {
+                                            _model.date = _model.datePicked;
+                                            safeSetState(() {});
+                                          } else {
+                                            _model.date = getCurrentTimestamp;
+                                            safeSetState(() {});
+                                          }
+                                        },
+                                        child: Icon(
+                                          FFIcons.kvector2x,
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          size: 25.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 10.0, 0.0, 10.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -1559,18 +1852,28 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                 functions.isDatePassed(
                                                     e.eventDate!) ==
                                                 false)
-                                            .toList().isNotEmpty) &&
+                                            .toList()
+                                            .length !=
+                                        0) &&
                                     (valueOrDefault(
                                             currentUserDocument?.userRole, 0) !=
                                         1))
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 0.0, 20.0, 0.0),
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 5.0, 0.0),
                                     child: AuthUserStreamWidget(
-                                      builder: (context) => FFButtonWidget(
-                                        onPressed: () async {
+                                      builder: (context) => InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          if (Navigator.of(context).canPop()) {
+                                            context.pop();
+                                          }
                                           context.pushNamed(
-                                            'ClassNotice_Admin_Teacher',
+                                            ClassNoticeAdminTeacherWidget
+                                                .routeName,
                                             queryParameters: {
                                               'classref': serializeParam(
                                                 classViewSchoolClassRecord
@@ -1581,44 +1884,70 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                 widget.schoolref,
                                                 ParamType.DocumentReference,
                                               ),
-                                              'date': serializeParam(
-                                                _model.date,
-                                                ParamType.DateTime,
+                                              'notice': serializeParam(
+                                                false,
+                                                ParamType.bool,
                                               ),
                                             }.withoutNulls,
                                           );
                                         },
-                                        text: 'Create New',
-                                        icon: Icon(
-                                          Icons.add_circle,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          size: 20.0,
-                                        ),
-                                        options: FFButtonOptions(
+                                        child: Container(
                                           height: 40.0,
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  16.0, 0.0, 16.0, 0.0),
-                                          iconAlignment: IconAlignment.end,
-                                          iconPadding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 0.0),
-                                          color: FlutterFlowTheme.of(context)
-                                              .tertiary,
-                                          textStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .titleSmall
-                                              .override(
-                                                fontFamily: 'Nunito',
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryBackground,
-                                                letterSpacing: 0.0,
+                                          decoration: BoxDecoration(
+                                            color: FlutterFlowTheme.of(context)
+                                                .tertiary,
+                                          ),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Text(
+                                                'Create New',
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .bodyMedium
+                                                    .override(
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .primaryBackground,
+                                                      fontSize: 12.0,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
                                               ),
-                                          elevation: 0.0,
-                                          borderRadius:
-                                              BorderRadius.circular(0.0),
+                                              Container(
+                                                width: 25.0,
+                                                height: 25.0,
+                                                decoration: BoxDecoration(
+                                                  color: Color(0xFFE4EDFC),
+                                                  shape: BoxShape.circle,
+                                                ),
+                                                child: Icon(
+                                                  Icons.add,
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primary,
+                                                  size: 16.0,
+                                                ),
+                                              ),
+                                            ]
+                                                .divide(SizedBox(width: 10.0))
+                                                .around(SizedBox(width: 10.0)),
+                                          ),
                                         ),
                                       ),
                                     ),
@@ -1634,18 +1963,23 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                           functions
                                               .isDatePassed(e.eventDate!) ==
                                           false)
-                                      .toList().isEmpty) &&
+                                      .toList()
+                                      .length ==
+                                  0) &&
                               (valueOrDefault(
                                       currentUserDocument?.userRole, 0) !=
                                   1))
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   10.0, 0.0, 0.0, 0.0),
                               child: AuthUserStreamWidget(
                                 builder: (context) => FFButtonWidget(
                                   onPressed: () async {
+                                    if (Navigator.of(context).canPop()) {
+                                      context.pop();
+                                    }
                                     context.pushNamed(
-                                      'ClassNotice_Admin_Teacher',
+                                      ClassNoticeAdminTeacherWidget.routeName,
                                       queryParameters: {
                                         'classref': serializeParam(
                                           classViewSchoolClassRecord.reference,
@@ -1655,9 +1989,9 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                           widget.schoolref,
                                           ParamType.DocumentReference,
                                         ),
-                                        'date': serializeParam(
-                                          _model.date,
-                                          ParamType.DateTime,
+                                        'notice': serializeParam(
+                                          false,
+                                          ParamType.bool,
                                         ),
                                       }.withoutNulls,
                                     );
@@ -1665,34 +1999,57 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                   text: 'Add Notice',
                                   icon: Icon(
                                     Icons.add,
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryBackground,
                                     size: 20.0,
                                   ),
                                   options: FFButtonOptions(
                                     height: 40.0,
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         16.0, 0.0, 16.0, 0.0),
                                     iconAlignment: IconAlignment.end,
-                                    iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 0.0, 0.0, 0.0),
+                                    iconColor: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
                                     color:
                                         FlutterFlowTheme.of(context).secondary,
                                     textStyle: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .primaryBackground,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
                                         ),
+                                    elevation: 0.0,
+                                    borderSide: BorderSide(
+                                      color: FlutterFlowTheme.of(context)
+                                          .secondaryBorder,
+                                      width: 1.0,
+                                    ),
                                     borderRadius: BorderRadius.circular(8.0),
                                   ),
                                 ),
                               ),
                             ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 10.0, 0.0, 0.0),
                             child: Container(
                               decoration: BoxDecoration(
@@ -1701,24 +2058,38 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 20.0),
                             child: Builder(
                               builder: (context) {
-                                final noticeboard = classViewSchoolClassRecord
-                                    .notice
-                                    .sortedList(
-                                        keyOf: (e) => e.eventDate!, desc: true)
-                                    .where((e) =>
-                                        dateTimeFormat("yMMMd", _model.date) ==
-                                        dateTimeFormat("yMMMd", e.eventDate))
+                                final noticeboard = (_model.date != null
+                                        ? classViewSchoolClassRecord.notice
+                                            .sortedList(
+                                                keyOf: (e) => e.eventDate!,
+                                                desc: true)
+                                            .where((e) =>
+                                                dateTimeFormat(
+                                                    "yMMMd", _model.date) ==
+                                                dateTimeFormat(
+                                                    "yMMMd", e.eventDate))
+                                            .toList()
+                                        : classViewSchoolClassRecord.notice
+                                            .sortedList(
+                                                keyOf: (e) => e.eventDate!,
+                                                desc: true))
                                     .toList();
                                 if (noticeboard.isEmpty) {
-                                  return const EmptynoticeWidget();
+                                  return Container(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 1.0,
+                                    height:
+                                        MediaQuery.sizeOf(context).height * 0.4,
+                                    child: EmptyWidget(),
+                                  );
                                 }
 
                                 return ListView.builder(
-                                  padding: const EdgeInsets.fromLTRB(
+                                  padding: EdgeInsets.fromLTRB(
                                     0,
                                     0,
                                     0,
@@ -1732,7 +2103,7 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                     final noticeboardItem =
                                         noticeboard[noticeboardIndex];
                                     return Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           10.0, 0.0, 10.0, 8.0),
                                       child: InkWell(
                                         splashColor: Colors.transparent,
@@ -1741,21 +2112,26 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                         highlightColor: Colors.transparent,
                                         onTap: () async {
                                           context.pushNamed(
-                                            'Notice_details',
+                                            NoticeDetailsWidget.routeName,
                                             queryParameters: {
                                               'eventDetails': serializeParam(
                                                 noticeboardItem,
                                                 ParamType.DataStruct,
+                                              ),
+                                              'classRef': serializeParam(
+                                                classViewSchoolClassRecord
+                                                    .className,
+                                                ParamType.String,
                                               ),
                                             }.withoutNulls,
                                           );
                                         },
                                         child: Material(
                                           color: Colors.transparent,
-                                          elevation: 5.0,
+                                          elevation: 2.0,
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
-                                                BorderRadius.circular(16.0),
+                                                BorderRadius.circular(8.0),
                                           ),
                                           child: Container(
                                             decoration: BoxDecoration(
@@ -1763,10 +2139,14 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                   FlutterFlowTheme.of(context)
                                                       .secondaryBackground,
                                               borderRadius:
-                                                  BorderRadius.circular(16.0),
+                                                  BorderRadius.circular(8.0),
+                                              border: Border.all(
+                                                color: Color(0xFFFFFCF0),
+                                                width: 2.0,
+                                              ),
                                             ),
                                             child: Padding(
-                                              padding: const EdgeInsetsDirectional
+                                              padding: EdgeInsetsDirectional
                                                   .fromSTEB(
                                                       10.0, 8.0, 8.0, 8.0),
                                               child: Column(
@@ -1774,34 +2154,31 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 5.0),
-                                                    child: Row(
-                                                      mainAxisSize:
-                                                          MainAxisSize.max,
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      5.0),
-                                                          child: Container(
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.max,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          Container(
                                                             width: MediaQuery
                                                                         .sizeOf(
                                                                             context)
                                                                     .width *
-                                                                0.3,
+                                                                0.35,
                                                             decoration:
-                                                                const BoxDecoration(),
+                                                                BoxDecoration(),
                                                             child: Text(
                                                               noticeboardItem
                                                                   .eventTitle,
@@ -1809,11 +2186,18 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                                       .of(context)
                                                                   .bodyMedium
                                                                   .override(
-                                                                    fontFamily:
-                                                                        'Nunito',
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primaryText,
+                                                                    font: GoogleFonts
+                                                                        .nunito(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w600,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    color: Color(
+                                                                        0xFF151E28),
                                                                     fontSize:
                                                                         16.0,
                                                                     letterSpacing:
@@ -1821,110 +2205,179 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                                     fontWeight:
                                                                         FontWeight
                                                                             .w600,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
                                                                   ),
                                                             ),
                                                           ),
-                                                        ),
-                                                        Row(
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0,
+                                                                        5.0),
+                                                            child: Text(
+                                                              dateTimeFormat(
+                                                                  "dd MMM y",
+                                                                  noticeboardItem
+                                                                      .eventDate!),
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .bodyMedium
+                                                                  .override(
+                                                                    font: GoogleFonts
+                                                                        .nunito(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .tertiaryText,
+                                                                    fontSize:
+                                                                        14.0,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      Align(
+                                                        alignment:
+                                                            AlignmentDirectional(
+                                                                1.0, 0.0),
+                                                        child: Row(
                                                           mainAxisSize:
                                                               MainAxisSize.max,
                                                           children: [
                                                             Container(
-                                                              height: MediaQuery
-                                                                          .sizeOf(
-                                                                              context)
-                                                                      .height *
-                                                                  0.06,
                                                               decoration:
                                                                   BoxDecoration(
-                                                                color: () {
-                                                                  if (noticeboardItem
-                                                                          .eventName ==
-                                                                      'General') {
-                                                                    return const Color(
-                                                                        0xFFFFFCF0);
-                                                                  } else if (noticeboardItem
-                                                                          .eventName ==
-                                                                      'Reminder') {
-                                                                    return const Color(
-                                                                        0xFFFBF0FF);
-                                                                  } else {
-                                                                    return const Color(
-                                                                        0xFFFFFCF0);
-                                                                  }
-                                                                }(),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            10.0),
-                                                                border:
-                                                                    Border.all(
-                                                                  color: () {
+                                                                color:
+                                                                    valueOrDefault<
+                                                                        Color>(
+                                                                  () {
                                                                     if (noticeboardItem
                                                                             .eventName ==
-                                                                        'General') {
-                                                                      return const Color(
-                                                                          0xFFFF976A);
+                                                                        'Homework') {
+                                                                      return FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .homework;
                                                                     } else if (noticeboardItem
                                                                             .eventName ==
                                                                         'Reminder') {
-                                                                      return const Color(
-                                                                          0xFFADA6EB);
+                                                                      return FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .reminderfill;
                                                                     } else {
-                                                                      return const Color(
-                                                                          0xFFB0FF6A);
+                                                                      return FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .event;
                                                                     }
                                                                   }(),
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .text,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            3.59),
+                                                                border:
+                                                                    Border.all(
+                                                                  color:
+                                                                      valueOrDefault<
+                                                                          Color>(
+                                                                    () {
+                                                                      if (noticeboardItem
+                                                                              .eventName ==
+                                                                          'Homework') {
+                                                                        return FlutterFlowTheme.of(context)
+                                                                            .homeworkborder;
+                                                                      } else if (noticeboardItem
+                                                                              .eventName ==
+                                                                          'Reminder') {
+                                                                        return FlutterFlowTheme.of(context)
+                                                                            .reminderborder;
+                                                                      } else {
+                                                                        return FlutterFlowTheme.of(context)
+                                                                            .generalBorder;
+                                                                      }
+                                                                    }(),
+                                                                    FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .text,
+                                                                  ),
+                                                                  width: 1.0,
                                                                 ),
                                                               ),
                                                               child: Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            10.0,
-                                                                            0.0),
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            5.0),
                                                                 child: Row(
                                                                   mainAxisSize:
                                                                       MainAxisSize
                                                                           .max,
                                                                   mainAxisAlignment:
                                                                       MainAxisAlignment
-                                                                          .spaceEvenly,
+                                                                          .start,
                                                                   children: [
                                                                     if (noticeboardItem
                                                                             .eventName ==
-                                                                        'Notice')
-                                                                      Icon(
-                                                                        Icons
-                                                                            .push_pin,
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .checkBg,
-                                                                        size:
-                                                                            20.0,
+                                                                        'General')
+                                                                      Image
+                                                                          .asset(
+                                                                        'assets/images/9e73b2e5203026ba49a296de36e434f3.png',
+                                                                        width:
+                                                                            15.5,
+                                                                        height:
+                                                                            15.5,
+                                                                        fit: BoxFit
+                                                                            .cover,
                                                                       ),
                                                                     if (noticeboardItem
                                                                             .eventName ==
                                                                         'Reminder')
-                                                                      Icon(
-                                                                        Icons
-                                                                            .alarm,
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .error,
-                                                                        size:
-                                                                            20.0,
+                                                                      Image
+                                                                          .asset(
+                                                                        'assets/images/3d-alarm.png',
+                                                                        width:
+                                                                            15.5,
+                                                                        height:
+                                                                            15.5,
+                                                                        fit: BoxFit
+                                                                            .cover,
                                                                       ),
                                                                     if (noticeboardItem
                                                                             .eventName ==
-                                                                        'General')
-                                                                      Icon(
-                                                                        Icons
-                                                                            .mode_comment,
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .warning,
-                                                                        size:
-                                                                            20.0,
+                                                                        'Homework')
+                                                                      Image
+                                                                          .asset(
+                                                                        'assets/images/d291c399c6895698b0bb48476409d42e.png',
+                                                                        width:
+                                                                            15.5,
+                                                                        height:
+                                                                            15.5,
+                                                                        fit: BoxFit
+                                                                            .cover,
                                                                       ),
                                                                     Text(
                                                                       noticeboardItem
@@ -1933,8 +2386,11 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                                               context)
                                                                           .bodyMedium
                                                                           .override(
-                                                                            fontFamily:
-                                                                                'Inter',
+                                                                            font:
+                                                                                GoogleFonts.inter(
+                                                                              fontWeight: FontWeight.w500,
+                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                            ),
                                                                             color:
                                                                                 FlutterFlowTheme.of(context).primaryText,
                                                                             fontSize:
@@ -1943,35 +2399,30 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                                                 0.0,
                                                                             fontWeight:
                                                                                 FontWeight.w500,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                           ),
                                                                     ),
                                                                   ]
-                                                                      .divide(const SizedBox(
+                                                                      .divide(SizedBox(
                                                                           width:
-                                                                              10.0))
-                                                                      .around(const SizedBox(
+                                                                              5.0))
+                                                                      .around(SizedBox(
                                                                           width:
-                                                                              10.0)),
+                                                                              5.0)),
                                                                 ),
                                                               ),
                                                             ),
-                                                            if ((dateTimeFormat(
-                                                                        "yMd",
-                                                                        noticeboardItem
-                                                                            .eventDate) !=
-                                                                    dateTimeFormat(
-                                                                        "yMd",
-                                                                        getCurrentTimestamp)) &&
-                                                                (valueOrDefault(
-                                                                        currentUserDocument
-                                                                            ?.userRole,
-                                                                        0) !=
-                                                                    1))
+                                                            if (valueOrDefault(
+                                                                    currentUserDocument
+                                                                        ?.userRole,
+                                                                    0) !=
+                                                                1)
                                                               Builder(
                                                                 builder:
                                                                     (context) =>
                                                                         Padding(
-                                                                  padding: const EdgeInsetsDirectional
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           0.0,
                                                                           5.0,
@@ -1991,13 +2442,14 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                                         Icons
                                                                             .more_vert,
                                                                         color: FlutterFlowTheme.of(context)
-                                                                            .primaryText,
+                                                                            .tertiaryText,
                                                                         size:
                                                                             20.0,
                                                                       ),
                                                                       onPressed:
                                                                           () async {
-                                                                        if (noticeboardItem.eventImages.isEmpty) {
+                                                                        if (noticeboardItem.eventfiles.length ==
+                                                                            0) {
                                                                           await showAlignedDialog(
                                                                             context:
                                                                                 context,
@@ -2006,9 +2458,9 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                                             avoidOverflow:
                                                                                 false,
                                                                             targetAnchor:
-                                                                                const AlignmentDirectional(1.0, 0.0).resolve(Directionality.of(context)),
+                                                                                AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
                                                                             followerAnchor:
-                                                                                const AlignmentDirectional(1.0, 0.0).resolve(Directionality.of(context)),
+                                                                                AlignmentDirectional(1.0, -1.0).resolve(Directionality.of(context)),
                                                                             builder:
                                                                                 (dialogContext) {
                                                                               return Material(
@@ -2018,7 +2470,7 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                                                     FocusScope.of(dialogContext).unfocus();
                                                                                     FocusManager.instance.primaryFocus?.unfocus();
                                                                                   },
-                                                                                  child: SizedBox(
+                                                                                  child: Container(
                                                                                     height: MediaQuery.sizeOf(context).height * 0.12,
                                                                                     width: MediaQuery.sizeOf(context).width * 0.45,
                                                                                     child: EditDeleteNoticeWidget(
@@ -2031,6 +2483,7 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                                                         eventDescription: noticeboardItem.eventDescription,
                                                                                         eventDate: noticeboardItem.eventDate,
                                                                                         eventName: noticeboardItem.eventName,
+                                                                                        classref: noticeboardItem.classref,
                                                                                       ),
                                                                                       noticebool: true,
                                                                                       schoolref: widget.schoolref!,
@@ -2049,9 +2502,9 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                                             avoidOverflow:
                                                                                 false,
                                                                             targetAnchor:
-                                                                                const AlignmentDirectional(1.0, 0.0).resolve(Directionality.of(context)),
+                                                                                AlignmentDirectional(0.0, 0.0).resolve(Directionality.of(context)),
                                                                             followerAnchor:
-                                                                                const AlignmentDirectional(1.0, 0.0).resolve(Directionality.of(context)),
+                                                                                AlignmentDirectional(1.0, -1.0).resolve(Directionality.of(context)),
                                                                             builder:
                                                                                 (dialogContext) {
                                                                               return Material(
@@ -2061,7 +2514,7 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                                                     FocusScope.of(dialogContext).unfocus();
                                                                                     FocusManager.instance.primaryFocus?.unfocus();
                                                                                   },
-                                                                                  child: SizedBox(
+                                                                                  child: Container(
                                                                                     height: MediaQuery.sizeOf(context).height * 0.12,
                                                                                     width: MediaQuery.sizeOf(context).width * 0.45,
                                                                                     child: EditDeleteNoticeWidget(
@@ -2076,7 +2529,16 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                                                         eventDescription: noticeboardItem.eventDescription,
                                                                                         eventDate: noticeboardItem.eventDate,
                                                                                         eventName: noticeboardItem.eventName,
-                                                                                        eventImages: noticeboardItem.eventImages,
+                                                                                        eventfiles: noticeboardItem.eventfiles,
+                                                                                      ),
+                                                                                      event: EventsNoticeStruct(
+                                                                                        eventId: noticeboardItem.eventId,
+                                                                                        eventTitle: noticeboardItem.eventTitle,
+                                                                                        eventDescription: noticeboardItem.eventDescription,
+                                                                                        eventDate: noticeboardItem.eventDate,
+                                                                                        eventName: noticeboardItem.eventName,
+                                                                                        classref: noticeboardItem.classref,
+                                                                                        eventfiles: noticeboardItem.eventfiles,
                                                                                       ),
                                                                                     ),
                                                                                   ),
@@ -2090,50 +2552,25 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                                   ),
                                                                 ),
                                                               ),
-                                                          ].divide(const SizedBox(
+                                                          ].divide(SizedBox(
                                                               width: 10.0)),
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                    ].divide(
+                                                        SizedBox(width: 5.0)),
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 0.0,
-                                                                0.0, 10.0),
-                                                    child: Text(
-                                                      dateTimeFormat(
-                                                          "dd MMM , y",
-                                                          noticeboardItem
-                                                              .eventDate!),
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Nunito',
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .tertiaryText,
-                                                            fontSize: 14.0,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 10.0),
+                                                                0.0, 5.0),
                                                     child: Container(
                                                       width: MediaQuery.sizeOf(
                                                                   context)
                                                               .width *
                                                           0.8,
                                                       decoration:
-                                                          const BoxDecoration(),
+                                                          BoxDecoration(),
                                                       child: Text(
                                                         noticeboardItem
                                                             .eventDescription,
@@ -2142,124 +2579,483 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                                     context)
                                                                 .bodyMedium
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .tertiaryText,
+                                                                  fontSize:
+                                                                      16.0,
                                                                   letterSpacing:
                                                                       0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
                                                                 ),
                                                       ),
                                                     ),
                                                   ),
                                                   Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 8.0,
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(0.0, 10.0,
                                                                 0.0, 0.0),
-                                                    child: Builder(
-                                                      builder: (context) {
-                                                        final uploadedImages =
-                                                            noticeboardItem
-                                                                .eventImages
-                                                                .toList();
-
-                                                        return SingleChildScrollView(
-                                                          scrollDirection:
-                                                              Axis.horizontal,
-                                                          child: Row(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            children: List.generate(
-                                                                uploadedImages
-                                                                    .length,
-                                                                (uploadedImagesIndex) {
-                                                              final uploadedImagesItem =
-                                                                  uploadedImages[
-                                                                      uploadedImagesIndex];
-                                                              return Padding(
-                                                                padding:
-                                                                    const EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            5.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                child:
-                                                                    Container(
-                                                                  width: 50.0,
-                                                                  height: 50.0,
-                                                                  decoration:
-                                                                      const BoxDecoration(),
-                                                                  child:
-                                                                      InkWell(
-                                                                    splashColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    focusColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    hoverColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    highlightColor:
-                                                                        Colors
-                                                                            .transparent,
-                                                                    onTap:
-                                                                        () async {
-                                                                      await Navigator
-                                                                          .push(
-                                                                        context,
-                                                                        PageTransition(
-                                                                          type:
-                                                                              PageTransitionType.fade,
-                                                                          child:
-                                                                              FlutterFlowExpandedImageView(
-                                                                            image:
-                                                                                Image.network(
-                                                                              uploadedImagesItem,
-                                                                              fit: BoxFit.contain,
-                                                                            ),
-                                                                            allowRotation:
-                                                                                false,
-                                                                            tag:
-                                                                                uploadedImagesItem,
-                                                                            useHeroAnimation:
-                                                                                true,
-                                                                          ),
-                                                                        ),
-                                                                      );
-                                                                    },
-                                                                    child: Hero(
-                                                                      tag:
-                                                                          uploadedImagesItem,
-                                                                      transitionOnUserGestures:
-                                                                          true,
-                                                                      child:
-                                                                          ClipRRect(
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(8.0),
-                                                                        child: Image
-                                                                            .network(
-                                                                          uploadedImagesItem,
-                                                                          width:
-                                                                              50.0,
-                                                                          height:
-                                                                              50.0,
-                                                                          fit: BoxFit
-                                                                              .cover,
-                                                                        ),
-                                                                      ),
+                                                    child: Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        if (noticeboardItem
+                                                                .eventfiles
+                                                                .where((e) =>
+                                                                    functions
+                                                                        .getFileTypeFromUrl(
+                                                                            e) ==
+                                                                    1)
+                                                                .toList()
+                                                                .length !=
+                                                            0)
+                                                          badges.Badge(
+                                                            badgeContent: Text(
+                                                              noticeboardItem
+                                                                  .eventfiles
+                                                                  .where((e) =>
+                                                                      functions
+                                                                          .getFileTypeFromUrl(
+                                                                              e) ==
+                                                                      1)
+                                                                  .toList()
+                                                                  .length
+                                                                  .toString(),
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .titleSmall
+                                                                  .override(
+                                                                    font: GoogleFonts
+                                                                        .nunito(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .titleSmall
+                                                                          .fontStyle,
                                                                     ),
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .secondaryBackground,
+                                                                    fontSize:
+                                                                        12.0,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontStyle,
                                                                   ),
-                                                                ),
-                                                              );
-                                                            }),
+                                                            ),
+                                                            showBadge: true,
+                                                            shape: badges
+                                                                .BadgeShape
+                                                                .circle,
+                                                            badgeColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primary,
+                                                            elevation: 5.0,
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    5.0),
+                                                            position: badges
+                                                                    .BadgePosition
+                                                                .topEnd(),
+                                                            animationType: badges
+                                                                .BadgeAnimationType
+                                                                .scale,
+                                                            toAnimate: true,
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8.0),
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images/download.png',
+                                                                width: 46.0,
+                                                                height: 41.0,
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              ),
+                                                            ),
                                                           ),
-                                                        );
-                                                      },
+                                                        if (noticeboardItem
+                                                                .eventfiles
+                                                                .where((e) =>
+                                                                    functions
+                                                                        .getFileTypeFromUrl(
+                                                                            e) ==
+                                                                    2)
+                                                                .toList()
+                                                                .length !=
+                                                            0)
+                                                          badges.Badge(
+                                                            badgeContent: Text(
+                                                              noticeboardItem
+                                                                  .eventfiles
+                                                                  .where((e) =>
+                                                                      functions
+                                                                          .getFileTypeFromUrl(
+                                                                              e) ==
+                                                                      2)
+                                                                  .toList()
+                                                                  .length
+                                                                  .toString(),
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .titleSmall
+                                                                  .override(
+                                                                    font: GoogleFonts
+                                                                        .nunito(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .titleSmall
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .secondary,
+                                                                    fontSize:
+                                                                        12.0,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontStyle,
+                                                                  ),
+                                                            ),
+                                                            showBadge: true,
+                                                            shape: badges
+                                                                .BadgeShape
+                                                                .circle,
+                                                            badgeColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primary,
+                                                            elevation: 0.0,
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    5.0),
+                                                            position: badges
+                                                                    .BadgePosition
+                                                                .topEnd(),
+                                                            animationType: badges
+                                                                .BadgeAnimationType
+                                                                .scale,
+                                                            toAnimate: true,
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8.0),
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images/download_(1).png',
+                                                                width: 46.0,
+                                                                height: 41.0,
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        if (noticeboardItem
+                                                                .eventfiles
+                                                                .where((e) =>
+                                                                    functions
+                                                                        .getFileTypeFromUrl(
+                                                                            e) ==
+                                                                    3)
+                                                                .toList()
+                                                                .length !=
+                                                            0)
+                                                          badges.Badge(
+                                                            badgeContent: Text(
+                                                              noticeboardItem
+                                                                  .eventfiles
+                                                                  .where((e) =>
+                                                                      functions
+                                                                          .getFileTypeFromUrl(
+                                                                              e) ==
+                                                                      3)
+                                                                  .toList()
+                                                                  .length
+                                                                  .toString(),
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .titleSmall
+                                                                  .override(
+                                                                    font: GoogleFonts
+                                                                        .nunito(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .titleSmall
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .secondary,
+                                                                    fontSize:
+                                                                        12.0,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontStyle,
+                                                                  ),
+                                                            ),
+                                                            showBadge: true,
+                                                            shape: badges
+                                                                .BadgeShape
+                                                                .circle,
+                                                            badgeColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primary,
+                                                            elevation: 0.0,
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    5.0),
+                                                            position: badges
+                                                                    .BadgePosition
+                                                                .topEnd(),
+                                                            animationType: badges
+                                                                .BadgeAnimationType
+                                                                .scale,
+                                                            toAnimate: true,
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8.0),
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images/download_(2).png',
+                                                                width: 46.0,
+                                                                height: 41.0,
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        if (noticeboardItem
+                                                                .eventfiles
+                                                                .where((e) =>
+                                                                    functions
+                                                                        .getFileTypeFromUrl(
+                                                                            e) ==
+                                                                    4)
+                                                                .toList()
+                                                                .length !=
+                                                            0)
+                                                          badges.Badge(
+                                                            badgeContent: Text(
+                                                              noticeboardItem
+                                                                  .eventfiles
+                                                                  .where((e) =>
+                                                                      functions
+                                                                          .getFileTypeFromUrl(
+                                                                              e) ==
+                                                                      4)
+                                                                  .toList()
+                                                                  .length
+                                                                  .toString(),
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .titleSmall
+                                                                  .override(
+                                                                    font: GoogleFonts
+                                                                        .nunito(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .titleSmall
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .secondary,
+                                                                    fontSize:
+                                                                        12.0,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontStyle,
+                                                                  ),
+                                                            ),
+                                                            showBadge: true,
+                                                            shape: badges
+                                                                .BadgeShape
+                                                                .circle,
+                                                            badgeColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primary,
+                                                            elevation: 0.0,
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    5.0),
+                                                            position: badges
+                                                                    .BadgePosition
+                                                                .topEnd(),
+                                                            animationType: badges
+                                                                .BadgeAnimationType
+                                                                .scale,
+                                                            toAnimate: true,
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8.0),
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images/clarity_image-gallery-line.png',
+                                                                width: 46.0,
+                                                                height: 41.0,
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        if (noticeboardItem
+                                                                .eventfiles
+                                                                .where((e) =>
+                                                                    functions
+                                                                        .getFileTypeFromUrl(
+                                                                            e) ==
+                                                                    5)
+                                                                .toList()
+                                                                .length !=
+                                                            0)
+                                                          badges.Badge(
+                                                            badgeContent: Text(
+                                                              noticeboardItem
+                                                                  .eventfiles
+                                                                  .where((e) =>
+                                                                      functions
+                                                                          .getFileTypeFromUrl(
+                                                                              e) ==
+                                                                      5)
+                                                                  .toList()
+                                                                  .length
+                                                                  .toString(),
+                                                              style: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .titleSmall
+                                                                  .override(
+                                                                    font: GoogleFonts
+                                                                        .nunito(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .normal,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .titleSmall
+                                                                          .fontStyle,
+                                                                    ),
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .secondary,
+                                                                    fontSize:
+                                                                        12.0,
+                                                                    letterSpacing:
+                                                                        0.0,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontStyle,
+                                                                  ),
+                                                            ),
+                                                            showBadge: true,
+                                                            shape: badges
+                                                                .BadgeShape
+                                                                .circle,
+                                                            badgeColor:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primary,
+                                                            elevation: 0.0,
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                    5.0),
+                                                            position: badges
+                                                                    .BadgePosition
+                                                                .topEnd(),
+                                                            animationType: badges
+                                                                .BadgeAnimationType
+                                                                .scale,
+                                                            toAnimate: true,
+                                                            child: ClipRRect(
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          8.0),
+                                                              child:
+                                                                  Image.asset(
+                                                                'assets/images/download-removebg-preview.png',
+                                                                width: 46.0,
+                                                                height: 41.0,
+                                                                fit: BoxFit
+                                                                    .contain,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                      ]
+                                                          .divide(SizedBox(
+                                                              width: 18.0))
+                                                          .around(SizedBox(
+                                                              width: 18.0)),
                                                     ),
                                                   ),
                                                 ],

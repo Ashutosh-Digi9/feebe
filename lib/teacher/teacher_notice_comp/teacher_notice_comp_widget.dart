@@ -8,6 +8,7 @@ import '/flutter_flow/upload_data.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'teacher_notice_comp_model.dart';
 export 'teacher_notice_comp_model.dart';
@@ -58,7 +59,7 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
     context.watch<FFAppState>();
 
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: EdgeInsets.all(5.0),
       child: Material(
         color: Colors.transparent,
         elevation: 1.0,
@@ -67,31 +68,59 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
         ),
         child: Container(
           width: MediaQuery.sizeOf(context).width * 1.0,
+          height: MediaQuery.sizeOf(context).height * 1.0,
           decoration: BoxDecoration(
             color: FlutterFlowTheme.of(context).tertiary,
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(10.0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Align(
+                    alignment: AlignmentDirectional(1.0, 0.0),
+                    child: Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+                      child: FlutterFlowIconButton(
+                        borderRadius: 30.0,
+                        buttonSize: 35.0,
+                        fillColor: FlutterFlowTheme.of(context).secondaryText,
+                        hoverColor:
+                            FlutterFlowTheme.of(context).primaryBackground,
+                        hoverIconColor:
+                            FlutterFlowTheme.of(context).secondaryBackground,
+                        icon: Icon(
+                          Icons.close,
+                          color: FlutterFlowTheme.of(context).primaryBackground,
+                          size: 18.0,
+                        ),
+                        onPressed: () async {
+                          FFAppState().eventfiles = [];
+                          safeSetState(() {});
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ),
+                  ),
                   Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 10.0, 0.0),
                         child: InkWell(
                           splashColor: Colors.transparent,
                           focusColor: Colors.transparent,
                           hoverColor: Colors.transparent,
                           highlightColor: Colors.transparent,
                           onTap: () async {
-                            final datePickedDate = await showDatePicker(
+                            final _datePickedDate = await showDatePicker(
                               context: context,
                               initialDate: getCurrentTimestamp,
                               firstDate: getCurrentTimestamp,
@@ -107,10 +136,19 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                                   headerTextStyle: FlutterFlowTheme.of(context)
                                       .headlineLarge
                                       .override(
-                                        fontFamily: 'Nunito',
+                                        font: GoogleFonts.nunito(
+                                          fontWeight: FontWeight.w600,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .headlineLarge
+                                                  .fontStyle,
+                                        ),
                                         fontSize: 32.0,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.w600,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .headlineLarge
+                                            .fontStyle,
                                       ),
                                   pickerBackgroundColor:
                                       FlutterFlowTheme.of(context)
@@ -128,13 +166,17 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                               },
                             );
 
-                            if (datePickedDate != null) {
+                            if (_datePickedDate != null) {
                               safeSetState(() {
                                 _model.datePicked = DateTime(
-                                  datePickedDate.year,
-                                  datePickedDate.month,
-                                  datePickedDate.day,
+                                  _datePickedDate.year,
+                                  _datePickedDate.month,
+                                  _datePickedDate.day,
                                 );
+                              });
+                            } else if (_model.datePicked != null) {
+                              safeSetState(() {
+                                _model.datePicked = getCurrentTimestamp;
                               });
                             }
                           },
@@ -151,258 +193,218 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                           dateTimeFormat("dd MMM , y", _model.datePicked),
                           style:
                               FlutterFlowTheme.of(context).bodyMedium.override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                         ),
                     ],
                   ),
                   Container(
                     width: MediaQuery.sizeOf(context).width * 0.9,
-                    decoration: const BoxDecoration(),
-                    child: Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
-                      child: SingleChildScrollView(
-                        scrollDirection: Axis.horizontal,
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                _model.teachernotice = 'Notice';
-                                safeSetState(() {});
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: valueOrDefault<Color>(
-                                    _model.teachernotice == 'Notice'
-                                        ? const Color(0xFFFFFCF0)
-                                        : const Color(0xFFF5F2F2),
-                                    const Color(0xFFF5F2F2),
-                                  ),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  border: Border.all(
-                                    color: valueOrDefault<Color>(
-                                      _model.teachernotice == 'Notice'
-                                          ? const Color(0xFFB0FF6A)
-                                          : FlutterFlowTheme.of(context).text,
-                                      FlutterFlowTheme.of(context).text,
-                                    ),
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 10.0, 0.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Icon(
-                                        Icons.push_pin,
-                                        color: valueOrDefault<Color>(
-                                          _model.teachernotice == 'Notice'
-                                              ? FlutterFlowTheme.of(context)
-                                                  .checkBg
-                                              : FlutterFlowTheme.of(context)
-                                                  .warning,
-                                          FlutterFlowTheme.of(context).warning,
-                                        ),
-                                        size: 20.0,
-                                      ),
-                                      Text(
-                                        'Notice',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Nunito',
-                                              color: valueOrDefault<Color>(
-                                                _model.teachernotice == 'Notice'
-                                                    ? FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText
-                                                    : FlutterFlowTheme.of(
-                                                            context)
-                                                        .alternate,
-                                                FlutterFlowTheme.of(context)
-                                                    .text,
-                                              ),
-                                              fontSize: 12.0,
-                                              letterSpacing: 0.0,
-                                            ),
-                                      ),
-                                    ]
-                                        .divide(const SizedBox(width: 10.0))
-                                        .around(const SizedBox(width: 10.0)),
-                                  ),
-                                ),
+                    decoration: BoxDecoration(),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            _model.teachernotice = 'General';
+                            safeSetState(() {});
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context).event,
+                              borderRadius: BorderRadius.circular(3.59),
+                              border: Border.all(
+                                color:
+                                    FlutterFlowTheme.of(context).generalBorder,
+                                width: _model.teachernotice == 'General'
+                                    ? 3.0
+                                    : 1.0,
                               ),
                             ),
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                _model.teachernotice = 'Reminder';
-                                safeSetState(() {});
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: valueOrDefault<Color>(
-                                    _model.teachernotice == 'Reminder'
-                                        ? const Color(0xC3FBF0FF)
-                                        : const Color(0xFFF5F2F2),
-                                    const Color(0xFFF5F2F2),
+                            child: Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/9e73b2e5203026ba49a296de36e434f3.png',
+                                    width: 15.5,
+                                    height: 15.5,
+                                    fit: BoxFit.cover,
                                   ),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  border: Border.all(
-                                    color: valueOrDefault<Color>(
-                                      _model.teachernotice == 'Reminder'
-                                          ? const Color(0xFFADA6EB)
-                                          : FlutterFlowTheme.of(context).text,
-                                      FlutterFlowTheme.of(context).text,
-                                    ),
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 10.0, 0.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Icon(
-                                        Icons.alarm_on,
-                                        color: valueOrDefault<Color>(
-                                          _model.teachernotice == 'Reminder'
-                                              ? FlutterFlowTheme.of(context)
-                                                  .error
-                                              : FlutterFlowTheme.of(context)
-                                                  .warning,
-                                          FlutterFlowTheme.of(context).warning,
-                                        ),
-                                        size: 20.0,
-                                      ),
-                                      Text(
-                                        'Reminder',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Nunito',
-                                              color: valueOrDefault<Color>(
-                                                _model.teachernotice ==
-                                                        'Reminder'
-                                                    ? FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText
-                                                    : FlutterFlowTheme.of(
-                                                            context)
-                                                        .alternate,
+                                  Text(
+                                    'General',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.nunito(
+                                            fontWeight: FontWeight.w500,
+                                            fontStyle:
                                                 FlutterFlowTheme.of(context)
-                                                    .text,
-                                              ),
-                                              fontSize: 12.0,
-                                              letterSpacing: 0.0,
-                                            ),
-                                      ),
-                                    ]
-                                        .divide(const SizedBox(width: 10.0))
-                                        .around(const SizedBox(width: 10.0)),
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          fontSize: 14.0,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.w500,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
                                   ),
-                                ),
+                                ]
+                                    .divide(SizedBox(width: 3.0))
+                                    .around(SizedBox(width: 3.0)),
                               ),
                             ),
-                            InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                _model.teachernotice = 'General';
-                                safeSetState(() {});
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  color: valueOrDefault<Color>(
-                                    _model.teachernotice == 'General'
-                                        ? const Color(0xFFFFFCF0)
-                                        : const Color(0xFFF5F2F2),
-                                    const Color(0xFFF5F2F2),
-                                  ),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  border: Border.all(
-                                    color: valueOrDefault<Color>(
-                                      _model.teachernotice == 'General'
-                                          ? const Color(0xFFFF976A)
-                                          : FlutterFlowTheme.of(context).text,
-                                      FlutterFlowTheme.of(context).text,
-                                    ),
-                                    width: 1.0,
-                                  ),
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 10.0, 0.0, 10.0),
-                                  child: Row(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Icon(
-                                        Icons.mode_comment,
-                                        color: valueOrDefault<Color>(
-                                          _model.teachernotice == 'General'
-                                              ? FlutterFlowTheme.of(context)
-                                                  .warning
-                                              : FlutterFlowTheme.of(context)
-                                                  .warning,
-                                          FlutterFlowTheme.of(context).warning,
-                                        ),
-                                        size: 20.0,
-                                      ),
-                                      Text(
-                                        'General',
-                                        style: FlutterFlowTheme.of(context)
-                                            .bodyMedium
-                                            .override(
-                                              fontFamily: 'Nunito',
-                                              color: valueOrDefault<Color>(
-                                                _model.teachernotice ==
-                                                        'General'
-                                                    ? FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryText
-                                                    : FlutterFlowTheme.of(
-                                                            context)
-                                                        .alternate,
-                                                FlutterFlowTheme.of(context)
-                                                    .text,
-                                              ),
-                                              fontSize: 12.0,
-                                              letterSpacing: 0.0,
-                                            ),
-                                      ),
-                                    ]
-                                        .divide(const SizedBox(width: 10.0))
-                                        .around(const SizedBox(width: 10.0)),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ].divide(const SizedBox(width: 10.0)),
+                          ),
                         ),
-                      ),
+                        InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            _model.teachernotice = 'Reminder';
+                            safeSetState(() {});
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context).reminderfill,
+                              borderRadius: BorderRadius.circular(3.59),
+                              border: Border.all(
+                                color:
+                                    FlutterFlowTheme.of(context).reminderborder,
+                                width: _model.teachernotice == 'Reminder'
+                                    ? 3.0
+                                    : 1.0,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/3d-alarm.png',
+                                    width: 15.5,
+                                    height: 15.5,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Text(
+                                    'Reminder',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.nunito(
+                                            fontWeight: FontWeight.w500,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          fontSize: 14.0,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.w500,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                  ),
+                                ]
+                                    .divide(SizedBox(width: 3.0))
+                                    .around(SizedBox(width: 3.0)),
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          splashColor: Colors.transparent,
+                          focusColor: Colors.transparent,
+                          hoverColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
+                          onTap: () async {
+                            _model.teachernotice = 'Homework';
+                            safeSetState(() {});
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context).homework,
+                              borderRadius: BorderRadius.circular(3.59),
+                              border: Border.all(
+                                color:
+                                    FlutterFlowTheme.of(context).homeworkborder,
+                                width: _model.teachernotice == 'Homework'
+                                    ? 3.0
+                                    : 1.0,
+                              ),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(5.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Image.asset(
+                                    'assets/images/d291c399c6895698b0bb48476409d42e.png',
+                                    width: 15.5,
+                                    height: 15.5,
+                                    fit: BoxFit.cover,
+                                  ),
+                                  Text(
+                                    'Homework',
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.nunito(
+                                            fontWeight: FontWeight.w500,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryText,
+                                          fontSize: 14.0,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.w500,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                  ),
+                                ]
+                                    .divide(SizedBox(width: 3.0))
+                                    .around(SizedBox(width: 3.0)),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ].divide(SizedBox(width: 10.0)),
                     ),
                   ),
                   Form(
@@ -412,9 +414,9 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 5.0, 0.0, 0.0),
-                          child: SizedBox(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 5.0, 0.0, 10.0),
+                          child: Container(
                             width: MediaQuery.sizeOf(context).width * 0.9,
                             child: TextFormField(
                               controller: _model.eventnameTextController,
@@ -427,33 +429,59 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontStyle,
+                                      ),
                                       color: valueOrDefault<Color>(
                                         (_model.eventnameFocusNode?.hasFocus ??
                                                 false)
                                             ? FlutterFlowTheme.of(context)
                                                 .primary
                                             : FlutterFlowTheme.of(context)
-                                                .alternate,
+                                                .textfieldText,
                                         FlutterFlowTheme.of(context).alternate,
                                       ),
-                                      fontSize: 12.0,
+                                      fontSize: (_model.eventnameFocusNode
+                                                  ?.hasFocus ??
+                                              false)
+                                          ? 12.0
+                                          : 16.0,
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
                                     ),
                                 hintText: 'Title',
                                 hintStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FontWeight.normal,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
-                                          .tertiaryText,
-                                      fontSize: 12.0,
+                                          .textfieldText,
+                                      fontSize: 16.0,
                                       letterSpacing: 0.0,
                                       fontWeight: FontWeight.normal,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
                                     ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).dIsable,
+                                    color: FlutterFlowTheme.of(context)
+                                        .textfieldDisable,
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(8.0),
@@ -487,8 +515,22 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context).text2,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                               maxLength: 25,
                               buildCounter: (context,
@@ -504,13 +546,17 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              0.0, 10.0, 0.0, 0.0),
-                          child: SizedBox(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 10.0, 0.0, 10.0),
+                          child: Container(
                             width: MediaQuery.sizeOf(context).width * 0.9,
                             child: TextFormField(
                               controller: _model.descriptionTextController,
                               focusNode: _model.descriptionFocusNode,
+                              onFieldSubmitted: (_) async {
+                                _model.last = true;
+                                safeSetState(() {});
+                              },
                               autofocus: false,
                               obscureText: false,
                               decoration: InputDecoration(
@@ -519,7 +565,14 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .labelMedium
+                                            .fontStyle,
+                                      ),
                                       color: valueOrDefault<Color>(
                                         (_model.descriptionFocusNode
                                                     ?.hasFocus ??
@@ -527,26 +580,45 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                                             ? FlutterFlowTheme.of(context)
                                                 .primary
                                             : FlutterFlowTheme.of(context)
-                                                .alternate,
+                                                .textfieldText,
                                         FlutterFlowTheme.of(context).alternate,
                                       ),
-                                      fontSize: 12.0,
+                                      fontSize: (_model.descriptionFocusNode
+                                                  ?.hasFocus ??
+                                              false)
+                                          ? 12.0
+                                          : 16.0,
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
                                     ),
                                 hintText: 'Description',
                                 hintStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FontWeight.normal,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
                                       color: FlutterFlowTheme.of(context)
-                                          .tertiaryText,
-                                      fontSize: 12.0,
+                                          .textfieldText,
+                                      fontSize: 16.0,
                                       letterSpacing: 0.0,
                                       fontWeight: FontWeight.normal,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
                                     ),
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context).dIsable,
+                                    color: FlutterFlowTheme.of(context)
+                                        .textfieldDisable,
                                     width: 1.0,
                                   ),
                                   borderRadius: BorderRadius.circular(8.0),
@@ -580,10 +652,24 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context).text2,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
-                              maxLines: 4,
+                              maxLines: 3,
                               cursorColor:
                                   FlutterFlowTheme.of(context).primaryText,
                               validator: _model
@@ -595,124 +681,225 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                       ],
                     ),
                   ),
-                  Container(
-                    decoration: const BoxDecoration(),
-                    child: Builder(
-                      builder: (context) {
-                        final imagesview =
-                            FFAppState().eventnoticeimage.toList();
+                  Align(
+                    alignment: AlignmentDirectional(-1.0, 0.0),
+                    child: Container(
+                      decoration: BoxDecoration(),
+                      child: Builder(
+                        builder: (context) {
+                          final imagesview = FFAppState().eventfiles.toList();
 
-                        return GridView.builder(
-                          padding: EdgeInsets.zero,
-                          gridDelegate:
-                              const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 5,
-                            crossAxisSpacing: 10.0,
-                            mainAxisSpacing: 10.0,
-                            childAspectRatio: 1.0,
-                          ),
-                          shrinkWrap: true,
-                          scrollDirection: Axis.vertical,
-                          itemCount: imagesview.length,
-                          itemBuilder: (context, imagesviewIndex) {
-                            final imagesviewItem = imagesview[imagesviewIndex];
-                            return ClipRRect(
-                              borderRadius: BorderRadius.circular(8.0),
-                              child: Image.network(
-                                imagesviewItem,
-                                fit: BoxFit.cover,
-                              ),
-                            );
-                          },
-                        );
-                      },
+                          return SingleChildScrollView(
+                            scrollDirection: Axis.horizontal,
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: List.generate(imagesview.length,
+                                      (imagesviewIndex) {
+                                final imagesviewItem =
+                                    imagesview[imagesviewIndex];
+                                return Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    if (functions.getFileTypeFromUrl(
+                                            imagesviewItem) ==
+                                        1)
+                                      InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          await launchURL(imagesviewItem);
+                                        },
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.asset(
+                                            'assets/images/download.png',
+                                            width: 46.0,
+                                            height: 41.0,
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                      ),
+                                    if (functions.getFileTypeFromUrl(
+                                            imagesviewItem) ==
+                                        2)
+                                      InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          await launchURL(imagesviewItem);
+                                        },
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.asset(
+                                            'assets/images/download_(1).png',
+                                            width: 46.0,
+                                            height: 41.0,
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                      ),
+                                    if (functions.getFileTypeFromUrl(
+                                            imagesviewItem) ==
+                                        3)
+                                      InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          await launchURL(imagesviewItem);
+                                        },
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.asset(
+                                            'assets/images/download_(2).png',
+                                            width: 46.0,
+                                            height: 41.0,
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                      ),
+                                    if (functions.getFileTypeFromUrl(
+                                            imagesviewItem) ==
+                                        4)
+                                      InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          await launchURL(imagesviewItem);
+                                        },
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.asset(
+                                            'assets/images/clarity_image-gallery-line.png',
+                                            width: 46.0,
+                                            height: 41.0,
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                      ),
+                                    if (functions.getFileTypeFromUrl(
+                                            imagesviewItem) ==
+                                        5)
+                                      InkWell(
+                                        splashColor: Colors.transparent,
+                                        focusColor: Colors.transparent,
+                                        hoverColor: Colors.transparent,
+                                        highlightColor: Colors.transparent,
+                                        onTap: () async {
+                                          await launchURL(imagesviewItem);
+                                        },
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                          child: Image.asset(
+                                            'assets/images/download-removebg-preview.png',
+                                            width: 46.0,
+                                            height: 41.0,
+                                            fit: BoxFit.contain,
+                                          ),
+                                        ),
+                                      ),
+                                  ]
+                                      .divide(SizedBox(width: 5.0))
+                                      .around(SizedBox(width: 5.0)),
+                                );
+                              })
+                                  .divide(SizedBox(width: 10.0))
+                                  .around(SizedBox(width: 10.0)),
+                            ),
+                          );
+                        },
+                      ),
                     ),
                   ),
                   Container(
-                    decoration: const BoxDecoration(),
-                    child: Container(
-                      decoration: const BoxDecoration(),
-                      child: Visibility(
-                        visible:
-                            _model.isDataUploading1 || _model.isDataUploading2,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.asset(
-                            'assets/images/Animation_-_1735217758165.gif',
-                            width: MediaQuery.sizeOf(context).width * 0.3,
-                            height: MediaQuery.sizeOf(context).height * 0.2,
-                            fit: BoxFit.contain,
-                          ),
+                    height: MediaQuery.sizeOf(context).height * 0.1,
+                    decoration: BoxDecoration(),
+                    child: Visibility(
+                      visible: _model.isDataUploading_uploadDataXor ||
+                          _model.isDataUploading_teacherNotice,
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(8.0),
+                        child: Image.asset(
+                          'assets/images/Animation_-_1735217758165.gif',
+                          width: MediaQuery.sizeOf(context).width * 0.3,
+                          height: MediaQuery.sizeOf(context).height * 0.2,
+                          fit: BoxFit.contain,
                         ),
                       ),
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
+                    padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         FlutterFlowIconButton(
-                          borderColor: const Color(0xFFEDF1F3),
-                          borderRadius: 8.0,
+                          borderColor: FlutterFlowTheme.of(context).stroke,
+                          borderRadius: 10.0,
                           borderWidth: 1.0,
-                          buttonSize: 40.0,
+                          buttonSize: 50.0,
                           icon: Icon(
                             Icons.attach_file,
                             color: FlutterFlowTheme.of(context).tertiaryText,
-                            size: 22.0,
+                            size: 18.0,
                           ),
-                          showLoadingIndicator: true,
                           onPressed: () async {
                             safeSetState(() {
-                              _model.isDataUploading1 = false;
-                              _model.uploadedLocalFiles1 = [];
-                              _model.uploadedFileUrls1 = [];
+                              _model.isDataUploading_uploadDataXor = false;
+                              _model.uploadedLocalFiles_uploadDataXor = [];
+                              _model.uploadedFileUrls_uploadDataXor = [];
                             });
 
-                            final selectedMedia = await selectMedia(
-                              mediaSource: MediaSource.photoGallery,
-                              multiImage: true,
+                            final selectedFiles = await selectFiles(
+                              multiFile: true,
                             );
-                            if (selectedMedia != null &&
-                                selectedMedia.every((m) => validateFileFormat(
-                                    m.storagePath, context))) {
-                              safeSetState(
-                                  () => _model.isDataUploading1 = true);
+                            if (selectedFiles != null) {
+                              safeSetState(() =>
+                                  _model.isDataUploading_uploadDataXor = true);
                               var selectedUploadedFiles = <FFUploadedFile>[];
 
                               var downloadUrls = <String>[];
                               try {
-                                selectedUploadedFiles = selectedMedia
+                                selectedUploadedFiles = selectedFiles
                                     .map((m) => FFUploadedFile(
                                           name: m.storagePath.split('/').last,
                                           bytes: m.bytes,
-                                          height: m.dimensions?.height,
-                                          width: m.dimensions?.width,
-                                          blurHash: m.blurHash,
                                         ))
                                     .toList();
 
                                 downloadUrls = (await Future.wait(
-                                  selectedMedia.map(
-                                    (m) async => await uploadData(
-                                        m.storagePath, m.bytes),
+                                  selectedFiles.map(
+                                    (f) async => await uploadData(
+                                        f.storagePath, f.bytes),
                                   ),
                                 ))
                                     .where((u) => u != null)
                                     .map((u) => u!)
                                     .toList();
                               } finally {
-                                _model.isDataUploading1 = false;
+                                _model.isDataUploading_uploadDataXor = false;
                               }
                               if (selectedUploadedFiles.length ==
-                                      selectedMedia.length &&
-                                  downloadUrls.length == selectedMedia.length) {
+                                      selectedFiles.length &&
+                                  downloadUrls.length == selectedFiles.length) {
                                 safeSetState(() {
-                                  _model.uploadedLocalFiles1 =
+                                  _model.uploadedLocalFiles_uploadDataXor =
                                       selectedUploadedFiles;
-                                  _model.uploadedFileUrls1 = downloadUrls;
+                                  _model.uploadedFileUrls_uploadDataXor =
+                                      downloadUrls;
                                 });
                               } else {
                                 safeSetState(() {});
@@ -720,48 +907,70 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                               }
                             }
 
-                            if (_model.uploadedFileUrls1.isNotEmpty) {
-                              FFAppState().eventnoticeimage = functions
-                                  .combineImagePaths(
-                                      FFAppState().eventnoticeimage.toList(),
-                                      _model.uploadedFileUrls1.toList())
-                                  .toList()
-                                  .cast<String>();
-                              safeSetState(() {});
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'File uploaded',
-                                    style: TextStyle(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
+                            if (_model.uploadedFileUrls_uploadDataXor.length !=
+                                0) {
+                              if (functions.isValidFileFormatCopy(_model
+                                  .uploadedFileUrls_uploadDataXor
+                                  .toList())) {
+                                FFAppState().eventfiles = functions
+                                    .combineImagePathsCopy(
+                                        _model.uploadedFileUrls_uploadDataXor
+                                            .toList(),
+                                        FFAppState().eventfiles.toList())
+                                    .toList()
+                                    .cast<String>();
+                                safeSetState(() {});
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'File uploaded',
+                                      style: TextStyle(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                      ),
                                     ),
+                                    duration: Duration(milliseconds: 1650),
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context).secondary,
                                   ),
-                                  duration: const Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).secondary,
-                                ),
-                              );
+                                );
+                              } else {
+                                await showDialog(
+                                  context: context,
+                                  builder: (alertDialogContext) {
+                                    return AlertDialog(
+                                      content: Text(
+                                          'only pdf , docx , jpeg , png , jpg , mp3, ppt , pptx files are allowed'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(alertDialogContext),
+                                          child: Text('Ok'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              }
                             }
                           },
                         ),
                         FlutterFlowIconButton(
-                          borderColor: const Color(0xFFEDF1F3),
-                          borderRadius: 8.0,
+                          borderColor: FlutterFlowTheme.of(context).stroke,
+                          borderRadius: 10.0,
                           borderWidth: 1.0,
-                          buttonSize: 40.0,
+                          buttonSize: 50.0,
                           icon: Icon(
                             Icons.camera_enhance_outlined,
                             color: FlutterFlowTheme.of(context).tertiaryText,
-                            size: 22.0,
+                            size: 18.0,
                           ),
-                          showLoadingIndicator: true,
                           onPressed: () async {
                             safeSetState(() {
-                              _model.isDataUploading2 = false;
-                              _model.uploadedLocalFile2 =
+                              _model.isDataUploading_teacherNotice = false;
+                              _model.uploadedLocalFile_teacherNotice =
                                   FFUploadedFile(bytes: Uint8List.fromList([]));
-                              _model.uploadedFileUrl2 = '';
+                              _model.uploadedFileUrl_teacherNotice = '';
                             });
 
                             final selectedMedia = await selectMedia(
@@ -771,8 +980,8 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                             if (selectedMedia != null &&
                                 selectedMedia.every((m) => validateFileFormat(
                                     m.storagePath, context))) {
-                              safeSetState(
-                                  () => _model.isDataUploading2 = true);
+                              safeSetState(() =>
+                                  _model.isDataUploading_teacherNotice = true);
                               var selectedUploadedFiles = <FFUploadedFile>[];
 
                               var downloadUrls = <String>[];
@@ -797,15 +1006,16 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                                     .map((u) => u!)
                                     .toList();
                               } finally {
-                                _model.isDataUploading2 = false;
+                                _model.isDataUploading_teacherNotice = false;
                               }
                               if (selectedUploadedFiles.length ==
                                       selectedMedia.length &&
                                   downloadUrls.length == selectedMedia.length) {
                                 safeSetState(() {
-                                  _model.uploadedLocalFile2 =
+                                  _model.uploadedLocalFile_teacherNotice =
                                       selectedUploadedFiles.first;
-                                  _model.uploadedFileUrl2 = downloadUrls.first;
+                                  _model.uploadedFileUrl_teacherNotice =
+                                      downloadUrls.first;
                                 });
                               } else {
                                 safeSetState(() {});
@@ -813,9 +1023,9 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                               }
                             }
 
-                            if (_model.uploadedFileUrl2 != '') {
-                              FFAppState().addToEventnoticeimage(
-                                  _model.uploadedFileUrl2);
+                            if (_model.uploadedFileUrl_teacherNotice != '') {
+                              FFAppState().addToEventfiles(
+                                  _model.uploadedFileUrl_teacherNotice);
                               safeSetState(() {});
                             }
                           },
@@ -827,9 +1037,8 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                               return;
                             }
                             if ((_model.datePicked != null) &&
-                                (_model.teachernotice != null &&
-                                    _model.teachernotice != '')) {
-                              if (FFAppState().eventnoticeimage.isEmpty) {
+                                (_model.teachernotice != '')) {
+                              if (FFAppState().eventfiles.length == 0) {
                                 await showModalBottomSheet(
                                   isScrollControlled: true,
                                   backgroundColor: Colors.transparent,
@@ -838,14 +1047,19 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                                   builder: (context) {
                                     return Padding(
                                       padding: MediaQuery.viewInsetsOf(context),
-                                      child: SelectTeacherNoticeWidget(
-                                        eventtitle:
-                                            _model.eventnameTextController.text,
-                                        description: _model
-                                            .descriptionTextController.text,
-                                        datetime: _model.datePicked!,
-                                        scoolref: widget.school!,
-                                        eventname: _model.teachernotice!,
+                                      child: Container(
+                                        height:
+                                            MediaQuery.sizeOf(context).height *
+                                                0.65,
+                                        child: SelectTeacherNoticeWidget(
+                                          eventtitle: _model
+                                              .eventnameTextController.text,
+                                          description: _model
+                                              .descriptionTextController.text,
+                                          datetime: _model.datePicked!,
+                                          scoolref: widget.school!,
+                                          eventname: _model.teachernotice,
+                                        ),
                                       ),
                                     );
                                   },
@@ -859,15 +1073,20 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                                   builder: (context) {
                                     return Padding(
                                       padding: MediaQuery.viewInsetsOf(context),
-                                      child: SelectTeacherNoticeWidget(
-                                        eventtitle:
-                                            _model.eventnameTextController.text,
-                                        description: _model
-                                            .descriptionTextController.text,
-                                        datetime: _model.datePicked!,
-                                        scoolref: widget.school!,
-                                        images: FFAppState().eventnoticeimage,
-                                        eventname: _model.teachernotice!,
+                                      child: Container(
+                                        height:
+                                            MediaQuery.sizeOf(context).height *
+                                                0.65,
+                                        child: SelectTeacherNoticeWidget(
+                                          eventtitle: _model
+                                              .eventnameTextController.text,
+                                          description: _model
+                                              .descriptionTextController.text,
+                                          datetime: _model.datePicked!,
+                                          scoolref: widget.school!,
+                                          images: FFAppState().eventfiles,
+                                          eventname: _model.teachernotice,
+                                        ),
                                       ),
                                     );
                                   },
@@ -878,14 +1097,13 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                                 context: context,
                                 builder: (alertDialogContext) {
                                   return AlertDialog(
-                                    title: const Text('Alert!'),
-                                    content:
-                                        const Text('Pick up date and event type'),
+                                    title: Text('Alert!'),
+                                    content: Text('please select the date.'),
                                     actions: [
                                       TextButton(
                                         onPressed: () =>
                                             Navigator.pop(alertDialogContext),
-                                        child: const Text('Ok'),
+                                        child: Text('Ok'),
                                       ),
                                     ],
                                   );
@@ -893,34 +1111,48 @@ class _TeacherNoticeCompWidgetState extends State<TeacherNoticeCompWidget> {
                               );
                             }
                           },
-                          text: 'Create notice',
+                          text: 'Post',
                           options: FFButtonOptions(
-                            width: MediaQuery.sizeOf(context).width * 0.4,
-                            height: MediaQuery.sizeOf(context).height * 0.04,
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            width: MediaQuery.sizeOf(context).width * 0.55,
+                            height: MediaQuery.sizeOf(context).height * 0.055,
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 16.0, 0.0, 16.0, 0.0),
-                            iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                            iconPadding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 0.0, 0.0, 0.0),
                             color: FlutterFlowTheme.of(context).secondary,
                             textStyle: FlutterFlowTheme.of(context)
                                 .titleSmall
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
                                   color:
                                       FlutterFlowTheme.of(context).primaryText,
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
                                 ),
                             elevation: 0.0,
                             borderSide: BorderSide(
                               color: FlutterFlowTheme.of(context).primary,
+                              width: 1.0,
                             ),
-                            borderRadius: BorderRadius.circular(8.0),
+                            borderRadius: BorderRadius.circular(10.0),
                           ),
                         ),
                       ],
                     ),
                   ),
-                ].divide(const SizedBox(height: 10.0)).around(const SizedBox(height: 10.0)),
+                ].divide(SizedBox(height: 10.0)).around(SizedBox(height: 10.0)),
               ),
             ),
           ),

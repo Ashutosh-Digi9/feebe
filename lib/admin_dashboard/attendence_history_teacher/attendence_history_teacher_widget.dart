@@ -11,6 +11,7 @@ import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'attendence_history_teacher_model.dart';
 export 'attendence_history_teacher_model.dart';
 
@@ -21,6 +22,9 @@ class AttendenceHistoryTeacherWidget extends StatefulWidget {
   });
 
   final DocumentReference? techerref;
+
+  static String routeName = 'attendence_history_teacher';
+  static String routePath = '/teacher_attendence_history';
 
   @override
   State<AttendenceHistoryTeacherWidget> createState() =>
@@ -59,7 +63,7 @@ class _AttendenceHistoryTeacherWidgetState
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
-          return const Scaffold(
+          return Scaffold(
             body: NotificationsShimmerWidget(),
           );
         }
@@ -73,40 +77,55 @@ class _AttendenceHistoryTeacherWidgetState
           },
           child: Scaffold(
             key: scaffoldKey,
-            appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).info,
-              automaticallyImplyLeading: false,
-              leading: FlutterFlowIconButton(
-                borderColor: Colors.transparent,
-                borderRadius: 30.0,
-                borderWidth: 1.0,
-                buttonSize: 60.0,
-                icon: Icon(
-                  Icons.chevron_left,
-                  color: FlutterFlowTheme.of(context).bgColor1,
-                  size: 28.0,
-                ),
-                onPressed: () async {
-                  context.pop();
-                },
-              ),
-              title: Align(
-                alignment: const AlignmentDirectional(-1.0, 1.0),
-                child: Text(
-                  'Attendence History',
-                  style: FlutterFlowTheme.of(context).bodyMedium.override(
-                        fontFamily: 'Nunito',
-                        color: FlutterFlowTheme.of(context).primaryText,
-                        fontSize: 16.0,
-                        letterSpacing: 0.0,
-                        fontWeight: FontWeight.w600,
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? AppBar(
+                    backgroundColor: FlutterFlowTheme.of(context).info,
+                    automaticallyImplyLeading: false,
+                    leading: FlutterFlowIconButton(
+                      borderColor: Colors.transparent,
+                      borderRadius: 30.0,
+                      borderWidth: 1.0,
+                      buttonSize: 60.0,
+                      icon: Icon(
+                        Icons.chevron_left,
+                        color: FlutterFlowTheme.of(context).bgColor1,
+                        size: 26.0,
                       ),
-                ),
-              ),
-              actions: const [],
-              centerTitle: false,
-              elevation: 0.0,
-            ),
+                      onPressed: () async {
+                        context.pop();
+                      },
+                    ),
+                    title: Align(
+                      alignment: AlignmentDirectional(-1.0, 1.0),
+                      child: Text(
+                        'Attendance History',
+                        style: FlutterFlowTheme.of(context).bodyMedium.override(
+                              font: GoogleFonts.nunito(
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
+                              color: FlutterFlowTheme.of(context).primaryText,
+                              fontSize: 16.0,
+                              letterSpacing: 0.0,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                      ),
+                    ),
+                    actions: [],
+                    centerTitle: false,
+                    elevation: 0.0,
+                  )
+                : null,
             body: SafeArea(
               top: true,
               child: SingleChildScrollView(
@@ -115,6 +134,8 @@ class _AttendenceHistoryTeacherWidgetState
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Container(
+                      width: MediaQuery.sizeOf(context).width * 1.0,
+                      height: MediaQuery.sizeOf(context).height * 0.78,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).newBgcolor,
                       ),
@@ -126,7 +147,7 @@ class _AttendenceHistoryTeacherWidgetState
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 20.0, 0.0, 10.0),
                               child: Row(
                                 mainAxisSize: MainAxisSize.max,
@@ -134,11 +155,11 @@ class _AttendenceHistoryTeacherWidgetState
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   Align(
-                                    alignment: const AlignmentDirectional(0.0, 0.0),
+                                    alignment: AlignmentDirectional(0.0, 0.0),
                                     child: Container(
                                       width: MediaQuery.sizeOf(context).width *
                                           0.7,
-                                      decoration: const BoxDecoration(),
+                                      decoration: BoxDecoration(),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
                                         mainAxisAlignment:
@@ -150,8 +171,8 @@ class _AttendenceHistoryTeacherWidgetState
                                             hoverColor: Colors.transparent,
                                             highlightColor: Colors.transparent,
                                             onTap: () async {
-                                              _model.currentmonthandyear =
-                                                  functions.getAdjacentMonthDate(
+                                              _model.currentmonthandyear = functions
+                                                  .getAdjacentMonthDateCopy(
                                                       false,
                                                       _model
                                                           .currentmonthandyear!);
@@ -161,32 +182,44 @@ class _AttendenceHistoryTeacherWidgetState
                                               Icons.chevron_left,
                                               color:
                                                   FlutterFlowTheme.of(context)
-                                                      .primaryText,
-                                              size: 30.0,
+                                                      .tertiaryText,
+                                              size: 26.0,
                                             ),
                                           ),
                                           Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     10.0, 0.0, 10.0, 0.0),
                                             child: Text(
                                               dateTimeFormat("MMM/y",
                                                   _model.currentmonthandyear),
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Nunito',
-                                                        fontSize: 16.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    font: GoogleFonts.nunito(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
+                                                    fontSize: 14.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight: FontWeight.bold,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
                                             ),
                                           ),
                                           Align(
                                             alignment:
-                                                const AlignmentDirectional(1.0, 1.0),
+                                                AlignmentDirectional(1.0, 1.0),
                                             child: InkWell(
                                               splashColor: Colors.transparent,
                                               focusColor: Colors.transparent,
@@ -194,8 +227,8 @@ class _AttendenceHistoryTeacherWidgetState
                                               highlightColor:
                                                   Colors.transparent,
                                               onTap: () async {
-                                                _model.currentmonthandyear =
-                                                    functions.getAdjacentMonthDate(
+                                                _model.currentmonthandyear = functions
+                                                    .getAdjacentMonthDateCopy(
                                                         true,
                                                         _model
                                                             .currentmonthandyear!);
@@ -205,8 +238,8 @@ class _AttendenceHistoryTeacherWidgetState
                                                 Icons.navigate_next_sharp,
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                                size: 30.0,
+                                                        .tertiaryText,
+                                                size: 26.0,
                                               ),
                                             ),
                                           ),
@@ -215,14 +248,14 @@ class _AttendenceHistoryTeacherWidgetState
                                     ),
                                   ),
                                   Align(
-                                    alignment: const AlignmentDirectional(1.0, 1.0),
+                                    alignment: AlignmentDirectional(1.0, 1.0),
                                     child: InkWell(
                                       splashColor: Colors.transparent,
                                       focusColor: Colors.transparent,
                                       hoverColor: Colors.transparent,
                                       highlightColor: Colors.transparent,
                                       onTap: () async {
-                                        final datePickedDate =
+                                        final _datePickedDate =
                                             await showDatePicker(
                                           context: context,
                                           initialDate: getCurrentTimestamp,
@@ -242,11 +275,25 @@ class _AttendenceHistoryTeacherWidgetState
                                                   FlutterFlowTheme.of(context)
                                                       .headlineLarge
                                                       .override(
-                                                        fontFamily: 'Nunito',
+                                                        font:
+                                                            GoogleFonts.nunito(
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .headlineLarge
+                                                                  .fontStyle,
+                                                        ),
                                                         fontSize: 32.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.w600,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .headlineLarge
+                                                                .fontStyle,
                                                       ),
                                               pickerBackgroundColor:
                                                   FlutterFlowTheme.of(context)
@@ -268,23 +315,34 @@ class _AttendenceHistoryTeacherWidgetState
                                           },
                                         );
 
-                                        if (datePickedDate != null) {
+                                        if (_datePickedDate != null) {
                                           safeSetState(() {
                                             _model.datePicked = DateTime(
-                                              datePickedDate.year,
-                                              datePickedDate.month,
-                                              datePickedDate.day,
+                                              _datePickedDate.year,
+                                              _datePickedDate.month,
+                                              _datePickedDate.day,
                                             );
                                           });
+                                        } else if (_model.datePicked != null) {
+                                          safeSetState(() {
+                                            _model.datePicked =
+                                                getCurrentTimestamp;
+                                          });
                                         }
-                                        _model.currentmonthandyear =
-                                            _model.datePicked;
-                                        safeSetState(() {});
+                                        if (_model.datePicked != null) {
+                                          _model.currentmonthandyear =
+                                              _model.datePicked;
+                                          safeSetState(() {});
+                                        } else {
+                                          _model.currentmonthandyear =
+                                              getCurrentTimestamp;
+                                          safeSetState(() {});
+                                        }
                                       },
                                       child: Icon(
                                         Icons.calendar_today_outlined,
                                         color: FlutterFlowTheme.of(context)
-                                            .primaryText,
+                                            .tertiaryText,
                                         size: 24.0,
                                       ),
                                     ),
@@ -293,28 +351,35 @@ class _AttendenceHistoryTeacherWidgetState
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
-                                  20.0, 0.0, 20.0, 20.0),
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  5.0, 0.0, 5.0, 20.0),
                               child: Container(
-                                height: MediaQuery.sizeOf(context).height * 0.7,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(0.0),
                                 ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          10.0, 0.0, 10.0, 10.0),
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryBackground,
-                                          borderRadius:
-                                              BorderRadius.circular(8.0),
-                                        ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
+                                child: Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      5.0, 0.0, 5.0, 0.0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 10.0),
+                                        child: Container(
+                                          height: MediaQuery.sizeOf(context)
+                                                  .height *
+                                              0.06,
+                                          decoration: BoxDecoration(
+                                            color: FlutterFlowTheme.of(context)
+                                                .secondaryBackground,
+                                            borderRadius:
+                                                BorderRadius.circular(8.0),
+                                            border: Border.all(
+                                              color: Color(0xFFF2F2F2),
+                                              width: 1.0,
+                                            ),
+                                          ),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.max,
                                             mainAxisAlignment:
@@ -322,45 +387,63 @@ class _AttendenceHistoryTeacherWidgetState
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.end,
                                             children: [
-                                              Align(
-                                                alignment: const AlignmentDirectional(
-                                                    0.0, 1.0),
-                                                child: Container(
-                                                  width:
-                                                      MediaQuery.sizeOf(context)
-                                                              .width *
-                                                          0.2,
-                                                  height:
-                                                      MediaQuery.sizeOf(context)
-                                                              .height *
-                                                          0.04,
-                                                  decoration: const BoxDecoration(),
-                                                  child: Align(
-                                                    alignment:
-                                                        const AlignmentDirectional(
-                                                            0.0, 1.0),
+                                              Container(
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        0.2,
+                                                height:
+                                                    MediaQuery.sizeOf(context)
+                                                            .height *
+                                                        0.05,
+                                                decoration: BoxDecoration(),
+                                                child: Align(
+                                                  alignment:
+                                                      AlignmentDirectional(
+                                                          -1.0, 0.0),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(5.0, 0.0,
+                                                                0.0, 0.0),
                                                     child: Text(
                                                       'Date',
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Nunito',
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primaryText,
-                                                            fontSize: 16.0,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .tertiaryText,
+                                                                fontSize: 16.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
                                               Align(
-                                                alignment: const AlignmentDirectional(
+                                                alignment: AlignmentDirectional(
                                                     0.0, 1.0),
                                                 child: Container(
                                                   width:
@@ -370,28 +453,53 @@ class _AttendenceHistoryTeacherWidgetState
                                                   height:
                                                       MediaQuery.sizeOf(context)
                                                               .height *
-                                                          0.04,
-                                                  decoration: const BoxDecoration(),
+                                                          0.05,
+                                                  decoration: BoxDecoration(),
                                                   child: Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
-                                                            0.0, 1.0),
-                                                    child: Text(
-                                                      'Log time',
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Nunito',
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primaryText,
-                                                            fontSize: 16.0,
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
+                                                        AlignmentDirectional(
+                                                            1.0, 0.0),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0.0,
+                                                                  0.0,
+                                                                  5.0,
+                                                                  0.0),
+                                                      child: Text(
+                                                        'Log Time',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .tertiaryText,
+                                                                  fontSize:
+                                                                      16.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
@@ -400,11 +508,7 @@ class _AttendenceHistoryTeacherWidgetState
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          10.0, 0.0, 10.0, 0.0),
-                                      child: Builder(
+                                      Builder(
                                         builder: (context) {
                                           final attendace =
                                               attendenceHistoryTeacherTeachersRecord
@@ -422,11 +526,11 @@ class _AttendenceHistoryTeacherWidgetState
                                                       desc: true)
                                                   .toList();
                                           if (attendace.isEmpty) {
-                                            return const EmptyWidget();
+                                            return EmptyWidget();
                                           }
 
                                           return ListView.separated(
-                                            padding: const EdgeInsets.fromLTRB(
+                                            padding: EdgeInsets.fromLTRB(
                                               0,
                                               0,
                                               0,
@@ -437,20 +541,24 @@ class _AttendenceHistoryTeacherWidgetState
                                             scrollDirection: Axis.vertical,
                                             itemCount: attendace.length,
                                             separatorBuilder: (_, __) =>
-                                                const SizedBox(height: 15.0),
+                                                SizedBox(height: 15.0),
                                             itemBuilder:
                                                 (context, attendaceIndex) {
                                               final attendaceItem =
                                                   attendace[attendaceIndex];
                                               return Container(
+                                                height:
+                                                    MediaQuery.sizeOf(context)
+                                                            .height *
+                                                        0.06,
                                                 decoration: BoxDecoration(
                                                   color: FlutterFlowTheme.of(
                                                           context)
                                                       .secondaryBackground,
-                                                  boxShadow: const [
+                                                  boxShadow: [
                                                     BoxShadow(
                                                       blurRadius: 20.0,
-                                                      color: Color(0x18000000),
+                                                      color: Color(0x03000000),
                                                       offset: Offset(
                                                         0.0,
                                                         0.0,
@@ -461,49 +569,64 @@ class _AttendenceHistoryTeacherWidgetState
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           8.0),
+                                                  border: Border.all(
+                                                    color: Color(0xFFF2F2F2),
+                                                    width: 1.0,
+                                                  ),
                                                 ),
                                                 child: Column(
                                                   mainAxisSize:
                                                       MainAxisSize.max,
                                                   children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(10.0),
-                                                      child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Container(
-                                                            width: MediaQuery
-                                                                        .sizeOf(
-                                                                            context)
-                                                                    .width *
-                                                                0.2,
-                                                            height: MediaQuery
-                                                                        .sizeOf(
-                                                                            context)
-                                                                    .height *
-                                                                0.06,
-                                                            decoration:
-                                                                const BoxDecoration(),
-                                                            child: Align(
-                                                              alignment:
-                                                                  const AlignmentDirectional(
-                                                                      0.0, 0.0),
+                                                    Row(
+                                                      mainAxisSize:
+                                                          MainAxisSize.max,
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Container(
+                                                          width:
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .width *
+                                                                  0.3,
+                                                          height:
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .height *
+                                                                  0.05,
+                                                          decoration:
+                                                              BoxDecoration(),
+                                                          child: Align(
+                                                            alignment:
+                                                                AlignmentDirectional(
+                                                                    -1.0, 0.0),
+                                                            child: Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          5.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
                                                               child: Text(
                                                                 dateTimeFormat(
-                                                                    "dd MMM , y",
+                                                                    "dd MMM  y",
                                                                     attendaceItem
                                                                         .date!),
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium
                                                                     .override(
-                                                                      fontFamily:
-                                                                          'Nunito',
+                                                                      font: GoogleFonts
+                                                                          .nunito(
+                                                                        fontWeight:
+                                                                            FontWeight.normal,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
                                                                       color: FlutterFlowTheme.of(
                                                                               context)
                                                                           .primaryBackground,
@@ -513,28 +636,41 @@ class _AttendenceHistoryTeacherWidgetState
                                                                           0.0,
                                                                       fontWeight:
                                                                           FontWeight
-                                                                              .w600,
+                                                                              .normal,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
                                                                     ),
                                                               ),
                                                             ),
                                                           ),
-                                                          Container(
-                                                            width: MediaQuery
-                                                                        .sizeOf(
-                                                                            context)
-                                                                    .width *
-                                                                0.28,
-                                                            height: MediaQuery
-                                                                        .sizeOf(
-                                                                            context)
-                                                                    .height *
-                                                                0.06,
-                                                            decoration:
-                                                                const BoxDecoration(),
-                                                            child: Align(
-                                                              alignment:
-                                                                  const AlignmentDirectional(
-                                                                      0.0, 0.0),
+                                                        ),
+                                                        Container(
+                                                          width:
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .width *
+                                                                  0.38,
+                                                          height:
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .height *
+                                                                  0.05,
+                                                          decoration:
+                                                              BoxDecoration(),
+                                                          child: Align(
+                                                            alignment:
+                                                                AlignmentDirectional(
+                                                                    1.0, 0.0),
+                                                            child: Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          5.0,
+                                                                          0.0),
                                                               child: Text(
                                                                 attendaceItem
                                                                             .ispresent ==
@@ -545,8 +681,14 @@ class _AttendenceHistoryTeacherWidgetState
                                                                         context)
                                                                     .bodyMedium
                                                                     .override(
-                                                                      fontFamily:
-                                                                          'Nunito',
+                                                                      font: GoogleFonts
+                                                                          .nunito(
+                                                                        fontWeight:
+                                                                            FontWeight.normal,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
                                                                       color: attendaceItem.ispresent ==
                                                                               true
                                                                           ? FlutterFlowTheme.of(context)
@@ -559,13 +701,17 @@ class _AttendenceHistoryTeacherWidgetState
                                                                           0.0,
                                                                       fontWeight:
                                                                           FontWeight
-                                                                              .w600,
+                                                                              .normal,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
                                                                     ),
                                                               ),
                                                             ),
                                                           ),
-                                                        ],
-                                                      ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ],
                                                 ),
@@ -574,8 +720,8 @@ class _AttendenceHistoryTeacherWidgetState
                                           );
                                         },
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -584,10 +730,10 @@ class _AttendenceHistoryTeacherWidgetState
                       ),
                     ),
                     Align(
-                      alignment: const AlignmentDirectional(0.0, 0.0),
+                      alignment: AlignmentDirectional(0.0, 0.0),
                       child: Container(
                         width: MediaQuery.sizeOf(context).width * 1.0,
-                        decoration: const BoxDecoration(
+                        decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
                               color: Color(0x33F3DFDF),
@@ -600,7 +746,7 @@ class _AttendenceHistoryTeacherWidgetState
                         ),
                         child: Builder(
                           builder: (context) => Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 15.0, 10.0, 15.0, 20.0),
                             child: FFButtonWidget(
                               onPressed: (attendenceHistoryTeacherTeachersRecord
@@ -611,7 +757,9 @@ class _AttendenceHistoryTeacherWidgetState
                                                   _model.currentmonthandyear))
                                           .toList()
                                           .sortedList(
-                                              keyOf: (e) => e.date!, desc: true).isEmpty)
+                                              keyOf: (e) => e.date!, desc: true)
+                                          .length ==
+                                      0)
                                   ? null
                                   : () async {
                                       await actions.generateAttendacePdfCopy(
@@ -634,7 +782,7 @@ class _AttendenceHistoryTeacherWidgetState
                                             elevation: 0,
                                             insetPadding: EdgeInsets.zero,
                                             backgroundColor: Colors.transparent,
-                                            alignment: const AlignmentDirectional(
+                                            alignment: AlignmentDirectional(
                                                     0.0, -0.8)
                                                 .resolve(
                                                     Directionality.of(context)),
@@ -646,7 +794,7 @@ class _AttendenceHistoryTeacherWidgetState
                                                     .instance.primaryFocus
                                                     ?.unfocus();
                                               },
-                                              child: SizedBox(
+                                              child: Container(
                                                 height:
                                                     MediaQuery.sizeOf(context)
                                                             .height *
@@ -656,7 +804,7 @@ class _AttendenceHistoryTeacherWidgetState
                                                             .width *
                                                         0.6,
                                                 child:
-                                                    const FiledownloadedsuccessfullyWidget(),
+                                                    FiledownloadedsuccessfullyWidget(),
                                               ),
                                             ),
                                           );
@@ -664,7 +812,7 @@ class _AttendenceHistoryTeacherWidgetState
                                       );
                                     },
                               text: 'Download',
-                              icon: const Icon(
+                              icon: Icon(
                                 Icons.download,
                                 size: 15.0,
                               ),
@@ -672,21 +820,34 @@ class _AttendenceHistoryTeacherWidgetState
                                 width: MediaQuery.sizeOf(context).width * 0.4,
                                 height:
                                     MediaQuery.sizeOf(context).height * 0.054,
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     16.0, 0.0, 16.0, 0.0),
-                                iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                iconPadding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 0.0),
                                 color: FlutterFlowTheme.of(context)
                                     .primaryBackground,
                                 textStyle: FlutterFlowTheme.of(context)
                                     .titleSmall
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
                                       color: Colors.white,
                                       letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
                                     ),
                                 elevation: 0.0,
-                                borderRadius: BorderRadius.circular(8.0),
+                                borderRadius: BorderRadius.circular(10.0),
                                 disabledColor:
                                     FlutterFlowTheme.of(context).alternate,
                                 disabledTextColor:
@@ -698,7 +859,7 @@ class _AttendenceHistoryTeacherWidgetState
                         ),
                       ),
                     ),
-                  ].addToEnd(const SizedBox(height: 10.0)),
+                  ].addToEnd(SizedBox(height: 10.0)),
                 ),
               ),
             ),

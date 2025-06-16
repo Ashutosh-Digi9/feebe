@@ -15,28 +15,21 @@ import 'dart:async';
 
 Future noInternetAction() async {
   bool isToastVisible = false;
-  Timer? toastTimer;
 
   Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
     if (result == ConnectivityResult.none) {
-      // Start showing persistent toast if there's no internet
+      // Show the toast only once when there's no internet
       if (!isToastVisible) {
         isToastVisible = true;
-        toastTimer = Timer.periodic(Duration(seconds: 3), (timer) {
-          Fluttertoast.showToast(
-            msg: "No internet connection",
-            toastLength: Toast.LENGTH_SHORT,
-            gravity: ToastGravity.TOP,
-          );
-        });
+        Fluttertoast.showToast(
+          msg: "No internet connection",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.TOP,
+        );
       }
     } else {
-      // Stop the toast when internet is restored
-      if (isToastVisible) {
-        isToastVisible = false;
-        toastTimer?.cancel();
-        Fluttertoast.cancel(); // Ensures that any active toast is dismissed
-      }
+      // Reset visibility state when internet is restored
+      isToastVisible = false;
     }
   });
 }

@@ -10,14 +10,14 @@ class ImagesActModel extends FlutterFlowModel<ImagesActWidget> {
 
   ///  State fields for stateful widgets in this component.
 
-  bool isDataUploading1 = false;
-  FFUploadedFile uploadedLocalFile1 =
+  bool isDataUploading_uploadDataCu4cam = false;
+  FFUploadedFile uploadedLocalFile_uploadDataCu4cam =
       FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl1 = '';
+  String uploadedFileUrl_uploadDataCu4cam = '';
 
-  bool isDataUploading2 = false;
-  List<FFUploadedFile> uploadedLocalFiles2 = [];
-  List<String> uploadedFileUrls2 = [];
+  bool isDataUploading_uploadDataZ3jgal = false;
+  List<FFUploadedFile> uploadedLocalFiles_uploadDataZ3jgal = [];
+  List<String> uploadedFileUrls_uploadDataZ3jgal = [];
 
   // Stores action output result for [Backend Call - Read Document] action in Image widget.
   TeachersRecord? teacher;

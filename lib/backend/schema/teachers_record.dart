@@ -9,9 +9,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class TeachersRecord extends FirestoreRecord {
   TeachersRecord._(
-    super.reference,
-    super.data,
-  ) {
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
     _initializeFields();
   }
 
@@ -82,6 +82,21 @@ class TeachersRecord extends FirestoreRecord {
   DateTime? get checkin => _checkin;
   bool hasCheckin() => _checkin != null;
 
+  // "path" field.
+  String? _path;
+  String get path => _path ?? '';
+  bool hasPath() => _path != null;
+
+  // "timelinevideo" field.
+  List<String>? _timelinevideo;
+  List<String> get timelinevideo => _timelinevideo ?? const [];
+  bool hasTimelinevideo() => _timelinevideo != null;
+
+  // "isemail" field.
+  bool? _isemail;
+  bool get isemail => _isemail ?? false;
+  bool hasIsemail() => _isemail != null;
+
   void _initializeFields() {
     _teacherName = snapshotData['teacher_name'] as String?;
     _phoneNumber = snapshotData['phone_number'] as String?;
@@ -105,6 +120,9 @@ class TeachersRecord extends FirestoreRecord {
     );
     _images = getDataList(snapshotData['images']);
     _checkin = snapshotData['checkin'] as DateTime?;
+    _path = snapshotData['path'] as String?;
+    _timelinevideo = getDataList(snapshotData['timelinevideo']);
+    _isemail = snapshotData['isemail'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -150,6 +168,8 @@ Map<String, dynamic> createTeachersRecordData({
   String? teacherImage,
   DocumentReference? useref,
   DateTime? checkin,
+  String? path,
+  bool? isemail,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -161,6 +181,8 @@ Map<String, dynamic> createTeachersRecordData({
       'teacher_image': teacherImage,
       'useref': useref,
       'checkin': checkin,
+      'path': path,
+      'isemail': isemail,
     }.withoutNulls,
   );
 
@@ -185,7 +207,10 @@ class TeachersRecordDocumentEquality implements Equality<TeachersRecord> {
         e1?.useref == e2?.useref &&
         listEquality.equals(e1?.notices, e2?.notices) &&
         listEquality.equals(e1?.images, e2?.images) &&
-        e1?.checkin == e2?.checkin;
+        e1?.checkin == e2?.checkin &&
+        e1?.path == e2?.path &&
+        listEquality.equals(e1?.timelinevideo, e2?.timelinevideo) &&
+        e1?.isemail == e2?.isemail;
   }
 
   @override
@@ -202,7 +227,10 @@ class TeachersRecordDocumentEquality implements Equality<TeachersRecord> {
         e?.useref,
         e?.notices,
         e?.images,
-        e?.checkin
+        e?.checkin,
+        e?.path,
+        e?.timelinevideo,
+        e?.isemail
       ]);
 
   @override

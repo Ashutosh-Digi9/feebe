@@ -5,6 +5,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_video_player.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 import 'videoplayer_model.dart';
 export 'videoplayer_model.dart';
@@ -13,11 +14,11 @@ class VideoplayerWidget extends StatefulWidget {
   const VideoplayerWidget({
     super.key,
     required this.studentref,
-    required this.index,
+    required this.gallery,
   });
 
   final DocumentReference? studentref;
-  final int? index;
+  final GalleryStruct? gallery;
 
   @override
   State<VideoplayerWidget> createState() => _VideoplayerWidgetState();
@@ -76,8 +77,7 @@ class _VideoplayerWidgetState extends State<VideoplayerWidget> {
           child: Stack(
             children: [
               FlutterFlowVideoPlayer(
-                path: containerStudentsRecord.timelineVideo
-                    .elementAtOrNull(widget.index!)!,
+                path: widget.gallery!.video,
                 videoType: VideoType.network,
                 width: MediaQuery.sizeOf(context).width * 1.0,
                 height: MediaQuery.sizeOf(context).height * 1.0,
@@ -88,91 +88,123 @@ class _VideoplayerWidgetState extends State<VideoplayerWidget> {
                 allowPlaybackSpeedMenu: false,
               ),
               Align(
-                alignment: const AlignmentDirectional(1.0, 0.0),
+                alignment: AlignmentDirectional(1.0, 0.0),
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 10.0, 0.0),
+                  padding:
+                      EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 10.0, 20.0),
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      FlutterFlowIconButton(
-                        borderColor: FlutterFlowTheme.of(context).text1,
-                        borderRadius: 30.0,
-                        buttonSize: 40.0,
-                        icon: Icon(
-                          Icons.close,
-                          color: FlutterFlowTheme.of(context).text1,
-                          size: 24.0,
-                        ),
-                        onPressed: () async {
-                          Navigator.pop(context);
-                        },
-                      ),
-                      Column(
+                      Row(
                         mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          InkWell(
-                            splashColor: Colors.transparent,
-                            focusColor: Colors.transparent,
-                            hoverColor: Colors.transparent,
-                            highlightColor: Colors.transparent,
-                            onTap: () async {
-                              await downloadFile(
-                                filename: functions
-                                    .extractFileNameFromFirebaseLinkCopy(
-                                        containerStudentsRecord.timelineVideo
-                                            .elementAtOrNull(widget.index!)!),
-                                url: functions.convertvideoPathToString(
-                                    containerStudentsRecord.timelineVideo
-                                        .elementAtOrNull(widget.index!)!),
-                              );
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Video downloaded successfully',
-                                    style: TextStyle(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondary,
-                                    ),
+                          Text(
+                            'Uploaded by : ${widget.gallery?.addedby}',
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FontWeight.w500,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
-                                  duration: const Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).primaryText,
+                                  fontSize: 18.0,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FontWeight.w500,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
                                 ),
-                              );
-                              Navigator.pop(context);
-                            },
-                            child: Icon(
-                              Icons.download,
+                          ),
+                          FlutterFlowIconButton(
+                            borderColor: FlutterFlowTheme.of(context).stroke,
+                            borderRadius: 30.0,
+                            borderWidth: 1.0,
+                            buttonSize: 40.0,
+                            icon: Icon(
+                              Icons.close,
                               color: FlutterFlowTheme.of(context).primary,
                               size: 24.0,
                             ),
+                            onPressed: () async {
+                              Navigator.pop(context);
+                            },
                           ),
-                          Builder(
-                            builder: (context) => InkWell(
+                        ],
+                      ),
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            InkWell(
                               splashColor: Colors.transparent,
                               focusColor: Colors.transparent,
                               hoverColor: Colors.transparent,
                               highlightColor: Colors.transparent,
                               onTap: () async {
-                                await Share.share(
-                                  functions.convertvideoPathToString(
-                                      containerStudentsRecord.timelineVideo
-                                          .elementAtOrNull(widget.index!)!),
-                                  sharePositionOrigin:
-                                      getWidgetBoundingBox(context),
+                                await downloadFile(
+                                  filename: functions
+                                      .extractFileNameFromFirebaseLinkCopy(
+                                          widget.gallery!.video),
+                                  url: functions.convertvideoPathToString(
+                                      widget.gallery!.video),
                                 );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Video downloaded successfully',
+                                      style: TextStyle(
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondary,
+                                      ),
+                                    ),
+                                    duration: Duration(milliseconds: 4000),
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                  ),
+                                );
+                                Navigator.pop(context);
                               },
                               child: Icon(
-                                Icons.share,
-                                color: FlutterFlowTheme.of(context).primary,
+                                Icons.download,
+                                color:
+                                    FlutterFlowTheme.of(context).tertiaryText,
                                 size: 24.0,
                               ),
                             ),
-                          ),
-                        ]
-                            .divide(const SizedBox(height: 30.0))
-                            .around(const SizedBox(height: 30.0)),
+                            Builder(
+                              builder: (context) => InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  await Share.share(
+                                    functions.convertvideoPathToString(
+                                        widget.gallery!.video),
+                                    sharePositionOrigin:
+                                        getWidgetBoundingBox(context),
+                                  );
+                                },
+                                child: Icon(
+                                  Icons.share,
+                                  color:
+                                      FlutterFlowTheme.of(context).tertiaryText,
+                                  size: 24.0,
+                                ),
+                              ),
+                            ),
+                          ]
+                              .divide(SizedBox(height: 30.0))
+                              .around(SizedBox(height: 30.0)),
+                        ),
                       ),
                     ],
                   ),

@@ -1,14 +1,18 @@
+import '/admin_dashboard/editphoto/editphoto_widget.dart';
 import '/backend/backend.dart';
-import '/components/editphoto_widget.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/shimmer_effects/classshimmer/classshimmer_widget.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'edit_teacher_admin_model.dart';
 export 'edit_teacher_admin_model.dart';
@@ -18,10 +22,15 @@ class EditTeacherAdminWidget extends StatefulWidget {
     super.key,
     required this.schoolRef,
     required this.teacherref,
+    required this.teacher,
   });
 
   final DocumentReference? schoolRef;
   final DocumentReference? teacherref;
+  final TeacherListStruct? teacher;
+
+  static String routeName = 'Edit_TeacherAdmin';
+  static String routePath = '/editTeacherAdmin';
 
   @override
   State<EditTeacherAdminWidget> createState() => _EditTeacherAdminWidgetState();
@@ -39,11 +48,9 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      FFAppState().imageurl =
-          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
+      FFAppState().imageurl = '';
       FFAppState().profileimagechanged = false;
-      FFAppState().schoolimage =
-          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png';
+      FFAppState().schoolimage = '';
       FFAppState().schoolimagechanged = false;
       safeSetState(() {});
       _model.schol = await SchoolRecord.getDocumentOnce(widget.schoolRef!);
@@ -78,7 +85,14 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
             .toList()
             .firstOrNull
             ?.userRef,
+        isemail: _model.schol?.teachersDataList
+            .where((e) => e.teachersId == widget.teacherref)
+            .toList()
+            .firstOrNull
+            ?.isemail,
       );
+      safeSetState(() {});
+
       safeSetState(() {});
     });
 
@@ -107,7 +121,7 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
         if (!snapshot.hasData) {
           return Scaffold(
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-            body: const ClassshimmerWidget(),
+            body: ClassshimmerWidget(),
           );
         }
 
@@ -121,37 +135,64 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-            appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).info,
-              automaticallyImplyLeading: false,
-              leading: FlutterFlowIconButton(
-                borderColor: Colors.transparent,
-                borderRadius: 30.0,
-                borderWidth: 1.0,
-                buttonSize: 60.0,
-                icon: Icon(
-                  Icons.chevron_left,
-                  color: FlutterFlowTheme.of(context).bgColor1,
-                  size: 28.0,
-                ),
-                onPressed: () async {
-                  context.pop();
-                },
-              ),
-              title: Text(
-                'Edit Teacher',
-                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Nunito',
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      fontSize: 16.0,
-                      letterSpacing: 0.0,
-                      fontWeight: FontWeight.w600,
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? AppBar(
+                    backgroundColor: FlutterFlowTheme.of(context).info,
+                    automaticallyImplyLeading: false,
+                    leading: FlutterFlowIconButton(
+                      borderColor: Colors.transparent,
+                      borderRadius: 30.0,
+                      borderWidth: 1.0,
+                      buttonSize: 60.0,
+                      icon: Icon(
+                        Icons.chevron_left,
+                        color: FlutterFlowTheme.of(context).bgColor1,
+                        size: 26.0,
+                      ),
+                      onPressed: () async {
+                        context.pushNamed(
+                          TeacherProfileWidget.routeName,
+                          queryParameters: {
+                            'teacherRef': serializeParam(
+                              widget.teacherref,
+                              ParamType.DocumentReference,
+                            ),
+                            'schoolref': serializeParam(
+                              widget.schoolRef,
+                              ParamType.DocumentReference,
+                            ),
+                          }.withoutNulls,
+                        );
+                      },
                     ),
-              ),
-              actions: const [],
-              centerTitle: false,
-              elevation: 0.0,
-            ),
+                    title: Text(
+                      'Edit Teacher',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            font: GoogleFonts.nunito(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            fontSize: 16.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
+                    ),
+                    actions: [],
+                    centerTitle: false,
+                    elevation: 0.0,
+                  )
+                : null,
             body: SafeArea(
               top: true,
               child: Column(
@@ -167,9 +208,9 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                       key: _model.formKey,
                       autovalidateMode: AutovalidateMode.disabled,
                       child: Align(
-                        alignment: const AlignmentDirectional(0.0, -1.0),
+                        alignment: AlignmentDirectional(0.0, -1.0),
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 10.0, 0.0, 0.0),
                           child: SingleChildScrollView(
                             child: Column(
@@ -194,7 +235,7 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                                   ? FFAppState().imageurl
                                                   : editTeacherAdminTeachersRecord
                                                       .teacherImage,
-                                              'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
+                                              'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
                                             ),
                                             fit: BoxFit.contain,
                                           ),
@@ -205,7 +246,7 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                                 ? FFAppState().imageurl
                                                 : editTeacherAdminTeachersRecord
                                                     .teacherImage,
-                                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
+                                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
                                           ),
                                           useHeroAnimation: true,
                                         ),
@@ -218,16 +259,16 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                           ? FFAppState().imageurl
                                           : editTeacherAdminTeachersRecord
                                               .teacherImage,
-                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
+                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
                                     ),
                                     transitionOnUserGestures: true,
                                     child: Container(
                                       width: MediaQuery.sizeOf(context).width *
-                                          0.45,
+                                          0.35,
                                       height: MediaQuery.sizeOf(context).width *
-                                          0.45,
+                                          0.35,
                                       clipBehavior: Clip.antiAlias,
-                                      decoration: const BoxDecoration(
+                                      decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                       ),
                                       child: Image.network(
@@ -237,7 +278,7 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                               ? FFAppState().imageurl
                                               : editTeacherAdminTeachersRecord
                                                   .teacherImage,
-                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
+                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
                                         ),
                                         fit: BoxFit.cover,
                                       ),
@@ -265,11 +306,11 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                           child: Padding(
                                             padding: MediaQuery.viewInsetsOf(
                                                 context),
-                                            child: SizedBox(
+                                            child: Container(
                                               height: MediaQuery.sizeOf(context)
                                                       .height *
                                                   0.2,
-                                              child: const EditphotoWidget(
+                                              child: EditphotoWidget(
                                                 person: true,
                                               ),
                                             ),
@@ -283,14 +324,26 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight: FontWeight.w600,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .primaryBackground,
+                                          fontSize: 12.0,
                                           letterSpacing: 0.0,
+                                          fontWeight: FontWeight.w600,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                         ),
                                   ),
                                 ),
-                                SizedBox(
+                                Container(
                                   width: MediaQuery.sizeOf(context).width * 0.9,
                                   child: TextFormField(
                                     controller:
@@ -304,11 +357,20 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'Teacher\'s name ',
+                                      labelText: 'Teacher\'s name *',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: valueOrDefault<Color>(
                                               (_model.contactNameFocusNode
                                                           ?.hasFocus ??
@@ -319,22 +381,42 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                                       .text,
                                               FlutterFlowTheme.of(context).text,
                                             ),
+                                            fontSize: 12.0,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       hintText: 'Teacher’s name',
                                       hintStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.normal,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
-                                                .primaryText,
+                                                .text,
+                                            fontSize: 16.0,
                                             letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w200,
+                                            fontWeight: FontWeight.normal,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .dIsable,
+                                              .textfieldDisable,
                                           width: 1.0,
                                         ),
                                         borderRadius:
@@ -368,14 +450,36 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                             BorderRadius.circular(8.0),
                                       ),
                                       filled: true,
-                                      fillColor: FlutterFlowTheme.of(context)
-                                          .newBgcolor,
+                                      fillColor: (_model.contactNameFocusNode
+                                                  ?.hasFocus ??
+                                              false)
+                                          ? FlutterFlowTheme.of(context)
+                                              .tertiary
+                                          : FlutterFlowTheme.of(context)
+                                              .secondary,
                                     ),
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                         ),
                                     cursorColor: FlutterFlowTheme.of(context)
                                         .primaryText,
@@ -384,7 +488,7 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                         .asValidator(context),
                                   ),
                                 ),
-                                SizedBox(
+                                Container(
                                   width: MediaQuery.sizeOf(context).width * 0.9,
                                   child: TextFormField(
                                     controller: _model
@@ -399,11 +503,20 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'Teacher\'s phone number',
+                                      labelText: 'Teacher\'s phone number *',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: valueOrDefault<Color>(
                                               (_model.contactPhonenumberFocusNode
                                                           ?.hasFocus ??
@@ -414,22 +527,41 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                                       .text,
                                               FlutterFlowTheme.of(context).text,
                                             ),
+                                            fontSize: 12.0,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       hintText: 'Teacher’s  phone number',
                                       hintStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.normal,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
-                                                .primaryText,
+                                                .text,
                                             letterSpacing: 0.0,
-                                            fontWeight: FontWeight.w200,
+                                            fontWeight: FontWeight.normal,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .dIsable,
+                                              .textfieldDisable,
                                           width: 1.0,
                                         ),
                                         borderRadius:
@@ -463,14 +595,37 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                             BorderRadius.circular(8.0),
                                       ),
                                       filled: true,
-                                      fillColor: FlutterFlowTheme.of(context)
-                                          .newBgcolor,
+                                      fillColor: (_model
+                                                  .contactPhonenumberFocusNode
+                                                  ?.hasFocus ??
+                                              false)
+                                          ? FlutterFlowTheme.of(context)
+                                              .tertiary
+                                          : FlutterFlowTheme.of(context)
+                                              .secondary,
                                     ),
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                         ),
                                     maxLength: 10,
                                     buildCounter: (context,
@@ -490,14 +645,19 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                     ],
                                   ),
                                 ),
-                                SizedBox(
+                                Container(
                                   width: MediaQuery.sizeOf(context).width * 0.9,
                                   child: TextFormField(
                                     controller:
                                         _model.contactemailTextController ??=
                                             TextEditingController(
-                                      text: editTeacherAdminTeachersRecord
-                                          .emailId,
+                                      text:
+                                          editTeacherAdminTeachersRecord.isemail
+                                              ? editTeacherAdminTeachersRecord
+                                                  .emailId
+                                              : functions.getUsernameFromEmail(
+                                                  editTeacherAdminTeachersRecord
+                                                      .emailId),
                                     ),
                                     focusNode: _model.contactemailFocusNode,
                                     autofocus: false,
@@ -505,11 +665,21 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                     obscureText: false,
                                     decoration: InputDecoration(
                                       isDense: true,
-                                      labelText: 'Teacher\'s email ID',
+                                      labelText:
+                                          'Teacher\'s email  / User name*',
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: valueOrDefault<Color>(
                                               (_model.contactemailFocusNode?.hasFocus ??
                                                       false)
@@ -519,22 +689,42 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                                       .text,
                                               FlutterFlowTheme.of(context).text,
                                             ),
+                                            fontSize: 12.0,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
-                                      hintText: 'Teacher’s email ID',
+                                      hintText: 'Teacher’s email / User name',
                                       hintStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.w200,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
-                                                .primaryText,
+                                                .text,
+                                            fontSize: 16.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.w200,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .dIsable,
+                                              .textfieldDisable,
                                           width: 1.0,
                                         ),
                                         borderRadius:
@@ -543,7 +733,7 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                       focusedBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .primaryBackground,
+                                              .dIsable,
                                           width: 1.0,
                                         ),
                                         borderRadius:
@@ -569,13 +759,32 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                       ),
                                       filled: true,
                                       fillColor: FlutterFlowTheme.of(context)
-                                          .newBgcolor,
+                                          .secondary,
                                     ),
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          color: FlutterFlowTheme.of(context)
+                                              .tertiaryText,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                         ),
                                     keyboardType: TextInputType.emailAddress,
                                     cursorColor: FlutterFlowTheme.of(context)
@@ -585,7 +794,7 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                                         .asValidator(context),
                                   ),
                                 ),
-                              ].divide(const SizedBox(height: 15.0)),
+                              ].divide(SizedBox(height: 15.0)),
                             ),
                           ),
                         ),
@@ -594,7 +803,7 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                   ),
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
                     child: Material(
                       color: Colors.transparent,
                       elevation: 2.0,
@@ -607,7 +816,7 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                         decoration: BoxDecoration(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
-                          boxShadow: const [
+                          boxShadow: [
                             BoxShadow(
                               blurRadius: 18.9,
                               color: Color(0x1B555555),
@@ -620,143 +829,244 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                           ],
                           borderRadius: BorderRadius.circular(10.0),
                           border: Border.all(
-                            color: const Color(0xFFF4F4F4),
+                            color: Color(0xFFF4F4F4),
                           ),
                         ),
                         child: Align(
-                          alignment: const AlignmentDirectional(0.0, 0.0),
+                          alignment: AlignmentDirectional(0.0, 0.0),
                           child: FFButtonWidget(
-                            onPressed: () async {
-                              if (_model.formKey.currentState == null ||
-                                  !_model.formKey.currentState!.validate()) {
-                                return;
-                              }
+                            onPressed: ((editTeacherAdminTeachersRecord
+                                                .teacherName ==
+                                            '') ||
+                                    (_model.contactPhonenumberTextController
+                                                .text ==
+                                            ''))
+                                ? null
+                                : () async {
+                                    if (_model.formKey.currentState == null ||
+                                        !_model.formKey.currentState!
+                                            .validate()) {
+                                      return;
+                                    }
+                                    await Future.wait([
+                                      Future(() async {
+                                        await widget.teacherref!
+                                            .update(createTeachersRecordData(
+                                          teacherName: _model
+                                              .contactNameTextController.text,
+                                          phoneNumber: _model
+                                              .contactPhonenumberTextController
+                                              .text,
+                                          teacherImage: FFAppState()
+                                                  .profileimagechanged
+                                              ? FFAppState().imageurl
+                                              : editTeacherAdminTeachersRecord
+                                                  .teacherImage,
+                                        ));
 
-                              await widget.teacherref!
-                                  .update(createTeachersRecordData(
-                                teacherName:
-                                    _model.contactNameTextController.text,
-                                phoneNumber: _model
-                                    .contactPhonenumberTextController.text,
-                                teacherImage: FFAppState().profileimagechanged
-                                    ? FFAppState().imageurl
-                                    : editTeacherAdminTeachersRecord
-                                        .teacherImage,
-                              ));
+                                        await editTeacherAdminTeachersRecord
+                                            .useref!
+                                            .update(createUsersRecordData(
+                                          photoUrl: FFAppState()
+                                                  .profileimagechanged
+                                              ? FFAppState().imageurl
+                                              : editTeacherAdminTeachersRecord
+                                                  .teacherImage,
+                                          displayName: _model
+                                              .contactNameTextController.text,
+                                          phoneNumber: _model
+                                              .contactPhonenumberTextController
+                                              .text,
+                                        ));
 
-                              await editTeacherAdminTeachersRecord.useref!
-                                  .update(createUsersRecordData(
-                                photoUrl: FFAppState().profileimagechanged
-                                    ? FFAppState().imageurl
-                                    : editTeacherAdminTeachersRecord
-                                        .teacherImage,
-                                displayName:
-                                    _model.contactNameTextController.text,
-                                phoneNumber: _model
-                                    .contactPhonenumberTextController.text,
-                              ));
-
-                              await widget.schoolRef!.update({
-                                ...mapToFirestore(
-                                  {
-                                    'teachers_data_list':
-                                        FieldValue.arrayRemove([
-                                      getTeacherListFirestoreData(
-                                        updateTeacherListStruct(
-                                          _model.teacherdata,
-                                          clearUnsetFields: false,
-                                        ),
-                                        true,
-                                      )
-                                    ]),
-                                  },
-                                ),
-                              });
-
-                              await widget.schoolRef!.update({
-                                ...mapToFirestore(
-                                  {
-                                    'teachers_data_list':
-                                        FieldValue.arrayUnion([
-                                      getTeacherListFirestoreData(
-                                        updateTeacherListStruct(
-                                          TeacherListStruct(
-                                            teacherName: _model
-                                                .contactNameTextController.text,
-                                            phoneNumber: _model
-                                                .contactPhonenumberTextController
-                                                .text,
-                                            emailId: _model
-                                                .contactemailTextController
-                                                .text,
-                                            teacherImage: FFAppState()
-                                                    .profileimagechanged
-                                                ? FFAppState().imageurl
-                                                : editTeacherAdminTeachersRecord
-                                                    .teacherImage,
-                                            teachersId: widget.teacherref,
-                                            userRef:
-                                                editTeacherAdminTeachersRecord
-                                                    .useref,
+                                        await widget.schoolRef!.update({
+                                          ...mapToFirestore(
+                                            {
+                                              'teachers_data_list':
+                                                  FieldValue.arrayRemove([
+                                                getTeacherListFirestoreData(
+                                                  updateTeacherListStruct(
+                                                    _model.teacherdata,
+                                                    clearUnsetFields: false,
+                                                  ),
+                                                  true,
+                                                )
+                                              ]),
+                                            },
                                           ),
-                                          clearUnsetFields: false,
-                                        ),
-                                        true,
-                                      )
-                                    ]),
-                                  },
-                                ),
-                              });
-                              FFAppState().imageurl =
-                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
-                              FFAppState().profileimagechanged = false;
-                              FFAppState().schoolimage =
-                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png';
-                              FFAppState().schoolimagechanged = false;
-                              safeSetState(() {});
+                                        });
 
-                              context.goNamed(
-                                'Teacherdetailsedited',
-                                queryParameters: {
-                                  'schoolref': serializeParam(
-                                    widget.schoolRef,
-                                    ParamType.DocumentReference,
-                                  ),
-                                  'teacheref': serializeParam(
-                                    widget.teacherref,
-                                    ParamType.DocumentReference,
-                                  ),
-                                }.withoutNulls,
-                                extra: <String, dynamic>{
-                                  kTransitionInfoKey: const TransitionInfo(
-                                    hasTransition: true,
-                                    transitionType: PageTransitionType.fade,
-                                  ),
-                                },
-                              );
-                            },
+                                        await widget.schoolRef!.update({
+                                          ...mapToFirestore(
+                                            {
+                                              'teachers_data_list':
+                                                  FieldValue.arrayUnion([
+                                                getTeacherListFirestoreData(
+                                                  updateTeacherListStruct(
+                                                    TeacherListStruct(
+                                                      teacherName: _model
+                                                          .contactNameTextController
+                                                          .text,
+                                                      phoneNumber: _model
+                                                          .contactPhonenumberTextController
+                                                          .text,
+                                                      emailId: _model
+                                                          .contactemailTextController
+                                                          .text,
+                                                      teacherImage: FFAppState()
+                                                              .profileimagechanged
+                                                          ? FFAppState()
+                                                              .imageurl
+                                                          : editTeacherAdminTeachersRecord
+                                                              .teacherImage,
+                                                      teachersId:
+                                                          widget.teacherref,
+                                                      userRef:
+                                                          editTeacherAdminTeachersRecord
+                                                              .useref,
+                                                      isemail: functions
+                                                              .isValidEmail(_model
+                                                                  .contactemailTextController
+                                                                  .text)
+                                                          ? true
+                                                          : false,
+                                                    ),
+                                                    clearUnsetFields: false,
+                                                  ),
+                                                  true,
+                                                )
+                                              ]),
+                                            },
+                                          ),
+                                        });
+                                        FFAppState().imageurl = '';
+                                        FFAppState().profileimagechanged =
+                                            false;
+                                        FFAppState().schoolimage = '';
+                                        FFAppState().schoolimagechanged = false;
+                                        safeSetState(() {});
+                                      }),
+                                      Future(() async {
+                                        FFAppState().loopmin = 0;
+                                        safeSetState(() {});
+                                        _model.classes =
+                                            await querySchoolClassRecordOnce(
+                                          queryBuilder: (schoolClassRecord) =>
+                                              schoolClassRecord.where(
+                                            'teachers_list',
+                                            arrayContains: widget.teacherref,
+                                          ),
+                                        );
+                                        while (FFAppState().loopmin <
+                                            _model.classes!.length) {
+                                          await _model.classes!
+                                              .elementAtOrNull(
+                                                  FFAppState().loopmin)!
+                                              .reference
+                                              .update({
+                                            ...mapToFirestore(
+                                              {
+                                                'ListOfteachers':
+                                                    getTeacherListListFirestoreData(
+                                                  functions
+                                                      .updateTeacherDetails(
+                                                          _model.classes!
+                                                              .elementAtOrNull(
+                                                                  FFAppState()
+                                                                      .loopmin)!
+                                                              .listOfteachers
+                                                              .toList(),
+                                                          editTeacherAdminTeachersRecord
+                                                              .useref!,
+                                                          _model
+                                                              .contactNameTextController
+                                                              .text,
+                                                          _model
+                                                              .contactPhonenumberTextController
+                                                              .text,
+                                                          valueOrDefault<
+                                                              String>(
+                                                            FFAppState().profileimagechanged ==
+                                                                    true
+                                                                ? FFAppState()
+                                                                    .imageurl
+                                                                : editTeacherAdminTeachersRecord
+                                                                    .teacherImage,
+                                                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
+                                                          )),
+                                                ),
+                                              },
+                                            ),
+                                          });
+                                          FFAppState().loopmin =
+                                              FFAppState().loopmin + 1;
+                                          safeSetState(() {});
+                                        }
+                                        FFAppState().loopmin = 0;
+                                        safeSetState(() {});
+                                      }),
+                                    ]);
+                                    if (Navigator.of(context).canPop()) {
+                                      context.pop();
+                                    }
+                                    context.pushNamed(
+                                      TeacherdetailseditedWidget.routeName,
+                                      queryParameters: {
+                                        'schoolref': serializeParam(
+                                          widget.schoolRef,
+                                          ParamType.DocumentReference,
+                                        ),
+                                        'teacheref': serializeParam(
+                                          widget.teacherref,
+                                          ParamType.DocumentReference,
+                                        ),
+                                      }.withoutNulls,
+                                      extra: <String, dynamic>{
+                                        kTransitionInfoKey: TransitionInfo(
+                                          hasTransition: true,
+                                          transitionType:
+                                              PageTransitionType.fade,
+                                        ),
+                                      },
+                                    );
+
+                                    safeSetState(() {});
+                                  },
                             text: 'Save',
                             options: FFButtonOptions(
                               width: MediaQuery.sizeOf(context).width * 0.8,
                               height: MediaQuery.sizeOf(context).height * 0.06,
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   16.0, 0.0, 16.0, 0.0),
-                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
                               color: FlutterFlowTheme.of(context).primary,
                               textStyle: FlutterFlowTheme.of(context)
                                   .titleSmall
                                   .override(
-                                fontFamily: 'Nunito',
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
                                 color: Colors.white,
                                 letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontStyle,
                                 shadows: [
-                                  const Shadow(
+                                  Shadow(
                                     color: Color(0x7B253EA7),
                                     offset: Offset(0.0, 1.0),
                                     blurRadius: 2.0,
                                   ),
-                                  const Shadow(
+                                  Shadow(
                                     color: Color(0xFF375DFB),
                                     offset: Offset(0.0, 0.0),
                                     blurRadius: 0.0,
@@ -765,6 +1075,10 @@ class _EditTeacherAdminWidgetState extends State<EditTeacherAdminWidget> {
                               ),
                               elevation: 0.0,
                               borderRadius: BorderRadius.circular(8.0),
+                              disabledColor:
+                                  FlutterFlowTheme.of(context).dIsable,
+                              disabledTextColor:
+                                  FlutterFlowTheme.of(context).disabletext,
                             ),
                           ),
                         ),

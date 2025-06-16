@@ -6,7 +6,9 @@ import '/confirmationpages/noticeddeted/noticeddeted_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'edit_delete_notice_model.dart';
 export 'edit_delete_notice_model.dart';
 
@@ -20,7 +22,7 @@ class EditDeleteNoticeWidget extends StatefulWidget {
     required this.noticebool,
     this.eventImage,
     required this.schoolref,
-  }) : classEvent = classEvent ?? false;
+  }) : this.classEvent = classEvent ?? false;
 
   final DocumentReference? classref;
   final int? eventid;
@@ -82,7 +84,7 @@ class _EditDeleteNoticeWidgetState extends State<EditDeleteNoticeWidget> {
           width: MediaQuery.sizeOf(context).width * 1.0,
           height: MediaQuery.sizeOf(context).height * 1.0,
           decoration: BoxDecoration(
-            color: const Color(0xFFE9F0FD),
+            color: Color(0xFFE9F0FD),
             borderRadius: BorderRadius.circular(10.0),
           ),
           child: Column(
@@ -90,79 +92,6 @@ class _EditDeleteNoticeWidgetState extends State<EditDeleteNoticeWidget> {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () async {
-                  if (widget.classEvent == false) {
-                    await showModalBottomSheet(
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      enableDrag: false,
-                      context: context,
-                      builder: (context) {
-                        return Padding(
-                          padding: MediaQuery.viewInsetsOf(context),
-                          child: SizedBox(
-                            height: MediaQuery.sizeOf(context).height * 0.6,
-                            child: EditNoticeBoardWidget(
-                              classref: containerSchoolClassRecord.reference,
-                              eventid: widget.eventid!,
-                              school: widget.schoolref!,
-                            ),
-                          ),
-                        );
-                      },
-                    ).then((value) => safeSetState(() {}));
-
-                    Navigator.pop(context);
-                  } else {
-                    await showModalBottomSheet(
-                      isScrollControlled: true,
-                      backgroundColor: Colors.transparent,
-                      enableDrag: false,
-                      context: context,
-                      builder: (context) {
-                        return Padding(
-                          padding: MediaQuery.viewInsetsOf(context),
-                          child: SizedBox(
-                            height: MediaQuery.sizeOf(context).height * 0.6,
-                            child: ClassCalendarEditWidget(
-                              classref: containerSchoolClassRecord.reference,
-                              eventid: widget.eventid!,
-                              school: widget.schoolref!,
-                            ),
-                          ),
-                        );
-                      },
-                    ).then((value) => safeSetState(() {}));
-
-                    Navigator.pop(context);
-                  }
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.edit_sharp,
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      size: 20.0,
-                    ),
-                    Text(
-                      'Edit ${widget.noticebool! ? 'Notice' : 'Event'}',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            fontFamily: 'Nunito',
-                            fontSize: 16.0,
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.w500,
-                          ),
-                    ),
-                  ].divide(const SizedBox(width: 15.0)).around(const SizedBox(width: 15.0)),
-                ),
-              ),
               Builder(
                 builder: (context) => InkWell(
                   splashColor: Colors.transparent,
@@ -174,19 +103,19 @@ class _EditDeleteNoticeWidgetState extends State<EditDeleteNoticeWidget> {
                           context: context,
                           builder: (alertDialogContext) {
                             return AlertDialog(
-                              title: const Text('Alert!'),
-                              content: const Text(
+                              title: Text('Alert!'),
+                              content: Text(
                                   'Are you sure you want to delete this event / notice.'),
                               actions: [
                                 TextButton(
                                   onPressed: () =>
                                       Navigator.pop(alertDialogContext, false),
-                                  child: const Text('Cancel'),
+                                  child: Text('Cancel'),
                                 ),
                                 TextButton(
                                   onPressed: () =>
                                       Navigator.pop(alertDialogContext, true),
-                                  child: const Text('Confirm'),
+                                  child: Text('Confirm'),
                                 ),
                               ],
                             );
@@ -207,6 +136,19 @@ class _EditDeleteNoticeWidgetState extends State<EditDeleteNoticeWidget> {
                             },
                           ),
                         });
+                        _model.schoolref1 = await SchoolRecord.getDocumentOnce(
+                            widget.schoolref!);
+
+                        await _model.schoolref1!.reference.update({
+                          ...mapToFirestore(
+                            {
+                              'Calendar_list': getEventsNoticeListFirestoreData(
+                                functions.deleteEvent(widget.eventid!,
+                                    _model.schoolref1!.calendarList.toList()),
+                              ),
+                            },
+                          ),
+                        });
                         await showDialog(
                           context: context,
                           builder: (dialogContext) {
@@ -214,20 +156,20 @@ class _EditDeleteNoticeWidgetState extends State<EditDeleteNoticeWidget> {
                               elevation: 0,
                               insetPadding: EdgeInsets.zero,
                               backgroundColor: Colors.transparent,
-                              alignment: const AlignmentDirectional(0.0, -0.8)
+                              alignment: AlignmentDirectional(0.0, -0.8)
                                   .resolve(Directionality.of(context)),
-                              child: SizedBox(
+                              child: Container(
                                 height:
                                     MediaQuery.sizeOf(context).height * 0.08,
                                 width: MediaQuery.sizeOf(context).width * 0.6,
-                                child: const EventdeletedsuccessfullyWidget(),
+                                child: EventdeletedsuccessfullyWidget(),
                               ),
                             );
                           },
                         );
 
                         context.pushNamed(
-                          'Class_view',
+                          CalenderClassWidget.routeName,
                           queryParameters: {
                             'schoolclassref': serializeParam(
                               widget.classref,
@@ -237,17 +179,15 @@ class _EditDeleteNoticeWidgetState extends State<EditDeleteNoticeWidget> {
                               widget.schoolref,
                               ParamType.DocumentReference,
                             ),
-                            'datePick': serializeParam(
-                              getCurrentTimestamp,
-                              ParamType.DateTime,
+                            'mainpage': serializeParam(
+                              false,
+                              ParamType.bool,
+                            ),
+                            'studentpage': serializeParam(
+                              false,
+                              ParamType.bool,
                             ),
                           }.withoutNulls,
-                          extra: <String, dynamic>{
-                            kTransitionInfoKey: const TransitionInfo(
-                              hasTransition: true,
-                              transitionType: PageTransitionType.fade,
-                            ),
-                          },
                         );
                       } else {
                         await containerSchoolClassRecord.reference.update({
@@ -260,6 +200,20 @@ class _EditDeleteNoticeWidgetState extends State<EditDeleteNoticeWidget> {
                             },
                           ),
                         });
+                        _model.schoolref = await SchoolRecord.getDocumentOnce(
+                            widget.schoolref!);
+
+                        await _model.schoolref!.reference.update({
+                          ...mapToFirestore(
+                            {
+                              'List_of_notice':
+                                  getEventsNoticeListFirestoreData(
+                                functions.deleteEvent(widget.eventid!,
+                                    _model.schoolref!.listOfNotice.toList()),
+                              ),
+                            },
+                          ),
+                        });
                         await showDialog(
                           context: context,
                           builder: (dialogContext) {
@@ -267,20 +221,20 @@ class _EditDeleteNoticeWidgetState extends State<EditDeleteNoticeWidget> {
                               elevation: 0,
                               insetPadding: EdgeInsets.zero,
                               backgroundColor: Colors.transparent,
-                              alignment: const AlignmentDirectional(0.0, -0.8)
+                              alignment: AlignmentDirectional(0.0, -0.8)
                                   .resolve(Directionality.of(context)),
-                              child: SizedBox(
+                              child: Container(
                                 height:
                                     MediaQuery.sizeOf(context).height * 0.08,
                                 width: MediaQuery.sizeOf(context).width * 0.6,
-                                child: const NoticeddetedWidget(),
+                                child: NoticeddetedWidget(),
                               ),
                             );
                           },
                         );
 
                         context.pushNamed(
-                          'Class_view',
+                          ClassViewWidget.routeName,
                           queryParameters: {
                             'schoolclassref': serializeParam(
                               widget.classref,
@@ -296,7 +250,7 @@ class _EditDeleteNoticeWidgetState extends State<EditDeleteNoticeWidget> {
                             ),
                           }.withoutNulls,
                           extra: <String, dynamic>{
-                            kTransitionInfoKey: const TransitionInfo(
+                            kTransitionInfoKey: TransitionInfo(
                               hasTransition: true,
                               transitionType: PageTransitionType.fade,
                             ),
@@ -304,29 +258,130 @@ class _EditDeleteNoticeWidgetState extends State<EditDeleteNoticeWidget> {
                         );
                       }
                     }
+
+                    safeSetState(() {});
                   },
                   child: Row(
                     mainAxisSize: MainAxisSize.max,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Icon(
-                        Icons.delete_outlined,
-                        color: FlutterFlowTheme.of(context).primaryText,
+                        FFIcons.ktrashEmpty,
+                        color: FlutterFlowTheme.of(context).tertiaryText,
                         size: 20.0,
                       ),
                       Text(
                         'Delete ${widget.noticebool! ? 'Notice' : 'Event'}',
                         style: FlutterFlowTheme.of(context).bodyMedium.override(
-                              fontFamily: 'Nunito',
+                              font: GoogleFonts.nunito(
+                                fontWeight: FontWeight.normal,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
+                              color: FlutterFlowTheme.of(context).primaryText,
                               fontSize: 16.0,
                               letterSpacing: 0.0,
-                              fontWeight: FontWeight.w500,
+                              fontWeight: FontWeight.normal,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
                             ),
                       ),
                     ]
-                        .divide(const SizedBox(width: 15.0))
-                        .around(const SizedBox(width: 15.0)),
+                        .divide(SizedBox(width: 10.0))
+                        .around(SizedBox(width: 10.0)),
                   ),
+                ),
+              ),
+              InkWell(
+                splashColor: Colors.transparent,
+                focusColor: Colors.transparent,
+                hoverColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                onTap: () async {
+                  if (widget.classEvent == false) {
+                    FFAppState().eventfiles = [];
+                    safeSetState(() {});
+                    await showModalBottomSheet(
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      isDismissible: false,
+                      enableDrag: false,
+                      context: context,
+                      builder: (context) {
+                        return Padding(
+                          padding: MediaQuery.viewInsetsOf(context),
+                          child: Container(
+                            height: MediaQuery.sizeOf(context).height * 0.6,
+                            child: EditNoticeBoardWidget(
+                              classref: containerSchoolClassRecord.reference,
+                              eventid: widget.eventid!,
+                              school: widget.schoolref!,
+                              eventdata: widget.event!,
+                            ),
+                          ),
+                        );
+                      },
+                    ).then((value) => safeSetState(() {}));
+
+                    Navigator.pop(context);
+                  } else {
+                    FFAppState().eventfiles = [];
+                    safeSetState(() {});
+                    await showModalBottomSheet(
+                      isScrollControlled: true,
+                      backgroundColor: Colors.transparent,
+                      isDismissible: false,
+                      enableDrag: false,
+                      context: context,
+                      builder: (context) {
+                        return Padding(
+                          padding: MediaQuery.viewInsetsOf(context),
+                          child: Container(
+                            height: MediaQuery.sizeOf(context).height * 0.6,
+                            child: ClassCalendarEditWidget(
+                              classref: containerSchoolClassRecord.reference,
+                              eventid: widget.eventid!,
+                              school: widget.schoolref!,
+                              eventdata: widget.event!,
+                            ),
+                          ),
+                        );
+                      },
+                    ).then((value) => safeSetState(() {}));
+
+                    Navigator.pop(context);
+                  }
+                },
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Icon(
+                      Icons.edit_sharp,
+                      color: FlutterFlowTheme.of(context).tertiaryText,
+                      size: 20.0,
+                    ),
+                    Text(
+                      'Edit ${widget.noticebool! ? 'Notice' : 'Event'}',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            font: GoogleFonts.nunito(
+                              fontWeight: FontWeight.normal,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            fontSize: 16.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.normal,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
+                    ),
+                  ].divide(SizedBox(width: 10.0)).around(SizedBox(width: 10.0)),
                 ),
               ),
             ],

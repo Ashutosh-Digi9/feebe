@@ -1,5 +1,6 @@
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'editprofile_parent_widget.dart' show EditprofileParentWidget;
 import 'package:flutter/material.dart';
 

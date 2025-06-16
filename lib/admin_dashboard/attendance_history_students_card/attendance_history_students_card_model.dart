@@ -1,5 +1,6 @@
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'attendance_history_students_card_widget.dart'
     show AttendanceHistoryStudentsCardWidget;
 import 'package:flutter/material.dart';

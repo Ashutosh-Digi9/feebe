@@ -1,5 +1,6 @@
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'edit_teacher_admin_widget.dart' show EditTeacherAdminWidget;
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,11 @@ class EditTeacherAdminModel extends FlutterFlowModel<EditTeacherAdminWidget> {
   TeacherListStruct? teacherdata;
   void updateTeacherdataStruct(Function(TeacherListStruct) updateFn) {
     updateFn(teacherdata ??= TeacherListStruct());
+  }
+
+  TeacherListStruct? classteacherdata;
+  void updateClassteacherdataStruct(Function(TeacherListStruct) updateFn) {
+    updateFn(classteacherdata ??= TeacherListStruct());
   }
 
   ///  State fields for stateful widgets in this page.
@@ -55,14 +61,14 @@ class EditTeacherAdminModel extends FlutterFlowModel<EditTeacherAdminWidget> {
   String? _contactemailTextControllerValidator(
       BuildContext context, String? val) {
     if (val == null || val.isEmpty) {
-      return 'Please enter email ';
+      return 'Please enter username / Email';
     }
 
-    if (!RegExp(kTextValidatorEmailRegex).hasMatch(val)) {
-      return 'Please enter valid email';
-    }
     return null;
   }
+
+  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
+  List<SchoolClassRecord>? classes;
 
   @override
   void initState(BuildContext context) {

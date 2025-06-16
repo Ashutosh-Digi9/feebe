@@ -51,7 +51,7 @@ class _ImagesActWidgetState extends State<ImagesActWidget> {
         height: MediaQuery.sizeOf(context).height * 0.2,
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).primaryBackground,
-          borderRadius: const BorderRadius.only(
+          borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(0.0),
             bottomRight: Radius.circular(0.0),
             topLeft: Radius.circular(20.0),
@@ -74,7 +74,8 @@ class _ImagesActWidgetState extends State<ImagesActWidget> {
                 if (selectedMedia != null &&
                     selectedMedia.every(
                         (m) => validateFileFormat(m.storagePath, context))) {
-                  safeSetState(() => _model.isDataUploading1 = true);
+                  safeSetState(
+                      () => _model.isDataUploading_uploadDataCu4cam = true);
                   var selectedUploadedFiles = <FFUploadedFile>[];
 
                   var downloadUrls = <String>[];
@@ -104,13 +105,15 @@ class _ImagesActWidgetState extends State<ImagesActWidget> {
                         .toList();
                   } finally {
                     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                    _model.isDataUploading1 = false;
+                    _model.isDataUploading_uploadDataCu4cam = false;
                   }
                   if (selectedUploadedFiles.length == selectedMedia.length &&
                       downloadUrls.length == selectedMedia.length) {
                     safeSetState(() {
-                      _model.uploadedLocalFile1 = selectedUploadedFiles.first;
-                      _model.uploadedFileUrl1 = downloadUrls.first;
+                      _model.uploadedLocalFile_uploadDataCu4cam =
+                          selectedUploadedFiles.first;
+                      _model.uploadedFileUrl_uploadDataCu4cam =
+                          downloadUrls.first;
                     });
                     showUploadMessage(context, 'Success!');
                   } else {
@@ -125,8 +128,8 @@ class _ImagesActWidgetState extends State<ImagesActWidget> {
                 await widget.teacherref!.update({
                   ...mapToFirestore(
                     {
-                      'Uploaded_pictures':
-                          FieldValue.arrayUnion([_model.uploadedFileUrl1]),
+                      'Uploaded_pictures': FieldValue.arrayUnion(
+                          [_model.uploadedFileUrl_uploadDataCu4cam]),
                     },
                   ),
                 });
@@ -138,7 +141,7 @@ class _ImagesActWidgetState extends State<ImagesActWidget> {
                         color: FlutterFlowTheme.of(context).primaryText,
                       ),
                     ),
-                    duration: const Duration(milliseconds: 4000),
+                    duration: Duration(milliseconds: 4000),
                     backgroundColor: FlutterFlowTheme.of(context).secondary,
                   ),
                 );
@@ -173,7 +176,8 @@ class _ImagesActWidgetState extends State<ImagesActWidget> {
                 if (selectedMedia != null &&
                     selectedMedia.every(
                         (m) => validateFileFormat(m.storagePath, context))) {
-                  safeSetState(() => _model.isDataUploading2 = true);
+                  safeSetState(
+                      () => _model.isDataUploading_uploadDataZ3jgal = true);
                   var selectedUploadedFiles = <FFUploadedFile>[];
 
                   var downloadUrls = <String>[];
@@ -203,13 +207,14 @@ class _ImagesActWidgetState extends State<ImagesActWidget> {
                         .toList();
                   } finally {
                     ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                    _model.isDataUploading2 = false;
+                    _model.isDataUploading_uploadDataZ3jgal = false;
                   }
                   if (selectedUploadedFiles.length == selectedMedia.length &&
                       downloadUrls.length == selectedMedia.length) {
                     safeSetState(() {
-                      _model.uploadedLocalFiles2 = selectedUploadedFiles;
-                      _model.uploadedFileUrls2 = downloadUrls;
+                      _model.uploadedLocalFiles_uploadDataZ3jgal =
+                          selectedUploadedFiles;
+                      _model.uploadedFileUrls_uploadDataZ3jgal = downloadUrls;
                     });
                     showUploadMessage(context, 'Success!');
                   } else {
@@ -227,7 +232,7 @@ class _ImagesActWidgetState extends State<ImagesActWidget> {
                     {
                       'Uploaded_pictures': functions.combineImagePaths(
                           _model.teacher!.uploadedPictures.toList(),
-                          _model.uploadedFileUrls2.toList()),
+                          _model.uploadedFileUrls_uploadDataZ3jgal.toList()),
                     },
                   ),
                 });
@@ -239,7 +244,7 @@ class _ImagesActWidgetState extends State<ImagesActWidget> {
                         color: FlutterFlowTheme.of(context).primaryText,
                       ),
                     ),
-                    duration: const Duration(milliseconds: 4000),
+                    duration: Duration(milliseconds: 4000),
                     backgroundColor: FlutterFlowTheme.of(context).secondary,
                   ),
                 );

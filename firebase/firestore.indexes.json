@@ -13,20 +13,6 @@
           "arrayConfig": "CONTAINS"
         }
       ]
-    },
-    {
-      "collectionGroup": "Notifications",
-      "queryScope": "COLLECTION",
-      "fields": [
-        {
-          "fieldPath": "isread",
-          "order": "ASCENDING"
-        },
-        {
-          "fieldPath": "schoolref",
-          "arrayConfig": "CONTAINS"
-        }
-      ]
     }
   ],
   "fieldOverrides": [

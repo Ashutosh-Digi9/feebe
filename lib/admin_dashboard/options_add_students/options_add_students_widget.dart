@@ -2,7 +2,9 @@ import '/auth/firebase_auth/auth_util.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'options_add_students_model.dart';
 export 'options_add_students_model.dart';
 
@@ -51,12 +53,9 @@ class _OptionsAddStudentsWidgetState extends State<OptionsAddStudentsWidget> {
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
         borderRadius: BorderRadius.circular(8.0),
-        border: Border.all(
-          color: FlutterFlowTheme.of(context).primaryText,
-        ),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: EdgeInsets.all(10.0),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -65,18 +64,27 @@ class _OptionsAddStudentsWidgetState extends State<OptionsAddStudentsWidget> {
               Text(
                 'Add students to the class',
                 style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Nunito',
+                      font: GoogleFonts.nunito(
+                        fontWeight: FontWeight.w600,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                      ),
                       fontSize: 16.0,
                       letterSpacing: 0.0,
                       fontWeight: FontWeight.w600,
+                      fontStyle:
+                          FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                     ),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
                 child: FFButtonWidget(
                   onPressed: () async {
+                    if (Navigator.of(context).canPop()) {
+                      context.pop();
+                    }
                     context.pushNamed(
-                      'SelectStudentsAdmin',
+                      SelectStudentsAdminWidget.routeName,
                       queryParameters: {
                         'schoolref': serializeParam(
                           widget.schoolRef,
@@ -88,31 +96,42 @@ class _OptionsAddStudentsWidgetState extends State<OptionsAddStudentsWidget> {
                         ),
                       }.withoutNulls,
                     );
-
-                    Navigator.pop(context);
                   },
                   text: 'Select students',
                   icon: Icon(
                     Icons.check_circle_outline_sharp,
-                    color: FlutterFlowTheme.of(context).primaryText,
                     size: 20.0,
                   ),
                   options: FFButtonOptions(
                     width: MediaQuery.sizeOf(context).width * 1.0,
                     height: 60.0,
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
                     iconPadding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                    iconColor: FlutterFlowTheme.of(context).primaryText,
                     color: FlutterFlowTheme.of(context).secondaryBackground,
                     textStyle: FlutterFlowTheme.of(context).titleSmall.override(
-                          fontFamily: 'Nunito',
+                          font: GoogleFonts.nunito(
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .fontStyle,
+                          ),
                           color: FlutterFlowTheme.of(context).primaryText,
                           letterSpacing: 0.0,
+                          fontWeight: FlutterFlowTheme.of(context)
+                              .titleSmall
+                              .fontWeight,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).titleSmall.fontStyle,
                         ),
                     elevation: 0.0,
                     borderSide: BorderSide(
-                      color: FlutterFlowTheme.of(context).primaryText,
+                      color: FlutterFlowTheme.of(context).primary,
+                      width: 1.0,
                     ),
                     borderRadius: BorderRadius.circular(8.0),
                   ),
@@ -120,12 +139,15 @@ class _OptionsAddStudentsWidgetState extends State<OptionsAddStudentsWidget> {
               ),
               if (valueOrDefault(currentUserDocument?.userRole, 0) == 2)
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(10.0, 0.0, 10.0, 0.0),
                   child: AuthUserStreamWidget(
                     builder: (context) => FFButtonWidget(
                       onPressed: () async {
-                        context.goNamed(
-                          'add_student_manuallyCopy',
+                        if (Navigator.of(context).canPop()) {
+                          context.pop();
+                        }
+                        context.pushNamed(
+                          AddStudentManuallyCopy2Widget.routeName,
                           queryParameters: {
                             'schoolref': serializeParam(
                               widget.schoolRef,
@@ -137,46 +159,58 @@ class _OptionsAddStudentsWidgetState extends State<OptionsAddStudentsWidget> {
                             ),
                           }.withoutNulls,
                           extra: <String, dynamic>{
-                            kTransitionInfoKey: const TransitionInfo(
+                            kTransitionInfoKey: TransitionInfo(
                               hasTransition: true,
                               transitionType: PageTransitionType.fade,
                             ),
                           },
                         );
-
-                        Navigator.pop(context);
                       },
-                      text: 'Add students',
+                      text: 'Add new students',
                       icon: Icon(
                         Icons.add,
-                        color: FlutterFlowTheme.of(context).primaryText,
                         size: 20.0,
                       ),
                       options: FFButtonOptions(
                         width: MediaQuery.sizeOf(context).width * 1.0,
                         height: 60.0,
-                        padding: const EdgeInsetsDirectional.fromSTEB(
+                        padding: EdgeInsetsDirectional.fromSTEB(
                             16.0, 0.0, 16.0, 0.0),
                         iconPadding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                        iconColor: FlutterFlowTheme.of(context).primaryText,
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                         textStyle: FlutterFlowTheme.of(context)
                             .titleSmall
                             .override(
-                              fontFamily: 'Nunito',
+                              font: GoogleFonts.nunito(
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontStyle,
+                              ),
                               color: FlutterFlowTheme.of(context).primaryText,
                               letterSpacing: 0.0,
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .fontStyle,
                             ),
                         elevation: 0.0,
                         borderSide: BorderSide(
-                          color: FlutterFlowTheme.of(context).primaryText,
+                          color: FlutterFlowTheme.of(context).primary,
+                          width: 1.0,
                         ),
                         borderRadius: BorderRadius.circular(8.0),
                       ),
                     ),
                   ),
                 ),
-            ].divide(const SizedBox(height: 10.0)),
+            ].divide(SizedBox(height: 10.0)),
           ),
         ),
       ),

@@ -1,4 +1,5 @@
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'edi_teacher_widget.dart' show EdiTeacherWidget;
 import 'package:flutter/material.dart';
 

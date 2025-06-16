@@ -19,7 +19,7 @@ class SelectClassCalenderModel
           int index, Function(DocumentReference) updateFn) =>
       schoolclassref[index] = updateFn(schoolclassref[index]);
 
-  Color color = const Color(0xffffffff);
+  Color color = Color(4294967295);
 
   int everyone = 0;
 
@@ -31,6 +31,8 @@ class SelectClassCalenderModel
       toWhome.insert(index, item);
   void updateToWhomeAtIndex(int index, Function(String) updateFn) =>
       toWhome[index] = updateFn(toWhome[index]);
+
+  int? id;
 
   ///  State fields for stateful widgets in this component.
 
@@ -56,6 +58,8 @@ class SelectClassCalenderModel
   SchoolClassRecord? classselect3;
   // Stores action output result for [Backend Call - Read Document] action in Next widget.
   SchoolClassRecord? schoolClassT3;
+  // Stores action output result for [Backend Call - Read Document] action in Next widget.
+  SchoolRecord? school;
   // Stores action output result for [Firestore Query - Query a collection] action in Next widget.
   List<SchoolClassRecord>? classses1233;
   // Stores action output result for [Firestore Query - Query a collection] action in Next widget.

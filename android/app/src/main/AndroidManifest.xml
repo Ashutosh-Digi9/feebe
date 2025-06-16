@@ -5,13 +5,11 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="32"/>
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <application
-        android:label="FeeBe"
+        android:label="Feebe"
         tools:replace="android:label"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true">
@@ -46,7 +44,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
             <!-- Deep linking -->
-            <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="false" />
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -62,6 +60,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
 
 
 

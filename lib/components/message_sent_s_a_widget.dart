@@ -2,6 +2,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'message_sent_s_a_model.dart';
 export 'message_sent_s_a_model.dart';
 
@@ -50,17 +51,17 @@ class _MessageSentSAWidgetState extends State<MessageSentSAWidget> {
         borderRadius: BorderRadius.circular(10.0),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10.0),
+        padding: EdgeInsets.all(10.0),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
-              padding: const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 5.0, 0.0),
+              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 5.0, 0.0),
               child: Container(
                 width: 45.0,
                 height: 45.0,
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   color: Color(0xFF4BA22E),
                   shape: BoxShape.circle,
                 ),
@@ -74,11 +75,17 @@ class _MessageSentSAWidgetState extends State<MessageSentSAWidget> {
             Text(
               'Teacher added successfully!',
               style: FlutterFlowTheme.of(context).bodyMedium.override(
-                    fontFamily: 'Nunito',
+                    font: GoogleFonts.nunito(
+                      fontWeight: FontWeight.bold,
+                      fontStyle:
+                          FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                    ),
                     color: FlutterFlowTheme.of(context).secondaryBackground,
                     fontSize: 22.0,
                     letterSpacing: 0.0,
                     fontWeight: FontWeight.bold,
+                    fontStyle:
+                        FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                   ),
             ),
           ],

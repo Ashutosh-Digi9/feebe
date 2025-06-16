@@ -18,6 +18,16 @@ class EventDetailsModel extends FlutterFlowModel<EventDetailsWidget> {
   void updateImageAtIndex(int index, Function(String) updateFn) =>
       image[index] = updateFn(image[index]);
 
+  bool viewpdf = false;
+
+  bool viewdoc = false;
+
+  bool viewmp3 = false;
+
+  bool viewimg = false;
+
+  bool viewppt = false;
+
   @override
   void initState(BuildContext context) {}
 

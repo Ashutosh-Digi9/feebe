@@ -222,7 +222,7 @@ class StudentListStruct extends FFFirebaseStruct {
           ParamType.bool,
           false,
         ),
-        firestoreUtilData: const FirestoreUtilData(
+        firestoreUtilData: FirestoreUtilData(
           clearUnsetFields: false,
           create: true,
         ),

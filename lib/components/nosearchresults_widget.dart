@@ -1,7 +1,7 @@
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'nosearchresults_model.dart';
 export 'nosearchresults_model.dart';
 
@@ -36,30 +36,41 @@ class _NosearchresultsWidgetState extends State<NosearchresultsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Lottie.asset(
-          'assets/jsons/Animation_-_1731314874616.json',
-          width: MediaQuery.sizeOf(context).width * 0.9,
-          height: MediaQuery.sizeOf(context).height * 0.2,
-          fit: BoxFit.contain,
-          animate: true,
-        ),
-        Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
-          child: Text(
-            'No search results found',
-            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  fontFamily: 'Nunito',
-                  fontSize: 18.0,
-                  letterSpacing: 0.0,
-                  fontWeight: FontWeight.bold,
-                ),
+    return Container(
+      width: MediaQuery.sizeOf(context).width * 1.0,
+      height: MediaQuery.sizeOf(context).height * 1.0,
+      decoration: BoxDecoration(),
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8.0),
+            child: Image.asset(
+              'assets/images/Empty_States_1_(1)_enhanced.png',
+              fit: BoxFit.cover,
+            ),
           ),
-        ),
-      ],
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+            child: Text(
+              'No search results found',
+              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                    font: GoogleFonts.nunito(
+                      fontWeight: FontWeight.bold,
+                      fontStyle:
+                          FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                    ),
+                    fontSize: 18.0,
+                    letterSpacing: 0.0,
+                    fontWeight: FontWeight.bold,
+                    fontStyle:
+                        FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                  ),
+            ),
+          ),
+        ].divide(SizedBox(height: 10.0)).around(SizedBox(height: 10.0)),
+      ),
     );
   }
 }

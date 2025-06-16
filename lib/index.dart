@@ -10,7 +10,8 @@ export '/notifications/notification_parent/notification_parent_widget.dart'
     show NotificationParentWidget;
 export '/parent/timelinedetails/timelinedetails_widget.dart'
     show TimelinedetailsWidget;
-export '/parent_profile/parent_profile_widget.dart' show ParentProfileWidget;
+export '/parent/parent_profile/parent_profile_widget.dart'
+    show ParentProfileWidget;
 export '/notifications/notifications_s_a/notifications_s_a_widget.dart'
     show NotificationsSAWidget;
 export '/a_super_admin/add_school_q_r_s_a/add_school_q_r_s_a_widget.dart'
@@ -21,12 +22,10 @@ export '/parent/editprofile_parent/editprofile_parent_widget.dart'
     show EditprofileParentWidget;
 export '/a_super_admin/search_page_s_a/search_page_s_a_widget.dart'
     show SearchPageSAWidget;
-export '/edit_profile_s_a/edit_profile_s_a_widget.dart'
+export '/a_super_admin/edit_profile_s_a/edit_profile_s_a_widget.dart'
     show EditProfileSAWidget;
 export '/parent/attendence_parent/attendence_parent_widget.dart'
     show AttendenceParentWidget;
-export '/confirmationpages/school_rejected/school_rejected_widget.dart'
-    show SchoolRejectedWidget;
 export '/teacher/add_teacher_manually_admin/add_teacher_manually_admin_widget.dart'
     show AddTeacherManuallyAdminWidget;
 export '/change_password/change_password_widget.dart' show ChangePasswordWidget;
@@ -62,11 +61,10 @@ export '/admin_dashboard/add_student_manually/add_student_manually_widget.dart'
     show AddStudentManuallyWidget;
 export '/confirmationpages/students_addedtoclass/students_addedtoclass_widget.dart'
     show StudentsAddedtoclassWidget;
-export '/admin_dashboard/indi_student_admin/indi_student_admin_widget.dart'
-    show IndiStudentAdminWidget;
 export '/noticedetails_class/noticedetails_class_widget.dart'
     show NoticedetailsClassWidget;
-export '/forgot_password/forgot_password_widget.dart' show ForgotPasswordWidget;
+export '/admin_dashboard/forgot_password/forgot_password_widget.dart'
+    show ForgotPasswordWidget;
 export '/a_super_admin/edit_school_s_a/edit_school_s_a_widget.dart'
     show EditSchoolSAWidget;
 export '/a_super_admin/edit_branch_s_a/edit_branch_s_a_widget.dart'
@@ -77,14 +75,8 @@ export '/admin_dashboard/editclassadmin/editclassadmin_widget.dart'
     show EditclassadminWidget;
 export '/confirmationpages/attendance_marked/attendance_marked_widget.dart'
     show AttendanceMarkedWidget;
-export '/add_noticeboard_class/add_noticeboard_class_widget.dart'
-    show AddNoticeboardClassWidget;
-export '/admin_dashboard/indi_edit_students/indi_edit_students_widget.dart'
-    show IndiEditStudentsWidget;
 export '/add_student_admin_q_r/add_student_admin_q_r_widget.dart'
     show AddStudentAdminQRWidget;
-export '/confirmationpages/studentsprofile/studentsprofile_widget.dart'
-    show StudentsprofileWidget;
 export '/a_super_admin/change_subscription_plan_s_a/change_subscription_plan_s_a_widget.dart'
     show ChangeSubscriptionPlanSAWidget;
 export '/admin_dashboard/students_timeline_activities/students_timeline_activities_widget.dart'
@@ -133,10 +125,9 @@ export '/subscriptionended/subscriptionended_widget.dart'
     show SubscriptionendedWidget;
 export '/teacher/teacher_timeline_new/teacher_timeline_new_widget.dart'
     show TeacherTimelineNewWidget;
-export '/class_notice/class_notice_widget.dart' show ClassNoticeWidget;
 export '/teacher/teacher_notice/teacher_notice_widget.dart'
     show TeacherNoticeWidget;
-export '/teacher_notice_teacher/teacher_notice_teacher_widget.dart'
+export '/teacher/teacher_notice_teacher/teacher_notice_teacher_widget.dart'
     show TeacherNoticeTeacherWidget;
 export '/parent/calender_list_parent/calender_list_parent_widget.dart'
     show CalenderListParentWidget;
@@ -152,31 +143,26 @@ export '/edit_child_parent/edit_child_parent_widget.dart'
     show EditChildParentWidget;
 export '/confirmationpages/child_details_updated/child_details_updated_widget.dart'
     show ChildDetailsUpdatedWidget;
-export '/confirmationpages/pareent_profile_updated/pareent_profile_updated_widget.dart'
-    show PareentProfileUpdatedWidget;
 export '/admin_dashboard/class_notice_admin_teacher/class_notice_admin_teacher_widget.dart'
     show ClassNoticeAdminTeacherWidget;
 export '/admin_dashboard/notification_v_iew/notification_v_iew_widget.dart'
     show NotificationVIewWidget;
-export '/new_student/new_student_widget.dart' show NewStudentWidget;
-export '/new_student_edit/new_student_edit_widget.dart'
+export '/admin_dashboard/new_student/new_student_widget.dart'
+    show NewStudentWidget;
+export '/admin_dashboard/new_student_edit/new_student_edit_widget.dart'
     show NewStudentEditWidget;
 export '/teacher/profile_view/profile_view_widget.dart' show ProfileViewWidget;
 export '/admin_dashboard/indistudentmainpages/indistudentmainpages_widget.dart'
     show IndistudentmainpagesWidget;
 export '/admin_dashboard/indivi_image_view_teacher/indivi_image_view_teacher_widget.dart'
     show IndiviImageViewTeacherWidget;
-export '/admin_dashboard/add_student_manually_copy/add_student_manually_copy_widget.dart'
-    show AddStudentManuallyCopyWidget;
 export '/admin_dashboard/selectedstudents_sadmin/selectedstudents_sadmin_widget.dart'
     show SelectedstudentsSadminWidget;
-export '/admin_dashboard/draft_student_maually/draft_student_maually_widget.dart'
-    show DraftStudentMauallyWidget;
 export '/admin_dashboard/student_draft/student_draft_widget.dart'
     show StudentDraftWidget;
 export '/parent/indivi_video_view/indivi_video_view_widget.dart'
     show IndiviVideoViewWidget;
-export '/admin_dashboard/calender_details_parent/calender_details_parent_widget.dart'
+export '/parent/calender_details_parent/calender_details_parent_widget.dart'
     show CalenderDetailsParentWidget;
 export '/admin_dashboard/attendance_history_students_card/attendance_history_students_card_widget.dart'
     show AttendanceHistoryStudentsCardWidget;
@@ -186,3 +172,31 @@ export '/admin_dashboard/event_details/event_details_widget.dart'
     show EventDetailsWidget;
 export '/guest_page/guest_page_widget.dart' show GuestPageWidget;
 export '/deletepage/deletepage_widget.dart' show DeletepageWidget;
+export '/teacher/teacher_image_view/teacher_image_view_widget.dart'
+    show TeacherImageViewWidget;
+export '/teacher/teacher_video_view/teacher_video_view_widget.dart'
+    show TeacherVideoViewWidget;
+export '/admin_dashboard/total_student_listss/total_student_listss_widget.dart'
+    show TotalStudentListssWidget;
+export '/a_super_admin/edit_admin/edit_admin_widget.dart' show EditAdminWidget;
+export '/parent/edit_parent/edit_parent_widget.dart' show EditParentWidget;
+export '/a_super_admin/add_newadmin/add_newadmin_widget.dart'
+    show AddNewadminWidget;
+export '/a_super_admin/edit_admin_copy/edit_admin_copy_widget.dart'
+    show EditAdminCopyWidget;
+export '/app_update/app_update_widget.dart' show AppUpdateWidget;
+export '/admin_dashboard/staff_notice_view/staff_notice_view_widget.dart'
+    show StaffNoticeViewWidget;
+export '/a_super_admin/request_location/request_location_widget.dart'
+    show RequestLocationWidget;
+export '/parent/edit_parent_copy/edit_parent_copy_widget.dart'
+    show EditParentCopyWidget;
+export '/otp_screen/otp_screen_widget.dart' show OtpScreenWidget;
+export '/admin_dashboard/edit_class_student/edit_class_student_widget.dart'
+    show EditClassStudentWidget;
+export '/admin_dashboard/edit_class_student_copy/edit_class_student_copy_widget.dart'
+    show EditClassStudentCopyWidget;
+export '/admin_dashboard/add_student_manually_copy2/add_student_manually_copy2_widget.dart'
+    show AddStudentManuallyCopy2Widget;
+export '/parent/eventdetailsparent/eventdetailsparent_widget.dart'
+    show EventdetailsparentWidget;

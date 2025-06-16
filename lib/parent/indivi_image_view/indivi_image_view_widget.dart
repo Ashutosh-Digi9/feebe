@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:share_plus/share_plus.dart';
 import 'indivi_image_view_model.dart';
 export 'indivi_image_view_model.dart';
@@ -14,11 +15,16 @@ class IndiviImageViewWidget extends StatefulWidget {
   const IndiviImageViewWidget({
     super.key,
     required this.student,
-    required this.index,
+    required this.imagepath,
+    required this.gallery,
   });
 
   final DocumentReference? student;
-  final int? index;
+  final String? imagepath;
+  final GalleryStruct? gallery;
+
+  static String routeName = 'indivi_image_view';
+  static String routePath = '/indiviImageView';
 
   @override
   State<IndiviImageViewWidget> createState() => _IndiviImageViewWidgetState();
@@ -75,49 +81,57 @@ class _IndiviImageViewWidgetState extends State<IndiviImageViewWidget> {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).newBgcolor,
-            appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).info,
-              automaticallyImplyLeading: false,
-              leading: FlutterFlowIconButton(
-                borderColor: Colors.transparent,
-                borderRadius: 30.0,
-                borderWidth: 1.0,
-                buttonSize: 60.0,
-                icon: const Icon(
-                  Icons.arrow_back_ios_sharp,
-                  color: Color(0x58001B36),
-                  size: 20.0,
-                ),
-                onPressed: () async {
-                  context.pushNamed(
-                    'Dashboard',
-                    extra: <String, dynamic>{
-                      kTransitionInfoKey: const TransitionInfo(
-                        hasTransition: true,
-                        transitionType: PageTransitionType.fade,
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? AppBar(
+                    backgroundColor: FlutterFlowTheme.of(context).info,
+                    automaticallyImplyLeading: false,
+                    leading: FlutterFlowIconButton(
+                      borderColor: Colors.transparent,
+                      borderRadius: 30.0,
+                      borderWidth: 1.0,
+                      buttonSize: 60.0,
+                      icon: Icon(
+                        Icons.chevron_left_rounded,
+                        color: FlutterFlowTheme.of(context).bgColor1,
+                        size: 26.0,
                       ),
-                    },
-                  );
-                },
-              ),
-              title: Text(
-                'Gallery',
-                style: FlutterFlowTheme.of(context).headlineMedium.override(
-                      fontFamily: 'Nunito',
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      fontSize: 16.0,
-                      letterSpacing: 0.0,
-                      fontWeight: FontWeight.w500,
+                      onPressed: () async {
+                        context.safePop();
+                      },
                     ),
-              ),
-              actions: const [],
-              centerTitle: false,
-              elevation: 0.0,
-            ),
+                    title: Text(
+                      'Gallery',
+                      style:
+                          FlutterFlowTheme.of(context).headlineMedium.override(
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .headlineMedium
+                                      .fontStyle,
+                                ),
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                fontSize: 16.0,
+                                letterSpacing: 0.0,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .headlineMedium
+                                    .fontStyle,
+                              ),
+                    ),
+                    actions: [],
+                    centerTitle: false,
+                    elevation: 0.0,
+                  )
+                : null,
             body: SafeArea(
               top: true,
               child: Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(10.0),
                 child: SingleChildScrollView(
                   child: Column(
                     mainAxisSize: MainAxisSize.max,
@@ -128,59 +142,76 @@ class _IndiviImageViewWidgetState extends State<IndiviImageViewWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Align(
-                            alignment: const AlignmentDirectional(-1.0, 0.0),
+                            alignment: AlignmentDirectional(-1.0, 0.0),
                             child: Text(
                               dateTimeFormat(
-                                  "dd MMM , y",
-                                  indiviImageViewStudentsRecord.timeline
-                                      .elementAtOrNull(widget.index!)!
-                                      .date!),
+                                  "dd MMM yy", widget.gallery!.date!),
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context).text1,
                                     fontSize: 18.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w500,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                             ),
                           ),
                           Align(
-                            alignment: const AlignmentDirectional(-1.0, 0.0),
+                            alignment: AlignmentDirectional(-1.0, 0.0),
                             child: Text(
-                              dateTimeFormat(
-                                  "jm",
-                                  indiviImageViewStudentsRecord.timeline
-                                      .elementAtOrNull(widget.index!)!
-                                      .date!),
+                              dateTimeFormat("jm", widget.gallery!.date!),
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
-                                    color:
-                                        FlutterFlowTheme.of(context).alternate,
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .tertiaryText,
                                     fontSize: 18.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                             ),
                           ),
                         ],
                       ),
                       Align(
-                        alignment: const AlignmentDirectional(-1.0, 0.0),
+                        alignment: AlignmentDirectional(-1.0, 0.0),
                         child: Text(
-                          'Uploaded by : ${indiviImageViewStudentsRecord.timeline.elementAtOrNull(widget.index!)?.activityAddedby}',
+                          'Uploaded by : ${widget.gallery?.addedby}',
                           style: FlutterFlowTheme.of(context)
                               .bodyMedium
                               .override(
-                                fontFamily: 'Nunito',
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.normal,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
                                 color:
                                     FlutterFlowTheme.of(context).tertiaryText,
                                 fontSize: 16.0,
                                 letterSpacing: 0.0,
                                 fontWeight: FontWeight.normal,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
                               ),
                         ),
                       ),
@@ -196,27 +227,23 @@ class _IndiviImageViewWidgetState extends State<IndiviImageViewWidget> {
                               type: PageTransitionType.fade,
                               child: FlutterFlowExpandedImageView(
                                 image: Image.network(
-                                  indiviImageViewStudentsRecord.imageslist
-                                      .elementAtOrNull(widget.index!)!,
+                                  widget.imagepath!,
                                   fit: BoxFit.contain,
                                 ),
                                 allowRotation: false,
-                                tag: indiviImageViewStudentsRecord.imageslist
-                                    .elementAtOrNull(widget.index!)!,
+                                tag: widget.imagepath!,
                                 useHeroAnimation: true,
                               ),
                             ),
                           );
                         },
                         child: Hero(
-                          tag: indiviImageViewStudentsRecord.imageslist
-                              .elementAtOrNull(widget.index!)!,
+                          tag: widget.imagepath!,
                           transitionOnUserGestures: true,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
                             child: Image.network(
-                              indiviImageViewStudentsRecord.imageslist
-                                  .elementAtOrNull(widget.index!)!,
+                              widget.imagepath!,
                               width: MediaQuery.sizeOf(context).width * 1.0,
                               height: 300.0,
                               fit: BoxFit.cover,
@@ -225,9 +252,9 @@ class _IndiviImageViewWidgetState extends State<IndiviImageViewWidget> {
                         ),
                       ),
                       Align(
-                        alignment: const AlignmentDirectional(1.0, 1.0),
+                        alignment: AlignmentDirectional(1.0, 1.0),
                         child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 10.0, 0.0, 0.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
@@ -242,17 +269,15 @@ class _IndiviImageViewWidgetState extends State<IndiviImageViewWidget> {
                                   onTap: () async {
                                     await Share.share(
                                       functions.convertImagePathToString(
-                                          indiviImageViewStudentsRecord.timeline
-                                              .elementAtOrNull(widget.index!)!
-                                              .activityImages),
+                                          widget.imagepath!),
                                       sharePositionOrigin:
                                           getWidgetBoundingBox(context),
                                     );
                                   },
                                   child: Icon(
                                     Icons.share,
-                                    color:
-                                        FlutterFlowTheme.of(context).alternate,
+                                    color: FlutterFlowTheme.of(context)
+                                        .tertiaryText,
                                     size: 26.0,
                                   ),
                                 ),
@@ -266,26 +291,23 @@ class _IndiviImageViewWidgetState extends State<IndiviImageViewWidget> {
                                   await downloadFile(
                                     filename: functions
                                         .extractFileNameFromFirebaseLink(
-                                            indiviImageViewStudentsRecord
-                                                .imageslist
-                                                .elementAtOrNull(
-                                                    widget.index!)!),
+                                            widget.imagepath!),
                                     url: functions.convertImagePathToString(
-                                        indiviImageViewStudentsRecord.imageslist
-                                            .elementAtOrNull(widget.index!)!),
+                                        widget.imagepath!),
                                   );
                                 },
                                 child: FaIcon(
                                   FontAwesomeIcons.download,
-                                  color: FlutterFlowTheme.of(context).alternate,
+                                  color:
+                                      FlutterFlowTheme.of(context).tertiaryText,
                                   size: 26.0,
                                 ),
                               ),
-                            ].divide(const SizedBox(width: 15.0)),
+                            ].divide(SizedBox(width: 15.0)),
                           ),
                         ),
                       ),
-                    ].divide(const SizedBox(height: 10.0)),
+                    ].divide(SizedBox(height: 10.0)),
                   ),
                 ),
               ),

@@ -4,6 +4,7 @@ import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'noticedetails_class_model.dart';
 export 'noticedetails_class_model.dart';
 
@@ -16,6 +17,9 @@ class NoticedetailsClassWidget extends StatefulWidget {
 
   final int? eventid;
   final DocumentReference? classref;
+
+  static String routeName = 'noticedetails_class';
+  static String routePath = '/noticedetailsClass';
 
   @override
   State<NoticedetailsClassWidget> createState() =>
@@ -73,58 +77,76 @@ class _NoticedetailsClassWidgetState extends State<NoticedetailsClassWidget> {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
-            appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).info,
-              automaticallyImplyLeading: false,
-              leading: FlutterFlowIconButton(
-                borderRadius: 8.0,
-                icon: Icon(
-                  Icons.chevron_left_rounded,
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  size: 35.0,
-                ),
-                onPressed: () async {
-                  context.safePop();
-                },
-              ),
-              title: Row(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Notice',
-                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                          fontFamily: 'Nunito',
-                          color: FlutterFlowTheme.of(context).primaryText,
-                          fontSize: 34.0,
-                          letterSpacing: 0.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                  ),
-                ],
-              ),
-              actions: [
-                Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 10.0, 0.0),
-                  child: AuthUserStreamWidget(
-                    builder: (context) => Container(
-                      width: 40.0,
-                      height: 40.0,
-                      clipBehavior: Clip.antiAlias,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? AppBar(
+                    backgroundColor: FlutterFlowTheme.of(context).info,
+                    automaticallyImplyLeading: false,
+                    leading: FlutterFlowIconButton(
+                      borderRadius: 8.0,
+                      icon: Icon(
+                        Icons.chevron_left_rounded,
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        size: 35.0,
                       ),
-                      child: Image.network(
-                        currentUserPhoto,
-                        fit: BoxFit.cover,
-                      ),
+                      onPressed: () async {
+                        context.safePop();
+                      },
                     ),
-                  ),
-                ),
-              ],
-              centerTitle: true,
-              elevation: 0.0,
-            ),
+                    title: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'Notice',
+                          style: FlutterFlowTheme.of(context)
+                              .bodyMedium
+                              .override(
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.w600,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                fontSize: 34.0,
+                                letterSpacing: 0.0,
+                                fontWeight: FontWeight.w600,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .fontStyle,
+                              ),
+                        ),
+                      ],
+                    ),
+                    actions: [
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(5.0, 0.0, 10.0, 0.0),
+                        child: AuthUserStreamWidget(
+                          builder: (context) => Container(
+                            width: 40.0,
+                            height: 40.0,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                            child: Image.network(
+                              currentUserPhoto,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                    centerTitle: true,
+                    elevation: 0.0,
+                  )
+                : null,
             body: SafeArea(
               top: true,
               child: Column(
@@ -133,14 +155,14 @@ class _NoticedetailsClassWidgetState extends State<NoticedetailsClassWidget> {
                   Container(
                     width: MediaQuery.sizeOf(context).width * 1.0,
                     height: MediaQuery.sizeOf(context).height * 0.85,
-                    decoration: const BoxDecoration(),
+                    decoration: BoxDecoration(),
                     child: SingleChildScrollView(
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 10.0, 0.0, 10.0, 0.0),
                             child: Text(
                               noticedetailsClassSchoolClassRecord.notice
@@ -149,15 +171,23 @@ class _NoticedetailsClassWidgetState extends State<NoticedetailsClassWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     fontSize: 24.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 10.0, 10.0, 0.0, 0.0),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
@@ -170,9 +200,9 @@ class _NoticedetailsClassWidgetState extends State<NoticedetailsClassWidget> {
                                 ),
                                 Expanded(
                                   child: Align(
-                                    alignment: const AlignmentDirectional(-1.0, 0.0),
+                                    alignment: AlignmentDirectional(-1.0, 0.0),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           10.0, 0.0, 10.0, 0.0),
                                       child: Text(
                                         noticedetailsClassSchoolClassRecord
@@ -182,10 +212,20 @@ class _NoticedetailsClassWidgetState extends State<NoticedetailsClassWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.normal,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
                                               fontSize: 16.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.normal,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
                                             ),
                                       ),
                                     ),
@@ -195,7 +235,7 @@ class _NoticedetailsClassWidgetState extends State<NoticedetailsClassWidget> {
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 10.0, 10.0, 0.0, 0.0),
                             child: Text(
                               noticedetailsClassSchoolClassRecord.notice
@@ -204,17 +244,25 @@ class _NoticedetailsClassWidgetState extends State<NoticedetailsClassWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.normal,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .tertiaryText,
                                     fontSize: 16.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.normal,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                             ),
                           ),
                           Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 10.0, 10.0, 0.0, 0.0),
                             child: Text(
                               dateTimeFormat(
@@ -225,79 +273,21 @@ class _NoticedetailsClassWidgetState extends State<NoticedetailsClassWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.normal,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .tertiaryText,
                                     fontSize: 16.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.normal,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
-                            ),
-                          ),
-                          Align(
-                            alignment: const AlignmentDirectional(0.0, 0.0),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Container(
-                                height: MediaQuery.sizeOf(context).height * 0.5,
-                                decoration: BoxDecoration(
-                                  color: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                ),
-                                child: Builder(
-                                  builder: (context) {
-                                    final images =
-                                        noticedetailsClassSchoolClassRecord
-                                                .notice
-                                                .elementAtOrNull(
-                                                    widget.eventid!)
-                                                ?.eventImages
-                                                .toList() ??
-                                            [];
-
-                                    return GridView.builder(
-                                      padding: EdgeInsets.zero,
-                                      gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3,
-                                        crossAxisSpacing: 10.0,
-                                        mainAxisSpacing: 10.0,
-                                        childAspectRatio: 1.0,
-                                      ),
-                                      scrollDirection: Axis.vertical,
-                                      itemCount: images.length,
-                                      itemBuilder: (context, imagesIndex) {
-                                        final imagesItem = images[imagesIndex];
-                                        return Align(
-                                          alignment:
-                                              const AlignmentDirectional(0.0, 0.0),
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    10.0, 0.0, 0.0, 0.0),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                              child: Image.network(
-                                                imagesItem,
-                                                width:
-                                                    MediaQuery.sizeOf(context)
-                                                            .width *
-                                                        0.4,
-                                                height:
-                                                    MediaQuery.sizeOf(context)
-                                                            .height *
-                                                        0.2,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              ),
                             ),
                           ),
                         ],
@@ -306,7 +296,7 @@ class _NoticedetailsClassWidgetState extends State<NoticedetailsClassWidget> {
                   ),
                   Container(
                     height: MediaQuery.sizeOf(context).height * 0.08,
-                    decoration: const BoxDecoration(),
+                    decoration: BoxDecoration(),
                   ),
                 ],
               ),

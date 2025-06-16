@@ -11,9 +11,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 
 class UsersRecord extends FirestoreRecord {
   UsersRecord._(
-    super.reference,
-    super.data,
-  ) {
+    DocumentReference reference,
+    Map<String, dynamic> data,
+  ) : super(reference, data) {
     _initializeFields();
   }
 
@@ -113,6 +113,21 @@ class UsersRecord extends FirestoreRecord {
   DateTime? get popupdate => _popupdate;
   bool hasPopupdate() => _popupdate != null;
 
+  // "isGuardian" field.
+  bool? _isGuardian;
+  bool get isGuardian => _isGuardian ?? false;
+  bool hasIsGuardian() => _isGuardian != null;
+
+  // "checkout" field.
+  DateTime? _checkout;
+  DateTime? get checkout => _checkout;
+  bool hasCheckout() => _checkout != null;
+
+  // "isemail" field.
+  bool? _isemail;
+  bool get isemail => _isemail ?? false;
+  bool hasIsemail() => _isemail != null;
+
   void _initializeFields() {
     _email = snapshotData['email'] as String?;
     _displayName = snapshotData['display_name'] as String?;
@@ -140,6 +155,9 @@ class UsersRecord extends FirestoreRecord {
     _document = snapshotData['document'] as String?;
     _isNew = snapshotData['IsNew'] as bool?;
     _popupdate = snapshotData['popupdate'] as DateTime?;
+    _isGuardian = snapshotData['isGuardian'] as bool?;
+    _checkout = snapshotData['checkout'] as DateTime?;
+    _isemail = snapshotData['isemail'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -224,6 +242,13 @@ class UsersRecord extends FirestoreRecord {
             ParamType.DateTime,
             false,
           ),
+          'isGuardian': snapshot.data['isGuardian'],
+          'checkout': convertAlgoliaParam(
+            snapshot.data['checkout'],
+            ParamType.DateTime,
+            false,
+          ),
+          'isemail': snapshot.data['isemail'],
         },
         UsersRecord.collection.doc(snapshot.objectID),
       );
@@ -277,6 +302,9 @@ Map<String, dynamic> createUsersRecordData({
   String? document,
   bool? isNew,
   DateTime? popupdate,
+  bool? isGuardian,
+  DateTime? checkout,
+  bool? isemail,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -297,6 +325,9 @@ Map<String, dynamic> createUsersRecordData({
       'document': document,
       'IsNew': isNew,
       'popupdate': popupdate,
+      'isGuardian': isGuardian,
+      'checkout': checkout,
+      'isemail': isemail,
     }.withoutNulls,
   );
 
@@ -331,7 +362,10 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         listEquality.equals(e1?.notifications, e2?.notifications) &&
         e1?.document == e2?.document &&
         e1?.isNew == e2?.isNew &&
-        e1?.popupdate == e2?.popupdate;
+        e1?.popupdate == e2?.popupdate &&
+        e1?.isGuardian == e2?.isGuardian &&
+        e1?.checkout == e2?.checkout &&
+        e1?.isemail == e2?.isemail;
   }
 
   @override
@@ -354,7 +388,10 @@ class UsersRecordDocumentEquality implements Equality<UsersRecord> {
         e?.notifications,
         e?.document,
         e?.isNew,
-        e?.popupdate
+        e?.popupdate,
+        e?.isGuardian,
+        e?.checkout,
+        e?.isemail
       ]);
 
   @override

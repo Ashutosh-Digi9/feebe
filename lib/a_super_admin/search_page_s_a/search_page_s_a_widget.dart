@@ -1,14 +1,15 @@
 import '/backend/backend.dart';
-import '/components/nosearchresults_copy_widget.dart';
+import '/components/nosearchresults_widget.dart';
 import '/flutter_flow/flutter_flow_button_tabbar.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/shimmer_effects/main_dashboard_shimmer/main_dashboard_shimmer_widget.dart';
-import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:text_search/text_search.dart';
 import 'search_page_s_a_model.dart';
@@ -16,6 +17,9 @@ export 'search_page_s_a_model.dart';
 
 class SearchPageSAWidget extends StatefulWidget {
   const SearchPageSAWidget({super.key});
+
+  static String routeName = 'SearchPage_SA';
+  static String routePath = '/searchPageSA';
 
   @override
   State<SearchPageSAWidget> createState() => _SearchPageSAWidgetState();
@@ -39,16 +43,14 @@ class _SearchPageSAWidgetState extends State<SearchPageSAWidget>
       safeSetState(() {});
     });
 
+    _model.searchFiledSchoolTextController ??= TextEditingController();
+    _model.searchFiledSchoolFocusNode ??= FocusNode();
+
     _model.tabBarController = TabController(
       vsync: this,
       length: 2,
       initialIndex: 0,
     )..addListener(() => safeSetState(() {}));
-    _model.searchFiledSchoolTextController ??= TextEditingController();
-    _model.searchFiledSchoolFocusNode ??= FocusNode();
-
-    _model.serachFiledPrinciTextController ??= TextEditingController();
-    _model.serachFiledPrinciFocusNode ??= FocusNode();
   }
 
   @override
@@ -69,7 +71,7 @@ class _SearchPageSAWidgetState extends State<SearchPageSAWidget>
         if (!snapshot.hasData) {
           return Scaffold(
             backgroundColor: FlutterFlowTheme.of(context).newBgcolor,
-            body: const MainDashboardShimmerWidget(),
+            body: MainDashboardShimmerWidget(),
           );
         }
         List<SchoolRecord> searchPageSASchoolRecordList = snapshot.data!;
@@ -82,35 +84,222 @@ class _SearchPageSAWidgetState extends State<SearchPageSAWidget>
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).newBgcolor,
-            appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).info,
-              automaticallyImplyLeading: false,
-              leading: InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () async {
-                  context.goNamed(
-                    'Dashboard',
-                    extra: <String, dynamic>{
-                      kTransitionInfoKey: const TransitionInfo(
-                        hasTransition: true,
-                        transitionType: PageTransitionType.fade,
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? AppBar(
+                    backgroundColor: FlutterFlowTheme.of(context).info,
+                    automaticallyImplyLeading: false,
+                    leading: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
+                        context.goNamed(
+                          DashboardWidget.routeName,
+                          extra: <String, dynamic>{
+                            kTransitionInfoKey: TransitionInfo(
+                              hasTransition: true,
+                              transitionType: PageTransitionType.fade,
+                            ),
+                          },
+                        );
+                      },
+                      child: Icon(
+                        Icons.chevron_left,
+                        color: FlutterFlowTheme.of(context).bgColor1,
+                        size: 26.0,
                       ),
-                    },
-                  );
-                },
-                child: Icon(
-                  Icons.chevron_left,
-                  color: FlutterFlowTheme.of(context).bgColor1,
-                  size: 28.0,
-                ),
-              ),
-              actions: const [],
-              centerTitle: false,
-              elevation: 0.0,
-            ),
+                    ),
+                    title: TextFormField(
+                      controller: _model.searchFiledSchoolTextController,
+                      focusNode: _model.searchFiledSchoolFocusNode,
+                      onChanged: (_) => EasyDebounce.debounce(
+                        '_model.searchFiledSchoolTextController',
+                        Duration(milliseconds: 2000),
+                        () async {
+                          _model.recentsearchboolschool = false;
+                          _model.recentsearchadmin = false;
+                          safeSetState(() {});
+                          await querySchoolRecordOnce()
+                              .then(
+                                (records) => _model.simpleSearchResults =
+                                    TextSearch(
+                                  records
+                                      .map(
+                                        (record) => TextSearchItem.fromTerms(
+                                            record, [
+                                          record.schoolNameforSearch,
+                                          record.principalNameforSearch
+                                        ]),
+                                      )
+                                      .toList(),
+                                )
+                                        .search(_model
+                                            .searchFiledSchoolTextController
+                                            .text)
+                                        .map((r) => r.object)
+                                        .toList(),
+                              )
+                              .onError(
+                                  (_, __) => _model.simpleSearchResults = [])
+                              .whenComplete(() => safeSetState(() {}));
+                        },
+                      ),
+                      autofocus: false,
+                      obscureText: false,
+                      decoration: InputDecoration(
+                        isDense: true,
+                        labelStyle:
+                            FlutterFlowTheme.of(context).labelMedium.override(
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
+                                  ),
+                                  color: FlutterFlowTheme.of(context).text1,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontStyle,
+                                ),
+                        hintText: 'Search for Schools here',
+                        hintStyle:
+                            FlutterFlowTheme.of(context).labelMedium.override(
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
+                                  ),
+                                  color: Color(0xFFAEAEAE),
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontStyle,
+                                ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).primary,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color:
+                                FlutterFlowTheme.of(context).primaryBackground,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).error,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: FlutterFlowTheme.of(context).error,
+                            width: 1.0,
+                          ),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        filled: true,
+                        fillColor: FlutterFlowTheme.of(context).tertiary,
+                        prefixIcon: Icon(
+                          Icons.search,
+                          color: Color(0xFFD1D1D1),
+                          size: 20.0,
+                        ),
+                        suffixIcon: _model.searchFiledSchoolTextController!.text
+                                .isNotEmpty
+                            ? InkWell(
+                                onTap: () async {
+                                  _model.searchFiledSchoolTextController
+                                      ?.clear();
+                                  _model.recentsearchboolschool = false;
+                                  _model.recentsearchadmin = false;
+                                  safeSetState(() {});
+                                  await querySchoolRecordOnce()
+                                      .then(
+                                        (records) => _model
+                                            .simpleSearchResults = TextSearch(
+                                          records
+                                              .map(
+                                                (record) =>
+                                                    TextSearchItem.fromTerms(
+                                                        record, [
+                                                  record.schoolNameforSearch,
+                                                  record.principalNameforSearch
+                                                ]),
+                                              )
+                                              .toList(),
+                                        )
+                                            .search(_model
+                                                .searchFiledSchoolTextController
+                                                .text)
+                                            .map((r) => r.object)
+                                            .toList(),
+                                      )
+                                      .onError((_, __) =>
+                                          _model.simpleSearchResults = [])
+                                      .whenComplete(() => safeSetState(() {}));
+
+                                  safeSetState(() {});
+                                },
+                                child: Icon(
+                                  Icons.clear,
+                                  color: Color(0xFFD1D1D1),
+                                  size: 20.0,
+                                ),
+                              )
+                            : null,
+                      ),
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            font: GoogleFonts.nunito(
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                            color: Color(0xFF001B36),
+                            letterSpacing: 0.0,
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
+                      cursorColor: FlutterFlowTheme.of(context).primaryText,
+                      validator: _model.searchFiledSchoolTextControllerValidator
+                          .asValidator(context),
+                    ),
+                    actions: [],
+                    centerTitle: false,
+                    elevation: 0.0,
+                  )
+                : null,
             body: SafeArea(
               top: true,
               child: SingleChildScrollView(
@@ -119,79 +308,95 @@ class _SearchPageSAWidgetState extends State<SearchPageSAWidget>
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
-                      child: SizedBox(
-                        height: MediaQuery.sizeOf(context).height * 0.95,
-                        child: Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
-                              8.0, 0.0, 8.0, 10.0),
-                          child: Column(
-                            children: [
-                              Align(
-                                alignment: const Alignment(0.0, 0),
-                                child: FlutterFlowButtonTabBar(
-                                  useToggleButtonStyle: true,
-                                  labelStyle: FlutterFlowTheme.of(context)
-                                      .titleMedium
-                                      .override(
-                                        fontFamily: 'Nunito',
-                                        fontSize: 14.0,
-                                        letterSpacing: 0.0,
+                      padding: EdgeInsetsDirectional.fromSTEB(
+                          10.0, 10.0, 10.0, 10.0),
+                      child: Container(
+                        height: MediaQuery.sizeOf(context).height * 0.8,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFF0F0F0),
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment(0.0, 0),
+                              child: FlutterFlowButtonTabBar(
+                                useToggleButtonStyle: false,
+                                labelStyle: FlutterFlowTheme.of(context)
+                                    .titleMedium
+                                    .override(
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FontWeight.w600,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleMedium
+                                            .fontStyle,
                                       ),
-                                  unselectedLabelStyle:
-                                      FlutterFlowTheme.of(context)
+                                      fontSize: 14.0,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FlutterFlowTheme.of(context)
                                           .titleMedium
-                                          .override(
-                                            fontFamily: 'Nunito',
-                                            fontSize: 14.0,
-                                            letterSpacing: 0.0,
+                                          .fontStyle,
+                                    ),
+                                unselectedLabelStyle:
+                                    FlutterFlowTheme.of(context)
+                                        .titleMedium
+                                        .override(
+                                          font: GoogleFonts.nunito(
+                                            fontWeight: FontWeight.normal,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleMedium
+                                                    .fontStyle,
                                           ),
-                                  labelColor:
-                                      FlutterFlowTheme.of(context).text1,
-                                  unselectedLabelColor:
-                                      FlutterFlowTheme.of(context).text1,
-                                  backgroundColor: FlutterFlowTheme.of(context)
-                                      .secondaryBackground,
-                                  unselectedBackgroundColor: const Color(0xFFF0F0F0),
-                                  borderColor: const Color(0xFFF0F0F0),
-                                  borderWidth: 2.0,
-                                  borderRadius: 8.0,
-                                  elevation: 0.0,
-                                  buttonMargin: const EdgeInsetsDirectional.fromSTEB(
-                                      8.0, 0.0, 8.0, 0.0),
-                                  tabs: const [
-                                    Tab(
-                                      text: 'Schools',
-                                    ),
-                                    Tab(
-                                      text: 'Admin',
-                                    ),
-                                  ],
-                                  controller: _model.tabBarController,
-                                  onTap: (i) async {
-                                    [
-                                      () async {
-                                        _model.pagevariable = 0;
-                                        safeSetState(() {});
-                                      },
-                                      () async {
-                                        _model.pagevariable = 1;
-                                        safeSetState(() {});
-                                      }
-                                    ][i]();
-                                  },
-                                ),
+                                          fontSize: 14.0,
+                                          letterSpacing: 0.0,
+                                          fontWeight: FontWeight.normal,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleMedium
+                                                  .fontStyle,
+                                        ),
+                                labelColor: FlutterFlowTheme.of(context).text1,
+                                unselectedLabelColor:
+                                    FlutterFlowTheme.of(context).text1,
+                                backgroundColor: FlutterFlowTheme.of(context)
+                                    .secondaryBackground,
+                                unselectedBackgroundColor: Color(0xFFF0F0F0),
+                                borderColor: Color(0xFFD0D0D1),
+                                borderWidth: 1.0,
+                                borderRadius: 8.0,
+                                elevation: 0.0,
+                                tabs: [
+                                  Tab(
+                                    text: 'Schools',
+                                  ),
+                                  Tab(
+                                    text: 'Admin',
+                                  ),
+                                ],
+                                controller: _model.tabBarController,
+                                onTap: (i) async {
+                                  [() async {}, () async {}][i]();
+                                },
                               ),
-                              Expanded(
-                                child: TabBarView(
-                                  controller: _model.tabBarController,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 10.0, 0.0, 0.0),
-                                      child: Container(
-                                        decoration: const BoxDecoration(),
+                            ),
+                            Expanded(
+                              child: TabBarView(
+                                controller: _model.tabBarController,
+                                physics: const NeverScrollableScrollPhysics(),
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 20.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.of(context)
+                                            .tertiary,
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 0.0, 0.0, 40.0),
                                         child: SingleChildScrollView(
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
@@ -200,48 +405,50 @@ class _SearchPageSAWidgetState extends State<SearchPageSAWidget>
                                                       .recentsearchboolschool ==
                                                   true)
                                                 Padding(
-                                                  padding: const EdgeInsets.all(10.0),
+                                                  padding: EdgeInsets.all(10.0),
                                                   child: Column(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     children: [
                                                       Align(
                                                         alignment:
-                                                            const AlignmentDirectional(
+                                                            AlignmentDirectional(
                                                                 -1.0, 0.0),
-                                                        child: InkWell(
-                                                          splashColor: Colors
-                                                              .transparent,
-                                                          focusColor: Colors
-                                                              .transparent,
-                                                          hoverColor: Colors
-                                                              .transparent,
-                                                          highlightColor: Colors
-                                                              .transparent,
-                                                          onTap: () async {},
-                                                          child: Text(
-                                                            'Recent Searches',
-                                                            style: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .alternate,
-                                                                  letterSpacing:
-                                                                      0.0,
+                                                        child: Text(
+                                                          'Recent Searches',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .w500,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
                                                                 ),
-                                                          ),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .alternate,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
                                                         ),
                                                       ),
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     0.0,
                                                                     10.0,
@@ -249,18 +456,30 @@ class _SearchPageSAWidgetState extends State<SearchPageSAWidget>
                                                                     0.0),
                                                         child: Builder(
                                                           builder: (context) {
-                                                            final recentsearch = FFAppState()
-                                                                .recentsearchitem
-                                                                .where((e) =>
-                                                                    e.type == 0)
-                                                                .toList()
-                                                                .take(5)
-                                                                .toList()
-                                                                .sortedList(
-                                                                    keyOf: (e) =>
-                                                                        e.createddate!,
-                                                                    desc: true)
-                                                                .toList();
+                                                            final recentsearch =
+                                                                FFAppState()
+                                                                    .recentSearchitem
+                                                                    .take(5)
+                                                                    .toList()
+                                                                    .unique(
+                                                                        (e) =>
+                                                                            e)
+                                                                    .toList();
+                                                            if (recentsearch
+                                                                .isEmpty) {
+                                                              return Container(
+                                                                width: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .width *
+                                                                    1.0,
+                                                                height: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .height *
+                                                                    0.5,
+                                                                child:
+                                                                    NosearchresultsWidget(),
+                                                              );
+                                                            }
 
                                                             return ListView
                                                                 .builder(
@@ -281,16 +500,205 @@ class _SearchPageSAWidgetState extends State<SearchPageSAWidget>
                                                                         recentsearchIndex];
                                                                 return Align(
                                                                   alignment:
-                                                                      const AlignmentDirectional(
+                                                                      AlignmentDirectional(
                                                                           -1.0,
                                                                           0.0),
                                                                   child:
                                                                       Padding(
                                                                     padding:
-                                                                        const EdgeInsets.all(
+                                                                        EdgeInsets.all(
                                                                             5.0),
-                                                                    child:
-                                                                        InkWell(
+                                                                    child: StreamBuilder<
+                                                                        SchoolRecord>(
+                                                                      stream: SchoolRecord
+                                                                          .getDocument(
+                                                                              recentsearchItem),
+                                                                      builder:
+                                                                          (context,
+                                                                              snapshot) {
+                                                                        // Customize what your widget looks like when it's loading.
+                                                                        if (!snapshot
+                                                                            .hasData) {
+                                                                          return Center(
+                                                                            child:
+                                                                                SizedBox(
+                                                                              width: 50.0,
+                                                                              height: 50.0,
+                                                                              child: CircularProgressIndicator(
+                                                                                valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                  FlutterFlowTheme.of(context).primary,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          );
+                                                                        }
+
+                                                                        final textSchoolRecord =
+                                                                            snapshot.data!;
+
+                                                                        return InkWell(
+                                                                          splashColor:
+                                                                              Colors.transparent,
+                                                                          focusColor:
+                                                                              Colors.transparent,
+                                                                          hoverColor:
+                                                                              Colors.transparent,
+                                                                          highlightColor:
+                                                                              Colors.transparent,
+                                                                          onTap:
+                                                                              () async {
+                                                                            if (textSchoolRecord.schoolStatus ==
+                                                                                0) {
+                                                                              context.pushNamed(
+                                                                                NewSchoolDetailsSAWidget.routeName,
+                                                                                queryParameters: {
+                                                                                  'schoolref': serializeParam(
+                                                                                    recentsearchItem,
+                                                                                    ParamType.DocumentReference,
+                                                                                  ),
+                                                                                }.withoutNulls,
+                                                                              );
+                                                                            } else {
+                                                                              context.pushNamed(
+                                                                                ExistingSchoolDetailsSAWidget.routeName,
+                                                                                queryParameters: {
+                                                                                  'schoolrefMain': serializeParam(
+                                                                                    recentsearchItem,
+                                                                                    ParamType.DocumentReference,
+                                                                                  ),
+                                                                                }.withoutNulls,
+                                                                              );
+                                                                            }
+                                                                          },
+                                                                          child:
+                                                                              Text(
+                                                                            textSchoolRecord.schoolDetails.schoolName,
+                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                  font: GoogleFonts.nunito(
+                                                                                    fontWeight: FontWeight.normal,
+                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                  ),
+                                                                                  fontSize: 16.0,
+                                                                                  letterSpacing: 0.0,
+                                                                                  fontWeight: FontWeight.normal,
+                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                ),
+                                                                          ),
+                                                                        );
+                                                                      },
+                                                                    ),
+                                                                  ),
+                                                                );
+                                                              },
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              if (_model
+                                                      .recentsearchboolschool ==
+                                                  false)
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 10.0, 0.0, 0.0),
+                                                  child: Container(
+                                                    decoration: BoxDecoration(),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0,
+                                                                  10.0),
+                                                      child: Builder(
+                                                        builder: (context) {
+                                                          final school = _model
+                                                              .simpleSearchResults
+                                                              .map((e) =>
+                                                                  e.reference)
+                                                              .toList();
+                                                          if (school.isEmpty) {
+                                                            return Center(
+                                                              child: Container(
+                                                                width: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .width *
+                                                                    1.0,
+                                                                height: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .height *
+                                                                    0.4,
+                                                                child:
+                                                                    NosearchresultsWidget(),
+                                                              ),
+                                                            );
+                                                          }
+
+                                                          return ListView
+                                                              .builder(
+                                                            padding: EdgeInsets
+                                                                .fromLTRB(
+                                                              0,
+                                                              0,
+                                                              0,
+                                                              40.0,
+                                                            ),
+                                                            primary: false,
+                                                            shrinkWrap: true,
+                                                            scrollDirection:
+                                                                Axis.vertical,
+                                                            itemCount:
+                                                                school.length,
+                                                            itemBuilder: (context,
+                                                                schoolIndex) {
+                                                              final schoolItem =
+                                                                  school[
+                                                                      schoolIndex];
+                                                              return Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            5.0,
+                                                                            10.0,
+                                                                            5.0,
+                                                                            0.0),
+                                                                child: StreamBuilder<
+                                                                    SchoolRecord>(
+                                                                  stream: SchoolRecord
+                                                                      .getDocument(
+                                                                          schoolItem),
+                                                                  builder: (context,
+                                                                      snapshot) {
+                                                                    // Customize what your widget looks like when it's loading.
+                                                                    if (!snapshot
+                                                                        .hasData) {
+                                                                      return Center(
+                                                                        child:
+                                                                            SizedBox(
+                                                                          width:
+                                                                              50.0,
+                                                                          height:
+                                                                              50.0,
+                                                                          child:
+                                                                              CircularProgressIndicator(
+                                                                            valueColor:
+                                                                                AlwaysStoppedAnimation<Color>(
+                                                                              FlutterFlowTheme.of(context).primary,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    }
+
+                                                                    final containerSchoolRecord =
+                                                                        snapshot
+                                                                            .data!;
+
+                                                                    return InkWell(
                                                                       splashColor:
                                                                           Colors
                                                                               .transparent,
@@ -305,68 +713,432 @@ class _SearchPageSAWidgetState extends State<SearchPageSAWidget>
                                                                               .transparent,
                                                                       onTap:
                                                                           () async {
-                                                                        if (recentsearchItem.type ==
+                                                                        FFAppState()
+                                                                            .addToRecentSearchitem(schoolItem);
+                                                                        safeSetState(
+                                                                            () {});
+                                                                        if (containerSchoolRecord.schoolStatus ==
                                                                             0) {
-                                                                          if (searchPageSASchoolRecordList.where((e) => e.schoolDetails.schoolName == recentsearchItem.searchterm).toList().firstOrNull?.schoolStatus ==
-                                                                              0) {
-                                                                            context.pushNamed(
-                                                                              'NewSchoolDetails_SA',
-                                                                              queryParameters: {
-                                                                                'schoolref': serializeParam(
-                                                                                  searchPageSASchoolRecordList.where((e) => e.schoolDetails.schoolName == recentsearchItem.searchterm).toList().firstOrNull?.reference,
-                                                                                  ParamType.DocumentReference,
-                                                                                ),
-                                                                              }.withoutNulls,
-                                                                            );
-                                                                          } else {
-                                                                            context.pushNamed(
-                                                                              'ExistingSchoolDetails_SA',
-                                                                              queryParameters: {
-                                                                                'schoolrefMain': serializeParam(
-                                                                                  searchPageSASchoolRecordList.where((e) => e.schoolDetails.schoolName == recentsearchItem.searchterm).toList().firstOrNull?.reference,
-                                                                                  ParamType.DocumentReference,
-                                                                                ),
-                                                                              }.withoutNulls,
-                                                                            );
-                                                                          }
+                                                                          context
+                                                                              .pushNamed(
+                                                                            NewSchoolDetailsSAWidget.routeName,
+                                                                            queryParameters:
+                                                                                {
+                                                                              'schoolref': serializeParam(
+                                                                                schoolItem,
+                                                                                ParamType.DocumentReference,
+                                                                              ),
+                                                                            }.withoutNulls,
+                                                                          );
                                                                         } else {
-                                                                          if (searchPageSASchoolRecordList.where((e) => e.principalDetails.principalName == recentsearchItem.searchterm).toList().firstOrNull?.schoolStatus ==
-                                                                              0) {
-                                                                            context.pushNamed(
-                                                                              'NewSchoolDetails_SA',
-                                                                              queryParameters: {
-                                                                                'schoolref': serializeParam(
-                                                                                  searchPageSASchoolRecordList.where((e) => e.principalDetails.principalName == recentsearchItem.searchterm).toList().firstOrNull?.reference,
-                                                                                  ParamType.DocumentReference,
-                                                                                ),
-                                                                              }.withoutNulls,
-                                                                            );
-                                                                          } else {
-                                                                            context.pushNamed(
-                                                                              'ExistingSchoolDetails_SA',
-                                                                              queryParameters: {
-                                                                                'schoolrefMain': serializeParam(
-                                                                                  searchPageSASchoolRecordList.where((e) => e.principalDetails.principalName == recentsearchItem.searchterm).toList().firstOrNull?.reference,
-                                                                                  ParamType.DocumentReference,
-                                                                                ),
-                                                                              }.withoutNulls,
-                                                                            );
-                                                                          }
+                                                                          context
+                                                                              .pushNamed(
+                                                                            ExistingSchoolDetailsSAWidget.routeName,
+                                                                            queryParameters:
+                                                                                {
+                                                                              'schoolrefMain': serializeParam(
+                                                                                schoolItem,
+                                                                                ParamType.DocumentReference,
+                                                                              ),
+                                                                            }.withoutNulls,
+                                                                          );
+                                                                        }
+
+                                                                        if (FFAppState().recentSearchitem.length >
+                                                                            5) {
+                                                                          FFAppState()
+                                                                              .removeAtIndexFromRecentSearchitem(0);
+                                                                          safeSetState(
+                                                                              () {});
                                                                         }
                                                                       },
                                                                       child:
-                                                                          Text(
-                                                                        recentsearchItem
-                                                                            .searchterm,
-                                                                        style: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .override(
-                                                                              fontFamily: 'Nunito',
-                                                                              fontSize: 16.0,
-                                                                              letterSpacing: 0.0,
-                                                                              fontWeight: FontWeight.normal,
+                                                                          Material(
+                                                                        color: Colors
+                                                                            .transparent,
+                                                                        elevation:
+                                                                            2.0,
+                                                                        shape:
+                                                                            RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(10.0),
+                                                                        ),
+                                                                        child:
+                                                                            Container(
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            color:
+                                                                                FlutterFlowTheme.of(context).secondary,
+                                                                            boxShadow: [
+                                                                              BoxShadow(
+                                                                                blurRadius: 4.0,
+                                                                                color: Color(0x33000000),
+                                                                                offset: Offset(
+                                                                                  2.0,
+                                                                                  2.0,
+                                                                                ),
+                                                                                spreadRadius: 1.0,
+                                                                              )
+                                                                            ],
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(10.0),
+                                                                            border:
+                                                                                Border.all(
+                                                                              color: FlutterFlowTheme.of(context).stroke,
                                                                             ),
+                                                                          ),
+                                                                          child:
+                                                                              Padding(
+                                                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                                                20.0,
+                                                                                5.0,
+                                                                                10.0,
+                                                                                10.0),
+                                                                            child:
+                                                                                Row(
+                                                                              mainAxisSize: MainAxisSize.max,
+                                                                              mainAxisAlignment: MainAxisAlignment.start,
+                                                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                                                              children: [
+                                                                                Align(
+                                                                                  alignment: AlignmentDirectional(0.0, 0.0),
+                                                                                  child: Container(
+                                                                                    width: 60.0,
+                                                                                    height: 60.0,
+                                                                                    decoration: BoxDecoration(
+                                                                                      shape: BoxShape.circle,
+                                                                                    ),
+                                                                                    child: InkWell(
+                                                                                      splashColor: Colors.transparent,
+                                                                                      focusColor: Colors.transparent,
+                                                                                      hoverColor: Colors.transparent,
+                                                                                      highlightColor: Colors.transparent,
+                                                                                      onLongPress: () async {
+                                                                                        await Navigator.push(
+                                                                                          context,
+                                                                                          PageTransition(
+                                                                                            type: PageTransitionType.fade,
+                                                                                            child: FlutterFlowExpandedImageView(
+                                                                                              image: Image.network(
+                                                                                                containerSchoolRecord.schoolDetails.schoolImage != '' ? containerSchoolRecord.schoolDetails.schoolImage : FFAppConstants.Schoolimage,
+                                                                                                fit: BoxFit.contain,
+                                                                                              ),
+                                                                                              allowRotation: false,
+                                                                                              tag: containerSchoolRecord.schoolDetails.schoolImage != '' ? containerSchoolRecord.schoolDetails.schoolImage : FFAppConstants.Schoolimage,
+                                                                                              useHeroAnimation: true,
+                                                                                            ),
+                                                                                          ),
+                                                                                        );
+                                                                                      },
+                                                                                      child: Hero(
+                                                                                        tag: containerSchoolRecord.schoolDetails.schoolImage != '' ? containerSchoolRecord.schoolDetails.schoolImage : FFAppConstants.Schoolimage,
+                                                                                        transitionOnUserGestures: true,
+                                                                                        child: ClipRRect(
+                                                                                          borderRadius: BorderRadius.circular(30.0),
+                                                                                          child: Image.network(
+                                                                                            containerSchoolRecord.schoolDetails.schoolImage != '' ? containerSchoolRecord.schoolDetails.schoolImage : FFAppConstants.Schoolimage,
+                                                                                            width: 200.0,
+                                                                                            height: 200.0,
+                                                                                            fit: BoxFit.cover,
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: EdgeInsetsDirectional.fromSTEB(10.0, 5.0, 0.0, 5.0),
+                                                                                  child: Column(
+                                                                                    mainAxisSize: MainAxisSize.max,
+                                                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                                                                    children: [
+                                                                                      Align(
+                                                                                        alignment: AlignmentDirectional(-1.0, 0.0),
+                                                                                        child: Container(
+                                                                                          decoration: BoxDecoration(),
+                                                                                          child: Container(
+                                                                                            width: MediaQuery.sizeOf(context).width * 0.6,
+                                                                                            decoration: BoxDecoration(),
+                                                                                            child: Text(
+                                                                                              containerSchoolRecord.schoolDetails.schoolName.maybeHandleOverflow(
+                                                                                                maxChars: 30,
+                                                                                                replacement: '…',
+                                                                                              ),
+                                                                                              textAlign: TextAlign.start,
+                                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                    font: GoogleFonts.nunito(
+                                                                                                      fontWeight: FontWeight.bold,
+                                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                                    ),
+                                                                                                    color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                                    fontSize: 16.0,
+                                                                                                    letterSpacing: 0.0,
+                                                                                                    fontWeight: FontWeight.bold,
+                                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                                  ),
+                                                                                            ),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      Align(
+                                                                                        alignment: AlignmentDirectional(-1.0, 0.0),
+                                                                                        child: Text(
+                                                                                          containerSchoolRecord.schoolDetails.city,
+                                                                                          textAlign: TextAlign.start,
+                                                                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                font: GoogleFonts.nunito(
+                                                                                                  fontWeight: FontWeight.bold,
+                                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                                ),
+                                                                                                color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                                fontSize: 16.0,
+                                                                                                letterSpacing: 0.0,
+                                                                                                fontWeight: FontWeight.bold,
+                                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                              ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      Align(
+                                                                                        alignment: AlignmentDirectional(-1.0, 0.0),
+                                                                                        child: Text(
+                                                                                          containerSchoolRecord.principalDetails.phoneNumber,
+                                                                                          style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                font: GoogleFonts.nunito(
+                                                                                                  fontWeight: FontWeight.normal,
+                                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                                ),
+                                                                                                color: FlutterFlowTheme.of(context).tertiaryText,
+                                                                                                letterSpacing: 0.0,
+                                                                                                fontWeight: FontWeight.normal,
+                                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                              ),
+                                                                                        ),
+                                                                                      ),
+                                                                                    ].divide(SizedBox(height: 4.0)),
+                                                                                  ),
+                                                                                ),
+                                                                              ].divide(SizedBox(width: 10.0)),
+                                                                            ),
+                                                                          ),
+                                                                        ),
                                                                       ),
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              );
+                                                            },
+                                                          );
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                            ].addToEnd(SizedBox(height: 40.0)),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 20.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.of(context)
+                                            .tertiary,
+                                      ),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            0.0, 10.0, 0.0, 40.0),
+                                        child: SingleChildScrollView(
+                                          child: Column(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              if (_model.recentsearchadmin ==
+                                                  true)
+                                                Padding(
+                                                  padding: EdgeInsets.all(10.0),
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Align(
+                                                        alignment:
+                                                            AlignmentDirectional(
+                                                                -1.0, 0.0),
+                                                        child: Text(
+                                                          'Recent Searches',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .alternate,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    10.0,
+                                                                    0.0,
+                                                                    0.0),
+                                                        child: Builder(
+                                                          builder: (context) {
+                                                            final recentsearch =
+                                                                FFAppState()
+                                                                    .recentSearchitem
+                                                                    .take(5)
+                                                                    .toList()
+                                                                    .unique(
+                                                                        (e) => e
+                                                                            .id)
+                                                                    .toList();
+                                                            if (recentsearch
+                                                                .isEmpty) {
+                                                              return Container(
+                                                                width: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .width *
+                                                                    1.0,
+                                                                height: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .height *
+                                                                    0.5,
+                                                                child:
+                                                                    NosearchresultsWidget(),
+                                                              );
+                                                            }
+
+                                                            return ListView
+                                                                .builder(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .zero,
+                                                              primary: false,
+                                                              shrinkWrap: true,
+                                                              scrollDirection:
+                                                                  Axis.vertical,
+                                                              itemCount:
+                                                                  recentsearch
+                                                                      .length,
+                                                              itemBuilder: (context,
+                                                                  recentsearchIndex) {
+                                                                final recentsearchItem =
+                                                                    recentsearch[
+                                                                        recentsearchIndex];
+                                                                return Align(
+                                                                  alignment:
+                                                                      AlignmentDirectional(
+                                                                          -1.0,
+                                                                          0.0),
+                                                                  child:
+                                                                      Padding(
+                                                                    padding:
+                                                                        EdgeInsets.all(
+                                                                            5.0),
+                                                                    child: StreamBuilder<
+                                                                        SchoolRecord>(
+                                                                      stream: SchoolRecord
+                                                                          .getDocument(
+                                                                              recentsearchItem),
+                                                                      builder:
+                                                                          (context,
+                                                                              snapshot) {
+                                                                        // Customize what your widget looks like when it's loading.
+                                                                        if (!snapshot
+                                                                            .hasData) {
+                                                                          return Center(
+                                                                            child:
+                                                                                SizedBox(
+                                                                              width: 50.0,
+                                                                              height: 50.0,
+                                                                              child: CircularProgressIndicator(
+                                                                                valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                  FlutterFlowTheme.of(context).primary,
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          );
+                                                                        }
+
+                                                                        final textSchoolRecord =
+                                                                            snapshot.data!;
+
+                                                                        return InkWell(
+                                                                          splashColor:
+                                                                              Colors.transparent,
+                                                                          focusColor:
+                                                                              Colors.transparent,
+                                                                          hoverColor:
+                                                                              Colors.transparent,
+                                                                          highlightColor:
+                                                                              Colors.transparent,
+                                                                          onTap:
+                                                                              () async {
+                                                                            if (textSchoolRecord.schoolStatus ==
+                                                                                0) {
+                                                                              context.pushNamed(
+                                                                                NewSchoolDetailsSAWidget.routeName,
+                                                                                queryParameters: {
+                                                                                  'schoolref': serializeParam(
+                                                                                    recentsearchItem,
+                                                                                    ParamType.DocumentReference,
+                                                                                  ),
+                                                                                }.withoutNulls,
+                                                                              );
+                                                                            } else {
+                                                                              context.pushNamed(
+                                                                                ExistingSchoolDetailsSAWidget.routeName,
+                                                                                queryParameters: {
+                                                                                  'schoolrefMain': serializeParam(
+                                                                                    recentsearchItem,
+                                                                                    ParamType.DocumentReference,
+                                                                                  ),
+                                                                                }.withoutNulls,
+                                                                              );
+                                                                            }
+                                                                          },
+                                                                          child:
+                                                                              Text(
+                                                                            textSchoolRecord.principalDetails.principalName,
+                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                  font: GoogleFonts.nunito(
+                                                                                    fontWeight: FontWeight.w500,
+                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                  ),
+                                                                                  fontSize: 16.0,
+                                                                                  letterSpacing: 0.0,
+                                                                                  fontWeight: FontWeight.w500,
+                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                ),
+                                                                          ),
+                                                                        );
+                                                                      },
                                                                     ),
                                                                   ),
                                                                 );
@@ -378,281 +1150,100 @@ class _SearchPageSAWidgetState extends State<SearchPageSAWidget>
                                                     ],
                                                   ),
                                                 ),
-                                              Container(
-                                                decoration: const BoxDecoration(),
-                                                child: Row(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Expanded(
-                                                      child: TextFormField(
-                                                        controller: _model
-                                                            .searchFiledSchoolTextController,
-                                                        focusNode: _model
-                                                            .searchFiledSchoolFocusNode,
-                                                        onChanged: (_) =>
-                                                            EasyDebounce
-                                                                .debounce(
-                                                          '_model.searchFiledSchoolTextController',
-                                                          const Duration(
-                                                              milliseconds:
-                                                                  2000),
-                                                          () async {
-                                                            _model.recentsearchboolschool =
-                                                                false;
-                                                            safeSetState(() {});
-                                                            safeSetState(() {
-                                                              _model
-                                                                  .simpleSearchResults1 = TextSearch(searchPageSASchoolRecordList
-                                                                      .map((e) => e
-                                                                          .schoolDetails
-                                                                          .schoolName)
-                                                                      .toList()
-                                                                      .map((str) =>
-                                                                          TextSearchItem.fromTerms(
-                                                                              str,
-                                                                              [
-                                                                                str
-                                                                              ]))
-                                                                      .toList())
-                                                                  .search(_model
-                                                                      .searchFiledSchoolTextController
-                                                                      .text)
-                                                                  .map((r) =>
-                                                                      r.object)
-                                                                  .toList();
-                                                            });
-                                                          },
-                                                        ),
-                                                        autofocus: false,
-                                                        obscureText: false,
-                                                        decoration:
-                                                            InputDecoration(
-                                                          isDense: true,
-                                                          labelStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .labelMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Nunito',
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .text1,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
-                                                          hintText:
-                                                              'Search School name...',
-                                                          hintStyle:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .labelMedium
-                                                                  .override(
-                                                                    fontFamily:
-                                                                        'Nunito',
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .alternate,
-                                                                    letterSpacing:
-                                                                        0.0,
-                                                                  ),
-                                                          enabledBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .dIsable,
-                                                              width: 1.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0),
-                                                          ),
-                                                          focusedBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primaryBackground,
-                                                              width: 1.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0),
-                                                          ),
-                                                          errorBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .error,
-                                                              width: 1.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0),
-                                                          ),
-                                                          focusedErrorBorder:
-                                                              OutlineInputBorder(
-                                                            borderSide:
-                                                                BorderSide(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .error,
-                                                              width: 1.0,
-                                                            ),
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .circular(
-                                                                        8.0),
-                                                          ),
-                                                          filled: true,
-                                                          fillColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .tertiary,
-                                                          prefixIcon: Icon(
-                                                            Icons.search,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .alternate,
-                                                          ),
-                                                          suffixIcon: _model
-                                                                  .searchFiledSchoolTextController!
-                                                                  .text
-                                                                  .isNotEmpty
-                                                              ? InkWell(
-                                                                  onTap:
-                                                                      () async {
-                                                                    _model
-                                                                        .searchFiledSchoolTextController
-                                                                        ?.clear();
-                                                                    _model.recentsearchboolschool =
-                                                                        false;
-                                                                    safeSetState(
-                                                                        () {});
-                                                                    safeSetState(
-                                                                        () {
-                                                                      _model
-                                                                          .simpleSearchResults1 = TextSearch(searchPageSASchoolRecordList
-                                                                              .map((e) => e
-                                                                                  .schoolDetails.schoolName)
-                                                                              .toList()
-                                                                              .map((str) => TextSearchItem.fromTerms(str, [
-                                                                                    str
-                                                                                  ]))
-                                                                              .toList())
-                                                                          .search(_model
-                                                                              .searchFiledSchoolTextController
-                                                                              .text)
-                                                                          .map((r) =>
-                                                                              r.object)
-                                                                          .toList();
-                                                                    });
-                                                                    safeSetState(
-                                                                        () {});
-                                                                  },
-                                                                  child: const Icon(
-                                                                    Icons.clear,
-                                                                    size: 22,
-                                                                  ),
-                                                                )
-                                                              : null,
-                                                        ),
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .text1,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
-                                                        cursorColor:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primaryText,
-                                                        validator: _model
-                                                            .searchFiledSchoolTextControllerValidator
-                                                            .asValidator(
-                                                                context),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              if (_model
-                                                      .recentsearchboolschool ==
+                                              if (_model.recentsearchadmin ==
                                                   false)
-                                                Padding(
-                                                  padding: const EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          0.0, 10.0, 0.0, 0.0),
-                                                  child: Container(
-                                                    decoration: const BoxDecoration(),
-                                                    child: Padding(
-                                                      padding:
-                                                          const EdgeInsetsDirectional
-                                                              .fromSTEB(
-                                                                  0.0,
-                                                                  0.0,
-                                                                  0.0,
-                                                                  10.0),
-                                                      child: Builder(
-                                                        builder: (context) {
-                                                          final school = functions
-                                                                  .filterSchoolsBySearchResults(
-                                                                      _model
-                                                                          .simpleSearchResults1
-                                                                          .toList(),
-                                                                      searchPageSASchoolRecordList
-                                                                          .where((e) =>
-                                                                              e.schoolStatus !=
-                                                                              1)
-                                                                          .toList())
-                                                                  ?.toList() ??
-                                                              [];
-                                                          if (school.isEmpty) {
-                                                            return const Center(
-                                                              child:
-                                                                  NosearchresultsCopyWidget(),
-                                                            );
-                                                          }
+                                                Container(
+                                                  decoration: BoxDecoration(),
+                                                  child: Padding(
+                                                    padding:
+                                                        EdgeInsets.all(10.0),
+                                                    child: Builder(
+                                                      builder: (context) {
+                                                        final princi = _model
+                                                            .simpleSearchResults
+                                                            .map((e) =>
+                                                                e.reference)
+                                                            .toList();
+                                                        if (princi.isEmpty) {
+                                                          return Container(
+                                                            width: MediaQuery
+                                                                        .sizeOf(
+                                                                            context)
+                                                                    .width *
+                                                                1.0,
+                                                            height: MediaQuery
+                                                                        .sizeOf(
+                                                                            context)
+                                                                    .height *
+                                                                0.5,
+                                                            child:
+                                                                NosearchresultsWidget(),
+                                                          );
+                                                        }
 
-                                                          return ListView
-                                                              .builder(
-                                                            padding:
-                                                                EdgeInsets.zero,
-                                                            primary: false,
-                                                            shrinkWrap: true,
-                                                            scrollDirection:
-                                                                Axis.vertical,
-                                                            itemCount:
-                                                                school.length,
-                                                            itemBuilder: (context,
-                                                                schoolIndex) {
-                                                              final schoolItem =
-                                                                  school[
-                                                                      schoolIndex];
-                                                              return Padding(
-                                                                padding: const EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        10.0,
-                                                                        10.0,
-                                                                        10.0,
-                                                                        0.0),
-                                                                child: InkWell(
+                                                        return GridView.builder(
+                                                          padding: EdgeInsets
+                                                              .fromLTRB(
+                                                            0,
+                                                            0,
+                                                            0,
+                                                            40.0,
+                                                          ),
+                                                          gridDelegate:
+                                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                                            crossAxisCount: 3,
+                                                            crossAxisSpacing:
+                                                                10.0,
+                                                            mainAxisSpacing:
+                                                                10.0,
+                                                            childAspectRatio:
+                                                                1.0,
+                                                          ),
+                                                          primary: false,
+                                                          shrinkWrap: true,
+                                                          scrollDirection:
+                                                              Axis.vertical,
+                                                          itemCount:
+                                                              princi.length,
+                                                          itemBuilder: (context,
+                                                              princiIndex) {
+                                                            final princiItem =
+                                                                princi[
+                                                                    princiIndex];
+                                                            return StreamBuilder<
+                                                                SchoolRecord>(
+                                                              stream: SchoolRecord
+                                                                  .getDocument(
+                                                                      princiItem),
+                                                              builder: (context,
+                                                                  snapshot) {
+                                                                // Customize what your widget looks like when it's loading.
+                                                                if (!snapshot
+                                                                    .hasData) {
+                                                                  return Center(
+                                                                    child:
+                                                                        SizedBox(
+                                                                      width:
+                                                                          50.0,
+                                                                      height:
+                                                                          50.0,
+                                                                      child:
+                                                                          CircularProgressIndicator(
+                                                                        valueColor:
+                                                                            AlwaysStoppedAnimation<Color>(
+                                                                          FlutterFlowTheme.of(context)
+                                                                              .primary,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                }
+
+                                                                final containerSchoolRecord =
+                                                                    snapshot
+                                                                        .data!;
+
+                                                                return InkWell(
                                                                   splashColor:
                                                                       Colors
                                                                           .transparent,
@@ -666,28 +1257,22 @@ class _SearchPageSAWidgetState extends State<SearchPageSAWidget>
                                                                   onTap:
                                                                       () async {
                                                                     FFAppState()
-                                                                        .addToRecentsearchitem(
-                                                                            SearchitemsStruct(
-                                                                      searchterm: schoolItem
-                                                                          .schoolDetails
-                                                                          .schoolName,
-                                                                      createddate:
-                                                                          getCurrentTimestamp,
-                                                                      type: 0,
-                                                                    ));
+                                                                        .addToRecentSearchitem(
+                                                                            princiItem);
                                                                     safeSetState(
                                                                         () {});
-                                                                    if (schoolItem
+                                                                    if (containerSchoolRecord
                                                                             .schoolStatus ==
                                                                         0) {
                                                                       context
                                                                           .pushNamed(
-                                                                        'NewSchoolDetails_SA',
+                                                                        NewSchoolDetailsSAWidget
+                                                                            .routeName,
                                                                         queryParameters:
                                                                             {
                                                                           'schoolref':
                                                                               serializeParam(
-                                                                            schoolItem.reference,
+                                                                            princiItem,
                                                                             ParamType.DocumentReference,
                                                                           ),
                                                                         }.withoutNulls,
@@ -695,14 +1280,13 @@ class _SearchPageSAWidgetState extends State<SearchPageSAWidget>
                                                                     } else {
                                                                       context
                                                                           .pushNamed(
-                                                                        'ExistingSchoolDetails_SA',
+                                                                        ExistingSchoolDetailsSAWidget
+                                                                            .routeName,
                                                                         queryParameters:
                                                                             {
                                                                           'schoolrefMain':
                                                                               serializeParam(
-                                                                            schoolItem.isBranchPresent
-                                                                                ? searchPageSASchoolRecordList.where((e) => (e.principalDetails.principalId == schoolItem.principalDetails.principalId) && (e.isBranchPresent == false)).toList().firstOrNull?.reference
-                                                                                : schoolItem.reference,
+                                                                            princiItem,
                                                                             ParamType.DocumentReference,
                                                                           ),
                                                                         }.withoutNulls,
@@ -710,7 +1294,7 @@ class _SearchPageSAWidgetState extends State<SearchPageSAWidget>
                                                                     }
 
                                                                     if (FFAppState()
-                                                                            .recentsearchitem
+                                                                            .recentSearchitem
                                                                             .length >
                                                                         5) {
                                                                       FFAppState()
@@ -718,895 +1302,96 @@ class _SearchPageSAWidgetState extends State<SearchPageSAWidget>
                                                                               0);
                                                                       safeSetState(
                                                                           () {});
+                                                                      FFAppState()
+                                                                          .removeAtIndexFromRecentSearchitem(
+                                                                              0);
+                                                                      safeSetState(
+                                                                          () {});
                                                                     }
                                                                   },
                                                                   child:
-                                                                      Material(
-                                                                    color: Colors
-                                                                        .transparent,
-                                                                    elevation:
-                                                                        5.0,
-                                                                    shape:
-                                                                        RoundedRectangleBorder(
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8.0),
-                                                                    ),
+                                                                      Container(
+                                                                    decoration:
+                                                                        BoxDecoration(),
                                                                     child:
+                                                                        Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .center,
+                                                                      children: [
                                                                         Container(
-                                                                      height: MediaQuery.sizeOf(context)
-                                                                              .height *
-                                                                          0.12,
-                                                                      decoration:
-                                                                          BoxDecoration(
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .secondary,
-                                                                        boxShadow: const [
-                                                                          BoxShadow(
-                                                                            blurRadius:
-                                                                                4.0,
-                                                                            color:
-                                                                                Color(0x33000000),
-                                                                            offset:
-                                                                                Offset(
-                                                                              2.0,
-                                                                              2.0,
-                                                                            ),
-                                                                            spreadRadius:
-                                                                                1.0,
-                                                                          )
-                                                                        ],
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(8.0),
-                                                                      ),
-                                                                      child:
-                                                                          Padding(
-                                                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                                                            20.0,
-                                                                            0.0,
-                                                                            10.0,
-                                                                            0.0),
-                                                                        child:
-                                                                            Row(
-                                                                          mainAxisSize:
-                                                                              MainAxisSize.max,
-                                                                          mainAxisAlignment:
-                                                                              MainAxisAlignment.start,
-                                                                          crossAxisAlignment:
-                                                                              CrossAxisAlignment.start,
-                                                                          children:
-                                                                              [
-                                                                            Align(
-                                                                              alignment: const AlignmentDirectional(0.0, 0.0),
-                                                                              child: Container(
-                                                                                width: 60.0,
-                                                                                height: 60.0,
-                                                                                decoration: const BoxDecoration(
-                                                                                  shape: BoxShape.circle,
-                                                                                ),
-                                                                                child: InkWell(
-                                                                                  splashColor: Colors.transparent,
-                                                                                  focusColor: Colors.transparent,
-                                                                                  hoverColor: Colors.transparent,
-                                                                                  highlightColor: Colors.transparent,
-                                                                                  onLongPress: () async {
-                                                                                    await Navigator.push(
-                                                                                      context,
-                                                                                      PageTransition(
-                                                                                        type: PageTransitionType.fade,
-                                                                                        child: FlutterFlowExpandedImageView(
-                                                                                          image: Image.network(
-                                                                                            valueOrDefault<String>(
-                                                                                              schoolItem.schoolDetails.schoolImage,
-                                                                                              'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png',
-                                                                                            ),
-                                                                                            fit: BoxFit.contain,
-                                                                                          ),
-                                                                                          allowRotation: false,
-                                                                                          tag: valueOrDefault<String>(
-                                                                                            schoolItem.schoolDetails.schoolImage,
-                                                                                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png' '$schoolIndex',
-                                                                                          ),
-                                                                                          useHeroAnimation: true,
-                                                                                        ),
-                                                                                      ),
-                                                                                    );
-                                                                                  },
-                                                                                  child: Hero(
-                                                                                    tag: valueOrDefault<String>(
-                                                                                      schoolItem.schoolDetails.schoolImage,
-                                                                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png' '$schoolIndex',
-                                                                                    ),
-                                                                                    transitionOnUserGestures: true,
-                                                                                    child: ClipRRect(
-                                                                                      borderRadius: BorderRadius.circular(30.0),
-                                                                                      child: Image.network(
-                                                                                        valueOrDefault<String>(
-                                                                                          schoolItem.schoolDetails.schoolImage,
-                                                                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png',
-                                                                                        ),
-                                                                                        width: 200.0,
-                                                                                        height: 200.0,
-                                                                                        fit: BoxFit.cover,
-                                                                                      ),
-                                                                                    ),
-                                                                                  ),
-                                                                                ),
+                                                                          width:
+                                                                              60.0,
+                                                                          height:
+                                                                              60.0,
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            shape:
+                                                                                BoxShape.circle,
+                                                                          ),
+                                                                          child:
+                                                                              ClipRRect(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(30.0),
+                                                                            child:
+                                                                                Image.network(
+                                                                              valueOrDefault<String>(
+                                                                                containerSchoolRecord.principalDetails.principalImage != '' ? containerSchoolRecord.principalDetails.principalImage : FFAppConstants.addImage,
+                                                                                'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/g6wsb0sr5bbw/IMG_20250220_152326_1_-removebg-preview.png',
                                                                               ),
+                                                                              width: 200.0,
+                                                                              height: 200.0,
+                                                                              fit: BoxFit.contain,
                                                                             ),
-                                                                            Padding(
-                                                                              padding: const EdgeInsetsDirectional.fromSTEB(10.0, 5.0, 0.0, 5.0),
-                                                                              child: Column(
-                                                                                mainAxisSize: MainAxisSize.max,
-                                                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                                                crossAxisAlignment: CrossAxisAlignment.start,
-                                                                                children: [
-                                                                                  Align(
-                                                                                    alignment: const AlignmentDirectional(-1.0, 0.0),
-                                                                                    child: Text(
-                                                                                      schoolItem.schoolDetails.schoolName.maybeHandleOverflow(
-                                                                                        maxChars: 30,
-                                                                                        replacement: '…',
-                                                                                      ),
-                                                                                      textAlign: TextAlign.start,
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                            fontFamily: 'Nunito',
-                                                                                            color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                            fontSize: 16.0,
-                                                                                            letterSpacing: 0.0,
-                                                                                            fontWeight: FontWeight.w600,
-                                                                                          ),
-                                                                                    ),
-                                                                                  ),
-                                                                                  Align(
-                                                                                    alignment: const AlignmentDirectional(-1.0, 0.0),
-                                                                                    child: Text(
-                                                                                      schoolItem.schoolDetails.city,
-                                                                                      textAlign: TextAlign.start,
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                            fontFamily: 'Nunito',
-                                                                                            color: FlutterFlowTheme.of(context).primaryBackground,
-                                                                                            fontSize: 16.0,
-                                                                                            letterSpacing: 0.0,
-                                                                                            fontWeight: FontWeight.w600,
-                                                                                          ),
-                                                                                    ),
-                                                                                  ),
-                                                                                  Align(
-                                                                                    alignment: const AlignmentDirectional(-1.0, 0.0),
-                                                                                    child: Text(
-                                                                                      schoolItem.principalDetails.phoneNumber,
-                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                            fontFamily: 'Nunito',
-                                                                                            color: FlutterFlowTheme.of(context).tertiaryText,
-                                                                                            letterSpacing: 0.0,
-                                                                                            fontWeight: FontWeight.normal,
-                                                                                          ),
-                                                                                    ),
-                                                                                  ),
-                                                                                ].divide(const SizedBox(height: 4.0)),
-                                                                              ),
-                                                                            ),
-                                                                          ].divide(const SizedBox(width: 10.0)),
+                                                                          ),
                                                                         ),
-                                                                      ),
+                                                                        Align(
+                                                                          alignment: AlignmentDirectional(
+                                                                              0.0,
+                                                                              0.0),
+                                                                          child:
+                                                                              Text(
+                                                                            containerSchoolRecord.principalDetails.principalName,
+                                                                            textAlign:
+                                                                                TextAlign.center,
+                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                  font: GoogleFonts.nunito(
+                                                                                    fontWeight: FontWeight.bold,
+                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                  ),
+                                                                                  color: FlutterFlowTheme.of(context).primaryBackground,
+                                                                                  fontSize: 14.0,
+                                                                                  letterSpacing: 0.0,
+                                                                                  fontWeight: FontWeight.bold,
+                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                ),
+                                                                          ),
+                                                                        ),
+                                                                      ],
                                                                     ),
                                                                   ),
-                                                                ),
-                                                              );
-                                                            },
-                                                          );
-                                                        },
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 10.0, 0.0, 10.0),
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.max,
-                                        children: [
-                                          if (_model.recentsearchadmin == true)
-                                            Padding(
-                                              padding: const EdgeInsets.all(10.0),
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: [
-                                                  Align(
-                                                    alignment:
-                                                        const AlignmentDirectional(
-                                                            -1.0, 0.0),
-                                                    child: Text(
-                                                      'Recent Searches',
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Nunito',
-                                                            letterSpacing: 0.0,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 10.0,
-                                                                0.0, 0.0),
-                                                    child: Builder(
-                                                      builder: (context) {
-                                                        final recentsearch =
-                                                            FFAppState()
-                                                                .recentsearchitem
-                                                                .where((e) =>
-                                                                    e.type == 1)
-                                                                .toList()
-                                                                .take(5)
-                                                                .toList()
-                                                                .sortedList(
-                                                                    keyOf: (e) =>
-                                                                        e.createddate!,
-                                                                    desc: true)
-                                                                .toList();
-
-                                                        return ListView.builder(
-                                                          padding:
-                                                              EdgeInsets.zero,
-                                                          primary: false,
-                                                          shrinkWrap: true,
-                                                          scrollDirection:
-                                                              Axis.vertical,
-                                                          itemCount:
-                                                              recentsearch
-                                                                  .length,
-                                                          itemBuilder: (context,
-                                                              recentsearchIndex) {
-                                                            final recentsearchItem =
-                                                                recentsearch[
-                                                                    recentsearchIndex];
-                                                            return Align(
-                                                              alignment:
-                                                                  const AlignmentDirectional(
-                                                                      -1.0,
-                                                                      0.0),
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                        .all(
-                                                                            5.0),
-                                                                child: InkWell(
-                                                                  splashColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  focusColor: Colors
-                                                                      .transparent,
-                                                                  hoverColor: Colors
-                                                                      .transparent,
-                                                                  highlightColor:
-                                                                      Colors
-                                                                          .transparent,
-                                                                  onTap:
-                                                                      () async {
-                                                                    if (recentsearchItem
-                                                                            .type ==
-                                                                        0) {
-                                                                      if (searchPageSASchoolRecordList
-                                                                              .where((e) => e.schoolDetails.schoolName == recentsearchItem.searchterm)
-                                                                              .toList()
-                                                                              .firstOrNull
-                                                                              ?.schoolStatus ==
-                                                                          0) {
-                                                                        context
-                                                                            .pushNamed(
-                                                                          'NewSchoolDetails_SA',
-                                                                          queryParameters:
-                                                                              {
-                                                                            'schoolref':
-                                                                                serializeParam(
-                                                                              searchPageSASchoolRecordList.where((e) => e.schoolDetails.schoolName == recentsearchItem.searchterm).toList().firstOrNull?.reference,
-                                                                              ParamType.DocumentReference,
-                                                                            ),
-                                                                          }.withoutNulls,
-                                                                        );
-                                                                      } else {
-                                                                        context
-                                                                            .pushNamed(
-                                                                          'ExistingSchoolDetails_SA',
-                                                                          queryParameters:
-                                                                              {
-                                                                            'schoolrefMain':
-                                                                                serializeParam(
-                                                                              searchPageSASchoolRecordList.where((e) => e.schoolDetails.schoolName == recentsearchItem.searchterm).toList().firstOrNull?.reference,
-                                                                              ParamType.DocumentReference,
-                                                                            ),
-                                                                          }.withoutNulls,
-                                                                        );
-                                                                      }
-                                                                    } else {
-                                                                      if (searchPageSASchoolRecordList
-                                                                              .where((e) => e.principalDetails.principalName == recentsearchItem.searchterm)
-                                                                              .toList()
-                                                                              .firstOrNull
-                                                                              ?.schoolStatus ==
-                                                                          0) {
-                                                                        context
-                                                                            .pushNamed(
-                                                                          'NewSchoolDetails_SA',
-                                                                          queryParameters:
-                                                                              {
-                                                                            'schoolref':
-                                                                                serializeParam(
-                                                                              searchPageSASchoolRecordList.where((e) => e.principalDetails.principalName == recentsearchItem.searchterm).toList().firstOrNull?.reference,
-                                                                              ParamType.DocumentReference,
-                                                                            ),
-                                                                          }.withoutNulls,
-                                                                        );
-                                                                      } else {
-                                                                        context
-                                                                            .pushNamed(
-                                                                          'ExistingSchoolDetails_SA',
-                                                                          queryParameters:
-                                                                              {
-                                                                            'schoolrefMain':
-                                                                                serializeParam(
-                                                                              searchPageSASchoolRecordList.where((e) => e.principalDetails.principalName == recentsearchItem.searchterm).toList().firstOrNull?.reference,
-                                                                              ParamType.DocumentReference,
-                                                                            ),
-                                                                          }.withoutNulls,
-                                                                        );
-                                                                      }
-                                                                    }
-                                                                  },
-                                                                  child: Text(
-                                                                    recentsearchItem
-                                                                        .searchterm,
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Nunito',
-                                                                          fontSize:
-                                                                              16.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.w500,
-                                                                        ),
-                                                                  ),
-                                                                ),
-                                                              ),
+                                                                );
+                                                              },
                                                             );
                                                           },
                                                         );
                                                       },
                                                     ),
                                                   ),
-                                                ],
-                                              ),
-                                            ),
-                                          Container(
-                                            decoration: const BoxDecoration(),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Expanded(
-                                                  child: TextFormField(
-                                                    controller: _model
-                                                        .serachFiledPrinciTextController,
-                                                    focusNode: _model
-                                                        .serachFiledPrinciFocusNode,
-                                                    onChanged: (_) =>
-                                                        EasyDebounce.debounce(
-                                                      '_model.serachFiledPrinciTextController',
-                                                      const Duration(
-                                                          milliseconds: 2000),
-                                                      () async {
-                                                        _model.recentsearchadmin =
-                                                            false;
-                                                        safeSetState(() {});
-                                                        safeSetState(() {
-                                                          _model
-                                                              .simpleSearchResults2 = TextSearch(searchPageSASchoolRecordList
-                                                                  .map((e) => e
-                                                                      .principalDetails
-                                                                      .principalName)
-                                                                  .toList()
-                                                                  .map((str) =>
-                                                                      TextSearchItem.fromTerms(
-                                                                          str, [
-                                                                        str
-                                                                      ]))
-                                                                  .toList())
-                                                              .search(_model
-                                                                  .serachFiledPrinciTextController
-                                                                  .text)
-                                                              .map((r) =>
-                                                                  r.object)
-                                                              .toList();
-                                                        });
-                                                      },
-                                                    ),
-                                                    autofocus: false,
-                                                    obscureText: false,
-                                                    decoration: InputDecoration(
-                                                      isDense: true,
-                                                      labelStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Nunito',
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primaryText,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
-                                                      hintText:
-                                                          ' Search Admin\'s Name..',
-                                                      hintStyle:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .labelMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Nunito',
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .alternate,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
-                                                      enabledBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                          width: 1.0,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                      ),
-                                                      focusedBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                          width: 1.0,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                      ),
-                                                      errorBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .error,
-                                                          width: 1.0,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                      ),
-                                                      focusedErrorBorder:
-                                                          OutlineInputBorder(
-                                                        borderSide: BorderSide(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .error,
-                                                          width: 1.0,
-                                                        ),
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                      ),
-                                                      filled: true,
-                                                      fillColor: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
-                                                      prefixIcon: Icon(
-                                                        Icons.search,
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .alternate,
-                                                      ),
-                                                      suffixIcon: _model
-                                                              .serachFiledPrinciTextController!
-                                                              .text
-                                                              .isNotEmpty
-                                                          ? InkWell(
-                                                              onTap: () async {
-                                                                _model
-                                                                    .serachFiledPrinciTextController
-                                                                    ?.clear();
-                                                                _model.recentsearchadmin =
-                                                                    false;
-                                                                safeSetState(
-                                                                    () {});
-                                                                safeSetState(
-                                                                    () {
-                                                                  _model
-                                                                      .simpleSearchResults2 = TextSearch(searchPageSASchoolRecordList
-                                                                          .map((e) => e
-                                                                              .principalDetails
-                                                                              .principalName)
-                                                                          .toList()
-                                                                          .map((str) =>
-                                                                              TextSearchItem.fromTerms(str, [
-                                                                                str
-                                                                              ]))
-                                                                          .toList())
-                                                                      .search(_model
-                                                                          .serachFiledPrinciTextController
-                                                                          .text)
-                                                                      .map((r) =>
-                                                                          r.object)
-                                                                      .toList();
-                                                                });
-                                                                safeSetState(
-                                                                    () {});
-                                                              },
-                                                              child: const Icon(
-                                                                Icons.clear,
-                                                                size: 22,
-                                                              ),
-                                                            )
-                                                          : null,
-                                                    ),
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          letterSpacing: 0.0,
-                                                        ),
-                                                    cursorColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .primaryText,
-                                                    validator: _model
-                                                        .serachFiledPrinciTextControllerValidator
-                                                        .asValidator(context),
-                                                  ),
                                                 ),
-                                              ],
-                                            ),
+                                            ].addToEnd(SizedBox(height: 40.0)),
                                           ),
-                                          if (_model.recentsearchadmin == false)
-                                            Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      0.0, 10.0, 0.0, 0.0),
-                                              child: Container(
-                                                decoration: const BoxDecoration(),
-                                              ),
-                                            ),
-                                          Padding(
-                                            padding: const EdgeInsets.all(10.0),
-                                            child: Builder(
-                                              builder: (context) {
-                                                final princi = functions
-                                                        .filterprinciserachresults(
-                                                            _model
-                                                                .simpleSearchResults2
-                                                                .toList(),
-                                                            searchPageSASchoolRecordList
-                                                                .where((e) =>
-                                                                    (e.schoolStatus !=
-                                                                        1) &&
-                                                                    !e.isBranchPresent)
-                                                                .toList())
-                                                        ?.toList() ??
-                                                    [];
-                                                if (princi.isEmpty) {
-                                                  return SizedBox(
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        1.0,
-                                                    child:
-                                                        const NosearchresultsCopyWidget(),
-                                                  );
-                                                }
-
-                                                return GridView.builder(
-                                                  padding: EdgeInsets.zero,
-                                                  gridDelegate:
-                                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                                    crossAxisCount: 3,
-                                                    crossAxisSpacing: 10.0,
-                                                    mainAxisSpacing: 10.0,
-                                                    childAspectRatio: 1.0,
-                                                  ),
-                                                  shrinkWrap: true,
-                                                  scrollDirection:
-                                                      Axis.vertical,
-                                                  itemCount: princi.length,
-                                                  itemBuilder:
-                                                      (context, princiIndex) {
-                                                    final princiItem =
-                                                        princi[princiIndex];
-                                                    return InkWell(
-                                                      splashColor:
-                                                          Colors.transparent,
-                                                      focusColor:
-                                                          Colors.transparent,
-                                                      hoverColor:
-                                                          Colors.transparent,
-                                                      highlightColor:
-                                                          Colors.transparent,
-                                                      onTap: () async {
-                                                        FFAppState()
-                                                            .addToRecentsearchitem(
-                                                                SearchitemsStruct(
-                                                          searchterm: princiItem
-                                                              .principalDetails
-                                                              .principalName,
-                                                          createddate:
-                                                              getCurrentTimestamp,
-                                                          type: 1,
-                                                        ));
-                                                        safeSetState(() {});
-                                                        if (princiItem
-                                                                .schoolStatus ==
-                                                            0) {
-                                                          context.pushNamed(
-                                                            'NewSchoolDetails_SA',
-                                                            queryParameters: {
-                                                              'schoolref':
-                                                                  serializeParam(
-                                                                princiItem
-                                                                    .reference,
-                                                                ParamType
-                                                                    .DocumentReference,
-                                                              ),
-                                                            }.withoutNulls,
-                                                          );
-                                                        } else {
-                                                          context.pushNamed(
-                                                            'ExistingSchoolDetails_SA',
-                                                            queryParameters: {
-                                                              'schoolrefMain':
-                                                                  serializeParam(
-                                                                princiItem
-                                                                    .reference,
-                                                                ParamType
-                                                                    .DocumentReference,
-                                                              ),
-                                                            }.withoutNulls,
-                                                          );
-                                                        }
-
-                                                        if (FFAppState()
-                                                                .recentsearchitem
-                                                                .length >
-                                                            5) {
-                                                          FFAppState()
-                                                              .removeAtIndexFromRecentsearchitem(
-                                                                  0);
-                                                          safeSetState(() {});
-                                                        }
-                                                      },
-                                                      child: Container(
-                                                        decoration:
-                                                            const BoxDecoration(),
-                                                        child: Column(
-                                                          mainAxisSize:
-                                                              MainAxisSize.max,
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Container(
-                                                              width: 60.0,
-                                                              height: 60.0,
-                                                              decoration:
-                                                                  const BoxDecoration(
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                              ),
-                                                              child: InkWell(
-                                                                splashColor: Colors
-                                                                    .transparent,
-                                                                focusColor: Colors
-                                                                    .transparent,
-                                                                hoverColor: Colors
-                                                                    .transparent,
-                                                                highlightColor:
-                                                                    Colors
-                                                                        .transparent,
-                                                                onTap:
-                                                                    () async {
-                                                                  FFAppState()
-                                                                      .addToRecentsearchitem(
-                                                                          SearchitemsStruct(
-                                                                    searchterm: princiItem
-                                                                        .principalDetails
-                                                                        .principalName,
-                                                                    createddate:
-                                                                        getCurrentTimestamp,
-                                                                    type: 1,
-                                                                  ));
-                                                                  safeSetState(
-                                                                      () {});
-                                                                  if (princiItem
-                                                                          .schoolStatus ==
-                                                                      0) {
-                                                                    context
-                                                                        .pushNamed(
-                                                                      'NewSchoolDetails_SA',
-                                                                      queryParameters:
-                                                                          {
-                                                                        'schoolref':
-                                                                            serializeParam(
-                                                                          princiItem
-                                                                              .reference,
-                                                                          ParamType
-                                                                              .DocumentReference,
-                                                                        ),
-                                                                      }.withoutNulls,
-                                                                    );
-                                                                  } else {
-                                                                    context
-                                                                        .pushNamed(
-                                                                      'ExistingSchoolDetails_SA',
-                                                                      queryParameters:
-                                                                          {
-                                                                        'schoolrefMain':
-                                                                            serializeParam(
-                                                                          princiItem
-                                                                              .reference,
-                                                                          ParamType
-                                                                              .DocumentReference,
-                                                                        ),
-                                                                      }.withoutNulls,
-                                                                    );
-                                                                  }
-
-                                                                  if (FFAppState()
-                                                                          .recentsearchitem
-                                                                          .length >
-                                                                      5) {
-                                                                    FFAppState()
-                                                                        .removeAtIndexFromRecentsearchitem(
-                                                                            0);
-                                                                    safeSetState(
-                                                                        () {});
-                                                                  }
-                                                                },
-                                                                onLongPress:
-                                                                    () async {
-                                                                  await Navigator
-                                                                      .push(
-                                                                    context,
-                                                                    PageTransition(
-                                                                      type: PageTransitionType
-                                                                          .fade,
-                                                                      child:
-                                                                          FlutterFlowExpandedImageView(
-                                                                        image: Image
-                                                                            .network(
-                                                                          valueOrDefault<
-                                                                              String>(
-                                                                            princiItem.principalDetails.principalImage,
-                                                                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
-                                                                          ),
-                                                                          fit: BoxFit
-                                                                              .contain,
-                                                                        ),
-                                                                        allowRotation:
-                                                                            false,
-                                                                        tag: valueOrDefault<
-                                                                            String>(
-                                                                          princiItem
-                                                                              .principalDetails
-                                                                              .principalImage,
-                                                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png' '$princiIndex',
-                                                                        ),
-                                                                        useHeroAnimation:
-                                                                            true,
-                                                                      ),
-                                                                    ),
-                                                                  );
-                                                                },
-                                                                child: Hero(
-                                                                  tag: valueOrDefault<
-                                                                      String>(
-                                                                    princiItem
-                                                                        .principalDetails
-                                                                        .principalImage,
-                                                                    'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png' '$princiIndex',
-                                                                  ),
-                                                                  transitionOnUserGestures:
-                                                                      true,
-                                                                  child:
-                                                                      ClipRRect(
-                                                                    borderRadius:
-                                                                        BorderRadius.circular(
-                                                                            30.0),
-                                                                    child: Image
-                                                                        .network(
-                                                                      valueOrDefault<
-                                                                          String>(
-                                                                        princiItem
-                                                                            .principalDetails
-                                                                            .principalImage,
-                                                                        'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
-                                                                      ),
-                                                                      width:
-                                                                          200.0,
-                                                                      height:
-                                                                          200.0,
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                            ),
-                                                            Align(
-                                                              alignment:
-                                                                  const AlignmentDirectional(
-                                                                      0.0, 0.0),
-                                                              child: Text(
-                                                                princiItem
-                                                                    .principalDetails
-                                                                    .principalName,
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .center,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Nunito',
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primaryBackground,
-                                                                      fontSize:
-                                                                          14.0,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                            ),
-                                          ),
-                                        ],
+                                        ),
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

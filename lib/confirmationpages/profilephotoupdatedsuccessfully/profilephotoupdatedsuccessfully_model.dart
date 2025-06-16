@@ -2,14 +2,9 @@ import '/flutter_flow/flutter_flow_util.dart';
 import 'profilephotoupdatedsuccessfully_widget.dart'
     show ProfilephotoupdatedsuccessfullyWidget;
 import 'package:flutter/material.dart';
-import 'package:just_audio/just_audio.dart';
 
 class ProfilephotoupdatedsuccessfullyModel
     extends FlutterFlowModel<ProfilephotoupdatedsuccessfullyWidget> {
-  ///  State fields for stateful widgets in this component.
-
-  AudioPlayer? soundPlayer;
-
   @override
   void initState(BuildContext context) {}
 

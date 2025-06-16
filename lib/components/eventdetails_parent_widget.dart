@@ -1,8 +1,8 @@
 import '/backend/backend.dart';
-import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'eventdetails_parent_model.dart';
 export 'eventdetails_parent_model.dart';
 
@@ -46,7 +46,7 @@ class _EventdetailsParentWidgetState extends State<EventdetailsParentWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 8.0),
+      padding: EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 8.0),
       child: StreamBuilder<SchoolClassRecord>(
         stream: SchoolClassRecord.getDocument(widget.classref!),
         builder: (context, snapshot) {
@@ -93,7 +93,7 @@ class _EventdetailsParentWidgetState extends State<EventdetailsParentWidget> {
                     final eventsItem = events[eventsIndex];
                     return Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(8.0, 0.0, 8.0, 0.0),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,32 +103,50 @@ class _EventdetailsParentWidgetState extends State<EventdetailsParentWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 5.0),
                                 child: Text(
                                   'Class Notice',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        fontFamily: 'Nunito',
+                                        font: GoogleFonts.nunito(
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
                                         fontSize: 16.0,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.bold,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
                                       ),
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 5.0),
                                 child: Text(
                                   dateTimeFormat("yMMMd", widget.date),
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        fontFamily: 'Nunito',
+                                        font: GoogleFonts.nunito(
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
                                         fontSize: 16.0,
                                         letterSpacing: 0.0,
                                         fontWeight: FontWeight.bold,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
                                       ),
                                 ),
                               ),
@@ -139,29 +157,39 @@ class _EventdetailsParentWidgetState extends State<EventdetailsParentWidget> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
+                                padding: EdgeInsetsDirectional.fromSTEB(
                                     0.0, 0.0, 0.0, 5.0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 0.0, 5.0),
                                       child: Text(
                                         eventsItem.eventTitle,
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.w600,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
                                               fontSize: 14.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w600,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
                                             ),
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 0.0, 0.0, 5.0),
                                       child: Text(
                                         dateTimeFormat(
@@ -169,10 +197,20 @@ class _EventdetailsParentWidgetState extends State<EventdetailsParentWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.normal,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
                                               fontSize: 14.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.normal,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
                                             ),
                                       ),
                                     ),
@@ -186,13 +224,13 @@ class _EventdetailsParentWidgetState extends State<EventdetailsParentWidget> {
                                   borderRadius: BorderRadius.circular(8.0),
                                 ),
                                 child: Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       6.0, 0.0, 6.0, 0.0),
                                   child: Row(
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 0.0, 4.0, 0.0),
                                         child: Icon(
                                           Icons.menu_book,
@@ -206,92 +244,49 @@ class _EventdetailsParentWidgetState extends State<EventdetailsParentWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Nunito',
-                                              color: const Color(0xFF3027B0),
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.w500,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                              color: Color(0xFF3027B0),
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.w500,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
                                             ),
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
-                            ].divide(const SizedBox(width: 10.0)),
+                            ].divide(SizedBox(width: 10.0)),
                           ),
                           Text(
                             eventsItem.eventDescription,
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
                                 ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
-                                0.0, 8.0, 0.0, 0.0),
-                            child: Builder(
-                              builder: (context) {
-                                final uploadedImages =
-                                    eventsItem.eventImages.toList();
-
-                                return Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: List.generate(uploadedImages.length,
-                                      (uploadedImagesIndex) {
-                                    final uploadedImagesItem =
-                                        uploadedImages[uploadedImagesIndex];
-                                    return Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          5.0, 0.0, 0.0, 0.0),
-                                      child: Container(
-                                        width: 50.0,
-                                        height: 50.0,
-                                        decoration: const BoxDecoration(),
-                                        child: InkWell(
-                                          splashColor: Colors.transparent,
-                                          focusColor: Colors.transparent,
-                                          hoverColor: Colors.transparent,
-                                          highlightColor: Colors.transparent,
-                                          onTap: () async {
-                                            await Navigator.push(
-                                              context,
-                                              PageTransition(
-                                                type: PageTransitionType.fade,
-                                                child:
-                                                    FlutterFlowExpandedImageView(
-                                                  image: Image.network(
-                                                    uploadedImagesItem,
-                                                    fit: BoxFit.contain,
-                                                  ),
-                                                  allowRotation: false,
-                                                  tag: uploadedImagesItem,
-                                                  useHeroAnimation: true,
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          child: Hero(
-                                            tag: uploadedImagesItem,
-                                            transitionOnUserGestures: true,
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                              child: Image.network(
-                                                uploadedImagesItem,
-                                                width: 50.0,
-                                                height: 50.0,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                                );
-                              },
-                            ),
                           ),
                         ],
                       ),

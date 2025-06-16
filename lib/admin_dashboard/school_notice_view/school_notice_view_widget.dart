@@ -1,11 +1,12 @@
 import '/backend/backend.dart';
-import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/shimmer_effects/notifications_shimmer/notifications_shimmer_widget.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'school_notice_view_model.dart';
 export 'school_notice_view_model.dart';
 
@@ -16,6 +17,9 @@ class SchoolNoticeViewWidget extends StatefulWidget {
   });
 
   final DocumentReference? schoolref;
+
+  static String routeName = 'School_notice_view';
+  static String routePath = '/schoolNoticeView';
 
   @override
   State<SchoolNoticeViewWidget> createState() => _SchoolNoticeViewWidgetState();
@@ -46,7 +50,7 @@ class _SchoolNoticeViewWidgetState extends State<SchoolNoticeViewWidget> {
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
-          return const Scaffold(
+          return Scaffold(
             body: NotificationsShimmerWidget(),
           );
         }
@@ -60,36 +64,57 @@ class _SchoolNoticeViewWidgetState extends State<SchoolNoticeViewWidget> {
           },
           child: Scaffold(
             key: scaffoldKey,
-            appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).info,
-              automaticallyImplyLeading: false,
-              leading: FlutterFlowIconButton(
-                borderColor: Colors.transparent,
-                borderRadius: 30.0,
-                borderWidth: 1.0,
-                buttonSize: 60.0,
-                icon: Icon(
-                  Icons.arrow_back_ios_sharp,
-                  color: FlutterFlowTheme.of(context).alternate,
-                  size: 30.0,
-                ),
-                onPressed: () async {
-                  context.pop();
-                },
-              ),
-              title: Text(
-                'School Notice',
-                style: FlutterFlowTheme.of(context).headlineMedium.override(
-                      fontFamily: 'Nunito',
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      fontSize: 16.0,
-                      letterSpacing: 0.0,
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? AppBar(
+                    backgroundColor: FlutterFlowTheme.of(context).info,
+                    automaticallyImplyLeading: false,
+                    leading: FlutterFlowIconButton(
+                      borderColor: Colors.transparent,
+                      borderRadius: 30.0,
+                      borderWidth: 1.0,
+                      buttonSize: 60.0,
+                      icon: Icon(
+                        Icons.arrow_back_ios_sharp,
+                        color: FlutterFlowTheme.of(context).alternate,
+                        size: 30.0,
+                      ),
+                      onPressed: () async {
+                        context.pop();
+                      },
                     ),
-              ),
-              actions: const [],
-              centerTitle: false,
-              elevation: 2.0,
-            ),
+                    title: Text(
+                      'School Notice',
+                      style:
+                          FlutterFlowTheme.of(context).headlineMedium.override(
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .headlineMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .headlineMedium
+                                      .fontStyle,
+                                ),
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                fontSize: 16.0,
+                                letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .headlineMedium
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .headlineMedium
+                                    .fontStyle,
+                              ),
+                    ),
+                    actions: [],
+                    centerTitle: false,
+                    elevation: 2.0,
+                  )
+                : null,
             body: SafeArea(
               top: true,
               child: Column(
@@ -111,7 +136,7 @@ class _SchoolNoticeViewWidgetState extends State<SchoolNoticeViewWidget> {
                         itemBuilder: (context, noticeIndex) {
                           final noticeItem = notice[noticeIndex];
                           return Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 8.0, 0.0, 8.0, 8.0),
                             child: Container(
                               decoration: BoxDecoration(
@@ -124,8 +149,7 @@ class _SchoolNoticeViewWidgetState extends State<SchoolNoticeViewWidget> {
                                 ),
                               ),
                               child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    8.0, 0.0, 8.0, 0.0),
+                                padding: EdgeInsets.all(8.0),
                                 child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -135,10 +159,20 @@ class _SchoolNoticeViewWidgetState extends State<SchoolNoticeViewWidget> {
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight: FontWeight.bold,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
                                             fontSize: 16.0,
                                             letterSpacing: 0.0,
                                             fontWeight: FontWeight.bold,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
                                           ),
                                     ),
                                     Row(
@@ -153,32 +187,58 @@ class _SchoolNoticeViewWidgetState extends State<SchoolNoticeViewWidget> {
                                           children: [
                                             Text(
                                               noticeItem.eventName,
-                                              style:
-                                                  FlutterFlowTheme.of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Nunito',
-                                                        fontSize: 14.0,
-                                                        letterSpacing: 0.0,
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                      ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    font: GoogleFonts.nunito(
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
+                                                    fontSize: 14.0,
+                                                    letterSpacing: 0.0,
+                                                    fontWeight: FontWeight.w600,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
                                             ),
                                             Text(
-                                              dateTimeFormat("dd MMM , y",
+                                              dateTimeFormat("dd MMM y",
                                                   noticeItem.eventDate!),
                                               style:
                                                   FlutterFlowTheme.of(context)
                                                       .bodyMedium
                                                       .override(
-                                                        fontFamily: 'Nunito',
+                                                        font:
+                                                            GoogleFonts.nunito(
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
                                                         fontSize: 14.0,
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.normal,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
                                                       ),
                                             ),
-                                          ].divide(const SizedBox(height: 5.0)),
+                                          ].divide(SizedBox(height: 5.0)),
                                         ),
                                         Card(
                                           clipBehavior:
@@ -190,13 +250,13 @@ class _SchoolNoticeViewWidgetState extends State<SchoolNoticeViewWidget> {
                                           ),
                                           child: Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     6.0, 0.0, 6.0, 0.0),
                                             child: Row(
                                               mainAxisSize: MainAxisSize.max,
                                               children: [
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 0.0, 4.0, 0.0),
                                                   child: Icon(
@@ -213,112 +273,428 @@ class _SchoolNoticeViewWidgetState extends State<SchoolNoticeViewWidget> {
                                                           context)
                                                       .bodyMedium
                                                       .override(
-                                                        fontFamily: 'Nunito',
+                                                        font:
+                                                            GoogleFonts.nunito(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
                                                         color:
-                                                            const Color(0xFF3027B0),
+                                                            Color(0xFF3027B0),
                                                         letterSpacing: 0.0,
                                                         fontWeight:
                                                             FontWeight.w500,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
                                                       ),
                                                 ),
                                               ],
                                             ),
                                           ),
                                         ),
-                                      ].divide(const SizedBox(width: 10.0)),
+                                      ].divide(SizedBox(width: 10.0)),
                                     ),
                                     Text(
                                       noticeItem.eventDescription,
                                       style: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
                                           ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 8.0, 0.0, 0.0),
-                                      child: Builder(
-                                        builder: (context) {
-                                          final uploadedImages =
-                                              noticeItem.eventImages.toList();
-
-                                          return Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            children: List.generate(
-                                                uploadedImages.length,
-                                                (uploadedImagesIndex) {
-                                              final uploadedImagesItem =
-                                                  uploadedImages[
-                                                      uploadedImagesIndex];
-                                              return Padding(
-                                                padding: const EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        5.0, 0.0, 0.0, 0.0),
-                                                child: Container(
-                                                  width: 50.0,
-                                                  height: 50.0,
-                                                  decoration: const BoxDecoration(),
-                                                  child: InkWell(
-                                                    splashColor:
-                                                        Colors.transparent,
-                                                    focusColor:
-                                                        Colors.transparent,
-                                                    hoverColor:
-                                                        Colors.transparent,
-                                                    highlightColor:
-                                                        Colors.transparent,
-                                                    onTap: () async {
-                                                      await Navigator.push(
-                                                        context,
-                                                        PageTransition(
-                                                          type:
-                                                              PageTransitionType
-                                                                  .fade,
-                                                          child:
-                                                              FlutterFlowExpandedImageView(
-                                                            image:
-                                                                Image.network(
-                                                              uploadedImagesItem,
-                                                              fit: BoxFit
-                                                                  .contain,
-                                                            ),
-                                                            allowRotation:
-                                                                false,
-                                                            tag:
-                                                                uploadedImagesItem,
-                                                            useHeroAnimation:
-                                                                true,
-                                                          ),
-                                                        ),
-                                                      );
-                                                    },
-                                                    child: Hero(
-                                                      tag: uploadedImagesItem,
-                                                      transitionOnUserGestures:
-                                                          true,
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
-                                                        child: Image.network(
-                                                          uploadedImagesItem,
-                                                          width: 50.0,
-                                                          height: 50.0,
-                                                          fit: BoxFit.cover,
-                                                        ),
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 10.0, 0.0, 0.0),
+                                      child: Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          if (noticeItem.eventfiles
+                                                  .where((e) =>
+                                                      functions
+                                                          .getFileTypeFromUrl(
+                                                              e) ==
+                                                      1)
+                                                  .toList()
+                                                  .length !=
+                                              0)
+                                            badges.Badge(
+                                              badgeContent: Text(
+                                                noticeItem.eventfiles
+                                                    .where((e) =>
+                                                        functions
+                                                            .getFileTypeFromUrl(
+                                                                e) ==
+                                                        1)
+                                                    .toList()
+                                                    .length
+                                                    .toString(),
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .titleSmall
+                                                    .override(
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .fontStyle,
                                                       ),
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      fontSize: 12.0,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall
+                                                              .fontStyle,
                                                     ),
-                                                  ),
+                                              ),
+                                              showBadge: true,
+                                              shape: badges.BadgeShape.circle,
+                                              badgeColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              elevation: 5.0,
+                                              padding: EdgeInsets.all(5.0),
+                                              position:
+                                                  badges.BadgePosition.topEnd(),
+                                              animationType: badges
+                                                  .BadgeAnimationType.scale,
+                                              toAnimate: true,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: Image.asset(
+                                                  'assets/images/download.png',
+                                                  width: 46.0,
+                                                  height: 41.0,
+                                                  fit: BoxFit.contain,
                                                 ),
-                                              );
-                                            }),
-                                          );
-                                        },
+                                              ),
+                                            ),
+                                          if (noticeItem.eventfiles
+                                                  .where((e) =>
+                                                      functions
+                                                          .getFileTypeFromUrl(
+                                                              e) ==
+                                                      2)
+                                                  .toList()
+                                                  .length !=
+                                              0)
+                                            badges.Badge(
+                                              badgeContent: Text(
+                                                noticeItem.eventfiles
+                                                    .where((e) =>
+                                                        functions
+                                                            .getFileTypeFromUrl(
+                                                                e) ==
+                                                        2)
+                                                    .toList()
+                                                    .length
+                                                    .toString(),
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .titleSmall
+                                                    .override(
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .fontStyle,
+                                                      ),
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .secondary,
+                                                      fontSize: 12.0,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall
+                                                              .fontStyle,
+                                                    ),
+                                              ),
+                                              showBadge: true,
+                                              shape: badges.BadgeShape.circle,
+                                              badgeColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              elevation: 0.0,
+                                              padding: EdgeInsets.all(5.0),
+                                              position:
+                                                  badges.BadgePosition.topEnd(),
+                                              animationType: badges
+                                                  .BadgeAnimationType.scale,
+                                              toAnimate: true,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: Image.asset(
+                                                  'assets/images/download_(1).png',
+                                                  width: 46.0,
+                                                  height: 41.0,
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                            ),
+                                          if (noticeItem.eventfiles
+                                                  .where((e) =>
+                                                      functions
+                                                          .getFileTypeFromUrl(
+                                                              e) ==
+                                                      3)
+                                                  .toList()
+                                                  .length !=
+                                              0)
+                                            badges.Badge(
+                                              badgeContent: Text(
+                                                noticeItem.eventfiles
+                                                    .where((e) =>
+                                                        functions
+                                                            .getFileTypeFromUrl(
+                                                                e) ==
+                                                        3)
+                                                    .toList()
+                                                    .length
+                                                    .toString(),
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .titleSmall
+                                                    .override(
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .fontStyle,
+                                                      ),
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .secondary,
+                                                      fontSize: 12.0,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall
+                                                              .fontStyle,
+                                                    ),
+                                              ),
+                                              showBadge: true,
+                                              shape: badges.BadgeShape.circle,
+                                              badgeColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              elevation: 0.0,
+                                              padding: EdgeInsets.all(5.0),
+                                              position:
+                                                  badges.BadgePosition.topEnd(),
+                                              animationType: badges
+                                                  .BadgeAnimationType.scale,
+                                              toAnimate: true,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: Image.asset(
+                                                  'assets/images/download_(2).png',
+                                                  width: 46.0,
+                                                  height: 41.0,
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                            ),
+                                          if (noticeItem.eventfiles
+                                                  .where((e) =>
+                                                      functions
+                                                          .getFileTypeFromUrl(
+                                                              e) ==
+                                                      4)
+                                                  .toList()
+                                                  .length !=
+                                              0)
+                                            badges.Badge(
+                                              badgeContent: Text(
+                                                noticeItem.eventfiles
+                                                    .where((e) =>
+                                                        functions
+                                                            .getFileTypeFromUrl(
+                                                                e) ==
+                                                        4)
+                                                    .toList()
+                                                    .length
+                                                    .toString(),
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .titleSmall
+                                                    .override(
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .fontStyle,
+                                                      ),
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .secondary,
+                                                      fontSize: 12.0,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall
+                                                              .fontStyle,
+                                                    ),
+                                              ),
+                                              showBadge: true,
+                                              shape: badges.BadgeShape.circle,
+                                              badgeColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              elevation: 0.0,
+                                              padding: EdgeInsets.all(5.0),
+                                              position:
+                                                  badges.BadgePosition.topEnd(),
+                                              animationType: badges
+                                                  .BadgeAnimationType.scale,
+                                              toAnimate: true,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: Image.asset(
+                                                  'assets/images/clarity_image-gallery-line.png',
+                                                  width: 46.0,
+                                                  height: 41.0,
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                            ),
+                                          if (noticeItem.eventfiles
+                                                  .where((e) =>
+                                                      functions
+                                                          .getFileTypeFromUrl(
+                                                              e) ==
+                                                      5)
+                                                  .toList()
+                                                  .length !=
+                                              0)
+                                            badges.Badge(
+                                              badgeContent: Text(
+                                                noticeItem.eventfiles
+                                                    .where((e) =>
+                                                        functions
+                                                            .getFileTypeFromUrl(
+                                                                e) ==
+                                                        5)
+                                                    .toList()
+                                                    .length
+                                                    .toString(),
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .titleSmall
+                                                    .override(
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FontWeight.normal,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .titleSmall
+                                                                .fontStyle,
+                                                      ),
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .secondary,
+                                                      fontSize: 12.0,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .titleSmall
+                                                              .fontStyle,
+                                                    ),
+                                              ),
+                                              showBadge: true,
+                                              shape: badges.BadgeShape.circle,
+                                              badgeColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                              elevation: 0.0,
+                                              padding: EdgeInsets.all(5.0),
+                                              position:
+                                                  badges.BadgePosition.topEnd(),
+                                              animationType: badges
+                                                  .BadgeAnimationType.scale,
+                                              toAnimate: true,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(8.0),
+                                                child: Image.asset(
+                                                  'assets/images/download-removebg-preview.png',
+                                                  width: 46.0,
+                                                  height: 41.0,
+                                                  fit: BoxFit.contain,
+                                                ),
+                                              ),
+                                            ),
+                                        ]
+                                            .divide(SizedBox(width: 18.0))
+                                            .around(SizedBox(width: 18.0)),
                                       ),
                                     ),
-                                  ].divide(const SizedBox(height: 15.0)),
+                                  ].divide(SizedBox(height: 15.0)),
                                 ),
                               ),
                             ),

@@ -38,24 +38,15 @@ class ClassCalendarEditModel extends FlutterFlowModel<ClassCalendarEditWidget> {
   FocusNode? descriptionFocusNode;
   TextEditingController? descriptionTextController;
   String? Function(BuildContext, String?)? descriptionTextControllerValidator;
-  String? _descriptionTextControllerValidator(
-      BuildContext context, String? val) {
-    if (val == null || val.isEmpty) {
-      return 'Please enter the description';
-    }
-
-    return null;
-  }
-
   DateTime? datePicked;
-  bool isDataUploading1 = false;
-  List<FFUploadedFile> uploadedLocalFiles1 = [];
-  List<String> uploadedFileUrls1 = [];
+  bool isDataUploading_uploadDataBox = false;
+  List<FFUploadedFile> uploadedLocalFiles_uploadDataBox = [];
+  List<String> uploadedFileUrls_uploadDataBox = [];
 
-  bool isDataUploading2 = false;
-  FFUploadedFile uploadedLocalFile2 =
+  bool isDataUploading_calenadrmedia1 = false;
+  FFUploadedFile uploadedLocalFile_calenadrmedia1 =
       FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl2 = '';
+  String uploadedFileUrl_calenadrmedia1 = '';
 
   // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
   List<StudentsRecord>? students;
@@ -65,7 +56,6 @@ class ClassCalendarEditModel extends FlutterFlowModel<ClassCalendarEditWidget> {
   @override
   void initState(BuildContext context) {
     eventnameTextControllerValidator = _eventnameTextControllerValidator;
-    descriptionTextControllerValidator = _descriptionTextControllerValidator;
   }
 
   @override

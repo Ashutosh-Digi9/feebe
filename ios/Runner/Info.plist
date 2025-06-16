@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>FeeBe</string>
+	<string>Feebe</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>FeeBe</string>
+	<string>Feebe</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 
@@ -37,7 +37,7 @@
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
         <key>CFBundleURLName</key>
-        <string>fee_be</string>
+        <string>feebe</string>
         <key>CFBundleURLSchemes</key>
         <array>
         <string>com.digi9.feebe</string>
@@ -45,7 +45,7 @@
         </dict>
     </array>
     <key>FlutterDeepLinkingEnabled</key>
-    <true/>
+    <false/>
 
 
 	<key>CFBundleVersion</key>
@@ -54,19 +54,19 @@
 	<true/>
 
 	<key>NSLocationWhenInUseUsageDescription</key>
-    <string>In order to search nearby, this app requires access to your current location.</string>
+    <string>This app uses your location to provide location-based services such as showing nearby schools or events.</string>
 	<key>NSCameraUsageDescription</key>
-    <string>In order to take a picture or video, this app requires permission to access the camera.</string>
-	<key>NSMicrophoneUsageDescription</key>
-    <string>In order to record audio for video, this app requires permission to access the microphone.</string>
+    <string>This app needs camera access to let you take photos or videos for profiles, documents, or submissions</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-    <string>In order to upload data, this app requires permission to access the photo library.</string>
-
+    <string>This app needs access to your photo library so you can upload existing photos for profiles or tasks.</string>
+	<key>PermissionGroupNotification</key>
+    <string>This app requires permission to for notifications.</string>
     <key>UIBackgroundModes</key>
     <array>
         <string>fetch</string>
         <string>remote-notification</string>
     </array>
+
 
 
 	<key>UILaunchStoryboardName</key>

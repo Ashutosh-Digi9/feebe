@@ -27,6 +27,7 @@ export 'place.dart';
 export 'uploaded_file.dart';
 export '../app_state.dart';
 export '../app_constants.dart';
+export '../environment_values.dart';
 export 'flutter_flow_model.dart';
 export 'dart:math' show min, max;
 export 'dart:typed_data' show Uint8List;
@@ -35,6 +36,7 @@ export 'package:intl/intl.dart';
 export 'package:cloud_firestore/cloud_firestore.dart'
     show DocumentReference, FirebaseFirestore;
 export 'package:page_transition/page_transition.dart';
+export 'custom_icons.dart' show FFIcons;
 export 'nav/nav.dart';
 
 final RouteObserver<ModalRoute> routeObserver = RouteObserver<ModalRoute>();
@@ -69,7 +71,7 @@ Theme wrapInMaterialDatePickerTheme(
   final dateTimeMaterialStateForegroundColor =
       WidgetStateProperty.resolveWith((states) {
     if (states.contains(WidgetState.disabled)) {
-      return pickerForegroundColor.withOpacity(0.60);
+      return pickerForegroundColor.applyAlpha(0.60);
     }
     if (states.contains(WidgetState.selected)) {
       return selectedDateTimeForegroundColor;
@@ -93,7 +95,7 @@ Theme wrapInMaterialDatePickerTheme(
       colorScheme: baseTheme.colorScheme.copyWith(
         onSurface: pickerForegroundColor,
       ),
-      disabledColor: pickerForegroundColor.withOpacity(0.3),
+      disabledColor: pickerForegroundColor.applyAlpha(0.3),
       textTheme: baseTheme.textTheme.copyWith(
         headlineSmall: headerTextStyle,
         headlineMedium: headerTextStyle,
@@ -108,11 +110,11 @@ Theme wrapInMaterialDatePickerTheme(
             ),
             overlayColor: WidgetStateProperty.resolveWith((states) {
               if (states.contains(WidgetState.hovered)) {
-                return actionButtonForegroundColor.withOpacity(0.04);
+                return actionButtonForegroundColor.applyAlpha(0.04);
               }
               if (states.contains(WidgetState.focused) ||
                   states.contains(WidgetState.pressed)) {
-                return actionButtonForegroundColor.withOpacity(0.12);
+                return actionButtonForegroundColor.applyAlpha(0.12);
               }
               return null;
             })),
@@ -162,11 +164,11 @@ Theme wrapInMaterialTimePickerTheme(
             ),
             overlayColor: WidgetStateProperty.resolveWith((states) {
               if (states.contains(WidgetState.hovered)) {
-                return actionButtonForegroundColor.withOpacity(0.04);
+                return actionButtonForegroundColor.applyAlpha(0.04);
               }
               if (states.contains(WidgetState.focused) ||
                   states.contains(WidgetState.pressed)) {
-                return actionButtonForegroundColor.withOpacity(0.12);
+                return actionButtonForegroundColor.applyAlpha(0.12);
               }
               return null;
             })),
@@ -545,6 +547,13 @@ extension StringDocRef on String {
 void setDarkModeSetting(BuildContext context, ThemeMode themeMode) =>
     MyApp.of(context).setThemeMode(themeMode);
 
+void setTextScaleFactorSetting(BuildContext context, double textScaleFactor) =>
+    MyApp.of(context).setTextScaleFactor(textScaleFactor);
+
+void incrementTextScaleFactorSetting(
+        BuildContext context, double incrementValue) =>
+    MyApp.of(context).incrementTextScaleFactor(incrementValue);
+
 void showSnackbar(
   BuildContext context,
   String message, {
@@ -557,12 +566,12 @@ void showSnackbar(
       content: Row(
         children: [
           if (loading)
-            const Padding(
+            Padding(
               padding: EdgeInsetsDirectional.only(end: 10.0),
-              child: SizedBox(
+              child: Container(
                 height: 20,
                 width: 20,
-                child: CircularProgressIndicator(
+                child: const CircularProgressIndicator(
                   color: Colors.white,
                 ),
               ),
@@ -580,6 +589,19 @@ extension FFStringExt on String {
       maxChars != null && length > maxChars
           ? replaceRange(maxChars, null, replacement)
           : this;
+
+  String toCapitalization(TextCapitalization textCapitalization) {
+    switch (textCapitalization) {
+      case TextCapitalization.none:
+        return this;
+      case TextCapitalization.words:
+        return split(' ').map(toBeginningOfSentenceCase).join(' ');
+      case TextCapitalization.sentences:
+        return toBeginningOfSentenceCase(this);
+      case TextCapitalization.characters:
+        return toUpperCase();
+    }
+  }
 }
 
 extension ListFilterExt<T> on Iterable<T?> {
@@ -653,17 +675,8 @@ void fixStatusBarOniOS16AndBelow(BuildContext context) {
   }
 }
 
-extension ListUniqueExt<T> on Iterable<T> {
-  List<T> unique(dynamic Function(T) getKey) {
-    var distinctSet = <dynamic>{};
-    var distinctList = <T>[];
-    for (var item in this) {
-      if (distinctSet.add(getKey(item))) {
-        distinctList.add(item);
-      }
-    }
-    return distinctList;
-  }
+extension ColorOpacityExt on Color {
+  Color applyAlpha(double val) => withValues(alpha: val);
 }
 
 String roundTo(double value, int decimalPoints) {
@@ -703,5 +716,20 @@ double computeGradientAlignmentY(double evaluatedAngle) {
   return double.parse(roundTo(y, 2));
 }
 
+extension ListUniqueExt<T> on Iterable<T> {
+  List<T> unique(dynamic Function(T) getKey) {
+    var distinctSet = <dynamic>{};
+    var distinctList = <T>[];
+    for (var item in this) {
+      if (distinctSet.add(getKey(item))) {
+        distinctList.add(item);
+      }
+    }
+    return distinctList;
+  }
+}
+
 String getCurrentRoute(BuildContext context) =>
     context.mounted ? MyApp.of(context).getRoute() : '';
+List<String> getCurrentRouteStack(BuildContext context) =>
+    context.mounted ? MyApp.of(context).getRouteStack() : [];

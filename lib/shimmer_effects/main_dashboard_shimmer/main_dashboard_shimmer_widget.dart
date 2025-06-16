@@ -42,8 +42,8 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -55,8 +55,8 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -68,8 +68,8 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -81,8 +81,8 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -94,8 +94,8 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -107,8 +107,8 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -120,8 +120,8 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -133,8 +133,8 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -156,7 +156,7 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
       decoration: BoxDecoration(
         color: FlutterFlowTheme.of(context).secondaryBackground,
       ),
-      child: SizedBox(
+      child: Container(
         width: MediaQuery.sizeOf(context).width * 1.0,
         height: MediaQuery.sizeOf(context).height * 1.0,
         child: Stack(
@@ -165,7 +165,7 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
               mainAxisSize: MainAxisSize.max,
               children: [
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                   child: Container(
                     width: MediaQuery.sizeOf(context).width * 1.0,
                     height: MediaQuery.sizeOf(context).height * 0.2,
@@ -201,7 +201,7 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                   child: Container(
                     width: MediaQuery.sizeOf(context).width * 1.0,
                     height: MediaQuery.sizeOf(context).height * 0.1,
@@ -237,7 +237,7 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                   child: Container(
                     width: MediaQuery.sizeOf(context).width * 1.0,
                     height: MediaQuery.sizeOf(context).height * 0.1,
@@ -273,7 +273,7 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                   child: Container(
                     width: MediaQuery.sizeOf(context).width * 1.0,
                     height: MediaQuery.sizeOf(context).height * 0.1,
@@ -309,7 +309,7 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                   child: Container(
                     width: MediaQuery.sizeOf(context).width * 1.0,
                     height: MediaQuery.sizeOf(context).height * 0.1,
@@ -345,7 +345,7 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                   child: Container(
                     width: MediaQuery.sizeOf(context).width * 1.0,
                     height: MediaQuery.sizeOf(context).height * 0.1,
@@ -381,7 +381,7 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                   child: Container(
                     width: MediaQuery.sizeOf(context).width * 1.0,
                     height: MediaQuery.sizeOf(context).height * 0.1,
@@ -419,13 +419,13 @@ class _MainDashboardShimmerWidgetState extends State<MainDashboardShimmerWidget>
               ],
             ),
             Align(
-              alignment: const AlignmentDirectional(0.0, 1.0),
+              alignment: AlignmentDirectional(0.0, 1.0),
               child: Container(
                 width: MediaQuery.sizeOf(context).width * 1.0,
                 height: MediaQuery.sizeOf(context).height * 0.1,
-                decoration: const BoxDecoration(),
+                decoration: BoxDecoration(),
                 child: Padding(
-                  padding: const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                   child: Container(
                     width: MediaQuery.sizeOf(context).width * 1.0,
                     height: MediaQuery.sizeOf(context).height * 0.1,

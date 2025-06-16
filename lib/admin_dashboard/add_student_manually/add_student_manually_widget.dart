@@ -1,25 +1,29 @@
+import '/a_super_admin/draftsaved/draftsaved_widget.dart';
+import '/admin_dashboard/calender/calender_widget.dart';
+import '/admin_dashboard/editphoto/editphoto_widget.dart';
+import '/admin_dashboard/parentdocument/parentdocument_widget.dart';
+import '/admin_dashboard/parentphoto/parentphoto_widget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
-import '/backend/firebase_storage/storage.dart';
-import '/components/editphoto_widget.dart';
-import '/confirmationpages/childcreated/childcreated_widget.dart';
+import '/backend/push_notifications/push_notifications_util.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
-import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
-import '/flutter_flow/upload_data.dart';
 import '/shimmer_effects/class_dashboard_shimmer/class_dashboard_shimmer_widget.dart';
+import '/shimmer_effects/quick_action_selectclass/quick_action_selectclass_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
+import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
+import 'package:styled_divider/styled_divider.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:percent_indicator/percent_indicator.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'add_student_manually_model.dart';
 export 'add_student_manually_model.dart';
@@ -31,6 +35,9 @@ class AddStudentManuallyWidget extends StatefulWidget {
   });
 
   final DocumentReference? schoolref;
+
+  static String routeName = 'add_student_manually';
+  static String routePath = '/addStudentManually';
 
   @override
   State<AddStudentManuallyWidget> createState() =>
@@ -49,9 +56,17 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      FFAppState().imageurl =
-          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
+      FFAppState().imageurl = '';
       FFAppState().studentimage = '';
+      FFAppState().fileUrl = '';
+      FFAppState().fileurl1 = '';
+      FFAppState().fileurl2 = '';
+      FFAppState().parent1 = '';
+      FFAppState().parent2 = '';
+      FFAppState().guardian = '';
+      FFAppState().selectedDate = null;
+      safeSetState(() {});
+      _model.isguardian = false;
       safeSetState(() {});
     });
 
@@ -110,7 +125,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
         if (!snapshot.hasData) {
           return Scaffold(
             backgroundColor: FlutterFlowTheme.of(context).tertiary,
-            body: const ClassDashboardShimmerWidget(),
+            body: ClassDashboardShimmerWidget(),
           );
         }
 
@@ -124,67 +139,37 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
           child: Scaffold(
             key: scaffoldKey,
             backgroundColor: FlutterFlowTheme.of(context).tertiary,
-            appBar: AppBar(
-              backgroundColor: FlutterFlowTheme.of(context).info,
-              automaticallyImplyLeading: false,
-              leading: InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () async {
-                  context.pop();
-                },
-                child: Icon(
-                  Icons.chevron_left,
-                  color: FlutterFlowTheme.of(context).bgColor1,
-                  size: 28.0,
-                ),
-              ),
-              title: Text(
-                'Add Student',
-                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Nunito',
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      fontSize: 16.0,
-                      letterSpacing: 0.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-              ),
-              actions: [
-                Visibility(
-                  visible: _model.pageViewCurrentIndex != 3,
-                  child: Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 10.0, 0.0),
-                    child: FlutterFlowIconButton(
-                      borderRadius: 8.0,
-                      buttonSize: 40.0,
-                      fillColor: FlutterFlowTheme.of(context).primary,
-                      icon: FaIcon(
-                        FontAwesomeIcons.solidSave,
-                        color: FlutterFlowTheme.of(context).info,
-                        size: 24.0,
-                      ),
-                      showLoadingIndicator: true,
-                      onPressed: () async {
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? AppBar(
+                    backgroundColor: FlutterFlowTheme.of(context).info,
+                    automaticallyImplyLeading: false,
+                    leading: InkWell(
+                      splashColor: Colors.transparent,
+                      focusColor: Colors.transparent,
+                      hoverColor: Colors.transparent,
+                      highlightColor: Colors.transparent,
+                      onTap: () async {
                         var confirmDialogResponse = await showDialog<bool>(
                               context: context,
                               builder: (alertDialogContext) {
                                 return AlertDialog(
-                                  title: const Text('Save Progress?'),
-                                  content: const Text(
-                                      'Oops! Looks like you haven\'t finished registering the student'),
+                                  title: Text(
+                                      'Would you like to save your progress '),
                                   actions: [
                                     TextButton(
                                       onPressed: () => Navigator.pop(
                                           alertDialogContext, false),
-                                      child: const Text('Cancel'),
+                                      child: Text('Cancel'),
                                     ),
                                     TextButton(
                                       onPressed: () => Navigator.pop(
                                           alertDialogContext, true),
-                                      child: const Text('Save'),
+                                      child: Text('Confirm'),
                                     ),
                                   ],
                                 );
@@ -193,234 +178,60 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                             false;
                         if (confirmDialogResponse) {
                           if (_model.pageViewCurrentIndex == 0) {
-                            if (_model.formKey3.currentState == null ||
-                                !_model.formKey3.currentState!.validate()) {
-                              return;
-                            }
-                            if (_model.datePicked == null) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Please select the date of birth',
-                                    style: TextStyle(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                    ),
-                                  ),
-                                  duration: const Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).secondary,
-                                ),
-                              );
-                              return;
-                            }
-                            if (_model.genderValue == null) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'Please select the gender',
-                                    style: TextStyle(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                    ),
-                                  ),
-                                  duration: const Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).secondary,
-                                ),
-                              );
-                              return;
-                            }
-
-                            var studentsRecordReference1 =
-                                StudentsRecord.collection.doc();
-                            await studentsRecordReference1
-                                .set(createStudentsRecordData(
-                              studentName: _model.childnameTextController.text,
-                              studentGender: _model.genderValue,
-                              studentAddress: _model.addressTextController.text,
-                              dateOfBirth: _model.datePicked ?? getCurrentTimestamp,
-                              bloodGroup: _model.bloodtypeValue,
-                              allergiesOthers:
-                                  _model.allergiesTextController.text,
-                              createdAt: getCurrentTimestamp,
-                              studentImage: FFAppState().studentimage,
-                              schoolref: widget.schoolref,
-                              isDraft: true,
-                            ));
-                            _model.studentdraft =
-                                StudentsRecord.getDocumentFromData(
-                                    createStudentsRecordData(
-                                      studentName:
-                                          _model.childnameTextController.text,
-                                      studentGender: _model.genderValue,
-                                      studentAddress:
-                                          _model.addressTextController.text,
-                                      dateOfBirth: _model.datePicked ?? getCurrentTimestamp,
-                                      bloodGroup: _model.bloodtypeValue,
-                                      allergiesOthers:
-                                          _model.allergiesTextController.text,
-                                      createdAt: getCurrentTimestamp,
-                                      studentImage: FFAppState().studentimage,
-                                      schoolref: widget.schoolref,
-                                      isDraft: true,
-                                    ),
-                                    studentsRecordReference1);
-
-                            await widget.schoolref!.update({
-                              ...mapToFirestore(
-                                {
-                                  'List_of_students': FieldValue.arrayUnion(
-                                      [_model.studentdraft?.reference]),
-                                  'student_data_list': FieldValue.arrayUnion([
-                                    getStudentListFirestoreData(
-                                      createStudentListStruct(
-                                        studentName:
-                                            _model.studentdraft?.studentName,
-                                        studentId:
-                                            _model.studentdraft?.reference,
-                                        studentImage:
-                                            _model.studentdraft?.studentImage,
-                                        isDraft: true,
-                                        clearUnsetFields: false,
-                                      ),
-                                      true,
-                                    )
-                                  ]),
-                                },
-                              ),
-                            });
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  'The Draft is saved',
-                                  style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
-                                  ),
-                                ),
-                                duration: const Duration(milliseconds: 4000),
-                                backgroundColor:
-                                    FlutterFlowTheme.of(context).secondary,
-                              ),
-                            );
-                            context.safePop();
-                          } else if (_model.pageViewCurrentIndex == 1) {
-                            if (_model.formKey4.currentState == null ||
-                                !_model.formKey4.currentState!.validate()) {
-                              return;
-                            }
-                            if (_model.emailfatherTextController.text !=
-                                _model.emailmotherTextController.text) {
-                              if (((_model.parent2TextController.text !=
-                                              '') ||
-                                      (_model.numbermotherTextController
-                                                  .text !=
-                                              '')) ||
-                                  (_model.emailmotherTextController.text !=
-                                          '')) {
-                                if (_model.formKey2.currentState == null ||
-                                    !_model.formKey2.currentState!.validate()) {
-                                  return;
-                                }
-                                _model.addToParentsdetails(ParentsDetailsStruct(
-                                  parentsId: functions.generateUniqueId(),
-                                  parentsName:
-                                      _model.parent2TextController.text,
-                                  parentsEmail:
-                                      _model.emailmotherTextController.text,
-                                  parentsPhone:
-                                      _model.numbermotherTextController.text,
-                                  document: _model.uploadedFileUrl3,
-                                ));
-                                safeSetState(() {});
-                              } else {
-                                _model.parentsdetails = [];
-                                safeSetState(() {});
-                                _model.addToParentsdetails(ParentsDetailsStruct(
-                                  parentsId: functions.generateUniqueId(),
-                                  parentsName:
-                                      _model.parentnameTextController.text,
-                                  parentsEmail:
-                                      _model.emailfatherTextController.text,
-                                  parentsPhone:
-                                      _model.numberfatherTextController.text,
-                                  document: _model.uploadedFileUrl2,
-                                ));
-                                safeSetState(() {});
-                              }
-
-                              _model.pageno = 2;
-                              safeSetState(() {});
-
-                              var studentsRecordReference2 =
+                            if (FFAppState().selectedDate != null) {
+                              var studentsRecordReference1 =
                                   StudentsRecord.collection.doc();
-                              await studentsRecordReference2.set({
-                                ...createStudentsRecordData(
-                                  studentName:
-                                      _model.childnameTextController.text,
-                                  studentGender: _model.genderValue,
-                                  studentAddress:
-                                      _model.addressTextController.text,
-                                  dateOfBirth: _model.datePicked ?? getCurrentTimestamp,
-                                  bloodGroup: _model.bloodtypeValue,
-                                  allergiesOthers:
-                                      _model.allergiesTextController.text,
-                                  createdAt: getCurrentTimestamp,
-                                  studentImage: FFAppState().studentimage,
-                                  schoolref: widget.schoolref,
-                                  isDraft: true,
-                                ),
-                                ...mapToFirestore(
-                                  {
-                                    'parents_details':
-                                        getParentsDetailsListFirestoreData(
-                                      _model.parentsdetails,
-                                    ),
-                                  },
-                                ),
-                              });
-                              _model.studentdraftParent =
-                                  StudentsRecord.getDocumentFromData({
-                                ...createStudentsRecordData(
-                                  studentName:
-                                      _model.childnameTextController.text,
-                                  studentGender: _model.genderValue,
-                                  studentAddress:
-                                      _model.addressTextController.text,
-                                  dateOfBirth: _model.datePicked ?? getCurrentTimestamp,
-                                  bloodGroup: _model.bloodtypeValue,
-                                  allergiesOthers:
-                                      _model.allergiesTextController.text,
-                                  createdAt: getCurrentTimestamp,
-                                  studentImage: FFAppState().studentimage,
-                                  schoolref: widget.schoolref,
-                                  isDraft: true,
-                                ),
-                                ...mapToFirestore(
-                                  {
-                                    'parents_details':
-                                        getParentsDetailsListFirestoreData(
-                                      _model.parentsdetails,
-                                    ),
-                                  },
-                                ),
-                              }, studentsRecordReference2);
+                              await studentsRecordReference1
+                                  .set(createStudentsRecordData(
+                                studentName:
+                                    _model.childnameTextController.text,
+                                studentGender: _model.genderValue,
+                                studentAddress:
+                                    _model.addressTextController.text,
+                                dateOfBirth: FFAppState().selectedDate,
+                                bloodGroup: _model.bloodtypeValue,
+                                allergiesOthers:
+                                    _model.allergiesTextController.text,
+                                createdAt: getCurrentTimestamp,
+                                studentImage: FFAppState().studentimage,
+                                schoolref: widget.schoolref,
+                                isDraft: true,
+                                document: FFAppState().fileUrl,
+                              ));
+                              _model.studentdraft12 =
+                                  StudentsRecord.getDocumentFromData(
+                                      createStudentsRecordData(
+                                        studentName:
+                                            _model.childnameTextController.text,
+                                        studentGender: _model.genderValue,
+                                        studentAddress:
+                                            _model.addressTextController.text,
+                                        dateOfBirth: FFAppState().selectedDate,
+                                        bloodGroup: _model.bloodtypeValue,
+                                        allergiesOthers:
+                                            _model.allergiesTextController.text,
+                                        createdAt: getCurrentTimestamp,
+                                        studentImage: FFAppState().studentimage,
+                                        schoolref: widget.schoolref,
+                                        isDraft: true,
+                                        document: FFAppState().fileUrl,
+                                      ),
+                                      studentsRecordReference1);
 
                               await widget.schoolref!.update({
                                 ...mapToFirestore(
                                   {
                                     'List_of_students': FieldValue.arrayUnion(
-                                        [_model.studentdraftParent?.reference]),
+                                        [_model.studentdraft12?.reference]),
                                     'student_data_list': FieldValue.arrayUnion([
                                       getStudentListFirestoreData(
                                         createStudentListStruct(
                                           studentName: _model
-                                              .studentdraftParent?.studentName,
-                                          studentId: _model
-                                              .studentdraftParent?.reference,
+                                              .studentdraft12?.studentName,
+                                          studentId:
+                                              _model.studentdraft12?.reference,
                                           studentImage: _model
-                                              .studentdraftParent?.studentImage,
+                                              .studentdraft12?.studentImage,
                                           isDraft: true,
                                           clearUnsetFields: false,
                                         ),
@@ -430,21 +241,253 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                   },
                                 ),
                               });
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text(
-                                    'The Draft is saved',
-                                    style: TextStyle(
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryText,
-                                    ),
-                                  ),
-                                  duration: const Duration(milliseconds: 4000),
-                                  backgroundColor:
-                                      FlutterFlowTheme.of(context).secondary,
+                            } else {
+                              var studentsRecordReference2 =
+                                  StudentsRecord.collection.doc();
+                              await studentsRecordReference2
+                                  .set(createStudentsRecordData(
+                                studentName:
+                                    _model.childnameTextController.text,
+                                studentGender: _model.genderValue,
+                                studentAddress:
+                                    _model.addressTextController.text,
+                                bloodGroup: _model.bloodtypeValue,
+                                allergiesOthers:
+                                    _model.allergiesTextController.text,
+                                createdAt: getCurrentTimestamp,
+                                studentImage: FFAppState().studentimage,
+                                schoolref: widget.schoolref,
+                                isDraft: true,
+                                document: FFAppState().fileUrl,
+                              ));
+                              _model.studentdraft123 =
+                                  StudentsRecord.getDocumentFromData(
+                                      createStudentsRecordData(
+                                        studentName:
+                                            _model.childnameTextController.text,
+                                        studentGender: _model.genderValue,
+                                        studentAddress:
+                                            _model.addressTextController.text,
+                                        bloodGroup: _model.bloodtypeValue,
+                                        allergiesOthers:
+                                            _model.allergiesTextController.text,
+                                        createdAt: getCurrentTimestamp,
+                                        studentImage: FFAppState().studentimage,
+                                        schoolref: widget.schoolref,
+                                        isDraft: true,
+                                        document: FFAppState().fileUrl,
+                                      ),
+                                      studentsRecordReference2);
+
+                              await widget.schoolref!.update({
+                                ...mapToFirestore(
+                                  {
+                                    'List_of_students': FieldValue.arrayUnion(
+                                        [_model.studentdraft123?.reference]),
+                                    'student_data_list': FieldValue.arrayUnion([
+                                      getStudentListFirestoreData(
+                                        createStudentListStruct(
+                                          studentName: _model
+                                              .studentdraft123?.studentName,
+                                          studentId:
+                                              _model.studentdraft123?.reference,
+                                          studentImage: _model
+                                              .studentdraft123?.studentImage,
+                                          isDraft: true,
+                                          clearUnsetFields: false,
+                                        ),
+                                        true,
+                                      )
+                                    ]),
+                                  },
                                 ),
-                              );
-                              context.safePop();
+                              });
+                            }
+                          } else if (_model.pageViewCurrentIndex == 1) {
+                            if ((_model.emailfatherTextController.text !=
+                                    _model.emailmotherTextController.text) ||
+                                (_model.emailmotherTextController.text ==
+                                        '')) {
+                              if (((_model.parent2TextController.text !=
+                                              '') ||
+                                      (_model.numbermotherTextController
+                                                  .text !=
+                                              '')) ||
+                                  (_model.emailmotherTextController.text !=
+                                          '')) {
+                                if (_model.emailmotherTextController.text !=
+                                        '') {
+                                  _model
+                                      .addToParentsdetails(ParentsDetailsStruct(
+                                    parentsId: functions.generateUniqueId(),
+                                    parentsName:
+                                        _model.parent2TextController.text,
+                                    parentsEmail: functions.isValidEmail(_model
+                                            .emailmotherTextController.text)
+                                        ? _model.emailmotherTextController.text
+                                        : '${_model.emailmotherTextController.text}@feebe.in',
+                                    parentsPhone:
+                                        _model.numbermotherTextController.text,
+                                    document: FFAppState().fileurl2,
+                                    isemail: functions.isValidEmail(_model
+                                            .emailmotherTextController.text)
+                                        ? true
+                                        : false,
+                                    parentImage:
+                                        !functions.isBlank(FFAppState().parent2)
+                                            ? FFAppState().parent2
+                                            : FFAppConstants.addImage,
+                                  ));
+                                  safeSetState(() {});
+                                } else {
+                                  _model
+                                      .addToParentsdetails(ParentsDetailsStruct(
+                                    parentsId: functions.generateUniqueId(),
+                                    parentsName:
+                                        _model.parent2TextController.text,
+                                    parentsPhone:
+                                        _model.numbermotherTextController.text,
+                                    document: FFAppState().fileurl2,
+                                    parentImage:
+                                        !functions.isBlank(FFAppState().parent2)
+                                            ? FFAppState().parent2
+                                            : FFAppConstants.addImage,
+                                  ));
+                                  safeSetState(() {});
+                                }
+                              } else {
+                                _model.parentsdetails = [];
+                                safeSetState(() {});
+                                if (_model.emailfatherTextController.text !=
+                                        '') {
+                                  _model
+                                      .addToParentsdetails(ParentsDetailsStruct(
+                                    parentsId: functions.generateUniqueId(),
+                                    parentsName:
+                                        _model.parentnameTextController.text,
+                                    parentsEmail: functions.isValidEmail(_model
+                                            .emailfatherTextController.text)
+                                        ? _model.emailfatherTextController.text
+                                        : '${_model.emailfatherTextController.text}@feebe.in',
+                                    parentsPhone:
+                                        _model.numberfatherTextController.text,
+                                    document: FFAppState().fileurl1,
+                                    isemail: functions.isValidEmail(_model
+                                            .emailfatherTextController.text)
+                                        ? true
+                                        : false,
+                                    parentImage:
+                                        !functions.isBlank(FFAppState().parent1)
+                                            ? FFAppState().parent1
+                                            : FFAppConstants.addImage,
+                                  ));
+                                  safeSetState(() {});
+                                } else {
+                                  _model
+                                      .addToParentsdetails(ParentsDetailsStruct(
+                                    parentsId: functions.generateUniqueId(),
+                                    parentsName:
+                                        _model.parentnameTextController.text,
+                                    parentsPhone:
+                                        _model.numberfatherTextController.text,
+                                    document: FFAppState().fileurl1,
+                                    parentImage:
+                                        !functions.isBlank(FFAppState().parent1)
+                                            ? FFAppState().parent1
+                                            : FFAppConstants.addImage,
+                                  ));
+                                  safeSetState(() {});
+                                }
+                              }
+
+                              _model.pageno = 2;
+                              safeSetState(() {});
+
+                              var studentsRecordReference3 =
+                                  StudentsRecord.collection.doc();
+                              await studentsRecordReference3.set({
+                                ...createStudentsRecordData(
+                                  studentName:
+                                      _model.childnameTextController.text,
+                                  studentGender: _model.genderValue,
+                                  studentAddress:
+                                      _model.addressTextController.text,
+                                  dateOfBirth: FFAppState().selectedDate != null
+                                      ? FFAppState().selectedDate
+                                      : getCurrentTimestamp,
+                                  bloodGroup: _model.bloodtypeValue,
+                                  allergiesOthers:
+                                      _model.allergiesTextController.text,
+                                  createdAt: getCurrentTimestamp,
+                                  studentImage: FFAppState().studentimage,
+                                  schoolref: widget.schoolref,
+                                  isDraft: true,
+                                  document: FFAppState().fileUrl,
+                                ),
+                                ...mapToFirestore(
+                                  {
+                                    'parents_details':
+                                        getParentsDetailsListFirestoreData(
+                                      _model.parentsdetails,
+                                    ),
+                                  },
+                                ),
+                              });
+                              _model.studentdraftParent1 =
+                                  StudentsRecord.getDocumentFromData({
+                                ...createStudentsRecordData(
+                                  studentName:
+                                      _model.childnameTextController.text,
+                                  studentGender: _model.genderValue,
+                                  studentAddress:
+                                      _model.addressTextController.text,
+                                  dateOfBirth: FFAppState().selectedDate != null
+                                      ? FFAppState().selectedDate
+                                      : getCurrentTimestamp,
+                                  bloodGroup: _model.bloodtypeValue,
+                                  allergiesOthers:
+                                      _model.allergiesTextController.text,
+                                  createdAt: getCurrentTimestamp,
+                                  studentImage: FFAppState().studentimage,
+                                  schoolref: widget.schoolref,
+                                  isDraft: true,
+                                  document: FFAppState().fileUrl,
+                                ),
+                                ...mapToFirestore(
+                                  {
+                                    'parents_details':
+                                        getParentsDetailsListFirestoreData(
+                                      _model.parentsdetails,
+                                    ),
+                                  },
+                                ),
+                              }, studentsRecordReference3);
+
+                              await widget.schoolref!.update({
+                                ...mapToFirestore(
+                                  {
+                                    'List_of_students': FieldValue.arrayUnion([
+                                      _model.studentdraftParent1?.reference
+                                    ]),
+                                    'student_data_list': FieldValue.arrayUnion([
+                                      getStudentListFirestoreData(
+                                        createStudentListStruct(
+                                          studentName: _model
+                                              .studentdraftParent1?.studentName,
+                                          studentId: _model
+                                              .studentdraftParent1?.reference,
+                                          studentImage: _model
+                                              .studentdraftParent1
+                                              ?.studentImage,
+                                          isDraft: true,
+                                          clearUnsetFields: false,
+                                        ),
+                                        true,
+                                      )
+                                    ]),
+                                  },
+                                ),
+                              });
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
@@ -455,7 +498,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                           .secondary,
                                     ),
                                   ),
-                                  duration: const Duration(milliseconds: 2350),
+                                  duration: Duration(milliseconds: 2350),
                                   backgroundColor:
                                       FlutterFlowTheme.of(context).primaryText,
                                 ),
@@ -467,18 +510,44 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                     (_model.gnumberTextController.text !=
                                             '')) ||
                                 (_model.gemailTextController.text != '')) {
-                              if (_model.formKey1.currentState == null ||
-                                  !_model.formKey1.currentState!.validate()) {
-                                return;
+                              if (_model.gemailTextController.text != '') {
+                                _model.addToParentsdetails(ParentsDetailsStruct(
+                                  parentsId: functions.generateUniqueId(),
+                                  parentsName: _model.gnameTextController.text,
+                                  parentsEmail: functions.isValidEmail(
+                                          _model.gemailTextController.text)
+                                      ? _model.gemailTextController.text
+                                      : '${_model.gemailTextController.text}@feebe.in',
+                                  parentsPhone:
+                                      _model.gnumberTextController.text,
+                                  parentRelation: 'Gurdian',
+                                  isemail: functions.isValidEmail(functions
+                                          .isValidEmail(
+                                              _model.gemailTextController.text)
+                                          .toString())
+                                      ? true
+                                      : false,
+                                  parentImage:
+                                      !functions.isBlank(FFAppState().guardian)
+                                          ? FFAppState().guardian
+                                          : FFAppConstants.addImage,
+                                ));
+                                safeSetState(() {});
+                              } else {
+                                _model.addToParentsdetails(ParentsDetailsStruct(
+                                  parentsId: functions.generateUniqueId(),
+                                  parentsName: _model.gnameTextController.text,
+                                  parentsPhone:
+                                      _model.gnumberTextController.text,
+                                  parentRelation: 'Gurdian',
+                                  parentImage:
+                                      !functions.isBlank(FFAppState().guardian)
+                                          ? FFAppState().guardian
+                                          : FFAppConstants.addImage,
+                                ));
+                                safeSetState(() {});
                               }
-                              _model.addToParentsdetails(ParentsDetailsStruct(
-                                parentsId: functions.generateUniqueId(),
-                                parentsName: _model.gnameTextController.text,
-                                parentsEmail: _model.gemailTextController.text,
-                                parentsPhone: _model.gnumberTextController.text,
-                                parentRelation: 'Gurdian',
-                              ));
-                              safeSetState(() {});
+
                               _model.pageno = 3;
                               safeSetState(() {});
                             } else {
@@ -486,16 +555,16 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                               safeSetState(() {});
                             }
 
-                            var studentsRecordReference3 =
+                            var studentsRecordReference4 =
                                 StudentsRecord.collection.doc();
-                            await studentsRecordReference3.set({
+                            await studentsRecordReference4.set({
                               ...createStudentsRecordData(
                                 studentName:
                                     _model.childnameTextController.text,
                                 studentGender: _model.genderValue,
                                 studentAddress:
                                     _model.addressTextController.text,
-                                dateOfBirth: _model.datePicked ?? getCurrentTimestamp,
+                                dateOfBirth: FFAppState().selectedDate,
                                 bloodGroup: _model.bloodtypeValue,
                                 allergiesOthers:
                                     _model.allergiesTextController.text,
@@ -503,6 +572,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                 studentImage: FFAppState().studentimage,
                                 schoolref: widget.schoolref,
                                 isDraft: true,
+                                document: FFAppState().fileUrl,
                               ),
                               ...mapToFirestore(
                                 {
@@ -513,7 +583,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                 },
                               ),
                             });
-                            _model.studentdraftgau =
+                            _model.draftguardian =
                                 StudentsRecord.getDocumentFromData({
                               ...createStudentsRecordData(
                                 studentName:
@@ -521,7 +591,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                 studentGender: _model.genderValue,
                                 studentAddress:
                                     _model.addressTextController.text,
-                                dateOfBirth: _model.datePicked ?? getCurrentTimestamp,
+                                dateOfBirth: FFAppState().selectedDate,
                                 bloodGroup: _model.bloodtypeValue,
                                 allergiesOthers:
                                     _model.allergiesTextController.text,
@@ -529,6 +599,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                 studentImage: FFAppState().studentimage,
                                 schoolref: widget.schoolref,
                                 isDraft: true,
+                                document: FFAppState().fileUrl,
                               ),
                               ...mapToFirestore(
                                 {
@@ -538,22 +609,22 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                   ),
                                 },
                               ),
-                            }, studentsRecordReference3);
+                            }, studentsRecordReference4);
 
                             await widget.schoolref!.update({
                               ...mapToFirestore(
                                 {
                                   'List_of_students': FieldValue.arrayUnion(
-                                      [_model.studentdraftgau?.reference]),
+                                      [_model.draftguardian?.reference]),
                                   'student_data_list': FieldValue.arrayUnion([
                                     getStudentListFirestoreData(
                                       createStudentListStruct(
                                         studentName:
-                                            _model.studentdraftgau?.studentName,
+                                            _model.draftguardian?.studentName,
                                         studentId:
-                                            _model.studentdraftgau?.reference,
-                                        studentImage: _model
-                                            .studentdraftgau?.studentImage,
+                                            _model.draftguardian?.reference,
+                                        studentImage:
+                                            _model.draftguardian?.studentImage,
                                         isDraft: true,
                                         clearUnsetFields: false,
                                       ),
@@ -563,20 +634,1319 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                 },
                               ),
                             });
+                          }
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                'Progress saved',
+                                style: TextStyle(
+                                  color: FlutterFlowTheme.of(context).secondary,
+                                ),
+                              ),
+                              duration: Duration(milliseconds: 4000),
+                              backgroundColor:
+                                  FlutterFlowTheme.of(context).primaryText,
+                            ),
+                          );
+                          FFAppState().studentimage = '';
+                          FFAppState().fileUrl = '';
+                          FFAppState().fileurl1 = '';
+                          FFAppState().fileurl2 = '';
+                          FFAppState().parent1 = '';
+                          FFAppState().parent2 = '';
+                          FFAppState().guardian = '';
+                          FFAppState().selectedDate = null;
+                          FFAppState().imageurl = '';
+                          safeSetState(() {});
+                          if (valueOrDefault(
+                                  currentUserDocument?.userRole, 0) ==
+                              2) {
+                            context.goNamed(
+                              ClassDashboardWidget.routeName,
+                              queryParameters: {
+                                'schoolref': serializeParam(
+                                  addStudentManuallySchoolRecord.reference,
+                                  ParamType.DocumentReference,
+                                ),
+                                'tabindex': serializeParam(
+                                  3,
+                                  ParamType.int,
+                                ),
+                              }.withoutNulls,
+                            );
+                          } else {
+                            context.goNamed(
+                              DashboardWidget.routeName,
+                              queryParameters: {
+                                'tabindex': serializeParam(
+                                  3,
+                                  ParamType.int,
+                                ),
+                              }.withoutNulls,
+                            );
+                          }
+                        } else {
+                          FFAppState().studentimage = '';
+                          FFAppState().fileUrl = '';
+                          FFAppState().fileurl1 = '';
+                          FFAppState().fileurl2 = '';
+                          FFAppState().parent1 = '';
+                          FFAppState().parent2 = '';
+                          FFAppState().guardian = '';
+                          FFAppState().selectedDate = null;
+                          FFAppState().imageurl = '';
+                          safeSetState(() {});
+                          Navigator.pop(context);
+                          context.safePop();
+                        }
+
+                        safeSetState(() {});
+                      },
+                      child: Icon(
+                        Icons.chevron_left,
+                        color: FlutterFlowTheme.of(context).bgColor1,
+                        size: 28.0,
+                      ),
+                    ),
+                    title: Text(
+                      'Add Student',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            font: GoogleFonts.nunito(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            fontSize: 16.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
+                    ),
+                    actions: [
+                      Visibility(
+                        visible: _model.pageViewCurrentIndex != 3,
+                        child: Align(
+                          alignment: AlignmentDirectional(0.0, 0.0),
+                          child: Builder(
+                            builder: (context) => Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 0.0, 10.0, 0.0),
+                              child: InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  if (_model.pageViewCurrentIndex == 0) {
+                                    if (FFAppState().selectedDate != null) {
+                                      var studentsRecordReference1 =
+                                          StudentsRecord.collection.doc();
+                                      await studentsRecordReference1
+                                          .set(createStudentsRecordData(
+                                        studentName:
+                                            _model.childnameTextController.text,
+                                        studentGender: _model.genderValue,
+                                        studentAddress:
+                                            _model.addressTextController.text,
+                                        dateOfBirth: FFAppState().selectedDate,
+                                        bloodGroup: _model.bloodtypeValue,
+                                        allergiesOthers:
+                                            _model.allergiesTextController.text,
+                                        createdAt: getCurrentTimestamp,
+                                        studentImage: FFAppState().studentimage,
+                                        schoolref: widget.schoolref,
+                                        isDraft: true,
+                                        document: FFAppState().fileUrl,
+                                      ));
+                                      _model.studentdraft =
+                                          StudentsRecord.getDocumentFromData(
+                                              createStudentsRecordData(
+                                                studentName: _model
+                                                    .childnameTextController
+                                                    .text,
+                                                studentGender:
+                                                    _model.genderValue,
+                                                studentAddress: _model
+                                                    .addressTextController.text,
+                                                dateOfBirth:
+                                                    FFAppState().selectedDate,
+                                                bloodGroup:
+                                                    _model.bloodtypeValue,
+                                                allergiesOthers: _model
+                                                    .allergiesTextController
+                                                    .text,
+                                                createdAt: getCurrentTimestamp,
+                                                studentImage:
+                                                    FFAppState().studentimage,
+                                                schoolref: widget.schoolref,
+                                                isDraft: true,
+                                                document: FFAppState().fileUrl,
+                                              ),
+                                              studentsRecordReference1);
+
+                                      await widget.schoolref!.update({
+                                        ...mapToFirestore(
+                                          {
+                                            'List_of_students':
+                                                FieldValue.arrayUnion([
+                                              _model.studentdraft?.reference
+                                            ]),
+                                            'student_data_list':
+                                                FieldValue.arrayUnion([
+                                              getStudentListFirestoreData(
+                                                createStudentListStruct(
+                                                  studentName: _model
+                                                      .studentdraft
+                                                      ?.studentName,
+                                                  studentId: _model
+                                                      .studentdraft?.reference,
+                                                  studentImage: _model
+                                                      .studentdraft
+                                                      ?.studentImage,
+                                                  isDraft: true,
+                                                  clearUnsetFields: false,
+                                                ),
+                                                true,
+                                              )
+                                            ]),
+                                          },
+                                        ),
+                                      });
+                                    } else {
+                                      var studentsRecordReference2 =
+                                          StudentsRecord.collection.doc();
+                                      await studentsRecordReference2
+                                          .set(createStudentsRecordData(
+                                        studentName:
+                                            _model.childnameTextController.text,
+                                        studentGender: _model.genderValue,
+                                        studentAddress:
+                                            _model.addressTextController.text,
+                                        bloodGroup: _model.bloodtypeValue,
+                                        allergiesOthers:
+                                            _model.allergiesTextController.text,
+                                        createdAt: getCurrentTimestamp,
+                                        studentImage: FFAppState().studentimage,
+                                        schoolref: widget.schoolref,
+                                        isDraft: true,
+                                        document: FFAppState().fileUrl,
+                                      ));
+                                      _model.studentdraft1 =
+                                          StudentsRecord.getDocumentFromData(
+                                              createStudentsRecordData(
+                                                studentName: _model
+                                                    .childnameTextController
+                                                    .text,
+                                                studentGender:
+                                                    _model.genderValue,
+                                                studentAddress: _model
+                                                    .addressTextController.text,
+                                                bloodGroup:
+                                                    _model.bloodtypeValue,
+                                                allergiesOthers: _model
+                                                    .allergiesTextController
+                                                    .text,
+                                                createdAt: getCurrentTimestamp,
+                                                studentImage:
+                                                    FFAppState().studentimage,
+                                                schoolref: widget.schoolref,
+                                                isDraft: true,
+                                                document: FFAppState().fileUrl,
+                                              ),
+                                              studentsRecordReference2);
+
+                                      await widget.schoolref!.update({
+                                        ...mapToFirestore(
+                                          {
+                                            'List_of_students':
+                                                FieldValue.arrayUnion([
+                                              _model.studentdraft1?.reference
+                                            ]),
+                                            'student_data_list':
+                                                FieldValue.arrayUnion([
+                                              getStudentListFirestoreData(
+                                                createStudentListStruct(
+                                                  studentName: _model
+                                                      .studentdraft1
+                                                      ?.studentName,
+                                                  studentId: _model
+                                                      .studentdraft1?.reference,
+                                                  studentImage: _model
+                                                      .studentdraft1
+                                                      ?.studentImage,
+                                                  isDraft: true,
+                                                  clearUnsetFields: false,
+                                                ),
+                                                true,
+                                              )
+                                            ]),
+                                          },
+                                        ),
+                                      });
+                                    }
+                                  } else if (_model.pageViewCurrentIndex == 1) {
+                                    if ((_model.emailfatherTextController
+                                                .text !=
+                                            _model.emailmotherTextController
+                                                .text) ||
+                                        (_model.emailmotherTextController
+                                                    .text ==
+                                                '')) {
+                                      if (((_model.parent2TextController
+                                                          .text !=
+                                                      '') ||
+                                              (_model.numbermotherTextController
+                                                          .text !=
+                                                      '')) ||
+                                          (_model.emailmotherTextController
+                                                      .text !=
+                                                  '')) {
+                                        if (_model.emailmotherTextController
+                                                    .text !=
+                                                '') {
+                                          _model.addToParentsdetails(
+                                              ParentsDetailsStruct(
+                                            parentsId:
+                                                functions.generateUniqueId(),
+                                            parentsName: _model
+                                                .parent2TextController.text,
+                                            parentsEmail: functions
+                                                    .isValidEmail(_model
+                                                        .emailmotherTextController
+                                                        .text)
+                                                ? _model
+                                                    .emailmotherTextController
+                                                    .text
+                                                : '${_model.emailmotherTextController.text}@feebe.in',
+                                            parentsPhone: _model
+                                                .numbermotherTextController
+                                                .text,
+                                            document: FFAppState().fileurl2,
+                                            isemail: functions.isValidEmail(_model
+                                                    .emailmotherTextController
+                                                    .text)
+                                                ? true
+                                                : false,
+                                            parentImage: !functions.isBlank(
+                                                    FFAppState().parent2)
+                                                ? FFAppState().parent2
+                                                : FFAppConstants.addImage,
+                                          ));
+                                          safeSetState(() {});
+                                        } else {
+                                          _model.addToParentsdetails(
+                                              ParentsDetailsStruct(
+                                            parentsId:
+                                                functions.generateUniqueId(),
+                                            parentsName: _model
+                                                .parent2TextController.text,
+                                            parentsPhone: _model
+                                                .numbermotherTextController
+                                                .text,
+                                            document: FFAppState().fileurl2,
+                                            parentImage: !functions.isBlank(
+                                                    FFAppState().parent2)
+                                                ? FFAppState().parent2
+                                                : FFAppConstants.addImage,
+                                          ));
+                                          safeSetState(() {});
+                                        }
+                                      } else {
+                                        _model.parentsdetails = [];
+                                        safeSetState(() {});
+                                        if (_model.emailfatherTextController
+                                                    .text !=
+                                                '') {
+                                          _model.addToParentsdetails(
+                                              ParentsDetailsStruct(
+                                            parentsId:
+                                                functions.generateUniqueId(),
+                                            parentsName: _model
+                                                .parentnameTextController.text,
+                                            parentsEmail: functions
+                                                    .isValidEmail(_model
+                                                        .emailfatherTextController
+                                                        .text)
+                                                ? _model
+                                                    .emailfatherTextController
+                                                    .text
+                                                : '${_model.emailfatherTextController.text}@feebe.in',
+                                            parentsPhone: _model
+                                                .numberfatherTextController
+                                                .text,
+                                            document: FFAppState().fileurl1,
+                                            isemail: functions.isValidEmail(_model
+                                                    .emailfatherTextController
+                                                    .text)
+                                                ? true
+                                                : false,
+                                            parentImage: !functions.isBlank(
+                                                    FFAppState().parent1)
+                                                ? FFAppState().parent1
+                                                : FFAppConstants.addImage,
+                                          ));
+                                          safeSetState(() {});
+                                        } else {
+                                          _model.addToParentsdetails(
+                                              ParentsDetailsStruct(
+                                            parentsId:
+                                                functions.generateUniqueId(),
+                                            parentsName: _model
+                                                .parentnameTextController.text,
+                                            parentsPhone: _model
+                                                .numberfatherTextController
+                                                .text,
+                                            document: FFAppState().fileurl1,
+                                            parentImage: !functions.isBlank(
+                                                    FFAppState().parent1)
+                                                ? FFAppState().parent1
+                                                : FFAppConstants.addImage,
+                                          ));
+                                          safeSetState(() {});
+                                        }
+                                      }
+
+                                      _model.pageno = 2;
+                                      safeSetState(() {});
+
+                                      var studentsRecordReference3 =
+                                          StudentsRecord.collection.doc();
+                                      await studentsRecordReference3.set({
+                                        ...createStudentsRecordData(
+                                          studentName: _model
+                                              .childnameTextController.text,
+                                          studentGender: _model.genderValue,
+                                          studentAddress:
+                                              _model.addressTextController.text,
+                                          dateOfBirth:
+                                              FFAppState().selectedDate,
+                                          bloodGroup: _model.bloodtypeValue,
+                                          allergiesOthers: _model
+                                              .allergiesTextController.text,
+                                          createdAt: getCurrentTimestamp,
+                                          studentImage:
+                                              FFAppState().studentimage,
+                                          schoolref: widget.schoolref,
+                                          isDraft: true,
+                                          document: FFAppState().fileUrl,
+                                        ),
+                                        ...mapToFirestore(
+                                          {
+                                            'parents_details':
+                                                getParentsDetailsListFirestoreData(
+                                              _model.parentsdetails,
+                                            ),
+                                          },
+                                        ),
+                                      });
+                                      _model.studentdraftParent =
+                                          StudentsRecord.getDocumentFromData({
+                                        ...createStudentsRecordData(
+                                          studentName: _model
+                                              .childnameTextController.text,
+                                          studentGender: _model.genderValue,
+                                          studentAddress:
+                                              _model.addressTextController.text,
+                                          dateOfBirth:
+                                              FFAppState().selectedDate,
+                                          bloodGroup: _model.bloodtypeValue,
+                                          allergiesOthers: _model
+                                              .allergiesTextController.text,
+                                          createdAt: getCurrentTimestamp,
+                                          studentImage:
+                                              FFAppState().studentimage,
+                                          schoolref: widget.schoolref,
+                                          isDraft: true,
+                                          document: FFAppState().fileUrl,
+                                        ),
+                                        ...mapToFirestore(
+                                          {
+                                            'parents_details':
+                                                getParentsDetailsListFirestoreData(
+                                              _model.parentsdetails,
+                                            ),
+                                          },
+                                        ),
+                                      }, studentsRecordReference3);
+
+                                      await widget.schoolref!.update({
+                                        ...mapToFirestore(
+                                          {
+                                            'List_of_students':
+                                                FieldValue.arrayUnion([
+                                              _model
+                                                  .studentdraftParent?.reference
+                                            ]),
+                                            'student_data_list':
+                                                FieldValue.arrayUnion([
+                                              getStudentListFirestoreData(
+                                                createStudentListStruct(
+                                                  studentName: _model
+                                                      .studentdraftParent
+                                                      ?.studentName,
+                                                  studentId: _model
+                                                      .studentdraftParent
+                                                      ?.reference,
+                                                  studentImage: _model
+                                                      .studentdraftParent
+                                                      ?.studentImage,
+                                                  isDraft: true,
+                                                  clearUnsetFields: false,
+                                                ),
+                                                true,
+                                              )
+                                            ]),
+                                          },
+                                        ),
+                                      });
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Both parents email are same! Please add different email.',
+                                            style: TextStyle(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondary,
+                                            ),
+                                          ),
+                                          duration:
+                                              Duration(milliseconds: 2350),
+                                          backgroundColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .primaryText,
+                                        ),
+                                      );
+                                    }
+                                  } else {
+                                    if (((_model.gnameTextController
+                                                        .text !=
+                                                    '') ||
+                                            (_model.gnumberTextController
+                                                        .text !=
+                                                    '')) ||
+                                        (_model.gemailTextController.text !=
+                                                '')) {
+                                      if (_model.gemailTextController.text !=
+                                              '') {
+                                        _model.addToParentsdetails(
+                                            ParentsDetailsStruct(
+                                          parentsId:
+                                              functions.generateUniqueId(),
+                                          parentsName:
+                                              _model.gnameTextController.text,
+                                          parentsEmail: functions.isValidEmail(
+                                                  _model.gemailTextController
+                                                      .text)
+                                              ? _model.gemailTextController.text
+                                              : '${_model.gemailTextController.text}@feebe.in',
+                                          parentsPhone:
+                                              _model.gnumberTextController.text,
+                                          parentRelation: 'Gurdian',
+                                          isemail: functions.isValidEmail(
+                                                  functions
+                                                      .isValidEmail(_model
+                                                          .gemailTextController
+                                                          .text)
+                                                      .toString())
+                                              ? true
+                                              : false,
+                                          parentImage: !functions.isBlank(
+                                                  FFAppState().guardian)
+                                              ? FFAppState().guardian
+                                              : FFAppConstants.addImage,
+                                        ));
+                                        safeSetState(() {});
+                                      } else {
+                                        _model.addToParentsdetails(
+                                            ParentsDetailsStruct(
+                                          parentsId:
+                                              functions.generateUniqueId(),
+                                          parentsName:
+                                              _model.gnameTextController.text,
+                                          parentsPhone:
+                                              _model.gnumberTextController.text,
+                                          parentRelation: 'Gurdian',
+                                          parentImage: !functions.isBlank(
+                                                  FFAppState().guardian)
+                                              ? FFAppState().guardian
+                                              : FFAppConstants.addImage,
+                                        ));
+                                        safeSetState(() {});
+                                      }
+
+                                      _model.pageno = 3;
+                                      safeSetState(() {});
+                                    } else {
+                                      _model.pageno = 3;
+                                      safeSetState(() {});
+                                    }
+
+                                    var studentsRecordReference4 =
+                                        StudentsRecord.collection.doc();
+                                    await studentsRecordReference4.set({
+                                      ...createStudentsRecordData(
+                                        studentName:
+                                            _model.childnameTextController.text,
+                                        studentGender: _model.genderValue,
+                                        studentAddress:
+                                            _model.addressTextController.text,
+                                        dateOfBirth:
+                                            FFAppState().selectedDate != null
+                                                ? FFAppState().selectedDate
+                                                : getCurrentTimestamp,
+                                        bloodGroup: _model.bloodtypeValue,
+                                        allergiesOthers:
+                                            _model.allergiesTextController.text,
+                                        createdAt: getCurrentTimestamp,
+                                        studentImage: FFAppState().studentimage,
+                                        schoolref: widget.schoolref,
+                                        isDraft: true,
+                                        document: FFAppState().fileUrl,
+                                      ),
+                                      ...mapToFirestore(
+                                        {
+                                          'parents_details':
+                                              getParentsDetailsListFirestoreData(
+                                            _model.parentsdetails,
+                                          ),
+                                        },
+                                      ),
+                                    });
+                                    _model.studentdraftgau =
+                                        StudentsRecord.getDocumentFromData({
+                                      ...createStudentsRecordData(
+                                        studentName:
+                                            _model.childnameTextController.text,
+                                        studentGender: _model.genderValue,
+                                        studentAddress:
+                                            _model.addressTextController.text,
+                                        dateOfBirth:
+                                            FFAppState().selectedDate != null
+                                                ? FFAppState().selectedDate
+                                                : getCurrentTimestamp,
+                                        bloodGroup: _model.bloodtypeValue,
+                                        allergiesOthers:
+                                            _model.allergiesTextController.text,
+                                        createdAt: getCurrentTimestamp,
+                                        studentImage: FFAppState().studentimage,
+                                        schoolref: widget.schoolref,
+                                        isDraft: true,
+                                        document: FFAppState().fileUrl,
+                                      ),
+                                      ...mapToFirestore(
+                                        {
+                                          'parents_details':
+                                              getParentsDetailsListFirestoreData(
+                                            _model.parentsdetails,
+                                          ),
+                                        },
+                                      ),
+                                    }, studentsRecordReference4);
+
+                                    await widget.schoolref!.update({
+                                      ...mapToFirestore(
+                                        {
+                                          'List_of_students':
+                                              FieldValue.arrayUnion([
+                                            _model.studentdraftgau?.reference
+                                          ]),
+                                          'student_data_list':
+                                              FieldValue.arrayUnion([
+                                            getStudentListFirestoreData(
+                                              createStudentListStruct(
+                                                studentName: _model
+                                                    .studentdraftgau
+                                                    ?.studentName,
+                                                studentId: _model
+                                                    .studentdraftgau?.reference,
+                                                studentImage: _model
+                                                    .studentdraftgau
+                                                    ?.studentImage,
+                                                isDraft: true,
+                                                clearUnsetFields: false,
+                                              ),
+                                              true,
+                                            )
+                                          ]),
+                                        },
+                                      ),
+                                    });
+                                  }
+
+                                  await showDialog(
+                                    context: context,
+                                    builder: (dialogContext) {
+                                      return Dialog(
+                                        elevation: 0,
+                                        insetPadding: EdgeInsets.zero,
+                                        backgroundColor: Colors.transparent,
+                                        alignment:
+                                            AlignmentDirectional(0.0, -0.7)
+                                                .resolve(
+                                                    Directionality.of(context)),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            FocusScope.of(dialogContext)
+                                                .unfocus();
+                                            FocusManager.instance.primaryFocus
+                                                ?.unfocus();
+                                          },
+                                          child: Container(
+                                            height: MediaQuery.sizeOf(context)
+                                                    .height *
+                                                0.1,
+                                            width: MediaQuery.sizeOf(context)
+                                                    .width *
+                                                0.3,
+                                            child: DraftsavedWidget(
+                                              schoolref: widget.schoolref!,
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    },
+                                  );
+
+                                  safeSetState(() {});
+                                },
+                                child: Text(
+                                  'Save Draft',
+                                  style: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .override(
+                                        font: GoogleFonts.nunito(
+                                          fontWeight: FontWeight.w500,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                        color: FlutterFlowTheme.of(context)
+                                            .tertiaryText,
+                                        fontSize: 14.0,
+                                        letterSpacing: 0.0,
+                                        fontWeight: FontWeight.w500,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                    centerTitle: false,
+                    elevation: 0.0,
+                  )
+                : null,
+            body: SafeArea(
+              top: true,
+              child: Stack(
+                children: [
+                  Container(
+                    width: MediaQuery.sizeOf(context).width * 1.0,
+                    height: MediaQuery.sizeOf(context).height * 1.0,
+                    child: custom_widgets.BackButtonOverrider(
+                      width: MediaQuery.sizeOf(context).width * 1.0,
+                      height: MediaQuery.sizeOf(context).height * 1.0,
+                      onBack: () async {
+                        if (_model.pageno == 3) {
+                          _model.pageno = 2;
+                          safeSetState(() {});
+                          await _model.pageViewController?.animateToPage(
+                            2,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease,
+                          );
+                        } else if (_model.pageno == 2) {
+                          _model.pageno = 1;
+                          safeSetState(() {});
+                          await _model.pageViewController?.animateToPage(
+                            1,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease,
+                          );
+                        } else if (_model.pageno == 1) {
+                          _model.pageno = 0;
+                          safeSetState(() {});
+                          await _model.pageViewController?.animateToPage(
+                            0,
+                            duration: Duration(milliseconds: 500),
+                            curve: Curves.ease,
+                          );
+                        } else {
+                          var confirmDialogResponse = await showDialog<bool>(
+                                context: context,
+                                builder: (alertDialogContext) {
+                                  return AlertDialog(
+                                    title: Text(
+                                        'Would you like to save your progress '),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(
+                                            alertDialogContext, false),
+                                        child: Text('Cancel'),
+                                      ),
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(
+                                            alertDialogContext, true),
+                                        child: Text('Confirm'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ) ??
+                              false;
+                          if (confirmDialogResponse) {
+                            if (_model.pageViewCurrentIndex == 0) {
+                              if (FFAppState().selectedDate != null) {
+                                var studentsRecordReference1 =
+                                    StudentsRecord.collection.doc();
+                                await studentsRecordReference1
+                                    .set(createStudentsRecordData(
+                                  studentName:
+                                      _model.childnameTextController.text,
+                                  studentGender: _model.genderValue,
+                                  studentAddress:
+                                      _model.addressTextController.text,
+                                  dateOfBirth: FFAppState().selectedDate,
+                                  bloodGroup: _model.bloodtypeValue,
+                                  allergiesOthers:
+                                      _model.allergiesTextController.text,
+                                  createdAt: getCurrentTimestamp,
+                                  studentImage: FFAppState().studentimage,
+                                  schoolref: widget.schoolref,
+                                  isDraft: true,
+                                  document: FFAppState().fileUrl,
+                                ));
+                                _model.studentdraft12back =
+                                    StudentsRecord.getDocumentFromData(
+                                        createStudentsRecordData(
+                                          studentName: _model
+                                              .childnameTextController.text,
+                                          studentGender: _model.genderValue,
+                                          studentAddress:
+                                              _model.addressTextController.text,
+                                          dateOfBirth:
+                                              FFAppState().selectedDate,
+                                          bloodGroup: _model.bloodtypeValue,
+                                          allergiesOthers: _model
+                                              .allergiesTextController.text,
+                                          createdAt: getCurrentTimestamp,
+                                          studentImage:
+                                              FFAppState().studentimage,
+                                          schoolref: widget.schoolref,
+                                          isDraft: true,
+                                          document: FFAppState().fileUrl,
+                                        ),
+                                        studentsRecordReference1);
+
+                                await widget.schoolref!.update({
+                                  ...mapToFirestore(
+                                    {
+                                      'List_of_students': FieldValue.arrayUnion(
+                                          [_model.studentdraft12?.reference]),
+                                      'student_data_list':
+                                          FieldValue.arrayUnion([
+                                        getStudentListFirestoreData(
+                                          createStudentListStruct(
+                                            studentName: _model
+                                                .studentdraft12?.studentName,
+                                            studentId: _model
+                                                .studentdraft12?.reference,
+                                            studentImage: _model
+                                                .studentdraft12?.studentImage,
+                                            isDraft: true,
+                                            clearUnsetFields: false,
+                                          ),
+                                          true,
+                                        )
+                                      ]),
+                                    },
+                                  ),
+                                });
+                              } else {
+                                var studentsRecordReference2 =
+                                    StudentsRecord.collection.doc();
+                                await studentsRecordReference2
+                                    .set(createStudentsRecordData(
+                                  studentName:
+                                      _model.childnameTextController.text,
+                                  studentGender: _model.genderValue,
+                                  studentAddress:
+                                      _model.addressTextController.text,
+                                  bloodGroup: _model.bloodtypeValue,
+                                  allergiesOthers:
+                                      _model.allergiesTextController.text,
+                                  createdAt: getCurrentTimestamp,
+                                  studentImage: FFAppState().studentimage,
+                                  schoolref: widget.schoolref,
+                                  isDraft: true,
+                                  document: FFAppState().fileUrl,
+                                ));
+                                _model.studentdraft123back =
+                                    StudentsRecord.getDocumentFromData(
+                                        createStudentsRecordData(
+                                          studentName: _model
+                                              .childnameTextController.text,
+                                          studentGender: _model.genderValue,
+                                          studentAddress:
+                                              _model.addressTextController.text,
+                                          bloodGroup: _model.bloodtypeValue,
+                                          allergiesOthers: _model
+                                              .allergiesTextController.text,
+                                          createdAt: getCurrentTimestamp,
+                                          studentImage:
+                                              FFAppState().studentimage,
+                                          schoolref: widget.schoolref,
+                                          isDraft: true,
+                                          document: FFAppState().fileUrl,
+                                        ),
+                                        studentsRecordReference2);
+
+                                await widget.schoolref!.update({
+                                  ...mapToFirestore(
+                                    {
+                                      'List_of_students': FieldValue.arrayUnion(
+                                          [_model.studentdraft123?.reference]),
+                                      'student_data_list':
+                                          FieldValue.arrayUnion([
+                                        getStudentListFirestoreData(
+                                          createStudentListStruct(
+                                            studentName: _model
+                                                .studentdraft123?.studentName,
+                                            studentId: _model
+                                                .studentdraft123?.reference,
+                                            studentImage: _model
+                                                .studentdraft123?.studentImage,
+                                            isDraft: true,
+                                            clearUnsetFields: false,
+                                          ),
+                                          true,
+                                        )
+                                      ]),
+                                    },
+                                  ),
+                                });
+                              }
+                            } else if (_model.pageViewCurrentIndex == 1) {
+                              if ((_model.emailfatherTextController.text !=
+                                      _model.emailmotherTextController.text) ||
+                                  (_model.emailmotherTextController.text ==
+                                          '')) {
+                                if (((_model.parent2TextController.text !=
+                                                '') ||
+                                        (_model.numbermotherTextController
+                                                    .text !=
+                                                '')) ||
+                                    (_model.emailmotherTextController.text !=
+                                            '')) {
+                                  if (_model.emailmotherTextController.text !=
+                                          '') {
+                                    _model.addToParentsdetails(
+                                        ParentsDetailsStruct(
+                                      parentsId: functions.generateUniqueId(),
+                                      parentsName:
+                                          _model.parent2TextController.text,
+                                      parentsEmail: functions.isValidEmail(
+                                              _model.emailmotherTextController
+                                                  .text)
+                                          ? _model
+                                              .emailmotherTextController.text
+                                          : '${_model.emailmotherTextController.text}@feebe.in',
+                                      parentsPhone: _model
+                                          .numbermotherTextController.text,
+                                      document: FFAppState().fileurl2,
+                                      isemail: functions.isValidEmail(_model
+                                              .emailmotherTextController.text)
+                                          ? true
+                                          : false,
+                                      parentImage: !functions
+                                              .isBlank(FFAppState().parent2)
+                                          ? FFAppState().parent2
+                                          : FFAppConstants.addImage,
+                                    ));
+                                    safeSetState(() {});
+                                  } else {
+                                    _model.addToParentsdetails(
+                                        ParentsDetailsStruct(
+                                      parentsId: functions.generateUniqueId(),
+                                      parentsName:
+                                          _model.parent2TextController.text,
+                                      parentsPhone: _model
+                                          .numbermotherTextController.text,
+                                      document: FFAppState().fileurl2,
+                                      parentImage: !functions
+                                              .isBlank(FFAppState().parent2)
+                                          ? FFAppState().parent2
+                                          : FFAppConstants.addImage,
+                                    ));
+                                    safeSetState(() {});
+                                  }
+                                } else {
+                                  _model.parentsdetails = [];
+                                  safeSetState(() {});
+                                  if (_model.emailfatherTextController.text !=
+                                          '') {
+                                    _model.addToParentsdetails(
+                                        ParentsDetailsStruct(
+                                      parentsId: functions.generateUniqueId(),
+                                      parentsName:
+                                          _model.parentnameTextController.text,
+                                      parentsEmail: functions.isValidEmail(
+                                              _model.emailfatherTextController
+                                                  .text)
+                                          ? _model
+                                              .emailfatherTextController.text
+                                          : '${_model.emailfatherTextController.text}@feebe.in',
+                                      parentsPhone: _model
+                                          .numberfatherTextController.text,
+                                      document: FFAppState().fileurl1,
+                                      isemail: functions.isValidEmail(_model
+                                              .emailfatherTextController.text)
+                                          ? true
+                                          : false,
+                                      parentImage: !functions
+                                              .isBlank(FFAppState().parent1)
+                                          ? FFAppState().parent1
+                                          : FFAppConstants.addImage,
+                                    ));
+                                    safeSetState(() {});
+                                  } else {
+                                    _model.addToParentsdetails(
+                                        ParentsDetailsStruct(
+                                      parentsId: functions.generateUniqueId(),
+                                      parentsName:
+                                          _model.parentnameTextController.text,
+                                      parentsPhone: _model
+                                          .numberfatherTextController.text,
+                                      document: FFAppState().fileurl1,
+                                      parentImage: !functions
+                                              .isBlank(FFAppState().parent1)
+                                          ? FFAppState().parent1
+                                          : FFAppConstants.addImage,
+                                    ));
+                                    safeSetState(() {});
+                                  }
+                                }
+
+                                _model.pageno = 2;
+                                safeSetState(() {});
+
+                                var studentsRecordReference3 =
+                                    StudentsRecord.collection.doc();
+                                await studentsRecordReference3.set({
+                                  ...createStudentsRecordData(
+                                    studentName:
+                                        _model.childnameTextController.text,
+                                    studentGender: _model.genderValue,
+                                    studentAddress:
+                                        _model.addressTextController.text,
+                                    dateOfBirth:
+                                        FFAppState().selectedDate != null
+                                            ? FFAppState().selectedDate
+                                            : getCurrentTimestamp,
+                                    bloodGroup: _model.bloodtypeValue,
+                                    allergiesOthers:
+                                        _model.allergiesTextController.text,
+                                    createdAt: getCurrentTimestamp,
+                                    studentImage: FFAppState().studentimage,
+                                    schoolref: widget.schoolref,
+                                    isDraft: true,
+                                    document: FFAppState().fileUrl,
+                                  ),
+                                  ...mapToFirestore(
+                                    {
+                                      'parents_details':
+                                          getParentsDetailsListFirestoreData(
+                                        _model.parentsdetails,
+                                      ),
+                                    },
+                                  ),
+                                });
+                                _model.studentdraftParent1back =
+                                    StudentsRecord.getDocumentFromData({
+                                  ...createStudentsRecordData(
+                                    studentName:
+                                        _model.childnameTextController.text,
+                                    studentGender: _model.genderValue,
+                                    studentAddress:
+                                        _model.addressTextController.text,
+                                    dateOfBirth:
+                                        FFAppState().selectedDate != null
+                                            ? FFAppState().selectedDate
+                                            : getCurrentTimestamp,
+                                    bloodGroup: _model.bloodtypeValue,
+                                    allergiesOthers:
+                                        _model.allergiesTextController.text,
+                                    createdAt: getCurrentTimestamp,
+                                    studentImage: FFAppState().studentimage,
+                                    schoolref: widget.schoolref,
+                                    isDraft: true,
+                                    document: FFAppState().fileUrl,
+                                  ),
+                                  ...mapToFirestore(
+                                    {
+                                      'parents_details':
+                                          getParentsDetailsListFirestoreData(
+                                        _model.parentsdetails,
+                                      ),
+                                    },
+                                  ),
+                                }, studentsRecordReference3);
+
+                                await widget.schoolref!.update({
+                                  ...mapToFirestore(
+                                    {
+                                      'List_of_students':
+                                          FieldValue.arrayUnion([
+                                        _model.studentdraftParent1?.reference
+                                      ]),
+                                      'student_data_list':
+                                          FieldValue.arrayUnion([
+                                        getStudentListFirestoreData(
+                                          createStudentListStruct(
+                                            studentName: _model
+                                                .studentdraftParent1
+                                                ?.studentName,
+                                            studentId: _model
+                                                .studentdraftParent1?.reference,
+                                            studentImage: _model
+                                                .studentdraftParent1
+                                                ?.studentImage,
+                                            isDraft: true,
+                                            clearUnsetFields: false,
+                                          ),
+                                          true,
+                                        )
+                                      ]),
+                                    },
+                                  ),
+                                });
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                      'Both parents email are same! Please add different email.',
+                                      style: TextStyle(
+                                        color: FlutterFlowTheme.of(context)
+                                            .secondary,
+                                      ),
+                                    ),
+                                    duration: Duration(milliseconds: 2350),
+                                    backgroundColor:
+                                        FlutterFlowTheme.of(context)
+                                            .primaryText,
+                                  ),
+                                );
+                              }
+                            } else {
+                              if (((_model.gnameTextController.text !=
+                                              '') ||
+                                      (_model.gnumberTextController.text !=
+                                              '')) ||
+                                  (_model.gemailTextController.text != '')) {
+                                if (_model.gemailTextController.text != '') {
+                                  _model
+                                      .addToParentsdetails(ParentsDetailsStruct(
+                                    parentsId: functions.generateUniqueId(),
+                                    parentsName:
+                                        _model.gnameTextController.text,
+                                    parentsEmail: functions.isValidEmail(
+                                            _model.gemailTextController.text)
+                                        ? _model.gemailTextController.text
+                                        : '${_model.gemailTextController.text}@feebe.in',
+                                    parentsPhone:
+                                        _model.gnumberTextController.text,
+                                    parentRelation: 'Gurdian',
+                                    isemail: functions.isValidEmail(functions
+                                            .isValidEmail(_model
+                                                .gemailTextController.text)
+                                            .toString())
+                                        ? true
+                                        : false,
+                                    parentImage: !functions
+                                            .isBlank(FFAppState().guardian)
+                                        ? FFAppState().guardian
+                                        : FFAppConstants.addImage,
+                                  ));
+                                  safeSetState(() {});
+                                } else {
+                                  _model
+                                      .addToParentsdetails(ParentsDetailsStruct(
+                                    parentsId: functions.generateUniqueId(),
+                                    parentsName:
+                                        _model.gnameTextController.text,
+                                    parentsPhone:
+                                        _model.gnumberTextController.text,
+                                    parentRelation: 'Gurdian',
+                                    parentImage: !functions
+                                            .isBlank(FFAppState().guardian)
+                                        ? FFAppState().guardian
+                                        : FFAppConstants.addImage,
+                                  ));
+                                  safeSetState(() {});
+                                }
+
+                                _model.pageno = 3;
+                                safeSetState(() {});
+                              } else {
+                                _model.pageno = 3;
+                                safeSetState(() {});
+                              }
+
+                              var studentsRecordReference4 =
+                                  StudentsRecord.collection.doc();
+                              await studentsRecordReference4.set({
+                                ...createStudentsRecordData(
+                                  studentName:
+                                      _model.childnameTextController.text,
+                                  studentGender: _model.genderValue,
+                                  studentAddress:
+                                      _model.addressTextController.text,
+                                  dateOfBirth: FFAppState().selectedDate,
+                                  bloodGroup: _model.bloodtypeValue,
+                                  allergiesOthers:
+                                      _model.allergiesTextController.text,
+                                  createdAt: getCurrentTimestamp,
+                                  studentImage: FFAppState().studentimage,
+                                  schoolref: widget.schoolref,
+                                  isDraft: true,
+                                  document: FFAppState().fileUrl,
+                                ),
+                                ...mapToFirestore(
+                                  {
+                                    'parents_details':
+                                        getParentsDetailsListFirestoreData(
+                                      _model.parentsdetails,
+                                    ),
+                                  },
+                                ),
+                              });
+                              _model.draftguardianback =
+                                  StudentsRecord.getDocumentFromData({
+                                ...createStudentsRecordData(
+                                  studentName:
+                                      _model.childnameTextController.text,
+                                  studentGender: _model.genderValue,
+                                  studentAddress:
+                                      _model.addressTextController.text,
+                                  dateOfBirth: FFAppState().selectedDate,
+                                  bloodGroup: _model.bloodtypeValue,
+                                  allergiesOthers:
+                                      _model.allergiesTextController.text,
+                                  createdAt: getCurrentTimestamp,
+                                  studentImage: FFAppState().studentimage,
+                                  schoolref: widget.schoolref,
+                                  isDraft: true,
+                                  document: FFAppState().fileUrl,
+                                ),
+                                ...mapToFirestore(
+                                  {
+                                    'parents_details':
+                                        getParentsDetailsListFirestoreData(
+                                      _model.parentsdetails,
+                                    ),
+                                  },
+                                ),
+                              }, studentsRecordReference4);
+
+                              await widget.schoolref!.update({
+                                ...mapToFirestore(
+                                  {
+                                    'List_of_students': FieldValue.arrayUnion(
+                                        [_model.draftguardian?.reference]),
+                                    'student_data_list': FieldValue.arrayUnion([
+                                      getStudentListFirestoreData(
+                                        createStudentListStruct(
+                                          studentName:
+                                              _model.draftguardian?.studentName,
+                                          studentId:
+                                              _model.draftguardian?.reference,
+                                          studentImage: _model
+                                              .draftguardian?.studentImage,
+                                          isDraft: true,
+                                          clearUnsetFields: false,
+                                        ),
+                                        true,
+                                      )
+                                    ]),
+                                  },
+                                ),
+                              });
+                            }
+
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
                                 content: Text(
-                                  'The Draft is saved',
+                                  'Progress saved',
                                   style: TextStyle(
-                                    color: FlutterFlowTheme.of(context)
-                                        .primaryText,
+                                    color:
+                                        FlutterFlowTheme.of(context).secondary,
                                   ),
                                 ),
-                                duration: const Duration(milliseconds: 4000),
+                                duration: Duration(milliseconds: 4000),
                                 backgroundColor:
-                                    FlutterFlowTheme.of(context).secondary,
+                                    FlutterFlowTheme.of(context).primaryText,
                               ),
                             );
+                            FFAppState().studentimage = '';
+                            FFAppState().fileUrl = '';
+                            FFAppState().fileurl1 = '';
+                            FFAppState().fileurl2 = '';
+                            FFAppState().parent1 = '';
+                            FFAppState().parent2 = '';
+                            FFAppState().guardian = '';
+                            FFAppState().selectedDate = null;
+                            FFAppState().imageurl = '';
+                            safeSetState(() {});
+                            if (valueOrDefault(
+                                    currentUserDocument?.userRole, 0) ==
+                                2) {
+                              context.goNamed(
+                                ClassDashboardWidget.routeName,
+                                queryParameters: {
+                                  'schoolref': serializeParam(
+                                    addStudentManuallySchoolRecord.reference,
+                                    ParamType.DocumentReference,
+                                  ),
+                                  'tabindex': serializeParam(
+                                    3,
+                                    ParamType.int,
+                                  ),
+                                }.withoutNulls,
+                              );
+                            } else {
+                              context.goNamed(
+                                DashboardWidget.routeName,
+                                queryParameters: {
+                                  'tabindex': serializeParam(
+                                    3,
+                                    ParamType.int,
+                                  ),
+                                }.withoutNulls,
+                              );
+                            }
+                          } else {
+                            FFAppState().studentimage = '';
+                            FFAppState().fileUrl = '';
+                            FFAppState().fileurl1 = '';
+                            FFAppState().fileurl2 = '';
+                            FFAppState().parent1 = '';
+                            FFAppState().parent2 = '';
+                            FFAppState().guardian = '';
+                            FFAppState().selectedDate = null;
+                            FFAppState().imageurl = '';
+                            safeSetState(() {});
                             context.safePop();
                           }
                         }
@@ -585,26 +1955,17 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                       },
                     ),
                   ),
-                ),
-              ],
-              centerTitle: false,
-              elevation: 0.0,
-            ),
-            body: SafeArea(
-              top: true,
-              child: Stack(
-                children: [
                   Container(
                     width: MediaQuery.sizeOf(context).width * 1.0,
                     height: MediaQuery.sizeOf(context).height * 0.82,
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).tertiary,
                     ),
-                    child: SizedBox(
+                    child: Container(
                       width: double.infinity,
                       child: Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 40.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 40.0),
                         child: PageView(
                           physics: const NeverScrollableScrollPhysics(),
                           controller: _model.pageViewController ??=
@@ -620,9 +1981,9 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Container(
-                                      decoration: const BoxDecoration(),
+                                      decoration: BoxDecoration(),
                                       child: Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             0.0, 8.0, 0.0, 8.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
@@ -631,47 +1992,94 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                           children: [
                                             Column(
                                               mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                Container(
-                                                  width:
-                                                      MediaQuery.sizeOf(context)
-                                                              .width *
-                                                          0.099,
-                                                  height:
-                                                      MediaQuery.sizeOf(context)
-                                                              .width *
-                                                          0.099,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
-                                                    shape: BoxShape.circle,
-                                                    border: Border.all(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .primaryBackground,
-                                                    ),
-                                                  ),
-                                                  child: Align(
-                                                    alignment:
-                                                        const AlignmentDirectional(
-                                                            0.0, 0.0),
-                                                    child: Text(
-                                                      '01',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Nunito',
-                                                                color: FlutterFlowTheme.of(
+                                                Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          5.0, 0.0, 0.0, 0.0),
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Container(
+                                                        width:
+                                                            MediaQuery.sizeOf(
                                                                         context)
-                                                                    .primaryBackground,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
-                                                    ),
+                                                                    .width *
+                                                                0.099,
+                                                        height:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width *
+                                                                0.099,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryBackground,
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          border: Border.all(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primaryBackground,
+                                                            width: 3.0,
+                                                          ),
+                                                        ),
+                                                        child: Align(
+                                                          alignment:
+                                                              AlignmentDirectional(
+                                                                  0.0, 0.0),
+                                                          child: Text(
+                                                            '01',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryBackground,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: 50.0,
+                                                        height: 3.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Color(0xFFCFD6DC),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      2.0),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                                 Text(
@@ -680,73 +2088,118 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                           context)
                                                       .bodyMedium
                                                       .override(
-                                                        fontFamily: 'Nunito',
+                                                        font:
+                                                            GoogleFonts.nunito(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
                                                         color: FlutterFlowTheme
                                                                 .of(context)
                                                             .primaryBackground,
                                                         letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
                                                       ),
                                                 ),
                                               ],
                                             ),
-                                            Align(
-                                              alignment: const AlignmentDirectional(
-                                                  0.0, 0.0),
-                                              child: Container(
-                                                width: 40.0,
-                                                height: 4.0,
-                                                decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .tertiaryText,
-                                                ),
-                                              ),
-                                            ),
                                             Column(
                                               mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                Container(
-                                                  width:
-                                                      MediaQuery.sizeOf(context)
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Container(
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
                                                               .width *
                                                           0.099,
-                                                  height:
-                                                      MediaQuery.sizeOf(context)
+                                                      height: MediaQuery.sizeOf(
+                                                                  context)
                                                               .width *
                                                           0.099,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
-                                                    shape: BoxShape.circle,
-                                                    border: Border.all(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .tertiaryText,
-                                                    ),
-                                                  ),
-                                                  child: Align(
-                                                    alignment:
-                                                        const AlignmentDirectional(
-                                                            0.0, 0.0),
-                                                    child: Text(
-                                                      '02',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
+                                                      decoration: BoxDecoration(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
+                                                        shape: BoxShape.circle,
+                                                        border: Border.all(
+                                                          color:
+                                                              Color(0xFFF5F2F2),
+                                                          width: 2.0,
+                                                        ),
+                                                      ),
+                                                      child: Align(
+                                                        alignment:
+                                                            AlignmentDirectional(
+                                                                0.0, 0.0),
+                                                        child: Text(
+                                                          '02',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .bodyMedium
                                                               .override(
-                                                                fontFamily:
-                                                                    'Nunito',
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .tertiaryText,
                                                                 letterSpacing:
                                                                     0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
                                                               ),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
+                                                    Align(
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                      child: Container(
+                                                        width: 50.0,
+                                                        height: 3.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Color(0xFFCFD6DC),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      2.0),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                                 Text(
                                                   'Parent',
@@ -754,70 +2207,121 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                           context)
                                                       .bodyMedium
                                                       .override(
-                                                        fontFamily: 'Nunito',
+                                                        font:
+                                                            GoogleFonts.nunito(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
                                                         letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
                                                       ),
                                                 ),
                                               ],
                                             ),
-                                            Align(
-                                              alignment: const AlignmentDirectional(
-                                                  0.0, 0.0),
-                                              child: Container(
-                                                width: 40.0,
-                                                height: 4.0,
-                                                decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .tertiaryText,
-                                                ),
-                                              ),
-                                            ),
                                             Column(
                                               mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                Container(
-                                                  width:
-                                                      MediaQuery.sizeOf(context)
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Container(
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
                                                               .width *
                                                           0.099,
-                                                  height:
-                                                      MediaQuery.sizeOf(context)
+                                                      height: MediaQuery.sizeOf(
+                                                                  context)
                                                               .width *
                                                           0.099,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryBackground,
-                                                    shape: BoxShape.circle,
-                                                    border: Border.all(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .tertiaryText,
-                                                    ),
-                                                  ),
-                                                  child: Align(
-                                                    alignment:
-                                                        const AlignmentDirectional(
-                                                            0.0, 0.0),
-                                                    child: Text(
-                                                      '03',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
+                                                      decoration: BoxDecoration(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
+                                                        shape: BoxShape.circle,
+                                                        border: Border.all(
+                                                          color:
+                                                              Color(0xFFF5F2F2),
+                                                          width: 2.0,
+                                                        ),
+                                                      ),
+                                                      child: Align(
+                                                        alignment:
+                                                            AlignmentDirectional(
+                                                                0.0, 0.0),
+                                                        child: Text(
+                                                          '03',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .bodyMedium
                                                               .override(
-                                                                fontFamily:
-                                                                    'Nunito',
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .tertiaryText,
                                                                 letterSpacing:
                                                                     0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
                                                               ),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
+                                                    Align(
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                      child: Container(
+                                                        width: 50.0,
+                                                        height: 3.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Color(0xFFCFD6DC),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      2.0),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                                 Text(
                                                   'Guardian',
@@ -825,24 +2329,33 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                           context)
                                                       .bodyMedium
                                                       .override(
-                                                        fontFamily: 'Nunito',
+                                                        font:
+                                                            GoogleFonts.nunito(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
                                                         letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
                                                       ),
                                                 ),
                                               ],
-                                            ),
-                                            Align(
-                                              alignment: const AlignmentDirectional(
-                                                  0.0, 0.0),
-                                              child: Container(
-                                                width: 40.0,
-                                                height: 4.0,
-                                                decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .tertiaryText,
-                                                ),
-                                              ),
                                             ),
                                             Column(
                                               mainAxisSize: MainAxisSize.max,
@@ -862,15 +2375,13 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                         .secondaryBackground,
                                                     shape: BoxShape.circle,
                                                     border: Border.all(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .tertiaryText,
+                                                      color: Color(0xFFF5F2F2),
+                                                      width: 2.0,
                                                     ),
                                                   ),
                                                   child: Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
+                                                        AlignmentDirectional(
                                                             0.0, 0.0),
                                                     child: Text(
                                                       '04',
@@ -879,13 +2390,31 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                   context)
                                                               .bodyMedium
                                                               .override(
-                                                                fontFamily:
-                                                                    'Nunito',
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .tertiaryText,
                                                                 letterSpacing:
                                                                     0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
                                                               ),
                                                     ),
                                                   ),
@@ -896,8 +2425,30 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                           context)
                                                       .bodyMedium
                                                       .override(
-                                                        fontFamily: 'Nunito',
+                                                        font:
+                                                            GoogleFonts.nunito(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
                                                         letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
                                                       ),
                                                 ),
                                               ],
@@ -907,34 +2458,20 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                       ),
                                     ),
                                     Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           20.0, 0.0, 20.0, 0.0),
-                                      child: Material(
-                                        color: Colors.transparent,
-                                        elevation: 1.0,
-                                        shape: RoundedRectangleBorder(
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: FlutterFlowTheme.of(context)
+                                              .tertiary,
                                           borderRadius:
-                                              BorderRadius.circular(8.0),
+                                              BorderRadius.circular(0.0),
                                         ),
-                                        child: Container(
-                                          width:
-                                              MediaQuery.sizeOf(context).width *
-                                                  1.0,
-                                          decoration: BoxDecoration(
-                                            color: FlutterFlowTheme.of(context)
-                                                .secondary,
-                                            borderRadius:
-                                                BorderRadius.circular(8.0),
-                                            border: Border.all(
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .newBgcolor,
-                                            ),
-                                          ),
-                                          child: Padding(
-                                            padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
-                                                    10.0, 0.0, 10.0, 0.0),
+                                        child: Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  10.0, 0.0, 10.0, 0.0),
+                                          child: SingleChildScrollView(
                                             child: Column(
                                               mainAxisSize: MainAxisSize.max,
                                               crossAxisAlignment:
@@ -942,13 +2479,13 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                               children: [
                                                 Align(
                                                   alignment:
-                                                      const AlignmentDirectional(
+                                                      AlignmentDirectional(
                                                           0.0, -1.0),
                                                   child: Padding(
                                                     padding:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(0.0, 10.0,
-                                                                0.0, 10.0),
+                                                                0.0, 0.0),
                                                     child: InkWell(
                                                       splashColor:
                                                           Colors.transparent,
@@ -983,13 +2520,13 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                     .viewInsetsOf(
                                                                         context),
                                                                 child:
-                                                                    SizedBox(
+                                                                    Container(
                                                                   height: MediaQuery.sizeOf(
                                                                               context)
                                                                           .height *
                                                                       0.2,
                                                                   child:
-                                                                      const EditphotoWidget(
+                                                                      EditphotoWidget(
                                                                     person:
                                                                         false,
                                                                     child: true,
@@ -1016,7 +2553,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                         clipBehavior:
                                                             Clip.antiAlias,
                                                         decoration:
-                                                            const BoxDecoration(
+                                                            BoxDecoration(
                                                           shape:
                                                               BoxShape.circle,
                                                         ),
@@ -1028,8 +2565,9 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                         ''
                                                                 ? FFAppState()
                                                                     .studentimage
-                                                                : 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
-                                                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
+                                                                : FFAppConstants
+                                                                    .addImage,
+                                                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
                                                           ),
                                                           fit: BoxFit.cover,
                                                         ),
@@ -1037,11 +2575,33 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                     ),
                                                   ),
                                                 ),
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: [
+                                                    SizedBox(
+                                                      height: 65.0,
+                                                      child:
+                                                          StyledVerticalDivider(
+                                                        thickness: 2.0,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .primary,
+                                                        lineStyle:
+                                                            DividerLineStyle
+                                                                .dashed,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
-                                                          0.0, 20.0, 5.0, 0.0),
-                                                  child: SizedBox(
+                                                          0.0, 0.0, 5.0, 0.0),
+                                                  child: Container(
                                                     width: MediaQuery.sizeOf(
                                                                 context)
                                                             .width *
@@ -1060,14 +2620,23 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                           InputDecoration(
                                                         isDense: true,
                                                         labelText:
-                                                            'Child\'s name',
+                                                            'Child\'s name *',
                                                         labelStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .labelMedium
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .fontStyle,
+                                                                  ),
                                                                   color:
                                                                       valueOrDefault<
                                                                           Color>(
@@ -1081,8 +2650,22 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                             context)
                                                                         .textfieldText,
                                                                   ),
+                                                                  fontSize: (_model
+                                                                              .childnameFocusNode
+                                                                              ?.hasFocus ??
+                                                                          false)
+                                                                      ? 12.0
+                                                                      : 16.0,
                                                                   letterSpacing:
                                                                       0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontStyle,
                                                                 ),
                                                         hintText:
                                                             'Child\'s name',
@@ -1091,16 +2674,29 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                     context)
                                                                 .labelMedium
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .tertiaryText,
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: Color(
+                                                                      0xFF747373),
+                                                                  fontSize:
+                                                                      16.0,
                                                                   letterSpacing:
                                                                       0.0,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontStyle,
                                                                 ),
                                                         enabledBorder:
                                                             OutlineInputBorder(
@@ -1108,7 +2704,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                               BorderSide(
                                                             color: FlutterFlowTheme
                                                                     .of(context)
-                                                                .dIsable,
+                                                                .textfieldDisable,
                                                             width: 1.0,
                                                           ),
                                                           borderRadius:
@@ -1163,14 +2759,37 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                 .of(context)
                                                             .secondaryBackground,
                                                       ),
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Nunito',
-                                                            letterSpacing: 0.0,
-                                                          ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .text2,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
                                                       keyboardType:
                                                           TextInputType.name,
                                                       cursorColor:
@@ -1180,197 +2799,299 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                       validator: _model
                                                           .childnameTextControllerValidator
                                                           .asValidator(context),
+                                                      inputFormatters: [
+                                                        if (!isAndroid &&
+                                                            !isiOS)
+                                                          TextInputFormatter
+                                                              .withFunction(
+                                                                  (oldValue,
+                                                                      newValue) {
+                                                            return TextEditingValue(
+                                                              selection: newValue
+                                                                  .selection,
+                                                              text: newValue
+                                                                  .text
+                                                                  .toCapitalization(
+                                                                      TextCapitalization
+                                                                          .sentences),
+                                                            );
+                                                          }),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 10.0, 0.0, 10.0),
-                                                  child: InkWell(
-                                                    splashColor:
-                                                        Colors.transparent,
-                                                    focusColor:
-                                                        Colors.transparent,
-                                                    hoverColor:
-                                                        Colors.transparent,
-                                                    highlightColor:
-                                                        Colors.transparent,
-                                                    onTap: () async {
-                                                      final datePickedDate =
-                                                          await showDatePicker(
-                                                        context: context,
-                                                        initialDate:
-                                                            getCurrentTimestamp,
-                                                        firstDate:
-                                                            DateTime(1900),
-                                                        lastDate:
-                                                            getCurrentTimestamp,
-                                                        builder:
-                                                            (context, child) {
-                                                          return wrapInMaterialDatePickerTheme(
-                                                            context,
-                                                            child!,
-                                                            headerBackgroundColor:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primary,
-                                                            headerForegroundColor:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .info,
-                                                            headerTextStyle:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .headlineLarge
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Nunito',
-                                                                      fontSize:
-                                                                          32.0,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .w600,
+                                                  child: Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
+                                                    children: [
+                                                      Align(
+                                                        alignment:
+                                                            AlignmentDirectional(
+                                                                0.0, 0.0),
+                                                        child: Builder(
+                                                          builder: (context) =>
+                                                              InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () async {
+                                                              await showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (dialogContext) {
+                                                                  return Dialog(
+                                                                    elevation:
+                                                                        0,
+                                                                    insetPadding:
+                                                                        EdgeInsets
+                                                                            .zero,
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    alignment: AlignmentDirectional(
+                                                                            0.0,
+                                                                            0.0)
+                                                                        .resolve(
+                                                                            Directionality.of(context)),
+                                                                    child:
+                                                                        GestureDetector(
+                                                                      onTap:
+                                                                          () {
+                                                                        FocusScope.of(dialogContext)
+                                                                            .unfocus();
+                                                                        FocusManager
+                                                                            .instance
+                                                                            .primaryFocus
+                                                                            ?.unfocus();
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        height: MediaQuery.sizeOf(context).height *
+                                                                            0.5,
+                                                                        width: MediaQuery.sizeOf(context).width *
+                                                                            0.4,
+                                                                        child:
+                                                                            CalenderWidget(
+                                                                          allowpast:
+                                                                              true,
+                                                                          allowfuture:
+                                                                              false,
+                                                                        ),
+                                                                      ),
                                                                     ),
-                                                            pickerBackgroundColor:
-                                                                FlutterFlowTheme.of(
+                                                                  );
+                                                                },
+                                                              );
+                                                            },
+                                                            child: Container(
+                                                              width: MediaQuery
+                                                                          .sizeOf(
+                                                                              context)
+                                                                      .width *
+                                                                  0.4,
+                                                              height: MediaQuery
+                                                                          .sizeOf(
+                                                                              context)
+                                                                      .height *
+                                                                  0.055,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .secondaryBackground,
-                                                            pickerForegroundColor:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primaryText,
-                                                            selectedDateTimeBackgroundColor:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primary,
-                                                            selectedDateTimeForegroundColor:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .info,
-                                                            actionButtonForegroundColor:
-                                                                FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primaryText,
-                                                            iconSize: 24.0,
-                                                          );
-                                                        },
-                                                      );
-
-                                                      if (datePickedDate !=
-                                                          null) {
-                                                        safeSetState(() {
-                                                          _model.datePicked =
-                                                              DateTime(
-                                                            datePickedDate
-                                                                .year,
-                                                            datePickedDate
-                                                                .month,
-                                                            datePickedDate.day,
-                                                          );
-                                                        });
-                                                      }
-                                                    },
-                                                    child: Container(
-                                                      width: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width *
-                                                          0.5,
-                                                      height: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .height *
-                                                          0.05,
-                                                      decoration: BoxDecoration(
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(0.0),
-                                                        border: Border.all(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .dIsable,
-                                                          width: 1.0,
-                                                        ),
-                                                      ),
-                                                      child: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.max,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          Align(
-                                                            alignment:
-                                                                const AlignmentDirectional(
-                                                                    0.0, 0.0),
-                                                            child: Padding(
-                                                              padding:
-                                                                  const EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          5.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              child: Text(
-                                                                'Date of birth',
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Nunito',
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .textfieldText,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8.0),
+                                                                border:
+                                                                    Border.all(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .textfieldDisable,
+                                                                ),
+                                                              ),
+                                                              child: Padding(
+                                                                padding: EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        10.0,
+                                                                        0.0,
+                                                                        10.0,
+                                                                        0.0),
+                                                                child: Row(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceBetween,
+                                                                  children: [
+                                                                    Column(
+                                                                      mainAxisSize:
+                                                                          MainAxisSize
+                                                                              .max,
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .center,
+                                                                      children: [
+                                                                        if (FFAppState().selectedDate !=
+                                                                            null)
+                                                                          Text(
+                                                                            dateTimeFormat("yMd",
+                                                                                FFAppState().selectedDate),
+                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                  font: GoogleFonts.nunito(
+                                                                                    fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                  ),
+                                                                                  color: FlutterFlowTheme.of(context).text2,
+                                                                                  letterSpacing: 0.0,
+                                                                                  fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                ),
+                                                                          ),
+                                                                        if (FFAppState().selectedDate ==
+                                                                            null)
+                                                                          Text(
+                                                                            'DOB *',
+                                                                            style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                  font: GoogleFonts.nunito(
+                                                                                    fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                  ),
+                                                                                  color: FlutterFlowTheme.of(context).textfieldText,
+                                                                                  fontSize: 16.0,
+                                                                                  letterSpacing: 0.0,
+                                                                                  fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                                  fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                ),
+                                                                          ),
+                                                                      ],
                                                                     ),
+                                                                    Align(
+                                                                      alignment:
+                                                                          AlignmentDirectional(
+                                                                              1.0,
+                                                                              0.0),
+                                                                      child:
+                                                                          Icon(
+                                                                        Icons
+                                                                            .arrow_drop_down,
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .tertiaryText,
+                                                                        size:
+                                                                            24.0,
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
                                                               ),
                                                             ),
                                                           ),
-                                                          if (_model
-                                                                  .datePicked !=
-                                                              null)
-                                                            Align(
-                                                              alignment:
-                                                                  const AlignmentDirectional(
-                                                                      0.0, 0.0),
-                                                              child: Text(
-                                                                dateTimeFormat(
-                                                                    "dd MMM , y",
-                                                                    _model
-                                                                        .datePicked),
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      fontFamily:
-                                                                          'Nunito',
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .tertiaryText,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .normal,
-                                                                    ),
-                                                              ),
-                                                            ),
-                                                        ],
+                                                        ),
                                                       ),
-                                                    ),
+                                                      FlutterFlowDropDown<
+                                                          String>(
+                                                        controller: _model
+                                                                .genderValueController ??=
+                                                            FormFieldController<
+                                                                String>(null),
+                                                        options: [
+                                                          'Male',
+                                                          'Female'
+                                                        ],
+                                                        onChanged: (val) =>
+                                                            safeSetState(() =>
+                                                                _model.genderValue =
+                                                                    val),
+                                                        width:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width *
+                                                                0.4,
+                                                        height:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .height *
+                                                                0.055,
+                                                        textStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .text2,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                        hintText: 'Gender *',
+                                                        icon: Icon(
+                                                          Icons.arrow_drop_down,
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .tertiaryText,
+                                                          size: 24.0,
+                                                        ),
+                                                        fillColor: FlutterFlowTheme
+                                                                .of(context)
+                                                            .secondaryBackground,
+                                                        elevation: 2.0,
+                                                        borderColor:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .textfieldDisable,
+                                                        borderWidth: 1.0,
+                                                        borderRadius: 8.0,
+                                                        margin:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    12.0,
+                                                                    0.0,
+                                                                    12.0,
+                                                                    0.0),
+                                                        hidesUnderline: true,
+                                                        isOverButton: false,
+                                                        isSearchable: false,
+                                                        isMultiSelect: false,
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 0.0, 0.0, 10.0),
                                                   child: FlutterFlowDropDown<
@@ -1379,7 +3100,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                             .bloodtypeValueController ??=
                                                         FormFieldController<
                                                             String>(null),
-                                                    options: const [
+                                                    options: [
                                                       'A+',
                                                       'A-',
                                                       'B+',
@@ -1394,39 +3115,50 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                 .bloodtypeValue =
                                                             val),
                                                     width: 200.0,
-                                                    textStyle: FlutterFlowTheme
-                                                            .of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .tertiaryText,
-                                                          letterSpacing: 0.0,
-                                                        ),
+                                                    textStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              font: GoogleFonts
+                                                                  .nunito(
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                              color: FlutterFlowTheme
+                                                                      .of(context)
+                                                                  .tertiaryText,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                              fontWeight:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
                                                     hintText: 'Blood Group',
-                                                    icon: Icon(
-                                                      Icons
-                                                          .keyboard_arrow_down_rounded,
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .tertiaryText,
-                                                      size: 24.0,
-                                                    ),
                                                     fillColor:
                                                         FlutterFlowTheme.of(
                                                                 context)
                                                             .secondary,
                                                     elevation: 2.0,
                                                     borderColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .dIsable,
+                                                        Color(0xFF747373),
                                                     borderWidth: 1.0,
                                                     borderRadius: 8.0,
                                                     margin:
-                                                        const EdgeInsetsDirectional
+                                                        EdgeInsetsDirectional
                                                             .fromSTEB(12.0, 0.0,
                                                                 12.0, 0.0),
                                                     hidesUnderline: true,
@@ -1435,64 +3167,11 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                     isMultiSelect: false,
                                                   ),
                                                 ),
-                                                FlutterFlowDropDown<String>(
-                                                  controller: _model
-                                                          .genderValueController ??=
-                                                      FormFieldController<
-                                                          String>(null),
-                                                  options: const ['Male', 'Female'],
-                                                  onChanged: (val) =>
-                                                      safeSetState(() => _model
-                                                          .genderValue = val),
-                                                  width: 200.0,
-                                                  height:
-                                                      MediaQuery.sizeOf(context)
-                                                              .height *
-                                                          0.04,
-                                                  textStyle: FlutterFlowTheme
-                                                          .of(context)
-                                                      .bodyMedium
-                                                      .override(
-                                                        fontFamily: 'Nunito',
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .tertiaryText,
-                                                        letterSpacing: 0.0,
-                                                      ),
-                                                  hintText: 'Gender',
-                                                  icon: Icon(
-                                                    Icons
-                                                        .keyboard_arrow_down_rounded,
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .tertiaryText,
-                                                    size: 24.0,
-                                                  ),
-                                                  fillColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondaryBackground,
-                                                  elevation: 2.0,
-                                                  borderColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .dIsable,
-                                                  borderWidth: 1.0,
-                                                  borderRadius: 8.0,
-                                                  margin: const EdgeInsetsDirectional
-                                                      .fromSTEB(
-                                                          12.0, 0.0, 12.0, 0.0),
-                                                  hidesUnderline: true,
-                                                  isOverButton: false,
-                                                  isSearchable: false,
-                                                  isMultiSelect: false,
-                                                ),
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 10.0, 0.0, 0.0),
-                                                  child: SizedBox(
+                                                  child: Container(
                                                     width: MediaQuery.sizeOf(
                                                                 context)
                                                             .width *
@@ -1516,8 +3195,17 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                     context)
                                                                 .labelMedium
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .fontStyle,
+                                                                  ),
                                                                   color:
                                                                       valueOrDefault<
                                                                           Color>(
@@ -1531,8 +3219,22 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                             context)
                                                                         .textfieldText,
                                                                   ),
+                                                                  fontSize: (_model
+                                                                              .allergiesFocusNode
+                                                                              ?.hasFocus ??
+                                                                          false)
+                                                                      ? 12.0
+                                                                      : 16.0,
                                                                   letterSpacing:
                                                                       0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontStyle,
                                                                 ),
                                                         hintText:
                                                             'Allergies(if any)',
@@ -1541,16 +3243,29 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                     context)
                                                                 .labelMedium
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .tertiaryText,
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: Color(
+                                                                      0xFF747373),
+                                                                  fontSize:
+                                                                      16.0,
                                                                   letterSpacing:
                                                                       0.0,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontStyle,
                                                                 ),
                                                         enabledBorder:
                                                             OutlineInputBorder(
@@ -1558,7 +3273,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                               BorderSide(
                                                             color: FlutterFlowTheme
                                                                     .of(context)
-                                                                .dIsable,
+                                                                .textfieldDisable,
                                                             width: 1.0,
                                                           ),
                                                           borderRadius:
@@ -1613,14 +3328,38 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                 .of(context)
                                                             .secondaryBackground,
                                                       ),
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Nunito',
-                                                            letterSpacing: 0.0,
-                                                          ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .text2,
+                                                                fontSize: 12.0,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
                                                       cursorColor:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -1628,14 +3367,32 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                       validator: _model
                                                           .allergiesTextControllerValidator
                                                           .asValidator(context),
+                                                      inputFormatters: [
+                                                        if (!isAndroid &&
+                                                            !isiOS)
+                                                          TextInputFormatter
+                                                              .withFunction(
+                                                                  (oldValue,
+                                                                      newValue) {
+                                                            return TextEditingValue(
+                                                              selection: newValue
+                                                                  .selection,
+                                                              text: newValue
+                                                                  .text
+                                                                  .toCapitalization(
+                                                                      TextCapitalization
+                                                                          .sentences),
+                                                            );
+                                                          }),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),
                                                 Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
                                                           0.0, 10.0, 0.0, 10.0),
-                                                  child: SizedBox(
+                                                  child: Container(
                                                     width: MediaQuery.sizeOf(
                                                                 context)
                                                             .width *
@@ -1653,14 +3410,23 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                       decoration:
                                                           InputDecoration(
                                                         isDense: true,
-                                                        labelText: 'Address',
+                                                        labelText: 'Address *',
                                                         labelStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .labelMedium
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .fontStyle,
+                                                                  ),
                                                                   color:
                                                                       valueOrDefault<
                                                                           Color>(
@@ -1674,8 +3440,22 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                             context)
                                                                         .textfieldText,
                                                                   ),
+                                                                  fontSize: (_model
+                                                                              .addressFocusNode
+                                                                              ?.hasFocus ??
+                                                                          false)
+                                                                      ? 12.0
+                                                                      : 16.0,
                                                                   letterSpacing:
                                                                       0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontStyle,
                                                                 ),
                                                         hintText: 'Address',
                                                         hintStyle:
@@ -1683,16 +3463,29 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                     context)
                                                                 .labelMedium
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .tertiaryText,
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: Color(
+                                                                      0xFF747373),
+                                                                  fontSize:
+                                                                      16.0,
                                                                   letterSpacing:
                                                                       0.0,
                                                                   fontWeight:
                                                                       FontWeight
                                                                           .normal,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontStyle,
                                                                 ),
                                                         enabledBorder:
                                                             OutlineInputBorder(
@@ -1700,7 +3493,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                               BorderSide(
                                                             color: FlutterFlowTheme
                                                                     .of(context)
-                                                                .dIsable,
+                                                                .textfieldDisable,
                                                             width: 1.0,
                                                           ),
                                                           borderRadius:
@@ -1755,14 +3548,37 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                 .of(context)
                                                             .secondaryBackground,
                                                       ),
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyMedium
-                                                          .override(
-                                                            fontFamily:
-                                                                'Nunito',
-                                                            letterSpacing: 0.0,
-                                                          ),
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .text2,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
                                                       maxLines: 3,
                                                       cursorColor:
                                                           FlutterFlowTheme.of(
@@ -1771,175 +3587,202 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                       validator: _model
                                                           .addressTextControllerValidator
                                                           .asValidator(context),
+                                                      inputFormatters: [
+                                                        if (!isAndroid &&
+                                                            !isiOS)
+                                                          TextInputFormatter
+                                                              .withFunction(
+                                                                  (oldValue,
+                                                                      newValue) {
+                                                            return TextEditingValue(
+                                                              selection: newValue
+                                                                  .selection,
+                                                              text: newValue
+                                                                  .text
+                                                                  .toCapitalization(
+                                                                      TextCapitalization
+                                                                          .sentences),
+                                                            );
+                                                          }),
+                                                      ],
                                                     ),
                                                   ),
                                                 ),
                                                 Align(
                                                   alignment:
-                                                      const AlignmentDirectional(
+                                                      AlignmentDirectional(
                                                           0.0, -1.0),
-                                                  child: Padding(
-                                                    padding:
-                                                        const EdgeInsetsDirectional
-                                                            .fromSTEB(0.0, 0.0,
-                                                                0.0, 10.0),
-                                                    child: FFButtonWidget(
-                                                      onPressed: () async {
-                                                        final selectedFiles =
-                                                            await selectFiles(
-                                                          multiFile: false,
-                                                        );
-                                                        if (selectedFiles !=
-                                                            null) {
-                                                          safeSetState(() =>
-                                                              _model.isDataUploading1 =
-                                                                  true);
-                                                          var selectedUploadedFiles =
-                                                              <FFUploadedFile>[];
-
-                                                          var downloadUrls =
-                                                              <String>[];
-                                                          try {
-                                                            showUploadMessage(
-                                                              context,
-                                                              'Uploading file...',
-                                                              showLoading: true,
-                                                            );
-                                                            selectedUploadedFiles =
-                                                                selectedFiles
-                                                                    .map((m) =>
-                                                                        FFUploadedFile(
-                                                                          name: m
-                                                                              .storagePath
-                                                                              .split('/')
-                                                                              .last,
-                                                                          bytes:
-                                                                              m.bytes,
-                                                                        ))
-                                                                    .toList();
-
-                                                            downloadUrls =
-                                                                (await Future
-                                                                        .wait(
-                                                              selectedFiles.map(
-                                                                (f) async =>
-                                                                    await uploadData(
-                                                                        f.storagePath,
-                                                                        f.bytes),
-                                                              ),
-                                                            ))
-                                                                    .where((u) =>
-                                                                        u !=
-                                                                        null)
-                                                                    .map((u) =>
-                                                                        u!)
-                                                                    .toList();
-                                                          } finally {
-                                                            ScaffoldMessenger
-                                                                    .of(context)
-                                                                .hideCurrentSnackBar();
-                                                            _model.isDataUploading1 =
-                                                                false;
-                                                          }
-                                                          if (selectedUploadedFiles
-                                                                      .length ==
-                                                                  selectedFiles
-                                                                      .length &&
-                                                              downloadUrls
-                                                                      .length ==
-                                                                  selectedFiles
-                                                                      .length) {
-                                                            safeSetState(() {
-                                                              _model.uploadedLocalFile1 =
-                                                                  selectedUploadedFiles
-                                                                      .first;
-                                                              _model.uploadedFileUrl1 =
-                                                                  downloadUrls
-                                                                      .first;
-                                                            });
-                                                            showUploadMessage(
-                                                              context,
-                                                              'Success!',
-                                                            );
-                                                          } else {
-                                                            safeSetState(() {});
-                                                            showUploadMessage(
-                                                              context,
-                                                              'Failed to upload file',
-                                                            );
-                                                            return;
-                                                          }
-                                                        }
-                                                      },
-                                                      text: _model.uploadedFileUrl1 ==
-                                                                  ''
-                                                          ? 'Upload the document proof'
-                                                          : 'Change the document proof',
-                                                      icon: const Icon(
-                                                        Icons.photo_outlined,
-                                                        size: 15.0,
-                                                      ),
-                                                      options: FFButtonOptions(
-                                                        width:
-                                                            MediaQuery.sizeOf(
-                                                                        context)
-                                                                    .width *
-                                                                0.7,
-                                                        height:
-                                                            MediaQuery.sizeOf(
-                                                                        context)
-                                                                    .height *
-                                                                0.04,
-                                                        padding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    16.0,
-                                                                    0.0,
-                                                                    16.0,
-                                                                    0.0),
-                                                        iconAlignment:
-                                                            IconAlignment.end,
-                                                        iconPadding:
-                                                            const EdgeInsetsDirectional
-                                                                .fromSTEB(
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0,
-                                                                    0.0),
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .primary,
-                                                        textStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleSmall
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
-                                                                  color: Colors
-                                                                      .white,
-                                                                  letterSpacing:
-                                                                      0.0,
+                                                  child: Builder(
+                                                    builder: (context) =>
+                                                        Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0,
+                                                                  10.0),
+                                                      child: FFButtonWidget(
+                                                        onPressed: () async {
+                                                          await showDialog(
+                                                            context: context,
+                                                            builder:
+                                                                (dialogContext) {
+                                                              return Dialog(
+                                                                elevation: 0,
+                                                                insetPadding:
+                                                                    EdgeInsets
+                                                                        .zero,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                alignment: AlignmentDirectional(
+                                                                        0.0,
+                                                                        1.0)
+                                                                    .resolve(
+                                                                        Directionality.of(
+                                                                            context)),
+                                                                child:
+                                                                    GestureDetector(
+                                                                  onTap: () {
+                                                                    FocusScope.of(
+                                                                            dialogContext)
+                                                                        .unfocus();
+                                                                    FocusManager
+                                                                        .instance
+                                                                        .primaryFocus
+                                                                        ?.unfocus();
+                                                                  },
+                                                                  child:
+                                                                      Container(
+                                                                    height: MediaQuery.sizeOf(context)
+                                                                            .height *
+                                                                        0.25,
+                                                                    width: MediaQuery.sizeOf(context)
+                                                                            .width *
+                                                                        1.0,
+                                                                    child:
+                                                                        ParentdocumentWidget(
+                                                                      child:
+                                                                          true,
+                                                                      parent1:
+                                                                          false,
+                                                                    ),
+                                                                  ),
                                                                 ),
-                                                        elevation: 0.0,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8.0),
+                                                              );
+                                                            },
+                                                          );
+                                                        },
+                                                        text: FFAppState()
+                                                                        .fileUrl ==
+                                                                    ''
+                                                            ? 'Upload the document proof'
+                                                            : 'Change the document proof',
+                                                        icon: Icon(
+                                                          Icons.photo_outlined,
+                                                          size: 15.0,
+                                                        ),
+                                                        options:
+                                                            FFButtonOptions(
+                                                          width:
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .width *
+                                                                  0.7,
+                                                          height:
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .height *
+                                                                  0.04,
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      16.0,
+                                                                      0.0,
+                                                                      16.0,
+                                                                      0.0),
+                                                          iconAlignment:
+                                                              IconAlignment.end,
+                                                          iconPadding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondary,
+                                                          textStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .titleSmall
+                                                                  .override(
+                                                            font: GoogleFonts
+                                                                .nunito(
+                                                              fontWeight:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontWeight,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontStyle,
+                                                            ),
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primaryText,
+                                                            letterSpacing: 0.0,
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleSmall
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleSmall
+                                                                    .fontStyle,
+                                                            shadows: [
+                                                              Shadow(
+                                                                color: Color(
+                                                                    0xFFF4F5FA),
+                                                                offset: Offset(
+                                                                    0.0, -3.0),
+                                                                blurRadius: 6.0,
+                                                              )
+                                                            ],
+                                                          ),
+                                                          elevation: 0.0,
+                                                          borderSide:
+                                                              BorderSide(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primary,
+                                                            width: 0.5,
+                                                          ),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      8.0),
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
                                                 ),
-                                                if (_model.uploadedFileUrl1 !=
-                                                        '')
+                                                if (FFAppState().fileUrl != '')
                                                   Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
+                                                        AlignmentDirectional(
                                                             0.0, -1.0),
                                                     child: FFButtonWidget(
                                                       onPressed: () async {
-                                                        await launchURL(_model
-                                                            .uploadedFileUrl1);
+                                                        await launchURL(
+                                                            FFAppState()
+                                                                .fileUrl);
                                                       },
                                                       text: 'View file',
                                                       options: FFButtonOptions(
@@ -1954,14 +3797,14 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                     .height *
                                                                 0.04,
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     16.0,
                                                                     0.0,
                                                                     16.0,
                                                                     0.0),
                                                         iconPadding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     0.0,
                                                                     0.0,
@@ -1970,19 +3813,37 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                         color:
                                                             FlutterFlowTheme.of(
                                                                     context)
-                                                                .secondary,
+                                                                .tertiary,
                                                         textStyle:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .titleSmall
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .normal,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontStyle,
+                                                                  ),
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
                                                                       .primaryBackground,
                                                                   letterSpacing:
                                                                       0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .normal,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontStyle,
+                                                                  decoration:
+                                                                      TextDecoration
+                                                                          .underline,
                                                                 ),
                                                         elevation: 0.0,
                                                         borderRadius:
@@ -1992,13 +3853,13 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                     ),
                                                   ),
                                               ].addToEnd(
-                                                  const SizedBox(height: 20.0)),
+                                                  SizedBox(height: 30.0)),
                                             ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ],
+                                  ].addToEnd(SizedBox(height: 20.0)),
                                 ),
                               ),
                             ),
@@ -2008,9 +3869,9 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    decoration: const BoxDecoration(),
+                                    decoration: BoxDecoration(),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
                                           0.0, 10.0, 0.0, 8.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.max,
@@ -2027,7 +3888,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                   ?.animateToPage(
                                                 0,
                                                 duration:
-                                                    const Duration(milliseconds: 500),
+                                                    Duration(milliseconds: 500),
                                                 curve: Curves.ease,
                                               );
                                               _model.pageno = 0;
@@ -2035,34 +3896,54 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                             },
                                             child: Column(
                                               mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                Container(
-                                                  width:
-                                                      MediaQuery.sizeOf(context)
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Container(
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
                                                               .width *
                                                           0.099,
-                                                  height:
-                                                      MediaQuery.sizeOf(context)
+                                                      height: MediaQuery.sizeOf(
+                                                                  context)
                                                               .width *
                                                           0.099,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
-                                                    shape: BoxShape.circle,
-                                                    border: Border.all(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .primaryBackground,
+                                                      decoration: BoxDecoration(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .primaryBackground,
+                                                        shape: BoxShape.circle,
+                                                        border: Border.all(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryBackground,
+                                                        ),
+                                                      ),
+                                                      child: Icon(
+                                                        Icons.check,
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .secondaryText,
+                                                        size: 24.0,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  child: Icon(
-                                                    Icons.check,
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondaryText,
-                                                    size: 24.0,
-                                                  ),
+                                                    Container(
+                                                      width: 50.0,
+                                                      height: 3.0,
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            Color(0xFFCFD6DC),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(2.0),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                                 Text(
                                                   'Student ',
@@ -2070,167 +3951,256 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                           context)
                                                       .bodyMedium
                                                       .override(
-                                                        fontFamily: 'Nunito',
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .primaryBackground,
+                                                        font:
+                                                            GoogleFonts.nunito(
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        color: Colors.black,
                                                         letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
                                                       ),
                                                 ),
                                               ],
                                             ),
                                           ),
-                                          LinearPercentIndicator(
-                                            percent: 1.0,
-                                            width: 50.0,
-                                            lineHeight: 6.0,
-                                            animation: true,
-                                            animateFromLastPercent: true,
-                                            progressColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primary,
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .accent4,
-                                            barRadius: const Radius.circular(8.0),
-                                            padding: EdgeInsets.zero,
-                                          ),
                                           Column(
                                             mainAxisSize: MainAxisSize.max,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Container(
-                                                width:
-                                                    MediaQuery.sizeOf(context)
+                                              Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Container(
+                                                    width: MediaQuery.sizeOf(
+                                                                context)
                                                             .width *
                                                         0.099,
-                                                height:
-                                                    MediaQuery.sizeOf(context)
+                                                    height: MediaQuery.sizeOf(
+                                                                context)
                                                             .width *
                                                         0.099,
-                                                decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryBackground,
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .primaryBackground,
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .primaryBackground,
+                                                        width: 2.0,
+                                                      ),
+                                                    ),
+                                                    child: Align(
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                      child: Text(
+                                                        '02',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryBackground,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                                child: Align(
-                                                  alignment:
-                                                      const AlignmentDirectional(
-                                                          0.0, 0.0),
-                                                  child: Text(
-                                                    '02',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                          letterSpacing: 0.0,
-                                                        ),
+                                                  Container(
+                                                    width: 50.0,
+                                                    height: 3.0,
+                                                    decoration: BoxDecoration(
+                                                      color: Color(0xFFCFD6DC),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              2.0),
+                                                    ),
                                                   ),
-                                                ),
+                                                ],
                                               ),
                                               Text(
                                                 'Parent',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                          letterSpacing: 0.0,
-                                                        ),
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .bodyMedium
+                                                    .override(
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .primaryBackground,
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
                                               ),
                                             ],
                                           ),
-                                          Align(
-                                            alignment:
-                                                const AlignmentDirectional(0.0, 0.0),
-                                            child: Container(
-                                              width: 50.0,
-                                              height: 4.0,
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .tertiaryText,
-                                              ),
-                                            ),
-                                          ),
                                           Column(
                                             mainAxisSize: MainAxisSize.max,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Container(
-                                                width:
-                                                    MediaQuery.sizeOf(context)
+                                              Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: [
+                                                  Container(
+                                                    width: MediaQuery.sizeOf(
+                                                                context)
                                                             .width *
                                                         0.099,
-                                                height:
-                                                    MediaQuery.sizeOf(context)
+                                                    height: MediaQuery.sizeOf(
+                                                                context)
                                                             .width *
                                                         0.099,
-                                                decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .secondaryBackground,
-                                                  shape: BoxShape.circle,
-                                                  border: Border.all(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .tertiaryText,
+                                                    decoration: BoxDecoration(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .secondaryBackground,
+                                                      shape: BoxShape.circle,
+                                                      border: Border.all(
+                                                        color:
+                                                            Color(0xFFF5F2F2),
+                                                      ),
+                                                    ),
+                                                    child: Align(
+                                                      alignment:
+                                                          AlignmentDirectional(
+                                                              0.0, 0.0),
+                                                      child: Text(
+                                                        '03',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .tertiaryText,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                      ),
+                                                    ),
                                                   ),
-                                                ),
-                                                child: Align(
-                                                  alignment:
-                                                      const AlignmentDirectional(
-                                                          0.0, 0.0),
-                                                  child: Text(
-                                                    '03',
-                                                    style: FlutterFlowTheme.of(
-                                                            context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .tertiaryText,
-                                                          letterSpacing: 0.0,
-                                                        ),
+                                                  Container(
+                                                    width: 50.0,
+                                                    height: 3.0,
+                                                    decoration: BoxDecoration(
+                                                      color: Color(0xFFCFD6DC),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              2.0),
+                                                    ),
                                                   ),
-                                                ),
+                                                ],
                                               ),
                                               Text(
                                                 'Guardian',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          letterSpacing: 0.0,
-                                                        ),
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .bodyMedium
+                                                    .override(
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
                                               ),
                                             ],
-                                          ),
-                                          Align(
-                                            alignment:
-                                                const AlignmentDirectional(0.0, 0.0),
-                                            child: Container(
-                                              width: 50.0,
-                                              height: 4.0,
-                                              decoration: BoxDecoration(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .tertiaryText,
-                                              ),
-                                            ),
                                           ),
                                           Column(
                                             mainAxisSize: MainAxisSize.max,
@@ -2250,14 +4220,13 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                       .secondaryBackground,
                                                   shape: BoxShape.circle,
                                                   border: Border.all(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .tertiaryText,
+                                                    color: Color(0xFFF5F2F2),
+                                                    width: 2.0,
                                                   ),
                                                 ),
                                                 child: Align(
                                                   alignment:
-                                                      const AlignmentDirectional(
+                                                      AlignmentDirectional(
                                                           0.0, 0.0),
                                                   child: Text(
                                                     '04',
@@ -2265,24 +4234,67 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                             context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily: 'Nunito',
+                                                          font: GoogleFonts
+                                                              .nunito(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
                                                           color: FlutterFlowTheme
                                                                   .of(context)
                                                               .tertiaryText,
                                                           letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
                                                         ),
                                                   ),
                                                 ),
                                               ),
                                               Text(
                                                 'Save',
-                                                style:
-                                                    FlutterFlowTheme.of(context)
-                                                        .bodyMedium
-                                                        .override(
-                                                          fontFamily: 'Nunito',
-                                                          letterSpacing: 0.0,
-                                                        ),
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .bodyMedium
+                                                    .override(
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                      letterSpacing: 0.0,
+                                                      fontWeight:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontWeight,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
                                               ),
                                             ],
                                           ),
@@ -2291,7 +4303,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                     ),
                                   ),
                                   Container(
-                                    decoration: const BoxDecoration(),
+                                    decoration: BoxDecoration(),
                                     child: Column(
                                       mainAxisSize: MainAxisSize.max,
                                       children: [
@@ -2301,11 +4313,11 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                               AutovalidateMode.disabled,
                                           child: Padding(
                                             padding:
-                                                const EdgeInsetsDirectional.fromSTEB(
+                                                EdgeInsetsDirectional.fromSTEB(
                                                     10.0, 0.0, 10.0, 0.0),
                                             child: Material(
                                               color: Colors.transparent,
-                                              elevation: 1.0,
+                                              elevation: 0.0,
                                               shape: RoundedRectangleBorder(
                                                 borderRadius:
                                                     BorderRadius.circular(12.0),
@@ -2318,28 +4330,177 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                 decoration: BoxDecoration(
                                                   color: FlutterFlowTheme.of(
                                                           context)
-                                                      .secondaryBackground,
+                                                      .tertiary,
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           12.0),
                                                 ),
                                                 child: Padding(
-                                                  padding: const EdgeInsetsDirectional
+                                                  padding: EdgeInsetsDirectional
                                                       .fromSTEB(
-                                                          0.0, 10.0, 0.0, 10.0),
+                                                          0.0, 10.0, 0.0, 0.0),
                                                   child: Column(
                                                     mainAxisSize:
                                                         MainAxisSize.max,
                                                     children: [
+                                                      Align(
+                                                        alignment:
+                                                            AlignmentDirectional(
+                                                                -1.0, 0.0),
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      10.0,
+                                                                      0.0,
+                                                                      0.0,
+                                                                      0.0),
+                                                          child: Text(
+                                                            'Parent 1 *',
+                                                            style: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  fontSize:
+                                                                      18.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                      Align(
+                                                        alignment:
+                                                            AlignmentDirectional(
+                                                                0.0, -1.0),
+                                                        child: Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      0.0,
+                                                                      10.0,
+                                                                      0.0,
+                                                                      0.0),
+                                                          child: InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () async {
+                                                              await showModalBottomSheet(
+                                                                isScrollControlled:
+                                                                    true,
+                                                                backgroundColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                enableDrag:
+                                                                    false,
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) {
+                                                                  return GestureDetector(
+                                                                    onTap: () {
+                                                                      FocusScope.of(
+                                                                              context)
+                                                                          .unfocus();
+                                                                      FocusManager
+                                                                          .instance
+                                                                          .primaryFocus
+                                                                          ?.unfocus();
+                                                                    },
+                                                                    child:
+                                                                        Padding(
+                                                                      padding: MediaQuery
+                                                                          .viewInsetsOf(
+                                                                              context),
+                                                                      child:
+                                                                          Container(
+                                                                        height: MediaQuery.sizeOf(context).height *
+                                                                            0.2,
+                                                                        child:
+                                                                            ParentphotoWidget(
+                                                                          parent2:
+                                                                              false,
+                                                                          parent1:
+                                                                              true,
+                                                                        ),
+                                                                      ),
+                                                                    ),
+                                                                  );
+                                                                },
+                                                              ).then((value) =>
+                                                                  safeSetState(
+                                                                      () {}));
+                                                            },
+                                                            child: Container(
+                                                              width: MediaQuery
+                                                                          .sizeOf(
+                                                                              context)
+                                                                      .width *
+                                                                  0.3,
+                                                              height: MediaQuery
+                                                                          .sizeOf(
+                                                                              context)
+                                                                      .width *
+                                                                  0.3,
+                                                              clipBehavior: Clip
+                                                                  .antiAlias,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                shape: BoxShape
+                                                                    .circle,
+                                                              ),
+                                                              child:
+                                                                  Image.network(
+                                                                valueOrDefault<
+                                                                    String>(
+                                                                  FFAppState().parent1 !=
+                                                                              ''
+                                                                      ? FFAppState()
+                                                                          .parent1
+                                                                      : FFAppConstants
+                                                                          .addImage,
+                                                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
+                                                                ),
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     0.0,
                                                                     10.0,
                                                                     0.0,
                                                                     10.0),
-                                                        child: SizedBox(
+                                                        child: Container(
                                                           width:
                                                               MediaQuery.sizeOf(
                                                                           context)
@@ -2359,14 +4520,21 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                 InputDecoration(
                                                               isDense: true,
                                                               labelText:
-                                                                  'Father\'s name',
+                                                                  'Parent\'s Name *',
                                                               labelStyle:
                                                                   FlutterFlowTheme.of(
                                                                           context)
                                                                       .labelMedium
                                                                       .override(
-                                                                        fontFamily:
-                                                                            'Nunito',
+                                                                        font: GoogleFonts
+                                                                            .nunito(
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontStyle,
+                                                                        ),
                                                                         color: valueOrDefault<
                                                                             Color>(
                                                                           (_model.parentnameFocusNode?.hasFocus ?? false)
@@ -2375,22 +4543,47 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                           FlutterFlowTheme.of(context)
                                                                               .textfieldText,
                                                                         ),
+                                                                        fontSize: (_model.parentnameFocusNode?.hasFocus ??
+                                                                                false)
+                                                                            ? 12.0
+                                                                            : 16.0,
                                                                         letterSpacing:
                                                                             0.0,
+                                                                        fontWeight: FlutterFlowTheme.of(context)
+                                                                            .labelMedium
+                                                                            .fontWeight,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .labelMedium
+                                                                            .fontStyle,
                                                                       ),
                                                               hintText:
-                                                                  'Father\'s name',
+                                                                  'Parent\'s Name',
                                                               hintStyle:
                                                                   FlutterFlowTheme.of(
                                                                           context)
                                                                       .labelMedium
                                                                       .override(
-                                                                        fontFamily:
-                                                                            'Nunito',
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .tertiaryText,
+                                                                        font: GoogleFonts
+                                                                            .nunito(
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontStyle,
+                                                                        ),
+                                                                        color: Color(
+                                                                            0xFF737474),
+                                                                        fontSize:
+                                                                            16.0,
                                                                         letterSpacing:
                                                                             0.0,
+                                                                        fontWeight: FlutterFlowTheme.of(context)
+                                                                            .labelMedium
+                                                                            .fontWeight,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .labelMedium
+                                                                            .fontStyle,
                                                                       ),
                                                               enabledBorder:
                                                                   OutlineInputBorder(
@@ -2398,7 +4591,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                     BorderSide(
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .dIsable,
+                                                                      .textfieldDisable,
                                                                   width: 1.0,
                                                                 ),
                                                                 borderRadius:
@@ -2457,12 +4650,32 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                     .of(context)
                                                                 .bodyMedium
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .text2,
                                                                   fontSize:
                                                                       14.0,
                                                                   letterSpacing:
                                                                       0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
                                                                 ),
                                                             keyboardType:
                                                                 TextInputType
@@ -2475,18 +4688,36 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                 .parentnameTextControllerValidator
                                                                 .asValidator(
                                                                     context),
+                                                            inputFormatters: [
+                                                              if (!isAndroid &&
+                                                                  !isiOS)
+                                                                TextInputFormatter
+                                                                    .withFunction(
+                                                                        (oldValue,
+                                                                            newValue) {
+                                                                  return TextEditingValue(
+                                                                    selection:
+                                                                        newValue
+                                                                            .selection,
+                                                                    text: newValue
+                                                                        .text
+                                                                        .toCapitalization(
+                                                                            TextCapitalization.sentences),
+                                                                  );
+                                                                }),
+                                                            ],
                                                           ),
                                                         ),
                                                       ),
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     0.0,
                                                                     0.0,
                                                                     0.0,
                                                                     10.0),
-                                                        child: SizedBox(
+                                                        child: Container(
                                                           width:
                                                               MediaQuery.sizeOf(
                                                                           context)
@@ -2503,14 +4734,21 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                 InputDecoration(
                                                               isDense: true,
                                                               labelText:
-                                                                  'Number',
+                                                                  'Phone Number *',
                                                               labelStyle:
                                                                   FlutterFlowTheme.of(
                                                                           context)
                                                                       .labelMedium
                                                                       .override(
-                                                                        fontFamily:
-                                                                            'Nunito',
+                                                                        font: GoogleFonts
+                                                                            .nunito(
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontStyle,
+                                                                        ),
                                                                         color: valueOrDefault<
                                                                             Color>(
                                                                           (_model.numberfatherFocusNode?.hasFocus ?? false)
@@ -2519,22 +4757,47 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                           FlutterFlowTheme.of(context)
                                                                               .textfieldText,
                                                                         ),
+                                                                        fontSize: (_model.numberfatherFocusNode?.hasFocus ??
+                                                                                false)
+                                                                            ? 12.0
+                                                                            : 16.0,
                                                                         letterSpacing:
                                                                             0.0,
+                                                                        fontWeight: FlutterFlowTheme.of(context)
+                                                                            .labelMedium
+                                                                            .fontWeight,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .labelMedium
+                                                                            .fontStyle,
                                                                       ),
                                                               hintText:
-                                                                  'Number',
+                                                                  'Phone Number ',
                                                               hintStyle:
                                                                   FlutterFlowTheme.of(
                                                                           context)
                                                                       .labelMedium
                                                                       .override(
-                                                                        fontFamily:
-                                                                            'Nunito',
-                                                                        color: FlutterFlowTheme.of(context)
-                                                                            .tertiaryText,
+                                                                        font: GoogleFonts
+                                                                            .nunito(
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontStyle,
+                                                                        ),
+                                                                        color: Color(
+                                                                            0xFF737474),
+                                                                        fontSize:
+                                                                            16.0,
                                                                         letterSpacing:
                                                                             0.0,
+                                                                        fontWeight: FlutterFlowTheme.of(context)
+                                                                            .labelMedium
+                                                                            .fontWeight,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .labelMedium
+                                                                            .fontStyle,
                                                                       ),
                                                               enabledBorder:
                                                                   OutlineInputBorder(
@@ -2542,7 +4805,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                     BorderSide(
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .dIsable,
+                                                                      .textfieldDisable,
                                                                   width: 1.0,
                                                                 ),
                                                                 borderRadius:
@@ -2601,12 +4864,32 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                     .of(context)
                                                                 .bodyMedium
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .text2,
                                                                   fontSize:
                                                                       14.0,
                                                                   letterSpacing:
                                                                       0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
                                                                 ),
                                                             maxLength: 10,
                                                             buildCounter: (context,
@@ -2635,13 +4918,13 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                       ),
                                                       Padding(
                                                         padding:
-                                                            const EdgeInsetsDirectional
+                                                            EdgeInsetsDirectional
                                                                 .fromSTEB(
                                                                     0.0,
                                                                     0.0,
                                                                     0.0,
                                                                     10.0),
-                                                        child: SizedBox(
+                                                        child: Container(
                                                           width:
                                                               MediaQuery.sizeOf(
                                                                           context)
@@ -2653,19 +4936,29 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                             focusNode: _model
                                                                 .emailfatherFocusNode,
                                                             autofocus: false,
+                                                            textCapitalization:
+                                                                TextCapitalization
+                                                                    .none,
                                                             obscureText: false,
                                                             decoration:
                                                                 InputDecoration(
                                                               isDense: true,
                                                               labelText:
-                                                                  'Email',
+                                                                  'Username / Email *',
                                                               labelStyle:
                                                                   FlutterFlowTheme.of(
                                                                           context)
                                                                       .labelMedium
                                                                       .override(
-                                                                        fontFamily:
-                                                                            'Nunito',
+                                                                        font: GoogleFonts
+                                                                            .nunito(
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontStyle,
+                                                                        ),
                                                                         color: valueOrDefault<
                                                                             Color>(
                                                                           (_model.emailfatherFocusNode?.hasFocus ?? false)
@@ -2674,21 +4967,47 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                           FlutterFlowTheme.of(context)
                                                                               .textfieldText,
                                                                         ),
+                                                                        fontSize: (_model.emailfatherFocusNode?.hasFocus ??
+                                                                                false)
+                                                                            ? 12.0
+                                                                            : 16.0,
                                                                         letterSpacing:
                                                                             0.0,
+                                                                        fontWeight: FlutterFlowTheme.of(context)
+                                                                            .labelMedium
+                                                                            .fontWeight,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .labelMedium
+                                                                            .fontStyle,
                                                                       ),
-                                                              hintText: 'Email',
+                                                              hintText:
+                                                                  'Username / Email',
                                                               hintStyle:
                                                                   FlutterFlowTheme.of(
                                                                           context)
                                                                       .labelMedium
                                                                       .override(
-                                                                        fontFamily:
-                                                                            'Nunito',
+                                                                        font: GoogleFonts
+                                                                            .nunito(
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontStyle,
+                                                                        ),
                                                                         color: FlutterFlowTheme.of(context)
-                                                                            .tertiaryText,
+                                                                            .textfieldText,
+                                                                        fontSize:
+                                                                            16.0,
                                                                         letterSpacing:
                                                                             0.0,
+                                                                        fontWeight: FlutterFlowTheme.of(context)
+                                                                            .labelMedium
+                                                                            .fontWeight,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .labelMedium
+                                                                            .fontStyle,
                                                                       ),
                                                               enabledBorder:
                                                                   OutlineInputBorder(
@@ -2696,7 +5015,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                     BorderSide(
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .dIsable,
+                                                                      .textfieldDisable,
                                                                   width: 1.0,
                                                                 ),
                                                                 borderRadius:
@@ -2755,19 +5074,33 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                     .of(context)
                                                                 .bodyMedium
                                                                 .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
                                                                   color: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .primaryText,
+                                                                      .text2,
                                                                   fontSize:
                                                                       14.0,
                                                                   letterSpacing:
                                                                       0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
                                                                 ),
-                                                            keyboardType:
-                                                                TextInputType
-                                                                    .emailAddress,
                                                             cursorColor:
                                                                 FlutterFlowTheme.of(
                                                                         context)
@@ -2776,182 +5109,206 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                 .emailfatherTextControllerValidator
                                                                 .asValidator(
                                                                     context),
+                                                            inputFormatters: [
+                                                              if (!isAndroid &&
+                                                                  !isiOS)
+                                                                TextInputFormatter
+                                                                    .withFunction(
+                                                                        (oldValue,
+                                                                            newValue) {
+                                                                  return TextEditingValue(
+                                                                    selection:
+                                                                        newValue
+                                                                            .selection,
+                                                                    text: newValue
+                                                                        .text
+                                                                        .toCapitalization(
+                                                                            TextCapitalization.none),
+                                                                  );
+                                                                }),
+                                                              FilteringTextInputFormatter
+                                                                  .allow(RegExp(
+                                                                      '[a-z0-9@.]'))
+                                                            ],
                                                           ),
                                                         ),
                                                       ),
                                                       Align(
                                                         alignment:
-                                                            const AlignmentDirectional(
+                                                            AlignmentDirectional(
                                                                 0.0, -1.0),
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      0.0,
-                                                                      0.0,
-                                                                      10.0),
-                                                          child: FFButtonWidget(
-                                                            onPressed:
-                                                                () async {
-                                                              final selectedFiles =
-                                                                  await selectFiles(
-                                                                multiFile:
-                                                                    false,
-                                                              );
-                                                              if (selectedFiles !=
-                                                                  null) {
-                                                                safeSetState(() =>
-                                                                    _model.isDataUploading2 =
-                                                                        true);
-                                                                var selectedUploadedFiles =
-                                                                    <FFUploadedFile>[];
-
-                                                                var downloadUrls =
-                                                                    <String>[];
-                                                                try {
-                                                                  showUploadMessage(
-                                                                    context,
-                                                                    'Uploading file...',
-                                                                    showLoading:
-                                                                        true,
-                                                                  );
-                                                                  selectedUploadedFiles =
-                                                                      selectedFiles
-                                                                          .map((m) =>
-                                                                              FFUploadedFile(
-                                                                                name: m.storagePath.split('/').last,
-                                                                                bytes: m.bytes,
-                                                                              ))
-                                                                          .toList();
-
-                                                                  downloadUrls = (await Future
-                                                                          .wait(
-                                                                    selectedFiles
-                                                                        .map(
-                                                                      (f) async => await uploadData(
-                                                                          f.storagePath,
-                                                                          f.bytes),
-                                                                    ),
-                                                                  ))
-                                                                      .where((u) =>
-                                                                          u !=
-                                                                          null)
-                                                                      .map((u) =>
-                                                                          u!)
-                                                                      .toList();
-                                                                } finally {
-                                                                  ScaffoldMessenger.of(
+                                                        child: Builder(
+                                                          builder: (context) =>
+                                                              Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        0.0,
+                                                                        0.0,
+                                                                        5.0),
+                                                            child:
+                                                                FFButtonWidget(
+                                                              onPressed:
+                                                                  () async {
+                                                                await showDialog(
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (dialogContext) {
+                                                                    return Dialog(
+                                                                      elevation:
+                                                                          0,
+                                                                      insetPadding:
+                                                                          EdgeInsets
+                                                                              .zero,
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      alignment: AlignmentDirectional(
+                                                                              0.0,
+                                                                              1.0)
+                                                                          .resolve(
+                                                                              Directionality.of(context)),
+                                                                      child:
+                                                                          GestureDetector(
+                                                                        onTap:
+                                                                            () {
+                                                                          FocusScope.of(dialogContext)
+                                                                              .unfocus();
+                                                                          FocusManager
+                                                                              .instance
+                                                                              .primaryFocus
+                                                                              ?.unfocus();
+                                                                        },
+                                                                        child:
+                                                                            Container(
+                                                                          height:
+                                                                              MediaQuery.sizeOf(context).height * 0.25,
+                                                                          width:
+                                                                              MediaQuery.sizeOf(context).width * 1.0,
+                                                                          child:
+                                                                              ParentdocumentWidget(
+                                                                            child:
+                                                                                false,
+                                                                            parent1:
+                                                                                true,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                );
+                                                              },
+                                                              text: FFAppState()
+                                                                              .fileurl1 ==
+                                                                          ''
+                                                                  ? 'Upload the document proof'
+                                                                  : 'Change the document proof',
+                                                              icon: Icon(
+                                                                Icons
+                                                                    .photo_outlined,
+                                                                size: 20.0,
+                                                              ),
+                                                              options:
+                                                                  FFButtonOptions(
+                                                                width: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .width *
+                                                                    0.7,
+                                                                height: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .height *
+                                                                    0.04,
+                                                                padding: EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        16.0,
+                                                                        0.0,
+                                                                        16.0,
+                                                                        0.0),
+                                                                iconAlignment:
+                                                                    IconAlignment
+                                                                        .end,
+                                                                iconPadding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .secondary,
+                                                                textStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleSmall
+                                                                    .override(
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontWeight,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
                                                                           context)
-                                                                      .hideCurrentSnackBar();
-                                                                  _model.isDataUploading2 =
-                                                                      false;
-                                                                }
-                                                                if (selectedUploadedFiles
-                                                                            .length ==
-                                                                        selectedFiles
-                                                                            .length &&
-                                                                    downloadUrls
-                                                                            .length ==
-                                                                        selectedFiles
-                                                                            .length) {
-                                                                  safeSetState(
-                                                                      () {
-                                                                    _model.uploadedLocalFile2 =
-                                                                        selectedUploadedFiles
-                                                                            .first;
-                                                                    _model.uploadedFileUrl2 =
-                                                                        downloadUrls
-                                                                            .first;
-                                                                  });
-                                                                  showUploadMessage(
-                                                                    context,
-                                                                    'Success!',
-                                                                  );
-                                                                } else {
-                                                                  safeSetState(
-                                                                      () {});
-                                                                  showUploadMessage(
-                                                                    context,
-                                                                    'Failed to upload file',
-                                                                  );
-                                                                  return;
-                                                                }
-                                                              }
-                                                            },
-                                                            text: _model.uploadedFileUrl2 ==
-                                                                        ''
-                                                                ? 'Upload the document proof'
-                                                                : 'Change the document proof',
-                                                            icon: const Icon(
-                                                              Icons
-                                                                  .photo_outlined,
-                                                              size: 20.0,
-                                                            ),
-                                                            options:
-                                                                FFButtonOptions(
-                                                              width: MediaQuery
-                                                                          .sizeOf(
-                                                                              context)
-                                                                      .width *
-                                                                  0.7,
-                                                              height: MediaQuery
-                                                                          .sizeOf(
-                                                                              context)
-                                                                      .height *
-                                                                  0.04,
-                                                              padding:
-                                                                  const EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          16.0,
-                                                                          0.0,
-                                                                          16.0,
-                                                                          0.0),
-                                                              iconAlignment:
-                                                                  IconAlignment
-                                                                      .end,
-                                                              iconPadding:
-                                                                  const EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primary,
-                                                              textStyle:
-                                                                  FlutterFlowTheme.of(
+                                                                      .primaryText,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight: FlutterFlowTheme.of(
                                                                           context)
                                                                       .titleSmall
-                                                                      .override(
-                                                                        fontFamily:
-                                                                            'Nunito',
-                                                                        color: Colors
-                                                                            .white,
-                                                                        letterSpacing:
-                                                                            0.0,
-                                                                      ),
-                                                              elevation: 0.0,
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          8.0),
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontStyle,
+                                                                  shadows: [
+                                                                    Shadow(
+                                                                      color: Color(
+                                                                          0xFFF4F5FA),
+                                                                      offset: Offset(
+                                                                          0.0,
+                                                                          -3.0),
+                                                                      blurRadius:
+                                                                          6.0,
+                                                                    )
+                                                                  ],
+                                                                ),
+                                                                elevation: 0.0,
+                                                                borderSide:
+                                                                    BorderSide(
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primary,
+                                                                  width: 0.5,
+                                                                ),
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            8.0),
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
                                                       ),
-                                                      if (_model.uploadedFileUrl2 !=
+                                                      if (FFAppState()
+                                                                  .fileurl1 !=
                                                               '')
                                                         Align(
                                                           alignment:
-                                                              const AlignmentDirectional(
+                                                              AlignmentDirectional(
                                                                   0.0, -1.0),
                                                           child: FFButtonWidget(
                                                             onPressed:
                                                                 () async {
-                                                              await launchURL(_model
-                                                                  .uploadedFileUrl2);
+                                                              await launchURL(
+                                                                  FFAppState()
+                                                                      .fileurl1);
                                                             },
                                                             text: 'View file',
                                                             options:
@@ -2967,14 +5324,14 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                       .height *
                                                                   0.04,
                                                               padding:
-                                                                  const EdgeInsetsDirectional
+                                                                  EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           16.0,
                                                                           0.0,
                                                                           16.0,
                                                                           0.0),
                                                               iconPadding:
-                                                                  const EdgeInsetsDirectional
+                                                                  EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           0.0,
                                                                           0.0,
@@ -2982,18 +5339,31 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                           0.0),
                                                               color: FlutterFlowTheme
                                                                       .of(context)
-                                                                  .secondary,
+                                                                  .tertiary,
                                                               textStyle:
                                                                   FlutterFlowTheme.of(
                                                                           context)
                                                                       .titleSmall
                                                                       .override(
-                                                                        fontFamily:
-                                                                            'Nunito',
+                                                                        font: GoogleFonts
+                                                                            .nunito(
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .titleSmall
+                                                                              .fontStyle,
+                                                                        ),
                                                                         color: FlutterFlowTheme.of(context)
                                                                             .primaryBackground,
                                                                         letterSpacing:
                                                                             0.0,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .titleSmall
+                                                                            .fontStyle,
+                                                                        decoration:
+                                                                            TextDecoration.underline,
                                                                       ),
                                                               elevation: 0.0,
                                                               borderRadius:
@@ -3010,531 +5380,780 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                             ),
                                           ),
                                         ),
-                                        Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 10.0, 0.0, 10.0),
-                                          child: FFButtonWidget(
-                                            onPressed: () async {
-                                              _model.addToParentsdetails(
-                                                  ParentsDetailsStruct(
-                                                parentsId: functions
-                                                    .generateUniqueId(),
-                                                parentsName: _model
-                                                    .parentnameTextController
-                                                    .text,
-                                                parentsEmail: _model
-                                                    .emailfatherTextController
-                                                    .text,
-                                                parentsPhone: _model
-                                                    .numberfatherTextController
-                                                    .text,
-                                              ));
-                                              safeSetState(() {});
-                                            },
-                                            text: 'Add Another',
-                                            options: FFButtonOptions(
-                                              height: 40.0,
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      16.0, 0.0, 16.0, 0.0),
-                                              iconPadding: const EdgeInsetsDirectional
-                                                  .fromSTEB(0.0, 0.0, 0.0, 0.0),
-                                              color:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              textStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmall
-                                                      .override(
-                                                        fontFamily: 'Nunito',
-                                                        color: Colors.white,
-                                                        letterSpacing: 0.0,
-                                                      ),
+                                        Align(
+                                          alignment:
+                                              AlignmentDirectional(0.0, -1.0),
+                                          child: Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    10.0, 10.0, 10.0, 0.0),
+                                            child: Material(
+                                              color: Colors.transparent,
                                               elevation: 0.0,
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                            ),
-                                          ),
-                                        ),
-                                        if (_model.parentsdetails.isNotEmpty)
-                                          Align(
-                                            alignment:
-                                                const AlignmentDirectional(0.0, -1.0),
-                                            child: Padding(
-                                              padding: const EdgeInsetsDirectional
-                                                  .fromSTEB(
-                                                      10.0, 10.0, 10.0, 0.0),
-                                              child: Material(
-                                                color: Colors.transparent,
-                                                elevation: 5.0,
-                                                shape: RoundedRectangleBorder(
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(12.0),
+                                              ),
+                                              child: Container(
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        1.0,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .tertiary,
                                                   borderRadius:
                                                       BorderRadius.circular(
                                                           12.0),
                                                 ),
-                                                child: Container(
-                                                  width:
-                                                      MediaQuery.sizeOf(context)
-                                                              .width *
-                                                          1.0,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondary,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            12.0),
-                                                  ),
-                                                  child: Column(
-                                                    mainAxisSize:
-                                                        MainAxisSize.max,
-                                                    children: [
-                                                      Form(
-                                                        key: _model.formKey2,
-                                                        autovalidateMode:
-                                                            AutovalidateMode
-                                                                .disabled,
-                                                        child: Padding(
-                                                          padding:
-                                                              const EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      10.0,
-                                                                      0.0,
-                                                                      10.0),
-                                                          child: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            children: [
-                                                              Padding(
-                                                                padding: const EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0.0,
-                                                                        10.0,
-                                                                        0.0,
-                                                                        10.0),
-                                                                child:
-                                                                    SizedBox(
-                                                                  width: MediaQuery.sizeOf(
-                                                                              context)
-                                                                          .width *
-                                                                      0.9,
-                                                                  child:
-                                                                      TextFormField(
-                                                                    controller:
-                                                                        _model
-                                                                            .parent2TextController,
-                                                                    focusNode:
-                                                                        _model
-                                                                            .parent2FocusNode,
-                                                                    autofocus:
-                                                                        false,
-                                                                    textCapitalization:
-                                                                        TextCapitalization
-                                                                            .sentences,
-                                                                    obscureText:
-                                                                        false,
-                                                                    decoration:
-                                                                        InputDecoration(
-                                                                      isDense:
-                                                                          true,
-                                                                      labelText:
-                                                                          'Mother\'s name',
-                                                                      labelStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .labelMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Nunito',
-                                                                            color:
-                                                                                valueOrDefault<Color>(
-                                                                              (_model.parent2FocusNode?.hasFocus ?? false) ? FlutterFlowTheme.of(context).primary : FlutterFlowTheme.of(context).textfieldText,
-                                                                              FlutterFlowTheme.of(context).textfieldText,
-                                                                            ),
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                          ),
-                                                                      hintText:
-                                                                          'Mother\'s name',
-                                                                      hintStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .labelMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Nunito',
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).tertiaryText,
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                          ),
-                                                                      enabledBorder:
-                                                                          OutlineInputBorder(
-                                                                        borderSide:
-                                                                            BorderSide(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).dIsable,
-                                                                          width:
-                                                                              1.0,
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10.0),
-                                                                      ),
-                                                                      focusedBorder:
-                                                                          OutlineInputBorder(
-                                                                        borderSide:
-                                                                            BorderSide(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).primaryBackground,
-                                                                          width:
-                                                                              1.0,
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10.0),
-                                                                      ),
-                                                                      errorBorder:
-                                                                          OutlineInputBorder(
-                                                                        borderSide:
-                                                                            BorderSide(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).error,
-                                                                          width:
-                                                                              1.0,
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10.0),
-                                                                      ),
-                                                                      focusedErrorBorder:
-                                                                          OutlineInputBorder(
-                                                                        borderSide:
-                                                                            BorderSide(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).error,
-                                                                          width:
-                                                                              1.0,
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10.0),
-                                                                      ),
-                                                                      filled:
-                                                                          true,
-                                                                      fillColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .secondaryBackground,
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Nunito',
-                                                                          fontSize:
-                                                                              14.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                        ),
-                                                                    keyboardType:
-                                                                        TextInputType
-                                                                            .name,
-                                                                    cursorColor:
-                                                                        FlutterFlowTheme.of(context)
-                                                                            .primaryText,
-                                                                    validator: _model
-                                                                        .parent2TextControllerValidator
-                                                                        .asValidator(
-                                                                            context),
-                                                                  ),
-                                                                ),
-                                                              ),
-                                                              Padding(
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Form(
+                                                      key: _model.formKey2,
+                                                      autovalidateMode:
+                                                          AutovalidateMode
+                                                              .disabled,
+                                                      child: Padding(
+                                                        padding:
+                                                            EdgeInsetsDirectional
+                                                                .fromSTEB(
+                                                                    0.0,
+                                                                    10.0,
+                                                                    0.0,
+                                                                    10.0),
+                                                        child: Column(
+                                                          mainAxisSize:
+                                                              MainAxisSize.max,
+                                                          children: [
+                                                            Align(
+                                                              alignment:
+                                                                  AlignmentDirectional(
+                                                                      -1.0,
+                                                                      0.0),
+                                                              child: Padding(
                                                                 padding:
-                                                                    const EdgeInsetsDirectional
+                                                                    EdgeInsetsDirectional
                                                                         .fromSTEB(
+                                                                            10.0,
                                                                             0.0,
                                                                             0.0,
+                                                                            0.0),
+                                                                child: Text(
+                                                                  'Parent 2',
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        font: GoogleFonts
+                                                                            .nunito(
+                                                                          fontWeight:
+                                                                              FontWeight.bold,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontStyle,
+                                                                        ),
+                                                                        fontSize:
+                                                                            18.0,
+                                                                        letterSpacing:
                                                                             0.0,
-                                                                            10.0),
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          10.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              child: InkWell(
+                                                                splashColor: Colors
+                                                                    .transparent,
+                                                                focusColor: Colors
+                                                                    .transparent,
+                                                                hoverColor: Colors
+                                                                    .transparent,
+                                                                highlightColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                onTap:
+                                                                    () async {
+                                                                  await showModalBottomSheet(
+                                                                    isScrollControlled:
+                                                                        true,
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    enableDrag:
+                                                                        false,
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (context) {
+                                                                      return GestureDetector(
+                                                                        onTap:
+                                                                            () {
+                                                                          FocusScope.of(context)
+                                                                              .unfocus();
+                                                                          FocusManager
+                                                                              .instance
+                                                                              .primaryFocus
+                                                                              ?.unfocus();
+                                                                        },
+                                                                        child:
+                                                                            Padding(
+                                                                          padding:
+                                                                              MediaQuery.viewInsetsOf(context),
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                MediaQuery.sizeOf(context).height * 0.2,
+                                                                            child:
+                                                                                ParentphotoWidget(
+                                                                              parent2: true,
+                                                                              parent1: false,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    },
+                                                                  ).then((value) =>
+                                                                      safeSetState(
+                                                                          () {}));
+                                                                },
                                                                 child:
-                                                                    SizedBox(
+                                                                    Container(
                                                                   width: MediaQuery.sizeOf(
                                                                               context)
                                                                           .width *
-                                                                      0.9,
-                                                                  child:
-                                                                      TextFormField(
-                                                                    controller:
-                                                                        _model
-                                                                            .numbermotherTextController,
-                                                                    focusNode:
-                                                                        _model
-                                                                            .numbermotherFocusNode,
-                                                                    autofocus:
-                                                                        false,
-                                                                    obscureText:
-                                                                        false,
-                                                                    decoration:
-                                                                        InputDecoration(
-                                                                      isDense:
-                                                                          true,
-                                                                      labelText:
-                                                                          'Number',
-                                                                      labelStyle: FlutterFlowTheme.of(
+                                                                      0.3,
+                                                                  height: MediaQuery.sizeOf(
                                                                               context)
-                                                                          .labelMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Nunito',
-                                                                            color:
-                                                                                valueOrDefault<Color>(
-                                                                              (_model.numbermotherFocusNode?.hasFocus ?? false) ? FlutterFlowTheme.of(context).primary : FlutterFlowTheme.of(context).textfieldText,
-                                                                              FlutterFlowTheme.of(context).textfieldText,
-                                                                            ),
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                          ),
-                                                                      hintText:
-                                                                          'Number',
-                                                                      hintStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .labelMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Nunito',
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).tertiaryText,
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                          ),
-                                                                      enabledBorder:
-                                                                          OutlineInputBorder(
-                                                                        borderSide:
-                                                                            BorderSide(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).dIsable,
-                                                                          width:
-                                                                              1.0,
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10.0),
-                                                                      ),
-                                                                      focusedBorder:
-                                                                          OutlineInputBorder(
-                                                                        borderSide:
-                                                                            BorderSide(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).primaryBackground,
-                                                                          width:
-                                                                              1.0,
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10.0),
-                                                                      ),
-                                                                      errorBorder:
-                                                                          OutlineInputBorder(
-                                                                        borderSide:
-                                                                            BorderSide(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).error,
-                                                                          width:
-                                                                              1.0,
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10.0),
-                                                                      ),
-                                                                      focusedErrorBorder:
-                                                                          OutlineInputBorder(
-                                                                        borderSide:
-                                                                            BorderSide(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).error,
-                                                                          width:
-                                                                              1.0,
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10.0),
-                                                                      ),
-                                                                      filled:
-                                                                          true,
-                                                                      fillColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .secondaryBackground,
+                                                                          .width *
+                                                                      0.3,
+                                                                  clipBehavior:
+                                                                      Clip.antiAlias,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle,
+                                                                  ),
+                                                                  child: Image
+                                                                      .network(
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                                      FFAppState().parent2 !=
+                                                                                  ''
+                                                                          ? FFAppState()
+                                                                              .parent2
+                                                                          : FFAppConstants
+                                                                              .addImage,
+                                                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
                                                                     ),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          fontFamily:
-                                                                              'Nunito',
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                        ),
-                                                                    maxLength:
-                                                                        10,
-                                                                    buildCounter: (context,
-                                                                            {required currentLength,
-                                                                            required isFocused,
-                                                                            maxLength}) =>
-                                                                        null,
-                                                                    cursorColor:
-                                                                        FlutterFlowTheme.of(context)
-                                                                            .primaryText,
-                                                                    validator: _model
-                                                                        .numbermotherTextControllerValidator
-                                                                        .asValidator(
-                                                                            context),
-                                                                    inputFormatters: [
-                                                                      FilteringTextInputFormatter
-                                                                          .allow(
-                                                                              RegExp('[0-9]'))
-                                                                    ],
+                                                                    fit: BoxFit
+                                                                        .cover,
                                                                   ),
                                                                 ),
                                                               ),
-                                                              Padding(
-                                                                padding:
-                                                                    const EdgeInsetsDirectional
-                                                                        .fromSTEB(
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            10.0),
-                                                                child:
-                                                                    SizedBox(
-                                                                  width: MediaQuery.sizeOf(
-                                                                              context)
-                                                                          .width *
-                                                                      0.9,
-                                                                  child:
-                                                                      TextFormField(
-                                                                    controller:
-                                                                        _model
-                                                                            .emailmotherTextController,
-                                                                    focusNode:
-                                                                        _model
-                                                                            .emailmotherFocusNode,
-                                                                    autofocus:
-                                                                        false,
-                                                                    obscureText:
-                                                                        false,
-                                                                    decoration:
-                                                                        InputDecoration(
-                                                                      isDense:
-                                                                          true,
-                                                                      labelText:
-                                                                          'Email',
-                                                                      labelStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .labelMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Nunito',
-                                                                            color:
-                                                                                valueOrDefault<Color>(
-                                                                              (_model.emailmotherFocusNode?.hasFocus ?? false) ? FlutterFlowTheme.of(context).primary : FlutterFlowTheme.of(context).textfieldText,
-                                                                              FlutterFlowTheme.of(context).textfieldText,
-                                                                            ),
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                          ),
-                                                                      hintText:
-                                                                          'Email',
-                                                                      hintStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .labelMedium
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Nunito',
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).tertiaryText,
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                          ),
-                                                                      enabledBorder:
-                                                                          OutlineInputBorder(
-                                                                        borderSide:
-                                                                            BorderSide(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).dIsable,
-                                                                          width:
-                                                                              1.0,
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10.0),
-                                                                      ),
-                                                                      focusedBorder:
-                                                                          OutlineInputBorder(
-                                                                        borderSide:
-                                                                            BorderSide(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).primaryBackground,
-                                                                          width:
-                                                                              1.0,
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10.0),
-                                                                      ),
-                                                                      errorBorder:
-                                                                          OutlineInputBorder(
-                                                                        borderSide:
-                                                                            BorderSide(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).error,
-                                                                          width:
-                                                                              1.0,
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10.0),
-                                                                      ),
-                                                                      focusedErrorBorder:
-                                                                          OutlineInputBorder(
-                                                                        borderSide:
-                                                                            BorderSide(
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).error,
-                                                                          width:
-                                                                              1.0,
-                                                                        ),
-                                                                        borderRadius:
-                                                                            BorderRadius.circular(10.0),
-                                                                      ),
-                                                                      filled:
-                                                                          true,
-                                                                      fillColor:
-                                                                          FlutterFlowTheme.of(context)
-                                                                              .secondaryBackground,
-                                                                    ),
-                                                                    style: FlutterFlowTheme.of(
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          10.0,
+                                                                          0.0,
+                                                                          10.0),
+                                                              child: Container(
+                                                                width: MediaQuery.sizeOf(
                                                                             context)
-                                                                        .bodyMedium
+                                                                        .width *
+                                                                    0.9,
+                                                                child:
+                                                                    TextFormField(
+                                                                  controller: _model
+                                                                      .parent2TextController,
+                                                                  focusNode: _model
+                                                                      .parent2FocusNode,
+                                                                  autofocus:
+                                                                      false,
+                                                                  textCapitalization:
+                                                                      TextCapitalization
+                                                                          .sentences,
+                                                                  obscureText:
+                                                                      false,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    isDense:
+                                                                        true,
+                                                                    labelText:
+                                                                        'Parent\'s Name',
+                                                                    labelStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
                                                                         .override(
-                                                                          fontFamily:
-                                                                              'Nunito',
+                                                                          font:
+                                                                              GoogleFonts.nunito(
+                                                                            fontWeight:
+                                                                                FlutterFlowTheme.of(context).labelMedium.fontWeight,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).labelMedium.fontStyle,
+                                                                          ),
+                                                                          color:
+                                                                              valueOrDefault<Color>(
+                                                                            (_model.parent2FocusNode?.hasFocus ?? false)
+                                                                                ? FlutterFlowTheme.of(context).primary
+                                                                                : FlutterFlowTheme.of(context).textfieldText,
+                                                                            FlutterFlowTheme.of(context).textfieldText,
+                                                                          ),
+                                                                          fontSize: (_model.parent2FocusNode?.hasFocus ?? false)
+                                                                              ? 12.0
+                                                                              : 16.0,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontStyle,
+                                                                        ),
+                                                                    hintText:
+                                                                        'Parent\'s Name',
+                                                                    hintStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .override(
+                                                                          font:
+                                                                              GoogleFonts.nunito(
+                                                                            fontWeight:
+                                                                                FlutterFlowTheme.of(context).labelMedium.fontWeight,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).labelMedium.fontStyle,
+                                                                          ),
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).textfieldText,
                                                                           fontSize:
-                                                                              14.0,
+                                                                              16.0,
                                                                           letterSpacing:
                                                                               0.0,
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontStyle,
                                                                         ),
-                                                                    keyboardType:
-                                                                        TextInputType
-                                                                            .emailAddress,
-                                                                    cursorColor:
-                                                                        FlutterFlowTheme.of(context)
-                                                                            .primaryText,
-                                                                    validator: _model
-                                                                        .emailmotherTextControllerValidator
-                                                                        .asValidator(
-                                                                            context),
+                                                                    enabledBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .textfieldDisable,
+                                                                        width:
+                                                                            1.0,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.0),
+                                                                    ),
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primaryBackground,
+                                                                        width:
+                                                                            1.0,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.0),
+                                                                    ),
+                                                                    errorBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .error,
+                                                                        width:
+                                                                            1.0,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.0),
+                                                                    ),
+                                                                    focusedErrorBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .error,
+                                                                        width:
+                                                                            1.0,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.0),
+                                                                    ),
+                                                                    filled:
+                                                                        true,
+                                                                    fillColor: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .secondaryBackground,
                                                                   ),
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        font: GoogleFonts
+                                                                            .nunito(
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontStyle,
+                                                                        ),
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .text2,
+                                                                        fontSize:
+                                                                            14.0,
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        fontWeight: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontWeight,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .name,
+                                                                  cursorColor:
+                                                                      FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primaryText,
+                                                                  validator: _model
+                                                                      .parent2TextControllerValidator
+                                                                      .asValidator(
+                                                                          context),
+                                                                  inputFormatters: [
+                                                                    if (!isAndroid &&
+                                                                        !isiOS)
+                                                                      TextInputFormatter.withFunction(
+                                                                          (oldValue,
+                                                                              newValue) {
+                                                                        return TextEditingValue(
+                                                                          selection:
+                                                                              newValue.selection,
+                                                                          text: newValue
+                                                                              .text
+                                                                              .toCapitalization(TextCapitalization.sentences),
+                                                                        );
+                                                                      }),
+                                                                  ],
                                                                 ),
                                                               ),
-                                                              Align(
-                                                                alignment:
-                                                                    const AlignmentDirectional(
-                                                                        0.0,
-                                                                        -1.0),
-                                                                child: Padding(
-                                                                  padding: const EdgeInsetsDirectional
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          10.0),
+                                                              child: Container(
+                                                                width: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .width *
+                                                                    0.9,
+                                                                child:
+                                                                    TextFormField(
+                                                                  controller: _model
+                                                                      .numbermotherTextController,
+                                                                  focusNode: _model
+                                                                      .numbermotherFocusNode,
+                                                                  autofocus:
+                                                                      false,
+                                                                  obscureText:
+                                                                      false,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    isDense:
+                                                                        true,
+                                                                    labelText:
+                                                                        'Phone Number ',
+                                                                    labelStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .override(
+                                                                          font:
+                                                                              GoogleFonts.nunito(
+                                                                            fontWeight:
+                                                                                FlutterFlowTheme.of(context).labelMedium.fontWeight,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).labelMedium.fontStyle,
+                                                                          ),
+                                                                          color:
+                                                                              valueOrDefault<Color>(
+                                                                            (_model.numbermotherFocusNode?.hasFocus ?? false)
+                                                                                ? FlutterFlowTheme.of(context).primary
+                                                                                : FlutterFlowTheme.of(context).textfieldText,
+                                                                            FlutterFlowTheme.of(context).textfieldText,
+                                                                          ),
+                                                                          fontSize: (_model.numbermotherFocusNode?.hasFocus ?? false)
+                                                                              ? 12.0
+                                                                              : 16.0,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontStyle,
+                                                                        ),
+                                                                    hintText:
+                                                                        'Phone Number ',
+                                                                    hintStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .override(
+                                                                          font:
+                                                                              GoogleFonts.nunito(
+                                                                            fontWeight:
+                                                                                FlutterFlowTheme.of(context).labelMedium.fontWeight,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).labelMedium.fontStyle,
+                                                                          ),
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).textfieldText,
+                                                                          fontSize:
+                                                                              16.0,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontStyle,
+                                                                        ),
+                                                                    enabledBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .textfieldDisable,
+                                                                        width:
+                                                                            1.0,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.0),
+                                                                    ),
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primaryBackground,
+                                                                        width:
+                                                                            1.0,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.0),
+                                                                    ),
+                                                                    errorBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .error,
+                                                                        width:
+                                                                            1.0,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.0),
+                                                                    ),
+                                                                    focusedErrorBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .error,
+                                                                        width:
+                                                                            1.0,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.0),
+                                                                    ),
+                                                                    filled:
+                                                                        true,
+                                                                    fillColor: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .secondaryBackground,
+                                                                  ),
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        font: GoogleFonts
+                                                                            .nunito(
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontStyle,
+                                                                        ),
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .text2,
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        fontWeight: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontWeight,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
+                                                                  maxLength: 10,
+                                                                  buildCounter: (context,
+                                                                          {required currentLength,
+                                                                          required isFocused,
+                                                                          maxLength}) =>
+                                                                      null,
+                                                                  keyboardType:
+                                                                      TextInputType
+                                                                          .phone,
+                                                                  cursorColor:
+                                                                      FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primaryText,
+                                                                  validator: _model
+                                                                      .numbermotherTextControllerValidator
+                                                                      .asValidator(
+                                                                          context),
+                                                                  inputFormatters: [
+                                                                    FilteringTextInputFormatter
+                                                                        .allow(RegExp(
+                                                                            '[0-9]'))
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          10.0),
+                                                              child: Container(
+                                                                width: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .width *
+                                                                    0.9,
+                                                                child:
+                                                                    TextFormField(
+                                                                  controller: _model
+                                                                      .emailmotherTextController,
+                                                                  focusNode: _model
+                                                                      .emailmotherFocusNode,
+                                                                  autofocus:
+                                                                      false,
+                                                                  obscureText:
+                                                                      false,
+                                                                  decoration:
+                                                                      InputDecoration(
+                                                                    isDense:
+                                                                        true,
+                                                                    labelText:
+                                                                        'Username / Email',
+                                                                    labelStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .override(
+                                                                          font:
+                                                                              GoogleFonts.nunito(
+                                                                            fontWeight:
+                                                                                FlutterFlowTheme.of(context).labelMedium.fontWeight,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).labelMedium.fontStyle,
+                                                                          ),
+                                                                          color:
+                                                                              valueOrDefault<Color>(
+                                                                            (_model.emailmotherFocusNode?.hasFocus ?? false)
+                                                                                ? FlutterFlowTheme.of(context).primary
+                                                                                : FlutterFlowTheme.of(context).textfieldText,
+                                                                            FlutterFlowTheme.of(context).textfieldText,
+                                                                          ),
+                                                                          fontSize: (_model.emailmotherFocusNode?.hasFocus ?? false)
+                                                                              ? 12.0
+                                                                              : 16.0,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontStyle,
+                                                                        ),
+                                                                    hintText:
+                                                                        'Username /  Email',
+                                                                    hintStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .labelMedium
+                                                                        .override(
+                                                                          font:
+                                                                              GoogleFonts.nunito(
+                                                                            fontWeight:
+                                                                                FlutterFlowTheme.of(context).labelMedium.fontWeight,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).labelMedium.fontStyle,
+                                                                          ),
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).textfieldText,
+                                                                          fontSize:
+                                                                              16.0,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .labelMedium
+                                                                              .fontStyle,
+                                                                        ),
+                                                                    enabledBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .textfieldDisable,
+                                                                        width:
+                                                                            1.0,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.0),
+                                                                    ),
+                                                                    focusedBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primaryBackground,
+                                                                        width:
+                                                                            1.0,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.0),
+                                                                    ),
+                                                                    errorBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .error,
+                                                                        width:
+                                                                            1.0,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.0),
+                                                                    ),
+                                                                    focusedErrorBorder:
+                                                                        OutlineInputBorder(
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .error,
+                                                                        width:
+                                                                            1.0,
+                                                                      ),
+                                                                      borderRadius:
+                                                                          BorderRadius.circular(
+                                                                              10.0),
+                                                                    ),
+                                                                    filled:
+                                                                        true,
+                                                                    fillColor: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .secondaryBackground,
+                                                                  ),
+                                                                  style: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .override(
+                                                                        font: GoogleFonts
+                                                                            .nunito(
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .bodyMedium
+                                                                              .fontStyle,
+                                                                        ),
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .text2,
+                                                                        fontSize:
+                                                                            14.0,
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        fontWeight: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontWeight,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
+                                                                  cursorColor:
+                                                                      FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primaryText,
+                                                                  validator: _model
+                                                                      .emailmotherTextControllerValidator
+                                                                      .asValidator(
+                                                                          context),
+                                                                  inputFormatters: [
+                                                                    FilteringTextInputFormatter
+                                                                        .allow(RegExp(
+                                                                            '[a-z0-9@.]'))
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                            Align(
+                                                              alignment:
+                                                                  AlignmentDirectional(
+                                                                      0.0,
+                                                                      -1.0),
+                                                              child: Builder(
+                                                                builder:
+                                                                    (context) =>
+                                                                        Padding(
+                                                                  padding: EdgeInsetsDirectional
                                                                       .fromSTEB(
                                                                           0.0,
                                                                           0.0,
@@ -3544,79 +6163,44 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                       FFButtonWidget(
                                                                     onPressed:
                                                                         () async {
-                                                                      final selectedFiles =
-                                                                          await selectFiles(
-                                                                        multiFile:
-                                                                            false,
-                                                                      );
-                                                                      if (selectedFiles !=
-                                                                          null) {
-                                                                        safeSetState(() =>
-                                                                            _model.isDataUploading3 =
-                                                                                true);
-                                                                        var selectedUploadedFiles =
-                                                                            <FFUploadedFile>[];
-
-                                                                        var downloadUrls =
-                                                                            <String>[];
-                                                                        try {
-                                                                          showUploadMessage(
+                                                                      await showDialog(
+                                                                        context:
                                                                             context,
-                                                                            'Uploading file...',
-                                                                            showLoading:
-                                                                                true,
-                                                                          );
-                                                                          selectedUploadedFiles = selectedFiles
-                                                                              .map((m) => FFUploadedFile(
-                                                                                    name: m.storagePath.split('/').last,
-                                                                                    bytes: m.bytes,
-                                                                                  ))
-                                                                              .toList();
-
-                                                                          downloadUrls = (await Future.wait(
-                                                                            selectedFiles.map(
-                                                                              (f) async => await uploadData(f.storagePath, f.bytes),
+                                                                        builder:
+                                                                            (dialogContext) {
+                                                                          return Dialog(
+                                                                            elevation:
+                                                                                0,
+                                                                            insetPadding:
+                                                                                EdgeInsets.zero,
+                                                                            backgroundColor:
+                                                                                Colors.transparent,
+                                                                            alignment:
+                                                                                AlignmentDirectional(0.0, 1.0).resolve(Directionality.of(context)),
+                                                                            child:
+                                                                                GestureDetector(
+                                                                              onTap: () {
+                                                                                FocusScope.of(dialogContext).unfocus();
+                                                                                FocusManager.instance.primaryFocus?.unfocus();
+                                                                              },
+                                                                              child: Container(
+                                                                                height: MediaQuery.sizeOf(context).height * 0.25,
+                                                                                width: MediaQuery.sizeOf(context).width * 1.0,
+                                                                                child: ParentdocumentWidget(
+                                                                                  child: false,
+                                                                                  parent1: false,
+                                                                                ),
+                                                                              ),
                                                                             ),
-                                                                          ))
-                                                                              .where((u) => u != null)
-                                                                              .map((u) => u!)
-                                                                              .toList();
-                                                                        } finally {
-                                                                          ScaffoldMessenger.of(context)
-                                                                              .hideCurrentSnackBar();
-                                                                          _model.isDataUploading3 =
-                                                                              false;
-                                                                        }
-                                                                        if (selectedUploadedFiles.length == selectedFiles.length &&
-                                                                            downloadUrls.length ==
-                                                                                selectedFiles.length) {
-                                                                          safeSetState(
-                                                                              () {
-                                                                            _model.uploadedLocalFile3 =
-                                                                                selectedUploadedFiles.first;
-                                                                            _model.uploadedFileUrl3 =
-                                                                                downloadUrls.first;
-                                                                          });
-                                                                          showUploadMessage(
-                                                                            context,
-                                                                            'Success!',
                                                                           );
-                                                                        } else {
-                                                                          safeSetState(
-                                                                              () {});
-                                                                          showUploadMessage(
-                                                                            context,
-                                                                            'Failed to upload file',
-                                                                          );
-                                                                          return;
-                                                                        }
-                                                                      }
+                                                                        },
+                                                                      );
                                                                     },
-                                                                    text: _model.uploadedFileUrl3 ==
+                                                                    text: FFAppState().fileurl2 ==
                                                                                 ''
                                                                         ? 'Upload the document proof'
                                                                         : 'Change the document proof',
-                                                                    icon: const Icon(
+                                                                    icon: Icon(
                                                                       Icons
                                                                           .photo_outlined,
                                                                       size:
@@ -3630,7 +6214,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                       height: MediaQuery.sizeOf(context)
                                                                               .height *
                                                                           0.04,
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
                                                                           16.0,
                                                                           0.0,
                                                                           16.0,
@@ -3638,27 +6222,57 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                       iconAlignment:
                                                                           IconAlignment
                                                                               .end,
-                                                                      iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                                                                      iconPadding: EdgeInsetsDirectional.fromSTEB(
                                                                           0.0,
                                                                           0.0,
                                                                           0.0,
                                                                           0.0),
                                                                       color: FlutterFlowTheme.of(
                                                                               context)
-                                                                          .primary,
+                                                                          .secondary,
                                                                       textStyle: FlutterFlowTheme.of(
                                                                               context)
                                                                           .titleSmall
                                                                           .override(
-                                                                            fontFamily:
-                                                                                'Nunito',
+                                                                        font: GoogleFonts
+                                                                            .nunito(
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .titleSmall
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .titleSmall
+                                                                              .fontStyle,
+                                                                        ),
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primaryText,
+                                                                        letterSpacing:
+                                                                            0.0,
+                                                                        fontWeight: FlutterFlowTheme.of(context)
+                                                                            .titleSmall
+                                                                            .fontWeight,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .titleSmall
+                                                                            .fontStyle,
+                                                                        shadows: [
+                                                                          Shadow(
                                                                             color:
-                                                                                Colors.white,
-                                                                            letterSpacing:
-                                                                                0.0,
-                                                                          ),
+                                                                                Color(0xFFF4F5FA),
+                                                                            offset:
+                                                                                Offset(0.0, -3.0),
+                                                                            blurRadius:
+                                                                                6.0,
+                                                                          )
+                                                                        ],
+                                                                      ),
                                                                       elevation:
                                                                           0.0,
+                                                                      borderSide:
+                                                                          BorderSide(
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primary,
+                                                                        width:
+                                                                            0.5,
+                                                                      ),
                                                                       borderRadius:
                                                                           BorderRadius.circular(
                                                                               8.0),
@@ -3666,78 +6280,94 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                   ),
                                                                 ),
                                                               ),
-                                                              if (_model.uploadedFileUrl3 !=
-                                                                      '')
-                                                                Align(
-                                                                  alignment:
-                                                                      const AlignmentDirectional(
-                                                                          0.0,
-                                                                          -1.0),
-                                                                  child:
-                                                                      FFButtonWidget(
-                                                                    onPressed:
-                                                                        () async {
-                                                                      await launchURL(
-                                                                          _model
-                                                                              .uploadedFileUrl3);
-                                                                    },
-                                                                    text:
-                                                                        'View file',
-                                                                    options:
-                                                                        FFButtonOptions(
-                                                                      width: MediaQuery.sizeOf(context)
-                                                                              .width *
-                                                                          0.7,
-                                                                      height: MediaQuery.sizeOf(context)
-                                                                              .height *
-                                                                          0.04,
-                                                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                                                          16.0,
-                                                                          0.0,
-                                                                          16.0,
-                                                                          0.0),
-                                                                      iconPadding: const EdgeInsetsDirectional.fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .tertiary,
-                                                                      textStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .titleSmall
-                                                                          .override(
-                                                                            fontFamily:
-                                                                                'Nunito',
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).primary,
-                                                                            letterSpacing:
-                                                                                0.0,
+                                                            ),
+                                                            if (FFAppState()
+                                                                        .fileurl2 !=
+                                                                    '')
+                                                              Align(
+                                                                alignment:
+                                                                    AlignmentDirectional(
+                                                                        0.0,
+                                                                        -1.0),
+                                                                child:
+                                                                    FFButtonWidget(
+                                                                  onPressed:
+                                                                      () async {
+                                                                    await launchURL(
+                                                                        FFAppState()
+                                                                            .fileurl2);
+                                                                  },
+                                                                  text:
+                                                                      'View file',
+                                                                  options:
+                                                                      FFButtonOptions(
+                                                                    width: MediaQuery.sizeOf(context)
+                                                                            .width *
+                                                                        0.7,
+                                                                    height: MediaQuery.sizeOf(context)
+                                                                            .height *
+                                                                        0.04,
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            16.0,
+                                                                            0.0,
+                                                                            16.0,
+                                                                            0.0),
+                                                                    iconPadding:
+                                                                        EdgeInsetsDirectional.fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .tertiary,
+                                                                    textStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .override(
+                                                                          font:
+                                                                              GoogleFonts.nunito(
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).titleSmall.fontStyle,
                                                                           ),
-                                                                      elevation:
-                                                                          0.0,
-                                                                      borderRadius:
-                                                                          BorderRadius.circular(
-                                                                              8.0),
-                                                                    ),
+                                                                          color:
+                                                                              FlutterFlowTheme.of(context).primary,
+                                                                          letterSpacing:
+                                                                              0.0,
+                                                                          fontWeight:
+                                                                              FontWeight.w500,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .titleSmall
+                                                                              .fontStyle,
+                                                                          decoration:
+                                                                              TextDecoration.underline,
+                                                                        ),
+                                                                    elevation:
+                                                                        0.0,
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            8.0),
                                                                   ),
                                                                 ),
-                                                            ].addToEnd(const SizedBox(
-                                                                height: 10.0)),
-                                                          ),
+                                                              ),
+                                                          ].addToEnd(SizedBox(
+                                                              height: 10.0)),
                                                         ),
                                                       ),
-                                                    ],
-                                                  ),
+                                                    ),
+                                                  ],
                                                 ),
                                               ),
                                             ),
                                           ),
-                                      ],
+                                        ),
+                                      ].addToEnd(SizedBox(height: 20.0)),
                                     ),
                                   ),
-                                ],
+                                ].addToEnd(SizedBox(height: 30.0)),
                               ),
                             ),
                             SingleChildScrollView(
@@ -3746,12 +6376,12 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         5.0, 0.0, 5.0, 0.0),
                                     child: Container(
-                                      decoration: const BoxDecoration(),
+                                      decoration: BoxDecoration(),
                                       child: Padding(
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
                                             10.0, 10.0, 10.0, 10.0),
                                         child: Row(
                                           mainAxisSize: MainAxisSize.max,
@@ -3770,42 +6400,66 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                 await _model.pageViewController
                                                     ?.animateToPage(
                                                   0,
-                                                  duration: const Duration(
+                                                  duration: Duration(
                                                       milliseconds: 500),
                                                   curve: Curves.ease,
                                                 );
                                               },
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.max,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Container(
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.099,
-                                                    height: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.099,
-                                                    decoration: BoxDecoration(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .primaryBackground,
-                                                      shape: BoxShape.circle,
-                                                      border: Border.all(
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .primaryBackground,
-                                                      ),
-                                                    ),
-                                                    child: Icon(
-                                                      Icons.check,
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Container(
+                                                        width:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width *
+                                                                0.099,
+                                                        height:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width *
+                                                                0.099,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryBackground,
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          border: Border.all(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primaryBackground,
+                                                          ),
+                                                        ),
+                                                        child: Icon(
+                                                          Icons.check,
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
                                                               .secondaryText,
-                                                      size: 24.0,
-                                                    ),
+                                                          size: 24.0,
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: 50.0,
+                                                        height: 3.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Color(0xFFCFD6DC),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      2.0),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                   Text(
                                                     'Student ',
@@ -3813,30 +6467,29 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                             context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily: 'Nunito',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
+                                                          font: GoogleFonts
+                                                              .nunito(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: Colors.black,
                                                           letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
                                                         ),
                                                   ),
                                                 ],
                                               ),
-                                            ),
-                                            LinearPercentIndicator(
-                                              percent: 1.0,
-                                              width: 50.0,
-                                              lineHeight: 6.0,
-                                              animation: false,
-                                              animateFromLastPercent: true,
-                                              progressColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .accent4,
-                                              barRadius: const Radius.circular(8.0),
-                                              padding: EdgeInsets.zero,
                                             ),
                                             InkWell(
                                               splashColor: Colors.transparent,
@@ -3846,45 +6499,70 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                   Colors.transparent,
                                               onTap: () async {
                                                 _model.pageno = 1;
+                                                _model.isguardian = true;
                                                 safeSetState(() {});
                                                 await _model.pageViewController
                                                     ?.previousPage(
-                                                  duration: const Duration(
+                                                  duration: Duration(
                                                       milliseconds: 300),
                                                   curve: Curves.ease,
                                                 );
                                               },
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.max,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Container(
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.099,
-                                                    height: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.099,
-                                                    decoration: BoxDecoration(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .primaryBackground,
-                                                      shape: BoxShape.circle,
-                                                      border: Border.all(
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .primaryBackground,
-                                                      ),
-                                                    ),
-                                                    child: Icon(
-                                                      Icons.check,
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Container(
+                                                        width:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width *
+                                                                0.099,
+                                                        height:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width *
+                                                                0.099,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryBackground,
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          border: Border.all(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primaryBackground,
+                                                          ),
+                                                        ),
+                                                        child: Icon(
+                                                          Icons.check,
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
                                                               .secondaryText,
-                                                      size: 24.0,
-                                                    ),
+                                                          size: 24.0,
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: 50.0,
+                                                        height: 3.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Color(0xFFCFD6DC),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      2.0),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                   Text(
                                                     'Parent',
@@ -3892,72 +6570,108 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                             context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily: 'Nunito',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
+                                                          font: GoogleFonts
+                                                              .nunito(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: Colors.black,
                                                           letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
                                                         ),
                                                   ),
                                                 ],
                                               ),
                                             ),
-                                            LinearPercentIndicator(
-                                              percent: 1.0,
-                                              width: 50.0,
-                                              lineHeight: 6.0,
-                                              animation: true,
-                                              animateFromLastPercent: true,
-                                              progressColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .primary,
-                                              backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .accent4,
-                                              barRadius: const Radius.circular(8.0),
-                                              padding: EdgeInsets.zero,
-                                            ),
                                             Column(
                                               mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
                                               children: [
-                                                Container(
-                                                  width:
-                                                      MediaQuery.sizeOf(context)
-                                                              .width *
-                                                          0.099,
-                                                  height:
-                                                      MediaQuery.sizeOf(context)
-                                                              .width *
-                                                          0.099,
-                                                  decoration: BoxDecoration(
-                                                    shape: BoxShape.circle,
-                                                    border: Border.all(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .primaryBackground,
-                                                    ),
-                                                  ),
-                                                  child: Align(
-                                                    alignment:
-                                                        const AlignmentDirectional(
-                                                            0.0, 0.0),
-                                                    child: Text(
-                                                      '03',
-                                                      style:
-                                                          FlutterFlowTheme.of(
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Container(
+                                                      width: MediaQuery.sizeOf(
                                                                   context)
+                                                              .width *
+                                                          0.099,
+                                                      height: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.099,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                        border: Border.all(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryBackground,
+                                                          width: 2.0,
+                                                        ),
+                                                      ),
+                                                      child: Align(
+                                                        alignment:
+                                                            AlignmentDirectional(
+                                                                0.0, 0.0),
+                                                        child: Text(
+                                                          '03',
+                                                          style: FlutterFlowTheme
+                                                                  .of(context)
                                                               .bodyMedium
                                                               .override(
-                                                                fontFamily:
-                                                                    'Nunito',
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .primaryBackground,
                                                                 letterSpacing:
                                                                     0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
                                                               ),
+                                                        ),
+                                                      ),
                                                     ),
-                                                  ),
+                                                    Container(
+                                                      width: 50.0,
+                                                      height: 3.0,
+                                                      decoration: BoxDecoration(
+                                                        color:
+                                                            Color(0xFFCFD6DC),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(2.0),
+                                                      ),
+                                                    ),
+                                                  ],
                                                 ),
                                                 Text(
                                                   'Guardian',
@@ -3965,27 +6679,36 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                           context)
                                                       .bodyMedium
                                                       .override(
-                                                        fontFamily: 'Nunito',
+                                                        font:
+                                                            GoogleFonts.nunito(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
                                                         color: FlutterFlowTheme
                                                                 .of(context)
                                                             .primaryBackground,
                                                         letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
                                                       ),
                                                 ),
                                               ],
-                                            ),
-                                            Align(
-                                              alignment: const AlignmentDirectional(
-                                                  0.0, 0.0),
-                                              child: Container(
-                                                width: 50.0,
-                                                height: 4.0,
-                                                decoration: BoxDecoration(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .tertiaryText,
-                                                ),
-                                              ),
                                             ),
                                             Column(
                                               mainAxisSize: MainAxisSize.max,
@@ -4005,15 +6728,13 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                         .secondaryBackground,
                                                     shape: BoxShape.circle,
                                                     border: Border.all(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .tertiaryText,
+                                                      color: Color(0xFFF5F2F2),
+                                                      width: 2.0,
                                                     ),
                                                   ),
                                                   child: Align(
                                                     alignment:
-                                                        const AlignmentDirectional(
+                                                        AlignmentDirectional(
                                                             0.0, 0.0),
                                                     child: Text(
                                                       '04',
@@ -4022,13 +6743,31 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                   context)
                                                               .bodyMedium
                                                               .override(
-                                                                fontFamily:
-                                                                    'Nunito',
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
                                                                     .tertiaryText,
                                                                 letterSpacing:
                                                                     0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
                                                               ),
                                                     ),
                                                   ),
@@ -4039,12 +6778,34 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                           context)
                                                       .bodyMedium
                                                       .override(
-                                                        fontFamily: 'Nunito',
+                                                        font:
+                                                            GoogleFonts.nunito(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
                                                         color:
                                                             FlutterFlowTheme.of(
                                                                     context)
                                                                 .tertiaryText,
                                                         letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
                                                       ),
                                                 ),
                                               ],
@@ -4055,11 +6816,11 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         10.0, 10.0, 10.0, 0.0),
                                     child: Material(
                                       color: Colors.transparent,
-                                      elevation: 5.0,
+                                      elevation: 0.0,
                                       shape: RoundedRectangleBorder(
                                         borderRadius:
                                             BorderRadius.circular(12.0),
@@ -4070,7 +6831,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                 1.0,
                                         decoration: BoxDecoration(
                                           color: FlutterFlowTheme.of(context)
-                                              .secondaryBackground,
+                                              .tertiary,
                                           borderRadius:
                                               BorderRadius.circular(12.0),
                                         ),
@@ -4081,11 +6842,99 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                           child: Column(
                                             mainAxisSize: MainAxisSize.max,
                                             children: [
+                                              Align(
+                                                alignment: AlignmentDirectional(
+                                                    0.0, -1.0),
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(
+                                                          0.0, 10.0, 0.0, 0.0),
+                                                  child: InkWell(
+                                                    splashColor:
+                                                        Colors.transparent,
+                                                    focusColor:
+                                                        Colors.transparent,
+                                                    hoverColor:
+                                                        Colors.transparent,
+                                                    highlightColor:
+                                                        Colors.transparent,
+                                                    onTap: () async {
+                                                      await showModalBottomSheet(
+                                                        isScrollControlled:
+                                                            true,
+                                                        backgroundColor:
+                                                            Colors.transparent,
+                                                        enableDrag: false,
+                                                        context: context,
+                                                        builder: (context) {
+                                                          return GestureDetector(
+                                                            onTap: () {
+                                                              FocusScope.of(
+                                                                      context)
+                                                                  .unfocus();
+                                                              FocusManager
+                                                                  .instance
+                                                                  .primaryFocus
+                                                                  ?.unfocus();
+                                                            },
+                                                            child: Padding(
+                                                              padding: MediaQuery
+                                                                  .viewInsetsOf(
+                                                                      context),
+                                                              child: Container(
+                                                                height: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .height *
+                                                                    0.2,
+                                                                child:
+                                                                    ParentphotoWidget(
+                                                                  parent2:
+                                                                      false,
+                                                                  parent1:
+                                                                      false,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          );
+                                                        },
+                                                      ).then((value) =>
+                                                          safeSetState(() {}));
+                                                    },
+                                                    child: Container(
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.3,
+                                                      height: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.3,
+                                                      clipBehavior:
+                                                          Clip.antiAlias,
+                                                      decoration: BoxDecoration(
+                                                        shape: BoxShape.circle,
+                                                      ),
+                                                      child: Image.network(
+                                                        valueOrDefault<String>(
+                                                          FFAppState().guardian !=
+                                                                      ''
+                                                              ? FFAppState()
+                                                                  .parent1
+                                                              : FFAppConstants
+                                                                  .addImage,
+                                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
+                                                        ),
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 10.0, 0.0, 10.0),
-                                                child: SizedBox(
+                                                child: Container(
                                                   width:
                                                       MediaQuery.sizeOf(context)
                                                               .width *
@@ -4109,8 +6958,18 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                   context)
                                                               .labelMedium
                                                               .override(
-                                                                fontFamily:
-                                                                    'Nunito',
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontStyle,
+                                                                ),
                                                                 color:
                                                                     valueOrDefault<
                                                                         Color>(
@@ -4127,8 +6986,22 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                           context)
                                                                       .textfieldText,
                                                                 ),
+                                                                fontSize: (_model
+                                                                            .gnameFocusNode
+                                                                            ?.hasFocus ??
+                                                                        false)
+                                                                    ? 12.0
+                                                                    : 16.0,
                                                                 letterSpacing:
                                                                     0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontStyle,
                                                               ),
                                                       hintText:
                                                           'Guardian\'s name',
@@ -4137,20 +7010,39 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                   context)
                                                               .labelMedium
                                                               .override(
-                                                                fontFamily:
-                                                                    'Nunito',
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontStyle,
+                                                                ),
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .tertiaryText,
+                                                                    .textfieldText,
+                                                                fontSize: 16.0,
                                                                 letterSpacing:
                                                                     0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontStyle,
                                                               ),
                                                       enabledBorder:
                                                           OutlineInputBorder(
                                                         borderSide: BorderSide(
                                                           color: FlutterFlowTheme
                                                                   .of(context)
-                                                              .dIsable,
+                                                              .textfieldDisable,
                                                           width: 1.0,
                                                         ),
                                                         borderRadius:
@@ -4202,9 +7094,34 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                             context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily: 'Nunito',
+                                                          font: GoogleFonts
+                                                              .nunito(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .text2,
                                                           fontSize: 14.0,
                                                           letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
                                                         ),
                                                     keyboardType:
                                                         TextInputType.name,
@@ -4215,14 +7132,30 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                     validator: _model
                                                         .gnameTextControllerValidator
                                                         .asValidator(context),
+                                                    inputFormatters: [
+                                                      if (!isAndroid && !isiOS)
+                                                        TextInputFormatter
+                                                            .withFunction(
+                                                                (oldValue,
+                                                                    newValue) {
+                                                          return TextEditingValue(
+                                                            selection: newValue
+                                                                .selection,
+                                                            text: newValue.text
+                                                                .toCapitalization(
+                                                                    TextCapitalization
+                                                                        .words),
+                                                          );
+                                                        }),
+                                                    ],
                                                   ),
                                                 ),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 0.0, 0.0, 10.0),
-                                                child: SizedBox(
+                                                child: Container(
                                                   width:
                                                       MediaQuery.sizeOf(context)
                                                               .width *
@@ -4236,14 +7169,25 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                     obscureText: false,
                                                     decoration: InputDecoration(
                                                       isDense: true,
-                                                      labelText: 'Number',
+                                                      labelText:
+                                                          'Guardian\'s Number',
                                                       labelStyle:
                                                           FlutterFlowTheme.of(
                                                                   context)
                                                               .labelMedium
                                                               .override(
-                                                                fontFamily:
-                                                                    'Nunito',
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontStyle,
+                                                                ),
                                                                 color:
                                                                     valueOrDefault<
                                                                         Color>(
@@ -4260,29 +7204,63 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                           context)
                                                                       .textfieldText,
                                                                 ),
+                                                                fontSize: (_model
+                                                                            .gnumberFocusNode
+                                                                            ?.hasFocus ??
+                                                                        false)
+                                                                    ? 12.0
+                                                                    : 16.0,
                                                                 letterSpacing:
                                                                     0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontStyle,
                                                               ),
-                                                      hintText: 'Number',
+                                                      hintText:
+                                                          ' Guardian\'s Number',
                                                       hintStyle:
                                                           FlutterFlowTheme.of(
                                                                   context)
                                                               .labelMedium
                                                               .override(
-                                                                fontFamily:
-                                                                    'Nunito',
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontStyle,
+                                                                ),
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .tertiaryText,
+                                                                    .textfieldText,
+                                                                fontSize: 16.0,
                                                                 letterSpacing:
                                                                     0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontStyle,
                                                               ),
                                                       enabledBorder:
                                                           OutlineInputBorder(
                                                         borderSide: BorderSide(
                                                           color: FlutterFlowTheme
                                                                   .of(context)
-                                                              .dIsable,
+                                                              .textfieldDisable,
                                                           width: 1.0,
                                                         ),
                                                         borderRadius:
@@ -4334,9 +7312,34 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                             context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily: 'Nunito',
+                                                          font: GoogleFonts
+                                                              .nunito(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .text2,
                                                           fontSize: 14.0,
                                                           letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
                                                         ),
                                                     maxLength: 10,
                                                     buildCounter: (context,
@@ -4362,10 +7365,10 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                 ),
                                               ),
                                               Padding(
-                                                padding: const EdgeInsetsDirectional
+                                                padding: EdgeInsetsDirectional
                                                     .fromSTEB(
                                                         0.0, 0.0, 0.0, 10.0),
-                                                child: SizedBox(
+                                                child: Container(
                                                   width:
                                                       MediaQuery.sizeOf(context)
                                                               .width *
@@ -4379,14 +7382,25 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                     obscureText: false,
                                                     decoration: InputDecoration(
                                                       isDense: true,
-                                                      labelText: 'Email',
+                                                      labelText:
+                                                          ' Username /Email ',
                                                       labelStyle:
                                                           FlutterFlowTheme.of(
                                                                   context)
                                                               .labelMedium
                                                               .override(
-                                                                fontFamily:
-                                                                    'Nunito',
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontStyle,
+                                                                ),
                                                                 color:
                                                                     valueOrDefault<
                                                                         Color>(
@@ -4403,29 +7417,63 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                           context)
                                                                       .textfieldText,
                                                                 ),
+                                                                fontSize: (_model
+                                                                            .gemailFocusNode
+                                                                            ?.hasFocus ??
+                                                                        false)
+                                                                    ? 12.0
+                                                                    : 16.0,
                                                                 letterSpacing:
                                                                     0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontStyle,
                                                               ),
-                                                      hintText: 'Email',
+                                                      hintText:
+                                                          'Username / Email',
                                                       hintStyle:
                                                           FlutterFlowTheme.of(
                                                                   context)
                                                               .labelMedium
                                                               .override(
-                                                                fontFamily:
-                                                                    'Nunito',
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .labelMedium
+                                                                      .fontStyle,
+                                                                ),
                                                                 color: FlutterFlowTheme.of(
                                                                         context)
-                                                                    .tertiaryText,
+                                                                    .textfieldText,
+                                                                fontSize: 16.0,
                                                                 letterSpacing:
                                                                     0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .labelMedium
+                                                                    .fontStyle,
                                                               ),
                                                       enabledBorder:
                                                           OutlineInputBorder(
                                                         borderSide: BorderSide(
                                                           color: FlutterFlowTheme
                                                                   .of(context)
-                                                              .dIsable,
+                                                              .textfieldDisable,
                                                           width: 1.0,
                                                         ),
                                                         borderRadius:
@@ -4477,12 +7525,35 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                             context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily: 'Nunito',
+                                                          font: GoogleFonts
+                                                              .nunito(
+                                                            fontWeight:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .text2,
                                                           fontSize: 14.0,
                                                           letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
                                                         ),
-                                                    keyboardType: TextInputType
-                                                        .emailAddress,
                                                     cursorColor:
                                                         FlutterFlowTheme.of(
                                                                 context)
@@ -4490,368 +7561,1276 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                     validator: _model
                                                         .gemailTextControllerValidator
                                                         .asValidator(context),
+                                                    inputFormatters: [
+                                                      FilteringTextInputFormatter
+                                                          .allow(RegExp(
+                                                              '[a-z0-9@.]'))
+                                                    ],
                                                   ),
                                                 ),
                                               ),
-                                            ].addToEnd(const SizedBox(height: 10.0)),
+                                            ].addToEnd(SizedBox(height: 10.0)),
                                           ),
                                         ),
                                       ),
                                     ),
                                   ),
                                   Align(
-                                    alignment: const AlignmentDirectional(0.0, -1.0),
+                                    alignment: AlignmentDirectional(0.0, 0.0),
                                     child: Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 16.0, 0.0, 0.0),
-                                      child: Container(
-                                        decoration: const BoxDecoration(),
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 10.0, 0.0, 10.0),
+                                      child: FFButtonWidget(
+                                        onPressed: () async {
+                                          if (_model.formKey1.currentState ==
+                                                  null ||
+                                              !_model.formKey1.currentState!
+                                                  .validate()) {
+                                            return;
+                                          }
+                                          _model.addToParentsdetails(
+                                              ParentsDetailsStruct(
+                                            parentsId:
+                                                functions.generateUniqueId(),
+                                            parentsName:
+                                                _model.gnameTextController.text,
+                                            parentsEmail: functions
+                                                    .isValidEmail(_model
+                                                        .gemailTextController
+                                                        .text)
+                                                ? _model
+                                                    .gemailTextController.text
+                                                : '${_model.gemailTextController.text}@feebe.in',
+                                            parentsPhone: _model
+                                                .gnumberTextController.text,
+                                            parentRelation: 'Guardian',
+                                            isemail: functions.isValidEmail(
+                                                _model
+                                                    .gemailTextController.text),
+                                            parentImage: FFAppState().guardian,
+                                          ));
+                                          safeSetState(() {});
+                                          _model.guardianCount =
+                                              _model.guardianCount + 1;
+                                          safeSetState(() {});
+                                          FFAppState().guardian = '';
+                                          safeSetState(() {});
+                                          safeSetState(() {
+                                            _model.gnumberTextController
+                                                ?.clear();
+                                            _model.gemailTextController
+                                                ?.clear();
+                                            _model.gnameTextController?.clear();
+                                          });
+                                        },
+                                        text: 'Add Another',
+                                        options: FFButtonOptions(
+                                          height: 40.0,
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16.0, 0.0, 16.0, 0.0),
+                                          iconPadding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primary,
+                                          textStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .titleSmall
+                                              .override(
+                                                font: GoogleFonts.nunito(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmall
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmall
+                                                          .fontStyle,
+                                                ),
+                                                color: Colors.white,
+                                                letterSpacing: 0.0,
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmall
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmall
+                                                        .fontStyle,
+                                              ),
+                                          elevation: 0.0,
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
                                       ),
                                     ),
+                                  ),
+                                  Builder(
+                                    builder: (context) {
+                                      final guardians = _model.parentsdetails
+                                          .where((e) =>
+                                              e.parentRelation != '')
+                                          .toList();
+
+                                      return ListView.builder(
+                                        padding: EdgeInsets.zero,
+                                        primary: false,
+                                        shrinkWrap: true,
+                                        scrollDirection: Axis.vertical,
+                                        itemCount: guardians.length,
+                                        itemBuilder: (context, guardiansIndex) {
+                                          final guardiansItem =
+                                              guardians[guardiansIndex];
+                                          return Padding(
+                                            padding: EdgeInsets.all(10.0),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  'Guardian ${functions.serialnumber(guardiansIndex).toString()}',
+                                                  textAlign: TextAlign.center,
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font:
+                                                            GoogleFonts.nunito(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        fontSize: 16.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                ),
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Container(
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.32,
+                                                      decoration:
+                                                          BoxDecoration(),
+                                                      child: Text(
+                                                        'Name : ',
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              font: GoogleFonts
+                                                                  .nunito(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                              fontSize: 16.0,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.58,
+                                                      decoration:
+                                                          BoxDecoration(),
+                                                      child: Text(
+                                                        guardiansItem
+                                                            .parentsName,
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              font: GoogleFonts
+                                                                  .nunito(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                              fontSize: 16.0,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Container(
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.32,
+                                                      decoration:
+                                                          BoxDecoration(),
+                                                      child: Text(
+                                                        'Phone Number : ',
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              font: GoogleFonts
+                                                                  .nunito(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                              fontSize: 16.0,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.58,
+                                                      decoration:
+                                                          BoxDecoration(),
+                                                      child: Text(
+                                                        guardiansItem
+                                                            .parentsPhone,
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              font: GoogleFonts
+                                                                  .nunito(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                              fontSize: 16.0,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                                Row(
+                                                  mainAxisSize:
+                                                      MainAxisSize.max,
+                                                  children: [
+                                                    Container(
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.32,
+                                                      decoration:
+                                                          BoxDecoration(),
+                                                      child: Text(
+                                                        'Username: ',
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              font: GoogleFonts
+                                                                  .nunito(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                              fontSize: 16.0,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
+                                                      ),
+                                                    ),
+                                                    Container(
+                                                      width: MediaQuery.sizeOf(
+                                                                  context)
+                                                              .width *
+                                                          0.58,
+                                                      decoration:
+                                                          BoxDecoration(),
+                                                      child: Text(
+                                                        guardiansItem
+                                                            .parentsEmail,
+                                                        textAlign:
+                                                            TextAlign.start,
+                                                        style: FlutterFlowTheme
+                                                                .of(context)
+                                                            .bodyMedium
+                                                            .override(
+                                                              font: GoogleFonts
+                                                                  .nunito(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .normal,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                              fontSize: 16.0,
+                                                              letterSpacing:
+                                                                  0.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .normal,
+                                                              fontStyle:
+                                                                  FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                            ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ].divide(SizedBox(height: 5.0)),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
                                   ),
                                 ],
                               ),
                             ),
                             Padding(
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 10.0, 0.0, 0.0),
-                              child: SingleChildScrollView(
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.max,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          10.0, 0.0, 10.0, 0.0),
-                                      child: Container(
-                                        decoration: const BoxDecoration(),
-                                        child: Padding(
-                                          padding:
-                                              const EdgeInsetsDirectional.fromSTEB(
-                                                  10.0, 0.0, 10.0, 0.0),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.max,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              InkWell(
-                                                splashColor: Colors.transparent,
-                                                focusColor: Colors.transparent,
-                                                hoverColor: Colors.transparent,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                                onTap: () async {
-                                                  _model.pageno = 0;
-                                                  safeSetState(() {});
-                                                  await _model
-                                                      .pageViewController
-                                                      ?.animateToPage(
-                                                    0,
-                                                    duration: const Duration(
-                                                        milliseconds: 500),
-                                                    curve: Curves.ease,
-                                                  );
-                                                },
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Container(
-                                                      width: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width *
-                                                          0.099,
-                                                      height: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width *
-                                                          0.099,
-                                                      decoration: BoxDecoration(
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .primaryBackground,
-                                                        shape: BoxShape.circle,
-                                                        border: Border.all(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                        ),
-                                                      ),
-                                                      child: Icon(
-                                                        Icons.check,
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .secondaryText,
-                                                        size: 24.0,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      'Student ',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Nunito',
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primaryBackground,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              LinearPercentIndicator(
-                                                percent: 1.0,
-                                                width: 50.0,
-                                                lineHeight: 6.0,
-                                                animation: false,
-                                                animateFromLastPercent: true,
-                                                progressColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                backgroundColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .accent4,
-                                                barRadius: const Radius.circular(8.0),
-                                                padding: EdgeInsets.zero,
-                                              ),
-                                              InkWell(
-                                                splashColor: Colors.transparent,
-                                                focusColor: Colors.transparent,
-                                                hoverColor: Colors.transparent,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                                onTap: () async {
-                                                  _model.pageno = 1;
-                                                  safeSetState(() {});
-                                                  await _model
-                                                      .pageViewController
-                                                      ?.animateToPage(
-                                                    1,
-                                                    duration: const Duration(
-                                                        milliseconds: 500),
-                                                    curve: Curves.ease,
-                                                  );
-                                                },
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Container(
-                                                      width: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width *
-                                                          0.099,
-                                                      height: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width *
-                                                          0.099,
-                                                      decoration: BoxDecoration(
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .primaryBackground,
-                                                        shape: BoxShape.circle,
-                                                        border: Border.all(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                        ),
-                                                      ),
-                                                      child: Icon(
-                                                        Icons.check,
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .secondaryText,
-                                                        size: 24.0,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      'Parent',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Nunito',
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primaryBackground,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              LinearPercentIndicator(
-                                                percent: 1.0,
-                                                width: 50.0,
-                                                lineHeight: 6.0,
-                                                animation: false,
-                                                animateFromLastPercent: true,
-                                                progressColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                backgroundColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .accent4,
-                                                barRadius: const Radius.circular(8.0),
-                                                padding: EdgeInsets.zero,
-                                              ),
-                                              InkWell(
-                                                splashColor: Colors.transparent,
-                                                focusColor: Colors.transparent,
-                                                hoverColor: Colors.transparent,
-                                                highlightColor:
-                                                    Colors.transparent,
-                                                onTap: () async {
-                                                  _model.pageno = 2;
-                                                  safeSetState(() {});
-                                                  await _model
-                                                      .pageViewController
-                                                      ?.previousPage(
-                                                    duration: const Duration(
-                                                        milliseconds: 300),
-                                                    curve: Curves.ease,
-                                                  );
-                                                },
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.max,
-                                                  children: [
-                                                    Container(
-                                                      width: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width *
-                                                          0.099,
-                                                      height: MediaQuery.sizeOf(
-                                                                  context)
-                                                              .width *
-                                                          0.099,
-                                                      decoration: BoxDecoration(
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .primaryBackground,
-                                                        shape: BoxShape.circle,
-                                                        border: Border.all(
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
-                                                        ),
-                                                      ),
-                                                      child: Icon(
-                                                        Icons.check,
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .secondaryBackground,
-                                                        size: 24.0,
-                                                      ),
-                                                    ),
-                                                    Text(
-                                                      'Guardian',
-                                                      style:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .bodyMedium
-                                                              .override(
-                                                                fontFamily:
-                                                                    'Nunito',
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .primaryBackground,
-                                                                letterSpacing:
-                                                                    0.0,
-                                                              ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              Align(
-                                                alignment: const AlignmentDirectional(
-                                                    0.0, 0.0),
-                                                child: Container(
-                                                  width: 50.0,
-                                                  height: 4.0,
-                                                  decoration: BoxDecoration(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .tertiaryText,
-                                                  ),
-                                                ),
-                                              ),
-                                              Column(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.max,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        10.0, 0.0, 10.0, 0.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(),
+                                      child: Padding(
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            10.0, 0.0, 10.0, 0.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                _model.pageno = 0;
+                                                safeSetState(() {});
+                                                await _model.pageViewController
+                                                    ?.animateToPage(
+                                                  0,
+                                                  duration: Duration(
+                                                      milliseconds: 500),
+                                                  curve: Curves.ease,
+                                                );
+                                              },
+                                              child: Column(
                                                 mainAxisSize: MainAxisSize.max,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Container(
-                                                    width: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.099,
-                                                    height: MediaQuery.sizeOf(
-                                                                context)
-                                                            .width *
-                                                        0.099,
-                                                    decoration: BoxDecoration(
-                                                      color: FlutterFlowTheme
-                                                              .of(context)
-                                                          .secondaryBackground,
-                                                      shape: BoxShape.circle,
-                                                      border: Border.all(
-                                                        color: FlutterFlowTheme
-                                                                .of(context)
-                                                            .primaryBackground,
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Container(
+                                                        width:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width *
+                                                                0.099,
+                                                        height:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width *
+                                                                0.099,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryBackground,
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          border: Border.all(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primaryBackground,
+                                                          ),
+                                                        ),
+                                                        child: Icon(
+                                                          Icons.check,
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryText,
+                                                          size: 24.0,
+                                                        ),
                                                       ),
-                                                    ),
-                                                    child: Align(
-                                                      alignment:
-                                                          const AlignmentDirectional(
-                                                              0.0, 0.0),
-                                                      child: Text(
-                                                        '04',
-                                                        style:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .bodyMedium
-                                                                .override(
-                                                                  fontFamily:
-                                                                      'Nunito',
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primaryBackground,
-                                                                  letterSpacing:
-                                                                      0.0,
-                                                                ),
+                                                      Container(
+                                                        width: 50.0,
+                                                        height: 3.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Color(0xFFCFD6DC),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      2.0),
+                                                        ),
                                                       ),
-                                                    ),
+                                                    ],
                                                   ),
                                                   Text(
-                                                    'Save',
+                                                    'Student ',
                                                     style: FlutterFlowTheme.of(
                                                             context)
                                                         .bodyMedium
                                                         .override(
-                                                          fontFamily: 'Nunito',
-                                                          color: FlutterFlowTheme
-                                                                  .of(context)
-                                                              .primaryBackground,
+                                                          font: GoogleFonts
+                                                              .nunito(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: Colors.black,
                                                           letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
                                                         ),
                                                   ),
                                                 ],
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                            InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                _model.pageno = 1;
+                                                safeSetState(() {});
+                                                await _model.pageViewController
+                                                    ?.animateToPage(
+                                                  1,
+                                                  duration: Duration(
+                                                      milliseconds: 500),
+                                                  curve: Curves.ease,
+                                                );
+                                              },
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Container(
+                                                        width:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width *
+                                                                0.099,
+                                                        height:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width *
+                                                                0.099,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryBackground,
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          border: Border.all(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primaryBackground,
+                                                          ),
+                                                        ),
+                                                        child: Icon(
+                                                          Icons.check,
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryText,
+                                                          size: 24.0,
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: 50.0,
+                                                        height: 3.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Color(0xFFCFD6DC),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      2.0),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Text(
+                                                    'Parent',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .nunito(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: Colors.black,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            InkWell(
+                                              splashColor: Colors.transparent,
+                                              focusColor: Colors.transparent,
+                                              hoverColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () async {
+                                                _model.pageno = 2;
+                                                safeSetState(() {});
+                                                await _model.pageViewController
+                                                    ?.previousPage(
+                                                  duration: Duration(
+                                                      milliseconds: 300),
+                                                  curve: Curves.ease,
+                                                );
+                                              },
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Row(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    children: [
+                                                      Container(
+                                                        width:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width *
+                                                                0.099,
+                                                        height:
+                                                            MediaQuery.sizeOf(
+                                                                        context)
+                                                                    .width *
+                                                                0.099,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryBackground,
+                                                          shape:
+                                                              BoxShape.circle,
+                                                          border: Border.all(
+                                                            color: FlutterFlowTheme
+                                                                    .of(context)
+                                                                .primaryBackground,
+                                                          ),
+                                                        ),
+                                                        child: Icon(
+                                                          Icons.check,
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondaryBackground,
+                                                          size: 24.0,
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: 50.0,
+                                                        height: 3.0,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Color(0xFFCFD6DC),
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      2.0),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Text(
+                                                    'Guardian',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .nunito(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: Colors.black,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              children: [
+                                                Container(
+                                                  width:
+                                                      MediaQuery.sizeOf(context)
+                                                              .width *
+                                                          0.099,
+                                                  height:
+                                                      MediaQuery.sizeOf(context)
+                                                              .width *
+                                                          0.099,
+                                                  decoration: BoxDecoration(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .secondaryBackground,
+                                                    shape: BoxShape.circle,
+                                                    border: Border.all(
+                                                      color: FlutterFlowTheme
+                                                              .of(context)
+                                                          .primaryBackground,
+                                                      width: 2.0,
+                                                    ),
+                                                  ),
+                                                  child: Align(
+                                                    alignment:
+                                                        AlignmentDirectional(
+                                                            0.0, 0.0),
+                                                    child: Text(
+                                                      '04',
+                                                      style:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontWeight,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primaryBackground,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontWeight,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                              ),
+                                                    ),
+                                                  ),
+                                                ),
+                                                Text(
+                                                  'Classes',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font:
+                                                            GoogleFonts.nunito(
+                                                          fontWeight:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontWeight,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        color: FlutterFlowTheme
+                                                                .of(context)
+                                                            .primaryBackground,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontWeight,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
                                         ),
                                       ),
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 10.0, 0.0, 0.0),
+                                    child: StreamBuilder<SchoolRecord>(
+                                      stream: SchoolRecord.getDocument(
+                                          widget.schoolref!),
+                                      builder: (context, snapshot) {
+                                        // Customize what your widget looks like when it's loading.
+                                        if (!snapshot.hasData) {
+                                          return Center(
+                                            child: SizedBox(
+                                              width: 50.0,
+                                              height: 50.0,
+                                              child: CircularProgressIndicator(
+                                                valueColor:
+                                                    AlwaysStoppedAnimation<
+                                                        Color>(
+                                                  FlutterFlowTheme.of(context)
+                                                      .primary,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        }
+
+                                        final containerSchoolRecord =
+                                            snapshot.data!;
+
+                                        return Container(
+                                          width:
+                                              MediaQuery.sizeOf(context).width *
+                                                  1.0,
+                                          height: MediaQuery.sizeOf(context)
+                                                  .height *
+                                              0.75,
+                                          decoration: BoxDecoration(
+                                            color: FlutterFlowTheme.of(context)
+                                                .tertiary,
+                                          ),
+                                          child: SingleChildScrollView(
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.max,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.spaceAround,
+                                              children: [
+                                                Text(
+                                                  'Select class',
+                                                  style: FlutterFlowTheme.of(
+                                                          context)
+                                                      .bodyMedium
+                                                      .override(
+                                                        font:
+                                                            GoogleFonts.nunito(
+                                                          fontWeight:
+                                                              FontWeight.w600,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                        color:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .tertiaryText,
+                                                        fontSize: 20.0,
+                                                        letterSpacing: 0.0,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                ),
+                                                if ((_model.everyone == 0) ||
+                                                    (_model.everyone == 1))
+                                                  Padding(
+                                                    padding:
+                                                        EdgeInsetsDirectional
+                                                            .fromSTEB(10.0, 0.0,
+                                                                10.0, 12.0),
+                                                    child: InkWell(
+                                                      splashColor:
+                                                          Colors.transparent,
+                                                      focusColor:
+                                                          Colors.transparent,
+                                                      hoverColor:
+                                                          Colors.transparent,
+                                                      highlightColor:
+                                                          Colors.transparent,
+                                                      onTap: () async {
+                                                        if (_model.everyone ==
+                                                            1) {
+                                                          _model.everyone = 0;
+                                                          safeSetState(() {});
+                                                        } else {
+                                                          _model.everyone = 1;
+                                                          safeSetState(() {});
+                                                        }
+                                                      },
+                                                      child: Material(
+                                                        color:
+                                                            Colors.transparent,
+                                                        elevation: 5.0,
+                                                        shape:
+                                                            RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      14.0),
+                                                        ),
+                                                        child: Container(
+                                                          width:
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .width *
+                                                                  0.9,
+                                                          height:
+                                                              MediaQuery.sizeOf(
+                                                                          context)
+                                                                      .height *
+                                                                  0.1,
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: _model
+                                                                        .everyone ==
+                                                                    1
+                                                                ? FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .lightblue
+                                                                : FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .secondaryBackground,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        14.0),
+                                                            border: Border.all(
+                                                              color: Color(
+                                                                  0xFFDDF1F6),
+                                                            ),
+                                                          ),
+                                                          child: Column(
+                                                            mainAxisSize:
+                                                                MainAxisSize
+                                                                    .max,
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .spaceEvenly,
+                                                            children: [
+                                                              Text(
+                                                                'Everyone',
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      font: GoogleFonts
+                                                                          .nunito(
+                                                                        fontWeight:
+                                                                            FontWeight.bold,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
+                                                              ),
+                                                              Text(
+                                                                'Student : ${containerSchoolRecord.studentDataList.where((e) => e.isDraft == false).toList().length.toString()}',
+                                                                style: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .override(
+                                                                      font: GoogleFonts
+                                                                          .nunito(
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .bodyMedium
+                                                                            .fontStyle,
+                                                                      ),
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .tertiaryText,
+                                                                      letterSpacing:
+                                                                          0.0,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w500,
+                                                                      fontStyle: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .fontStyle,
+                                                                    ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                if ((_model.everyone == 0) ||
+                                                    (_model.everyone == 2))
+                                                  Align(
+                                                    alignment:
+                                                        AlignmentDirectional(
+                                                            0.0, 0.0),
+                                                    child: Padding(
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  20.0,
+                                                                  0.0,
+                                                                  20.0,
+                                                                  0.0),
+                                                      child: Builder(
+                                                        builder: (context) {
+                                                          final schoolClassref =
+                                                              containerSchoolRecord
+                                                                  .listOfClass
+                                                                  .toList();
+
+                                                          return ListView
+                                                              .builder(
+                                                            padding:
+                                                                EdgeInsets.zero,
+                                                            primary: false,
+                                                            shrinkWrap: true,
+                                                            scrollDirection:
+                                                                Axis.vertical,
+                                                            itemCount:
+                                                                schoolClassref
+                                                                    .length,
+                                                            itemBuilder: (context,
+                                                                schoolClassrefIndex) {
+                                                              final schoolClassrefItem =
+                                                                  schoolClassref[
+                                                                      schoolClassrefIndex];
+                                                              return Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            12.0),
+                                                                child: StreamBuilder<
+                                                                    SchoolClassRecord>(
+                                                                  stream: SchoolClassRecord
+                                                                      .getDocument(
+                                                                          schoolClassrefItem),
+                                                                  builder: (context,
+                                                                      snapshot) {
+                                                                    // Customize what your widget looks like when it's loading.
+                                                                    if (!snapshot
+                                                                        .hasData) {
+                                                                      return Container(
+                                                                        width: MediaQuery.sizeOf(context).width *
+                                                                            1.0,
+                                                                        height: MediaQuery.sizeOf(context).height *
+                                                                            0.4,
+                                                                        child:
+                                                                            QuickActionSelectclassWidget(),
+                                                                      );
+                                                                    }
+
+                                                                    final containerSchoolClassRecord =
+                                                                        snapshot
+                                                                            .data!;
+
+                                                                    return InkWell(
+                                                                      splashColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      focusColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      hoverColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      highlightColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      onTap:
+                                                                          () async {
+                                                                        if (!_model
+                                                                            .classRef
+                                                                            .contains(schoolClassrefItem)) {
+                                                                          _model
+                                                                              .addToClassRef(schoolClassrefItem);
+                                                                          _model
+                                                                              .addToClassname(containerSchoolClassRecord.className);
+                                                                          safeSetState(
+                                                                              () {});
+                                                                        } else {
+                                                                          _model
+                                                                              .removeFromClassRef(schoolClassrefItem);
+                                                                          _model
+                                                                              .removeFromClassname(containerSchoolClassRecord.className);
+                                                                          safeSetState(
+                                                                              () {});
+                                                                        }
+
+                                                                        if (_model.classRef.length !=
+                                                                            0) {
+                                                                          _model.everyone =
+                                                                              2;
+                                                                          safeSetState(
+                                                                              () {});
+                                                                        } else {
+                                                                          _model.everyone =
+                                                                              0;
+                                                                          safeSetState(
+                                                                              () {});
+                                                                        }
+                                                                      },
+                                                                      child:
+                                                                          Material(
+                                                                        color: Colors
+                                                                            .transparent,
+                                                                        elevation:
+                                                                            5.0,
+                                                                        shape:
+                                                                            RoundedRectangleBorder(
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(14.0),
+                                                                        ),
+                                                                        child:
+                                                                            Container(
+                                                                          width:
+                                                                              MediaQuery.sizeOf(context).width * 0.8,
+                                                                          height:
+                                                                              MediaQuery.sizeOf(context).height * 0.1,
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            color: _model.classRef.contains(schoolClassrefItem)
+                                                                                ? FlutterFlowTheme.of(context).lightblue
+                                                                                : FlutterFlowTheme.of(context).secondaryBackground,
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(14.0),
+                                                                            border:
+                                                                                Border.all(
+                                                                              color: Color(0xFFDDF1F6),
+                                                                            ),
+                                                                          ),
+                                                                          child:
+                                                                              Column(
+                                                                            mainAxisSize:
+                                                                                MainAxisSize.max,
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.spaceEvenly,
+                                                                            children: [
+                                                                              Text(
+                                                                                containerSchoolClassRecord.className,
+                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                      font: GoogleFonts.nunito(
+                                                                                        fontWeight: FontWeight.bold,
+                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                      ),
+                                                                                      color: FlutterFlowTheme.of(context).primary,
+                                                                                      letterSpacing: 0.0,
+                                                                                      fontWeight: FontWeight.bold,
+                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                    ),
+                                                                              ),
+                                                                              Text(
+                                                                                'Student  : ${containerSchoolClassRecord.studentsList.length.toString()}',
+                                                                                style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                      font: GoogleFonts.nunito(
+                                                                                        fontWeight: FontWeight.w500,
+                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                      ),
+                                                                                      color: FlutterFlowTheme.of(context).tertiaryText,
+                                                                                      letterSpacing: 0.0,
+                                                                                      fontWeight: FontWeight.w500,
+                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                    ),
+                                                                              ),
+                                                                            ],
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                ),
+                                                              );
+                                                            },
+                                                          );
+                                                        },
+                                                      ),
+                                                    ),
+                                                  ),
+                                              ].divide(SizedBox(height: 5.0)),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
@@ -4861,10 +8840,10 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                   ),
                   if (_model.pageno == 0)
                     Align(
-                      alignment: const AlignmentDirectional(0.0, 1.0),
+                      alignment: AlignmentDirectional(0.0, 1.0),
                       child: Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
                         child: Material(
                           color: Colors.transparent,
                           elevation: 2.0,
@@ -4879,7 +8858,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                   .secondaryBackground,
                               borderRadius: BorderRadius.circular(10.0),
                               border: Border.all(
-                                color: const Color(0xFFF4F4F4),
+                                color: Color(0xFFF4F4F4),
                               ),
                             ),
                             child: Row(
@@ -4887,35 +8866,474 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
                                       0.0, 10.0, 0.0, 0.0),
                                   child: FFButtonWidget(
                                     onPressed: () async {
+                                      if ((_model.childnameTextController
+                                                      .text ==
+                                                  '') ||
+                                          (_model.genderValue == null ||
+                                              _model.genderValue == '') ||
+                                          (_model.bloodtypeValue == null ||
+                                              _model.bloodtypeValue == '') ||
+                                          (_model.addressTextController
+                                                      .text ==
+                                                  '') ||
+                                          (FFAppState().studentimage ==
+                                                  '')) {
+                                        _model.addToEmptypage(0);
+                                        safeSetState(() {});
+                                      } else {
+                                        if (_model.formKey3.currentState ==
+                                                null ||
+                                            !_model.formKey3.currentState!
+                                                .validate()) {
+                                          return;
+                                        }
+                                        if (_model.genderValue == null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Please select the gender',
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                ),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondary,
+                                            ),
+                                          );
+                                          return;
+                                        }
+                                        _model.removeFromEmptypage(0);
+                                        safeSetState(() {});
+                                      }
+
+                                      _model.pageno = 1;
+                                      safeSetState(() {});
+                                      await _model.pageViewController
+                                          ?.animateToPage(
+                                        1,
+                                        duration: Duration(milliseconds: 500),
+                                        curve: Curves.ease,
+                                      );
+                                    },
+                                    text: 'Next',
+                                    options: FFButtonOptions(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.7,
+                                      height:
+                                          MediaQuery.sizeOf(context).height *
+                                              0.06,
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          16.0, 0.0, 16.0, 0.0),
+                                      iconPadding:
+                                          EdgeInsetsDirectional.fromSTEB(
+                                              0.0, 0.0, 0.0, 0.0),
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryBackground,
+                                      textStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .override(
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .titleSmall
+                                                      .fontStyle,
+                                            ),
+                                            color: Colors.white,
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontStyle,
+                                          ),
+                                      elevation: 0.0,
+                                      borderRadius: BorderRadius.circular(8.0),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  if (_model.pageno == 1)
+                    Align(
+                      alignment: AlignmentDirectional(0.0, 1.0),
+                      child: Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
+                        child: Material(
+                          color: Colors.transparent,
+                          elevation: 2.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Container(
+                            width: MediaQuery.sizeOf(context).width * 1.0,
+                            height: MediaQuery.sizeOf(context).height * 0.1,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              borderRadius: BorderRadius.circular(10.0),
+                              border: Border.all(
+                                color: Color(0xFFF4F4F4),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                FFButtonWidget(
+                                  onPressed: () async {
+                                    _model.pageno = 0;
+                                    safeSetState(() {});
+                                    await _model.pageViewController
+                                        ?.previousPage(
+                                      duration: Duration(milliseconds: 300),
+                                      curve: Curves.ease,
+                                    );
+                                  },
+                                  text: 'Back',
+                                  options: FFButtonOptions(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.4,
+                                    height: MediaQuery.sizeOf(context).height *
+                                        0.06,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 0.0, 16.0, 0.0),
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
+                                    color:
+                                        FlutterFlowTheme.of(context).secondary,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                      shadows: [
+                                        Shadow(
+                                          color: Color(0xFFF4F5FA),
+                                          offset: Offset(0.0, -3.0),
+                                          blurRadius: 6.0,
+                                        )
+                                      ],
+                                    ),
+                                    elevation: 0.0,
+                                    borderSide: BorderSide(
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                                FFButtonWidget(
+                                  onPressed: () async {
+                                    if ((_model.parentnameTextController
+                                                    .text ==
+                                                '') ||
+                                        (_model.numberfatherTextController
+                                                    .text ==
+                                                '') ||
+                                        (_model.emailfatherTextController
+                                                    .text ==
+                                                '')) {
+                                      _model.addToEmptypage(1);
+                                      safeSetState(() {});
+                                      await _model.pageViewController
+                                          ?.animateToPage(
+                                        2,
+                                        duration: Duration(milliseconds: 500),
+                                        curve: Curves.ease,
+                                      );
+                                      _model.pageno = 2;
+                                      safeSetState(() {});
+                                      await _model.pageViewController
+                                          ?.animateToPage(
+                                        2,
+                                        duration: Duration(milliseconds: 500),
+                                        curve: Curves.ease,
+                                      );
+                                    } else {
+                                      if (_model.formKey4.currentState ==
+                                              null ||
+                                          !_model.formKey4.currentState!
+                                              .validate()) {
+                                        return;
+                                      }
+                                      _model.removeFromEmptypage(1);
+                                      safeSetState(() {});
+                                      if ((_model.numbermotherTextController
+                                                      .text !=
+                                                  '') ||
+                                          (_model.parent2TextController
+                                                      .text !=
+                                                  '') ||
+                                          (_model.emailmotherTextController
+                                                      .text !=
+                                                  '')) {
+                                        if ((_model.numbermotherTextController
+                                                        .text ==
+                                                    '') ||
+                                            (_model.parent2TextController
+                                                        .text ==
+                                                    '') ||
+                                            (_model.emailmotherTextController
+                                                        .text ==
+                                                    '')) {
+                                          _model.addToEmptypage(1);
+                                          safeSetState(() {});
+                                          _model.pageno = 2;
+                                          safeSetState(() {});
+                                          await _model.pageViewController
+                                              ?.animateToPage(
+                                            2,
+                                            duration:
+                                                Duration(milliseconds: 500),
+                                            curve: Curves.ease,
+                                          );
+                                        } else {
+                                          if (_model.formKey2.currentState ==
+                                                  null ||
+                                              !_model.formKey2.currentState!
+                                                  .validate()) {
+                                            return;
+                                          }
+                                          _model.removeFromEmptypage(1);
+                                          safeSetState(() {});
+                                          if (_model.emailfatherTextController
+                                                  .text !=
+                                              _model.emailmotherTextController
+                                                  .text) {
+                                            if (_model.formKey2.currentState ==
+                                                    null ||
+                                                !_model.formKey2.currentState!
+                                                    .validate()) {
+                                              return;
+                                            }
+                                            _model.pageno = 2;
+                                            safeSetState(() {});
+                                            await _model.pageViewController
+                                                ?.animateToPage(
+                                              2,
+                                              duration:
+                                                  Duration(milliseconds: 500),
+                                              curve: Curves.ease,
+                                            );
+                                          } else {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                  'both emails cannot be same',
+                                                  style: TextStyle(
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primaryText,
+                                                  ),
+                                                ),
+                                                duration: Duration(
+                                                    milliseconds: 4000),
+                                                backgroundColor:
+                                                    FlutterFlowTheme.of(context)
+                                                        .secondary,
+                                              ),
+                                            );
+                                          }
+                                        }
+                                      } else {
+                                        _model.pageno = 2;
+                                        safeSetState(() {});
+                                        await _model.pageViewController
+                                            ?.animateToPage(
+                                          2,
+                                          duration: Duration(milliseconds: 500),
+                                          curve: Curves.ease,
+                                        );
+                                      }
+                                    }
+                                  },
+                                  text: 'Next',
+                                  options: FFButtonOptions(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.4,
+                                    height: MediaQuery.sizeOf(context).height *
+                                        0.06,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 0.0, 16.0, 0.0),
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontStyle,
+                                          ),
+                                          color: Colors.white,
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
+                                    elevation: 0.0,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  if (_model.pageno == 2)
+                    Align(
+                      alignment: AlignmentDirectional(0.0, 1.0),
+                      child: Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
+                        child: Material(
+                          color: Colors.transparent,
+                          elevation: 2.0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
+                          child: Container(
+                            width: MediaQuery.sizeOf(context).width * 1.0,
+                            height: MediaQuery.sizeOf(context).height * 0.1,
+                            decoration: BoxDecoration(
+                              color: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
+                              borderRadius: BorderRadius.circular(10.0),
+                              border: Border.all(
+                                color: Color(0xFFF4F4F4),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                FFButtonWidget(
+                                  onPressed: () async {
+                                    _model.pageno = 1;
+                                    safeSetState(() {});
+                                    await _model.pageViewController
+                                        ?.previousPage(
+                                      duration: Duration(milliseconds: 300),
+                                      curve: Curves.ease,
+                                    );
+                                  },
+                                  text: 'Back',
+                                  options: FFButtonOptions(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.4,
+                                    height: MediaQuery.sizeOf(context).height *
+                                        0.06,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 0.0, 16.0, 0.0),
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
+                                    color:
+                                        FlutterFlowTheme.of(context).secondary,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                      shadows: [
+                                        Shadow(
+                                          color: Color(0xFFF4F5FA),
+                                          offset: Offset(0.0, -3.0),
+                                          blurRadius: 6.0,
+                                        )
+                                      ],
+                                    ),
+                                    elevation: 0.0,
+                                    borderSide: BorderSide(
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                                FFButtonWidget(
+                                  onPressed: () async {
+                                    if (_model.emptypage
+                                        .contains(FFAppState().page0)) {
+                                      await _model.pageViewController
+                                          ?.animateToPage(
+                                        0,
+                                        duration: Duration(milliseconds: 500),
+                                        curve: Curves.ease,
+                                      );
+                                      _model.pageno = 0;
+                                      safeSetState(() {});
                                       if (_model.formKey3.currentState ==
                                               null ||
                                           !_model.formKey3.currentState!
                                               .validate()) {
-                                        return;
-                                      }
-                                      if (_model.datePicked == null) {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Please select the date of birth',
-                                              style: TextStyle(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                              ),
-                                            ),
-                                            duration:
-                                                const Duration(milliseconds: 4000),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .secondary,
-                                          ),
-                                        );
                                         return;
                                       }
                                       if (_model.genderValue == null) {
@@ -4931,7 +9349,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                               ),
                                             ),
                                             duration:
-                                                const Duration(milliseconds: 4000),
+                                                Duration(milliseconds: 4000),
                                             backgroundColor:
                                                 FlutterFlowTheme.of(context)
                                                     .secondary,
@@ -4939,317 +9357,198 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                         );
                                         return;
                                       }
-                                      if (FFAppState().studentimage != '') {
-                                        _model.pageno = 1;
-                                        safeSetState(() {});
-                                        await _model.pageViewController
-                                            ?.nextPage(
-                                          duration: const Duration(milliseconds: 300),
-                                          curve: Curves.ease,
-                                        );
-                                      } else {
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Add child\'s image',
-                                              style: TextStyle(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                              ),
-                                            ),
-                                            duration:
-                                                const Duration(milliseconds: 4000),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .secondary,
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    text: 'Next',
-                                    options: FFButtonOptions(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          0.7,
-                                      height:
-                                          MediaQuery.sizeOf(context).height *
-                                              0.06,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 0.0, 16.0, 0.0),
-                                      iconPadding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryBackground,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            fontFamily: 'Nunito',
-                                            color: Colors.white,
-                                            letterSpacing: 0.0,
-                                          ),
-                                      elevation: 0.0,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  if (_model.pageno == 1)
-                    Align(
-                      alignment: const AlignmentDirectional(0.0, 1.0),
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
-                        child: Material(
-                          color: Colors.transparent,
-                          elevation: 2.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Container(
-                            width: MediaQuery.sizeOf(context).width * 1.0,
-                            height: MediaQuery.sizeOf(context).height * 0.1,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              borderRadius: BorderRadius.circular(10.0),
-                              border: Border.all(
-                                color: const Color(0xFFF4F4F4),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 10.0, 0.0, 0.0),
-                                  child: FFButtonWidget(
-                                    onPressed: () async {
+                                      await _model.pageViewController
+                                          ?.animateToPage(
+                                        2,
+                                        duration: Duration(milliseconds: 500),
+                                        curve: Curves.ease,
+                                      );
+                                      _model.pageno = 2;
+                                      safeSetState(() {});
+                                      await _model.pageViewController
+                                          ?.animateToPage(
+                                        2,
+                                        duration: Duration(milliseconds: 500),
+                                        curve: Curves.ease,
+                                      );
+                                      _model.removeFromEmptypage(0);
+                                      safeSetState(() {});
+                                    }
+                                    if (_model.emptypage
+                                        .contains(FFAppState().page1)) {
+                                      _model.pageno = 1;
+                                      safeSetState(() {});
+                                      await _model.pageViewController
+                                          ?.animateToPage(
+                                        1,
+                                        duration: Duration(milliseconds: 500),
+                                        curve: Curves.ease,
+                                      );
                                       if (_model.formKey4.currentState ==
                                               null ||
                                           !_model.formKey4.currentState!
                                               .validate()) {
                                         return;
                                       }
-                                      if (_model
-                                              .emailfatherTextController.text !=
-                                          _model
-                                              .emailmotherTextController.text) {
-                                        if (((_model.parent2TextController
-                                                            .text !=
-                                                        '') ||
-                                                (_model.numbermotherTextController
-                                                            .text !=
-                                                        '')) ||
-                                            (_model.emailmotherTextController
-                                                        .text !=
-                                                    '')) {
-                                          if (_model.formKey2.currentState ==
-                                                  null ||
-                                              !_model.formKey2.currentState!
-                                                  .validate()) {
-                                            return;
-                                          }
-                                          _model.addToParentsdetails(
-                                              ParentsDetailsStruct(
-                                            parentsId:
-                                                functions.generateUniqueId(),
-                                            parentsName: _model
-                                                .parent2TextController.text,
-                                            parentsEmail: _model
-                                                .emailmotherTextController.text,
-                                            parentsPhone: _model
-                                                .numbermotherTextController
-                                                .text,
-                                            document: _model.uploadedFileUrl3,
-                                          ));
-                                          safeSetState(() {});
-                                        } else {
-                                          _model.parentsdetails = [];
-                                          safeSetState(() {});
-                                          _model.addToParentsdetails(
-                                              ParentsDetailsStruct(
-                                            parentsId:
-                                                functions.generateUniqueId(),
-                                            parentsName: _model
-                                                .parentnameTextController.text,
-                                            parentsEmail: _model
-                                                .emailfatherTextController.text,
-                                            parentsPhone: _model
-                                                .numberfatherTextController
-                                                .text,
-                                            document: _model.uploadedFileUrl2,
-                                          ));
-                                          safeSetState(() {});
-                                        }
-
-                                        _model.pageno = 2;
-                                        safeSetState(() {});
-                                        await _model.pageViewController
-                                            ?.nextPage(
-                                          duration: const Duration(milliseconds: 300),
-                                          curve: Curves.ease,
-                                        );
-                                      } else {
+                                    }
+                                    if ((_model.numbermotherTextController
+                                                    .text !=
+                                                '') ||
+                                        (_model.parent2TextController.text !=
+                                                '') ||
+                                        (_model.emailmotherTextController
+                                                    .text !=
+                                                '')) {
+                                      _model.pageno = 1;
+                                      safeSetState(() {});
+                                      await _model.pageViewController
+                                          ?.animateToPage(
+                                        1,
+                                        duration: Duration(milliseconds: 500),
+                                        curve: Curves.ease,
+                                      );
+                                      if (_model.formKey2.currentState ==
+                                              null ||
+                                          !_model.formKey2.currentState!
+                                              .validate()) {
+                                        return;
+                                      }
+                                    }
+                                    _model.removeFromEmptypage(1);
+                                    safeSetState(() {});
+                                    if ((_model.gnameTextController.text !=
+                                                '') ||
+                                        (_model.gnumberTextController.text !=
+                                                '') ||
+                                        (_model.gemailTextController.text !=
+                                                '')) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text(
+                                            'Tap',
+                                            style: TextStyle(
+                                              color:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
+                                            ),
+                                          ),
+                                          duration:
+                                              Duration(milliseconds: 4000),
+                                          backgroundColor:
+                                              FlutterFlowTheme.of(context)
+                                                  .secondary,
+                                        ),
+                                      );
+                                    } else {
+                                      if (FFAppState().studentimage == '') {
                                         ScaffoldMessenger.of(context)
                                             .showSnackBar(
                                           SnackBar(
                                             content: Text(
-                                              'Both parents email are same! Please add different email.',
+                                              'Please add student image',
                                               style: TextStyle(
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .secondary,
+                                                        .error,
                                               ),
                                             ),
                                             duration:
-                                                const Duration(milliseconds: 2350),
+                                                Duration(milliseconds: 4000),
                                             backgroundColor:
                                                 FlutterFlowTheme.of(context)
-                                                    .primaryText,
+                                                    .secondary,
                                           ),
                                         );
-                                      }
-                                    },
-                                    text: 'Next',
-                                    options: FFButtonOptions(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          0.7,
-                                      height:
-                                          MediaQuery.sizeOf(context).height *
-                                              0.06,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 0.0, 16.0, 0.0),
-                                      iconPadding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryBackground,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            fontFamily: 'Nunito',
-                                            color: Colors.white,
-                                            letterSpacing: 0.0,
-                                          ),
-                                      elevation: 0.0,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  if (_model.pageno == 2)
-                    Align(
-                      alignment: const AlignmentDirectional(0.0, 1.0),
-                      child: Padding(
-                        padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
-                        child: Material(
-                          color: Colors.transparent,
-                          elevation: 2.0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          child: Container(
-                            width: MediaQuery.sizeOf(context).width * 1.0,
-                            height: MediaQuery.sizeOf(context).height * 0.1,
-                            decoration: BoxDecoration(
-                              color: FlutterFlowTheme.of(context)
-                                  .secondaryBackground,
-                              borderRadius: BorderRadius.circular(10.0),
-                              border: Border.all(
-                                color: const Color(0xFFF4F4F4),
-                              ),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsetsDirectional.fromSTEB(
-                                      0.0, 10.0, 0.0, 0.0),
-                                  child: FFButtonWidget(
-                                    onPressed: () async {
-                                      if (((_model.gnameTextController
-                                                          .text !=
-                                                      '') ||
-                                              (_model.gnumberTextController
-                                                          .text !=
-                                                      '')) ||
-                                          (_model.gemailTextController
-                                                      .text !=
-                                                  '')) {
-                                        if (_model.formKey1.currentState ==
-                                                null ||
-                                            !_model.formKey1.currentState!
-                                                .validate()) {
-                                          return;
-                                        }
-                                        _model.addToParentsdetails(
-                                            ParentsDetailsStruct(
-                                          parentsId:
-                                              functions.generateUniqueId(),
-                                          parentsName:
-                                              _model.gnameTextController.text,
-                                          parentsEmail:
-                                              _model.gemailTextController.text,
-                                          parentsPhone:
-                                              _model.gnumberTextController.text,
-                                        ));
-                                        safeSetState(() {});
-                                        _model.pageno = 3;
+                                        _model.pageno = 0;
                                         safeSetState(() {});
                                         await _model.pageViewController
-                                            ?.nextPage(
-                                          duration: const Duration(milliseconds: 300),
+                                            ?.animateToPage(
+                                          0,
+                                          duration: Duration(milliseconds: 500),
                                           curve: Curves.ease,
                                         );
                                       } else {
-                                        _model.pageno = 3;
-                                        safeSetState(() {});
-                                        await _model.pageViewController
-                                            ?.nextPage(
-                                          duration: const Duration(milliseconds: 300),
-                                          curve: Curves.ease,
-                                        );
+                                        if (FFAppState().selectedDate == null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Please select the DOB',
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .error,
+                                                ),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondary,
+                                            ),
+                                          );
+                                          _model.pageno = 0;
+                                          safeSetState(() {});
+                                          await _model.pageViewController
+                                              ?.animateToPage(
+                                            0,
+                                            duration:
+                                                Duration(milliseconds: 500),
+                                            curve: Curves.ease,
+                                          );
+                                        } else {
+                                          _model.pageno = 3;
+                                          safeSetState(() {});
+                                          await _model.pageViewController
+                                              ?.animateToPage(
+                                            3,
+                                            duration:
+                                                Duration(milliseconds: 500),
+                                            curve: Curves.ease,
+                                          );
+                                        }
                                       }
-                                    },
-                                    text: 'Next',
-                                    options: FFButtonOptions(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          0.7,
-                                      height:
-                                          MediaQuery.sizeOf(context).height *
-                                              0.06,
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 0.0, 16.0, 0.0),
-                                      iconPadding:
-                                          const EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryBackground,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            fontFamily: 'Nunito',
-                                            color: Colors.white,
-                                            letterSpacing: 0.0,
+                                    }
+                                  },
+                                  text: 'Next',
+                                  options: FFButtonOptions(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.4,
+                                    height: MediaQuery.sizeOf(context).height *
+                                        0.06,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 0.0, 16.0, 0.0),
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontStyle,
                                           ),
-                                      elevation: 0.0,
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
+                                          color: Colors.white,
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
+                                    elevation: 0.0,
+                                    borderRadius: BorderRadius.circular(8.0),
                                   ),
                                 ),
                               ],
@@ -5260,10 +9559,10 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                     ),
                   if (_model.pageno == 3)
                     Align(
-                      alignment: const AlignmentDirectional(0.0, 1.0),
+                      alignment: AlignmentDirectional(0.0, 1.0),
                       child: Padding(
                         padding:
-                            const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
                         child: Material(
                           color: Colors.transparent,
                           elevation: 2.0,
@@ -5278,125 +9577,205 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                   .secondaryBackground,
                               borderRadius: BorderRadius.circular(10.0),
                               border: Border.all(
-                                color: const Color(0xFFF4F4F4),
+                                color: Color(0xFFF4F4F4),
                               ),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
-                                Builder(
-                                  builder: (context) => Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 10.0, 0.0, 0.0),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
-                                        _model.userdocument1 =
-                                            await queryUsersRecordOnce();
-                                        if (_model.userdocument1
-                                                ?.where((e) =>
-                                                    (e.email ==
+                                FFButtonWidget(
+                                  onPressed: () async {
+                                    _model.pageno = 2;
+                                    safeSetState(() {});
+                                    await _model.pageViewController
+                                        ?.previousPage(
+                                      duration: Duration(milliseconds: 300),
+                                      curve: Curves.ease,
+                                    );
+                                  },
+                                  text: 'Back',
+                                  options: FFButtonOptions(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.4,
+                                    height: MediaQuery.sizeOf(context).height *
+                                        0.06,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 16.0, 16.0, 16.0),
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
+                                    color:
+                                        FlutterFlowTheme.of(context).secondary,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .fontStyle,
+                                      ),
+                                      color: FlutterFlowTheme.of(context)
+                                          .primaryText,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                      shadows: [
+                                        Shadow(
+                                          color: Color(0xFFF4F5FA),
+                                          offset: Offset(0.0, -3.0),
+                                          blurRadius: 6.0,
+                                        )
+                                      ],
+                                    ),
+                                    elevation: 0.0,
+                                    borderSide: BorderSide(
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      width: 1.0,
+                                    ),
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                                FFButtonWidget(
+                                  onPressed: (_model.everyone == 0)
+                                      ? null
+                                      : () async {
+                                          _model.userdocument1 =
+                                              await queryUsersRecordOnce();
+                                          FFAppState().loopmin = 0;
+                                          safeSetState(() {});
+                                          _model.insertAtIndexInParentsdetails(
+                                              0,
+                                              ParentsDetailsStruct(
+                                                parentsId: functions
+                                                    .generateUniqueId(),
+                                                parentsName: _model
+                                                    .parentnameTextController
+                                                    .text,
+                                                parentsEmail: functions
+                                                        .isValidEmail(_model
+                                                            .emailfatherTextController
+                                                            .text)
+                                                    ? _model
+                                                        .emailfatherTextController
+                                                        .text
+                                                    : '${_model.emailfatherTextController.text}@feebe.in',
+                                                parentsPhone: _model
+                                                    .numberfatherTextController
+                                                    .text,
+                                                document: FFAppState().fileurl1,
+                                                isemail: functions.isValidEmail(
                                                         _model
                                                             .emailfatherTextController
-                                                            .text) &&
-                                                    (e.userRole == 4))
-                                                .toList().isEmpty) {
-                                          while (FFAppState().loopmin <
-                                              _model.parentsdetails.length) {
-                                            _model.parentapi12 =
-                                                await CreateAccountCall.call(
-                                              email: _model.parentsdetails
-                                                  .elementAtOrNull(
-                                                      FFAppState().loopmin)
-                                                  ?.parentsEmail,
-                                              displayName: _model.parentsdetails
-                                                  .elementAtOrNull(
-                                                      FFAppState().loopmin)
-                                                  ?.parentsName,
-                                              userRole: 4,
-                                              phoneNumber: _model.parentsdetails
-                                                  .elementAtOrNull(
-                                                      FFAppState().loopmin)
-                                                  ?.parentsPhone,
-                                              password: _model.parentsdetails
-                                                  .elementAtOrNull(
-                                                      FFAppState().loopmin)
-                                                  ?.parentsPhone,
-                                            );
-
-                                            if ((_model
-                                                    .parentapi12?.succeeded ??
-                                                true)) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    '${_model.parentsdetails.elementAtOrNull(FFAppState().loopmin)?.parentsName}\'s account created.',
-                                                    style: TextStyle(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .secondary,
-                                                    ),
-                                                  ),
-                                                  duration: const Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .primaryText,
-                                                ),
-                                              );
-                                              _model.parentuserref =
-                                                  await actions.stringToUser(
-                                                CreateAccountCall.userref(
-                                                  (_model.parentapi12
-                                                          ?.jsonBody ??
-                                                      ''),
-                                                )!,
-                                              );
-
-                                              await _model.parentuserref!
-                                                  .update(createUsersRecordData(
-                                                document: _model.parentsdetails
-                                                    .elementAtOrNull(
-                                                        FFAppState().loopmin)
-                                                    ?.document,
+                                                            .text)
+                                                    ? true
+                                                    : false,
+                                                parentImage:
+                                                    FFAppState().parent1,
                                               ));
-                                              _model.addToParentsRef(
-                                                  _model.parentuserref!);
-                                              _model
-                                                  .updateParentsdetailsAtIndex(
-                                                FFAppState().loopmin,
-                                                (e) => e
-                                                  ..userRef =
-                                                      _model.parentuserref,
-                                              );
-                                              safeSetState(() {});
-                                              _model.parent1email =
-                                                  await SendMailCall.call(
-                                                toEmail: _model.parentsdetails
+                                          safeSetState(() {});
+                                          if (_model.emailmotherTextController
+                                                      .text !=
+                                                  '') {
+                                            _model
+                                                .insertAtIndexInParentsdetails(
+                                                    1,
+                                                    ParentsDetailsStruct(
+                                                      parentsId: functions
+                                                          .generateUniqueId(),
+                                                      parentsName: _model
+                                                          .parent2TextController
+                                                          .text,
+                                                      parentsEmail: functions
+                                                              .isValidEmail(_model
+                                                                  .emailmotherTextController
+                                                                  .text)
+                                                          ? _model
+                                                              .emailmotherTextController
+                                                              .text
+                                                          : '${_model.emailmotherTextController.text}@feebe.in',
+                                                      parentsPhone: _model
+                                                          .numbermotherTextController
+                                                          .text,
+                                                      document:
+                                                          FFAppState().fileurl2,
+                                                      isemail: functions
+                                                              .isValidEmail(_model
+                                                                  .emailmotherTextController
+                                                                  .text)
+                                                          ? true
+                                                          : false,
+                                                      parentImage:
+                                                          FFAppState().parent2,
+                                                    ));
+                                            safeSetState(() {});
+                                            _model.parentsdetails = functions
+                                                .removeExactDuplicates(_model
+                                                    .parentsdetails
+                                                    .toList())!
+                                                .toList()
+                                                .cast<ParentsDetailsStruct>();
+                                            safeSetState(() {});
+                                          } else {
+                                            _model.parentsdetails = functions
+                                                .removeExactDuplicates(_model
+                                                    .parentsdetails
+                                                    .toList())!
+                                                .toList()
+                                                .cast<ParentsDetailsStruct>();
+                                            safeSetState(() {});
+                                          }
+
+                                          if (_model.userdocument1
+                                                  ?.where((e) =>
+                                                      (e.email ==
+                                                          _model
+                                                              .emailfatherTextController
+                                                              .text) &&
+                                                      (e.userRole == 4))
+                                                  .toList()
+                                                  .length ==
+                                              0) {
+                                            while (FFAppState().loopmin <
+                                                _model.parentsdetails.length) {
+                                              _model.parentapi12 =
+                                                  await CreateAccountCall.call(
+                                                email: _model.parentsdetails
                                                     .elementAtOrNull(
                                                         FFAppState().loopmin)
                                                     ?.parentsEmail,
-                                                userName: _model.parentsdetails
+                                                displayName: _model
+                                                    .parentsdetails
                                                     .elementAtOrNull(
                                                         FFAppState().loopmin)
-                                                    ?.parentsEmail,
+                                                    ?.parentsName,
+                                                userRole: 4,
+                                                phoneNumber: _model
+                                                    .parentsdetails
+                                                    .elementAtOrNull(
+                                                        FFAppState().loopmin)
+                                                    ?.parentsPhone,
                                                 password: _model.parentsdetails
                                                     .elementAtOrNull(
                                                         FFAppState().loopmin)
                                                     ?.parentsPhone,
                                               );
 
-                                              if ((_model.parent1email
-                                                      ?.succeeded ??
+                                              if ((_model
+                                                      .parentapi12?.succeeded ??
                                                   true)) {
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                   SnackBar(
                                                     content: Text(
-                                                      'An email is sent to the Parent with their credentials.',
+                                                      '${_model.parentsdetails.elementAtOrNull(FFAppState().loopmin)?.parentsName}\'s account created.',
                                                       style: TextStyle(
                                                         color:
                                                             FlutterFlowTheme.of(
@@ -5404,437 +9783,823 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                                 .secondary,
                                                       ),
                                                     ),
-                                                    duration: const Duration(
-                                                        milliseconds: 3200),
+                                                    duration: Duration(
+                                                        milliseconds: 4000),
                                                     backgroundColor:
                                                         FlutterFlowTheme.of(
                                                                 context)
                                                             .primaryText,
                                                   ),
                                                 );
-                                              } else {
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                      getJsonField(
-                                                        (_model.parent1email
-                                                                ?.jsonBody ??
-                                                            ''),
-                                                        r'''$.message''',
-                                                      ).toString(),
-                                                      style: TextStyle(
-                                                        color:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .secondary,
-                                                      ),
-                                                    ),
-                                                    duration: const Duration(
-                                                        milliseconds: 3200),
-                                                    backgroundColor:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .primaryText,
-                                                  ),
+                                                _model.parentuserref =
+                                                    await actions.stringToUser(
+                                                  CreateAccountCall.userref(
+                                                    (_model.parentapi12
+                                                            ?.jsonBody ??
+                                                        ''),
+                                                  )!,
                                                 );
-                                              }
 
+                                                await _model.parentuserref!
+                                                    .update(
+                                                        createUsersRecordData(
+                                                  document: _model
+                                                      .parentsdetails
+                                                      .elementAtOrNull(
+                                                          FFAppState().loopmin)
+                                                      ?.document,
+                                                  photoUrl: _model
+                                                      .parentsdetails
+                                                      .elementAtOrNull(
+                                                          FFAppState().loopmin)
+                                                      ?.parentImage,
+                                                ));
+                                                _model.addToParentsRef(
+                                                    _model.parentuserref!);
+                                                _model
+                                                    .updateParentsdetailsAtIndex(
+                                                  FFAppState().loopmin,
+                                                  (e) => e
+                                                    ..userRef =
+                                                        _model.parentuserref,
+                                                );
+                                                safeSetState(() {});
+                                                _model.parent1email =
+                                                    await SendMailCall.call(
+                                                  toEmail: _model.parentsdetails
+                                                      .elementAtOrNull(
+                                                          FFAppState().loopmin)
+                                                      ?.parentsEmail,
+                                                  userName: _model
+                                                      .parentsdetails
+                                                      .elementAtOrNull(
+                                                          FFAppState().loopmin)
+                                                      ?.parentsName,
+                                                  password: _model
+                                                      .parentsdetails
+                                                      .elementAtOrNull(
+                                                          FFAppState().loopmin)
+                                                      ?.parentsPhone,
+                                                  message:
+                                                      'Welcome! You have successfully been onboarded to Feebe by ${addStudentManuallySchoolRecord.schoolDetails.schoolName} Feebe is designed to keep you informed, connected, and reassured every step of the way. ',
+                                                );
+
+                                                if ((_model.parent1email
+                                                        ?.succeeded ??
+                                                    true)) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        'An email is sent to the Parent with their credentials.',
+                                                        style: TextStyle(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondary,
+                                                        ),
+                                                      ),
+                                                      duration: Duration(
+                                                          milliseconds: 3200),
+                                                      backgroundColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
+                                                    ),
+                                                  );
+                                                } else {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        getJsonField(
+                                                          (_model.parent1email
+                                                                  ?.jsonBody ??
+                                                              ''),
+                                                          r'''$.message''',
+                                                        ).toString(),
+                                                        style: TextStyle(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .secondary,
+                                                        ),
+                                                      ),
+                                                      duration: Duration(
+                                                          milliseconds: 3200),
+                                                      backgroundColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .primaryText,
+                                                    ),
+                                                  );
+                                                }
+
+                                                _model.sms =
+                                                    await SendsmsCall.call(
+                                                  toPhoneNumber: functions
+                                                      .newCustomFunction(_model
+                                                          .parentsdetails
+                                                          .elementAtOrNull(
+                                                              FFAppState()
+                                                                  .loopmin)!
+                                                          .parentsPhone),
+                                                  userName: functions
+                                                          .isValidEmail(_model
+                                                              .parentsdetails
+                                                              .elementAtOrNull(
+                                                                  FFAppState()
+                                                                      .loopmin)!
+                                                              .parentsEmail)
+                                                      ? _model.parentsdetails
+                                                          .elementAtOrNull(
+                                                              FFAppState()
+                                                                  .loopmin)
+                                                          ?.parentsEmail
+                                                      : functions
+                                                          .getUsernameFromEmail(_model
+                                                              .parentsdetails
+                                                              .elementAtOrNull(
+                                                                  FFAppState()
+                                                                      .loopmin)!
+                                                              .parentsPhone),
+                                                  userPassword: _model
+                                                      .parentsdetails
+                                                      .elementAtOrNull(
+                                                          FFAppState().loopmin)
+                                                      ?.parentsPhone,
+                                                );
+
+                                                if ((_model.sms?.succeeded ??
+                                                    true)) {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        getJsonField(
+                                                          (_model.sms
+                                                                  ?.jsonBody ??
+                                                              ''),
+                                                          r'''$.message''',
+                                                        ).toString(),
+                                                        style: TextStyle(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryText,
+                                                        ),
+                                                      ),
+                                                      duration: Duration(
+                                                          milliseconds: 4000),
+                                                      backgroundColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .secondary,
+                                                    ),
+                                                  );
+                                                } else {
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      content: Text(
+                                                        getJsonField(
+                                                          (_model.sms
+                                                                  ?.jsonBody ??
+                                                              ''),
+                                                          r'''$.message''',
+                                                        ).toString(),
+                                                        style: TextStyle(
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .primaryText,
+                                                        ),
+                                                      ),
+                                                      duration: Duration(
+                                                          milliseconds: 4000),
+                                                      backgroundColor:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .secondary,
+                                                    ),
+                                                  );
+                                                }
+
+                                                FFAppState().loopmin =
+                                                    FFAppState().loopmin + 1;
+                                                safeSetState(() {});
+                                              } else {
+                                                break;
+                                              }
+                                            }
+                                            FFAppState().loopmin = 0;
+                                            safeSetState(() {});
+
+                                            var studentsRecordReference1 =
+                                                StudentsRecord.collection.doc();
+                                            await studentsRecordReference1.set({
+                                              ...createStudentsRecordData(
+                                                studentName: _model
+                                                    .childnameTextController
+                                                    .text,
+                                                studentGender:
+                                                    _model.genderValue,
+                                                studentAddress: _model
+                                                    .addressTextController.text,
+                                                dateOfBirth:
+                                                    FFAppState().selectedDate,
+                                                bloodGroup:
+                                                    _model.bloodtypeValue,
+                                                schoolName:
+                                                    addStudentManuallySchoolRecord
+                                                        .schoolDetails
+                                                        .schoolName,
+                                                allergiesOthers: _model
+                                                    .allergiesTextController
+                                                    .text,
+                                                createdAt: getCurrentTimestamp,
+                                                studentImage:
+                                                    FFAppState().studentimage,
+                                                schoolref: widget.schoolref,
+                                                document: FFAppState().fileUrl,
+                                              ),
+                                              ...mapToFirestore(
+                                                {
+                                                  'Parents_list':
+                                                      _model.parentsRef,
+                                                  'parents_details':
+                                                      getParentsDetailsListFirestoreData(
+                                                    _model.parentsdetails,
+                                                  ),
+                                                  'classref': _model.classRef,
+                                                  'class_name':
+                                                      _model.classname,
+                                                },
+                                              ),
+                                            });
+                                            _model.student1 = StudentsRecord
+                                                .getDocumentFromData({
+                                              ...createStudentsRecordData(
+                                                studentName: _model
+                                                    .childnameTextController
+                                                    .text,
+                                                studentGender:
+                                                    _model.genderValue,
+                                                studentAddress: _model
+                                                    .addressTextController.text,
+                                                dateOfBirth:
+                                                    FFAppState().selectedDate,
+                                                bloodGroup:
+                                                    _model.bloodtypeValue,
+                                                schoolName:
+                                                    addStudentManuallySchoolRecord
+                                                        .schoolDetails
+                                                        .schoolName,
+                                                allergiesOthers: _model
+                                                    .allergiesTextController
+                                                    .text,
+                                                createdAt: getCurrentTimestamp,
+                                                studentImage:
+                                                    FFAppState().studentimage,
+                                                schoolref: widget.schoolref,
+                                                document: FFAppState().fileUrl,
+                                              ),
+                                              ...mapToFirestore(
+                                                {
+                                                  'Parents_list':
+                                                      _model.parentsRef,
+                                                  'parents_details':
+                                                      getParentsDetailsListFirestoreData(
+                                                    _model.parentsdetails,
+                                                  ),
+                                                  'classref': _model.classRef,
+                                                  'class_name':
+                                                      _model.classname,
+                                                },
+                                              ),
+                                            }, studentsRecordReference1);
+
+                                            await addStudentManuallySchoolRecord
+                                                .reference
+                                                .update({
+                                              ...mapToFirestore(
+                                                {
+                                                  'List_of_students':
+                                                      FieldValue.arrayUnion([
+                                                    _model.student1?.reference
+                                                  ]),
+                                                  'student_data_list':
+                                                      FieldValue.arrayUnion([
+                                                    getStudentListFirestoreData(
+                                                      createStudentListStruct(
+                                                        studentName: _model
+                                                            .student1
+                                                            ?.studentName,
+                                                        studentId: _model
+                                                            .student1
+                                                            ?.reference,
+                                                        studentImage: _model
+                                                            .student1
+                                                            ?.studentImage,
+                                                        isAddedinClass:
+                                                            _model.everyone == 0
+                                                                ? false
+                                                                : true,
+                                                        fieldValues: {
+                                                          'parent_list': _model
+                                                              .student1
+                                                              ?.parentsList,
+                                                          'classref':
+                                                              _model.classRef,
+                                                        },
+                                                        clearUnsetFields: false,
+                                                      ),
+                                                      true,
+                                                    )
+                                                  ]),
+                                                },
+                                              ),
+                                            });
+                                            FFAppState().loopmin = 0;
+                                            safeSetState(() {});
+                                            while (FFAppState().loopmin <
+                                                _model.classRef.length) {
+                                              await _model.classRef
+                                                  .elementAtOrNull(
+                                                      FFAppState().loopmin)!
+                                                  .update({
+                                                ...mapToFirestore(
+                                                  {
+                                                    'students_list':
+                                                        FieldValue.arrayUnion([
+                                                      _model.student1?.reference
+                                                    ]),
+                                                    'student_data':
+                                                        FieldValue.arrayUnion([
+                                                      getStudentListFirestoreData(
+                                                        updateStudentListStruct(
+                                                          StudentListStruct(
+                                                            studentName: _model
+                                                                .student1
+                                                                ?.studentName,
+                                                            studentId: _model
+                                                                .student1
+                                                                ?.reference,
+                                                            studentImage: _model
+                                                                .student1
+                                                                ?.studentImage,
+                                                            parentList: _model
+                                                                .student1
+                                                                ?.parentsList,
+                                                            isAddedinClass:
+                                                                true,
+                                                            classref:
+                                                                _model.classRef,
+                                                            isDraft: false,
+                                                          ),
+                                                          clearUnsetFields:
+                                                              false,
+                                                        ),
+                                                        true,
+                                                      )
+                                                    ]),
+                                                  },
+                                                ),
+                                              });
+                                              _model.classes =
+                                                  await SchoolClassRecord
+                                                      .getDocumentOnce(_model
+                                                          .classRef
+                                                          .elementAtOrNull(
+                                                              FFAppState()
+                                                                  .loopmin)!);
+                                              triggerPushNotification(
+                                                notificationTitle:
+                                                    'New student added to class ${_model.classes?.className}',
+                                                notificationText:
+                                                    'New student added to class ${_model.classes?.className}',
+                                                userRefs: _model
+                                                    .classes!.listOfteachersUser
+                                                    .toList(),
+                                                initialPageName: 'Dashboard',
+                                                parameterData: {
+                                                  'fromlogin': false,
+                                                },
+                                              );
+
+                                              await NotificationsRecord
+                                                  .collection
+                                                  .doc()
+                                                  .set({
+                                                ...createNotificationsRecordData(
+                                                  content:
+                                                      'New student added to class ${_model.classes?.className}',
+                                                  descri:
+                                                      'New student added to class ${_model.classes?.className}',
+                                                ),
+                                                ...mapToFirestore(
+                                                  {
+                                                    'userref':
+                                                        addStudentManuallySchoolRecord
+                                                            .listOfteachersuser,
+                                                  },
+                                                ),
+                                              });
                                               FFAppState().loopmin =
                                                   FFAppState().loopmin + 1;
                                               safeSetState(() {});
-                                            } else {
-                                              break;
                                             }
-                                          }
-                                          FFAppState().loopmin = 0;
-                                          safeSetState(() {});
-
-                                          var studentsRecordReference1 =
-                                              StudentsRecord.collection.doc();
-                                          await studentsRecordReference1.set({
-                                            ...createStudentsRecordData(
-                                              studentName: _model
-                                                  .childnameTextController.text,
-                                              studentGender: _model.genderValue,
-                                              studentAddress: _model
-                                                  .addressTextController.text,
-                                              dateOfBirth: _model.datePicked,
-                                              bloodGroup: _model.bloodtypeValue,
-                                              schoolName:
-                                                  addStudentManuallySchoolRecord
-                                                      .schoolDetails.schoolName,
-                                              allergiesOthers: _model
-                                                  .allergiesTextController.text,
-                                              createdAt: getCurrentTimestamp,
-                                              studentImage:
-                                                  FFAppState().studentimage,
-                                              schoolref: widget.schoolref,
-                                              document: _model.uploadedFileUrl1,
-                                            ),
-                                            ...mapToFirestore(
-                                              {
-                                                'Parents_list':
-                                                    _model.parentsRef,
-                                                'parents_details':
-                                                    getParentsDetailsListFirestoreData(
-                                                  _model.parentsdetails,
-                                                ),
-                                              },
-                                            ),
-                                          });
-                                          _model.student1 = StudentsRecord
-                                              .getDocumentFromData({
-                                            ...createStudentsRecordData(
-                                              studentName: _model
-                                                  .childnameTextController.text,
-                                              studentGender: _model.genderValue,
-                                              studentAddress: _model
-                                                  .addressTextController.text,
-                                              dateOfBirth: _model.datePicked,
-                                              bloodGroup: _model.bloodtypeValue,
-                                              schoolName:
-                                                  addStudentManuallySchoolRecord
-                                                      .schoolDetails.schoolName,
-                                              allergiesOthers: _model
-                                                  .allergiesTextController.text,
-                                              createdAt: getCurrentTimestamp,
-                                              studentImage:
-                                                  FFAppState().studentimage,
-                                              schoolref: widget.schoolref,
-                                              document: _model.uploadedFileUrl1,
-                                            ),
-                                            ...mapToFirestore(
-                                              {
-                                                'Parents_list':
-                                                    _model.parentsRef,
-                                                'parents_details':
-                                                    getParentsDetailsListFirestoreData(
-                                                  _model.parentsdetails,
-                                                ),
-                                              },
-                                            ),
-                                          }, studentsRecordReference1);
-
-                                          await addStudentManuallySchoolRecord
-                                              .reference
-                                              .update({
-                                            ...mapToFirestore(
-                                              {
-                                                'List_of_students':
-                                                    FieldValue.arrayUnion([
-                                                  _model.student1?.reference
-                                                ]),
-                                                'student_data_list':
-                                                    FieldValue.arrayUnion([
-                                                  getStudentListFirestoreData(
-                                                    createStudentListStruct(
-                                                      studentName: _model
-                                                          .student1
-                                                          ?.studentName,
-                                                      studentId: _model
-                                                          .student1?.reference,
-                                                      studentImage: _model
-                                                          .student1
-                                                          ?.studentImage,
-                                                      isAddedinClass: true,
-                                                      fieldValues: {
-                                                        'parent_list': _model
-                                                            .student1
-                                                            ?.parentsList,
-                                                      },
-                                                      clearUnsetFields: false,
+                                            if (_model.allergiesTextController
+                                                        .text !=
+                                                    '') {
+                                              await NotificationsRecord
+                                                  .collection
+                                                  .doc()
+                                                  .set({
+                                                ...createNotificationsRecordData(
+                                                  content:
+                                                      '${_model.childnameTextController.text}  allergies update',
+                                                  isread: false,
+                                                  notification:
+                                                      updateNotificationStruct(
+                                                    NotificationStruct(
+                                                      notificationTitle:
+                                                          '${_model.childnameTextController.text} \'s allergies update',
+                                                      descriptions: _model
+                                                          .allergiesTextController
+                                                          .text,
+                                                      timeStamp:
+                                                          getCurrentTimestamp,
+                                                      isRead: true,
                                                     ),
-                                                    true,
-                                                  )
-                                                ]),
-                                              },
-                                            ),
-                                          });
-                                          if (_model.allergiesTextController
-                                                      .text !=
-                                                  '') {
-                                            await NotificationsRecord.collection
-                                                .doc()
-                                                .set({
-                                              ...createNotificationsRecordData(
-                                                content:
-                                                    '${_model.childnameTextController.text}  allergies update',
-                                                isread: false,
-                                                notification:
-                                                    updateNotificationStruct(
-                                                  NotificationStruct(
-                                                    notificationTitle:
-                                                        '${_model.childnameTextController.text} \'s allergies update',
-                                                    descriptions: _model
-                                                        .allergiesTextController
-                                                        .text,
-                                                    timeStamp:
-                                                        getCurrentTimestamp,
-                                                    isRead: true,
+                                                    clearUnsetFields: false,
+                                                    create: true,
                                                   ),
-                                                  clearUnsetFields: false,
-                                                  create: true,
+                                                  createDate:
+                                                      getCurrentTimestamp,
+                                                  heading: 'Student allergy.',
+                                                  addedby: currentUserReference,
+                                                  descri: _model
+                                                      .allergiesTextController
+                                                      .text,
                                                 ),
-                                                createDate: getCurrentTimestamp,
-                                                heading: 'Student allergy.',
-                                                addedby: currentUserReference,
-                                                descri: _model
-                                                    .allergiesTextController
-                                                    .text,
-                                              ),
-                                              ...mapToFirestore(
-                                                {
-                                                  'schoolref': [
-                                                    addStudentManuallySchoolRecord
-                                                        .reference
-                                                  ],
-                                                },
-                                              ),
-                                            });
-
-                                            await NotificationsRecord.collection
-                                                .doc()
-                                                .set({
-                                              ...createNotificationsRecordData(
-                                                content:
-                                                    '${_model.childnameTextController.text}  allergies update',
-                                                isread: false,
-                                                notification:
-                                                    updateNotificationStruct(
-                                                  NotificationStruct(
-                                                    notificationTitle:
-                                                        '${_model.childnameTextController.text} \'s allergies update',
-                                                    descriptions: _model
-                                                        .allergiesTextController
-                                                        .text,
-                                                    timeStamp:
-                                                        getCurrentTimestamp,
-                                                    isRead: true,
-                                                  ),
-                                                  clearUnsetFields: false,
-                                                  create: true,
-                                                ),
-                                                createDate: getCurrentTimestamp,
-                                                addedby: currentUserReference,
-                                                heading: 'Student allergy',
-                                                descri: _model
-                                                    .allergiesTextController
-                                                    .text,
-                                              ),
-                                              ...mapToFirestore(
-                                                {
-                                                  'userref':
+                                                ...mapToFirestore(
+                                                  {
+                                                    'schoolref': [
                                                       addStudentManuallySchoolRecord
-                                                          .listOfteachersuser,
+                                                          .reference
+                                                    ],
+                                                  },
+                                                ),
+                                              });
+
+                                              await NotificationsRecord
+                                                  .collection
+                                                  .doc()
+                                                  .set({
+                                                ...createNotificationsRecordData(
+                                                  content:
+                                                      '${_model.childnameTextController.text}  allergies update',
+                                                  isread: false,
+                                                  notification:
+                                                      updateNotificationStruct(
+                                                    NotificationStruct(
+                                                      notificationTitle:
+                                                          '${_model.childnameTextController.text} \'s allergies update',
+                                                      descriptions: _model
+                                                          .allergiesTextController
+                                                          .text,
+                                                      timeStamp:
+                                                          getCurrentTimestamp,
+                                                      isRead: true,
+                                                    ),
+                                                    clearUnsetFields: false,
+                                                    create: true,
+                                                  ),
+                                                  createDate:
+                                                      getCurrentTimestamp,
+                                                  addedby: currentUserReference,
+                                                  heading: 'Student allergy',
+                                                  descri: _model
+                                                      .allergiesTextController
+                                                      .text,
+                                                ),
+                                                ...mapToFirestore(
+                                                  {
+                                                    'userref':
+                                                        addStudentManuallySchoolRecord
+                                                            .listOfteachersuser,
+                                                  },
+                                                ),
+                                              });
+                                            }
+                                            _model.pageno = 0;
+                                            _model.parentsdetails = [];
+                                            safeSetState(() {});
+                                          } else {
+                                            _model.parent2 =
+                                                await queryUsersRecordOnce(
+                                              queryBuilder: (usersRecord) =>
+                                                  usersRecord.where(
+                                                'email',
+                                                isEqualTo: _model
+                                                    .emailfatherTextController
+                                                    .text,
+                                              ),
+                                              singleRecord: true,
+                                            ).then((s) => s.firstOrNull);
+                                            _model.student2Copy =
+                                                await queryStudentsRecordOnce(
+                                              queryBuilder: (studentsRecord) =>
+                                                  studentsRecord.where(
+                                                'Parents_list',
+                                                arrayContains:
+                                                    _model.parent2?.reference,
+                                              ),
+                                              singleRecord: true,
+                                            ).then((s) => s.firstOrNull);
+
+                                            var studentsRecordReference2 =
+                                                StudentsRecord.collection.doc();
+                                            await studentsRecordReference2.set({
+                                              ...createStudentsRecordData(
+                                                studentName: _model
+                                                    .childnameTextController
+                                                    .text,
+                                                studentGender:
+                                                    _model.genderValue,
+                                                studentAddress: _model
+                                                    .addressTextController.text,
+                                                dateOfBirth:
+                                                    FFAppState().selectedDate,
+                                                bloodGroup:
+                                                    _model.bloodtypeValue,
+                                                schoolName:
+                                                    addStudentManuallySchoolRecord
+                                                        .schoolDetails
+                                                        .schoolName,
+                                                allergiesOthers: _model
+                                                    .allergiesTextController
+                                                    .text,
+                                                createdAt: getCurrentTimestamp,
+                                                studentImage:
+                                                    FFAppState().studentimage,
+                                                schoolref: widget.schoolref,
+                                                document: FFAppState().fileUrl,
+                                              ),
+                                              ...mapToFirestore(
+                                                {
+                                                  'Parents_list': _model
+                                                      .student2Copy
+                                                      ?.parentsList,
+                                                  'parents_details':
+                                                      getParentsDetailsListFirestoreData(
+                                                    _model.student2Copy
+                                                        ?.parentsDetails,
+                                                  ),
+                                                  'classref': _model.classRef,
+                                                  'class_name':
+                                                      _model.classname,
                                                 },
                                               ),
                                             });
-                                          }
-                                          _model.pageno = 0;
-                                          safeSetState(() {});
-                                        } else {
-                                          _model.parent2 =
-                                              await queryUsersRecordOnce(
-                                            queryBuilder: (usersRecord) =>
-                                                usersRecord.where(
-                                              'email',
-                                              isEqualTo: _model
-                                                  .emailfatherTextController
-                                                  .text,
-                                            ),
-                                            singleRecord: true,
-                                          ).then((s) => s.firstOrNull);
-                                          _model.student2Copy =
-                                              await queryStudentsRecordOnce(
-                                            queryBuilder: (studentsRecord) =>
-                                                studentsRecord.where(
-                                              'Parents_list',
-                                              arrayContains:
-                                                  _model.parent2?.reference,
-                                            ),
-                                            singleRecord: true,
-                                          ).then((s) => s.firstOrNull);
-
-                                          var studentsRecordReference2 =
-                                              StudentsRecord.collection.doc();
-                                          await studentsRecordReference2.set({
-                                            ...createStudentsRecordData(
-                                              studentName: _model
-                                                  .childnameTextController.text,
-                                              studentGender: _model.genderValue,
-                                              studentAddress: _model
-                                                  .addressTextController.text,
-                                              dateOfBirth: _model.datePicked,
-                                              bloodGroup: _model.bloodtypeValue,
-                                              schoolName:
-                                                  addStudentManuallySchoolRecord
-                                                      .schoolDetails.schoolName,
-                                              allergiesOthers: _model
-                                                  .allergiesTextController.text,
-                                              createdAt: getCurrentTimestamp,
-                                              studentImage:
-                                                  FFAppState().studentimage,
-                                              schoolref: widget.schoolref,
-                                              document: _model.uploadedFileUrl1,
-                                            ),
-                                            ...mapToFirestore(
-                                              {
-                                                'Parents_list': _model
-                                                    .student2Copy?.parentsList,
-                                                'parents_details':
-                                                    getParentsDetailsListFirestoreData(
-                                                  _model.student2Copy
-                                                      ?.parentsDetails,
-                                                ),
-                                              },
-                                            ),
-                                          });
-                                          _model.child2Copy = StudentsRecord
-                                              .getDocumentFromData({
-                                            ...createStudentsRecordData(
-                                              studentName: _model
-                                                  .childnameTextController.text,
-                                              studentGender: _model.genderValue,
-                                              studentAddress: _model
-                                                  .addressTextController.text,
-                                              dateOfBirth: _model.datePicked,
-                                              bloodGroup: _model.bloodtypeValue,
-                                              schoolName:
-                                                  addStudentManuallySchoolRecord
-                                                      .schoolDetails.schoolName,
-                                              allergiesOthers: _model
-                                                  .allergiesTextController.text,
-                                              createdAt: getCurrentTimestamp,
-                                              studentImage:
-                                                  FFAppState().studentimage,
-                                              schoolref: widget.schoolref,
-                                              document: _model.uploadedFileUrl1,
-                                            ),
-                                            ...mapToFirestore(
-                                              {
-                                                'Parents_list': _model
-                                                    .student2Copy?.parentsList,
-                                                'parents_details':
-                                                    getParentsDetailsListFirestoreData(
-                                                  _model.student2Copy
-                                                      ?.parentsDetails,
-                                                ),
-                                              },
-                                            ),
-                                          }, studentsRecordReference2);
-
-                                          await addStudentManuallySchoolRecord
-                                              .reference
-                                              .update({
-                                            ...mapToFirestore(
-                                              {
-                                                'List_of_students':
-                                                    FieldValue.arrayUnion([
-                                                  _model.child2Copy?.reference
-                                                ]),
-                                                'student_data_list':
-                                                    FieldValue.arrayUnion([
-                                                  getStudentListFirestoreData(
-                                                    createStudentListStruct(
-                                                      studentName: _model
-                                                          .child2Copy
-                                                          ?.studentName,
-                                                      studentId: _model
-                                                          .child2Copy
-                                                          ?.reference,
-                                                      studentImage: _model
-                                                          .child2Copy
-                                                          ?.studentImage,
-                                                      isAddedinClass: true,
-                                                      fieldValues: {
-                                                        'parent_list': _model
-                                                            .child2Copy
-                                                            ?.parentsList,
-                                                        'classref': _model
-                                                            .child2Copy
-                                                            ?.classref,
-                                                      },
-                                                      clearUnsetFields: false,
-                                                    ),
-                                                    true,
-                                                  )
-                                                ]),
-                                              },
-                                            ),
-                                          });
-                                        }
-
-                                        FFAppState().studentimage = '';
-                                        safeSetState(() {});
-                                        await showDialog(
-                                          context: context,
-                                          builder: (dialogContext) {
-                                            return Dialog(
-                                              elevation: 0,
-                                              insetPadding: EdgeInsets.zero,
-                                              backgroundColor:
-                                                  Colors.transparent,
-                                              alignment: const AlignmentDirectional(
-                                                      0.0, -0.8)
-                                                  .resolve(Directionality.of(
-                                                      context)),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  FocusScope.of(dialogContext)
-                                                      .unfocus();
-                                                  FocusManager
-                                                      .instance.primaryFocus
-                                                      ?.unfocus();
-                                                },
-                                                child: SizedBox(
-                                                  height:
-                                                      MediaQuery.sizeOf(context)
-                                                              .height *
-                                                          0.08,
-                                                  width:
-                                                      MediaQuery.sizeOf(context)
-                                                              .width *
-                                                          0.6,
-                                                  child: ChildcreatedWidget(
-                                                    schholref:
-                                                        widget.schoolref!,
+                                            _model.child2Copy = StudentsRecord
+                                                .getDocumentFromData({
+                                              ...createStudentsRecordData(
+                                                studentName: _model
+                                                    .childnameTextController
+                                                    .text,
+                                                studentGender:
+                                                    _model.genderValue,
+                                                studentAddress: _model
+                                                    .addressTextController.text,
+                                                dateOfBirth:
+                                                    FFAppState().selectedDate,
+                                                bloodGroup:
+                                                    _model.bloodtypeValue,
+                                                schoolName:
+                                                    addStudentManuallySchoolRecord
+                                                        .schoolDetails
+                                                        .schoolName,
+                                                allergiesOthers: _model
+                                                    .allergiesTextController
+                                                    .text,
+                                                createdAt: getCurrentTimestamp,
+                                                studentImage:
+                                                    FFAppState().studentimage,
+                                                schoolref: widget.schoolref,
+                                                document: FFAppState().fileUrl,
+                                              ),
+                                              ...mapToFirestore(
+                                                {
+                                                  'Parents_list': _model
+                                                      .student2Copy
+                                                      ?.parentsList,
+                                                  'parents_details':
+                                                      getParentsDetailsListFirestoreData(
+                                                    _model.student2Copy
+                                                        ?.parentsDetails,
                                                   ),
+                                                  'classref': _model.classRef,
+                                                  'class_name':
+                                                      _model.classname,
+                                                },
+                                              ),
+                                            }, studentsRecordReference2);
+
+                                            await addStudentManuallySchoolRecord
+                                                .reference
+                                                .update({
+                                              ...mapToFirestore(
+                                                {
+                                                  'List_of_students':
+                                                      FieldValue.arrayUnion([
+                                                    _model.child2Copy?.reference
+                                                  ]),
+                                                  'student_data_list':
+                                                      FieldValue.arrayUnion([
+                                                    getStudentListFirestoreData(
+                                                      createStudentListStruct(
+                                                        studentName: _model
+                                                            .child2Copy
+                                                            ?.studentName,
+                                                        studentId: _model
+                                                            .child2Copy
+                                                            ?.reference,
+                                                        studentImage: _model
+                                                            .child2Copy
+                                                            ?.studentImage,
+                                                        isAddedinClass:
+                                                            _model.everyone == 0
+                                                                ? false
+                                                                : true,
+                                                        fieldValues: {
+                                                          'parent_list': _model
+                                                              .child2Copy
+                                                              ?.parentsList,
+                                                          'classref':
+                                                              _model.classRef,
+                                                        },
+                                                        clearUnsetFields: false,
+                                                      ),
+                                                      true,
+                                                    )
+                                                  ]),
+                                                },
+                                              ),
+                                            });
+                                            FFAppState().loopmin = 0;
+                                            safeSetState(() {});
+                                            while (FFAppState().loopmin <
+                                                _model.classRef.length) {
+                                              await _model.classRef
+                                                  .elementAtOrNull(
+                                                      FFAppState().loopmin)!
+                                                  .update({
+                                                ...mapToFirestore(
+                                                  {
+                                                    'students_list':
+                                                        FieldValue.arrayUnion([
+                                                      _model
+                                                          .child2Copy?.reference
+                                                    ]),
+                                                    'student_data':
+                                                        FieldValue.arrayUnion([
+                                                      getStudentListFirestoreData(
+                                                        updateStudentListStruct(
+                                                          StudentListStruct(
+                                                            studentName: _model
+                                                                .child2Copy
+                                                                ?.studentName,
+                                                            studentId: _model
+                                                                .child2Copy
+                                                                ?.reference,
+                                                            studentImage: _model
+                                                                .child2Copy
+                                                                ?.studentImage,
+                                                            parentList: _model
+                                                                .child2Copy
+                                                                ?.parentsList,
+                                                            isAddedinClass:
+                                                                true,
+                                                            classref:
+                                                                _model.classRef,
+                                                            isDraft: false,
+                                                          ),
+                                                          clearUnsetFields:
+                                                              false,
+                                                        ),
+                                                        true,
+                                                      )
+                                                    ]),
+                                                  },
+                                                ),
+                                              });
+                                              FFAppState().loopmin =
+                                                  FFAppState().loopmin + 1;
+                                              safeSetState(() {});
+                                            }
+                                            FFAppState().loopmin = 0;
+                                            safeSetState(() {});
+                                          }
+
+                                          FFAppState().studentimage = '';
+                                          FFAppState().fileUrl = '';
+                                          FFAppState().fileurl1 = '';
+                                          FFAppState().fileurl2 = '';
+                                          FFAppState().parent1 = '';
+                                          FFAppState().parent2 = '';
+                                          FFAppState().guardian = '';
+                                          FFAppState().selectedDate = null;
+                                          safeSetState(() {});
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                'Student enrollment completed successfully!',
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .secondary,
                                                 ),
                                               ),
-                                            );
-                                          },
-                                        );
-
-                                        safeSetState(() {});
-                                      },
-                                      text: 'Save ',
-                                      options: FFButtonOptions(
-                                        width:
-                                            MediaQuery.sizeOf(context).width *
-                                                0.7,
-                                        height:
-                                            MediaQuery.sizeOf(context).height *
-                                                0.06,
-                                        padding: const EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 0.0, 16.0, 0.0),
-                                        iconPadding:
-                                            const EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryBackground,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              fontFamily: 'Nunito',
-                                              color: Colors.white,
-                                              letterSpacing: 0.0,
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .primaryText,
                                             ),
-                                        elevation: 0.0,
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                      ),
-                                    ),
+                                          );
+                                          if (valueOrDefault(
+                                                  currentUserDocument?.userRole,
+                                                  0) ==
+                                              2) {
+                                            context.pushNamed(
+                                              ClassDashboardWidget.routeName,
+                                              queryParameters: {
+                                                'schoolref': serializeParam(
+                                                  addStudentManuallySchoolRecord
+                                                      .reference,
+                                                  ParamType.DocumentReference,
+                                                ),
+                                                'tabindex': serializeParam(
+                                                  3,
+                                                  ParamType.int,
+                                                ),
+                                              }.withoutNulls,
+                                            );
+                                          } else {
+                                            context.pushNamed(
+                                              DashboardWidget.routeName,
+                                              queryParameters: {
+                                                'tabindex': serializeParam(
+                                                  3,
+                                                  ParamType.int,
+                                                ),
+                                              }.withoutNulls,
+                                            );
+                                          }
+
+                                          safeSetState(() {});
+                                        },
+                                  text: 'Save ',
+                                  options: FFButtonOptions(
+                                    width:
+                                        MediaQuery.sizeOf(context).width * 0.4,
+                                    height: MediaQuery.sizeOf(context).height *
+                                        0.06,
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        16.0, 0.0, 16.0, 0.0),
+                                    iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 0.0, 0.0, 0.0),
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                    textStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .override(
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .titleSmall
+                                                    .fontStyle,
+                                          ),
+                                          color: Colors.white,
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .titleSmall
+                                                  .fontStyle,
+                                        ),
+                                    elevation: 0.0,
+                                    borderRadius: BorderRadius.circular(8.0),
+                                    disabledColor:
+                                        FlutterFlowTheme.of(context).dIsable,
+                                    disabledTextColor:
+                                        FlutterFlowTheme.of(context).secondary,
                                   ),
                                 ),
                               ],

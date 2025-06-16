@@ -41,8 +41,8 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -54,8 +54,8 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -67,8 +67,8 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -80,8 +80,8 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -93,8 +93,8 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -106,8 +106,8 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -119,8 +119,8 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -132,8 +132,8 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -145,8 +145,8 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -158,8 +158,8 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -171,8 +171,8 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -184,21 +184,8 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
             curve: Curves.easeInOut,
             delay: 0.0.ms,
             duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
-          ),
-        ],
-      ),
-      'imageOnPageLoadAnimation13': AnimationInfo(
-        loop: true,
-        trigger: AnimationTrigger.onPageLoad,
-        effectsBuilder: () => [
-          MoveEffect(
-            curve: Curves.easeInOut,
-            delay: 0.0.ms,
-            duration: 2000.0.ms,
-            begin: const Offset(0.0, 200.0),
-            end: const Offset(0.0, -200.0),
+            begin: Offset(0.0, 200.0),
+            end: Offset(0.0, -200.0),
           ),
         ],
       ),
@@ -221,7 +208,7 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
         color: FlutterFlowTheme.of(context).secondary,
       ),
       child: Padding(
-        padding: const EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
+        padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
         child: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -232,7 +219,7 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
                 children: [
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 0.2,
                       height: MediaQuery.sizeOf(context).width * 0.2,
@@ -269,7 +256,7 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
                   ),
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 0.2,
                       height: MediaQuery.sizeOf(context).width * 0.2,
@@ -306,7 +293,7 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
                   ),
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 0.2,
                       height: MediaQuery.sizeOf(context).width * 0.2,
@@ -343,7 +330,7 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
                   ),
                   Padding(
                     padding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                        EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                     child: Container(
                       width: MediaQuery.sizeOf(context).width * 0.2,
                       height: MediaQuery.sizeOf(context).width * 0.2,
@@ -381,7 +368,7 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: EdgeInsets.all(10.0),
                 child: Column(
                   mainAxisSize: MainAxisSize.max,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -389,7 +376,7 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
                   children: [
                     Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                       child: Container(
                         width: MediaQuery.sizeOf(context).width * 1.0,
                         height: MediaQuery.sizeOf(context).height * 0.1,
@@ -427,7 +414,7 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
                     ),
                     Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                       child: Container(
                         width: MediaQuery.sizeOf(context).width * 1.0,
                         height: MediaQuery.sizeOf(context).height * 0.1,
@@ -465,45 +452,7 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
                     ),
                     Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
-                      child: Container(
-                        width: MediaQuery.sizeOf(context).width * 1.0,
-                        height: MediaQuery.sizeOf(context).height * 0.1,
-                        decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).newBgcolor,
-                          borderRadius: BorderRadius.circular(8.0),
-                          shape: BoxShape.rectangle,
-                          border: Border.all(
-                            color: FlutterFlowTheme.of(context).tertiary,
-                            width: 1.0,
-                          ),
-                        ),
-                        child: ClipRect(
-                          child: ImageFiltered(
-                            imageFilter: ImageFilter.blur(
-                              sigmaX: 6.0,
-                              sigmaY: 3.0,
-                            ),
-                            child: Transform.rotate(
-                              angle: 120.0 * (math.pi / 180),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: Image.network(
-                                  'https://img.freepik.com/free-photo/abstract-background-with-bokeh-lights_53876-120103.jpg?size=626&ext=jpg&ga=GA1.1.1413502914.1696464000&semt=ais',
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                              ).animateOnPageLoad(
-                                  animationsMap['imageOnPageLoadAnimation7']!),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                       child: Container(
                         width: MediaQuery.sizeOf(context).width * 0.2,
                         height: MediaQuery.sizeOf(context).width * 0.2,
@@ -532,18 +481,18 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
                                   fit: BoxFit.cover,
                                 ),
                               ).animateOnPageLoad(
-                                  animationsMap['imageOnPageLoadAnimation8']!),
+                                  animationsMap['imageOnPageLoadAnimation7']!),
                             ),
                           ),
                         ),
                       ),
                     ),
                     Align(
-                      alignment: const AlignmentDirectional(-1.0, -1.0),
+                      alignment: AlignmentDirectional(-1.0, -1.0),
                       child: Container(
-                        decoration: const BoxDecoration(),
+                        decoration: BoxDecoration(),
                         child: Align(
-                          alignment: const AlignmentDirectional(-1.0, 0.0),
+                          alignment: AlignmentDirectional(-1.0, 0.0),
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.start,
@@ -555,7 +504,49 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
                                     MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 10.0, 0.0, 0.0),
+                                    child: Container(
+                                      width: MediaQuery.sizeOf(context).width *
+                                          0.2,
+                                      height: MediaQuery.sizeOf(context).width *
+                                          0.2,
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.of(context)
+                                            .newBgcolor,
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: FlutterFlowTheme.of(context)
+                                              .tertiary,
+                                          width: 1.0,
+                                        ),
+                                      ),
+                                      child: ClipRect(
+                                        child: ImageFiltered(
+                                          imageFilter: ImageFilter.blur(
+                                            sigmaX: 6.0,
+                                            sigmaY: 3.0,
+                                          ),
+                                          child: Transform.rotate(
+                                            angle: 120.0 * (math.pi / 180),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child: Image.network(
+                                                'https://img.freepik.com/free-photo/abstract-background-with-bokeh-lights_53876-120103.jpg?size=626&ext=jpg&ga=GA1.1.1413502914.1696464000&semt=ais',
+                                                width: double.infinity,
+                                                height: double.infinity,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ).animateOnPageLoad(animationsMap[
+                                                'imageOnPageLoadAnimation8']!),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 10.0, 0.0, 0.0),
                                     child: Container(
                                       width: MediaQuery.sizeOf(context).width *
@@ -597,7 +588,7 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 10.0, 0.0, 0.0),
                                     child: Container(
                                       width: MediaQuery.sizeOf(context).width *
@@ -639,7 +630,7 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
                                     ),
                                   ),
                                   Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 10.0, 0.0, 0.0),
                                     child: Container(
                                       width: MediaQuery.sizeOf(context).width *
@@ -680,58 +671,16 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: const EdgeInsetsDirectional.fromSTEB(
-                                        0.0, 10.0, 0.0, 0.0),
-                                    child: Container(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          0.2,
-                                      height: MediaQuery.sizeOf(context).width *
-                                          0.2,
-                                      decoration: BoxDecoration(
-                                        color: FlutterFlowTheme.of(context)
-                                            .newBgcolor,
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: FlutterFlowTheme.of(context)
-                                              .tertiary,
-                                          width: 1.0,
-                                        ),
-                                      ),
-                                      child: ClipRect(
-                                        child: ImageFiltered(
-                                          imageFilter: ImageFilter.blur(
-                                            sigmaX: 6.0,
-                                            sigmaY: 3.0,
-                                          ),
-                                          child: Transform.rotate(
-                                            angle: 120.0 * (math.pi / 180),
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(8.0),
-                                              child: Image.network(
-                                                'https://img.freepik.com/free-photo/abstract-background-with-bokeh-lights_53876-120103.jpg?size=626&ext=jpg&ga=GA1.1.1413502914.1696464000&semt=ais',
-                                                width: double.infinity,
-                                                height: double.infinity,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ).animateOnPageLoad(animationsMap[
-                                                'imageOnPageLoadAnimation12']!),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
                                 ],
                               ),
-                            ].divide(const SizedBox(height: 5.0)),
+                            ].divide(SizedBox(height: 5.0)),
                           ),
                         ),
                       ),
                     ),
                     Padding(
                       padding:
-                          const EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                          EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
                       child: Container(
                         width: MediaQuery.sizeOf(context).width * 0.2,
                         height: MediaQuery.sizeOf(context).width * 0.2,
@@ -760,18 +709,18 @@ class _AddclasssShimmerWidgetState extends State<AddclasssShimmerWidget>
                                   fit: BoxFit.cover,
                                 ),
                               ).animateOnPageLoad(
-                                  animationsMap['imageOnPageLoadAnimation13']!),
+                                  animationsMap['imageOnPageLoadAnimation12']!),
                             ),
                           ),
                         ),
                       ),
                     ),
                   ]
-                      .divide(const SizedBox(height: 10.0))
-                      .addToEnd(const SizedBox(height: 10.0)),
+                      .divide(SizedBox(height: 10.0))
+                      .addToEnd(SizedBox(height: 10.0)),
                 ),
               ),
-            ].addToEnd(const SizedBox(height: 10.0)),
+            ].addToEnd(SizedBox(height: 10.0)),
           ),
         ),
       ),

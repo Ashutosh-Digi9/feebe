@@ -1,5 +1,5 @@
+import '/admin_dashboard/editphoto/editphoto_widget.dart';
 import '/backend/backend.dart';
-import '/components/editphoto_widget.dart';
 import '/components/school_added_s_a_widget.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
@@ -7,14 +7,19 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'add_school_link_model.dart';
 export 'add_school_link_model.dart';
 
 class AddSchoolLinkWidget extends StatefulWidget {
   const AddSchoolLinkWidget({super.key});
+
+  static String routeName = 'Add_School_link';
+  static String routePath = '/addSchoolLink';
 
   @override
   State<AddSchoolLinkWidget> createState() => _AddSchoolLinkWidgetState();
@@ -65,36 +70,49 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).newBgcolor,
-        appBar: AppBar(
-          backgroundColor: FlutterFlowTheme.of(context).info,
-          automaticallyImplyLeading: false,
-          leading: FlutterFlowIconButton(
-            borderColor: Colors.transparent,
-            borderWidth: 1.0,
-            buttonSize: 60.0,
-            icon: const Icon(
-              Icons.arrow_back_ios_sharp,
-              color: Color(0x58001B36),
-              size: 28.0,
-            ),
-            onPressed: () async {
-              context.pop();
-            },
-          ),
-          title: Text(
-            'Add school',
-            style: FlutterFlowTheme.of(context).bodyMedium.override(
-                  fontFamily: 'Nunito',
-                  color: FlutterFlowTheme.of(context).primaryText,
-                  fontSize: 16.0,
-                  letterSpacing: 0.0,
-                  fontWeight: FontWeight.w600,
+        appBar: responsiveVisibility(
+          context: context,
+          tablet: false,
+          tabletLandscape: false,
+          desktop: false,
+        )
+            ? AppBar(
+                backgroundColor: FlutterFlowTheme.of(context).info,
+                automaticallyImplyLeading: false,
+                leading: FlutterFlowIconButton(
+                  borderColor: Colors.transparent,
+                  borderWidth: 1.0,
+                  buttonSize: 60.0,
+                  icon: Icon(
+                    Icons.arrow_back_ios_sharp,
+                    color: Color(0x58001B36),
+                    size: 28.0,
+                  ),
+                  onPressed: () async {
+                    context.pop();
+                  },
                 ),
-          ),
-          actions: const [],
-          centerTitle: false,
-          elevation: 0.0,
-        ),
+                title: Text(
+                  'Add school',
+                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                        font: GoogleFonts.nunito(
+                          fontWeight: FontWeight.w600,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                        ),
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        fontSize: 16.0,
+                        letterSpacing: 0.0,
+                        fontWeight: FontWeight.w600,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                      ),
+                ),
+                actions: [],
+                centerTitle: false,
+                elevation: 0.0,
+              )
+            : null,
         body: SafeArea(
           top: true,
           child: Form(
@@ -106,15 +124,15 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
               children: [
                 Container(
                   height: MediaQuery.sizeOf(context).height * 0.8,
-                  decoration: const BoxDecoration(),
+                  decoration: BoxDecoration(),
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Align(
-                          alignment: const AlignmentDirectional(-1.0, 0.0),
+                          alignment: AlignmentDirectional(-1.0, 0.0),
                           child: Padding(
-                            padding: const EdgeInsetsDirectional.fromSTEB(
+                            padding: EdgeInsetsDirectional.fromSTEB(
                                 10.0, 10.0, 0.0, 0.0),
                             child: SelectionArea(
                                 child: Text(
@@ -122,10 +140,18 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                               style: FlutterFlowTheme.of(context)
                                   .bodyMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                                     fontSize: 18.0,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
                                   ),
                             )),
                           ),
@@ -150,11 +176,11 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                                   },
                                   child: Padding(
                                     padding: MediaQuery.viewInsetsOf(context),
-                                    child: SizedBox(
+                                    child: Container(
                                       height:
                                           MediaQuery.sizeOf(context).height *
                                               0.2,
-                                      child: const EditphotoWidget(
+                                      child: EditphotoWidget(
                                         person: false,
                                       ),
                                     ),
@@ -196,7 +222,7 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                               width: MediaQuery.sizeOf(context).width * 0.45,
                               height: MediaQuery.sizeOf(context).width * 0.45,
                               clipBehavior: Clip.antiAlias,
-                              decoration: const BoxDecoration(
+                              decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                               ),
                               child: Image.network(
@@ -209,7 +235,7 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                             ),
                           ),
                         ),
-                        SizedBox(
+                        Container(
                           width: MediaQuery.sizeOf(context).width * 0.9,
                           child: TextFormField(
                             controller: _model.schoolnameTextController,
@@ -221,20 +247,41 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                               labelStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               hintText: 'School Name',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w200,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w200,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -272,8 +319,21 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
                                 ),
                             maxLines: 4,
                             cursorColor:
@@ -282,7 +342,7 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                                 .asValidator(context),
                           ),
                         ),
-                        SizedBox(
+                        Container(
                           width: MediaQuery.sizeOf(context).width * 0.9,
                           child: TextFormField(
                             controller: _model.schoolAddressTextController,
@@ -294,20 +354,41 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                               labelStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               hintText: 'School address',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w200,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w200,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -345,8 +426,21 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
                                 ),
                             maxLines: 4,
                             cursorColor:
@@ -356,7 +450,7 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                                 .asValidator(context),
                           ),
                         ),
-                        SizedBox(
+                        Container(
                           width: MediaQuery.sizeOf(context).width * 0.9,
                           child: TextFormField(
                             controller: _model.noofstudentsTextController,
@@ -368,20 +462,41 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                               labelStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               hintText: 'No. of students',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w200,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w200,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -419,8 +534,21 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
                                 ),
                             keyboardType: TextInputType.number,
                             cursorColor:
@@ -433,7 +561,7 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        Container(
                           width: MediaQuery.sizeOf(context).width * 0.9,
                           child: TextFormField(
                             controller: _model.nooffacultiesTextController,
@@ -445,20 +573,41 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                               labelStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               hintText: 'No. of faculties',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w200,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w200,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -496,8 +645,21 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
                                 ),
                             keyboardType: TextInputType.number,
                             cursorColor:
@@ -510,7 +672,7 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                             ],
                           ),
                         ),
-                        SizedBox(
+                        Container(
                           width: MediaQuery.sizeOf(context).width * 0.9,
                           child: TextFormField(
                             controller: _model.noofbranchesTextController,
@@ -522,20 +684,41 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                               labelStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               hintText: 'No. of branches',
                               hintStyle: FlutterFlowTheme.of(context)
                                   .labelMedium
                                   .override(
-                                    fontFamily: 'Nunito',
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w200,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
                                     color: FlutterFlowTheme.of(context)
                                         .primaryText,
                                     letterSpacing: 0.0,
                                     fontWeight: FontWeight.w200,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
                                   ),
                               enabledBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -573,8 +756,21 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                             style: FlutterFlowTheme.of(context)
                                 .bodyMedium
                                 .override(
-                                  fontFamily: 'Nunito',
+                                  font: GoogleFonts.nunito(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
                                   letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
                                 ),
                             keyboardType: TextInputType.number,
                             cursorColor:
@@ -587,18 +783,18 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                             ],
                           ),
                         ),
-                      ].divide(const SizedBox(height: 15.0)),
+                      ].divide(SizedBox(height: 15.0)),
                     ),
                   ),
                 ),
                 Align(
-                  alignment: const AlignmentDirectional(0.0, 0.0),
+                  alignment: AlignmentDirectional(0.0, 0.0),
                   child: Container(
                     width: MediaQuery.sizeOf(context).width * 1.0,
                     height: MediaQuery.sizeOf(context).height * 0.1,
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).secondaryBackground,
-                      boxShadow: const [
+                      boxShadow: [
                         BoxShadow(
                           blurRadius: 18.9,
                           color: Color(0x18555555),
@@ -611,10 +807,10 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                       ],
                     ),
                     child: Align(
-                      alignment: const AlignmentDirectional(0.0, 0.0),
+                      alignment: AlignmentDirectional(0.0, 0.0),
                       child: Builder(
                         builder: (context) => Padding(
-                          padding: const EdgeInsetsDirectional.fromSTEB(
+                          padding: EdgeInsetsDirectional.fromSTEB(
                               0.0, 0.0, 0.0, 10.0),
                           child: FFButtonWidget(
                             onPressed: () async {
@@ -634,19 +830,19 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                                       builder: (alertDialogContext) {
                                         return AlertDialog(
                                           title:
-                                              const Text('Add School Confirmation'),
-                                          content: const Text(
+                                              Text('Add School Confirmation'),
+                                          content: Text(
                                               'Are you sure you want to add this school?'),
                                           actions: [
                                             TextButton(
                                               onPressed: () => Navigator.pop(
                                                   alertDialogContext, false),
-                                              child: const Text('Cancel'),
+                                              child: Text('Cancel'),
                                             ),
                                             TextButton(
                                               onPressed: () => Navigator.pop(
                                                   alertDialogContext, true),
-                                              child: const Text('Confirm'),
+                                              child: Text('Confirm'),
                                             ),
                                           ],
                                         );
@@ -724,7 +920,7 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                                         insetPadding: EdgeInsets.zero,
                                         backgroundColor: Colors.transparent,
                                         alignment:
-                                            const AlignmentDirectional(0.0, 1.0)
+                                            AlignmentDirectional(0.0, 1.0)
                                                 .resolve(
                                                     Directionality.of(context)),
                                         child: GestureDetector(
@@ -734,11 +930,11 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                                             FocusManager.instance.primaryFocus
                                                 ?.unfocus();
                                           },
-                                          child: SizedBox(
+                                          child: Container(
                                             height: MediaQuery.sizeOf(context)
                                                     .height *
                                                 0.08,
-                                            child: const SchoolAddedSAWidget(),
+                                            child: SchoolAddedSAWidget(),
                                           ),
                                         ),
                                       );
@@ -746,9 +942,9 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                                   );
 
                                   context.pushNamed(
-                                    'Dashboard',
+                                    DashboardWidget.routeName,
                                     extra: <String, dynamic>{
-                                      kTransitionInfoKey: const TransitionInfo(
+                                      kTransitionInfoKey: TransitionInfo(
                                         hasTransition: true,
                                         transitionType: PageTransitionType.fade,
                                       ),
@@ -765,18 +961,16 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                                             .primaryText,
                                       ),
                                     ),
-                                    duration: const Duration(milliseconds: 4000),
+                                    duration: Duration(milliseconds: 4000),
                                     backgroundColor:
                                         FlutterFlowTheme.of(context).secondary,
                                   ),
                                 );
                               }
 
-                              FFAppState().imageurl =
-                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
+                              FFAppState().imageurl = '';
                               FFAppState().profileimagechanged = false;
-                              FFAppState().schoolimage =
-                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png';
+                              FFAppState().schoolimage = '';
                               FFAppState().schoolimagechanged = false;
                               safeSetState(() {});
 
@@ -786,28 +980,41 @@ class _AddSchoolLinkWidgetState extends State<AddSchoolLinkWidget> {
                             options: FFButtonOptions(
                               width: MediaQuery.sizeOf(context).width * 0.85,
                               height: MediaQuery.sizeOf(context).height * 0.06,
-                              padding: const EdgeInsetsDirectional.fromSTEB(
+                              padding: EdgeInsetsDirectional.fromSTEB(
                                   16.0, 0.0, 16.0, 0.0),
-                              iconPadding: const EdgeInsetsDirectional.fromSTEB(
+                              iconPadding: EdgeInsetsDirectional.fromSTEB(
                                   0.0, 0.0, 0.0, 0.0),
                               color: FlutterFlowTheme.of(context).primary,
                               textStyle: FlutterFlowTheme.of(context)
                                   .titleSmall
                                   .override(
-                                fontFamily: 'Nunito',
+                                font: GoogleFonts.nunito(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .titleSmall
+                                      .fontStyle,
+                                ),
                                 color: Colors.white,
                                 letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .titleSmall
+                                    .fontStyle,
                                 shadows: [
                                   Shadow(
                                     color: FlutterFlowTheme.of(context)
                                         .buttonShadow,
-                                    offset: const Offset(0.0, 1.0),
+                                    offset: Offset(0.0, 1.0),
                                     blurRadius: 2.0,
                                   ),
                                   Shadow(
                                     color: FlutterFlowTheme.of(context)
                                         .buttonShadow2,
-                                    offset: const Offset(0.0, 0.0),
+                                    offset: Offset(0.0, 0.0),
                                     blurRadius: 0.0,
                                   )
                                 ],

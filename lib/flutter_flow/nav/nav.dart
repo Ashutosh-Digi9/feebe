@@ -9,9 +9,9 @@ import '/auth/base_auth_user_provider.dart';
 
 import '/backend/push_notifications/push_notifications_handler.dart'
     show PushNotificationsHandler;
-import '/index.dart';
-import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+
+import '/index.dart';
 
 export 'package:go_router/go_router.dart';
 export 'serialization_util.dart';
@@ -82,38 +82,42 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) => _RouteErrorBuilder(
         state: state,
-        child: appStateNotifier.loggedIn ? const DashboardWidget() : const LaunchWidget(),
+        child: appStateNotifier.loggedIn ? DashboardWidget() : LaunchWidget(),
       ),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
           builder: (context, _) =>
-              appStateNotifier.loggedIn ? const DashboardWidget() : const LaunchWidget(),
+              appStateNotifier.loggedIn ? DashboardWidget() : LaunchWidget(),
         ),
         FFRoute(
-          name: 'Launch',
-          path: '/launch',
-          builder: (context, params) => const LaunchWidget(),
+          name: LaunchWidget.routeName,
+          path: LaunchWidget.routePath,
+          builder: (context, params) => LaunchWidget(),
         ),
         FFRoute(
-          name: 'Login',
-          path: '/login',
-          builder: (context, params) => const LoginWidget(),
+          name: LoginWidget.routeName,
+          path: LoginWidget.routePath,
+          builder: (context, params) => LoginWidget(),
         ),
         FFRoute(
-          name: 'Dashboard',
-          path: '/dashboard',
+          name: DashboardWidget.routeName,
+          path: DashboardWidget.routePath,
           builder: (context, params) => DashboardWidget(
             tabindex: params.getParam(
               'tabindex',
               ParamType.int,
             ),
+            fromlogin: params.getParam(
+              'fromlogin',
+              ParamType.bool,
+            ),
           ),
         ),
         FFRoute(
-          name: 'NewSchoolDetails_SA',
-          path: '/newSchoolDetailsSA',
+          name: NewSchoolDetailsSAWidget.routeName,
+          path: NewSchoolDetailsSAWidget.routePath,
           builder: (context, params) => NewSchoolDetailsSAWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -124,8 +128,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'Calender_parent',
-          path: '/calenderParent',
+          name: CalenderParentWidget.routeName,
+          path: CalenderParentWidget.routePath,
           builder: (context, params) => CalenderParentWidget(
             classref: params.getParam(
               'classref',
@@ -136,8 +140,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'notification_parent',
-          path: '/calender_day_view',
+          name: NotificationParentWidget.routeName,
+          path: NotificationParentWidget.routePath,
           builder: (context, params) => NotificationParentWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -148,8 +152,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'timelinedetails',
-          path: '/timelinedetails',
+          name: TimelinedetailsWidget.routeName,
+          path: TimelinedetailsWidget.routePath,
           builder: (context, params) => TimelinedetailsWidget(
             studentRef: params.getParam(
               'studentRef',
@@ -170,8 +174,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'parent_profile',
-          path: '/Profile',
+          name: ParentProfileWidget.routeName,
+          path: ParentProfileWidget.routePath,
           builder: (context, params) => ParentProfileWidget(
             studentref: params.getParam<DocumentReference>(
               'studentref',
@@ -179,41 +183,51 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: true,
               collectionNamePath: ['Students'],
             ),
+            parentlist: params.getParam<ParentsDetailsStruct>(
+              'parentlist',
+              ParamType.DataStruct,
+              isList: true,
+              structBuilder: ParentsDetailsStruct.fromSerializableMap,
+            ),
+            address: params.getParam(
+              'address',
+              ParamType.String,
+            ),
           ),
         ),
         FFRoute(
-          name: 'Notifications_SA',
-          path: '/notificationsSA',
-          builder: (context, params) => const NotificationsSAWidget(),
+          name: NotificationsSAWidget.routeName,
+          path: NotificationsSAWidget.routePath,
+          builder: (context, params) => NotificationsSAWidget(),
         ),
         FFRoute(
-          name: 'Add_School_QR_SA',
-          path: '/addSchoolQRSA',
-          builder: (context, params) => const AddSchoolQRSAWidget(),
+          name: AddSchoolQRSAWidget.routeName,
+          path: AddSchoolQRSAWidget.routePath,
+          builder: (context, params) => AddSchoolQRSAWidget(),
         ),
         FFRoute(
-          name: 'Add_School_manually_SA',
-          path: '/addSchoolManuallySA',
-          builder: (context, params) => const AddSchoolManuallySAWidget(),
+          name: AddSchoolManuallySAWidget.routeName,
+          path: AddSchoolManuallySAWidget.routePath,
+          builder: (context, params) => AddSchoolManuallySAWidget(),
         ),
         FFRoute(
-          name: 'editprofile_parent',
-          path: '/editprofile',
-          builder: (context, params) => const EditprofileParentWidget(),
+          name: EditprofileParentWidget.routeName,
+          path: EditprofileParentWidget.routePath,
+          builder: (context, params) => EditprofileParentWidget(),
         ),
         FFRoute(
-          name: 'SearchPage_SA',
-          path: '/searchPageSA',
-          builder: (context, params) => const SearchPageSAWidget(),
+          name: SearchPageSAWidget.routeName,
+          path: SearchPageSAWidget.routePath,
+          builder: (context, params) => SearchPageSAWidget(),
         ),
         FFRoute(
-          name: 'EditProfile_SA',
-          path: '/editProfileSA',
-          builder: (context, params) => const EditProfileSAWidget(),
+          name: EditProfileSAWidget.routeName,
+          path: EditProfileSAWidget.routePath,
+          builder: (context, params) => EditProfileSAWidget(),
         ),
         FFRoute(
-          name: 'attendence_parent',
-          path: '/attendence',
+          name: AttendenceParentWidget.routeName,
+          path: AttendenceParentWidget.routePath,
           builder: (context, params) => AttendenceParentWidget(
             classref: params.getParam(
               'classref',
@@ -230,13 +244,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'SchoolRejected',
-          path: '/schoolRejected',
-          builder: (context, params) => const SchoolRejectedWidget(),
-        ),
-        FFRoute(
-          name: 'add_Teacher_manually_Admin',
-          path: '/addTeacherManuallyAdmin',
+          name: AddTeacherManuallyAdminWidget.routeName,
+          path: AddTeacherManuallyAdminWidget.routePath,
           builder: (context, params) => AddTeacherManuallyAdminWidget(
             schoolRef: params.getParam(
               'schoolRef',
@@ -247,13 +256,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'ChangePassword',
-          path: '/changePassword',
-          builder: (context, params) => const ChangePasswordWidget(),
+          name: ChangePasswordWidget.routeName,
+          path: ChangePasswordWidget.routePath,
+          builder: (context, params) => ChangePasswordWidget(),
         ),
         FFRoute(
-          name: 'ExistingSchoolDetails_SA',
-          path: '/existingSchoolDetailsSA',
+          name: ExistingSchoolDetailsSAWidget.routeName,
+          path: ExistingSchoolDetailsSAWidget.routePath,
           builder: (context, params) => ExistingSchoolDetailsSAWidget(
             schoolrefMain: params.getParam(
               'schoolrefMain',
@@ -264,8 +273,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'Class_view',
-          path: '/classView',
+          name: ClassViewWidget.routeName,
+          path: ClassViewWidget.routePath,
           builder: (context, params) => ClassViewWidget(
             schoolclassref: params.getParam(
               'schoolclassref',
@@ -286,13 +295,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'PasswordChanged',
-          path: '/passwordChanged',
-          builder: (context, params) => const PasswordChangedWidget(),
+          name: PasswordChangedWidget.routeName,
+          path: PasswordChangedWidget.routePath,
+          builder: (context, params) => PasswordChangedWidget(),
         ),
         FFRoute(
-          name: 'class_dashboard',
-          path: '/classDashboard',
+          name: ClassDashboardWidget.routeName,
+          path: ClassDashboardWidget.routePath,
           builder: (context, params) => ClassDashboardWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -308,11 +317,15 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               'classname',
               ParamType.String,
             ),
+            pageno: params.getParam(
+              'pageno',
+              ParamType.int,
+            ),
           ),
         ),
         FFRoute(
-          name: 'Teacher_profile',
-          path: '/teacherProfile',
+          name: TeacherProfileWidget.routeName,
+          path: TeacherProfileWidget.routePath,
           builder: (context, params) => TeacherProfileWidget(
             teacherRef: params.getParam(
               'teacherRef',
@@ -329,8 +342,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'AddBranch_SA',
-          path: '/addBranchSA',
+          name: AddBranchSAWidget.routeName,
+          path: AddBranchSAWidget.routePath,
           builder: (context, params) => AddBranchSAWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -347,8 +360,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'AddClassAdmin',
-          path: '/addClassAdmin',
+          name: AddClassAdminWidget.routeName,
+          path: AddClassAdminWidget.routePath,
           builder: (context, params) => AddClassAdminWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -359,8 +372,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'Notification_admin',
-          path: '/notificationAdmin',
+          name: NotificationAdminWidget.routeName,
+          path: NotificationAdminWidget.routePath,
           builder: (context, params) => NotificationAdminWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -371,8 +384,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'SelectStudentsAdmin',
-          path: '/selectStudentsAdmin',
+          name: SelectStudentsAdminWidget.routeName,
+          path: SelectStudentsAdminWidget.routePath,
           builder: (context, params) => SelectStudentsAdminWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -389,8 +402,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'Teacher_attendence_History',
-          path: '/teacherAttendenceHistory',
+          name: TeacherAttendenceHistoryWidget.routeName,
+          path: TeacherAttendenceHistoryWidget.routePath,
           builder: (context, params) => TeacherAttendenceHistoryWidget(
             techerref: params.getParam(
               'techerref',
@@ -407,8 +420,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'teacher_timeline',
-          path: '/Teacher_attendence_HistoryCopy',
+          name: TeacherTimelineWidget.routeName,
+          path: TeacherTimelineWidget.routePath,
           builder: (context, params) => TeacherTimelineWidget(
             teachersref: params.getParam(
               'teachersref',
@@ -425,8 +438,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'class_attendence',
-          path: '/classAttendence',
+          name: ClassAttendenceWidget.routeName,
+          path: ClassAttendenceWidget.routePath,
           builder: (context, params) => ClassAttendenceWidget(
             classRef: params.getParam(
               'classRef',
@@ -451,8 +464,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'class_attendence_history',
-          path: '/classAttendenceHistory',
+          name: ClassAttendenceHistoryWidget.routeName,
+          path: ClassAttendenceHistoryWidget.routePath,
           builder: (context, params) => ClassAttendenceHistoryWidget(
             classref: params.getParam(
               'classref',
@@ -469,8 +482,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'mark_attendence',
-          path: '/AddClass2AdminCopy',
+          name: MarkAttendenceWidget.routeName,
+          path: MarkAttendenceWidget.routePath,
           builder: (context, params) => MarkAttendenceWidget(
             classRef: params.getParam(
               'classRef',
@@ -487,8 +500,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'add_student_manually',
-          path: '/addStudentManually',
+          name: AddStudentManuallyWidget.routeName,
+          path: AddStudentManuallyWidget.routePath,
           builder: (context, params) => AddStudentManuallyWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -499,8 +512,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'StudentsAddedtoclass',
-          path: '/studentsAddedtoclass',
+          name: StudentsAddedtoclassWidget.routeName,
+          path: StudentsAddedtoclassWidget.routePath,
           builder: (context, params) => StudentsAddedtoclassWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -511,32 +524,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'IndiStudentAdmin',
-          path: '/indiStudentAdmin',
-          builder: (context, params) => IndiStudentAdminWidget(
-            studentsref: params.getParam(
-              'studentsref',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['Students'],
-            ),
-            classref: params.getParam<DocumentReference>(
-              'classref',
-              ParamType.DocumentReference,
-              isList: true,
-              collectionNamePath: ['School_class'],
-            ),
-            schoolref: params.getParam(
-              'schoolref',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['School'],
-            ),
-          ),
-        ),
-        FFRoute(
-          name: 'noticedetails_class',
-          path: '/noticedetailsClass',
+          name: NoticedetailsClassWidget.routeName,
+          path: NoticedetailsClassWidget.routePath,
           builder: (context, params) => NoticedetailsClassWidget(
             eventid: params.getParam(
               'eventid',
@@ -551,13 +540,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'ForgotPassword',
-          path: '/forgotPassword',
-          builder: (context, params) => const ForgotPasswordWidget(),
+          name: ForgotPasswordWidget.routeName,
+          path: ForgotPasswordWidget.routePath,
+          builder: (context, params) => ForgotPasswordWidget(),
         ),
         FFRoute(
-          name: 'editSchool_SA',
-          path: '/editSchoolSA',
+          name: EditSchoolSAWidget.routeName,
+          path: EditSchoolSAWidget.routePath,
           builder: (context, params) => EditSchoolSAWidget(
             schoolRef: params.getParam(
               'schoolRef',
@@ -574,8 +563,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'EditBranchSA',
-          path: '/editBranchSA',
+          name: EditBranchSAWidget.routeName,
+          path: EditBranchSAWidget.routePath,
           builder: (context, params) => EditBranchSAWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -592,8 +581,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'add_events_details',
-          path: '/addEventsDetails',
+          name: AddEventsDetailsWidget.routeName,
+          path: AddEventsDetailsWidget.routePath,
           builder: (context, params) => AddEventsDetailsWidget(
             selectedDate: params.getParam(
               'selectedDate',
@@ -608,8 +597,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'editclassadmin',
-          path: '/editclassadmin',
+          name: EditclassadminWidget.routeName,
+          path: EditclassadminWidget.routePath,
           builder: (context, params) => EditclassadminWidget(
             schoolclassref: params.getParam(
               'schoolclassref',
@@ -626,8 +615,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'AttendanceMarked',
-          path: '/attendanceMarked',
+          name: AttendanceMarkedWidget.routeName,
+          path: AttendanceMarkedWidget.routePath,
           builder: (context, params) => AttendanceMarkedWidget(
             classref: params.getParam(
               'classref',
@@ -644,44 +633,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'add_noticeboard_class',
-          path: '/addNoticeboardClass',
-          builder: (context, params) => AddNoticeboardClassWidget(
-            schoolclassref: params.getParam(
-              'schoolclassref',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['School_class'],
-            ),
-          ),
-        ),
-        FFRoute(
-          name: 'indi_edit_students',
-          path: '/indiEditStudents',
-          builder: (context, params) => IndiEditStudentsWidget(
-            classref: params.getParam<DocumentReference>(
-              'classref',
-              ParamType.DocumentReference,
-              isList: true,
-              collectionNamePath: ['School_class'],
-            ),
-            studentref: params.getParam(
-              'studentref',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['Students'],
-            ),
-            schoolref: params.getParam(
-              'schoolref',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['School'],
-            ),
-          ),
-        ),
-        FFRoute(
-          name: 'Add_Student_Admin_QR',
-          path: '/addStudentAdminQR',
+          name: AddStudentAdminQRWidget.routeName,
+          path: AddStudentAdminQRWidget.routePath,
           builder: (context, params) => AddStudentAdminQRWidget(
             schoolRef: params.getParam(
               'schoolRef',
@@ -702,32 +655,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'studentsprofile',
-          path: '/studentsprofile',
-          builder: (context, params) => StudentsprofileWidget(
-            studentref: params.getParam(
-              'studentref',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['Students'],
-            ),
-            classref: params.getParam<DocumentReference>(
-              'classref',
-              ParamType.DocumentReference,
-              isList: true,
-              collectionNamePath: ['School_class'],
-            ),
-            schoolref: params.getParam(
-              'schoolref',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['School'],
-            ),
-          ),
-        ),
-        FFRoute(
-          name: 'ChangeSubscriptionPlan_SA',
-          path: '/changeSubscriptionPlanSA',
+          name: ChangeSubscriptionPlanSAWidget.routeName,
+          path: ChangeSubscriptionPlanSAWidget.routePath,
           builder: (context, params) => ChangeSubscriptionPlanSAWidget(
             schoolRef: params.getParam(
               'schoolRef',
@@ -738,8 +667,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'students_timeline_activities',
-          path: '/studentsTimelineActivities',
+          name: StudentsTimelineActivitiesWidget.routeName,
+          path: StudentsTimelineActivitiesWidget.routePath,
           builder: (context, params) => StudentsTimelineActivitiesWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -764,8 +693,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'TeacherdeletedSuccesfully',
-          path: '/teacherdeletedSuccesfully',
+          name: TeacherdeletedSuccesfullyWidget.routeName,
+          path: TeacherdeletedSuccesfullyWidget.routePath,
           builder: (context, params) => TeacherdeletedSuccesfullyWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -776,8 +705,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'Edit_TeacherAdmin',
-          path: '/editTeacherAdmin',
+          name: EditTeacherAdminWidget.routeName,
+          path: EditTeacherAdminWidget.routePath,
           builder: (context, params) => EditTeacherAdminWidget(
             schoolRef: params.getParam(
               'schoolRef',
@@ -791,11 +720,17 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               collectionNamePath: ['Teachers'],
             ),
+            teacher: params.getParam(
+              'teacher',
+              ParamType.DataStruct,
+              isList: false,
+              structBuilder: TeacherListStruct.fromSerializableMap,
+            ),
           ),
         ),
         FFRoute(
-          name: 'Teacherdetailsedited',
-          path: '/teacherdetailsedited',
+          name: TeacherdetailseditedWidget.routeName,
+          path: TeacherdetailseditedWidget.routePath,
           builder: (context, params) => TeacherdetailseditedWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -812,8 +747,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'Teachers_Gallery',
-          path: '/teachersGallery',
+          name: TeachersGalleryWidget.routeName,
+          path: TeachersGalleryWidget.routePath,
           builder: (context, params) => TeachersGalleryWidget(
             teacher: params.getParam(
               'teacher',
@@ -830,13 +765,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'Add_School_link',
-          path: '/addSchoolLink',
-          builder: (context, params) => const AddSchoolLinkWidget(),
+          name: AddSchoolLinkWidget.routeName,
+          path: AddSchoolLinkWidget.routePath,
+          builder: (context, params) => AddSchoolLinkWidget(),
         ),
         FFRoute(
-          name: 'calender_class',
-          path: '/calenderClass',
+          name: CalenderClassWidget.routeName,
+          path: CalenderClassWidget.routePath,
           builder: (context, params) => CalenderClassWidget(
             schoolclassref: params.getParam(
               'schoolclassref',
@@ -854,11 +789,15 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               'mainpage',
               ParamType.bool,
             ),
+            studentpage: params.getParam(
+              'studentpage',
+              ParamType.bool,
+            ),
           ),
         ),
         FFRoute(
-          name: 'Student_gallery',
-          path: '/studentGallery',
+          name: StudentGalleryWidget.routeName,
+          path: StudentGalleryWidget.routePath,
           builder: (context, params) => StudentGalleryWidget(
             student: params.getParam(
               'student',
@@ -866,11 +805,17 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               collectionNamePath: ['Students'],
             ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
           ),
         ),
         FFRoute(
-          name: 'indivi_image_view',
-          path: '/indiviImageView',
+          name: IndiviImageViewWidget.routeName,
+          path: IndiviImageViewWidget.routePath,
           builder: (context, params) => IndiviImageViewWidget(
             student: params.getParam(
               'student',
@@ -878,15 +823,21 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               collectionNamePath: ['Students'],
             ),
-            index: params.getParam(
-              'index',
-              ParamType.int,
+            imagepath: params.getParam(
+              'imagepath',
+              ParamType.String,
+            ),
+            gallery: params.getParam(
+              'gallery',
+              ParamType.DataStruct,
+              isList: false,
+              structBuilder: GalleryStruct.fromSerializableMap,
             ),
           ),
         ),
         FFRoute(
-          name: 'add_calender_details',
-          path: '/addCalenderDetails',
+          name: AddCalenderDetailsWidget.routeName,
+          path: AddCalenderDetailsWidget.routePath,
           builder: (context, params) => AddCalenderDetailsWidget(
             selectedDate: params.getParam(
               'selectedDate',
@@ -906,11 +857,15 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               'classname',
               ParamType.String,
             ),
+            classpage: params.getParam(
+              'classpage',
+              ParamType.bool,
+            ),
           ),
         ),
         FFRoute(
-          name: 'subscription',
-          path: '/subscription',
+          name: SubscriptionWidget.routeName,
+          path: SubscriptionWidget.routePath,
           builder: (context, params) => SubscriptionWidget(
             schoolRef: params.getParam(
               'schoolRef',
@@ -921,8 +876,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'edi_teacher',
-          path: '/ediTeacher',
+          name: EdiTeacherWidget.routeName,
+          path: EdiTeacherWidget.routePath,
           builder: (context, params) => EdiTeacherWidget(
             schoolRef: params.getParam(
               'schoolRef',
@@ -939,8 +894,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'SearchPage_admin',
-          path: '/searchPageAdmin',
+          name: SearchPageAdminWidget.routeName,
+          path: SearchPageAdminWidget.routePath,
           builder: (context, params) => SearchPageAdminWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -951,8 +906,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'Notification_Teacher',
-          path: '/notificationTeacher',
+          name: NotificationTeacherWidget.routeName,
+          path: NotificationTeacherWidget.routePath,
           builder: (context, params) => NotificationTeacherWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -963,23 +918,23 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'SchoolAdded',
-          path: '/schoolAdded',
-          builder: (context, params) => const SchoolAddedWidget(),
+          name: SchoolAddedWidget.routeName,
+          path: SchoolAddedWidget.routePath,
+          builder: (context, params) => SchoolAddedWidget(),
         ),
         FFRoute(
-          name: 'Schoolapproved',
-          path: '/schoolapproved',
-          builder: (context, params) => const SchoolapprovedWidget(),
+          name: SchoolapprovedWidget.routeName,
+          path: SchoolapprovedWidget.routePath,
+          builder: (context, params) => SchoolapprovedWidget(),
         ),
         FFRoute(
-          name: 'Schooldeletedsuccessfully',
-          path: '/schooldeletedsuccessfully',
-          builder: (context, params) => const SchooldeletedsuccessfullyWidget(),
+          name: SchooldeletedsuccessfullyWidget.routeName,
+          path: SchooldeletedsuccessfullyWidget.routePath,
+          builder: (context, params) => SchooldeletedsuccessfullyWidget(),
         ),
         FFRoute(
-          name: 'BranchUpdated',
-          path: '/branchUpdated',
+          name: BranchUpdatedWidget.routeName,
+          path: BranchUpdatedWidget.routePath,
           builder: (context, params) => BranchUpdatedWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -996,8 +951,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'SchoolUpdated',
-          path: '/schoolUpdated',
+          name: SchoolUpdatedWidget.routeName,
+          path: SchoolUpdatedWidget.routePath,
           builder: (context, params) => SchoolUpdatedWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -1008,8 +963,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'BranchAdded',
-          path: '/branchAdded',
+          name: BranchAddedWidget.routeName,
+          path: BranchAddedWidget.routePath,
           builder: (context, params) => BranchAddedWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -1020,8 +975,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'attendence_history_teacher',
-          path: '/teacher_attendence_history',
+          name: AttendenceHistoryTeacherWidget.routeName,
+          path: AttendenceHistoryTeacherWidget.routePath,
           builder: (context, params) => AttendenceHistoryTeacherWidget(
             techerref: params.getParam(
               'techerref',
@@ -1032,18 +987,18 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'amount_not_paidd',
-          path: '/amountNotPaidd',
-          builder: (context, params) => const AmountNotPaiddWidget(),
+          name: AmountNotPaiddWidget.routeName,
+          path: AmountNotPaiddWidget.routePath,
+          builder: (context, params) => AmountNotPaiddWidget(),
         ),
         FFRoute(
-          name: 'subscriptionended',
-          path: '/subscriptionended',
-          builder: (context, params) => const SubscriptionendedWidget(),
+          name: SubscriptionendedWidget.routeName,
+          path: SubscriptionendedWidget.routePath,
+          builder: (context, params) => SubscriptionendedWidget(),
         ),
         FFRoute(
-          name: 'Teacher_Timeline_new',
-          path: '/teacherTimelineNew',
+          name: TeacherTimelineNewWidget.routeName,
+          path: TeacherTimelineNewWidget.routePath,
           builder: (context, params) => TeacherTimelineNewWidget(
             teacherRef: params.getParam(
               'teacherRef',
@@ -1060,26 +1015,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'class_notice',
-          path: '/classNotice',
-          builder: (context, params) => ClassNoticeWidget(
-            schoolclassref: params.getParam(
-              'schoolclassref',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['School_class'],
-            ),
-            schoolref: params.getParam(
-              'schoolref',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['School'],
-            ),
-          ),
-        ),
-        FFRoute(
-          name: 'Teacher_notice',
-          path: '/teacherNotice',
+          name: TeacherNoticeWidget.routeName,
+          path: TeacherNoticeWidget.routePath,
           builder: (context, params) => TeacherNoticeWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -1096,13 +1033,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'Teacher_noticeTeacher',
-          path: '/teacherNoticeTeacher',
-          builder: (context, params) => const TeacherNoticeTeacherWidget(),
+          name: TeacherNoticeTeacherWidget.routeName,
+          path: TeacherNoticeTeacherWidget.routePath,
+          builder: (context, params) => TeacherNoticeTeacherWidget(),
         ),
         FFRoute(
-          name: 'calender_list_parent',
-          path: '/calenderListParent',
+          name: CalenderListParentWidget.routeName,
+          path: CalenderListParentWidget.routePath,
           builder: (context, params) => CalenderListParentWidget(
             selectedDate: params.getParam(
               'selectedDate',
@@ -1117,8 +1054,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'notice_parent',
-          path: '/noticeParent',
+          name: NoticeParentWidget.routeName,
+          path: NoticeParentWidget.routePath,
           builder: (context, params) => NoticeParentWidget(
             clasref: params.getParam(
               'clasref',
@@ -1135,13 +1072,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'addnoticeAllSchools',
-          path: '/addnoticeAllSchools',
-          builder: (context, params) => const AddnoticeAllSchoolsWidget(),
+          name: AddnoticeAllSchoolsWidget.routeName,
+          path: AddnoticeAllSchoolsWidget.routePath,
+          builder: (context, params) => AddnoticeAllSchoolsWidget(),
         ),
         FFRoute(
-          name: 'School_notice_view',
-          path: '/schoolNoticeView',
+          name: SchoolNoticeViewWidget.routeName,
+          path: SchoolNoticeViewWidget.routePath,
           builder: (context, params) => SchoolNoticeViewWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -1152,13 +1089,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'subscribtioplan',
-          path: '/subscribtioplan',
-          builder: (context, params) => const SubscribtioplanWidget(),
+          name: SubscribtioplanWidget.routeName,
+          path: SubscribtioplanWidget.routePath,
+          builder: (context, params) => SubscribtioplanWidget(),
         ),
         FFRoute(
-          name: 'Edit_childParent',
-          path: '/editprofileParent',
+          name: EditChildParentWidget.routeName,
+          path: EditChildParentWidget.routePath,
           builder: (context, params) => EditChildParentWidget(
             studentref: params.getParam(
               'studentref',
@@ -1169,18 +1106,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'ChildDetailsUpdated',
-          path: '/childDetailsUpdated',
-          builder: (context, params) => const ChildDetailsUpdatedWidget(),
+          name: ChildDetailsUpdatedWidget.routeName,
+          path: ChildDetailsUpdatedWidget.routePath,
+          builder: (context, params) => ChildDetailsUpdatedWidget(),
         ),
         FFRoute(
-          name: 'PareentProfileUpdated',
-          path: '/pareentProfileUpdated',
-          builder: (context, params) => const PareentProfileUpdatedWidget(),
-        ),
-        FFRoute(
-          name: 'ClassNotice_Admin_Teacher',
-          path: '/classNoticeAdminTeacher',
+          name: ClassNoticeAdminTeacherWidget.routeName,
+          path: ClassNoticeAdminTeacherWidget.routePath,
           builder: (context, params) => ClassNoticeAdminTeacherWidget(
             classref: params.getParam(
               'classref',
@@ -1194,27 +1126,41 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               collectionNamePath: ['School'],
             ),
-            date: params.getParam(
-              'date',
-              ParamType.DateTime,
+            notice: params.getParam(
+              'notice',
+              ParamType.bool,
+            ),
+            studentpage: params.getParam(
+              'studentpage',
+              ParamType.bool,
             ),
           ),
         ),
         FFRoute(
-          name: 'NotificationVIew',
-          path: '/notificationVIew',
+          name: NotificationVIewWidget.routeName,
+          path: NotificationVIewWidget.routePath,
           builder: (context, params) => NotificationVIewWidget(
-            notificationref: params.getParam(
-              'notificationref',
+            notiref: params.getParam(
+              'notiref',
               ParamType.DocumentReference,
               isList: false,
               collectionNamePath: ['Notifications'],
             ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            index: params.getParam(
+              'index',
+              ParamType.int,
+            ),
           ),
         ),
         FFRoute(
-          name: 'New_student',
-          path: '/newStudent',
+          name: NewStudentWidget.routeName,
+          path: NewStudentWidget.routePath,
           builder: (context, params) => NewStudentWidget(
             studentsref: params.getParam(
               'studentsref',
@@ -1231,8 +1177,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'new_student_edit',
-          path: '/newStudentEdit',
+          name: NewStudentEditWidget.routeName,
+          path: NewStudentEditWidget.routePath,
           builder: (context, params) => NewStudentEditWidget(
             studentref: params.getParam(
               'studentref',
@@ -1249,13 +1195,13 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'Profile_view',
-          path: '/profileView',
-          builder: (context, params) => const ProfileViewWidget(),
+          name: ProfileViewWidget.routeName,
+          path: ProfileViewWidget.routePath,
+          builder: (context, params) => ProfileViewWidget(),
         ),
         FFRoute(
-          name: 'indistudentmainpages',
-          path: '/indistudentmainpages',
+          name: IndistudentmainpagesWidget.routeName,
+          path: IndistudentmainpagesWidget.routePath,
           builder: (context, params) => IndistudentmainpagesWidget(
             studentsref: params.getParam(
               'studentsref',
@@ -1263,23 +1209,21 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               collectionNamePath: ['Students'],
             ),
-            classref: params.getParam<DocumentReference>(
-              'classref',
-              ParamType.DocumentReference,
-              isList: true,
-              collectionNamePath: ['School_class'],
-            ),
             schoolref: params.getParam(
               'schoolref',
               ParamType.DocumentReference,
               isList: false,
               collectionNamePath: ['School'],
             ),
+            mainpage: params.getParam(
+              'mainpage',
+              ParamType.bool,
+            ),
           ),
         ),
         FFRoute(
-          name: 'indivi_image_viewTeacher',
-          path: '/indiviImageViewTeacher',
+          name: IndiviImageViewTeacherWidget.routeName,
+          path: IndiviImageViewTeacherWidget.routePath,
           builder: (context, params) => IndiviImageViewTeacherWidget(
             teacher: params.getParam(
               'teacher',
@@ -1300,26 +1244,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'add_student_manuallyCopy',
-          path: '/addStudentManuallyCopy',
-          builder: (context, params) => AddStudentManuallyCopyWidget(
-            schoolref: params.getParam(
-              'schoolref',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['School'],
-            ),
-            classref: params.getParam(
-              'classref',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['School_class'],
-            ),
-          ),
-        ),
-        FFRoute(
-          name: 'selectedstudents_sadmin',
-          path: '/selectedstudentsSadmin',
+          name: SelectedstudentsSadminWidget.routeName,
+          path: SelectedstudentsSadminWidget.routePath,
           builder: (context, params) => SelectedstudentsSadminWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -1333,23 +1259,15 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               collectionNamePath: ['School_class'],
             ),
-          ),
-        ),
-        FFRoute(
-          name: 'draft_student_maually',
-          path: '/draftStudentMaually',
-          builder: (context, params) => DraftStudentMauallyWidget(
-            schoolref: params.getParam(
-              'schoolref',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['School'],
+            className: params.getParam(
+              'className',
+              ParamType.String,
             ),
           ),
         ),
         FFRoute(
-          name: 'student_draft',
-          path: '/studentDraft',
+          name: StudentDraftWidget.routeName,
+          path: StudentDraftWidget.routePath,
           builder: (context, params) => StudentDraftWidget(
             schoolref: params.getParam(
               'schoolref',
@@ -1366,8 +1284,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'indivi_video_view',
-          path: '/indiviVideoView',
+          name: IndiviVideoViewWidget.routeName,
+          path: IndiviVideoViewWidget.routePath,
           builder: (context, params) => IndiviVideoViewWidget(
             student: params.getParam(
               'student',
@@ -1375,15 +1293,17 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               collectionNamePath: ['Students'],
             ),
-            index: params.getParam(
-              'index',
-              ParamType.int,
+            gallery: params.getParam(
+              'gallery',
+              ParamType.DataStruct,
+              isList: false,
+              structBuilder: GalleryStruct.fromSerializableMap,
             ),
           ),
         ),
         FFRoute(
-          name: 'calender_details_parent',
-          path: '/calenderDetailsParent',
+          name: CalenderDetailsParentWidget.routeName,
+          path: CalenderDetailsParentWidget.routePath,
           builder: (context, params) => CalenderDetailsParentWidget(
             eventDetails: params.getParam(
               'eventDetails',
@@ -1394,8 +1314,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'attendance_history_students_card',
-          path: '/AddClass2AdminCcard',
+          name: AttendanceHistoryStudentsCardWidget.routeName,
+          path: AttendanceHistoryStudentsCardWidget.routePath,
           builder: (context, params) => AttendanceHistoryStudentsCardWidget(
             classRef: params.getParam(
               'classRef',
@@ -1416,8 +1336,8 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: 'Notice_details',
-          path: '/noticeDetails',
+          name: NoticeDetailsWidget.routeName,
+          path: NoticeDetailsWidget.routePath,
           builder: (context, params) => NoticeDetailsWidget(
             eventDetails: params.getParam(
               'eventDetails',
@@ -1425,11 +1345,15 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               structBuilder: EventsNoticeStruct.fromSerializableMap,
             ),
+            classRef: params.getParam(
+              'classRef',
+              ParamType.String,
+            ),
           ),
         ),
         FFRoute(
-          name: 'event_details',
-          path: '/eventDetails',
+          name: EventDetailsWidget.routeName,
+          path: EventDetailsWidget.routePath,
           builder: (context, params) => EventDetailsWidget(
             eventDetails: params.getParam(
               'eventDetails',
@@ -1437,17 +1361,301 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               structBuilder: EventsNoticeStruct.fromSerializableMap,
             ),
+            classRef: params.getParam(
+              'classRef',
+              ParamType.String,
+            ),
           ),
         ),
         FFRoute(
-          name: 'guest_page',
-          path: '/guestPage',
-          builder: (context, params) => const GuestPageWidget(),
+          name: GuestPageWidget.routeName,
+          path: GuestPageWidget.routePath,
+          builder: (context, params) => GuestPageWidget(),
         ),
         FFRoute(
-          name: 'Deletepage',
-          path: '/deletepage',
-          builder: (context, params) => const DeletepageWidget(),
+          name: DeletepageWidget.routeName,
+          path: DeletepageWidget.routePath,
+          builder: (context, params) => DeletepageWidget(),
+        ),
+        FFRoute(
+          name: TeacherImageViewWidget.routeName,
+          path: TeacherImageViewWidget.routePath,
+          builder: (context, params) => TeacherImageViewWidget(
+            teacher: params.getParam(
+              'teacher',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Teachers'],
+            ),
+            index: params.getParam(
+              'index',
+              ParamType.int,
+            ),
+            school: params.getParam(
+              'school',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: TeacherVideoViewWidget.routeName,
+          path: TeacherVideoViewWidget.routePath,
+          builder: (context, params) => TeacherVideoViewWidget(
+            teacher: params.getParam(
+              'teacher',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Teachers'],
+            ),
+            index: params.getParam(
+              'index',
+              ParamType.int,
+            ),
+            school: params.getParam(
+              'school',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: TotalStudentListssWidget.routeName,
+          path: TotalStudentListssWidget.routePath,
+          builder: (context, params) => TotalStudentListssWidget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            classref: params.getParam(
+              'classref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+            className: params.getParam(
+              'className',
+              ParamType.String,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: EditAdminWidget.routeName,
+          path: EditAdminWidget.routePath,
+          builder: (context, params) => EditAdminWidget(
+            schoolRef: params.getParam(
+              'schoolRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            mainschoolref: params.getParam(
+              'mainschoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: EditParentWidget.routeName,
+          path: EditParentWidget.routePath,
+          builder: (context, params) => EditParentWidget(
+            studentref: params.getParam<DocumentReference>(
+              'studentref',
+              ParamType.DocumentReference,
+              isList: true,
+              collectionNamePath: ['Students'],
+            ),
+            parent: params.getParam(
+              'parent',
+              ParamType.DataStruct,
+              isList: false,
+              structBuilder: ParentsDetailsStruct.fromSerializableMap,
+            ),
+            parentdetails: params.getParam<ParentsDetailsStruct>(
+              'parentdetails',
+              ParamType.DataStruct,
+              isList: true,
+              structBuilder: ParentsDetailsStruct.fromSerializableMap,
+            ),
+            address: params.getParam(
+              'address',
+              ParamType.String,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: AddNewadminWidget.routeName,
+          path: AddNewadminWidget.routePath,
+          builder: (context, params) => AddNewadminWidget(
+            schoolRef: params.getParam<DocumentReference>(
+              'schoolRef',
+              ParamType.DocumentReference,
+              isList: true,
+              collectionNamePath: ['School'],
+            ),
+            mainschoolref: params.getParam(
+              'mainschoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: EditAdminCopyWidget.routeName,
+          path: EditAdminCopyWidget.routePath,
+          builder: (context, params) => EditAdminCopyWidget(
+            mainschoolref: params.getParam(
+              'mainschoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            adminref: params.getParam(
+              'adminref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Users'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: AppUpdateWidget.routeName,
+          path: AppUpdateWidget.routePath,
+          builder: (context, params) => AppUpdateWidget(),
+        ),
+        FFRoute(
+          name: StaffNoticeViewWidget.routeName,
+          path: StaffNoticeViewWidget.routePath,
+          builder: (context, params) => StaffNoticeViewWidget(
+            eventDetails: params.getParam(
+              'eventDetails',
+              ParamType.DataStruct,
+              isList: false,
+              structBuilder: EventsNoticeStruct.fromSerializableMap,
+            ),
+            teacherRef: params.getParam(
+              'teacherRef',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Teachers'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: RequestLocationWidget.routeName,
+          path: RequestLocationWidget.routePath,
+          builder: (context, params) => RequestLocationWidget(),
+        ),
+        FFRoute(
+          name: EditParentCopyWidget.routeName,
+          path: EditParentCopyWidget.routePath,
+          builder: (context, params) => EditParentCopyWidget(
+            studentref: params.getParam<DocumentReference>(
+              'studentref',
+              ParamType.DocumentReference,
+              isList: true,
+              collectionNamePath: ['Students'],
+            ),
+            parent: params.getParam(
+              'parent',
+              ParamType.DataStruct,
+              isList: false,
+              structBuilder: ParentsDetailsStruct.fromSerializableMap,
+            ),
+            parentdetails: params.getParam<ParentsDetailsStruct>(
+              'parentdetails',
+              ParamType.DataStruct,
+              isList: true,
+              structBuilder: ParentsDetailsStruct.fromSerializableMap,
+            ),
+            address: params.getParam(
+              'address',
+              ParamType.String,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: OtpScreenWidget.routeName,
+          path: OtpScreenWidget.routePath,
+          builder: (context, params) => OtpScreenWidget(
+            phoneNumber: params.getParam(
+              'phoneNumber',
+              ParamType.String,
+            ),
+          ),
+        ),
+        FFRoute(
+          name: EditClassStudentWidget.routeName,
+          path: EditClassStudentWidget.routePath,
+          builder: (context, params) => EditClassStudentWidget(
+            studentref: params.getParam(
+              'studentref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Students'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: EditClassStudentCopyWidget.routeName,
+          path: EditClassStudentCopyWidget.routePath,
+          builder: (context, params) => EditClassStudentCopyWidget(
+            studentref: params.getParam(
+              'studentref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['Students'],
+            ),
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: AddStudentManuallyCopy2Widget.routeName,
+          path: AddStudentManuallyCopy2Widget.routePath,
+          builder: (context, params) => AddStudentManuallyCopy2Widget(
+            schoolref: params.getParam(
+              'schoolref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School'],
+            ),
+            classref: params.getParam(
+              'classref',
+              ParamType.DocumentReference,
+              isList: false,
+              collectionNamePath: ['School_class'],
+            ),
+          ),
+        ),
+        FFRoute(
+          name: EventdetailsparentWidget.routeName,
+          path: EventdetailsparentWidget.routePath,
+          builder: (context, params) => EventdetailsparentWidget(
+            eventDetails: params.getParam(
+              'eventDetails',
+              ParamType.DataStruct,
+              isList: false,
+              structBuilder: EventsNoticeStruct.fromSerializableMap,
+            ),
+          ),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
       observers: [routeObserver],
@@ -1636,10 +1844,10 @@ class FFRoute {
               : builder(context, ffParams);
           final child = appStateNotifier.loading
               ? Container(
-                  color: FlutterFlowTheme.of(context).secondary,
+                  color: Colors.transparent,
                   child: Image.asset(
-                    'assets/images/eebe_(500_x_200_px).png',
-                    fit: BoxFit.contain,
+                    'assets/images/Screenshot_2025-02-21_at_11.58.19.png',
+                    fit: BoxFit.fitHeight,
                   ),
                 )
               : PushNotificationsHandler(child: page);
@@ -1684,7 +1892,7 @@ class TransitionInfo {
   final Duration duration;
   final Alignment? alignment;
 
-  static TransitionInfo appDefault() => const TransitionInfo(
+  static TransitionInfo appDefault() => TransitionInfo(
         hasTransition: true,
         transitionType: PageTransitionType.fade,
         duration: Duration(milliseconds: 300),
@@ -1693,9 +1901,10 @@ class TransitionInfo {
 
 class _RouteErrorBuilder extends StatefulWidget {
   const _RouteErrorBuilder({
+    Key? key,
     required this.state,
     required this.child,
-  });
+  }) : super(key: key);
 
   final GoRouterState state;
   final Widget child;

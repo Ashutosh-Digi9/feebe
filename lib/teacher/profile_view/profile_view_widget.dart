@@ -1,25 +1,29 @@
 import '/a_super_admin/edit_profile_profile/edit_profile_profile_widget.dart';
 import '/auth/firebase_auth/auth_util.dart';
 import '/backend/backend.dart';
-import '/backend/custom_cloud_functions/custom_cloud_function_response_manager.dart';
 import '/components/logout_widget.dart';
 import '/flutter_flow/flutter_flow_expanded_image_view.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/custom_functions.dart' as functions;
+import '/index.dart';
 import 'package:aligned_dialog/aligned_dialog.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'profile_view_model.dart';
 export 'profile_view_model.dart';
 
 class ProfileViewWidget extends StatefulWidget {
   const ProfileViewWidget({super.key});
+
+  static String routeName = 'Profile_view';
+  static String routePath = '/profileView';
 
   @override
   State<ProfileViewWidget> createState() => _ProfileViewWidgetState();
@@ -39,26 +43,9 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
     SchedulerBinding.instance.addPostFrameCallback((_) async {
       FFAppState().profileimagechanged = false;
       FFAppState().schoolimagechanged = false;
-      FFAppState().imageurl =
-          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png';
-      FFAppState().schoolimage =
-          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/08ulzcf8ggxf/Frame_731_(1).png';
+      FFAppState().imageurl = '';
+      FFAppState().schoolimage = '';
       safeSetState(() {});
-      try {
-        final result = await FirebaseFunctions.instance
-            .httpsCallable('cleanupOldNotifications')
-            .call({});
-        _model.cloudFunction0w5 =
-            CleanupOldNotificationsCloudFunctionCallResponse(
-          succeeded: true,
-        );
-      } on FirebaseFunctionsException catch (error) {
-        _model.cloudFunction0w5 =
-            CleanupOldNotificationsCloudFunctionCallResponse(
-          errorCode: error.code,
-          succeeded: false,
-        );
-      }
     });
 
     _model.userNameTextController ??=
@@ -69,8 +56,10 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
         TextEditingController(text: currentPhoneNumber);
     _model.phoneNumberFocusNode ??= FocusNode();
 
-    _model.emailTextController ??=
-        TextEditingController(text: currentUserEmail);
+    _model.emailTextController ??= TextEditingController(
+        text: valueOrDefault<bool>(currentUserDocument?.isemail, false)
+            ? currentUserEmail
+            : functions.getUsernameFromEmail(currentUserEmail));
     _model.emailFocusNode ??= FocusNode();
   }
 
@@ -93,96 +82,115 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
       child: Scaffold(
         key: scaffoldKey,
         backgroundColor: FlutterFlowTheme.of(context).tertiary,
-        appBar: PreferredSize(
-          preferredSize:
-              Size.fromHeight(MediaQuery.sizeOf(context).height * 0.06),
-          child: AppBar(
-            backgroundColor: FlutterFlowTheme.of(context).info,
-            automaticallyImplyLeading: false,
-            leading: Align(
-              alignment: const AlignmentDirectional(0.0, 0.0),
-              child: FlutterFlowIconButton(
-                borderColor: Colors.transparent,
-                borderRadius: 30.0,
-                borderWidth: 1.0,
-                buttonSize: 60.0,
-                icon: Icon(
-                  Icons.chevron_left,
-                  color: FlutterFlowTheme.of(context).bgColor1,
-                  size: 30.0,
-                ),
-                onPressed: () async {
-                  context.safePop();
-                },
-              ),
-            ),
-            title: Align(
-              alignment: const AlignmentDirectional(-1.0, 0.0),
-              child: Text(
-                ' Profile',
-                style: FlutterFlowTheme.of(context).bodyMedium.override(
-                      fontFamily: 'Nunito',
-                      color: FlutterFlowTheme.of(context).primaryText,
-                      fontSize: 16.0,
-                      letterSpacing: 0.0,
-                      fontWeight: FontWeight.w600,
-                    ),
-              ),
-            ),
-            actions: [
-              Align(
-                alignment: const AlignmentDirectional(0.0, 0.0),
-                child: Builder(
-                  builder: (context) => Padding(
-                    padding:
-                        const EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 15.0, 0.0),
-                    child: InkWell(
-                      splashColor: Colors.transparent,
-                      focusColor: Colors.transparent,
-                      hoverColor: Colors.transparent,
-                      highlightColor: Colors.transparent,
-                      onTap: () async {
-                        await showAlignedDialog(
-                          context: context,
-                          isGlobal: false,
-                          avoidOverflow: false,
-                          targetAnchor: const AlignmentDirectional(0.7, 1.2)
-                              .resolve(Directionality.of(context)),
-                          followerAnchor: const AlignmentDirectional(1.0, -1.0)
-                              .resolve(Directionality.of(context)),
-                          builder: (dialogContext) {
-                            return Material(
-                              color: Colors.transparent,
-                              child: GestureDetector(
-                                onTap: () {
-                                  FocusScope.of(dialogContext).unfocus();
-                                  FocusManager.instance.primaryFocus?.unfocus();
-                                },
-                                child: SizedBox(
-                                  height:
-                                      MediaQuery.sizeOf(context).height * 0.1,
-                                  width: MediaQuery.sizeOf(context).width * 0.3,
-                                  child: const EditProfileProfileWidget(),
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      child: Icon(
-                        Icons.more_vert,
-                        color: FlutterFlowTheme.of(context).primaryText,
-                        size: 24.0,
+        appBar: responsiveVisibility(
+          context: context,
+          tablet: false,
+          tabletLandscape: false,
+          desktop: false,
+        )
+            ? PreferredSize(
+                preferredSize:
+                    Size.fromHeight(MediaQuery.sizeOf(context).height * 0.06),
+                child: AppBar(
+                  backgroundColor: FlutterFlowTheme.of(context).info,
+                  automaticallyImplyLeading: false,
+                  leading: Align(
+                    alignment: AlignmentDirectional(0.0, 0.0),
+                    child: FlutterFlowIconButton(
+                      borderColor: Colors.transparent,
+                      borderRadius: 30.0,
+                      borderWidth: 1.0,
+                      buttonSize: 60.0,
+                      icon: Icon(
+                        Icons.chevron_left,
+                        color: FlutterFlowTheme.of(context).bgColor1,
+                        size: 30.0,
                       ),
+                      onPressed: () async {
+                        context.safePop();
+                      },
                     ),
                   ),
+                  title: Align(
+                    alignment: AlignmentDirectional(-1.0, 0.0),
+                    child: Text(
+                      ' Profile',
+                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                            font: GoogleFonts.nunito(
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .bodyMedium
+                                  .fontStyle,
+                            ),
+                            color: FlutterFlowTheme.of(context).primaryText,
+                            fontSize: 16.0,
+                            letterSpacing: 0.0,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
+                    ),
+                  ),
+                  actions: [
+                    Align(
+                      alignment: AlignmentDirectional(0.0, 0.0),
+                      child: Builder(
+                        builder: (context) => Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 15.0, 0.0),
+                          child: InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              await showAlignedDialog(
+                                context: context,
+                                isGlobal: false,
+                                avoidOverflow: false,
+                                targetAnchor: AlignmentDirectional(0.7, 1.2)
+                                    .resolve(Directionality.of(context)),
+                                followerAnchor: AlignmentDirectional(1.0, -1.0)
+                                    .resolve(Directionality.of(context)),
+                                builder: (dialogContext) {
+                                  return Material(
+                                    color: Colors.transparent,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        FocusScope.of(dialogContext).unfocus();
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                      },
+                                      child: Container(
+                                        height:
+                                            MediaQuery.sizeOf(context).height *
+                                                0.1,
+                                        width:
+                                            MediaQuery.sizeOf(context).width *
+                                                0.3,
+                                        child: EditProfileProfileWidget(),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: Icon(
+                              Icons.more_vert,
+                              color: FlutterFlowTheme.of(context).primaryText,
+                              size: 24.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                  centerTitle: true,
+                  elevation: 0.0,
                 ),
-              ),
-            ],
-            centerTitle: true,
-            elevation: 0.0,
-          ),
-        ),
+              )
+            : null,
         body: SafeArea(
           top: true,
           child: SingleChildScrollView(
@@ -192,7 +200,7 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
               children: [
                 Container(
                   height: MediaQuery.sizeOf(context).height * 0.7,
-                  decoration: const BoxDecoration(),
+                  decoration: BoxDecoration(),
                   child: Form(
                     key: _model.formKey,
                     autovalidateMode: AutovalidateMode.disabled,
@@ -201,7 +209,7 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Padding(
-                          padding: const EdgeInsets.all(10.0),
+                          padding: EdgeInsets.all(10.0),
                           child: Row(
                             mainAxisSize: MainAxisSize.max,
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -211,10 +219,18 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                                 style: FlutterFlowTheme.of(context)
                                     .bodyMedium
                                     .override(
-                                      fontFamily: 'Nunito',
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
                                       fontSize: 24.0,
                                       letterSpacing: 0.0,
-                                      fontWeight: FontWeight.w600,
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
                                     ),
                               ),
                               Builder(
@@ -231,7 +247,7 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                                           elevation: 0,
                                           insetPadding: EdgeInsets.zero,
                                           backgroundColor: Colors.transparent,
-                                          alignment: const AlignmentDirectional(
+                                          alignment: AlignmentDirectional(
                                                   0.0, 0.0)
                                               .resolve(
                                                   Directionality.of(context)),
@@ -242,14 +258,14 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                                               FocusManager.instance.primaryFocus
                                                   ?.unfocus();
                                             },
-                                            child: SizedBox(
+                                            child: Container(
                                               height: MediaQuery.sizeOf(context)
                                                       .height *
                                                   0.2,
                                               width: MediaQuery.sizeOf(context)
                                                       .width *
                                                   0.52,
-                                              child: const LogoutWidget(),
+                                              child: LogoutWidget(),
                                             ),
                                           ),
                                         );
@@ -270,16 +286,26 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                                         style: FlutterFlowTheme.of(context)
                                             .bodyMedium
                                             .override(
-                                              fontFamily: 'Nunito',
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.bold,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
                                               color:
                                                   FlutterFlowTheme.of(context)
                                                       .primaryBackground,
                                               fontSize: 19.0,
                                               letterSpacing: 0.0,
                                               fontWeight: FontWeight.bold,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
                                             ),
                                       ),
-                                    ].divide(const SizedBox(width: 10.0)),
+                                    ].divide(SizedBox(width: 10.0)),
                                   ),
                                 ),
                               ),
@@ -287,12 +313,12 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                           ),
                         ),
                         Container(
-                          width: MediaQuery.sizeOf(context).width * 0.4,
-                          height: MediaQuery.sizeOf(context).width * 0.4,
+                          width: MediaQuery.sizeOf(context).width * 0.3,
+                          height: MediaQuery.sizeOf(context).width * 0.3,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: FlutterFlowTheme.of(context).lightBg,
+                              color: FlutterFlowTheme.of(context).secondary,
                               width: 1.0,
                             ),
                           ),
@@ -314,7 +340,7 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                                                   true
                                               ? FFAppState().imageurl
                                               : currentUserPhoto,
-                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
+                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
                                         ),
                                         fit: BoxFit.contain,
                                       ),
@@ -323,7 +349,7 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                                         FFAppState().profileimagechanged == true
                                             ? FFAppState().imageurl
                                             : currentUserPhoto,
-                                        'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
+                                        'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
                                       ),
                                       useHeroAnimation: true,
                                     ),
@@ -335,15 +361,15 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                                   FFAppState().profileimagechanged == true
                                       ? FFAppState().imageurl
                                       : currentUserPhoto,
-                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
+                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
                                 ),
                                 transitionOnUserGestures: true,
                                 child: Container(
-                                  width: MediaQuery.sizeOf(context).width * 0.4,
+                                  width: MediaQuery.sizeOf(context).width * 0.3,
                                   height:
-                                      MediaQuery.sizeOf(context).width * 0.4,
+                                      MediaQuery.sizeOf(context).width * 0.3,
                                   clipBehavior: Clip.antiAlias,
-                                  decoration: const BoxDecoration(
+                                  decoration: BoxDecoration(
                                     shape: BoxShape.circle,
                                   ),
                                   child: Image.network(
@@ -351,7 +377,7 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                                       FFAppState().profileimagechanged == true
                                           ? FFAppState().imageurl
                                           : currentUserPhoto,
-                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/3paoalf0j3o6/Add_profile_pic_(5).png',
+                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
                                     ),
                                     fit: BoxFit.cover,
                                   ),
@@ -365,7 +391,7 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             AuthUserStreamWidget(
-                              builder: (context) => SizedBox(
+                              builder: (context) => Container(
                                 width: MediaQuery.sizeOf(context).width * 0.9,
                                 child: TextFormField(
                                   controller: _model.userNameTextController,
@@ -378,7 +404,16 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                                     labelStyle: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
                                           color: valueOrDefault<Color>(
                                             (_model.userNameFocusNode
                                                         ?.hasFocus ??
@@ -390,20 +425,45 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                                             FlutterFlowTheme.of(context).text,
                                           ),
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
                                         ),
                                     hintText: 'Name',
                                     hintStyle: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
                                           color:
                                               FlutterFlowTheme.of(context).text,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .labelMedium
+                                                  .fontStyle,
                                         ),
                                     enabledBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
                                         color: FlutterFlowTheme.of(context)
-                                            .dIsable,
+                                            .textfieldDisable,
                                         width: 1.0,
                                       ),
                                       borderRadius: BorderRadius.circular(8.0),
@@ -439,10 +499,25 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                                   style: FlutterFlowTheme.of(context)
                                       .bodyMedium
                                       .override(
-                                        fontFamily: 'Nunito',
+                                        font: GoogleFonts.nunito(
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
                                         color:
                                             FlutterFlowTheme.of(context).text1,
                                         letterSpacing: 0.0,
+                                        fontWeight: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontWeight,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
                                       ),
                                   keyboardType: TextInputType.name,
                                   cursorColor:
@@ -454,9 +529,9 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                               ),
                             ),
                             Align(
-                              alignment: const AlignmentDirectional(0.0, 0.0),
+                              alignment: AlignmentDirectional(0.0, 0.0),
                               child: AuthUserStreamWidget(
-                                builder: (context) => SizedBox(
+                                builder: (context) => Container(
                                   width: MediaQuery.sizeOf(context).width * 0.9,
                                   child: TextFormField(
                                     controller:
@@ -470,7 +545,16 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                                       labelStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: valueOrDefault<Color>(
                                               (_model.phoneNumberFocusNode
                                                           ?.hasFocus ??
@@ -482,20 +566,45 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                                               FlutterFlowTheme.of(context).text,
                                             ),
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       hintText: 'Phone Number',
                                       hintStyle: FlutterFlowTheme.of(context)
                                           .labelMedium
                                           .override(
-                                            fontFamily: 'Nunito',
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
                                             color: FlutterFlowTheme.of(context)
                                                 .text,
                                             letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
                                           ),
                                       enabledBorder: OutlineInputBorder(
                                         borderSide: BorderSide(
                                           color: FlutterFlowTheme.of(context)
-                                              .dIsable,
+                                              .textfieldDisable,
                                           width: 1.0,
                                         ),
                                         borderRadius:
@@ -535,10 +644,27 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                                     style: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .override(
-                                          fontFamily: 'Nunito',
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
                                           color: FlutterFlowTheme.of(context)
                                               .text1,
                                           letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
                                         ),
                                     maxLength: 10,
                                     buildCounter: (context,
@@ -561,170 +687,254 @@ class _ProfileViewWidgetState extends State<ProfileViewWidget> {
                               ),
                             ),
                             Align(
-                              alignment: const AlignmentDirectional(0.0, 0.0),
-                              child: SizedBox(
-                                width: MediaQuery.sizeOf(context).width * 0.9,
-                                child: TextFormField(
-                                  controller: _model.emailTextController,
-                                  focusNode: _model.emailFocusNode,
-                                  autofocus: false,
-                                  readOnly: true,
-                                  obscureText: false,
-                                  decoration: InputDecoration(
-                                    isDense: true,
-                                    labelStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .override(
-                                          fontFamily: 'Nunito',
-                                          color: valueOrDefault<Color>(
-                                            (_model.emailFocusNode
-                                                        ?.hasFocus ??
-                                                    false)
-                                                ? FlutterFlowTheme.of(context)
-                                                    .primary
-                                                : FlutterFlowTheme.of(context)
-                                                    .text,
-                                            FlutterFlowTheme.of(context).text,
-                                          ),
-                                          letterSpacing: 0.0,
-                                        ),
-                                    hintText: 'Email',
-                                    hintStyle: FlutterFlowTheme.of(context)
-                                        .labelMedium
-                                        .override(
-                                          fontFamily: 'Nunito',
-                                          color:
+                              alignment: AlignmentDirectional(0.0, 0.0),
+                              child: AuthUserStreamWidget(
+                                builder: (context) => Container(
+                                  width: MediaQuery.sizeOf(context).width * 0.9,
+                                  child: TextFormField(
+                                    controller: _model.emailTextController,
+                                    focusNode: _model.emailFocusNode,
+                                    autofocus: false,
+                                    readOnly: true,
+                                    obscureText: false,
+                                    decoration: InputDecoration(
+                                      isDense: true,
+                                      labelStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .override(
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                            color: valueOrDefault<Color>(
+                                              (_model.emailFocusNode
+                                                          ?.hasFocus ??
+                                                      false)
+                                                  ? FlutterFlowTheme.of(context)
+                                                      .primary
+                                                  : FlutterFlowTheme.of(context)
+                                                      .text,
                                               FlutterFlowTheme.of(context).text,
-                                          letterSpacing: 0.0,
+                                            ),
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
+                                      hintText: 'Email',
+                                      hintStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .override(
+                                            font: GoogleFonts.nunito(
+                                              fontWeight:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontWeight,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .labelMedium
+                                                      .fontStyle,
+                                            ),
+                                            color: FlutterFlowTheme.of(context)
+                                                .text,
+                                            letterSpacing: 0.0,
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .labelMedium
+                                                    .fontStyle,
+                                          ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .textfieldDisable,
+                                          width: 1.0,
                                         ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .dIsable,
-                                        width: 1.0,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                       ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: FlutterFlowTheme.of(context)
-                                            .dIsable,
-                                        width: 1.0,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .dIsable,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                       ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    errorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
-                                        width: 1.0,
+                                      errorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .error,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                       ),
-                                      borderRadius: BorderRadius.circular(8.0),
-                                    ),
-                                    focusedErrorBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color:
-                                            FlutterFlowTheme.of(context).error,
-                                        width: 1.0,
+                                      focusedErrorBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: FlutterFlowTheme.of(context)
+                                              .error,
+                                          width: 1.0,
+                                        ),
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
                                       ),
-                                      borderRadius: BorderRadius.circular(8.0),
+                                      filled: true,
+                                      fillColor: FlutterFlowTheme.of(context)
+                                          .secondaryBackground,
                                     ),
-                                    filled: true,
-                                    fillColor: FlutterFlowTheme.of(context)
-                                        .secondaryBackground,
+                                    style: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .override(
+                                          font: GoogleFonts.nunito(
+                                            fontWeight:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontWeight,
+                                            fontStyle:
+                                                FlutterFlowTheme.of(context)
+                                                    .bodyMedium
+                                                    .fontStyle,
+                                          ),
+                                          color: FlutterFlowTheme.of(context)
+                                              .tertiaryText,
+                                          letterSpacing: 0.0,
+                                          fontWeight:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontWeight,
+                                          fontStyle:
+                                              FlutterFlowTheme.of(context)
+                                                  .bodyMedium
+                                                  .fontStyle,
+                                        ),
+                                    keyboardType: TextInputType.emailAddress,
+                                    cursorColor: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    validator: _model
+                                        .emailTextControllerValidator
+                                        .asValidator(context),
                                   ),
-                                  style: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .override(
-                                        fontFamily: 'Nunito',
-                                        color:
-                                            FlutterFlowTheme.of(context).text1,
-                                        letterSpacing: 0.0,
-                                      ),
-                                  keyboardType: TextInputType.emailAddress,
-                                  cursorColor:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  validator: _model.emailTextControllerValidator
-                                      .asValidator(context),
                                 ),
                               ),
                             ),
                           ]
-                              .divide(const SizedBox(height: 15.0))
-                              .around(const SizedBox(height: 15.0)),
+                              .divide(SizedBox(height: 15.0))
+                              .around(SizedBox(height: 15.0)),
                         ),
                         if (valueOrDefault(currentUserDocument?.userRole, 0) ==
                             3)
-                          AuthUserStreamWidget(
-                            builder: (context) => Container(
-                              width: double.infinity,
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 8.0, 0.0, 8.0),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    const Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          12.0, 0.0, 0.0, 0.0),
-                                      child: Icon(
-                                        Icons.reorder,
-                                        color: Color(0xFF14181B),
-                                        size: 20.0,
-                                      ),
+                          Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: AuthUserStreamWidget(
+                              builder: (context) => InkWell(
+                                splashColor: Colors.transparent,
+                                focusColor: Colors.transparent,
+                                hoverColor: Colors.transparent,
+                                highlightColor: Colors.transparent,
+                                onTap: () async {
+                                  _model.teacher =
+                                      await queryTeachersRecordOnce(
+                                    queryBuilder: (teachersRecord) =>
+                                        teachersRecord.where(
+                                      'useref',
+                                      isEqualTo: currentUserReference,
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsetsDirectional.fromSTEB(
-                                          12.0, 0.0, 0.0, 0.0),
-                                      child: InkWell(
-                                        splashColor: Colors.transparent,
-                                        focusColor: Colors.transparent,
-                                        hoverColor: Colors.transparent,
-                                        highlightColor: Colors.transparent,
-                                        onTap: () async {
-                                          _model.teacher =
-                                              await queryTeachersRecordOnce(
-                                            queryBuilder: (teachersRecord) =>
-                                                teachersRecord.where(
-                                              'useref',
-                                              isEqualTo: currentUserReference,
-                                            ),
-                                            singleRecord: true,
-                                          ).then((s) => s.firstOrNull);
+                                    singleRecord: true,
+                                  ).then((s) => s.firstOrNull);
 
-                                          context.pushNamed(
-                                            'attendence_history_teacher',
-                                            queryParameters: {
-                                              'techerref': serializeParam(
-                                                _model.teacher?.reference,
-                                                ParamType.DocumentReference,
-                                              ),
-                                            }.withoutNulls,
-                                          );
+                                  context.pushNamed(
+                                    AttendenceHistoryTeacherWidget.routeName,
+                                    queryParameters: {
+                                      'techerref': serializeParam(
+                                        _model.teacher?.reference,
+                                        ParamType.DocumentReference,
+                                      ),
+                                    }.withoutNulls,
+                                  );
 
-                                          safeSetState(() {});
-                                        },
-                                        child: Text(
-                                          'Attendence History',
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyMedium
-                                              .override(
-                                                fontFamily: 'Nunito',
-                                                letterSpacing: 0.0,
-                                                fontWeight: FontWeight.w500,
-                                              ),
+                                  safeSetState(() {});
+                                },
+                                child: Container(
+                                  width: MediaQuery.sizeOf(context).width * 1.0,
+                                  height:
+                                      MediaQuery.sizeOf(context).height * 0.06,
+                                  decoration: BoxDecoration(
+                                    color:
+                                        FlutterFlowTheme.of(context).tertiary,
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsetsDirectional.fromSTEB(
+                                        0.0, 8.0, 0.0, 8.0),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.max,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  12.0, 0.0, 0.0, 0.0),
+                                          child: Text(
+                                            'Attendance History',
+                                            style: FlutterFlowTheme.of(context)
+                                                .bodyMedium
+                                                .override(
+                                                  font: GoogleFonts.nunito(
+                                                    fontWeight: FontWeight.w500,
+                                                    fontStyle:
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .bodyMedium
+                                                            .fontStyle,
+                                                  ),
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primary,
+                                                  letterSpacing: 0.0,
+                                                  fontWeight: FontWeight.w500,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .bodyMedium
+                                                          .fontStyle,
+                                                ),
+                                          ),
                                         ),
-                                      ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  12.0, 0.0, 0.0, 0.0),
+                                          child: Icon(
+                                            Icons.arrow_right_alt_outlined,
+                                            color: FlutterFlowTheme.of(context)
+                                                .primary,
+                                            size: 20.0,
+                                          ),
+                                        ),
+                                      ],
                                     ),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                      ].divide(const SizedBox(height: 15.0)),
+                      ].divide(SizedBox(height: 15.0)),
                     ),
                   ),
                 ),

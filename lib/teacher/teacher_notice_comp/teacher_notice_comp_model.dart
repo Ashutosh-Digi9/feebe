@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class TeacherNoticeCompModel extends FlutterFlowModel<TeacherNoticeCompWidget> {
   ///  Local state fields for this component.
 
-  String? teachernotice;
+  String teachernotice = 'General';
 
   List<String> images = [];
   void addToImages(String item) => images.add(item);
@@ -15,6 +15,8 @@ class TeacherNoticeCompModel extends FlutterFlowModel<TeacherNoticeCompWidget> {
       images.insert(index, item);
   void updateImagesAtIndex(int index, Function(String) updateFn) =>
       images[index] = updateFn(images[index]);
+
+  bool last = false;
 
   ///  State fields for stateful widgets in this component.
 
@@ -49,14 +51,14 @@ class TeacherNoticeCompModel extends FlutterFlowModel<TeacherNoticeCompWidget> {
     return null;
   }
 
-  bool isDataUploading1 = false;
-  List<FFUploadedFile> uploadedLocalFiles1 = [];
-  List<String> uploadedFileUrls1 = [];
+  bool isDataUploading_uploadDataXor = false;
+  List<FFUploadedFile> uploadedLocalFiles_uploadDataXor = [];
+  List<String> uploadedFileUrls_uploadDataXor = [];
 
-  bool isDataUploading2 = false;
-  FFUploadedFile uploadedLocalFile2 =
+  bool isDataUploading_teacherNotice = false;
+  FFUploadedFile uploadedLocalFile_teacherNotice =
       FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl2 = '';
+  String uploadedFileUrl_teacherNotice = '';
 
   @override
   void initState(BuildContext context) {
