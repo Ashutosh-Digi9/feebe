@@ -20,11 +20,11 @@ Feebe is a modern Flutter-based school management SaaS app that enables seamless
 |---------------|-------------------|
 | Framework     | Flutter (v3.x+)   |
 | Language      | Dart              |
-| State Mgmt    | [Specify if Provider, Bloc, etc.] |
+| State Mgmt    | provider          |
 | Backend       | Firebase          |
 | Auth          | Firebase Auth     |
 | Data Storage  | Firestore         |
-| Other Tools   | Shared Preferences, Cloud Messaging (if used) |
+| Other Tools   | Shared Preferences, Cloud Messaging |
 
 ---
 
