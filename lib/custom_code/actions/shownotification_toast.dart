@@ -57,7 +57,7 @@ Future shownotificationToast() async {
             "Document count increased from $_previousDocCount to $currentDocCount");
         for (var change in querySnapshot.docChanges) {
           if (change.type == DocumentChangeType.added) {
-            final docData = change.doc.data() as Map<String, dynamic>?;
+            final docData = change.doc.data();
             if (docData != null) {
               final userRefs = docData['userref'];
               print("New document added with useref: $userRefs");
@@ -69,7 +69,7 @@ Future shownotificationToast() async {
                       print(
                           "User reference found in new document. Showing toast.");
                       Fluttertoast.showToast(
-                        msg: "You Have A New Notification !!!",
+                        msg: "You Have A New Notification.",
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.TOP,
                       );

@@ -1,5 +1,4 @@
 import '/admin_dashboard/editguardian/editguardian_widget.dart';
-import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/form_field_controller.dart';
@@ -46,12 +45,34 @@ class EditClassStudentModel extends FlutterFlowModel<EditClassStudentWidget> {
           int index, Function(ParentsDetailsStruct) updateFn) =>
       newparentList[index] = updateFn(newparentList[index]);
 
+  int? everyone;
+
+  List<DocumentReference> classRef = [];
+  void addToClassRef(DocumentReference item) => classRef.add(item);
+  void removeFromClassRef(DocumentReference item) => classRef.remove(item);
+  void removeAtIndexFromClassRef(int index) => classRef.removeAt(index);
+  void insertAtIndexInClassRef(int index, DocumentReference item) =>
+      classRef.insert(index, item);
+  void updateClassRefAtIndex(int index, Function(DocumentReference) updateFn) =>
+      classRef[index] = updateFn(classRef[index]);
+
+  List<String> classname = [];
+  void addToClassname(String item) => classname.add(item);
+  void removeFromClassname(String item) => classname.remove(item);
+  void removeAtIndexFromClassname(int index) => classname.removeAt(index);
+  void insertAtIndexInClassname(int index, String item) =>
+      classname.insert(index, item);
+  void updateClassnameAtIndex(int index, Function(String) updateFn) =>
+      classname[index] = updateFn(classname[index]);
+
   ///  State fields for stateful widgets in this page.
 
   final formKey2 = GlobalKey<FormState>();
   final formKey3 = GlobalKey<FormState>();
   final formKey1 = GlobalKey<FormState>();
   final formKey4 = GlobalKey<FormState>();
+  // Stores action output result for [Backend Call - Read Document] action in edit_class_student widget.
+  StudentsRecord? studentDetails;
   // State field(s) for PageView widget.
   PageController? pageViewController;
 
@@ -94,11 +115,6 @@ class EditClassStudentModel extends FlutterFlowModel<EditClassStudentWidget> {
     return null;
   }
 
-  bool isDataUploading_newstudent1 = false;
-  FFUploadedFile uploadedLocalFile_newstudent1 =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl_newstudent1 = '';
-
   // State field(s) for Parentname widget.
   FocusNode? parentnameFocusNode;
   TextEditingController? parentnameTextController;
@@ -135,11 +151,6 @@ class EditClassStudentModel extends FlutterFlowModel<EditClassStudentWidget> {
   FocusNode? emailfatherFocusNode;
   TextEditingController? emailfatherTextController;
   String? Function(BuildContext, String?)? emailfatherTextControllerValidator;
-  bool isDataUploading_edit1 = false;
-  FFUploadedFile uploadedLocalFile_edit1 =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl_edit1 = '';
-
   // State field(s) for Parent2 widget.
   FocusNode? parent2FocusNode;
   TextEditingController? parent2TextController;
@@ -175,11 +186,6 @@ class EditClassStudentModel extends FlutterFlowModel<EditClassStudentWidget> {
   FocusNode? emailmotherFocusNode;
   TextEditingController? emailmotherTextController;
   String? Function(BuildContext, String?)? emailmotherTextControllerValidator;
-  bool isDataUploading_editMother1 = false;
-  FFUploadedFile uploadedLocalFile_editMother1 =
-      FFUploadedFile(bytes: Uint8List.fromList([]));
-  String uploadedFileUrl_editMother1 = '';
-
   // Models for editguardian dynamic component.
   late FlutterFlowDynamicModels<EditguardianModel> editguardianModels;
   // State field(s) for Gname widget.
@@ -229,29 +235,13 @@ class EditClassStudentModel extends FlutterFlowModel<EditClassStudentWidget> {
     return null;
   }
 
-  // Stores action output result for [Backend Call - API (Create Account)] action in Button widget.
-  ApiCallResponse? parent2;
-  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
-  UsersRecord? motherUSer;
-  // Stores action output result for [Backend Call - API (Create Account)] action in Button widget.
-  ApiCallResponse? mom;
-  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
-  UsersRecord? momUser;
-  // Stores action output result for [Backend Call - API (Create Account)] action in Button widget.
-  ApiCallResponse? guardian;
-  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
-  UsersRecord? guardianUser;
-  // Stores action output result for [Backend Call - API (Create Account)] action in Button widget.
-  ApiCallResponse? parent22;
-  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
-  UsersRecord? motherUSer1;
-  // Stores action output result for [Backend Call - Read Document] action in Button widget.
+  // Stores action output result for [Backend Call - Read Document] action in Update widget.
   SchoolRecord? school;
-  // Stores action output result for [Backend Call - Read Document] action in Button widget.
+  // Stores action output result for [Backend Call - Read Document] action in Update widget.
   UsersRecord? parent1;
-  // Stores action output result for [Backend Call - Read Document] action in Button widget.
+  // Stores action output result for [Backend Call - Read Document] action in Update widget.
   SchoolClassRecord? classes;
-  // Stores action output result for [Backend Call - Read Document] action in Button widget.
+  // Stores action output result for [Backend Call - Read Document] action in Update widget.
   SchoolRecord? princui;
 
   @override

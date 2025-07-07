@@ -451,31 +451,53 @@ class _ClassEventViewWidgetState extends State<ClassEventViewWidget>
                         ),
                       ),
                     ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
-                      child: Container(
-                        width: MediaQuery.sizeOf(context).width * 0.9,
-                        child: TextFormField(
-                          controller: _model.descriptionTextController1 ??=
-                              TextEditingController(
-                            text: containerSchoolRecord.calendarList
+                    if (containerSchoolRecord.calendarList
                                 .where((e) => widget.eventid == e.eventId)
                                 .toList()
                                 .firstOrNull
-                                ?.eventDescription,
-                          ),
-                          focusNode: _model.descriptionFocusNode1,
-                          autofocus: false,
-                          readOnly: true,
-                          obscureText: false,
-                          decoration: InputDecoration(
-                            isDense: true,
-                            labelText: 'Event description',
-                            labelStyle: FlutterFlowTheme.of(context)
-                                .labelMedium
-                                .override(
-                                  font: GoogleFonts.nunito(
+                                ?.eventDescription !=
+                            null &&
+                        containerSchoolRecord.calendarList
+                                .where((e) => widget.eventid == e.eventId)
+                                .toList()
+                                .firstOrNull
+                                ?.eventDescription !=
+                            '')
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
+                        child: Container(
+                          width: MediaQuery.sizeOf(context).width * 0.9,
+                          child: TextFormField(
+                            controller: _model.descriptionTextController1 ??=
+                                TextEditingController(
+                              text: containerSchoolRecord.calendarList
+                                  .where((e) => widget.eventid == e.eventId)
+                                  .toList()
+                                  .firstOrNull
+                                  ?.eventDescription,
+                            ),
+                            focusNode: _model.descriptionFocusNode1,
+                            autofocus: false,
+                            readOnly: true,
+                            obscureText: false,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              labelText: 'Event description',
+                              labelStyle: FlutterFlowTheme.of(context)
+                                  .labelMedium
+                                  .override(
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .labelMedium
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryBackground,
+                                    letterSpacing: 0.0,
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .labelMedium
                                         .fontWeight,
@@ -483,81 +505,63 @@ class _ClassEventViewWidgetState extends State<ClassEventViewWidget>
                                         .labelMedium
                                         .fontStyle,
                                   ),
-                                  color: FlutterFlowTheme.of(context)
-                                      .primaryBackground,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .fontWeight,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .labelMedium
-                                      .fontStyle,
-                                ),
-                            hintText: 'Description',
-                            hintStyle: FlutterFlowTheme.of(context)
-                                .titleSmall
-                                .override(
-                                  font: GoogleFonts.nunito(
+                              hintText: 'Description',
+                              hintStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .override(
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.w500,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .tertiaryText,
+                                    fontSize: 12.0,
+                                    letterSpacing: 0.0,
                                     fontWeight: FontWeight.w500,
                                     fontStyle: FlutterFlowTheme.of(context)
                                         .titleSmall
                                         .fontStyle,
                                   ),
-                                  color:
-                                      FlutterFlowTheme.of(context).tertiaryText,
-                                  fontSize: 12.0,
-                                  letterSpacing: 0.0,
-                                  fontWeight: FontWeight.w500,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .titleSmall
-                                      .fontStyle,
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context)
+                                      .textfieldDisable,
+                                  width: 1.0,
                                 ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context)
-                                    .textfieldDisable,
-                                width: 1.0,
+                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context)
-                                    .textfieldDisable,
-                                width: 1.0,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context)
+                                      .textfieldDisable,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            errorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).error,
-                                width: 1.0,
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context).error,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              borderRadius: BorderRadius.circular(8.0),
-                            ),
-                            focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: FlutterFlowTheme.of(context).error,
-                                width: 1.0,
+                              focusedErrorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: FlutterFlowTheme.of(context).error,
+                                  width: 1.0,
+                                ),
+                                borderRadius: BorderRadius.circular(8.0),
                               ),
-                              borderRadius: BorderRadius.circular(8.0),
+                              filled: true,
+                              fillColor: FlutterFlowTheme.of(context)
+                                  .secondaryBackground,
                             ),
-                            filled: true,
-                            fillColor: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                          ),
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.nunito(
-                                      fontWeight: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontWeight,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    color: FlutterFlowTheme.of(context).text2,
-                                    letterSpacing: 0.0,
+                            style: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .override(
+                                  font: GoogleFonts.nunito(
                                     fontWeight: FlutterFlowTheme.of(context)
                                         .bodyMedium
                                         .fontWeight,
@@ -565,13 +569,24 @@ class _ClassEventViewWidgetState extends State<ClassEventViewWidget>
                                         .bodyMedium
                                         .fontStyle,
                                   ),
-                          maxLines: 4,
-                          cursorColor: FlutterFlowTheme.of(context).primaryText,
-                          validator: _model.descriptionTextController1Validator
-                              .asValidator(context),
+                                  color: FlutterFlowTheme.of(context).text2,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .bodyMedium
+                                      .fontStyle,
+                                ),
+                            maxLines: 4,
+                            cursorColor:
+                                FlutterFlowTheme.of(context).primaryText,
+                            validator: _model
+                                .descriptionTextController1Validator
+                                .asValidator(context),
+                          ),
                         ),
                       ),
-                    ),
                     Padding(
                       padding:
                           EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),

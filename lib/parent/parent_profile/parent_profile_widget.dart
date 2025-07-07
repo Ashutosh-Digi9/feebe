@@ -113,75 +113,66 @@ class _ParentProfileWidgetState extends State<ParentProfileWidget> {
                         ),
                   ),
                   actions: [
-                    Visibility(
-                      visible: _model.parentslist
-                              .elementAtOrNull(functions
-                                  .middelindex(widget.parentlist!.length))
-                              ?.userRef ==
-                          currentUserReference,
-                      child: Align(
-                        alignment: AlignmentDirectional(0.0, 0.0),
-                        child: Builder(
-                          builder: (context) => Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0.0, 0.0, 15.0, 0.0),
-                            child: InkWell(
-                              splashColor: Colors.transparent,
-                              focusColor: Colors.transparent,
-                              hoverColor: Colors.transparent,
-                              highlightColor: Colors.transparent,
-                              onTap: () async {
-                                await showAlignedDialog(
-                                  context: context,
-                                  isGlobal: false,
-                                  avoidOverflow: false,
-                                  targetAnchor: AlignmentDirectional(0.7, 1.2)
-                                      .resolve(Directionality.of(context)),
-                                  followerAnchor:
-                                      AlignmentDirectional(1.0, -1.0)
-                                          .resolve(Directionality.of(context)),
-                                  builder: (dialogContext) {
-                                    return Material(
-                                      color: Colors.transparent,
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          FocusScope.of(dialogContext)
-                                              .unfocus();
-                                          FocusManager.instance.primaryFocus
-                                              ?.unfocus();
-                                        },
-                                        child: Container(
-                                          height: MediaQuery.sizeOf(context)
-                                                  .height *
-                                              0.1,
-                                          width:
-                                              MediaQuery.sizeOf(context).width *
-                                                  0.3,
-                                          child: EditProfileProfileWidget(
-                                            studentsref: widget.studentref,
-                                            prents: widget.parentlist,
-                                            adddress: widget.address,
-                                            gur: widget.parentlist
-                                                        ?.where((e) =>
-                                                            e.parentRelation !=
-                                                                '')
-                                                        .toList()
-                                                        .length ==
-                                                    0
-                                                ? false
-                                                : true,
-                                          ),
+                    Align(
+                      alignment: AlignmentDirectional(0.0, 0.0),
+                      child: Builder(
+                        builder: (context) => Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 15.0, 0.0),
+                          child: InkWell(
+                            splashColor: Colors.transparent,
+                            focusColor: Colors.transparent,
+                            hoverColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
+                            onTap: () async {
+                              await showAlignedDialog(
+                                context: context,
+                                isGlobal: false,
+                                avoidOverflow: false,
+                                targetAnchor: AlignmentDirectional(0.7, 1.2)
+                                    .resolve(Directionality.of(context)),
+                                followerAnchor: AlignmentDirectional(1.0, -1.0)
+                                    .resolve(Directionality.of(context)),
+                                builder: (dialogContext) {
+                                  return Material(
+                                    color: Colors.transparent,
+                                    child: GestureDetector(
+                                      onTap: () {
+                                        FocusScope.of(dialogContext).unfocus();
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                      },
+                                      child: Container(
+                                        height:
+                                            MediaQuery.sizeOf(context).height *
+                                                0.1,
+                                        width:
+                                            MediaQuery.sizeOf(context).width *
+                                                0.3,
+                                        child: EditProfileProfileWidget(
+                                          studentsref: widget.studentref,
+                                          prents: widget.parentlist,
+                                          adddress: widget.address,
+                                          gur: widget.parentlist
+                                                      ?.where((e) =>
+                                                          e.parentRelation !=
+                                                              '')
+                                                      .toList()
+                                                      .length ==
+                                                  0
+                                              ? false
+                                              : true,
                                         ),
                                       ),
-                                    );
-                                  },
-                                );
-                              },
-                              child: Icon(
-                                Icons.more_vert,
-                                color: Color(0xFF666666),
-                                size: 24.0,
-                              ),
+                                    ),
+                                  );
+                                },
+                              );
+                            },
+                            child: Icon(
+                              Icons.more_vert,
+                              color: Color(0xFF666666),
+                              size: 24.0,
                             ),
                           ),
                         ),
@@ -354,7 +345,7 @@ class _ParentProfileWidgetState extends State<ParentProfileWidget> {
                             EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
                         child: Builder(
                           builder: (context) {
-                            final parents = _model.parentslist.toList();
+                            final parents = widget.parentlist!.toList();
 
                             return Row(
                               mainAxisSize: MainAxisSize.max,
@@ -369,14 +360,9 @@ class _ParentProfileWidgetState extends State<ParentProfileWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
-                                    _model.parentslist = functions
-                                        .placeUserRefInMiddle(
-                                            widget.parentlist!.toList(),
-                                            parentsItem.userRef!,
-                                            functions.middelindex(
-                                                _model.parentslist.length))
-                                        .toList()
-                                        .cast<ParentsDetailsStruct>();
+                                    _model.insertAtIndexInParentslist(
+                                        1, parentsItem);
+                                    _model.parentdata = parentsItem;
                                     safeSetState(() {});
                                   },
                                   child: Container(
@@ -401,19 +387,29 @@ class _ParentProfileWidgetState extends State<ParentProfileWidget> {
                                           .secondaryBackground,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: ClipRRect(
-                                      borderRadius:
-                                          BorderRadius.circular(120.0),
-                                      child: Image.network(
-                                        valueOrDefault<String>(
-                                          parentsItem.parentImage != ''
-                                              ? parentsItem.parentImage
-                                              : FFAppConstants.addImage,
-                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
+                                    child: AuthUserStreamWidget(
+                                      builder: (context) => ClipRRect(
+                                        borderRadius:
+                                            BorderRadius.circular(120.0),
+                                        child: Image.network(
+                                          valueOrDefault<String>(
+                                            () {
+                                              if (_model.parentdata != null) {
+                                                return _model
+                                                    .parentdata?.parentImage;
+                                              } else if (_model.parentdata ==
+                                                  null) {
+                                                return currentUserPhoto;
+                                              } else {
+                                                return FFAppConstants.addImage;
+                                              }
+                                            }(),
+                                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
+                                          ),
+                                          width: 80.0,
+                                          height: 80.0,
+                                          fit: BoxFit.cover,
                                         ),
-                                        width: 80.0,
-                                        height: 80.0,
-                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),
@@ -459,19 +455,33 @@ class _ParentProfileWidgetState extends State<ParentProfileWidget> {
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            valueOrDefault<String>(
-                                              _model.parentslist
-                                                  .elementAtOrNull(functions
-                                                      .middelindex(widget
-                                                          .parentlist!.length))
-                                                  ?.parentsName,
-                                              'Name',
-                                            ),
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  font: GoogleFonts.nunito(
+                                          AuthUserStreamWidget(
+                                            builder: (context) => Text(
+                                              valueOrDefault<String>(
+                                                _model.parentdata != null
+                                                    ? _model
+                                                        .parentdata?.parentsName
+                                                    : currentUserDisplayName,
+                                                'Name',
+                                              ),
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    font: GoogleFonts.nunito(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .primaryText,
+                                                    fontSize: 20.0,
+                                                    letterSpacing: 0.0,
                                                     fontWeight: FontWeight.bold,
                                                     fontStyle:
                                                         FlutterFlowTheme.of(
@@ -479,32 +489,35 @@ class _ParentProfileWidgetState extends State<ParentProfileWidget> {
                                                             .bodyMedium
                                                             .fontStyle,
                                                   ),
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryText,
-                                                  fontSize: 20.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
-                                          ),
-                                          Text(
-                                            valueOrDefault<String>(
-                                              _model.parentslist
-                                                  .elementAtOrNull(functions
-                                                      .middelindex(widget
-                                                          .parentlist!.length))
-                                                  ?.parentsPhone,
-                                              'number',
                                             ),
-                                            style: FlutterFlowTheme.of(context)
-                                                .bodyMedium
-                                                .override(
-                                                  font: GoogleFonts.nunito(
+                                          ),
+                                          AuthUserStreamWidget(
+                                            builder: (context) => Text(
+                                              _model.parentdata != null
+                                                  ? valueOrDefault<String>(
+                                                      _model.parentdata
+                                                          ?.parentsPhone,
+                                                      'Phone',
+                                                    )
+                                                  : currentPhoneNumber,
+                                              style: FlutterFlowTheme.of(
+                                                      context)
+                                                  .bodyMedium
+                                                  .override(
+                                                    font: GoogleFonts.nunito(
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      fontStyle:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .bodyMedium
+                                                              .fontStyle,
+                                                    ),
+                                                    color: FlutterFlowTheme.of(
+                                                            context)
+                                                        .tertiaryText,
+                                                    fontSize: 14.0,
+                                                    letterSpacing: 0.0,
                                                     fontWeight:
                                                         FontWeight.normal,
                                                     fontStyle:
@@ -513,18 +526,7 @@ class _ParentProfileWidgetState extends State<ParentProfileWidget> {
                                                             .bodyMedium
                                                             .fontStyle,
                                                   ),
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .tertiaryText,
-                                                  fontSize: 14.0,
-                                                  letterSpacing: 0.0,
-                                                  fontWeight: FontWeight.normal,
-                                                  fontStyle:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .bodyMedium
-                                                          .fontStyle,
-                                                ),
+                                            ),
                                           ),
                                         ],
                                       ),

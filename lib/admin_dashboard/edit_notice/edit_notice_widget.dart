@@ -561,7 +561,7 @@ class _EditNoticeWidgetState extends State<EditNoticeWidget>
                               obscureText: false,
                               decoration: InputDecoration(
                                 isDense: true,
-                                labelText: 'Description *',
+                                labelText: 'Description',
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(

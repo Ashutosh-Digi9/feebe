@@ -635,10 +635,15 @@ class _NotificationsSAWidgetState extends State<NotificationsSAWidget> {
                                                                           0.0,
                                                                           0.0),
                                                               child: Text(
-                                                                dateTimeFormat(
-                                                                    "dd MMM y",
-                                                                    notificationItem
-                                                                        .timeStamp!),
+                                                                dateTimeFormat("dd MMM y", notificationItem.timeStamp) !=
+                                                                            ''
+                                                                    ? dateTimeFormat(
+                                                                        "dd MMM y",
+                                                                        notificationItem
+                                                                            .timeStamp!)
+                                                                    : dateTimeFormat(
+                                                                        "dd MMM y",
+                                                                        getCurrentTimestamp),
                                                                 style: FlutterFlowTheme.of(
                                                                         context)
                                                                     .bodyMedium

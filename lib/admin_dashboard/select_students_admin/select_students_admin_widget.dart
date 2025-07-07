@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/shimmer_effects/attenancemarkshimmer/attenancemarkshimmer_widget.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:flutter/material.dart';
@@ -416,6 +417,10 @@ class _SelectStudentsAdminWidgetState extends State<SelectStudentsAdminWidget> {
                                       selectStudentsAdminSchoolRecord
                                           .studentDataList
                                           .where((e) => e.isDraft == false)
+                                          .toList()
+                                          .sortedList(
+                                              keyOf: (e) => e.studentName,
+                                              desc: false)
                                           .toList();
 
                                   return GridView.builder(
@@ -647,6 +652,28 @@ class _SelectStudentsAdminWidgetState extends State<SelectStudentsAdminWidget> {
                                 AuthUserStreamWidget(
                                   builder: (context) => FFButtonWidget(
                                     onPressed: () async {
+                                      _model.newlist =
+                                          await actions.returnNewList(
+                                        _model.previousstudentsdata.toList(),
+                                        FFAppState().AddStudentClass.toList(),
+                                      );
+                                      await showDialog(
+                                        context: context,
+                                        builder: (alertDialogContext) {
+                                          return AlertDialog(
+                                            title: Text('studentlist'),
+                                            content: Text(_model.newlist!
+                                                .firstOrNull!.studentId!.id),
+                                            actions: [
+                                              TextButton(
+                                                onPressed: () => Navigator.pop(
+                                                    alertDialogContext),
+                                                child: Text('Ok'),
+                                              ),
+                                            ],
+                                          );
+                                        },
+                                      );
                                       if (FFAppState()
                                               .selectedstudents
                                               .length !=
@@ -663,17 +690,60 @@ class _SelectStudentsAdminWidgetState extends State<SelectStudentsAdminWidget> {
                                             },
                                           ),
                                         });
+                                        FFAppState().loopminparent = 0;
+                                        safeSetState(() {});
+                                        while (FFAppState().loopminparent <
+                                            _model.newlist!.length) {
+                                          await (_model.newlist!
+                                                  .elementAtOrNull(FFAppState()
+                                                      .loopminparent))!
+                                              .studentId!
+                                              .update({
+                                            ...mapToFirestore(
+                                              {
+                                                'classref':
+                                                    FieldValue.arrayRemove(
+                                                        [widget.classref]),
+                                              },
+                                            ),
+                                          });
+                                          await showDialog(
+                                            context: context,
+                                            builder: (alertDialogContext) {
+                                              return AlertDialog(
+                                                title: Text('removed'),
+                                                content: Text(
+                                                    '${(_model.newlist?.elementAtOrNull(FFAppState().loopminparent))?.studentName}${widget.classref?.id}'),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(
+                                                            alertDialogContext),
+                                                    child: Text('Ok'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                          FFAppState().loopminparent =
+                                              FFAppState().loopminparent + 1;
+                                          safeSetState(() {});
+                                        }
+                                        FFAppState().loopminparent = 0;
+                                        safeSetState(() {});
                                         FFAppState().loopmin = 0;
                                         safeSetState(() {});
                                         while (FFAppState().loopmin <
                                             FFAppState()
                                                 .selectedstudents
                                                 .length) {
-                                          _model.student = await StudentsRecord
-                                              .getDocumentOnce(FFAppState()
-                                                  .selectedstudents
-                                                  .elementAtOrNull(
-                                                      FFAppState().loopmin)!);
+                                          _model.studentReading =
+                                              await StudentsRecord
+                                                  .getDocumentOnce(FFAppState()
+                                                      .selectedstudents
+                                                      .elementAtOrNull(
+                                                          FFAppState()
+                                                              .loopmin)!);
 
                                           await selectStudentsAdminSchoolRecord
                                               .listOfStudents
@@ -684,11 +754,22 @@ class _SelectStudentsAdminWidgetState extends State<SelectStudentsAdminWidget> {
                                               {
                                                 'classref': functions
                                                     .updateStudentClassRef(
-                                                        _model.student!,
+                                                        _model.studentReading!,
                                                         FFAppState()
                                                             .selectedstudents
                                                             .toList(),
                                                         widget.classref!),
+                                              },
+                                            ),
+                                          });
+
+                                          await _model.studentReading!.reference
+                                              .update({
+                                            ...mapToFirestore(
+                                              {
+                                                'classref':
+                                                    FieldValue.arrayUnion(
+                                                        [widget.classref]),
                                               },
                                             ),
                                           });

@@ -1002,6 +1002,19 @@ class _NotificationVIewWidgetState extends State<NotificationVIewWidget> {
                                                                                     position: badges.BadgePosition.topEnd(),
                                                                                     animationType: badges.BadgeAnimationType.scale,
                                                                                     toAnimate: true,
+                                                                                    child: FlutterFlowIconButton(
+                                                                                      borderRadius: 8.0,
+                                                                                      buttonSize: 40.0,
+                                                                                      fillColor: FlutterFlowTheme.of(context).secondary,
+                                                                                      icon: Icon(
+                                                                                        FFIcons.kicon,
+                                                                                        color: FlutterFlowTheme.of(context).primary,
+                                                                                        size: 24.0,
+                                                                                      ),
+                                                                                      onPressed: () {
+                                                                                        print('IconButton pressed ...');
+                                                                                      },
+                                                                                    ),
                                                                                   ),
                                                                                 ),
                                                                               ),

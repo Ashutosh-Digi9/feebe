@@ -12,6 +12,7 @@ import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
 import '/shimmer_effects/class_dashboard_shimmer/class_dashboard_shimmer_widget.dart';
+import 'dart:async';
 import '/custom_code/actions/index.dart' as actions;
 import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
@@ -5180,6 +5181,9 @@ class _AddStudentManuallyCopy2WidgetState
                                                                       .bodyMedium
                                                                       .fontStyle,
                                                                 ),
+                                                            keyboardType:
+                                                                TextInputType
+                                                                    .emailAddress,
                                                             cursorColor:
                                                                 FlutterFlowTheme.of(
                                                                         context)
@@ -5205,9 +5209,6 @@ class _AddStudentManuallyCopy2WidgetState
                                                                             TextCapitalization.none),
                                                                   );
                                                                 }),
-                                                              FilteringTextInputFormatter
-                                                                  .allow(RegExp(
-                                                                      '[a-z0-9@.]'))
                                                             ],
                                                           ),
                                                         ),
@@ -6157,6 +6158,9 @@ class _AddStudentManuallyCopy2WidgetState
                                                                               .bodyMedium
                                                                               .fontStyle,
                                                                         ),
+                                                                    keyboardType:
+                                                                        TextInputType
+                                                                            .emailAddress,
                                                                     cursorColor:
                                                                         FlutterFlowTheme.of(context)
                                                                             .primaryText,
@@ -6164,11 +6168,6 @@ class _AddStudentManuallyCopy2WidgetState
                                                                         .emailmotherTextControllerValidator
                                                                         .asValidator(
                                                                             context),
-                                                                    inputFormatters: [
-                                                                      FilteringTextInputFormatter
-                                                                          .allow(
-                                                                              RegExp('[a-z0-9@.]'))
-                                                                    ],
                                                                   ),
                                                                 ),
                                                               ),
@@ -7610,6 +7609,9 @@ class _AddStudentManuallyCopy2WidgetState
                                                                     .bodyMedium
                                                                     .fontStyle,
                                                               ),
+                                                      keyboardType:
+                                                          TextInputType
+                                                              .emailAddress,
                                                       cursorColor:
                                                           FlutterFlowTheme.of(
                                                                   context)
@@ -7617,11 +7619,6 @@ class _AddStudentManuallyCopy2WidgetState
                                                       validator: _model
                                                           .gemailTextControllerValidator
                                                           .asValidator(context),
-                                                      inputFormatters: [
-                                                        FilteringTextInputFormatter
-                                                            .allow(RegExp(
-                                                                '[a-z0-9@.]'))
-                                                      ],
                                                     ),
                                                   ),
                                                 ),
@@ -8537,8 +8534,12 @@ class _AddStudentManuallyCopy2WidgetState
                                   Padding(
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0.0, 10.0, 0.0, 0.0),
-                                    child: FFButtonWidget(
-                                      onPressed: () async {
+                                    child: InkWell(
+                                      splashColor: Colors.transparent,
+                                      focusColor: Colors.transparent,
+                                      hoverColor: Colors.transparent,
+                                      highlightColor: Colors.transparent,
+                                      onDoubleTap: () async {
                                         if ((_model.childnameTextController
                                                         .text ==
                                                     '') ||
@@ -8593,25 +8594,54 @@ class _AddStudentManuallyCopy2WidgetState
                                           curve: Curves.ease,
                                         );
                                       },
-                                      text: 'Next',
-                                      options: FFButtonOptions(
-                                        width:
-                                            MediaQuery.sizeOf(context).width *
-                                                0.7,
-                                        height:
-                                            MediaQuery.sizeOf(context).height *
-                                                0.06,
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            16.0, 0.0, 16.0, 0.0),
-                                        iconPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                0.0, 0.0, 0.0, 0.0),
-                                        color: FlutterFlowTheme.of(context)
-                                            .primaryBackground,
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .titleSmall
-                                            .override(
-                                              font: GoogleFonts.nunito(
+                                      child: FFButtonWidget(
+                                        onPressed: () async {
+                                          _model.pageno = 1;
+                                          safeSetState(() {});
+                                          await actions.hideKeyboard(
+                                            context,
+                                          );
+                                          await _model.pageViewController
+                                              ?.nextPage(
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            curve: Curves.ease,
+                                          );
+                                        },
+                                        text: 'Next',
+                                        options: FFButtonOptions(
+                                          width:
+                                              MediaQuery.sizeOf(context).width *
+                                                  0.7,
+                                          height: MediaQuery.sizeOf(context)
+                                                  .height *
+                                              0.06,
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  16.0, 0.0, 16.0, 0.0),
+                                          iconPadding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 0.0, 0.0, 0.0),
+                                          color: FlutterFlowTheme.of(context)
+                                              .primaryBackground,
+                                          textStyle: FlutterFlowTheme.of(
+                                                  context)
+                                              .titleSmall
+                                              .override(
+                                                font: GoogleFonts.nunito(
+                                                  fontWeight:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmall
+                                                          .fontWeight,
+                                                  fontStyle:
+                                                      FlutterFlowTheme.of(
+                                                              context)
+                                                          .titleSmall
+                                                          .fontStyle,
+                                                ),
+                                                color: Colors.white,
+                                                letterSpacing: 0.0,
                                                 fontWeight:
                                                     FlutterFlowTheme.of(context)
                                                         .titleSmall
@@ -8621,20 +8651,10 @@ class _AddStudentManuallyCopy2WidgetState
                                                         .titleSmall
                                                         .fontStyle,
                                               ),
-                                              color: Colors.white,
-                                              letterSpacing: 0.0,
-                                              fontWeight:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmall
-                                                      .fontWeight,
-                                              fontStyle:
-                                                  FlutterFlowTheme.of(context)
-                                                      .titleSmall
-                                                      .fontStyle,
-                                            ),
-                                        elevation: 0.0,
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
+                                          elevation: 0.0,
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -8676,6 +8696,9 @@ class _AddStudentManuallyCopy2WidgetState
                                     onPressed: () async {
                                       _model.pageno = 0;
                                       safeSetState(() {});
+                                      await actions.hideKeyboard(
+                                        context,
+                                      );
                                       await _model.pageViewController
                                           ?.previousPage(
                                         duration: Duration(milliseconds: 300),
@@ -8735,8 +8758,12 @@ class _AddStudentManuallyCopy2WidgetState
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
                                   ),
-                                  FFButtonWidget(
-                                    onPressed: () async {
+                                  InkWell(
+                                    splashColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onDoubleTap: () async {
                                       if ((_model.parentnameTextController
                                                       .text ==
                                                   '') ||
@@ -8865,24 +8892,49 @@ class _AddStudentManuallyCopy2WidgetState
                                         }
                                       }
                                     },
-                                    text: 'Next',
-                                    options: FFButtonOptions(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          0.4,
-                                      height:
-                                          MediaQuery.sizeOf(context).height *
-                                              0.06,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 0.0, 16.0, 0.0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryBackground,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            font: GoogleFonts.nunito(
+                                    child: FFButtonWidget(
+                                      onPressed: () async {
+                                        _model.pageno = 2;
+                                        safeSetState(() {});
+                                        await actions.hideKeyboard(
+                                          context,
+                                        );
+                                        await _model.pageViewController
+                                            ?.nextPage(
+                                          duration: Duration(milliseconds: 300),
+                                          curve: Curves.ease,
+                                        );
+                                      },
+                                      text: 'Next',
+                                      options: FFButtonOptions(
+                                        width:
+                                            MediaQuery.sizeOf(context).width *
+                                                0.4,
+                                        height:
+                                            MediaQuery.sizeOf(context).height *
+                                                0.06,
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 0.0, 16.0, 0.0),
+                                        iconPadding:
+                                            EdgeInsetsDirectional.fromSTEB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryBackground,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .override(
+                                              font: GoogleFonts.nunito(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmall
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmall
+                                                        .fontStyle,
+                                              ),
+                                              color: Colors.white,
+                                              letterSpacing: 0.0,
                                               fontWeight:
                                                   FlutterFlowTheme.of(context)
                                                       .titleSmall
@@ -8892,19 +8944,10 @@ class _AddStudentManuallyCopy2WidgetState
                                                       .titleSmall
                                                       .fontStyle,
                                             ),
-                                            color: Colors.white,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleSmall
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleSmall
-                                                    .fontStyle,
-                                          ),
-                                      elevation: 0.0,
-                                      borderRadius: BorderRadius.circular(8.0),
+                                        elevation: 0.0,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -8945,6 +8988,9 @@ class _AddStudentManuallyCopy2WidgetState
                                     onPressed: () async {
                                       _model.pageno = 1;
                                       safeSetState(() {});
+                                      await actions.hideKeyboard(
+                                        context,
+                                      );
                                       await _model.pageViewController
                                           ?.previousPage(
                                         duration: Duration(milliseconds: 300),
@@ -9004,8 +9050,12 @@ class _AddStudentManuallyCopy2WidgetState
                                       borderRadius: BorderRadius.circular(8.0),
                                     ),
                                   ),
-                                  FFButtonWidget(
-                                    onPressed: () async {
+                                  InkWell(
+                                    splashColor: Colors.transparent,
+                                    focusColor: Colors.transparent,
+                                    hoverColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onLongPress: () async {
                                       if (_model.emptypage
                                           .contains(FFAppState().page0)) {
                                         await _model.pageViewController
@@ -9202,24 +9252,201 @@ class _AddStudentManuallyCopy2WidgetState
                                         }
                                       }
                                     },
-                                    text: 'Next',
-                                    options: FFButtonOptions(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          0.4,
-                                      height:
-                                          MediaQuery.sizeOf(context).height *
-                                              0.06,
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 0.0, 16.0, 0.0),
-                                      iconPadding:
-                                          EdgeInsetsDirectional.fromSTEB(
-                                              0.0, 0.0, 0.0, 0.0),
-                                      color: FlutterFlowTheme.of(context)
-                                          .primaryBackground,
-                                      textStyle: FlutterFlowTheme.of(context)
-                                          .titleSmall
-                                          .override(
-                                            font: GoogleFonts.nunito(
+                                    child: FFButtonWidget(
+                                      onPressed: () async {
+                                        await actions.hideKeyboard(
+                                          context,
+                                        );
+                                        if ((_model.childnameTextController.text ==
+                                                    '') ||
+                                            (_model.genderValue == null ||
+                                                _model.genderValue == '') ||
+                                            (_model.addressTextController.text ==
+                                                    '') ||
+                                            (FFAppState().selectedDate ==
+                                                null) ||
+                                            (FFAppState().studentimage ==
+                                                    '')) {
+                                          await _model.pageViewController
+                                              ?.animateToPage(
+                                            0,
+                                            duration:
+                                                Duration(milliseconds: 500),
+                                            curve: Curves.ease,
+                                          );
+                                          _model.pageno = 0;
+                                          safeSetState(() {});
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                () {
+                                                  if (FFAppState()
+                                                              .studentimage ==
+                                                          '') {
+                                                    return 'Please upload student image';
+                                                  } else if (_model.childnameTextController
+                                                              .text ==
+                                                          '') {
+                                                    return 'Please enter child\'s Name';
+                                                  } else if (FFAppState()
+                                                          .selectedDate ==
+                                                      null) {
+                                                    return 'Please select DOB';
+                                                  } else if (_model
+                                                              .genderValue ==
+                                                          null ||
+                                                      _model.genderValue ==
+                                                          '') {
+                                                    return 'Please select gender';
+                                                  } else if (_model.addressTextController
+                                                              .text ==
+                                                          '') {
+                                                    return 'Please enter Address';
+                                                  } else {
+                                                    return 'Something went wrong';
+                                                  }
+                                                }(),
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                ),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondary,
+                                            ),
+                                          );
+                                        } else if ((_model.parentnameTextController.text ==
+                                                    '') ||
+                                            (_model.numberfatherTextController
+                                                        .text ==
+                                                    '') ||
+                                            (_model.emailfatherTextController
+                                                        .text ==
+                                                    '')) {
+                                          await _model.pageViewController
+                                              ?.animateToPage(
+                                            1,
+                                            duration:
+                                                Duration(milliseconds: 500),
+                                            curve: Curves.ease,
+                                          );
+                                          _model.pageno = 1;
+                                          safeSetState(() {});
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text(
+                                                () {
+                                                  if (_model.parentnameTextController
+                                                              .text ==
+                                                          '') {
+                                                    return 'Please enter Parent\'s Name';
+                                                  } else if (_model.numberfatherTextController
+                                                              .text ==
+                                                          '') {
+                                                    return 'Please enter Parent\'s Number';
+                                                  } else if (_model.emailfatherTextController
+                                                              .text ==
+                                                          '') {
+                                                    return 'Please enter Parent\'s Username/Email';
+                                                  } else {
+                                                    return 'Something went wrong';
+                                                  }
+                                                }(),
+                                                style: TextStyle(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .primaryText,
+                                                ),
+                                              ),
+                                              duration:
+                                                  Duration(milliseconds: 4000),
+                                              backgroundColor:
+                                                  FlutterFlowTheme.of(context)
+                                                      .secondary,
+                                            ),
+                                          );
+                                        } else if (_model.gemailTextController.text != '') {
+                                          if (!(_model
+                                              .parentsdetails.isNotEmpty)) {
+                                            _model.addToParentsdetails(
+                                                ParentsDetailsStruct(
+                                              parentsId:
+                                                  functions.generateUniqueId(),
+                                              parentsName: _model
+                                                  .gnameTextController.text,
+                                              parentsEmail: functions
+                                                      .isValidEmail(_model
+                                                          .gemailTextController
+                                                          .text)
+                                                  ? _model
+                                                      .gemailTextController.text
+                                                  : '${_model.gemailTextController.text}@feebe.in',
+                                              parentsPhone: _model
+                                                  .gnumberTextController.text,
+                                              parentRelation: 'Guardian',
+                                              isemail: functions.isValidEmail(
+                                                  _model.gemailTextController
+                                                      .text),
+                                              parentImage:
+                                                  FFAppState().guardian,
+                                            ));
+                                            safeSetState(() {});
+                                          }
+                                          await _model.pageViewController
+                                              ?.nextPage(
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            curve: Curves.ease,
+                                          );
+                                          _model.pageno = 3;
+                                          safeSetState(() {});
+                                        } else {
+                                          await _model.pageViewController
+                                              ?.nextPage(
+                                            duration:
+                                                Duration(milliseconds: 300),
+                                            curve: Curves.ease,
+                                          );
+                                          _model.pageno = 3;
+                                          safeSetState(() {});
+                                        }
+                                      },
+                                      text: 'Next',
+                                      options: FFButtonOptions(
+                                        width:
+                                            MediaQuery.sizeOf(context).width *
+                                                0.4,
+                                        height:
+                                            MediaQuery.sizeOf(context).height *
+                                                0.06,
+                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                            16.0, 0.0, 16.0, 0.0),
+                                        iconPadding:
+                                            EdgeInsetsDirectional.fromSTEB(
+                                                0.0, 0.0, 0.0, 0.0),
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryBackground,
+                                        textStyle: FlutterFlowTheme.of(context)
+                                            .titleSmall
+                                            .override(
+                                              font: GoogleFonts.nunito(
+                                                fontWeight:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmall
+                                                        .fontWeight,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .titleSmall
+                                                        .fontStyle,
+                                              ),
+                                              color: Colors.white,
+                                              letterSpacing: 0.0,
                                               fontWeight:
                                                   FlutterFlowTheme.of(context)
                                                       .titleSmall
@@ -9229,19 +9456,10 @@ class _AddStudentManuallyCopy2WidgetState
                                                       .titleSmall
                                                       .fontStyle,
                                             ),
-                                            color: Colors.white,
-                                            letterSpacing: 0.0,
-                                            fontWeight:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleSmall
-                                                    .fontWeight,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .titleSmall
-                                                    .fontStyle,
-                                          ),
-                                      elevation: 0.0,
-                                      borderRadius: BorderRadius.circular(8.0),
+                                        elevation: 0.0,
+                                        borderRadius:
+                                            BorderRadius.circular(8.0),
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -9282,6 +9500,9 @@ class _AddStudentManuallyCopy2WidgetState
                                     onPressed: () async {
                                       _model.pageno = 2;
                                       safeSetState(() {});
+                                      await actions.hideKeyboard(
+                                        context,
+                                      );
                                       await _model.pageViewController
                                           ?.previousPage(
                                         duration: Duration(milliseconds: 300),
@@ -9404,9 +9625,13 @@ class _AddStudentManuallyCopy2WidgetState
                                       if (_model.userdocument1
                                               ?.where((e) =>
                                                   e.email ==
-                                                  _model
-                                                      .emailfatherTextController
-                                                      .text)
+                                                  (functions.isValidEmail(_model
+                                                          .emailfatherTextController
+                                                          .text)
+                                                      ? _model
+                                                          .emailfatherTextController
+                                                          .text
+                                                      : '${_model.emailfatherTextController.text}@feebe.in'))
                                               .toList()
                                               .length ==
                                           0) {
@@ -9435,24 +9660,6 @@ class _AddStudentManuallyCopy2WidgetState
 
                                           if ((_model.parentapi12?.succeeded ??
                                               true)) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                content: Text(
-                                                  '${_model.parentsdetails.elementAtOrNull(FFAppState().loopmin)?.parentsName}\'s account created.',
-                                                  style: TextStyle(
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .secondary,
-                                                  ),
-                                                ),
-                                                duration: Duration(
-                                                    milliseconds: 4000),
-                                                backgroundColor:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primaryText,
-                                              ),
-                                            );
                                             _model.parentuserref =
                                                 await actions.stringToUser(
                                               CreateAccountCall.userref(
@@ -9481,159 +9688,67 @@ class _AddStudentManuallyCopy2WidgetState
                                                     _model.parentuserref,
                                             );
                                             safeSetState(() {});
-                                            _model.parent1email =
-                                                await SendMailCall.call(
-                                              toEmail: _model.parentsdetails
-                                                  .elementAtOrNull(
-                                                      FFAppState().loopmin)
-                                                  ?.parentsEmail,
-                                              userName: _model.parentsdetails
-                                                  .elementAtOrNull(
-                                                      FFAppState().loopmin)
-                                                  ?.parentsName,
-                                              password: _model.parentsdetails
-                                                  .elementAtOrNull(
-                                                      FFAppState().loopmin)
-                                                  ?.parentsPhone,
-                                              message:
-                                                  'Welcome! You have successfully been onboarded to Feebe by ${addStudentManuallyCopy2SchoolRecord.schoolDetails.schoolName} Feebe is designed to keep you informed, connected, and reassured every step of the way. ',
-                                            );
-
-                                            if ((_model
-                                                    .parent1email?.succeeded ??
-                                                true)) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    'An email is sent to the Parent with their credentials.',
-                                                    style: TextStyle(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .secondary,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 3200),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .primaryText,
-                                                ),
-                                              );
-                                            } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    getJsonField(
-                                                      (_model.parent1email
-                                                              ?.jsonBody ??
-                                                          ''),
-                                                      r'''$.message''',
-                                                    ).toString(),
-                                                    style: TextStyle(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryText,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 3200),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondary,
-                                                ),
-                                              );
-                                            }
-
-                                            _model.sms = await SendsmsCall.call(
-                                              toPhoneNumber: functions
-                                                  .newCustomFunction(_model
+                                            unawaited(
+                                              () async {
+                                                _model.parent1email =
+                                                    await SendMailCall.call(
+                                                  toEmail: _model.parentsdetails
+                                                      .elementAtOrNull(
+                                                          FFAppState().loopmin)
+                                                      ?.parentsEmail,
+                                                  userName: _model
                                                       .parentsdetails
                                                       .elementAtOrNull(
-                                                          FFAppState().loopmin)!
-                                                      .parentsPhone),
-                                              userName: functions.isValidEmail(
-                                                      _model.parentsdetails
+                                                          FFAppState().loopmin)
+                                                      ?.parentsName,
+                                                  password: _model
+                                                      .parentsdetails
+                                                      .elementAtOrNull(
+                                                          FFAppState().loopmin)
+                                                      ?.parentsPhone,
+                                                  message:
+                                                      'Welcome! You have successfully been onboarded to Feebe by ${addStudentManuallyCopy2SchoolRecord.schoolDetails.schoolName} Feebe is designed to keep you informed, connected, and reassured every step of the way. ',
+                                                );
+                                              }(),
+                                            );
+                                            unawaited(
+                                              () async {
+                                                _model.sms =
+                                                    await SendsmsCall.call(
+                                                  toPhoneNumber: functions
+                                                      .newCustomFunction(_model
+                                                          .parentsdetails
                                                           .elementAtOrNull(
                                                               FFAppState()
                                                                   .loopmin)!
-                                                          .parentsEmail)
-                                                  ? _model.parentsdetails
-                                                      .elementAtOrNull(
-                                                          FFAppState().loopmin)
-                                                      ?.parentsEmail
-                                                  : functions
-                                                      .getUsernameFromEmail(
-                                                          _model.parentsdetails
+                                                          .parentsPhone),
+                                                  userName: functions
+                                                          .isValidEmail(_model
+                                                              .parentsdetails
+                                                              .elementAtOrNull(
+                                                                  FFAppState()
+                                                                      .loopmin)!
+                                                              .parentsEmail)
+                                                      ? _model.parentsdetails
+                                                          .elementAtOrNull(
+                                                              FFAppState()
+                                                                  .loopmin)
+                                                          ?.parentsEmail
+                                                      : functions
+                                                          .getUsernameFromEmail(_model
+                                                              .parentsdetails
                                                               .elementAtOrNull(
                                                                   FFAppState()
                                                                       .loopmin)!
                                                               .parentsEmail),
-                                              userPassword: _model
-                                                  .parentsdetails
-                                                  .elementAtOrNull(
-                                                      FFAppState().loopmin)
-                                                  ?.parentsPhone,
+                                                  userPassword: _model
+                                                      .parentsdetails
+                                                      .elementAtOrNull(
+                                                          FFAppState().loopmin)
+                                                      ?.parentsPhone,
+                                                );
+                                              }(),
                                             );
-
-                                            if ((_model.sms?.succeeded ??
-                                                true)) {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    getJsonField(
-                                                      (_model.sms?.jsonBody ??
-                                                          ''),
-                                                      r'''$.message''',
-                                                    ).toString(),
-                                                    style: TextStyle(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryText,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondary,
-                                                ),
-                                              );
-                                            } else {
-                                              ScaffoldMessenger.of(context)
-                                                  .showSnackBar(
-                                                SnackBar(
-                                                  content: Text(
-                                                    getJsonField(
-                                                      (_model.sms?.jsonBody ??
-                                                          ''),
-                                                      r'''$.message''',
-                                                    ).toString(),
-                                                    style: TextStyle(
-                                                      color:
-                                                          FlutterFlowTheme.of(
-                                                                  context)
-                                                              .primaryText,
-                                                    ),
-                                                  ),
-                                                  duration: Duration(
-                                                      milliseconds: 4000),
-                                                  backgroundColor:
-                                                      FlutterFlowTheme.of(
-                                                              context)
-                                                          .secondary,
-                                                ),
-                                              );
-                                            }
-
                                             FFAppState().loopmin =
                                                 FFAppState().loopmin + 1;
                                             safeSetState(() {});
@@ -9859,8 +9974,14 @@ class _AddStudentManuallyCopy2WidgetState
                                           queryBuilder: (usersRecord) =>
                                               usersRecord.where(
                                             'email',
-                                            isEqualTo: _model
-                                                .emailfatherTextController.text,
+                                            isEqualTo: functions.isValidEmail(
+                                                    _model
+                                                        .emailfatherTextController
+                                                        .text)
+                                                ? _model
+                                                    .emailfatherTextController
+                                                    .text
+                                                : '${_model.emailfatherTextController.text}@feebe.in',
                                           ),
                                           singleRecord: true,
                                         ).then((s) => s.firstOrNull);
@@ -10150,7 +10271,7 @@ class _AddStudentManuallyCopy2WidgetState
                                         ),
                                       );
 
-                                      context.pushNamed(
+                                      context.goNamed(
                                         ClassViewWidget.routeName,
                                         queryParameters: {
                                           'schoolclassref': serializeParam(

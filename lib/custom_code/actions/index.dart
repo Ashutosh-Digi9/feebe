@@ -11,3 +11,4 @@ export 'get_app_version.dart' show getAppVersion;
 export 'shownotification_toast.dart' show shownotificationToast;
 export 'hide_keyboard.dart' show hideKeyboard;
 export 'convert_string_to_lat_lng.dart' show convertStringToLatLng;
+export 'return_new_list.dart' show returnNewList;

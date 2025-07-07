@@ -8,6 +8,9 @@ class FFIcons {
   static const String _hhhjhjkukFamily = 'Hhhjhjkuk';
   static const String _deleteFamily = 'Delete';
   static const String _personFamily = 'Person';
+  static const String _cameraandiconsFamily = 'Cameraandicons';
+  static const String _framehhFamily = 'Framehh';
+  static const String _finalframFamily = 'Finalfram';
 
   // MyFlutterApp
   static const IconData kvector =
@@ -30,4 +33,18 @@ class FFIcons {
 
   // Person
   static const IconData kuilUser = IconData(0xe801, fontFamily: _personFamily);
+
+  // Cameraandicons
+  static const IconData klooks =
+      IconData(0xe803, fontFamily: _cameraandiconsFamily);
+  static const IconData kpictureOutline =
+      IconData(0xe804, fontFamily: _cameraandiconsFamily);
+  static const IconData kcamera =
+      IconData(0xe826, fontFamily: _cameraandiconsFamily);
+
+  // Framehh
+  static const IconData kpicture = IconData(0xe800, fontFamily: _framehhFamily);
+
+  // Finalfram
+  static const IconData kicon = IconData(0xe801, fontFamily: _finalframFamily);
 }

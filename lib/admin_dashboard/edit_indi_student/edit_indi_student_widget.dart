@@ -78,6 +78,7 @@ class _EditIndiStudentWidgetState extends State<EditIndiStudentWidget> {
         final containerStudentsRecord = snapshot.data!;
 
         return Container(
+          width: MediaQuery.sizeOf(context).width * 1.0,
           decoration: BoxDecoration(
             color: Color(0xFFE9F0FD),
             borderRadius: BorderRadius.circular(10.0),
@@ -144,20 +145,6 @@ class _EditIndiStudentWidgetState extends State<EditIndiStudentWidget> {
                         }
                         FFAppState().loopmin = 0;
                         safeSetState(() {});
-                        while (FFAppState().loopmin <
-                            containerStudentsRecord.parentsDetails.length) {
-                          _model.apiResult58m = await RemoveParentCall.call(
-                            toPhoneNumber: functions.newCustomFunction(
-                                containerStudentsRecord.parentsDetails
-                                    .elementAtOrNull(FFAppState().loopmin)!
-                                    .parentsPhone),
-                          );
-
-                          FFAppState().loopmin = FFAppState().loopmin + 1;
-                          safeSetState(() {});
-                        }
-                        FFAppState().loopmin = 0;
-                        safeSetState(() {});
                       }),
                       Future(() async {
                         await widget.schoolref!.update({
@@ -175,49 +162,50 @@ class _EditIndiStudentWidgetState extends State<EditIndiStudentWidget> {
                           ),
                         });
                       }),
-                    ]);
-                    FFAppState().loopmin = 0;
-                    safeSetState(() {});
-                    while (containerStudentsRecord.parentsDetails.length <
-                        FFAppState().loopmin) {
-                      _model.apiResultu1p = await DeleteParentCall.call(
-                        name: containerStudentsRecord.parentsDetails
-                            .elementAtOrNull(FFAppState().loopmin)
-                            ?.parentsName,
-                        description:
-                            'We would like to inform you that the profile of your child, ${containerStudentsRecord.studentName} has been successfully removed from our records in the ${_model.schoolCopy?.schoolDetails.schoolName} system.',
-                        schoolName:
-                            _model.schoolCopy?.schoolDetails.schoolName,
-                        toEmail: containerStudentsRecord.parentsDetails
-                                .elementAtOrNull(FFAppState().loopmin)!
-                                .isemail
-                            ? containerStudentsRecord.parentsDetails
-                                .elementAtOrNull(FFAppState().loopmin)
-                                ?.parentsEmail
-                            : '${containerStudentsRecord.parentsDetails.elementAtOrNull(FFAppState().loopmin)?.parentsEmail}@feebe.in',
-                      );
+                      Future(() async {
+                        while (FFAppState().loopminparent <
+                            containerStudentsRecord.parentsDetails.length) {
+                          _model.apiResult58m = await RemoveParentCall.call(
+                            toPhoneNumber: functions.newCustomFunction(
+                                containerStudentsRecord.parentsDetails
+                                    .elementAtOrNull(
+                                        FFAppState().loopminparent)!
+                                    .parentsPhone),
+                          );
 
-                      if (!(_model.apiResultu1p?.succeeded ?? true)) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: Text(
-                              getJsonField(
-                                (_model.apiResultu1p?.jsonBody ?? ''),
-                                r'''$.message''',
-                              ).toString(),
-                              style: TextStyle(
-                                color: FlutterFlowTheme.of(context).primaryText,
-                              ),
-                            ),
-                            duration: Duration(milliseconds: 4000),
-                            backgroundColor:
-                                FlutterFlowTheme.of(context).secondary,
-                          ),
-                        );
-                      }
-                      FFAppState().loopmin = FFAppState().loopmin + 1;
-                      safeSetState(() {});
-                    }
+                          _model.apiResultu1p = await DeleteParentCall.call(
+                            name: containerStudentsRecord.parentsDetails
+                                .elementAtOrNull(FFAppState().loopminparent)
+                                ?.parentsName,
+                            description:
+                                'We would like to inform you that the profile of your child, ${containerStudentsRecord.studentName} has been successfully removed from our records in the ${_model.schoolCopy?.schoolDetails.schoolName} system.',
+                            schoolName:
+                                _model.schoolCopy?.schoolDetails.schoolName,
+                            toEmail: containerStudentsRecord.parentsDetails
+                                    .elementAtOrNull(
+                                        FFAppState().loopminparent)!
+                                    .isemail
+                                ? containerStudentsRecord.parentsDetails
+                                    .elementAtOrNull(FFAppState().loopminparent)
+                                    ?.parentsEmail
+                                : '${containerStudentsRecord.parentsDetails.elementAtOrNull(FFAppState().loopminparent)?.parentsEmail}@feebe.in',
+                          );
+
+                          _model.deledted = await DeleteUserCall.call(
+                            uid: containerStudentsRecord.parentsDetails
+                                .elementAtOrNull(FFAppState().loopminparent)
+                                ?.userRef
+                                ?.id,
+                          );
+
+                          FFAppState().loopminparent =
+                              FFAppState().loopminparent + 1;
+                          safeSetState(() {});
+                        }
+                        FFAppState().loopminparent = 0;
+                        safeSetState(() {});
+                      }),
+                    ]);
                     FFAppState().loopmin = 0;
                     safeSetState(() {});
                     await widget.studentref!.delete();
@@ -285,12 +273,8 @@ class _EditIndiStudentWidgetState extends State<EditIndiStudentWidget> {
                   borderRadius: BorderRadius.circular(0.0),
                 ),
               ),
-              InkWell(
-                splashColor: Colors.transparent,
-                focusColor: Colors.transparent,
-                hoverColor: Colors.transparent,
-                highlightColor: Colors.transparent,
-                onTap: () async {
+              FFButtonWidget(
+                onPressed: () async {
                   Navigator.pop(context);
                   if (Navigator.of(context).canPop()) {
                     context.pop();
@@ -309,34 +293,31 @@ class _EditIndiStudentWidgetState extends State<EditIndiStudentWidget> {
                     }.withoutNulls,
                   );
                 },
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Icon(
-                      Icons.edit,
-                      color: FlutterFlowTheme.of(context).tertiaryText,
-                      size: 20.0,
-                    ),
-                    Text(
-                      'Edit',
-                      style: FlutterFlowTheme.of(context).bodyMedium.override(
-                            font: GoogleFonts.nunito(
-                              fontWeight: FontWeight.w500,
-                              fontStyle: FlutterFlowTheme.of(context)
-                                  .bodyMedium
-                                  .fontStyle,
-                            ),
-                            color: FlutterFlowTheme.of(context).primaryText,
-                            fontSize: 16.0,
-                            letterSpacing: 0.0,
-                            fontWeight: FontWeight.w500,
-                            fontStyle: FlutterFlowTheme.of(context)
-                                .bodyMedium
-                                .fontStyle,
-                          ),
-                    ),
-                  ].divide(SizedBox(width: 15.0)).around(SizedBox(width: 15.0)),
+                text: 'Edit',
+                icon: Icon(
+                  Icons.edit,
+                  size: 18.0,
+                ),
+                options: FFButtonOptions(
+                  padding: EdgeInsetsDirectional.fromSTEB(16.0, 0.0, 16.0, 0.0),
+                  iconPadding:
+                      EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 0.0),
+                  iconColor: FlutterFlowTheme.of(context).tertiaryText,
+                  color: Color(0xFFE9F0FD),
+                  textStyle: FlutterFlowTheme.of(context).titleSmall.override(
+                        font: GoogleFonts.nunito(
+                          fontWeight: FontWeight.w500,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).titleSmall.fontStyle,
+                        ),
+                        color: FlutterFlowTheme.of(context).primaryText,
+                        letterSpacing: 0.0,
+                        fontWeight: FontWeight.w500,
+                        fontStyle:
+                            FlutterFlowTheme.of(context).titleSmall.fontStyle,
+                      ),
+                  elevation: 0.0,
+                  borderRadius: BorderRadius.circular(0.0),
                 ),
               ),
             ],

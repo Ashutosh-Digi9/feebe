@@ -51,6 +51,8 @@ class DashboardModel extends FlutterFlowModel<DashboardWidget> {
 
   int lastfield = 0;
 
+  int? numberofstudents;
+
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
@@ -60,6 +62,8 @@ class DashboardModel extends FlutterFlowModel<DashboardWidget> {
   List<SchoolRecord>? numberofSchool;
   // Stores action output result for [Firestore Query - Query a collection] action in Dashboard widget.
   SchoolRecord? teacherSchool;
+  // Stores action output result for [Firestore Query - Query a collection] action in Dashboard widget.
+  List<StudentsRecord>? studentListofparents;
   // Stores action output result for [Firestore Query - Query a collection] action in CircleImage widget.
   List<StudentsRecord>? students12;
   // State field(s) for TabBar widget.

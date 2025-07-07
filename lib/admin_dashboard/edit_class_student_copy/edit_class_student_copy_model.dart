@@ -47,6 +47,20 @@ class EditClassStudentCopyModel
           int index, Function(ParentsDetailsStruct) updateFn) =>
       newparentList[index] = updateFn(newparentList[index]);
 
+  List<ParentsDetailsStruct> guardianCreateList = [];
+  void addToGuardianCreateList(ParentsDetailsStruct item) =>
+      guardianCreateList.add(item);
+  void removeFromGuardianCreateList(ParentsDetailsStruct item) =>
+      guardianCreateList.remove(item);
+  void removeAtIndexFromGuardianCreateList(int index) =>
+      guardianCreateList.removeAt(index);
+  void insertAtIndexInGuardianCreateList(
+          int index, ParentsDetailsStruct item) =>
+      guardianCreateList.insert(index, item);
+  void updateGuardianCreateListAtIndex(
+          int index, Function(ParentsDetailsStruct) updateFn) =>
+      guardianCreateList[index] = updateFn(guardianCreateList[index]);
+
   ///  State fields for stateful widgets in this page.
 
   final formKey4 = GlobalKey<FormState>();
@@ -230,23 +244,15 @@ class EditClassStudentCopyModel
     return null;
   }
 
-  // Stores action output result for [Backend Call - API (Create Account)] action in Button widget.
-  ApiCallResponse? parent2;
-  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
-  UsersRecord? motherUSer;
-  // Stores action output result for [Backend Call - API (Create Account)] action in Button widget.
-  ApiCallResponse? mom;
-  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
-  UsersRecord? momUser;
-  // Stores action output result for [Backend Call - API (Create Account)] action in Button widget.
-  ApiCallResponse? guardian;
-  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
-  UsersRecord? guardianUser;
-  // Stores action output result for [Backend Call - API (Create Account)] action in Button widget.
-  ApiCallResponse? parent22;
-  // Stores action output result for [Firestore Query - Query a collection] action in Button widget.
-  UsersRecord? motherUSer1;
-  // Stores action output result for [Backend Call - Read Document] action in Button widget.
+  // Stores action output result for [Backend Call - API (Create Account)] action in save widget.
+  ApiCallResponse? apiResultdn0;
+  // Stores action output result for [Custom Action - stringToUser] action in save widget.
+  DocumentReference? parentuserref;
+  // Stores action output result for [Backend Call - API (Send Mail )] action in save widget.
+  ApiCallResponse? parent1email;
+  // Stores action output result for [Backend Call - API (sendsms)] action in save widget.
+  ApiCallResponse? sms;
+  // Stores action output result for [Backend Call - Read Document] action in save widget.
   SchoolRecord? school;
 
   @override

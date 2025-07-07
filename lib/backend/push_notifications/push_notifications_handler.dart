@@ -147,7 +147,6 @@ final parametersBuilderMap =
         },
       ),
   'Notifications_SA': ParameterData.none(),
-  'Add_School_QR_SA': ParameterData.none(),
   'Add_School_manually_SA': ParameterData.none(),
   'editprofile_parent': ParameterData.none(),
   'SearchPage_SA': ParameterData.none(),
@@ -297,13 +296,6 @@ final parametersBuilderMap =
           'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
         },
       ),
-  'Add_Student_Admin_QR': (data) async => ParameterData(
-        allParams: {
-          'schoolRef': getParameter<DocumentReference>(data, 'schoolRef'),
-          'editclass': getParameter<bool>(data, 'editclass'),
-          'classRef': getParameter<DocumentReference>(data, 'classRef'),
-        },
-      ),
   'ChangeSubscriptionPlan_SA': (data) async => ParameterData(
         allParams: {
           'schoolRef': getParameter<DocumentReference>(data, 'schoolRef'),
@@ -340,7 +332,6 @@ final parametersBuilderMap =
           'schoolref': getParameter<DocumentReference>(data, 'schoolref'),
         },
       ),
-  'Add_School_link': ParameterData.none(),
   'calender_class': (data) async => ParameterData(
         allParams: {
           'schoolclassref':

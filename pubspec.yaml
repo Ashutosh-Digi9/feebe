@@ -15,7 +15,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.24+31
+version: 1.0.28+35
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -32,7 +32,6 @@ dependencies:
   app_tracking_transparency: ^2.0.6+1
   auto_size_text: 3.0.0
   badges: 2.0.2
-  barcode_widget: 2.0.3
   cached_network_image: 3.4.1
   cached_network_image_platform_interface: 4.1.1
   cached_network_image_web: 1.3.1
@@ -231,6 +230,15 @@ flutter:
     - family: Person
       fonts:
         - asset: assets/fonts/Person.ttf
+    - family: Cameraandicons
+      fonts:
+        - asset: assets/fonts/Cameraandicons.ttf
+    - family: Framehh
+      fonts:
+        - asset: assets/fonts/Framehh.ttf
+    - family: Finalfram
+      fonts:
+        - asset: assets/fonts/Finalfram.ttf
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

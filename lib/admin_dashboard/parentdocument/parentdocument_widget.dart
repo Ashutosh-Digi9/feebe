@@ -161,29 +161,51 @@ class _ParentdocumentWidgetState extends State<ParentdocumentWidget> {
                           color: FlutterFlowTheme.of(context).primary,
                         ),
                       ),
-                      child: Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
-                        child: Text(
-                          'Choose\nfrom phone',
-                          textAlign: TextAlign.center,
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.nunito(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (!_model.isDataUploading_uploadDataYpr)
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 5.0, 0.0, 0.0),
+                              child: Text(
+                                'Choose\nfrom phone',
+                                textAlign: TextAlign.center,
+                                style: FlutterFlowTheme.of(context)
+                                    .bodyMedium
+                                    .override(
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FontWeight.w600,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      fontSize: 16.0,
+                                      letterSpacing: 0.0,
                                       fontWeight: FontWeight.w600,
                                       fontStyle: FlutterFlowTheme.of(context)
                                           .bodyMedium
                                           .fontStyle,
                                     ),
-                                    color: FlutterFlowTheme.of(context).primary,
-                                    fontSize: 16.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w600,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                        ),
+                              ),
+                            ),
+                          if (_model.isDataUploading_uploadDataYpr)
+                            Align(
+                              alignment: AlignmentDirectional(0.0, 0.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8.0),
+                                child: Image.asset(
+                                  'assets/images/Animation_-_1735217758165.gif',
+                                  width: 100.0,
+                                  height: 20.0,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                   ),
@@ -292,36 +314,54 @@ class _ParentdocumentWidgetState extends State<ParentdocumentWidget> {
                       width: 120.0,
                       height: 60.0,
                       decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).primary,
+                        color: FlutterFlowTheme.of(context).secondary,
                         borderRadius: BorderRadius.circular(10.0),
                         border: Border.all(
                           color: FlutterFlowTheme.of(context).primary,
                         ),
                       ),
-                      child: Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
-                        child: Text(
-                          'Open\ncamera',
-                          textAlign: TextAlign.center,
-                          style: FlutterFlowTheme.of(context)
-                              .bodyMedium
-                              .override(
-                                font: GoogleFonts.nunito(
-                                  fontWeight: FontWeight.w600,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .bodyMedium
-                                      .fontStyle,
-                                ),
-                                color: FlutterFlowTheme.of(context).secondary,
-                                fontSize: 16.0,
-                                letterSpacing: 0.0,
-                                fontWeight: FontWeight.w600,
-                                fontStyle: FlutterFlowTheme.of(context)
+                      child: Column(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (!_model.isDataUploading_uploadData30r)
+                            Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  0.0, 5.0, 0.0, 0.0),
+                              child: Text(
+                                'Open\ncamera',
+                                textAlign: TextAlign.center,
+                                style: FlutterFlowTheme.of(context)
                                     .bodyMedium
-                                    .fontStyle,
+                                    .override(
+                                      font: GoogleFonts.nunito(
+                                        fontWeight: FontWeight.w600,
+                                        fontStyle: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .fontStyle,
+                                      ),
+                                      color:
+                                          FlutterFlowTheme.of(context).primary,
+                                      fontSize: 16.0,
+                                      letterSpacing: 0.0,
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
                               ),
-                        ),
+                            ),
+                          if (_model.isDataUploading_uploadData30r)
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(8.0),
+                              child: Image.asset(
+                                'assets/images/Animation_-_1735217758165.gif',
+                                width: 100.0,
+                                height: 20.0,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                        ],
                       ),
                     ),
                   ),

@@ -138,6 +138,13 @@ class _EditNewStudentWidgetState extends State<EditNewStudentWidget> {
                                 .parentsPhone),
                       );
 
+                      await DeleteUserCall.call(
+                        uid: containerStudentsRecord.parentsDetails
+                            .elementAtOrNull(FFAppState().loopmin)
+                            ?.userRef
+                            ?.id,
+                      );
+
                       FFAppState().loopmin = FFAppState().loopmin + 1;
                       safeSetState(() {});
                     }
@@ -219,7 +226,7 @@ class _EditNewStudentWidgetState extends State<EditNewStudentWidget> {
                     context.pop();
                   }
                   context.pushNamed(
-                    EditClassStudentCopyWidget.routeName,
+                    EditClassStudentWidget.routeName,
                     queryParameters: {
                       'studentref': serializeParam(
                         widget.studentref,

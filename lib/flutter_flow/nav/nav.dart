@@ -201,11 +201,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => NotificationsSAWidget(),
         ),
         FFRoute(
-          name: AddSchoolQRSAWidget.routeName,
-          path: AddSchoolQRSAWidget.routePath,
-          builder: (context, params) => AddSchoolQRSAWidget(),
-        ),
-        FFRoute(
           name: AddSchoolManuallySAWidget.routeName,
           path: AddSchoolManuallySAWidget.routePath,
           builder: (context, params) => AddSchoolManuallySAWidget(),
@@ -633,28 +628,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: AddStudentAdminQRWidget.routeName,
-          path: AddStudentAdminQRWidget.routePath,
-          builder: (context, params) => AddStudentAdminQRWidget(
-            schoolRef: params.getParam(
-              'schoolRef',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['School'],
-            ),
-            editclass: params.getParam(
-              'editclass',
-              ParamType.bool,
-            ),
-            classRef: params.getParam(
-              'classRef',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['School_class'],
-            ),
-          ),
-        ),
-        FFRoute(
           name: ChangeSubscriptionPlanSAWidget.routeName,
           path: ChangeSubscriptionPlanSAWidget.routePath,
           builder: (context, params) => ChangeSubscriptionPlanSAWidget(
@@ -763,11 +736,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               collectionNamePath: ['School'],
             ),
           ),
-        ),
-        FFRoute(
-          name: AddSchoolLinkWidget.routeName,
-          path: AddSchoolLinkWidget.routePath,
-          builder: (context, params) => AddSchoolLinkWidget(),
         ),
         FFRoute(
           name: CalenderClassWidget.routeName,
@@ -1477,15 +1445,15 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               structBuilder: ParentsDetailsStruct.fromSerializableMap,
             ),
+            address: params.getParam(
+              'address',
+              ParamType.String,
+            ),
             parentdetails: params.getParam<ParentsDetailsStruct>(
               'parentdetails',
               ParamType.DataStruct,
               isList: true,
               structBuilder: ParentsDetailsStruct.fromSerializableMap,
-            ),
-            address: params.getParam(
-              'address',
-              ParamType.String,
             ),
           ),
         ),
@@ -1569,15 +1537,15 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
               isList: false,
               structBuilder: ParentsDetailsStruct.fromSerializableMap,
             ),
+            address: params.getParam(
+              'address',
+              ParamType.String,
+            ),
             parentdetails: params.getParam<ParentsDetailsStruct>(
               'parentdetails',
               ParamType.DataStruct,
               isList: true,
               structBuilder: ParentsDetailsStruct.fromSerializableMap,
-            ),
-            address: params.getParam(
-              'address',
-              ParamType.String,
             ),
           ),
         ),

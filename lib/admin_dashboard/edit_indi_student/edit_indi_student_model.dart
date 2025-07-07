@@ -15,6 +15,8 @@ class EditIndiStudentModel extends FlutterFlowModel<EditIndiStudentWidget> {
   ApiCallResponse? apiResult58m;
   // Stores action output result for [Backend Call - API (DeleteParent)] action in Button widget.
   ApiCallResponse? apiResultu1p;
+  // Stores action output result for [Backend Call - API (deleteUser)] action in Button widget.
+  ApiCallResponse? deledted;
 
   @override
   void initState(BuildContext context) {}

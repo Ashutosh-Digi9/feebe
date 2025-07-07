@@ -168,14 +168,10 @@ class _EditphotoWidgetState extends State<EditphotoWidget> {
                             );
                           }
                         },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.asset(
-                            'assets/images/_Group_440.png',
-                            width: MediaQuery.sizeOf(context).width * 0.1,
-                            height: MediaQuery.sizeOf(context).height * 0.25,
-                            fit: BoxFit.contain,
-                          ),
+                        child: Icon(
+                          FFIcons.kcamera,
+                          color: FlutterFlowTheme.of(context).secondary,
+                          size: 40.0,
                         ),
                       ),
                     if (_model.isDataUploading_uploadDataCu4cam1)
@@ -296,14 +292,10 @@ class _EditphotoWidgetState extends State<EditphotoWidget> {
                             );
                           }
                         },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(8.0),
-                          child: Image.asset(
-                            'assets/images/icon_(1).png',
-                            width: MediaQuery.sizeOf(context).width * 0.1,
-                            height: MediaQuery.sizeOf(context).height * 0.25,
-                            fit: BoxFit.contain,
-                          ),
+                        child: Icon(
+                          FFIcons.kicon,
+                          color: FlutterFlowTheme.of(context).secondary,
+                          size: 35.0,
                         ),
                       ),
                     if (_model.isDataUploading_uploadDataZ3jgal3)

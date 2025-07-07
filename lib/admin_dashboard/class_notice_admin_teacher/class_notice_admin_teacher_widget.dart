@@ -943,8 +943,7 @@ class _ClassNoticeAdminTeacherWidgetState
                                                     obscureText: false,
                                                     decoration: InputDecoration(
                                                       isDense: true,
-                                                      labelText:
-                                                          'Description *',
+                                                      labelText: 'Description ',
                                                       labelStyle:
                                                           FlutterFlowTheme.of(
                                                                   context)

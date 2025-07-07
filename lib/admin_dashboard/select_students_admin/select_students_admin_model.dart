@@ -44,8 +44,10 @@ class SelectStudentsAdminModel
 
   // Stores action output result for [Backend Call - Read Document] action in SelectStudentsAdmin widget.
   SchoolClassRecord? schoolDocument;
+  // Stores action output result for [Custom Action - returnNewList] action in Register widget.
+  List<StudentListStruct>? newlist;
   // Stores action output result for [Backend Call - Read Document] action in Register widget.
-  StudentsRecord? student;
+  StudentsRecord? studentReading;
 
   @override
   void initState(BuildContext context) {}

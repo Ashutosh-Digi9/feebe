@@ -174,9 +174,7 @@ class _NotificationTeacherWidgetState extends State<NotificationTeacherWidget> {
                                 builder: (context) {
                                   final notifications =
                                       containerNotificationsRecordList
-                                          .sortedList(
-                                              keyOf: (e) => e.createDate!,
-                                              desc: true)
+                                          .map((e) => e)
                                           .toList();
                                   if (notifications.isEmpty) {
                                     return Center(
@@ -380,10 +378,15 @@ class _NotificationTeacherWidgetState extends State<NotificationTeacherWidget> {
                                                                             10.0,
                                                                             0.0),
                                                                 child: Text(
-                                                                  dateTimeFormat(
-                                                                      "dd MMM y",
-                                                                      notificationsItem
-                                                                          .createDate!),
+                                                                  dateTimeFormat("dd MMM y", notificationsItem.createDate) !=
+                                                                              ''
+                                                                      ? dateTimeFormat(
+                                                                          "dd MMM y",
+                                                                          notificationsItem
+                                                                              .createDate!)
+                                                                      : dateTimeFormat(
+                                                                          "dd MMM y",
+                                                                          getCurrentTimestamp),
                                                                   style: FlutterFlowTheme.of(
                                                                           context)
                                                                       .bodyMedium

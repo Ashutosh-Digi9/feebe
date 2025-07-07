@@ -19,6 +19,11 @@ class ParentProfileModel extends FlutterFlowModel<ParentProfileWidget> {
           int index, Function(ParentsDetailsStruct) updateFn) =>
       parentslist[index] = updateFn(parentslist[index]);
 
+  ParentsDetailsStruct? parentdata;
+  void updateParentdataStruct(Function(ParentsDetailsStruct) updateFn) {
+    updateFn(parentdata ??= ParentsDetailsStruct());
+  }
+
   @override
   void initState(BuildContext context) {}
 

@@ -46,6 +46,26 @@ class StudentDraftModel extends FlutterFlowModel<StudentDraftWidget> {
   void updateEmptypageAtIndex(int index, Function(int) updateFn) =>
       emptypage[index] = updateFn(emptypage[index]);
 
+  int? everyone;
+
+  List<DocumentReference> classRef = [];
+  void addToClassRef(DocumentReference item) => classRef.add(item);
+  void removeFromClassRef(DocumentReference item) => classRef.remove(item);
+  void removeAtIndexFromClassRef(int index) => classRef.removeAt(index);
+  void insertAtIndexInClassRef(int index, DocumentReference item) =>
+      classRef.insert(index, item);
+  void updateClassRefAtIndex(int index, Function(DocumentReference) updateFn) =>
+      classRef[index] = updateFn(classRef[index]);
+
+  List<String> classname = [];
+  void addToClassname(String item) => classname.add(item);
+  void removeFromClassname(String item) => classname.remove(item);
+  void removeAtIndexFromClassname(int index) => classname.removeAt(index);
+  void insertAtIndexInClassname(int index, String item) =>
+      classname.insert(index, item);
+  void updateClassnameAtIndex(int index, Function(String) updateFn) =>
+      classname[index] = updateFn(classname[index]);
+
   ///  State fields for stateful widgets in this page.
 
   final formKey3 = GlobalKey<FormState>();
@@ -231,21 +251,21 @@ class StudentDraftModel extends FlutterFlowModel<StudentDraftWidget> {
     return null;
   }
 
-  // Stores action output result for [Backend Call - Read Document] action in Next12 widget.
+  // Stores action output result for [Backend Call - Read Document] action in Save widget.
   SchoolRecord? school;
-  // Stores action output result for [Firestore Query - Query a collection] action in Next12 widget.
+  // Stores action output result for [Firestore Query - Query a collection] action in Save widget.
   List<UsersRecord>? userdocument1;
-  // Stores action output result for [Backend Call - API (Create Account)] action in Next12 widget.
+  // Stores action output result for [Backend Call - API (Create Account)] action in Save widget.
   ApiCallResponse? parentapi12;
-  // Stores action output result for [Custom Action - stringToUser] action in Next12 widget.
+  // Stores action output result for [Custom Action - stringToUser] action in Save widget.
   DocumentReference? parentuserref;
-  // Stores action output result for [Backend Call - API (Send Mail )] action in Next12 widget.
+  // Stores action output result for [Backend Call - API (Send Mail )] action in Save widget.
   ApiCallResponse? parent1email;
-  // Stores action output result for [Backend Call - API (sendsms)] action in Next12 widget.
+  // Stores action output result for [Backend Call - API (sendsms)] action in Save widget.
   ApiCallResponse? sms;
-  // Stores action output result for [Firestore Query - Query a collection] action in Next12 widget.
+  // Stores action output result for [Firestore Query - Query a collection] action in Save widget.
   UsersRecord? parent2;
-  // Stores action output result for [Firestore Query - Query a collection] action in Next12 widget.
+  // Stores action output result for [Firestore Query - Query a collection] action in Save widget.
   StudentsRecord? student2Copy;
 
   @override

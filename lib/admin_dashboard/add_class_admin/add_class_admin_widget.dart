@@ -4265,7 +4265,8 @@ class _AddClassAdminWidgetState extends State<AddClassAdminWidget> {
                                     _model.creatingclass = true;
                                     safeSetState(() {});
                                     while (FFAppState().loopmin <
-                                        FFAppState().selectedstudents.length) {
+                                        _model.classcreated!.studentsList
+                                            .length) {
                                       await FFAppState()
                                           .selectedstudents
                                           .elementAtOrNull(
@@ -4275,8 +4276,7 @@ class _AddClassAdminWidgetState extends State<AddClassAdminWidget> {
                                           {
                                             'class_name':
                                                 FieldValue.arrayUnion([
-                                              _model
-                                                  .classNameTextController.text
+                                              _model.classcreated?.className
                                             ]),
                                             'classref': FieldValue.arrayUnion([
                                               _model.classcreated?.reference
@@ -4347,7 +4347,8 @@ class _AddClassAdminWidgetState extends State<AddClassAdminWidget> {
                                     FFAppState().loopmin = 0;
                                     safeSetState(() {});
                                     while (FFAppState().loopmin <
-                                        FFAppState().selectedstudents.length) {
+                                        _model.classcreated!.studentsList
+                                            .length) {
                                       _model.studentsele =
                                           await StudentsRecord.getDocumentOnce(
                                               FFAppState()

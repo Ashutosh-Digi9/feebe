@@ -278,7 +278,13 @@ class _IndistudentmainpagesWidgetState
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 5.0, 0.0, 5.0, 0.0),
                             child: StreamBuilder<List<SchoolClassRecord>>(
-                              stream: querySchoolClassRecord(),
+                              stream: querySchoolClassRecord(
+                                queryBuilder: (schoolClassRecord) =>
+                                    schoolClassRecord.where(
+                                  'students_list',
+                                  arrayContains: widget.studentsref,
+                                ),
+                              ),
                               builder: (context, snapshot) {
                                 // Customize what your widget looks like when it's loading.
                                 if (!snapshot.hasData) {

@@ -563,7 +563,7 @@ class _EditNoticeBoardWidgetState extends State<EditNoticeBoardWidget>
                               obscureText: false,
                               decoration: InputDecoration(
                                 isDense: true,
-                                labelText: 'Description *',
+                                labelText: 'Description',
                                 labelStyle: FlutterFlowTheme.of(context)
                                     .labelMedium
                                     .override(

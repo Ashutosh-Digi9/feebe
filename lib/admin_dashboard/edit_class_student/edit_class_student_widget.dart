@@ -1,21 +1,22 @@
 import '/admin_dashboard/calender/calender_widget.dart';
 import '/admin_dashboard/editguardian/editguardian_widget.dart';
 import '/admin_dashboard/editphoto/editphoto_widget.dart';
+import '/admin_dashboard/parentdocument/parentdocument_widget.dart';
+import '/admin_dashboard/parentphoto/parentphoto_widget.dart';
 import '/auth/firebase_auth/auth_util.dart';
-import '/backend/api_requests/api_calls.dart';
 import '/backend/backend.dart';
-import '/backend/firebase_storage/storage.dart';
 import '/flutter_flow/flutter_flow_drop_down.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/form_field_controller.dart';
-import '/flutter_flow/upload_data.dart';
 import '/shimmer_effects/classshimmer/classshimmer_widget.dart';
+import '/shimmer_effects/quick_action_selectclass/quick_action_selectclass_widget.dart';
+import 'dart:async';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
@@ -53,8 +54,36 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.studentDetails =
+          await StudentsRecord.getDocumentOnce(widget.studentref!);
+      _model.parentdetails = _model.studentDetails!.parentsDetails
+          .where((e) => e.parentRelation == '')
+          .toList()
+          .toList()
+          .cast<ParentsDetailsStruct>();
+      _model.newparentList = _model.studentDetails!.parentsDetails
+          .where((e) => e.parentRelation != '')
+          .toList()
+          .toList()
+          .cast<ParentsDetailsStruct>();
+      safeSetState(() {});
       FFAppState().imageurl = '';
       FFAppState().profileimagechanged = false;
+      FFAppState().fileUrl = _model.studentDetails!.document;
+      FFAppState().fileurl1 =
+          _model.studentDetails!.parentsDetails.firstOrNull!.document;
+      FFAppState().fileurl2 = _model.studentDetails!.parentsDetails
+          .where((e) => e.parentRelation == '')
+          .toList()
+          .elementAtOrNull(1)!
+          .document;
+      FFAppState().parent1 =
+          _model.studentDetails!.parentsDetails.firstOrNull!.parentImage;
+      FFAppState().parent2 = _model.studentDetails!.parentsDetails
+          .where((e) => e.parentRelation == '')
+          .toList()
+          .elementAtOrNull(1)!
+          .parentImage;
       safeSetState(() {});
     });
 
@@ -1778,169 +1807,115 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                           alignment:
                                                               AlignmentDirectional(
                                                                   0.0, -1.0),
-                                                          child: Padding(
-                                                            padding:
-                                                                EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        0.0,
-                                                                        0.0,
-                                                                        0.0,
-                                                                        10.0),
-                                                            child:
-                                                                FFButtonWidget(
-                                                              onPressed:
-                                                                  () async {
-                                                                final selectedFiles =
-                                                                    await selectFiles(
-                                                                  multiFile:
-                                                                      false,
-                                                                );
-                                                                if (selectedFiles !=
-                                                                    null) {
-                                                                  safeSetState(() =>
-                                                                      _model.isDataUploading_newstudent1 =
-                                                                          true);
-                                                                  var selectedUploadedFiles =
-                                                                      <FFUploadedFile>[];
-
-                                                                  var downloadUrls =
-                                                                      <String>[];
-                                                                  try {
-                                                                    selectedUploadedFiles = selectedFiles
-                                                                        .map((m) => FFUploadedFile(
-                                                                              name: m.storagePath.split('/').last,
-                                                                              bytes: m.bytes,
-                                                                            ))
-                                                                        .toList();
-
-                                                                    downloadUrls = (await Future
-                                                                            .wait(
-                                                                      selectedFiles
-                                                                          .map(
-                                                                        (f) async => await uploadData(
-                                                                            f.storagePath,
-                                                                            f.bytes),
-                                                                      ),
-                                                                    ))
-                                                                        .where((u) =>
-                                                                            u !=
-                                                                            null)
-                                                                        .map((u) =>
-                                                                            u!)
-                                                                        .toList();
-                                                                  } finally {
-                                                                    _model.isDataUploading_newstudent1 =
-                                                                        false;
-                                                                  }
-                                                                  if (selectedUploadedFiles
-                                                                              .length ==
-                                                                          selectedFiles
-                                                                              .length &&
-                                                                      downloadUrls
-                                                                              .length ==
-                                                                          selectedFiles
-                                                                              .length) {
-                                                                    safeSetState(
-                                                                        () {
-                                                                      _model.uploadedLocalFile_newstudent1 =
-                                                                          selectedUploadedFiles
-                                                                              .first;
-                                                                      _model.uploadedFileUrl_newstudent1 =
-                                                                          downloadUrls
-                                                                              .first;
-                                                                    });
-                                                                  } else {
-                                                                    safeSetState(
-                                                                        () {});
-                                                                    return;
-                                                                  }
-                                                                }
-
-                                                                if (_model.uploadedFileUrl_newstudent1 !=
-                                                                        '') {
-                                                                  if (!functions
-                                                                      .isValidFileFormat(
-                                                                          _model
-                                                                              .uploadedFileUrl_newstudent1)) {
-                                                                    safeSetState(
-                                                                        () {
-                                                                      _model.isDataUploading_newstudent1 =
-                                                                          false;
-                                                                      _model.uploadedLocalFile_newstudent1 =
-                                                                          FFUploadedFile(
-                                                                              bytes: Uint8List.fromList([]));
-                                                                      _model.uploadedFileUrl_newstudent1 =
-                                                                          '';
-                                                                    });
-
-                                                                    await showDialog(
-                                                                      context:
-                                                                          context,
-                                                                      builder:
-                                                                          (alertDialogContext) {
-                                                                        return AlertDialog(
-                                                                          title:
-                                                                              Text('Please upload a valid document'),
-                                                                          content:
-                                                                              Text('Document format should be of image, pdf or word'),
-                                                                          actions: [
-                                                                            TextButton(
-                                                                              onPressed: () => Navigator.pop(alertDialogContext),
-                                                                              child: Text('Ok'),
+                                                          child: Builder(
+                                                            builder:
+                                                                (context) =>
+                                                                    Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          10.0),
+                                                              child:
+                                                                  FFButtonWidget(
+                                                                onPressed:
+                                                                    () async {
+                                                                  await showDialog(
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (dialogContext) {
+                                                                      return Dialog(
+                                                                        elevation:
+                                                                            0,
+                                                                        insetPadding:
+                                                                            EdgeInsets.zero,
+                                                                        backgroundColor:
+                                                                            Colors.transparent,
+                                                                        alignment:
+                                                                            AlignmentDirectional(0.0, 1.0).resolve(Directionality.of(context)),
+                                                                        child:
+                                                                            GestureDetector(
+                                                                          onTap:
+                                                                              () {
+                                                                            FocusScope.of(dialogContext).unfocus();
+                                                                            FocusManager.instance.primaryFocus?.unfocus();
+                                                                          },
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                MediaQuery.sizeOf(context).height * 0.25,
+                                                                            width:
+                                                                                MediaQuery.sizeOf(context).width * 1.0,
+                                                                            child:
+                                                                                ParentdocumentWidget(
+                                                                              child: true,
+                                                                              parent1: false,
                                                                             ),
-                                                                          ],
-                                                                        );
-                                                                      },
-                                                                    );
-                                                                  }
-                                                                }
-                                                              },
-                                                              text: (_model.uploadedFileUrl_newstudent1 ==
-                                                                              '') ||
-                                                                      (editClassStudentStudentsRecord.document ==
-                                                                              '')
-                                                                  ? 'Upload Document proof'
-                                                                  : 'Change Document proof',
-                                                              icon: Icon(
-                                                                Icons
-                                                                    .photo_outlined,
-                                                                size: 15.0,
-                                                              ),
-                                                              options:
-                                                                  FFButtonOptions(
-                                                                width: MediaQuery.sizeOf(
-                                                                            context)
-                                                                        .width *
-                                                                    0.6,
-                                                                height: MediaQuery.sizeOf(
-                                                                            context)
-                                                                        .height *
-                                                                    0.04,
-                                                                padding: EdgeInsetsDirectional
-                                                                    .fromSTEB(
-                                                                        16.0,
-                                                                        0.0,
-                                                                        16.0,
-                                                                        0.0),
-                                                                iconAlignment:
-                                                                    IconAlignment
-                                                                        .end,
-                                                                iconPadding:
-                                                                    EdgeInsetsDirectional
-                                                                        .fromSTEB(
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    },
+                                                                  );
+                                                                },
+                                                                text: (FFAppState().fileUrl ==
+                                                                                '') ||
+                                                                        (editClassStudentStudentsRecord.document ==
+                                                                                '')
+                                                                    ? 'Upload Document proof'
+                                                                    : 'Change Document proof',
+                                                                icon: Icon(
+                                                                  Icons
+                                                                      .photo_outlined,
+                                                                  size: 15.0,
+                                                                ),
+                                                                options:
+                                                                    FFButtonOptions(
+                                                                  width: MediaQuery.sizeOf(
+                                                                              context)
+                                                                          .width *
+                                                                      0.6,
+                                                                  height: MediaQuery.sizeOf(
+                                                                              context)
+                                                                          .height *
+                                                                      0.04,
+                                                                  padding: EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          16.0,
+                                                                          0.0,
+                                                                          16.0,
+                                                                          0.0),
+                                                                  iconAlignment:
+                                                                      IconAlignment
+                                                                          .end,
+                                                                  iconPadding: EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .secondary,
+                                                                  textStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .override(
+                                                                        font: GoogleFonts
+                                                                            .nunito(
+                                                                          fontWeight: FlutterFlowTheme.of(context)
+                                                                              .titleSmall
+                                                                              .fontWeight,
+                                                                          fontStyle: FlutterFlowTheme.of(context)
+                                                                              .titleSmall
+                                                                              .fontStyle,
+                                                                        ),
+                                                                        color: FlutterFlowTheme.of(context)
+                                                                            .primaryText,
+                                                                        letterSpacing:
                                                                             0.0,
-                                                                            0.0,
-                                                                            0.0,
-                                                                            0.0),
-                                                                color: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .secondary,
-                                                                textStyle: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .titleSmall
-                                                                    .override(
-                                                                      font: GoogleFonts
-                                                                          .nunito(
                                                                         fontWeight: FlutterFlowTheme.of(context)
                                                                             .titleSmall
                                                                             .fontWeight,
@@ -1948,32 +1923,20 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                                             .titleSmall
                                                                             .fontStyle,
                                                                       ),
-                                                                      color: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .primaryText,
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .titleSmall
-                                                                          .fontWeight,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .titleSmall
-                                                                          .fontStyle,
-                                                                    ),
-                                                                elevation: 0.0,
-                                                                borderSide:
-                                                                    BorderSide(
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .primary,
-                                                                  width: 0.5,
+                                                                  elevation:
+                                                                      0.0,
+                                                                  borderSide:
+                                                                      BorderSide(
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .primary,
+                                                                    width: 0.5,
+                                                                  ),
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              8.0),
                                                                 ),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8.0),
                                                               ),
                                                             ),
                                                           ),
@@ -1981,7 +1944,8 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                         if ((editClassStudentStudentsRecord
                                                                         .document !=
                                                                     '') ||
-                                                            (_model.uploadedFileUrl_newstudent1 !=
+                                                            (FFAppState()
+                                                                        .fileUrl !=
                                                                     ''))
                                                           Padding(
                                                             padding:
@@ -1995,11 +1959,12 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                                 FFButtonWidget(
                                                               onPressed:
                                                                   () async {
-                                                                if (_model.uploadedFileUrl_newstudent1 !=
+                                                                if (FFAppState()
+                                                                            .fileUrl !=
                                                                         '') {
                                                                   await launchURL(
-                                                                      _model
-                                                                          .uploadedFileUrl_newstudent1);
+                                                                      FFAppState()
+                                                                          .fileUrl);
                                                                 } else {
                                                                   await launchURL(
                                                                       editClassStudentStudentsRecord
@@ -2593,6 +2558,121 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                         mainAxisSize:
                                                             MainAxisSize.max,
                                                         children: [
+                                                          Align(
+                                                            alignment:
+                                                                AlignmentDirectional(
+                                                                    0.0, -1.0),
+                                                            child: Padding(
+                                                              padding:
+                                                                  EdgeInsetsDirectional
+                                                                      .fromSTEB(
+                                                                          0.0,
+                                                                          10.0,
+                                                                          0.0,
+                                                                          0.0),
+                                                              child: InkWell(
+                                                                splashColor: Colors
+                                                                    .transparent,
+                                                                focusColor: Colors
+                                                                    .transparent,
+                                                                hoverColor: Colors
+                                                                    .transparent,
+                                                                highlightColor:
+                                                                    Colors
+                                                                        .transparent,
+                                                                onTap:
+                                                                    () async {
+                                                                  await showModalBottomSheet(
+                                                                    isScrollControlled:
+                                                                        true,
+                                                                    backgroundColor:
+                                                                        Colors
+                                                                            .transparent,
+                                                                    enableDrag:
+                                                                        false,
+                                                                    context:
+                                                                        context,
+                                                                    builder:
+                                                                        (context) {
+                                                                      return GestureDetector(
+                                                                        onTap:
+                                                                            () {
+                                                                          FocusScope.of(context)
+                                                                              .unfocus();
+                                                                          FocusManager
+                                                                              .instance
+                                                                              .primaryFocus
+                                                                              ?.unfocus();
+                                                                        },
+                                                                        child:
+                                                                            Padding(
+                                                                          padding:
+                                                                              MediaQuery.viewInsetsOf(context),
+                                                                          child:
+                                                                              Container(
+                                                                            height:
+                                                                                MediaQuery.sizeOf(context).height * 0.2,
+                                                                            child:
+                                                                                ParentphotoWidget(
+                                                                              parent2: false,
+                                                                              parent1: true,
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      );
+                                                                    },
+                                                                  ).then((value) =>
+                                                                      safeSetState(
+                                                                          () {}));
+                                                                },
+                                                                child:
+                                                                    Container(
+                                                                  width: MediaQuery.sizeOf(
+                                                                              context)
+                                                                          .width *
+                                                                      0.3,
+                                                                  height: MediaQuery.sizeOf(
+                                                                              context)
+                                                                          .width *
+                                                                      0.3,
+                                                                  clipBehavior:
+                                                                      Clip.antiAlias,
+                                                                  decoration:
+                                                                      BoxDecoration(
+                                                                    shape: BoxShape
+                                                                        .circle,
+                                                                  ),
+                                                                  child: Image
+                                                                      .network(
+                                                                    valueOrDefault<
+                                                                        String>(
+                                                                      () {
+                                                                        if (FFAppState().parent1 !=
+                                                                                '') {
+                                                                          return FFAppState()
+                                                                              .parent1;
+                                                                        } else if (editClassStudentStudentsRecord.parentsDetails.firstOrNull?.parentImage !=
+                                                                                null &&
+                                                                            editClassStudentStudentsRecord.parentsDetails.firstOrNull?.parentImage !=
+                                                                                '') {
+                                                                          return editClassStudentStudentsRecord
+                                                                              .parentsDetails
+                                                                              .firstOrNull
+                                                                              ?.parentImage;
+                                                                        } else {
+                                                                          return FFAppConstants
+                                                                              .addImage;
+                                                                        }
+                                                                      }(),
+                                                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
+                                                                    ),
+                                                                    fit: BoxFit
+                                                                        .cover,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
                                                           Align(
                                                             alignment:
                                                                 AlignmentDirectional(
@@ -3292,158 +3372,109 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                             alignment:
                                                                 AlignmentDirectional(
                                                                     0.0, -1.0),
-                                                            child: Padding(
-                                                              padding:
-                                                                  EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          10.0),
-                                                              child:
-                                                                  FFButtonWidget(
-                                                                onPressed:
-                                                                    () async {
-                                                                  final selectedFiles =
-                                                                      await selectFiles(
-                                                                    multiFile:
-                                                                        false,
-                                                                  );
-                                                                  if (selectedFiles !=
-                                                                      null) {
-                                                                    safeSetState(() =>
-                                                                        _model.isDataUploading_edit1 =
-                                                                            true);
-                                                                    var selectedUploadedFiles =
-                                                                        <FFUploadedFile>[];
-
-                                                                    var downloadUrls =
-                                                                        <String>[];
-                                                                    try {
-                                                                      selectedUploadedFiles = selectedFiles
-                                                                          .map((m) => FFUploadedFile(
-                                                                                name: m.storagePath.split('/').last,
-                                                                                bytes: m.bytes,
-                                                                              ))
-                                                                          .toList();
-
-                                                                      downloadUrls = (await Future
-                                                                              .wait(
-                                                                        selectedFiles
-                                                                            .map(
-                                                                          (f) async => await uploadData(
-                                                                              f.storagePath,
-                                                                              f.bytes),
-                                                                        ),
-                                                                      ))
-                                                                          .where((u) =>
-                                                                              u !=
-                                                                              null)
-                                                                          .map((u) =>
-                                                                              u!)
-                                                                          .toList();
-                                                                    } finally {
-                                                                      _model.isDataUploading_edit1 =
-                                                                          false;
-                                                                    }
-                                                                    if (selectedUploadedFiles.length ==
-                                                                            selectedFiles
-                                                                                .length &&
-                                                                        downloadUrls.length ==
-                                                                            selectedFiles.length) {
-                                                                      safeSetState(
-                                                                          () {
-                                                                        _model.uploadedLocalFile_edit1 =
-                                                                            selectedUploadedFiles.first;
-                                                                        _model.uploadedFileUrl_edit1 =
-                                                                            downloadUrls.first;
-                                                                      });
-                                                                    } else {
-                                                                      safeSetState(
-                                                                          () {});
-                                                                      return;
-                                                                    }
-                                                                  }
-
-                                                                  if (!functions
-                                                                      .isValidFileFormat(
-                                                                          _model
-                                                                              .uploadedFileUrl_edit1)) {
-                                                                    safeSetState(
-                                                                        () {
-                                                                      _model.isDataUploading_edit1 =
-                                                                          false;
-                                                                      _model.uploadedLocalFile_edit1 =
-                                                                          FFUploadedFile(
-                                                                              bytes: Uint8List.fromList([]));
-                                                                      _model.uploadedFileUrl_edit1 =
-                                                                          '';
-                                                                    });
-
+                                                            child: Builder(
+                                                              builder:
+                                                                  (context) =>
+                                                                      Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            10.0),
+                                                                child:
+                                                                    FFButtonWidget(
+                                                                  onPressed:
+                                                                      () async {
                                                                     await showDialog(
                                                                       context:
                                                                           context,
                                                                       builder:
-                                                                          (alertDialogContext) {
-                                                                        return AlertDialog(
-                                                                          title:
-                                                                              Text('Please upload a valid document'),
-                                                                          content:
-                                                                              Text('Document format should be of image, pdf or word'),
-                                                                          actions: [
-                                                                            TextButton(
-                                                                              onPressed: () => Navigator.pop(alertDialogContext),
-                                                                              child: Text('Ok'),
+                                                                          (dialogContext) {
+                                                                        return Dialog(
+                                                                          elevation:
+                                                                              0,
+                                                                          insetPadding:
+                                                                              EdgeInsets.zero,
+                                                                          backgroundColor:
+                                                                              Colors.transparent,
+                                                                          alignment:
+                                                                              AlignmentDirectional(0.0, 1.0).resolve(Directionality.of(context)),
+                                                                          child:
+                                                                              GestureDetector(
+                                                                            onTap:
+                                                                                () {
+                                                                              FocusScope.of(dialogContext).unfocus();
+                                                                              FocusManager.instance.primaryFocus?.unfocus();
+                                                                            },
+                                                                            child:
+                                                                                Container(
+                                                                              height: MediaQuery.sizeOf(context).height * 0.25,
+                                                                              width: MediaQuery.sizeOf(context).width * 1.0,
+                                                                              child: ParentdocumentWidget(
+                                                                                child: false,
+                                                                                parent1: true,
+                                                                              ),
                                                                             ),
-                                                                          ],
+                                                                          ),
                                                                         );
                                                                       },
                                                                     );
-                                                                  }
-                                                                },
-                                                                text: _model.uploadedFileUrl_edit1 ==
-                                                                            ''
-                                                                    ? 'Upload the document proof'
-                                                                    : 'Change the document proof',
-                                                                icon: Icon(
-                                                                  Icons
-                                                                      .photo_outlined,
-                                                                  size: 20.0,
-                                                                ),
-                                                                options:
-                                                                    FFButtonOptions(
-                                                                  width: MediaQuery.sizeOf(
+                                                                  },
+                                                                  text: FFAppState().fileurl1 ==
+                                                                              ''
+                                                                      ? 'Upload the document proof'
+                                                                      : 'Change the document proof',
+                                                                  icon: Icon(
+                                                                    Icons
+                                                                        .photo_outlined,
+                                                                    size: 20.0,
+                                                                  ),
+                                                                  options:
+                                                                      FFButtonOptions(
+                                                                    width: MediaQuery.sizeOf(context)
+                                                                            .width *
+                                                                        0.7,
+                                                                    height: MediaQuery.sizeOf(context)
+                                                                            .height *
+                                                                        0.04,
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            16.0,
+                                                                            0.0,
+                                                                            16.0,
+                                                                            0.0),
+                                                                    iconAlignment:
+                                                                        IconAlignment
+                                                                            .end,
+                                                                    iconPadding:
+                                                                        EdgeInsetsDirectional.fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                    color: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .secondary,
+                                                                    textStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .titleSmall
+                                                                        .override(
+                                                                      font: GoogleFonts
+                                                                          .nunito(
+                                                                        fontWeight: FlutterFlowTheme.of(context)
+                                                                            .titleSmall
+                                                                            .fontWeight,
+                                                                        fontStyle: FlutterFlowTheme.of(context)
+                                                                            .titleSmall
+                                                                            .fontStyle,
+                                                                      ),
+                                                                      color: FlutterFlowTheme.of(
                                                                               context)
-                                                                          .width *
-                                                                      0.7,
-                                                                  height: MediaQuery.sizeOf(
-                                                                              context)
-                                                                          .height *
-                                                                      0.04,
-                                                                  padding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          16.0,
+                                                                          .primaryText,
+                                                                      letterSpacing:
                                                                           0.0,
-                                                                          16.0,
-                                                                          0.0),
-                                                                  iconAlignment:
-                                                                      IconAlignment
-                                                                          .end,
-                                                                  iconPadding: EdgeInsetsDirectional
-                                                                      .fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0),
-                                                                  color: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .secondary,
-                                                                  textStyle: FlutterFlowTheme.of(
-                                                                          context)
-                                                                      .titleSmall
-                                                                      .override(
-                                                                    font: GoogleFonts
-                                                                        .nunito(
                                                                       fontWeight: FlutterFlowTheme.of(
                                                                               context)
                                                                           .titleSmall
@@ -3452,50 +3483,38 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                                               context)
                                                                           .titleSmall
                                                                           .fontStyle,
+                                                                      shadows: [
+                                                                        Shadow(
+                                                                          color:
+                                                                              Color(0xFFF4F5FA),
+                                                                          offset: Offset(
+                                                                              0.0,
+                                                                              -3.0),
+                                                                          blurRadius:
+                                                                              6.0,
+                                                                        )
+                                                                      ],
                                                                     ),
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primaryText,
-                                                                    letterSpacing:
+                                                                    elevation:
                                                                         0.0,
-                                                                    fontWeight: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontWeight,
-                                                                    fontStyle: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .titleSmall
-                                                                        .fontStyle,
-                                                                    shadows: [
-                                                                      Shadow(
-                                                                        color: Color(
-                                                                            0xFFF4F5FA),
-                                                                        offset: Offset(
-                                                                            0.0,
-                                                                            -3.0),
-                                                                        blurRadius:
-                                                                            6.0,
-                                                                      )
-                                                                    ],
+                                                                    borderSide:
+                                                                        BorderSide(
+                                                                      color: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .primary,
+                                                                      width:
+                                                                          0.5,
+                                                                    ),
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            8.0),
                                                                   ),
-                                                                  elevation:
-                                                                      0.0,
-                                                                  borderSide:
-                                                                      BorderSide(
-                                                                    color: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .primary,
-                                                                    width: 0.5,
-                                                                  ),
-                                                                  borderRadius:
-                                                                      BorderRadius
-                                                                          .circular(
-                                                                              8.0),
                                                                 ),
                                                               ),
                                                             ),
                                                           ),
-                                                          if (_model.uploadedFileUrl_edit1 !=
+                                                          if (FFAppState()
+                                                                      .fileurl2 !=
                                                                   '')
                                                             Align(
                                                               alignment:
@@ -3507,8 +3526,8 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                                 onPressed:
                                                                     () async {
                                                                   await launchURL(
-                                                                      _model
-                                                                          .uploadedFileUrl_edit1);
+                                                                      FFAppState()
+                                                                          .fileurl1);
                                                                 },
                                                                 text:
                                                                     'View file',
@@ -3661,6 +3680,94 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                                               fontWeight: FontWeight.bold,
                                                                               fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                             ),
+                                                                      ),
+                                                                    ),
+                                                                  ),
+                                                                  Padding(
+                                                                    padding: EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            10.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                    child:
+                                                                        InkWell(
+                                                                      splashColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      focusColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      hoverColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      highlightColor:
+                                                                          Colors
+                                                                              .transparent,
+                                                                      onTap:
+                                                                          () async {
+                                                                        await showModalBottomSheet(
+                                                                          isScrollControlled:
+                                                                              true,
+                                                                          backgroundColor:
+                                                                              Colors.transparent,
+                                                                          enableDrag:
+                                                                              false,
+                                                                          context:
+                                                                              context,
+                                                                          builder:
+                                                                              (context) {
+                                                                            return GestureDetector(
+                                                                              onTap: () {
+                                                                                FocusScope.of(context).unfocus();
+                                                                                FocusManager.instance.primaryFocus?.unfocus();
+                                                                              },
+                                                                              child: Padding(
+                                                                                padding: MediaQuery.viewInsetsOf(context),
+                                                                                child: Container(
+                                                                                  height: MediaQuery.sizeOf(context).height * 0.2,
+                                                                                  child: ParentphotoWidget(
+                                                                                    parent2: true,
+                                                                                    parent1: false,
+                                                                                  ),
+                                                                                ),
+                                                                              ),
+                                                                            );
+                                                                          },
+                                                                        ).then((value) =>
+                                                                            safeSetState(() {}));
+                                                                      },
+                                                                      child:
+                                                                          Container(
+                                                                        width: MediaQuery.sizeOf(context).width *
+                                                                            0.3,
+                                                                        height: MediaQuery.sizeOf(context).width *
+                                                                            0.3,
+                                                                        clipBehavior:
+                                                                            Clip.antiAlias,
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          shape:
+                                                                              BoxShape.circle,
+                                                                        ),
+                                                                        child: Image
+                                                                            .network(
+                                                                          valueOrDefault<
+                                                                              String>(
+                                                                            () {
+                                                                              if (FFAppState().parent2 != '') {
+                                                                                return FFAppState().parent2;
+                                                                              } else if (editClassStudentStudentsRecord.parentsDetails.elementAtOrNull(1)?.parentImage != null && editClassStudentStudentsRecord.parentsDetails.elementAtOrNull(1)?.parentImage != '') {
+                                                                                return editClassStudentStudentsRecord.parentsDetails.elementAtOrNull(1)?.parentImage;
+                                                                              } else {
+                                                                                return FFAppConstants.addImage;
+                                                                              }
+                                                                            }(),
+                                                                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
+                                                                          ),
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                        ),
                                                                       ),
                                                                     ),
                                                                   ),
@@ -4083,6 +4190,8 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                                               fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
                                                                               fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                             ),
+                                                                        keyboardType:
+                                                                            TextInputType.emailAddress,
                                                                         cursorColor:
                                                                             FlutterFlowTheme.of(context).primaryText,
                                                                         validator: _model
@@ -4097,156 +4206,108 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                                             0.0,
                                                                             -1.0),
                                                                     child:
-                                                                        Padding(
-                                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                                          0.0,
-                                                                          0.0,
-                                                                          0.0,
-                                                                          10.0),
-                                                                      child:
-                                                                          FFButtonWidget(
-                                                                        onPressed:
-                                                                            () async {
-                                                                          final selectedFiles =
-                                                                              await selectFiles(
-                                                                            multiFile:
-                                                                                false,
-                                                                          );
-                                                                          if (selectedFiles !=
-                                                                              null) {
-                                                                            safeSetState(() =>
-                                                                                _model.isDataUploading_editMother1 = true);
-                                                                            var selectedUploadedFiles =
-                                                                                <FFUploadedFile>[];
-
-                                                                            var downloadUrls =
-                                                                                <String>[];
-                                                                            try {
-                                                                              selectedUploadedFiles = selectedFiles
-                                                                                  .map((m) => FFUploadedFile(
-                                                                                        name: m.storagePath.split('/').last,
-                                                                                        bytes: m.bytes,
-                                                                                      ))
-                                                                                  .toList();
-
-                                                                              downloadUrls = (await Future.wait(
-                                                                                selectedFiles.map(
-                                                                                  (f) async => await uploadData(f.storagePath, f.bytes),
-                                                                                ),
-                                                                              ))
-                                                                                  .where((u) => u != null)
-                                                                                  .map((u) => u!)
-                                                                                  .toList();
-                                                                            } finally {
-                                                                              _model.isDataUploading_editMother1 = false;
-                                                                            }
-                                                                            if (selectedUploadedFiles.length == selectedFiles.length &&
-                                                                                downloadUrls.length == selectedFiles.length) {
-                                                                              safeSetState(() {
-                                                                                _model.uploadedLocalFile_editMother1 = selectedUploadedFiles.first;
-                                                                                _model.uploadedFileUrl_editMother1 = downloadUrls.first;
-                                                                              });
-                                                                            } else {
-                                                                              safeSetState(() {});
-                                                                              return;
-                                                                            }
-                                                                          }
-
-                                                                          if (!functions
-                                                                              .isValidFileFormat(_model.uploadedFileUrl_editMother1)) {
-                                                                            safeSetState(() {
-                                                                              _model.isDataUploading_editMother1 = false;
-                                                                              _model.uploadedLocalFile_editMother1 = FFUploadedFile(bytes: Uint8List.fromList([]));
-                                                                              _model.uploadedFileUrl_editMother1 = '';
-                                                                            });
-
+                                                                        Builder(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            0.0,
+                                                                            10.0),
+                                                                        child:
+                                                                            FFButtonWidget(
+                                                                          onPressed:
+                                                                              () async {
                                                                             await showDialog(
                                                                               context: context,
-                                                                              builder: (alertDialogContext) {
-                                                                                return AlertDialog(
-                                                                                  title: Text('Please upload a valid document'),
-                                                                                  content: Text('Document format should be of image, pdf or word'),
-                                                                                  actions: [
-                                                                                    TextButton(
-                                                                                      onPressed: () => Navigator.pop(alertDialogContext),
-                                                                                      child: Text('Ok'),
+                                                                              builder: (dialogContext) {
+                                                                                return Dialog(
+                                                                                  elevation: 0,
+                                                                                  insetPadding: EdgeInsets.zero,
+                                                                                  backgroundColor: Colors.transparent,
+                                                                                  alignment: AlignmentDirectional(0.0, 1.0).resolve(Directionality.of(context)),
+                                                                                  child: GestureDetector(
+                                                                                    onTap: () {
+                                                                                      FocusScope.of(dialogContext).unfocus();
+                                                                                      FocusManager.instance.primaryFocus?.unfocus();
+                                                                                    },
+                                                                                    child: Container(
+                                                                                      height: MediaQuery.sizeOf(context).height * 0.25,
+                                                                                      width: MediaQuery.sizeOf(context).width * 1.0,
+                                                                                      child: ParentdocumentWidget(
+                                                                                        child: false,
+                                                                                        parent1: true,
+                                                                                      ),
                                                                                     ),
-                                                                                  ],
+                                                                                  ),
                                                                                 );
                                                                               },
                                                                             );
-                                                                          }
-                                                                        },
-                                                                        text: _model.uploadedFileUrl_editMother1 == ''
-                                                                            ? 'Upload the document proof'
-                                                                            : 'Change the document proof',
-                                                                        icon:
-                                                                            Icon(
-                                                                          Icons
-                                                                              .photo_outlined,
-                                                                          size:
-                                                                              20.0,
-                                                                        ),
-                                                                        options:
-                                                                            FFButtonOptions(
-                                                                          width:
-                                                                              MediaQuery.sizeOf(context).width * 0.7,
-                                                                          height:
-                                                                              MediaQuery.sizeOf(context).height * 0.04,
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              16.0,
-                                                                              0.0,
-                                                                              16.0,
-                                                                              0.0),
-                                                                          iconAlignment:
-                                                                              IconAlignment.end,
-                                                                          iconPadding: EdgeInsetsDirectional.fromSTEB(
-                                                                              0.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              0.0),
-                                                                          color:
-                                                                              FlutterFlowTheme.of(context).secondary,
-                                                                          textStyle: FlutterFlowTheme.of(context)
-                                                                              .titleSmall
-                                                                              .override(
-                                                                            font:
-                                                                                GoogleFonts.nunito(
+                                                                          },
+                                                                          text: FFAppState().fileurl2 == ''
+                                                                              ? 'Upload the document proof'
+                                                                              : 'Change the document proof',
+                                                                          icon:
+                                                                              Icon(
+                                                                            Icons.photo_outlined,
+                                                                            size:
+                                                                                20.0,
+                                                                          ),
+                                                                          options:
+                                                                              FFButtonOptions(
+                                                                            width:
+                                                                                MediaQuery.sizeOf(context).width * 0.7,
+                                                                            height:
+                                                                                MediaQuery.sizeOf(context).height * 0.04,
+                                                                            padding: EdgeInsetsDirectional.fromSTEB(
+                                                                                16.0,
+                                                                                0.0,
+                                                                                16.0,
+                                                                                0.0),
+                                                                            iconAlignment:
+                                                                                IconAlignment.end,
+                                                                            iconPadding: EdgeInsetsDirectional.fromSTEB(
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0,
+                                                                                0.0),
+                                                                            color:
+                                                                                FlutterFlowTheme.of(context).secondary,
+                                                                            textStyle:
+                                                                                FlutterFlowTheme.of(context).titleSmall.override(
+                                                                              font: GoogleFonts.nunito(
+                                                                                fontWeight: FlutterFlowTheme.of(context).titleSmall.fontWeight,
+                                                                                fontStyle: FlutterFlowTheme.of(context).titleSmall.fontStyle,
+                                                                              ),
+                                                                              color: FlutterFlowTheme.of(context).primaryText,
+                                                                              letterSpacing: 0.0,
                                                                               fontWeight: FlutterFlowTheme.of(context).titleSmall.fontWeight,
                                                                               fontStyle: FlutterFlowTheme.of(context).titleSmall.fontStyle,
+                                                                              shadows: [
+                                                                                Shadow(
+                                                                                  color: Color(0xFFF4F5FA),
+                                                                                  offset: Offset(0.0, -3.0),
+                                                                                  blurRadius: 6.0,
+                                                                                )
+                                                                              ],
                                                                             ),
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).primaryText,
-                                                                            letterSpacing:
+                                                                            elevation:
                                                                                 0.0,
-                                                                            fontWeight:
-                                                                                FlutterFlowTheme.of(context).titleSmall.fontWeight,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).titleSmall.fontStyle,
-                                                                            shadows: [
-                                                                              Shadow(
-                                                                                color: Color(0xFFF4F5FA),
-                                                                                offset: Offset(0.0, -3.0),
-                                                                                blurRadius: 6.0,
-                                                                              )
-                                                                            ],
+                                                                            borderSide:
+                                                                                BorderSide(
+                                                                              color: FlutterFlowTheme.of(context).primary,
+                                                                              width: 0.5,
+                                                                            ),
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(8.0),
                                                                           ),
-                                                                          elevation:
-                                                                              0.0,
-                                                                          borderSide:
-                                                                              BorderSide(
-                                                                            color:
-                                                                                FlutterFlowTheme.of(context).primary,
-                                                                            width:
-                                                                                0.5,
-                                                                          ),
-                                                                          borderRadius:
-                                                                              BorderRadius.circular(8.0),
                                                                         ),
                                                                       ),
                                                                     ),
                                                                   ),
-                                                                  if (_model.uploadedFileUrl_editMother1 !=
+                                                                  if (FFAppState()
+                                                                              .fileurl2 !=
                                                                           '')
                                                                     Align(
                                                                       alignment:
@@ -4258,7 +4319,7 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                                         onPressed:
                                                                             () async {
                                                                           await launchURL(
-                                                                              _model.uploadedFileUrl_editMother1);
+                                                                              FFAppState().fileurl2);
                                                                         },
                                                                         text:
                                                                             'View file',
@@ -4891,6 +4952,109 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                       mainAxisSize:
                                                           MainAxisSize.max,
                                                       children: [
+                                                        Align(
+                                                          alignment:
+                                                              AlignmentDirectional(
+                                                                  0.0, -1.0),
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        0.0,
+                                                                        10.0,
+                                                                        0.0,
+                                                                        0.0),
+                                                            child: InkWell(
+                                                              splashColor: Colors
+                                                                  .transparent,
+                                                              focusColor: Colors
+                                                                  .transparent,
+                                                              hoverColor: Colors
+                                                                  .transparent,
+                                                              highlightColor:
+                                                                  Colors
+                                                                      .transparent,
+                                                              onTap: () async {
+                                                                await showModalBottomSheet(
+                                                                  isScrollControlled:
+                                                                      true,
+                                                                  backgroundColor:
+                                                                      Colors
+                                                                          .transparent,
+                                                                  enableDrag:
+                                                                      false,
+                                                                  context:
+                                                                      context,
+                                                                  builder:
+                                                                      (context) {
+                                                                    return GestureDetector(
+                                                                      onTap:
+                                                                          () {
+                                                                        FocusScope.of(context)
+                                                                            .unfocus();
+                                                                        FocusManager
+                                                                            .instance
+                                                                            .primaryFocus
+                                                                            ?.unfocus();
+                                                                      },
+                                                                      child:
+                                                                          Padding(
+                                                                        padding:
+                                                                            MediaQuery.viewInsetsOf(context),
+                                                                        child:
+                                                                            Container(
+                                                                          height:
+                                                                              MediaQuery.sizeOf(context).height * 0.2,
+                                                                          child:
+                                                                              ParentphotoWidget(
+                                                                            parent2:
+                                                                                false,
+                                                                            parent1:
+                                                                                false,
+                                                                          ),
+                                                                        ),
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                ).then((value) =>
+                                                                    safeSetState(
+                                                                        () {}));
+                                                              },
+                                                              child: Container(
+                                                                width: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .width *
+                                                                    0.3,
+                                                                height: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .width *
+                                                                    0.3,
+                                                                clipBehavior: Clip
+                                                                    .antiAlias,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                ),
+                                                                child: Image
+                                                                    .network(
+                                                                  valueOrDefault<
+                                                                      String>(
+                                                                    FFAppState().guardian !=
+                                                                                ''
+                                                                        ? FFAppState()
+                                                                            .parent1
+                                                                        : FFAppConstants
+                                                                            .addImage,
+                                                                    'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
+                                                                  ),
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
                                                         Padding(
                                                           padding:
                                                               EdgeInsetsDirectional
@@ -5518,6 +5682,9 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                                         .bodyMedium
                                                                         .fontStyle,
                                                                   ),
+                                                              keyboardType:
+                                                                  TextInputType
+                                                                      .emailAddress,
                                                               cursorColor:
                                                                   FlutterFlowTheme.of(
                                                                           context)
@@ -5543,9 +5710,6 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                                               TextCapitalization.none),
                                                                     );
                                                                   }),
-                                                                FilteringTextInputFormatter
-                                                                    .allow(RegExp(
-                                                                        '[a-z0-9@.]'))
                                                               ],
                                                             ),
                                                           ),
@@ -5566,18 +5730,16 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                         0.0, 10.0, 0.0, 10.0),
                                                 child: FFButtonWidget(
                                                   onPressed: () async {
-                                                    if (_model.formKey4
-                                                                .currentState ==
-                                                            null ||
-                                                        !_model.formKey4
-                                                            .currentState!
-                                                            .validate()) {
-                                                      return;
-                                                    }
-                                                    _model.parent2 =
-                                                        await CreateAccountCall
-                                                            .call(
-                                                      email: functions
+                                                    _model.addToNewparentList(
+                                                        ParentsDetailsStruct(
+                                                      parentsId: functions
+                                                          .generateUniqueId(),
+                                                      parentsName: _model
+                                                          .gnameTextController
+                                                          .text,
+                                                      parentImage:
+                                                          FFAppState().guardian,
+                                                      parentsEmail: functions
                                                               .isValidEmail(_model
                                                                   .gemailTextController
                                                                   .text)
@@ -5585,113 +5747,12 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                                               .gemailTextController
                                                               .text
                                                           : '${_model.gemailTextController.text}@feebe.in',
-                                                      displayName: _model
-                                                          .gnameTextController
-                                                          .text,
-                                                      userRole: 4,
-                                                      phoneNumber: _model
+                                                      parentsPhone: _model
                                                           .gnumberTextController
                                                           .text,
-                                                      password: _model
-                                                          .gnumberTextController
-                                                          .text,
-                                                    );
-
-                                                    if ((_model.parent2
-                                                            ?.succeeded ??
-                                                        true)) {
-                                                      _model.motherUSer =
-                                                          await queryUsersRecordOnce(
-                                                        queryBuilder:
-                                                            (usersRecord) =>
-                                                                usersRecord
-                                                                    .where(
-                                                          'email',
-                                                          isEqualTo: functions
-                                                                  .isValidEmail(
-                                                                      _model
-                                                                          .gemailTextController
-                                                                          .text)
-                                                              ? _model
-                                                                  .gemailTextController
-                                                                  .text
-                                                              : '${_model.gemailTextController.text}@feebe.in',
-                                                        ),
-                                                        singleRecord: true,
-                                                      ).then((s) =>
-                                                              s.firstOrNull);
-                                                      _model.addToParentdetails(
-                                                          ParentsDetailsStruct(
-                                                        parentsId: functions
-                                                            .generateUniqueId(),
-                                                        parentsName: _model
-                                                            .motherUSer
-                                                            ?.displayName,
-                                                        parentsEmail: _model
-                                                            .motherUSer?.email,
-                                                        parentsPhone: _model
-                                                            .motherUSer
-                                                            ?.phoneNumber,
-                                                        userRef: _model
-                                                            .motherUSer
-                                                            ?.reference,
-                                                        isemail: functions
-                                                                .isValidEmail(_model
-                                                                    .gemailTextController
-                                                                    .text)
-                                                            ? true
-                                                            : false,
-                                                        parentRelation:
-                                                            'Guardian',
-                                                      ));
-                                                      safeSetState(() {});
-
-                                                      await _model
-                                                          .motherUSer!.reference
-                                                          .update(
-                                                              createUsersRecordData(
-                                                        isemail: functions
-                                                            .isValidEmail(_model
-                                                                .gemailTextController
-                                                                .text),
-                                                      ));
-                                                      safeSetState(() {
-                                                        _model
-                                                            .gnumberTextController
-                                                            ?.clear();
-                                                        _model
-                                                            .gemailTextController
-                                                            ?.clear();
-                                                        _model
-                                                            .gnameTextController
-                                                            ?.clear();
-                                                      });
-                                                    } else {
-                                                      ScaffoldMessenger.of(
-                                                              context)
-                                                          .showSnackBar(
-                                                        SnackBar(
-                                                          content: Text(
-                                                            (_model.parent2
-                                                                    ?.exceptionMessage ??
-                                                                ''),
-                                                            style: TextStyle(
-                                                              color: FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .primaryText,
-                                                            ),
-                                                          ),
-                                                          duration: Duration(
-                                                              milliseconds:
-                                                                  4000),
-                                                          backgroundColor:
-                                                              FlutterFlowTheme.of(
-                                                                      context)
-                                                                  .secondary,
-                                                        ),
-                                                      );
-                                                    }
-
+                                                      parentRelation:
+                                                          'Gaurdian',
+                                                    ));
                                                     safeSetState(() {});
                                                   },
                                                   text: 'Add Another',
@@ -6533,6 +6594,394 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                             ),
                                           ),
                                         ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsetsDirectional.fromSTEB(
+                                                  0.0, 10.0, 0.0, 0.0),
+                                          child: StreamBuilder<SchoolRecord>(
+                                            stream: SchoolRecord.getDocument(
+                                                widget.schoolref!),
+                                            builder: (context, snapshot) {
+                                              // Customize what your widget looks like when it's loading.
+                                              if (!snapshot.hasData) {
+                                                return Center(
+                                                  child: SizedBox(
+                                                    width: 50.0,
+                                                    height: 50.0,
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      valueColor:
+                                                          AlwaysStoppedAnimation<
+                                                              Color>(
+                                                        FlutterFlowTheme.of(
+                                                                context)
+                                                            .primary,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              }
+
+                                              final containerSchoolRecord =
+                                                  snapshot.data!;
+
+                                              return Container(
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        1.0,
+                                                height:
+                                                    MediaQuery.sizeOf(context)
+                                                            .height *
+                                                        0.75,
+                                                decoration: BoxDecoration(
+                                                  color: FlutterFlowTheme.of(
+                                                          context)
+                                                      .tertiary,
+                                                ),
+                                                child: SingleChildScrollView(
+                                                  child: Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      Text(
+                                                        'Select class',
+                                                        style:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .override(
+                                                                  font: GoogleFonts
+                                                                      .nunito(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w600,
+                                                                    fontStyle: FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .bodyMedium
+                                                                        .fontStyle,
+                                                                  ),
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .tertiaryText,
+                                                                  fontSize:
+                                                                      20.0,
+                                                                  letterSpacing:
+                                                                      0.0,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .bodyMedium
+                                                                      .fontStyle,
+                                                                ),
+                                                      ),
+                                                      if ((_model.everyone ==
+                                                              0) ||
+                                                          (_model.everyone ==
+                                                              1))
+                                                        Padding(
+                                                          padding:
+                                                              EdgeInsetsDirectional
+                                                                  .fromSTEB(
+                                                                      10.0,
+                                                                      0.0,
+                                                                      10.0,
+                                                                      12.0),
+                                                          child: InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () async {
+                                                              if (_model
+                                                                      .everyone ==
+                                                                  1) {
+                                                                _model.everyone =
+                                                                    0;
+                                                                safeSetState(
+                                                                    () {});
+                                                              } else {
+                                                                _model.everyone =
+                                                                    1;
+                                                                safeSetState(
+                                                                    () {});
+                                                              }
+                                                            },
+                                                            child: Material(
+                                                              color: Colors
+                                                                  .transparent,
+                                                              elevation: 5.0,
+                                                              shape:
+                                                                  RoundedRectangleBorder(
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            14.0),
+                                                              ),
+                                                              child: Container(
+                                                                width: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .width *
+                                                                    0.9,
+                                                                height: MediaQuery.sizeOf(
+                                                                            context)
+                                                                        .height *
+                                                                    0.1,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  color: _model
+                                                                              .everyone ==
+                                                                          1
+                                                                      ? FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .lightblue
+                                                                      : FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .secondaryBackground,
+                                                                  borderRadius:
+                                                                      BorderRadius
+                                                                          .circular(
+                                                                              14.0),
+                                                                  border: Border
+                                                                      .all(
+                                                                    color: Color(
+                                                                        0xFFDDF1F6),
+                                                                  ),
+                                                                ),
+                                                                child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceEvenly,
+                                                                  children: [
+                                                                    Text(
+                                                                      'Everyone',
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            font:
+                                                                                GoogleFonts.nunito(
+                                                                              fontWeight: FontWeight.bold,
+                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                            ),
+                                                                            color:
+                                                                                FlutterFlowTheme.of(context).primary,
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                            fontWeight:
+                                                                                FontWeight.bold,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
+                                                                    ),
+                                                                    Text(
+                                                                      'Student : ${containerSchoolRecord.studentDataList.where((e) => e.isDraft == false).toList().length.toString()}',
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            font:
+                                                                                GoogleFonts.nunito(
+                                                                              fontWeight: FontWeight.w500,
+                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                            ),
+                                                                            color:
+                                                                                FlutterFlowTheme.of(context).tertiaryText,
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                            fontWeight:
+                                                                                FontWeight.w500,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      if ((_model.everyone ==
+                                                              0) ||
+                                                          (_model.everyone ==
+                                                              2))
+                                                        Align(
+                                                          alignment:
+                                                              AlignmentDirectional(
+                                                                  0.0, 0.0),
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsetsDirectional
+                                                                    .fromSTEB(
+                                                                        20.0,
+                                                                        0.0,
+                                                                        20.0,
+                                                                        0.0),
+                                                            child: Builder(
+                                                              builder:
+                                                                  (context) {
+                                                                final schoolClassref =
+                                                                    containerSchoolRecord
+                                                                        .listOfClass
+                                                                        .toList();
+
+                                                                return ListView
+                                                                    .builder(
+                                                                  padding:
+                                                                      EdgeInsets
+                                                                          .zero,
+                                                                  primary:
+                                                                      false,
+                                                                  shrinkWrap:
+                                                                      true,
+                                                                  scrollDirection:
+                                                                      Axis.vertical,
+                                                                  itemCount:
+                                                                      schoolClassref
+                                                                          .length,
+                                                                  itemBuilder:
+                                                                      (context,
+                                                                          schoolClassrefIndex) {
+                                                                    final schoolClassrefItem =
+                                                                        schoolClassref[
+                                                                            schoolClassrefIndex];
+                                                                    return Padding(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                                                          0.0,
+                                                                          0.0,
+                                                                          0.0,
+                                                                          12.0),
+                                                                      child: StreamBuilder<
+                                                                          SchoolClassRecord>(
+                                                                        stream:
+                                                                            SchoolClassRecord.getDocument(schoolClassrefItem),
+                                                                        builder:
+                                                                            (context,
+                                                                                snapshot) {
+                                                                          // Customize what your widget looks like when it's loading.
+                                                                          if (!snapshot
+                                                                              .hasData) {
+                                                                            return Container(
+                                                                              width: MediaQuery.sizeOf(context).width * 1.0,
+                                                                              height: MediaQuery.sizeOf(context).height * 0.4,
+                                                                              child: QuickActionSelectclassWidget(),
+                                                                            );
+                                                                          }
+
+                                                                          final containerSchoolClassRecord =
+                                                                              snapshot.data!;
+
+                                                                          return InkWell(
+                                                                            splashColor:
+                                                                                Colors.transparent,
+                                                                            focusColor:
+                                                                                Colors.transparent,
+                                                                            hoverColor:
+                                                                                Colors.transparent,
+                                                                            highlightColor:
+                                                                                Colors.transparent,
+                                                                            onTap:
+                                                                                () async {
+                                                                              if (!_model.classRef.contains(schoolClassrefItem)) {
+                                                                                _model.addToClassRef(schoolClassrefItem);
+                                                                                _model.addToClassname(containerSchoolClassRecord.className);
+                                                                                safeSetState(() {});
+                                                                              } else {
+                                                                                _model.removeFromClassRef(schoolClassrefItem);
+                                                                                _model.removeFromClassname(containerSchoolClassRecord.className);
+                                                                                safeSetState(() {});
+                                                                              }
+
+                                                                              if (_model.classRef.length != 0) {
+                                                                                _model.everyone = 2;
+                                                                                safeSetState(() {});
+                                                                              } else {
+                                                                                _model.everyone = 0;
+                                                                                safeSetState(() {});
+                                                                              }
+                                                                            },
+                                                                            child:
+                                                                                Material(
+                                                                              color: Colors.transparent,
+                                                                              elevation: 5.0,
+                                                                              shape: RoundedRectangleBorder(
+                                                                                borderRadius: BorderRadius.circular(14.0),
+                                                                              ),
+                                                                              child: Container(
+                                                                                width: MediaQuery.sizeOf(context).width * 0.8,
+                                                                                height: MediaQuery.sizeOf(context).height * 0.1,
+                                                                                decoration: BoxDecoration(
+                                                                                  color: _model.classRef.contains(schoolClassrefItem) ? FlutterFlowTheme.of(context).lightblue : FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                  borderRadius: BorderRadius.circular(14.0),
+                                                                                  border: Border.all(
+                                                                                    color: Color(0xFFDDF1F6),
+                                                                                  ),
+                                                                                ),
+                                                                                child: Column(
+                                                                                  mainAxisSize: MainAxisSize.max,
+                                                                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                                                                  children: [
+                                                                                    Text(
+                                                                                      containerSchoolClassRecord.className,
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            font: GoogleFonts.nunito(
+                                                                                              fontWeight: FontWeight.bold,
+                                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                            ),
+                                                                                            color: FlutterFlowTheme.of(context).primary,
+                                                                                            letterSpacing: 0.0,
+                                                                                            fontWeight: FontWeight.bold,
+                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                          ),
+                                                                                    ),
+                                                                                    Text(
+                                                                                      'Student  : ${containerSchoolClassRecord.studentsList.length.toString()}',
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            font: GoogleFonts.nunito(
+                                                                                              fontWeight: FontWeight.w500,
+                                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                            ),
+                                                                                            color: FlutterFlowTheme.of(context).tertiaryText,
+                                                                                            letterSpacing: 0.0,
+                                                                                            fontWeight: FontWeight.w500,
+                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                          ),
+                                                                                    ),
+                                                                                  ],
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                          );
+                                                                        },
+                                                                      ),
+                                                                    );
+                                                                  },
+                                                                );
+                                                              },
+                                                            ),
+                                                          ),
+                                                        ),
+                                                    ].divide(
+                                                        SizedBox(height: 5.0)),
+                                                  ),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                        ),
                                       ],
                                     ),
                                   ),
@@ -6597,6 +7046,9 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                       );
                                       return;
                                     }
+                                    await actions.hideKeyboard(
+                                      context,
+                                    );
                                     _model.pageno = 1;
                                     safeSetState(() {});
                                     await _model.pageViewController?.nextPage(
@@ -6679,6 +7131,9 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                   onPressed: () async {
                                     _model.pageno = 0;
                                     safeSetState(() {});
+                                    await actions.hideKeyboard(
+                                      context,
+                                    );
                                     await _model.pageViewController
                                         ?.previousPage(
                                       duration: Duration(milliseconds: 300),
@@ -6736,294 +7191,15 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                 ),
                                 FFButtonWidget(
                                   onPressed: () async {
-                                    if (editClassStudentStudentsRecord
-                                            .parentsDetails
-                                            .where((e) =>
-                                                e.parentRelation == '')
-                                            .toList()
-                                            .length ==
-                                        1) {
-                                      _model.addToParentdetails(
-                                          ParentsDetailsStruct(
-                                        parentsId: functions.generateUniqueId(),
-                                        parentsName: _model
-                                            .parentnameTextController.text,
-                                        parentsEmail: functions.isValidEmail(
-                                                _model.emailfatherTextController
-                                                    .text)
-                                            ? _model
-                                                .emailfatherTextController.text
-                                            : '${_model.emailfatherTextController.text}@feebe.in',
-                                        parentsPhone: _model
-                                            .numberfatherTextController.text,
-                                        userRef: editClassStudentStudentsRecord
-                                            .parentsDetails
-                                            .where((e) =>
-                                                e.parentsEmail ==
-                                                (functions.isValidEmail(_model
-                                                        .emailfatherTextController
-                                                        .text)
-                                                    ? _model
-                                                        .emailfatherTextController
-                                                        .text
-                                                    : '${_model.emailfatherTextController.text}@feebe.in'))
-                                            .toList()
-                                            .firstOrNull
-                                            ?.userRef,
-                                        isemail: functions.isValidEmail(_model
-                                                .emailfatherTextController.text)
-                                            ? true
-                                            : false,
-                                        document: _model.uploadedFileUrl_edit1 !=
-                                                    ''
-                                            ? _model.uploadedFileUrl_edit1
-                                            : editClassStudentStudentsRecord
-                                                .parentsDetails
-                                                .where((e) =>
-                                                    e.parentsEmail ==
-                                                    (functions.isValidEmail(_model
-                                                            .emailfatherTextController
-                                                            .text)
-                                                        ? _model
-                                                            .emailfatherTextController
-                                                            .text
-                                                        : '${_model.emailfatherTextController.text}@feebe.in'))
-                                                .toList()
-                                                .firstOrNull
-                                                ?.document,
-                                      ));
-                                      safeSetState(() {});
-                                      if ((_model.parent2TextController
-                                                      .text !=
-                                                  '') ||
-                                          (_model.numbermotherTextController
-                                                      .text !=
-                                                  '') ||
-                                          (_model.emailmotherTextController
-                                                      .text !=
-                                                  '')) {
-                                        if (_model.formKey1.currentState ==
-                                                null ||
-                                            !_model.formKey1.currentState!
-                                                .validate()) {
-                                          return;
-                                        }
-                                        if (_model.emailfatherTextController
-                                                .text !=
-                                            _model.emailmotherTextController
-                                                .text) {
-                                          _model.mom =
-                                              await CreateAccountCall.call(
-                                            email: functions.isValidEmail(_model
-                                                    .emailmotherTextController
-                                                    .text)
-                                                ? _model
-                                                    .emailmotherTextController
-                                                    .text
-                                                : '${_model.emailmotherTextController.text}@feebe.in',
-                                            displayName: _model
-                                                .parent2TextController.text,
-                                            userRole: 4,
-                                            phoneNumber: _model
-                                                .numbermotherTextController
-                                                .text,
-                                            password: _model
-                                                .numbermotherTextController
-                                                .text,
-                                          );
-
-                                          if ((_model.mom?.succeeded ?? true)) {
-                                            _model.momUser =
-                                                await queryUsersRecordOnce(
-                                              queryBuilder: (usersRecord) =>
-                                                  usersRecord.where(
-                                                'email',
-                                                isEqualTo: functions
-                                                        .isValidEmail(_model
-                                                            .emailmotherTextController
-                                                            .text)
-                                                    ? _model
-                                                        .emailmotherTextController
-                                                        .text
-                                                    : '${_model.emailmotherTextController.text}@feebe.in',
-                                              ),
-                                              singleRecord: true,
-                                            ).then((s) => s.firstOrNull);
-                                            _model.addToParentdetails(
-                                                ParentsDetailsStruct(
-                                              parentsId:
-                                                  functions.generateUniqueId(),
-                                              parentsName:
-                                                  _model.momUser?.displayName,
-                                              parentsEmail:
-                                                  _model.momUser?.email,
-                                              parentsPhone:
-                                                  _model.momUser?.phoneNumber,
-                                              userRef:
-                                                  _model.momUser?.reference,
-                                              document: _model
-                                                  .uploadedFileUrl_editMother1,
-                                              isemail: functions.isValidEmail(_model
-                                                      .emailmotherTextController
-                                                      .text)
-                                                  ? true
-                                                  : false,
-                                            ));
-                                            safeSetState(() {});
-
-                                            await _model.momUser!.reference
-                                                .update(createUsersRecordData(
-                                              isemail: functions.isValidEmail(
-                                                  _model
-                                                      .emailmotherTextController
-                                                      .text),
-                                            ));
-                                            _model.pageno = 2;
-                                            safeSetState(() {});
-                                            await _model.pageViewController
-                                                ?.nextPage(
-                                              duration:
-                                                  Duration(milliseconds: 300),
-                                              curve: Curves.ease,
-                                            );
-                                          }
-                                        } else {
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(
-                                            SnackBar(
-                                              content: Text(
-                                                'Both Parent 1 and Parent 2 emails are same',
-                                                style: TextStyle(
-                                                  color: FlutterFlowTheme.of(
-                                                          context)
-                                                      .primaryText,
-                                                ),
-                                              ),
-                                              duration:
-                                                  Duration(milliseconds: 4000),
-                                              backgroundColor:
-                                                  FlutterFlowTheme.of(context)
-                                                      .secondary,
-                                            ),
-                                          );
-                                          safeSetState(() {
-                                            _model.emailmotherTextController
-                                                ?.clear();
-                                          });
-                                        }
-                                      } else {
-                                        _model.pageno = 2;
-                                        safeSetState(() {});
-                                        await _model.pageViewController
-                                            ?.nextPage(
-                                          duration: Duration(milliseconds: 300),
-                                          curve: Curves.ease,
-                                        );
-                                      }
-                                    } else {
-                                      _model.addToParentdetails(
-                                          ParentsDetailsStruct(
-                                        parentsId: functions.generateUniqueId(),
-                                        parentsName: _model
-                                            .parentnameTextController.text,
-                                        parentsEmail: functions.isValidEmail(
-                                                _model.emailfatherTextController
-                                                    .text)
-                                            ? _model
-                                                .emailfatherTextController.text
-                                            : '${_model.emailfatherTextController.text}@feebe.in',
-                                        parentsPhone: _model
-                                            .numberfatherTextController.text,
-                                        userRef: editClassStudentStudentsRecord
-                                            .parentsDetails
-                                            .where((e) =>
-                                                e.parentsEmail ==
-                                                (functions.isValidEmail(_model
-                                                        .emailfatherTextController
-                                                        .text)
-                                                    ? _model
-                                                        .emailfatherTextController
-                                                        .text
-                                                    : '${_model.emailfatherTextController.text}@feebe.in'))
-                                            .toList()
-                                            .firstOrNull
-                                            ?.userRef,
-                                        isemail: functions.isValidEmail(_model
-                                                .emailfatherTextController.text)
-                                            ? true
-                                            : false,
-                                        document: _model.uploadedFileUrl_edit1 !=
-                                                    ''
-                                            ? _model.uploadedFileUrl_edit1
-                                            : editClassStudentStudentsRecord
-                                                .parentsDetails
-                                                .where((e) =>
-                                                    e.parentsEmail ==
-                                                    (functions.isValidEmail(_model
-                                                            .emailfatherTextController
-                                                            .text)
-                                                        ? _model
-                                                            .emailfatherTextController
-                                                            .text
-                                                        : '${_model.emailfatherTextController.text}@feebe.in'))
-                                                .toList()
-                                                .firstOrNull
-                                                ?.document,
-                                      ));
-                                      safeSetState(() {});
-                                      _model.addToParentdetails(
-                                          ParentsDetailsStruct(
-                                        parentsId: functions.generateUniqueId(),
-                                        parentsName:
-                                            _model.parent2TextController.text,
-                                        parentsEmail: functions.isValidEmail(
-                                                _model.emailfatherTextController
-                                                    .text)
-                                            ? _model
-                                                .emailmotherTextController.text
-                                            : '${_model.emailmotherTextController.text}@feebe.in',
-                                        parentsPhone: _model
-                                            .numbermotherTextController.text,
-                                        userRef: editClassStudentStudentsRecord
-                                            .parentsDetails
-                                            .where((e) =>
-                                                e.parentsEmail ==
-                                                (functions.isValidEmail(_model
-                                                        .emailfatherTextController
-                                                        .text)
-                                                    ? _model
-                                                        .emailmotherTextController
-                                                        .text
-                                                    : '${_model.emailmotherTextController.text}@feebe.in'))
-                                            .toList()
-                                            .firstOrNull
-                                            ?.userRef,
-                                        isemail: functions.isValidEmail(_model
-                                                .emailmotherTextController.text)
-                                            ? true
-                                            : false,
-                                        document: _model.uploadedFileUrl_editMother1 !=
-                                                    ''
-                                            ? _model.uploadedFileUrl_editMother1
-                                            : editClassStudentStudentsRecord
-                                                .parentsDetails
-                                                .where((e) =>
-                                                    e.parentsEmail ==
-                                                    (functions.isValidEmail(_model
-                                                            .emailfatherTextController
-                                                            .text)
-                                                        ? _model
-                                                            .emailmotherTextController
-                                                            .text
-                                                        : '${_model.emailmotherTextController.text}@feebe.in'))
-                                                .toList()
-                                                .firstOrNull
-                                                ?.document,
-                                      ));
-                                      safeSetState(() {});
-                                    }
-
+                                    await actions.hideKeyboard(
+                                      context,
+                                    );
+                                    _model.pageno = 2;
                                     safeSetState(() {});
+                                    await _model.pageViewController?.nextPage(
+                                      duration: Duration(milliseconds: 300),
+                                      curve: Curves.ease,
+                                    );
                                   },
                                   text: 'Next ',
                                   options: FFButtonOptions(
@@ -7100,6 +7276,9 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                   onPressed: () async {
                                     _model.pageno = 1;
                                     safeSetState(() {});
+                                    await actions.hideKeyboard(
+                                      context,
+                                    );
                                     await _model.pageViewController
                                         ?.previousPage(
                                       duration: Duration(milliseconds: 300),
@@ -7157,259 +7336,11 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                 ),
                                 FFButtonWidget(
                                   onPressed: () async {
-                                    if (!((editClassStudentStudentsRecord
-                                                .parentsDetails
-                                                .where((e) =>
-                                                    e.parentRelation ==
-                                                    'Guardian')
-                                                .toList()
-                                                .length !=
-                                            0) &&
-                                        (_model.parentdetails
-                                                .where((e) =>
-                                                    e.parentRelation != '')
-                                                .toList()
-                                                .length ==
-                                            0))) {
-                                      if ((_model.gnameTextController.text !=
-                                                  '') ||
-                                          (_model.gnumberTextController
-                                                      .text !=
-                                                  '') ||
-                                          (_model.gemailTextController
-                                                      .text !=
-                                                  '')) {
-                                        if (_model.formKey4.currentState ==
-                                                null ||
-                                            !_model.formKey4.currentState!
-                                                .validate()) {
-                                          return;
-                                        }
-                                        _model.guardian =
-                                            await CreateAccountCall.call(
-                                          email: functions.isValidEmail(_model
-                                                  .gemailTextController.text)
-                                              ? _model.gemailTextController.text
-                                              : '${_model.gemailTextController.text}@feebe.in',
-                                          displayName:
-                                              _model.gnameTextController.text,
-                                          userRole: 4,
-                                          phoneNumber:
-                                              _model.gnumberTextController.text,
-                                          password:
-                                              _model.gnumberTextController.text,
-                                        );
-
-                                        if ((_model.guardian?.succeeded ??
-                                            true)) {
-                                          _model.guardianUser =
-                                              await queryUsersRecordOnce(
-                                            queryBuilder: (usersRecord) =>
-                                                usersRecord.where(
-                                              'email',
-                                              isEqualTo: functions.isValidEmail(
-                                                      _model
-                                                          .gemailTextController
-                                                          .text)
-                                                  ? _model
-                                                      .gemailTextController.text
-                                                  : '${_model.gemailTextController.text}@feebe.in',
-                                            ),
-                                            singleRecord: true,
-                                          ).then((s) => s.firstOrNull);
-                                          _model.addToParentdetails(
-                                              ParentsDetailsStruct(
-                                            parentsId:
-                                                functions.generateUniqueId(),
-                                            parentsName: _model
-                                                .guardianUser?.displayName,
-                                            parentsEmail:
-                                                _model.guardianUser?.email,
-                                            parentsPhone: _model
-                                                .guardianUser?.phoneNumber,
-                                            userRef:
-                                                _model.guardianUser?.reference,
-                                            isemail: functions.isValidEmail(
-                                                    _model.gemailTextController
-                                                        .text)
-                                                ? true
-                                                : false,
-                                            parentRelation: 'Guardian',
-                                          ));
-                                          safeSetState(() {});
-
-                                          await _model.guardianUser!.reference
-                                              .update(createUsersRecordData(
-                                            isemail: functions.isValidEmail(
-                                                _model
-                                                    .gemailTextController.text),
-                                          ));
-                                        }
-                                      }
-                                    } else {
-                                      FFAppState().loopmin = 0;
-                                      safeSetState(() {});
-                                      while (FFAppState().loopmin <
-                                          editClassStudentStudentsRecord
-                                              .parentsDetails
-                                              .where((e) =>
-                                                  e.parentRelation != '')
-                                              .toList()
-                                              .length) {
-                                        _model.addToParentdetails(
-                                            ParentsDetailsStruct(
-                                          parentsId:
-                                              functions.generateUniqueId(),
-                                          parentsName: _model.editguardianModels
-                                              .getValueAtIndex(
-                                            FFAppState().loopmin,
-                                            (m) => m.gnameTextController.text,
-                                          ),
-                                          parentsEmail: functions.isValidEmail(
-                                                  _model.editguardianModels
-                                                      .getValueAtIndex(
-                                            FFAppState().loopmin,
-                                            (m) => m.gemailTextController.text,
-                                          )!)
-                                              ? _model.editguardianModels
-                                                  .getValueAtIndex(
-                                                  FFAppState().loopmin,
-                                                  (m) => m.gemailTextController
-                                                      .text,
-                                                )
-                                              : '${_model.editguardianModels.getValueAtIndex(
-                                                  FFAppState().loopmin,
-                                                  (m) => m.gemailTextController
-                                                      .text,
-                                                )}@feebe.in',
-                                          parentsPhone: _model
-                                              .editguardianModels
-                                              .getValueAtIndex(
-                                            FFAppState().loopmin,
-                                            (m) => m.gnumberTextController.text,
-                                          ),
-                                          parentRelation: 'Guardian',
-                                          isemail: functions.isValidEmail(_model
-                                              .editguardianModels
-                                              .getValueAtIndex(
-                                            FFAppState().loopmin,
-                                            (m) => m.gemailTextController.text,
-                                          )!),
-                                          userRef: editClassStudentStudentsRecord
-                                              .parentsDetails
-                                              .where((e) =>
-                                                  e.parentsEmail ==
-                                                  (functions.isValidEmail(_model
-                                                          .editguardianModels
-                                                          .getValueAtIndex(
-                                                    FFAppState().loopmin,
-                                                    (m) => m
-                                                        .gemailTextController
-                                                        .text,
-                                                  )!)
-                                                      ? _model
-                                                          .editguardianModels
-                                                          .getValueAtIndex(
-                                                          FFAppState().loopmin,
-                                                          (m) => m
-                                                              .gemailTextController
-                                                              .text,
-                                                        )
-                                                      : '${_model.editguardianModels.getValueAtIndex(
-                                                          FFAppState().loopmin,
-                                                          (m) => m
-                                                              .gemailTextController
-                                                              .text,
-                                                        )}@feebe.in'))
-                                              .toList()
-                                              .firstOrNull
-                                              ?.userRef,
-                                        ));
-                                        safeSetState(() {});
-                                        FFAppState().loopmin =
-                                            FFAppState().loopmin + 1;
-                                        safeSetState(() {});
-                                      }
-                                      FFAppState().loopmin = 0;
-                                      safeSetState(() {});
-                                      if ((_model.gnameTextController.text !=
-                                                  '') ||
-                                          (_model.gnumberTextController
-                                                      .text !=
-                                                  '') ||
-                                          (_model.gemailTextController
-                                                      .text !=
-                                                  '')) {
-                                        if (_model.formKey4.currentState ==
-                                                null ||
-                                            !_model.formKey4.currentState!
-                                                .validate()) {
-                                          return;
-                                        }
-                                        _model.parent22 =
-                                            await CreateAccountCall.call(
-                                          email: functions.isValidEmail(_model
-                                                  .gemailTextController.text)
-                                              ? _model.gemailTextController.text
-                                              : '${_model.gemailTextController.text}@feebe.in',
-                                          displayName:
-                                              _model.gnameTextController.text,
-                                          userRole: 4,
-                                          phoneNumber:
-                                              _model.gnumberTextController.text,
-                                          password:
-                                              _model.gnumberTextController.text,
-                                        );
-
-                                        if ((_model.parent22?.succeeded ??
-                                            true)) {
-                                          _model.motherUSer1 =
-                                              await queryUsersRecordOnce(
-                                            queryBuilder: (usersRecord) =>
-                                                usersRecord.where(
-                                              'email',
-                                              isEqualTo: functions.isValidEmail(
-                                                      _model
-                                                          .gemailTextController
-                                                          .text)
-                                                  ? _model
-                                                      .gemailTextController.text
-                                                  : '${_model.gemailTextController.text}@feebe.in',
-                                            ),
-                                            singleRecord: true,
-                                          ).then((s) => s.firstOrNull);
-                                          _model.addToParentdetails(
-                                              ParentsDetailsStruct(
-                                            parentsId:
-                                                functions.generateUniqueId(),
-                                            parentsName:
-                                                _model.motherUSer1?.displayName,
-                                            parentsEmail:
-                                                _model.motherUSer1?.email,
-                                            parentsPhone:
-                                                _model.motherUSer1?.phoneNumber,
-                                            userRef:
-                                                _model.motherUSer1?.reference,
-                                            isemail: functions.isValidEmail(
-                                                    _model.gemailTextController
-                                                        .text)
-                                                ? true
-                                                : false,
-                                            parentRelation: 'Guardian',
-                                          ));
-                                          safeSetState(() {});
-
-                                          await _model.motherUSer1!.reference
-                                              .update(createUsersRecordData(
-                                            isemail: functions.isValidEmail(
-                                                _model
-                                                    .gemailTextController.text),
-                                          ));
-                                        }
-                                      }
-                                    }
-
+                                    await actions.hideKeyboard(
+                                      context,
+                                    );
                                     _model.pageno = 3;
+                                    _model.everyone = 0;
                                     safeSetState(() {});
                                     await _model.pageViewController
                                         ?.animateToPage(
@@ -7417,8 +7348,6 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                       duration: Duration(milliseconds: 500),
                                       curve: Curves.ease,
                                     );
-
-                                    safeSetState(() {});
                                   },
                                   text: 'Next',
                                   options: FFButtonOptions(
@@ -7494,6 +7423,9 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                   onPressed: () async {
                                     _model.pageno = 2;
                                     safeSetState(() {});
+                                    await actions.hideKeyboard(
+                                      context,
+                                    );
                                     await _model.pageViewController
                                         ?.previousPage(
                                       duration: Duration(milliseconds: 300),
@@ -7551,6 +7483,62 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                 ),
                                 FFButtonWidget(
                                   onPressed: () async {
+                                    _model.addToParentdetails(
+                                        ParentsDetailsStruct(
+                                      parentsId: functions.generateUniqueId(),
+                                      parentsName:
+                                          _model.parentnameTextController.text,
+                                      parentImage: FFAppState().parent1,
+                                      parentsEmail: functions.isValidEmail(
+                                              _model.emailfatherTextController
+                                                  .text)
+                                          ? _model
+                                              .emailfatherTextController.text
+                                          : '${_model.emailfatherTextController.text}@feebe.in',
+                                      parentsPhone: _model
+                                          .numberfatherTextController.text,
+                                      document: FFAppState().fileurl1,
+                                    ));
+                                    safeSetState(() {});
+                                    if ((_model.parent2TextController
+                                                    .text !=
+                                                '') &&
+                                        (_model.numbermotherTextController
+                                                    .text !=
+                                                '') &&
+                                        (_model.emailmotherTextController
+                                                    .text !=
+                                                '')) {
+                                      _model.addToParentdetails(
+                                          ParentsDetailsStruct(
+                                        parentsId: functions.generateUniqueId(),
+                                        parentsName:
+                                            _model.parent2TextController.text,
+                                        parentImage: FFAppState().parent2,
+                                        parentsEmail: functions.isValidEmail(
+                                                _model.emailmotherTextController
+                                                    .text)
+                                            ? _model
+                                                .emailmotherTextController.text
+                                            : '${_model.emailmotherTextController.text}@feebe.in',
+                                        parentsPhone: _model
+                                            .numbermotherTextController.text,
+                                        document: FFAppState().fileurl2,
+                                      ));
+                                      safeSetState(() {});
+                                    }
+                                    while (FFAppState().loopminparent <
+                                        _model.newparentList.length) {
+                                      _model.addToParentdetails(
+                                          _model.newparentList.elementAtOrNull(
+                                              FFAppState().loopminparent)!);
+                                      safeSetState(() {});
+                                      FFAppState().loopminparent =
+                                          FFAppState().loopminparent + 1;
+                                      safeSetState(() {});
+                                    }
+                                    FFAppState().loopminparent = 0;
+                                    safeSetState(() {});
                                     _model.parentdetails = functions
                                         .removeExactDuplicates(
                                             _model.parentdetails.toList())!
@@ -7589,36 +7577,43 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
 
                                         await editClassStudentStudentsRecord
                                             .reference
-                                            .update(createStudentsRecordData(
-                                          studentName: _model
-                                              .childnameTextController.text,
-                                          studentGender:
-                                              editClassStudentStudentsRecord
-                                                  .studentGender,
-                                          studentAddress:
-                                              _model.addressTextController.text,
-                                          dateOfBirth: FFAppState()
-                                                      .selectedDate !=
-                                                  null
-                                              ? FFAppState().selectedDate
-                                              : editClassStudentStudentsRecord
-                                                  .dateOfBirth,
-                                          bloodGroup: _model.bloodtypeValue,
-                                          allergiesOthers: _model
-                                              .allergiesTextController.text,
-                                          document: _model.uploadedFileUrl_newstudent1 !=
-                                                      ''
-                                              ? _model
-                                                  .uploadedFileUrl_newstudent1
-                                              : editClassStudentStudentsRecord
-                                                  .document,
-                                          studentImage: FFAppState()
-                                                      .profileimagechanged ==
-                                                  true
-                                              ? FFAppState().imageurl
-                                              : editClassStudentStudentsRecord
-                                                  .studentImage,
-                                        ));
+                                            .update({
+                                          ...createStudentsRecordData(
+                                            studentName: _model
+                                                .childnameTextController.text,
+                                            studentGender:
+                                                editClassStudentStudentsRecord
+                                                    .studentGender,
+                                            studentAddress: _model
+                                                .addressTextController.text,
+                                            dateOfBirth: FFAppState()
+                                                        .selectedDate !=
+                                                    null
+                                                ? FFAppState().selectedDate
+                                                : editClassStudentStudentsRecord
+                                                    .dateOfBirth,
+                                            bloodGroup: _model.bloodtypeValue,
+                                            allergiesOthers: _model
+                                                .allergiesTextController.text,
+                                            document: FFAppState().fileUrl != ''
+                                                ? FFAppState().fileUrl
+                                                : editClassStudentStudentsRecord
+                                                    .document,
+                                            studentImage: FFAppState()
+                                                        .profileimagechanged ==
+                                                    true
+                                                ? FFAppState().imageurl
+                                                : editClassStudentStudentsRecord
+                                                    .studentImage,
+                                            schoolName: '',
+                                          ),
+                                          ...mapToFirestore(
+                                            {
+                                              'classref': _model.classRef,
+                                              'class_name': _model.classname,
+                                            },
+                                          ),
+                                        });
                                         _model.school =
                                             await SchoolRecord.getDocumentOnce(
                                                 widget.schoolref!);
@@ -7649,7 +7644,7 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                             .showSnackBar(
                                           SnackBar(
                                             content: Text(
-                                              'Student Profile updated',
+                                              'Student Profile updated1',
                                               style: TextStyle(
                                                 color:
                                                     FlutterFlowTheme.of(context)
@@ -7843,7 +7838,7 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                             .showSnackBar(
                                           SnackBar(
                                             content: Text(
-                                              'Student Profile updated',
+                                              'Student Profile updated 2',
                                               style: TextStyle(
                                                 color:
                                                     FlutterFlowTheme.of(context)
@@ -7867,44 +7862,51 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                         if (_model.allergiesTextController
                                                     .text !=
                                                 '') {
-                                          await NotificationsRecord.collection
-                                              .doc()
-                                              .set({
-                                            ...createNotificationsRecordData(
-                                              content:
-                                                  '${_model.childnameTextController.text} allergies update',
-                                              isread: false,
-                                              notification:
-                                                  updateNotificationStruct(
-                                                NotificationStruct(
-                                                  notificationTitle:
-                                                      '${_model.addressTextController.text}\'s allergies update',
-                                                  descriptions: _model
+                                          unawaited(
+                                            () async {
+                                              await NotificationsRecord
+                                                  .collection
+                                                  .doc()
+                                                  .set({
+                                                ...createNotificationsRecordData(
+                                                  content:
+                                                      '${_model.childnameTextController.text} allergies update',
+                                                  isread: false,
+                                                  notification:
+                                                      updateNotificationStruct(
+                                                    NotificationStruct(
+                                                      notificationTitle:
+                                                          '${_model.addressTextController.text}\'s allergies update',
+                                                      descriptions: _model
+                                                          .allergiesTextController
+                                                          .text,
+                                                      timeStamp:
+                                                          getCurrentTimestamp,
+                                                      isRead: true,
+                                                    ),
+                                                    clearUnsetFields: false,
+                                                    create: true,
+                                                  ),
+                                                  createDate:
+                                                      getCurrentTimestamp,
+                                                  descri: _model
                                                       .allergiesTextController
                                                       .text,
-                                                  timeStamp:
-                                                      getCurrentTimestamp,
-                                                  isRead: true,
+                                                  addedby: currentUserReference,
+                                                  heading: 'Student allergy',
                                                 ),
-                                                clearUnsetFields: false,
-                                                create: true,
-                                              ),
-                                              createDate: getCurrentTimestamp,
-                                              descri: _model
-                                                  .allergiesTextController.text,
-                                              addedby: currentUserReference,
-                                              heading: 'Student allergy',
-                                            ),
-                                            ...mapToFirestore(
-                                              {
-                                                'userref':
-                                                    _model.princui?.listOfAdmin,
-                                                'schoolref': [
-                                                  widget.schoolref
-                                                ],
-                                              },
-                                            ),
-                                          });
+                                                ...mapToFirestore(
+                                                  {
+                                                    'userref': _model
+                                                        .princui?.listOfAdmin,
+                                                    'schoolref': [
+                                                      widget.schoolref
+                                                    ],
+                                                  },
+                                                ),
+                                              });
+                                            }(),
+                                          );
                                         }
                                       }),
                                     ]);

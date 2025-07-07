@@ -791,40 +791,6 @@ class _SearchPageAdminWidgetState extends State<SearchPageAdminWidget> {
                                                                           .circular(
                                                                               10.0),
                                                                 ),
-                                                                child: Align(
-                                                                  alignment:
-                                                                      AlignmentDirectional(
-                                                                          -1.0,
-                                                                          0.0),
-                                                                  child: Text(
-                                                                    functions.combineStringsCopy(studentsItem
-                                                                        .className
-                                                                        .toList()),
-                                                                    style: FlutterFlowTheme.of(
-                                                                            context)
-                                                                        .bodyMedium
-                                                                        .override(
-                                                                          font:
-                                                                              GoogleFonts.nunito(
-                                                                            fontWeight:
-                                                                                FontWeight.normal,
-                                                                            fontStyle:
-                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                          ),
-                                                                          color:
-                                                                              Color(0xFF666666),
-                                                                          fontSize:
-                                                                              14.0,
-                                                                          letterSpacing:
-                                                                              0.0,
-                                                                          fontWeight:
-                                                                              FontWeight.normal,
-                                                                          fontStyle: FlutterFlowTheme.of(context)
-                                                                              .bodyMedium
-                                                                              .fontStyle,
-                                                                        ),
-                                                                  ),
-                                                                ),
                                                               ),
                                                             ),
                                                             Padding(

@@ -23,14 +23,14 @@ class EditParentWidget extends StatefulWidget {
     super.key,
     required this.studentref,
     required this.parent,
-    required this.parentdetails,
     required this.address,
+    required this.parentdetails,
   });
 
   final List<DocumentReference>? studentref;
   final ParentsDetailsStruct? parent;
-  final List<ParentsDetailsStruct>? parentdetails;
   final String? address;
+  final List<ParentsDetailsStruct>? parentdetails;
 
   static String routeName = 'edit_parent';
   static String routePath = '/editParent';

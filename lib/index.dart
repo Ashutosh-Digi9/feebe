@@ -1,6 +1,6 @@
 // Export pages
-export '/launch/launch_widget.dart' show LaunchWidget;
-export '/login/login_widget.dart' show LoginWidget;
+export '/auth_onboarding/launch/launch_widget.dart' show LaunchWidget;
+export '/auth_onboarding/login/login_widget.dart' show LoginWidget;
 export '/a_super_admin/dashboard/dashboard_widget.dart' show DashboardWidget;
 export '/a_super_admin/new_school_details_s_a/new_school_details_s_a_widget.dart'
     show NewSchoolDetailsSAWidget;
@@ -14,8 +14,6 @@ export '/parent/parent_profile/parent_profile_widget.dart'
     show ParentProfileWidget;
 export '/notifications/notifications_s_a/notifications_s_a_widget.dart'
     show NotificationsSAWidget;
-export '/a_super_admin/add_school_q_r_s_a/add_school_q_r_s_a_widget.dart'
-    show AddSchoolQRSAWidget;
 export '/a_super_admin/add_school_manually_s_a/add_school_manually_s_a_widget.dart'
     show AddSchoolManuallySAWidget;
 export '/parent/editprofile_parent/editprofile_parent_widget.dart'
@@ -28,12 +26,13 @@ export '/parent/attendence_parent/attendence_parent_widget.dart'
     show AttendenceParentWidget;
 export '/teacher/add_teacher_manually_admin/add_teacher_manually_admin_widget.dart'
     show AddTeacherManuallyAdminWidget;
-export '/change_password/change_password_widget.dart' show ChangePasswordWidget;
+export '/auth_onboarding/change_password/change_password_widget.dart'
+    show ChangePasswordWidget;
 export '/a_super_admin/existing_school_details_s_a/existing_school_details_s_a_widget.dart'
     show ExistingSchoolDetailsSAWidget;
 export '/admin_dashboard/class_view/class_view_widget.dart'
     show ClassViewWidget;
-export '/password_changed/password_changed_widget.dart'
+export '/auth_onboarding/password_changed/password_changed_widget.dart'
     show PasswordChangedWidget;
 export '/admin_dashboard/class_dashboard/class_dashboard_widget.dart'
     show ClassDashboardWidget;
@@ -75,8 +74,6 @@ export '/admin_dashboard/editclassadmin/editclassadmin_widget.dart'
     show EditclassadminWidget;
 export '/confirmationpages/attendance_marked/attendance_marked_widget.dart'
     show AttendanceMarkedWidget;
-export '/add_student_admin_q_r/add_student_admin_q_r_widget.dart'
-    show AddStudentAdminQRWidget;
 export '/a_super_admin/change_subscription_plan_s_a/change_subscription_plan_s_a_widget.dart'
     show ChangeSubscriptionPlanSAWidget;
 export '/admin_dashboard/students_timeline_activities/students_timeline_activities_widget.dart'
@@ -89,8 +86,6 @@ export '/confirmationpages/teacherdetailsedited/teacherdetailsedited_widget.dart
     show TeacherdetailseditedWidget;
 export '/teacher/teachers_gallery/teachers_gallery_widget.dart'
     show TeachersGalleryWidget;
-export '/a_super_admin/add_school_link/add_school_link_widget.dart'
-    show AddSchoolLinkWidget;
 export '/admin_dashboard/calender_class/calender_class_widget.dart'
     show CalenderClassWidget;
 export '/parent/student_gallery/student_gallery_widget.dart'
@@ -170,7 +165,8 @@ export '/admin_dashboard/notice_details/notice_details_widget.dart'
     show NoticeDetailsWidget;
 export '/admin_dashboard/event_details/event_details_widget.dart'
     show EventDetailsWidget;
-export '/guest_page/guest_page_widget.dart' show GuestPageWidget;
+export '/auth_onboarding/guest_page/guest_page_widget.dart'
+    show GuestPageWidget;
 export '/deletepage/deletepage_widget.dart' show DeletepageWidget;
 export '/teacher/teacher_image_view/teacher_image_view_widget.dart'
     show TeacherImageViewWidget;
@@ -187,7 +183,7 @@ export '/a_super_admin/edit_admin_copy/edit_admin_copy_widget.dart'
 export '/app_update/app_update_widget.dart' show AppUpdateWidget;
 export '/admin_dashboard/staff_notice_view/staff_notice_view_widget.dart'
     show StaffNoticeViewWidget;
-export '/a_super_admin/request_location/request_location_widget.dart'
+export '/auth_onboarding/request_location/request_location_widget.dart'
     show RequestLocationWidget;
 export '/parent/edit_parent_copy/edit_parent_copy_widget.dart'
     show EditParentCopyWidget;

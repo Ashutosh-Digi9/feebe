@@ -19,7 +19,6 @@ import '/flutter_flow/upload_data.dart';
 import '/navbar/navbaradmin/navbaradmin_widget.dart';
 import '/shimmer_effects/class_dashboard_shimmer/class_dashboard_shimmer_widget.dart';
 import '/shimmer_effects/classshimmer/classshimmer_widget.dart';
-import '/shimmer_effects/studentshimmer/studentshimmer_widget.dart';
 import '/shimmer_effects/teacher_shimmer/teacher_shimmer_widget.dart';
 import '/teacher/teacher_notice_comp/teacher_notice_comp_widget.dart';
 import '/custom_code/actions/index.dart' as actions;
@@ -28,6 +27,7 @@ import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:badges/badges.dart' as badges;
 import 'package:aligned_dialog/aligned_dialog.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -1586,7 +1586,15 @@ class _ClassDashboardWidgetState extends State<ClassDashboardWidget>
                                                                                                 shape: BoxShape.circle,
                                                                                                 border: Border.all(
                                                                                                   color: valueOrDefault<Color>(
-                                                                                                    (containerUsersRecord.checkin != null) && (dateTimeFormat("yMMMd", containerUsersRecord.checkin) == dateTimeFormat("yMMMd", getCurrentTimestamp)) ? Color(0xFF4CBAFA) : FlutterFlowTheme.of(context).tertiary,
+                                                                                                    () {
+                                                                                                      if ((containerUsersRecord.checkout != null) && (dateTimeFormat("yMMMd", containerUsersRecord.checkout) == dateTimeFormat("yMMMd", getCurrentTimestamp))) {
+                                                                                                        return FlutterFlowTheme.of(context).tertiary;
+                                                                                                      } else if ((containerUsersRecord.checkin != null) && (dateTimeFormat("yMMMd", containerUsersRecord.checkin) == dateTimeFormat("yMMMd", getCurrentTimestamp))) {
+                                                                                                        return Color(0xFF4CBAFA);
+                                                                                                      } else {
+                                                                                                        return FlutterFlowTheme.of(context).tertiary;
+                                                                                                      }
+                                                                                                    }(),
                                                                                                     FlutterFlowTheme.of(context).tertiary,
                                                                                                   ),
                                                                                                   width: 5.0,
@@ -1604,7 +1612,7 @@ class _ClassDashboardWidgetState extends State<ClassDashboardWidget>
                                                                                                       fit: BoxFit.cover,
                                                                                                     ),
                                                                                                   ),
-                                                                                                  if ((containerUsersRecord.checkin != null) && (dateTimeFormat("yMMMd", containerUsersRecord.checkin) == dateTimeFormat("yMMMd", getCurrentTimestamp)))
+                                                                                                  if ((dateTimeFormat("yMMMd", containerUsersRecord.checkout) != dateTimeFormat("yMMMd", getCurrentTimestamp)) && (containerUsersRecord.checkin != null) && (dateTimeFormat("yMMMd", containerUsersRecord.checkin) == dateTimeFormat("yMMMd", getCurrentTimestamp)))
                                                                                                     Align(
                                                                                                       alignment: AlignmentDirectional(1.0, 1.6),
                                                                                                       child: Container(
@@ -1633,7 +1641,7 @@ class _ClassDashboardWidgetState extends State<ClassDashboardWidget>
                                                                                           padding: EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
                                                                                           child: Text(
                                                                                             teachersItem.teacherName.maybeHandleOverflow(
-                                                                                              maxChars: 10,
+                                                                                              maxChars: 6,
                                                                                               replacement: '…',
                                                                                             ),
                                                                                             style: FlutterFlowTheme.of(context).bodyMedium.override(
@@ -5712,168 +5720,158 @@ class _ClassDashboardWidgetState extends State<ClassDashboardWidget>
                                                                                     ),
                                                                                   );
                                                                                 } else {
-                                                                                  return StreamBuilder<StudentsRecord>(
-                                                                                    stream: StudentsRecord.getDocument(studentsItem.studentId!),
-                                                                                    builder: (context, snapshot) {
-                                                                                      // Customize what your widget looks like when it's loading.
-                                                                                      if (!snapshot.hasData) {
-                                                                                        return StudentshimmerWidget();
-                                                                                      }
-
-                                                                                      final stackStudentsRecord = snapshot.data!;
-
-                                                                                      return InkWell(
-                                                                                        splashColor: Colors.transparent,
-                                                                                        focusColor: Colors.transparent,
-                                                                                        hoverColor: Colors.transparent,
-                                                                                        highlightColor: Colors.transparent,
-                                                                                        onTap: () async {
-                                                                                          if (stackStudentsRecord.isDraft == true) {
-                                                                                            context.pushNamed(
-                                                                                              StudentDraftWidget.routeName,
-                                                                                              queryParameters: {
-                                                                                                'schoolref': serializeParam(
-                                                                                                  classDashboardSchoolRecord.reference,
-                                                                                                  ParamType.DocumentReference,
-                                                                                                ),
-                                                                                                'studentref': serializeParam(
-                                                                                                  studentsItem.studentId,
-                                                                                                  ParamType.DocumentReference,
-                                                                                                ),
-                                                                                              }.withoutNulls,
-                                                                                            );
-                                                                                          } else {
-                                                                                            if (studentsItem.classref.length != 0) {
-                                                                                              context.pushNamed(
-                                                                                                IndistudentmainpagesWidget.routeName,
-                                                                                                queryParameters: {
-                                                                                                  'studentsref': serializeParam(
-                                                                                                    stackStudentsRecord.reference,
-                                                                                                    ParamType.DocumentReference,
-                                                                                                  ),
-                                                                                                  'schoolref': serializeParam(
-                                                                                                    classDashboardSchoolRecord.reference,
-                                                                                                    ParamType.DocumentReference,
-                                                                                                  ),
-                                                                                                  'mainpage': serializeParam(
-                                                                                                    true,
-                                                                                                    ParamType.bool,
-                                                                                                  ),
-                                                                                                }.withoutNulls,
-                                                                                                extra: <String, dynamic>{
-                                                                                                  kTransitionInfoKey: TransitionInfo(
-                                                                                                    hasTransition: true,
-                                                                                                    transitionType: PageTransitionType.fade,
-                                                                                                  ),
-                                                                                                },
-                                                                                              );
-                                                                                            } else {
-                                                                                              context.pushNamed(
-                                                                                                NewStudentWidget.routeName,
-                                                                                                queryParameters: {
-                                                                                                  'studentsref': serializeParam(
-                                                                                                    stackStudentsRecord.reference,
-                                                                                                    ParamType.DocumentReference,
-                                                                                                  ),
-                                                                                                  'schoolref': serializeParam(
-                                                                                                    classDashboardSchoolRecord.reference,
-                                                                                                    ParamType.DocumentReference,
-                                                                                                  ),
-                                                                                                }.withoutNulls,
-                                                                                                extra: <String, dynamic>{
-                                                                                                  kTransitionInfoKey: TransitionInfo(
-                                                                                                    hasTransition: true,
-                                                                                                    transitionType: PageTransitionType.fade,
-                                                                                                  ),
-                                                                                                },
-                                                                                              );
-                                                                                            }
-                                                                                          }
-                                                                                        },
-                                                                                        child: Stack(
-                                                                                          children: [
-                                                                                            Material(
-                                                                                              color: Colors.transparent,
-                                                                                              elevation: 1.0,
-                                                                                              shape: RoundedRectangleBorder(
-                                                                                                borderRadius: BorderRadius.circular(10.0),
+                                                                                  return InkWell(
+                                                                                    splashColor: Colors.transparent,
+                                                                                    focusColor: Colors.transparent,
+                                                                                    hoverColor: Colors.transparent,
+                                                                                    highlightColor: Colors.transparent,
+                                                                                    onTap: () async {
+                                                                                      if (studentsItem.isDraft == true) {
+                                                                                        context.pushNamed(
+                                                                                          StudentDraftWidget.routeName,
+                                                                                          queryParameters: {
+                                                                                            'schoolref': serializeParam(
+                                                                                              classDashboardSchoolRecord.reference,
+                                                                                              ParamType.DocumentReference,
+                                                                                            ),
+                                                                                            'studentref': serializeParam(
+                                                                                              studentsItem.studentId,
+                                                                                              ParamType.DocumentReference,
+                                                                                            ),
+                                                                                          }.withoutNulls,
+                                                                                        );
+                                                                                      } else {
+                                                                                        if (studentsItem.classref.length != 0) {
+                                                                                          context.pushNamed(
+                                                                                            IndistudentmainpagesWidget.routeName,
+                                                                                            queryParameters: {
+                                                                                              'studentsref': serializeParam(
+                                                                                                studentsItem.studentId,
+                                                                                                ParamType.DocumentReference,
                                                                                               ),
-                                                                                              child: Container(
-                                                                                                width: MediaQuery.sizeOf(context).width * 1.0,
-                                                                                                height: MediaQuery.sizeOf(context).height * 1.0,
-                                                                                                decoration: BoxDecoration(
-                                                                                                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                                                                  boxShadow: [
-                                                                                                    BoxShadow(
-                                                                                                      blurRadius: 2.0,
-                                                                                                      color: Color(0x40E4E5E7),
-                                                                                                      offset: Offset(
-                                                                                                        0.0,
-                                                                                                        1.0,
-                                                                                                      ),
-                                                                                                      spreadRadius: 0.0,
-                                                                                                    )
-                                                                                                  ],
-                                                                                                  borderRadius: BorderRadius.circular(10.0),
-                                                                                                  border: Border.all(
-                                                                                                    color: Color(0xFFEDF1F3),
-                                                                                                    width: 1.0,
+                                                                                              'schoolref': serializeParam(
+                                                                                                classDashboardSchoolRecord.reference,
+                                                                                                ParamType.DocumentReference,
+                                                                                              ),
+                                                                                              'mainpage': serializeParam(
+                                                                                                true,
+                                                                                                ParamType.bool,
+                                                                                              ),
+                                                                                            }.withoutNulls,
+                                                                                            extra: <String, dynamic>{
+                                                                                              kTransitionInfoKey: TransitionInfo(
+                                                                                                hasTransition: true,
+                                                                                                transitionType: PageTransitionType.fade,
+                                                                                              ),
+                                                                                            },
+                                                                                          );
+                                                                                        } else {
+                                                                                          context.pushNamed(
+                                                                                            NewStudentWidget.routeName,
+                                                                                            queryParameters: {
+                                                                                              'studentsref': serializeParam(
+                                                                                                studentsItem.studentId,
+                                                                                                ParamType.DocumentReference,
+                                                                                              ),
+                                                                                              'schoolref': serializeParam(
+                                                                                                classDashboardSchoolRecord.reference,
+                                                                                                ParamType.DocumentReference,
+                                                                                              ),
+                                                                                            }.withoutNulls,
+                                                                                            extra: <String, dynamic>{
+                                                                                              kTransitionInfoKey: TransitionInfo(
+                                                                                                hasTransition: true,
+                                                                                                transitionType: PageTransitionType.fade,
+                                                                                              ),
+                                                                                            },
+                                                                                          );
+                                                                                        }
+                                                                                      }
+                                                                                    },
+                                                                                    child: Stack(
+                                                                                      children: [
+                                                                                        Material(
+                                                                                          color: Colors.transparent,
+                                                                                          elevation: 1.0,
+                                                                                          shape: RoundedRectangleBorder(
+                                                                                            borderRadius: BorderRadius.circular(10.0),
+                                                                                          ),
+                                                                                          child: Container(
+                                                                                            width: MediaQuery.sizeOf(context).width * 1.0,
+                                                                                            height: MediaQuery.sizeOf(context).height * 1.0,
+                                                                                            decoration: BoxDecoration(
+                                                                                              color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                              boxShadow: [
+                                                                                                BoxShadow(
+                                                                                                  blurRadius: 2.0,
+                                                                                                  color: Color(0x40E4E5E7),
+                                                                                                  offset: Offset(
+                                                                                                    0.0,
+                                                                                                    1.0,
                                                                                                   ),
-                                                                                                ),
-                                                                                                child: Column(
-                                                                                                  mainAxisSize: MainAxisSize.max,
-                                                                                                  mainAxisAlignment: MainAxisAlignment.center,
-                                                                                                  children: [
-                                                                                                    Container(
-                                                                                                      width: MediaQuery.sizeOf(context).width * 0.18,
-                                                                                                      height: MediaQuery.sizeOf(context).width * 0.18,
-                                                                                                      clipBehavior: Clip.antiAlias,
-                                                                                                      decoration: BoxDecoration(
-                                                                                                        shape: BoxShape.circle,
-                                                                                                      ),
-                                                                                                      child: Image.network(
-                                                                                                        valueOrDefault<String>(
-                                                                                                          studentsItem.studentImage,
-                                                                                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
-                                                                                                        ),
-                                                                                                        fit: BoxFit.cover,
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                    Align(
-                                                                                                      alignment: AlignmentDirectional(0.0, 0.0),
-                                                                                                      child: Text(
-                                                                                                        studentsItem.studentName,
-                                                                                                        textAlign: TextAlign.center,
-                                                                                                        style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                                              font: GoogleFonts.nunito(
-                                                                                                                fontWeight: FontWeight.normal,
-                                                                                                                fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                                              ),
-                                                                                                              color: FlutterFlowTheme.of(context).primaryText,
-                                                                                                              fontSize: 12.0,
-                                                                                                              letterSpacing: 0.0,
-                                                                                                              fontWeight: FontWeight.normal,
-                                                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                                            ),
-                                                                                                      ),
-                                                                                                    ),
-                                                                                                  ].divide(SizedBox(height: 10.0)),
-                                                                                                ),
+                                                                                                  spreadRadius: 0.0,
+                                                                                                )
+                                                                                              ],
+                                                                                              borderRadius: BorderRadius.circular(10.0),
+                                                                                              border: Border.all(
+                                                                                                color: Color(0xFFEDF1F3),
+                                                                                                width: 1.0,
                                                                                               ),
                                                                                             ),
-                                                                                            if (stackStudentsRecord.isDraft)
-                                                                                              Align(
-                                                                                                alignment: AlignmentDirectional(1.0, -1.2),
-                                                                                                child: Icon(
-                                                                                                  Icons.error,
-                                                                                                  color: Color(0xFFB03E3E),
-                                                                                                  size: 24.0,
+                                                                                            child: Column(
+                                                                                              mainAxisSize: MainAxisSize.max,
+                                                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                                                              children: [
+                                                                                                Container(
+                                                                                                  width: MediaQuery.sizeOf(context).width * 0.18,
+                                                                                                  height: MediaQuery.sizeOf(context).width * 0.18,
+                                                                                                  clipBehavior: Clip.antiAlias,
+                                                                                                  decoration: BoxDecoration(
+                                                                                                    shape: BoxShape.circle,
+                                                                                                  ),
+                                                                                                  child: CachedNetworkImage(
+                                                                                                    fadeInDuration: Duration(milliseconds: 500),
+                                                                                                    fadeOutDuration: Duration(milliseconds: 500),
+                                                                                                    imageUrl: valueOrDefault<String>(
+                                                                                                      studentsItem.studentImage,
+                                                                                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
+                                                                                                    ),
+                                                                                                    fit: BoxFit.cover,
+                                                                                                  ),
                                                                                                 ),
-                                                                                              ),
-                                                                                          ],
+                                                                                                Align(
+                                                                                                  alignment: AlignmentDirectional(0.0, 0.0),
+                                                                                                  child: Text(
+                                                                                                    studentsItem.studentName,
+                                                                                                    textAlign: TextAlign.center,
+                                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                          font: GoogleFonts.nunito(
+                                                                                                            fontWeight: FontWeight.normal,
+                                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                                          ),
+                                                                                                          color: FlutterFlowTheme.of(context).primaryText,
+                                                                                                          fontSize: 12.0,
+                                                                                                          letterSpacing: 0.0,
+                                                                                                          fontWeight: FontWeight.normal,
+                                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                                        ),
+                                                                                                  ),
+                                                                                                ),
+                                                                                              ].divide(SizedBox(height: 10.0)),
+                                                                                            ),
+                                                                                          ),
                                                                                         ),
-                                                                                      );
-                                                                                    },
+                                                                                        if (studentsItem.isDraft)
+                                                                                          Align(
+                                                                                            alignment: AlignmentDirectional(1.0, -1.2),
+                                                                                            child: Icon(
+                                                                                              Icons.error,
+                                                                                              color: Color(0xFFB03E3E),
+                                                                                              size: 24.0,
+                                                                                            ),
+                                                                                          ),
+                                                                                      ],
+                                                                                    ),
                                                                                   );
                                                                                 }
                                                                               },
