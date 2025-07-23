@@ -7644,7 +7644,7 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                             .showSnackBar(
                                           SnackBar(
                                             content: Text(
-                                              'Student Profile updated1',
+                                              'A student\'s profile has been updated',
                                               style: TextStyle(
                                                 color:
                                                     FlutterFlowTheme.of(context)
@@ -7789,69 +7789,47 @@ class _EditClassStudentWidgetState extends State<EditClassStudentWidget> {
                                               },
                                             ),
                                           });
-
-                                          await NotificationsRecord.collection
-                                              .doc()
-                                              .set({
-                                            ...createNotificationsRecordData(
-                                              content:
-                                                  'student profile has been edited',
-                                              isread: false,
-                                              notification:
-                                                  updateNotificationStruct(
-                                                NotificationStruct(
-                                                  notificationTitle:
-                                                      ' student profile has been edited',
-                                                  descriptions:
-                                                      '${_model.childnameTextController.text}\'s profile in class ${_model.classes?.className} has been edited',
-                                                  timeStamp:
-                                                      getCurrentTimestamp,
-                                                  isRead: true,
-                                                ),
-                                                clearUnsetFields: false,
-                                                create: true,
-                                              ),
-                                              createDate: getCurrentTimestamp,
-                                              descri:
-                                                  '${_model.childnameTextController.text}\'s profile in class ${_model.classes?.className} has been edited',
-                                              addedby: currentUserReference,
-                                              heading:
-                                                  'Student Profile Updated',
-                                            ),
-                                            ...mapToFirestore(
-                                              {
-                                                'userref': _model.classes
-                                                    ?.listOfteachersUser,
-                                                'schoolref': [
-                                                  widget.schoolref
-                                                ],
-                                              },
-                                            ),
-                                          });
                                           FFAppState().loopminparent =
                                               FFAppState().loopminparent + 1;
                                           safeSetState(() {});
                                         }
+
+                                        await NotificationsRecord.collection
+                                            .doc()
+                                            .set({
+                                          ...createNotificationsRecordData(
+                                            content:
+                                                'A student\'s profile has been updated',
+                                            isread: false,
+                                            notification:
+                                                updateNotificationStruct(
+                                              NotificationStruct(
+                                                notificationTitle:
+                                                    ' student profile has been edited',
+                                                descriptions:
+                                                    '${_model.childnameTextController.text}\'s profile in class ${_model.classes?.className} has been edited',
+                                                timeStamp: getCurrentTimestamp,
+                                                isRead: true,
+                                              ),
+                                              clearUnsetFields: false,
+                                              create: true,
+                                            ),
+                                            createDate: getCurrentTimestamp,
+                                            descri:
+                                                '${_model.childnameTextController.text}\'s profile in class ${_model.classes?.className} has been Updated',
+                                            addedby: currentUserReference,
+                                            heading: 'Student Profile Updated',
+                                          ),
+                                          ...mapToFirestore(
+                                            {
+                                              'userref': _model
+                                                  .classes?.listOfteachersUser,
+                                              'schoolref': [widget.schoolref],
+                                            },
+                                          ),
+                                        });
                                         FFAppState().loopminparent = 0;
                                         safeSetState(() {});
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(
-                                          SnackBar(
-                                            content: Text(
-                                              'Student Profile updated 2',
-                                              style: TextStyle(
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .secondary,
-                                              ),
-                                            ),
-                                            duration:
-                                                Duration(milliseconds: 2849),
-                                            backgroundColor:
-                                                FlutterFlowTheme.of(context)
-                                                    .primaryText,
-                                          ),
-                                        );
                                         FFAppState().imageurl = '';
                                         FFAppState().profileimagechanged =
                                             false;

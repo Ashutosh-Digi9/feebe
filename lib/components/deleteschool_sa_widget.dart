@@ -29,7 +29,11 @@ class _DeleteschoolSaWidgetState extends State<DeleteschoolSaWidget> {
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(const Duration(milliseconds: 1000));
+      await Future.delayed(
+        Duration(
+          milliseconds: 1000,
+        ),
+      );
       Navigator.pop(context);
     });
   }

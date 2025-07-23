@@ -300,13 +300,12 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                           ),
                           Container(
                             width: MediaQuery.sizeOf(context).width * 1.0,
-                            height: MediaQuery.sizeOf(context).height * 0.11,
                             decoration: BoxDecoration(
                               color: Color(0x181D61E7),
                             ),
                             child: Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
-                                  10.0, 0.0, 0.0, 0.0),
+                                  10.0, 10.0, 0.0, 10.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -733,6 +732,8 @@ class _ClassViewWidgetState extends State<ClassViewWidget> {
                                                     ),
                                                     Text(
                                                       'Class Calendar',
+                                                      textAlign:
+                                                          TextAlign.center,
                                                       style: FlutterFlowTheme
                                                               .of(context)
                                                           .bodyMedium

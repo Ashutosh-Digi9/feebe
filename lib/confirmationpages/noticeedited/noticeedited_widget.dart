@@ -31,7 +31,11 @@ class _NoticeeditedWidgetState extends State<NoticeeditedWidget> {
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(const Duration(milliseconds: 2000));
+      await Future.delayed(
+        Duration(
+          milliseconds: 2000,
+        ),
+      );
       FFAppState().eventfiles = [];
       FFAppState().update(() {});
       Navigator.pop(context);

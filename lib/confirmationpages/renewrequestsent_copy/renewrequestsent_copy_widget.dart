@@ -32,7 +32,11 @@ class _RenewrequestsentCopyWidgetState
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(const Duration(milliseconds: 2000));
+      await Future.delayed(
+        Duration(
+          milliseconds: 2000,
+        ),
+      );
       Navigator.pop(context);
     });
   }

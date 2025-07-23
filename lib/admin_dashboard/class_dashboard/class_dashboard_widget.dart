@@ -34,6 +34,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 import 'class_dashboard_model.dart';
 export 'class_dashboard_model.dart';
@@ -2381,11 +2382,6 @@ class _ClassDashboardWidgetState extends State<ClassDashboardWidget>
                                                               FFButtonWidget(
                                                             onPressed:
                                                                 () async {
-                                                              if (Navigator.of(
-                                                                      context)
-                                                                  .canPop()) {
-                                                                context.pop();
-                                                              }
                                                               context.pushNamed(
                                                                 AddClassAdminWidget
                                                                     .routeName,
@@ -4977,6 +4973,10 @@ class _ClassDashboardWidgetState extends State<ClassDashboardWidget>
                                                                     height: MediaQuery.sizeOf(context)
                                                                             .height *
                                                                         0.05,
+                                                                    menuOffset:
+                                                                        Offset(
+                                                                            0,
+                                                                            100.0),
                                                                     textStyle: FlutterFlowTheme.of(
                                                                             context)
                                                                         .bodyMedium
@@ -5575,310 +5575,351 @@ class _ClassDashboardWidgetState extends State<ClassDashboardWidget>
                                                                             10.0,
                                                                             5.0,
                                                                             30.0),
-                                                                    child:
-                                                                        Builder(
-                                                                      builder:
-                                                                          (context) {
-                                                                        final students = functions
-                                                                            .startfromfirststudents(classDashboardSchoolRecord.studentDataList.sortedList(keyOf: (e) => e.studentName, desc: false).toList())
-                                                                            .toList();
-                                                                        if (students
-                                                                            .isEmpty) {
-                                                                          return Center(
+                                                                    child: PagedGridView<
+                                                                        DocumentSnapshot<
+                                                                            Object?>?,
+                                                                        StudentsRecord>(
+                                                                      pagingController:
+                                                                          _model
+                                                                              .setGridViewController1(
+                                                                        StudentsRecord
+                                                                            .collection
+                                                                            .where(
+                                                                              'schoolref',
+                                                                              isEqualTo: widget.schoolref,
+                                                                            )
+                                                                            .orderBy('student_name'),
+                                                                      ),
+                                                                      padding:
+                                                                          EdgeInsets
+                                                                              .fromLTRB(
+                                                                        0,
+                                                                        0,
+                                                                        0,
+                                                                        50.0,
+                                                                      ),
+                                                                      gridDelegate:
+                                                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                                                        crossAxisCount:
+                                                                            3,
+                                                                        crossAxisSpacing:
+                                                                            15.0,
+                                                                        mainAxisSpacing:
+                                                                            18.0,
+                                                                        childAspectRatio:
+                                                                            0.87,
+                                                                      ),
+                                                                      primary:
+                                                                          false,
+                                                                      shrinkWrap:
+                                                                          true,
+                                                                      scrollDirection:
+                                                                          Axis.vertical,
+                                                                      builderDelegate:
+                                                                          PagedChildBuilderDelegate<
+                                                                              StudentsRecord>(
+                                                                        // Customize what your widget looks like when it's loading the first page.
+                                                                        firstPageProgressIndicatorBuilder:
+                                                                            (_) =>
+                                                                                Center(
+                                                                          child:
+                                                                              SizedBox(
+                                                                            width:
+                                                                                50.0,
+                                                                            height:
+                                                                                50.0,
                                                                             child:
-                                                                                Container(
-                                                                              width: MediaQuery.sizeOf(context).width * 1.0,
-                                                                              height: MediaQuery.sizeOf(context).height * 0.2,
-                                                                              child: EmptystudentWidget(),
+                                                                                CircularProgressIndicator(
+                                                                              valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                FlutterFlowTheme.of(context).primary,
+                                                                              ),
                                                                             ),
-                                                                          );
-                                                                        }
-
-                                                                        return GridView
-                                                                            .builder(
-                                                                          padding:
-                                                                              EdgeInsets.fromLTRB(
-                                                                            0,
-                                                                            0,
-                                                                            0,
-                                                                            50.0,
                                                                           ),
-                                                                          gridDelegate:
-                                                                              SliverGridDelegateWithFixedCrossAxisCount(
-                                                                            crossAxisCount:
-                                                                                3,
-                                                                            crossAxisSpacing:
-                                                                                15.0,
-                                                                            mainAxisSpacing:
-                                                                                18.0,
-                                                                            childAspectRatio:
-                                                                                0.87,
+                                                                        ),
+                                                                        // Customize what your widget looks like when it's loading another page.
+                                                                        newPageProgressIndicatorBuilder:
+                                                                            (_) =>
+                                                                                Center(
+                                                                          child:
+                                                                              SizedBox(
+                                                                            width:
+                                                                                50.0,
+                                                                            height:
+                                                                                50.0,
+                                                                            child:
+                                                                                CircularProgressIndicator(
+                                                                              valueColor: AlwaysStoppedAnimation<Color>(
+                                                                                FlutterFlowTheme.of(context).primary,
+                                                                              ),
+                                                                            ),
                                                                           ),
-                                                                          primary:
-                                                                              false,
-                                                                          shrinkWrap:
-                                                                              true,
-                                                                          scrollDirection:
-                                                                              Axis.vertical,
-                                                                          itemCount:
-                                                                              students.length,
-                                                                          itemBuilder:
-                                                                              (context, studentsIndex) {
-                                                                            final studentsItem =
-                                                                                students[studentsIndex];
-                                                                            return Builder(
-                                                                              builder: (context) {
-                                                                                if (studentsIndex == 0) {
-                                                                                  return Visibility(
-                                                                                    visible: valueOrDefault(currentUserDocument?.userRole, 0) != 1,
-                                                                                    child: AuthUserStreamWidget(
-                                                                                      builder: (context) => InkWell(
-                                                                                        splashColor: Colors.transparent,
-                                                                                        focusColor: Colors.transparent,
-                                                                                        hoverColor: Colors.transparent,
-                                                                                        highlightColor: Colors.transparent,
-                                                                                        onTap: () async {
-                                                                                          context.pushNamed(
-                                                                                            AddStudentManuallyWidget.routeName,
-                                                                                            queryParameters: {
-                                                                                              'schoolref': serializeParam(
-                                                                                                widget.schoolref,
-                                                                                                ParamType.DocumentReference,
-                                                                                              ),
-                                                                                            }.withoutNulls,
-                                                                                          );
-                                                                                        },
-                                                                                        child: Material(
-                                                                                          color: Colors.transparent,
-                                                                                          elevation: 1.0,
-                                                                                          shape: RoundedRectangleBorder(
-                                                                                            borderRadius: BorderRadius.circular(10.0),
-                                                                                          ),
-                                                                                          child: Container(
-                                                                                            width: MediaQuery.sizeOf(context).width * 1.0,
-                                                                                            height: MediaQuery.sizeOf(context).height * 1.0,
-                                                                                            decoration: BoxDecoration(
-                                                                                              color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                                                              boxShadow: [
-                                                                                                BoxShadow(
-                                                                                                  blurRadius: 2.0,
-                                                                                                  color: Color(0x3CE4E5E7),
-                                                                                                  offset: Offset(
-                                                                                                    0.0,
-                                                                                                    1.0,
-                                                                                                  ),
-                                                                                                  spreadRadius: 0.0,
-                                                                                                )
-                                                                                              ],
-                                                                                              borderRadius: BorderRadius.circular(10.0),
-                                                                                              border: Border.all(
-                                                                                                color: Color(0xFFEDF1F3),
-                                                                                                width: 1.0,
-                                                                                              ),
-                                                                                            ),
-                                                                                            child: Column(
-                                                                                              mainAxisSize: MainAxisSize.max,
-                                                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                                                              children: [
-                                                                                                Container(
-                                                                                                  width: MediaQuery.sizeOf(context).width * 0.18,
-                                                                                                  height: MediaQuery.sizeOf(context).width * 0.18,
-                                                                                                  clipBehavior: Clip.antiAlias,
-                                                                                                  decoration: BoxDecoration(
-                                                                                                    shape: BoxShape.circle,
-                                                                                                  ),
-                                                                                                  child: Image.network(
-                                                                                                    valueOrDefault<String>(
-                                                                                                      studentsItem.studentImage != '' ? studentsItem.studentImage : 'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
-                                                                                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
-                                                                                                    ),
-                                                                                                    fit: BoxFit.cover,
-                                                                                                  ),
-                                                                                                ),
-                                                                                                Align(
-                                                                                                  alignment: AlignmentDirectional(0.0, 1.0),
-                                                                                                  child: Text(
-                                                                                                    'Add Student',
-                                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                                          font: GoogleFonts.nunito(
-                                                                                                            fontWeight: FontWeight.normal,
-                                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                                          ),
-                                                                                                          color: FlutterFlowTheme.of(context).primary,
-                                                                                                          fontSize: 12.0,
-                                                                                                          letterSpacing: 0.0,
-                                                                                                          fontWeight: FontWeight.normal,
-                                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                                        ),
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ].divide(SizedBox(height: 10.0)),
-                                                                                            ),
-                                                                                          ),
-                                                                                        ),
-                                                                                      ),
-                                                                                    ),
-                                                                                  );
-                                                                                } else {
-                                                                                  return InkWell(
-                                                                                    splashColor: Colors.transparent,
-                                                                                    focusColor: Colors.transparent,
-                                                                                    hoverColor: Colors.transparent,
-                                                                                    highlightColor: Colors.transparent,
-                                                                                    onTap: () async {
-                                                                                      if (studentsItem.isDraft == true) {
+                                                                        ),
+                                                                        noItemsFoundIndicatorBuilder:
+                                                                            (_) =>
+                                                                                Center(
+                                                                          child:
+                                                                              Container(
+                                                                            width:
+                                                                                MediaQuery.sizeOf(context).width * 1.0,
+                                                                            height:
+                                                                                MediaQuery.sizeOf(context).height * 0.2,
+                                                                            child:
+                                                                                EmptystudentWidget(),
+                                                                          ),
+                                                                        ),
+                                                                        itemBuilder: (context,
+                                                                            _,
+                                                                            gridViewIndex) {
+                                                                          final gridViewStudentsRecord = _model
+                                                                              .gridViewPagingController1!
+                                                                              .itemList![gridViewIndex];
+                                                                          return Builder(
+                                                                            builder:
+                                                                                (context) {
+                                                                              if (gridViewIndex == 0) {
+                                                                                return Visibility(
+                                                                                  visible: valueOrDefault(currentUserDocument?.userRole, 0) != 1,
+                                                                                  child: AuthUserStreamWidget(
+                                                                                    builder: (context) => InkWell(
+                                                                                      splashColor: Colors.transparent,
+                                                                                      focusColor: Colors.transparent,
+                                                                                      hoverColor: Colors.transparent,
+                                                                                      highlightColor: Colors.transparent,
+                                                                                      onTap: () async {
                                                                                         context.pushNamed(
-                                                                                          StudentDraftWidget.routeName,
+                                                                                          AddStudentManuallyWidget.routeName,
                                                                                           queryParameters: {
                                                                                             'schoolref': serializeParam(
-                                                                                              classDashboardSchoolRecord.reference,
-                                                                                              ParamType.DocumentReference,
-                                                                                            ),
-                                                                                            'studentref': serializeParam(
-                                                                                              studentsItem.studentId,
+                                                                                              widget.schoolref,
                                                                                               ParamType.DocumentReference,
                                                                                             ),
                                                                                           }.withoutNulls,
                                                                                         );
-                                                                                      } else {
-                                                                                        if (studentsItem.classref.length != 0) {
-                                                                                          context.pushNamed(
-                                                                                            IndistudentmainpagesWidget.routeName,
-                                                                                            queryParameters: {
-                                                                                              'studentsref': serializeParam(
-                                                                                                studentsItem.studentId,
-                                                                                                ParamType.DocumentReference,
-                                                                                              ),
-                                                                                              'schoolref': serializeParam(
-                                                                                                classDashboardSchoolRecord.reference,
-                                                                                                ParamType.DocumentReference,
-                                                                                              ),
-                                                                                              'mainpage': serializeParam(
-                                                                                                true,
-                                                                                                ParamType.bool,
-                                                                                              ),
-                                                                                            }.withoutNulls,
-                                                                                            extra: <String, dynamic>{
-                                                                                              kTransitionInfoKey: TransitionInfo(
-                                                                                                hasTransition: true,
-                                                                                                transitionType: PageTransitionType.fade,
-                                                                                              ),
-                                                                                            },
-                                                                                          );
-                                                                                        } else {
-                                                                                          context.pushNamed(
-                                                                                            NewStudentWidget.routeName,
-                                                                                            queryParameters: {
-                                                                                              'studentsref': serializeParam(
-                                                                                                studentsItem.studentId,
-                                                                                                ParamType.DocumentReference,
-                                                                                              ),
-                                                                                              'schoolref': serializeParam(
-                                                                                                classDashboardSchoolRecord.reference,
-                                                                                                ParamType.DocumentReference,
-                                                                                              ),
-                                                                                            }.withoutNulls,
-                                                                                            extra: <String, dynamic>{
-                                                                                              kTransitionInfoKey: TransitionInfo(
-                                                                                                hasTransition: true,
-                                                                                                transitionType: PageTransitionType.fade,
-                                                                                              ),
-                                                                                            },
-                                                                                          );
-                                                                                        }
-                                                                                      }
-                                                                                    },
-                                                                                    child: Stack(
-                                                                                      children: [
-                                                                                        Material(
-                                                                                          color: Colors.transparent,
-                                                                                          elevation: 1.0,
-                                                                                          shape: RoundedRectangleBorder(
-                                                                                            borderRadius: BorderRadius.circular(10.0),
-                                                                                          ),
-                                                                                          child: Container(
-                                                                                            width: MediaQuery.sizeOf(context).width * 1.0,
-                                                                                            height: MediaQuery.sizeOf(context).height * 1.0,
-                                                                                            decoration: BoxDecoration(
-                                                                                              color: FlutterFlowTheme.of(context).secondaryBackground,
-                                                                                              boxShadow: [
-                                                                                                BoxShadow(
-                                                                                                  blurRadius: 2.0,
-                                                                                                  color: Color(0x40E4E5E7),
-                                                                                                  offset: Offset(
-                                                                                                    0.0,
-                                                                                                    1.0,
-                                                                                                  ),
-                                                                                                  spreadRadius: 0.0,
-                                                                                                )
-                                                                                              ],
-                                                                                              borderRadius: BorderRadius.circular(10.0),
-                                                                                              border: Border.all(
-                                                                                                color: Color(0xFFEDF1F3),
-                                                                                                width: 1.0,
-                                                                                              ),
-                                                                                            ),
-                                                                                            child: Column(
-                                                                                              mainAxisSize: MainAxisSize.max,
-                                                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                                                              children: [
-                                                                                                Container(
-                                                                                                  width: MediaQuery.sizeOf(context).width * 0.18,
-                                                                                                  height: MediaQuery.sizeOf(context).width * 0.18,
-                                                                                                  clipBehavior: Clip.antiAlias,
-                                                                                                  decoration: BoxDecoration(
-                                                                                                    shape: BoxShape.circle,
-                                                                                                  ),
-                                                                                                  child: CachedNetworkImage(
-                                                                                                    fadeInDuration: Duration(milliseconds: 500),
-                                                                                                    fadeOutDuration: Duration(milliseconds: 500),
-                                                                                                    imageUrl: valueOrDefault<String>(
-                                                                                                      studentsItem.studentImage,
-                                                                                                      'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
-                                                                                                    ),
-                                                                                                    fit: BoxFit.cover,
-                                                                                                  ),
+                                                                                      },
+                                                                                      child: Material(
+                                                                                        color: Colors.transparent,
+                                                                                        elevation: 1.0,
+                                                                                        shape: RoundedRectangleBorder(
+                                                                                          borderRadius: BorderRadius.circular(10.0),
+                                                                                        ),
+                                                                                        child: Container(
+                                                                                          width: MediaQuery.sizeOf(context).width * 1.0,
+                                                                                          height: MediaQuery.sizeOf(context).height * 1.0,
+                                                                                          decoration: BoxDecoration(
+                                                                                            color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                            boxShadow: [
+                                                                                              BoxShadow(
+                                                                                                blurRadius: 2.0,
+                                                                                                color: Color(0x3CE4E5E7),
+                                                                                                offset: Offset(
+                                                                                                  0.0,
+                                                                                                  1.0,
                                                                                                 ),
-                                                                                                Align(
-                                                                                                  alignment: AlignmentDirectional(0.0, 0.0),
-                                                                                                  child: Text(
-                                                                                                    studentsItem.studentName,
-                                                                                                    textAlign: TextAlign.center,
-                                                                                                    style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                                          font: GoogleFonts.nunito(
-                                                                                                            fontWeight: FontWeight.normal,
-                                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                                          ),
-                                                                                                          color: FlutterFlowTheme.of(context).primaryText,
-                                                                                                          fontSize: 12.0,
-                                                                                                          letterSpacing: 0.0,
+                                                                                                spreadRadius: 0.0,
+                                                                                              )
+                                                                                            ],
+                                                                                            borderRadius: BorderRadius.circular(10.0),
+                                                                                            border: Border.all(
+                                                                                              color: Color(0xFFEDF1F3),
+                                                                                              width: 1.0,
+                                                                                            ),
+                                                                                          ),
+                                                                                          child: Column(
+                                                                                            mainAxisSize: MainAxisSize.max,
+                                                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                                                            children: [
+                                                                                              Container(
+                                                                                                width: MediaQuery.sizeOf(context).width * 0.18,
+                                                                                                height: MediaQuery.sizeOf(context).width * 0.18,
+                                                                                                clipBehavior: Clip.antiAlias,
+                                                                                                decoration: BoxDecoration(
+                                                                                                  shape: BoxShape.circle,
+                                                                                                ),
+                                                                                                child: Image.network(
+                                                                                                  'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
+                                                                                                  fit: BoxFit.cover,
+                                                                                                ),
+                                                                                              ),
+                                                                                              Align(
+                                                                                                alignment: AlignmentDirectional(0.0, 1.0),
+                                                                                                child: Text(
+                                                                                                  'Add Student',
+                                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                        font: GoogleFonts.nunito(
                                                                                                           fontWeight: FontWeight.normal,
                                                                                                           fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                                         ),
-                                                                                                  ),
+                                                                                                        color: FlutterFlowTheme.of(context).primary,
+                                                                                                        fontSize: 12.0,
+                                                                                                        letterSpacing: 0.0,
+                                                                                                        fontWeight: FontWeight.normal,
+                                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                                      ),
                                                                                                 ),
-                                                                                              ].divide(SizedBox(height: 10.0)),
-                                                                                            ),
+                                                                                              ),
+                                                                                            ].divide(SizedBox(height: 10.0)),
                                                                                           ),
                                                                                         ),
-                                                                                        if (studentsItem.isDraft)
-                                                                                          Align(
-                                                                                            alignment: AlignmentDirectional(1.0, -1.2),
-                                                                                            child: Icon(
-                                                                                              Icons.error,
-                                                                                              color: Color(0xFFB03E3E),
-                                                                                              size: 24.0,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                );
+                                                                              } else {
+                                                                                return InkWell(
+                                                                                  splashColor: Colors.transparent,
+                                                                                  focusColor: Colors.transparent,
+                                                                                  hoverColor: Colors.transparent,
+                                                                                  highlightColor: Colors.transparent,
+                                                                                  onTap: () async {
+                                                                                    if (gridViewStudentsRecord.isDraft == true) {
+                                                                                      context.pushNamed(
+                                                                                        StudentDraftWidget.routeName,
+                                                                                        queryParameters: {
+                                                                                          'schoolref': serializeParam(
+                                                                                            classDashboardSchoolRecord.reference,
+                                                                                            ParamType.DocumentReference,
+                                                                                          ),
+                                                                                          'studentref': serializeParam(
+                                                                                            gridViewStudentsRecord.reference,
+                                                                                            ParamType.DocumentReference,
+                                                                                          ),
+                                                                                        }.withoutNulls,
+                                                                                      );
+                                                                                    } else {
+                                                                                      if (gridViewStudentsRecord.classref.length != 0) {
+                                                                                        context.pushNamed(
+                                                                                          IndistudentmainpagesWidget.routeName,
+                                                                                          queryParameters: {
+                                                                                            'studentsref': serializeParam(
+                                                                                              gridViewStudentsRecord.reference,
+                                                                                              ParamType.DocumentReference,
+                                                                                            ),
+                                                                                            'schoolref': serializeParam(
+                                                                                              classDashboardSchoolRecord.reference,
+                                                                                              ParamType.DocumentReference,
+                                                                                            ),
+                                                                                            'mainpage': serializeParam(
+                                                                                              true,
+                                                                                              ParamType.bool,
+                                                                                            ),
+                                                                                          }.withoutNulls,
+                                                                                          extra: <String, dynamic>{
+                                                                                            kTransitionInfoKey: TransitionInfo(
+                                                                                              hasTransition: true,
+                                                                                              transitionType: PageTransitionType.fade,
+                                                                                            ),
+                                                                                          },
+                                                                                        );
+                                                                                      } else {
+                                                                                        context.pushNamed(
+                                                                                          NewStudentWidget.routeName,
+                                                                                          queryParameters: {
+                                                                                            'studentsref': serializeParam(
+                                                                                              gridViewStudentsRecord.reference,
+                                                                                              ParamType.DocumentReference,
+                                                                                            ),
+                                                                                            'schoolref': serializeParam(
+                                                                                              classDashboardSchoolRecord.reference,
+                                                                                              ParamType.DocumentReference,
+                                                                                            ),
+                                                                                          }.withoutNulls,
+                                                                                          extra: <String, dynamic>{
+                                                                                            kTransitionInfoKey: TransitionInfo(
+                                                                                              hasTransition: true,
+                                                                                              transitionType: PageTransitionType.fade,
+                                                                                            ),
+                                                                                          },
+                                                                                        );
+                                                                                      }
+                                                                                    }
+                                                                                  },
+                                                                                  child: Stack(
+                                                                                    children: [
+                                                                                      Material(
+                                                                                        color: Colors.transparent,
+                                                                                        elevation: 1.0,
+                                                                                        shape: RoundedRectangleBorder(
+                                                                                          borderRadius: BorderRadius.circular(10.0),
+                                                                                        ),
+                                                                                        child: Container(
+                                                                                          width: MediaQuery.sizeOf(context).width * 1.0,
+                                                                                          height: MediaQuery.sizeOf(context).height * 1.0,
+                                                                                          decoration: BoxDecoration(
+                                                                                            color: FlutterFlowTheme.of(context).secondaryBackground,
+                                                                                            boxShadow: [
+                                                                                              BoxShadow(
+                                                                                                blurRadius: 2.0,
+                                                                                                color: Color(0x40E4E5E7),
+                                                                                                offset: Offset(
+                                                                                                  0.0,
+                                                                                                  1.0,
+                                                                                                ),
+                                                                                                spreadRadius: 0.0,
+                                                                                              )
+                                                                                            ],
+                                                                                            borderRadius: BorderRadius.circular(10.0),
+                                                                                            border: Border.all(
+                                                                                              color: Color(0xFFEDF1F3),
+                                                                                              width: 1.0,
                                                                                             ),
                                                                                           ),
-                                                                                      ],
-                                                                                    ),
-                                                                                  );
-                                                                                }
-                                                                              },
-                                                                            );
-                                                                          },
-                                                                        );
-                                                                      },
+                                                                                          child: Column(
+                                                                                            mainAxisSize: MainAxisSize.max,
+                                                                                            mainAxisAlignment: MainAxisAlignment.center,
+                                                                                            children: [
+                                                                                              Container(
+                                                                                                width: MediaQuery.sizeOf(context).width * 0.18,
+                                                                                                height: MediaQuery.sizeOf(context).width * 0.18,
+                                                                                                clipBehavior: Clip.antiAlias,
+                                                                                                decoration: BoxDecoration(
+                                                                                                  shape: BoxShape.circle,
+                                                                                                ),
+                                                                                                child: CachedNetworkImage(
+                                                                                                  fadeInDuration: Duration(milliseconds: 500),
+                                                                                                  fadeOutDuration: Duration(milliseconds: 500),
+                                                                                                  imageUrl: gridViewStudentsRecord.studentImage,
+                                                                                                  fit: BoxFit.cover,
+                                                                                                ),
+                                                                                              ),
+                                                                                              Align(
+                                                                                                alignment: AlignmentDirectional(0.0, 0.0),
+                                                                                                child: Text(
+                                                                                                  gridViewStudentsRecord.studentName,
+                                                                                                  textAlign: TextAlign.center,
+                                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                                        font: GoogleFonts.nunito(
+                                                                                                          fontWeight: FontWeight.normal,
+                                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                                        ),
+                                                                                                        color: FlutterFlowTheme.of(context).primaryText,
+                                                                                                        fontSize: 12.0,
+                                                                                                        letterSpacing: 0.0,
+                                                                                                        fontWeight: FontWeight.normal,
+                                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                                      ),
+                                                                                                ),
+                                                                                              ),
+                                                                                            ].divide(SizedBox(height: 10.0)),
+                                                                                          ),
+                                                                                        ),
+                                                                                      ),
+                                                                                      if (gridViewStudentsRecord.isDraft)
+                                                                                        Align(
+                                                                                          alignment: AlignmentDirectional(1.0, -1.2),
+                                                                                          child: Icon(
+                                                                                            Icons.error,
+                                                                                            color: Color(0xFFB03E3E),
+                                                                                            size: 24.0,
+                                                                                          ),
+                                                                                        ),
+                                                                                    ],
+                                                                                  ),
+                                                                                );
+                                                                              }
+                                                                            },
+                                                                          );
+                                                                        },
+                                                                      ),
                                                                     ),
                                                                   ),
                                                                 ].addToEnd(

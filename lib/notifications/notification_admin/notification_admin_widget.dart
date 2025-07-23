@@ -6,6 +6,7 @@ import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/navbar/navbaradmin/navbaradmin_widget.dart';
 import '/shimmer_effects/classshimmer/classshimmer_widget.dart';
+import '/custom_code/widgets/index.dart' as custom_widgets;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:aligned_dialog/aligned_dialog.dart';
@@ -236,6 +237,25 @@ class _NotificationAdminWidgetState extends State<NotificationAdminWidget> {
               height: MediaQuery.sizeOf(context).height * 1.0,
               child: Stack(
                 children: [
+                  Container(
+                    width: MediaQuery.sizeOf(context).width * 1.0,
+                    height: MediaQuery.sizeOf(context).height * 1.0,
+                    child: custom_widgets.BackButtonOverrider(
+                      width: MediaQuery.sizeOf(context).width * 1.0,
+                      height: MediaQuery.sizeOf(context).height * 1.0,
+                      onBack: () async {
+                        context.goNamed(
+                          ClassDashboardWidget.routeName,
+                          queryParameters: {
+                            'schoolref': serializeParam(
+                              widget.schoolref,
+                              ParamType.DocumentReference,
+                            ),
+                          }.withoutNulls,
+                        );
+                      },
+                    ),
+                  ),
                   Padding(
                     padding: EdgeInsets.all(5.0),
                     child: SingleChildScrollView(
@@ -279,16 +299,13 @@ class _NotificationAdminWidgetState extends State<NotificationAdminWidget> {
                                   final notices =
                                       notificationAdminNotificationsRecordList
                                           .where((e) =>
-                                              (e.schoolref.contains(
-                                                      widget.schoolref) ==
-                                                  true) &&
-                                              (e.deletenotification.contains(
-                                                      currentUserReference) ==
-                                                  false))
+                                              e.userref.contains(
+                                                  currentUserReference) ==
+                                              true)
                                           .toList()
                                           .sortedList(
                                               keyOf: (e) => e.createDate!,
-                                              desc: true)
+                                              desc: false)
                                           .toList();
                                   if (notices.isEmpty) {
                                     return Center(
@@ -489,62 +506,77 @@ class _NotificationAdminWidgetState extends State<NotificationAdminWidget> {
                                                                         .max,
                                                                 mainAxisAlignment:
                                                                     MainAxisAlignment
-                                                                        .start,
+                                                                        .spaceBetween,
                                                                 children: [
-                                                                  Container(
-                                                                    width: 38.0,
-                                                                    height:
-                                                                        38.0,
-                                                                    clipBehavior:
-                                                                        Clip.antiAlias,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      shape: BoxShape
-                                                                          .circle,
-                                                                    ),
-                                                                    child: Image
-                                                                        .network(
-                                                                      valueOrDefault<
-                                                                          String>(
-                                                                        columnUsersRecord
-                                                                            .photoUrl,
-                                                                        'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
+                                                                  Row(
+                                                                    mainAxisSize:
+                                                                        MainAxisSize
+                                                                            .max,
+                                                                    children: [
+                                                                      Container(
+                                                                        width:
+                                                                            38.0,
+                                                                        height:
+                                                                            38.0,
+                                                                        clipBehavior:
+                                                                            Clip.antiAlias,
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          shape:
+                                                                              BoxShape.circle,
+                                                                        ),
+                                                                        child: Image
+                                                                            .network(
+                                                                          valueOrDefault<
+                                                                              String>(
+                                                                            columnUsersRecord.photoUrl,
+                                                                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
+                                                                          ),
+                                                                          fit: BoxFit
+                                                                              .cover,
+                                                                        ),
                                                                       ),
-                                                                      fit: BoxFit
-                                                                          .cover,
-                                                                    ),
-                                                                  ),
-                                                                  Padding(
-                                                                    padding: EdgeInsetsDirectional
-                                                                        .fromSTEB(
+                                                                      Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
                                                                             10.0,
                                                                             0.0,
                                                                             0.0,
                                                                             0.0),
-                                                                    child:
-                                                                        Column(
-                                                                      mainAxisSize:
-                                                                          MainAxisSize
-                                                                              .max,
-                                                                      crossAxisAlignment:
-                                                                          CrossAxisAlignment
-                                                                              .start,
-                                                                      children: [
-                                                                        Padding(
-                                                                          padding: EdgeInsetsDirectional.fromSTEB(
-                                                                              0.0,
-                                                                              0.0,
-                                                                              0.0,
-                                                                              5.0),
-                                                                          child:
-                                                                              RichText(
-                                                                            textScaler:
-                                                                                MediaQuery.of(context).textScaler,
-                                                                            text:
-                                                                                TextSpan(
-                                                                              children: [
-                                                                                TextSpan(
-                                                                                  text: '${noticesItem.addedby?.id == currentUserReference?.id ? 'You' : columnUsersRecord.displayName} - ',
+                                                                        child:
+                                                                            Column(
+                                                                          mainAxisSize:
+                                                                              MainAxisSize.max,
+                                                                          crossAxisAlignment:
+                                                                              CrossAxisAlignment.start,
+                                                                          children: [
+                                                                            Padding(
+                                                                              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 5.0),
+                                                                              child: RichText(
+                                                                                textScaler: MediaQuery.of(context).textScaler,
+                                                                                text: TextSpan(
+                                                                                  children: [
+                                                                                    TextSpan(
+                                                                                      text: '${noticesItem.addedby?.id == currentUserReference?.id ? 'You' : columnUsersRecord.displayName} - ',
+                                                                                      style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                            font: GoogleFonts.nunito(
+                                                                                              fontWeight: FontWeight.w600,
+                                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                            ),
+                                                                                            color: Color(0xFF151E28),
+                                                                                            fontSize: 16.0,
+                                                                                            letterSpacing: 0.0,
+                                                                                            fontWeight: FontWeight.w600,
+                                                                                            fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                          ),
+                                                                                    ),
+                                                                                    TextSpan(
+                                                                                      text: noticesItem.heading,
+                                                                                      style: TextStyle(
+                                                                                        color: Color(0xFF151E28),
+                                                                                        fontSize: 14.0,
+                                                                                      ),
+                                                                                    )
+                                                                                  ],
                                                                                   style: FlutterFlowTheme.of(context).bodyMedium.override(
                                                                                         font: GoogleFonts.nunito(
                                                                                           fontWeight: FontWeight.w600,
@@ -557,54 +589,98 @@ class _NotificationAdminWidgetState extends State<NotificationAdminWidget> {
                                                                                         fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
                                                                                       ),
                                                                                 ),
-                                                                                TextSpan(
-                                                                                  text: noticesItem.heading,
-                                                                                  style: TextStyle(
-                                                                                    color: Color(0xFF151E28),
-                                                                                    fontSize: 14.0,
-                                                                                  ),
-                                                                                )
-                                                                              ],
-                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                    font: GoogleFonts.nunito(
-                                                                                      fontWeight: FontWeight.w600,
-                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                              ),
+                                                                            ),
+                                                                            if (noticesItem.towhome.length !=
+                                                                                0)
+                                                                              Container(
+                                                                                width: MediaQuery.sizeOf(context).width * 0.6,
+                                                                                decoration: BoxDecoration(),
+                                                                                child: Text(
+                                                                                  noticesItem.towhome.isNotEmpty ? '${functions.convertToStringclass(noticesItem.towhome.toList())}' : 'Everyone',
+                                                                                  style: FlutterFlowTheme.of(context).bodyMedium.override(
+                                                                                        font: GoogleFonts.nunito(
+                                                                                          fontWeight: FontWeight.normal,
+                                                                                          fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                        ),
+                                                                                        color: FlutterFlowTheme.of(context).primaryText,
+                                                                                        fontSize: 12.0,
+                                                                                        letterSpacing: 0.0,
+                                                                                        fontWeight: FontWeight.normal,
+                                                                                        fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                                      ),
+                                                                                ),
+                                                                              ),
+                                                                          ],
+                                                                        ),
+                                                                      ),
+                                                                    ],
+                                                                  ),
+                                                                  if (valueOrDefault(
+                                                                          currentUserDocument
+                                                                              ?.userRole,
+                                                                          0) !=
+                                                                      1)
+                                                                    Builder(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              Padding(
+                                                                        padding: EdgeInsetsDirectional.fromSTEB(
+                                                                            0.0,
+                                                                            0.0,
+                                                                            5.0,
+                                                                            0.0),
+                                                                        child:
+                                                                            AuthUserStreamWidget(
+                                                                          builder: (context) =>
+                                                                              InkWell(
+                                                                            splashColor:
+                                                                                Colors.transparent,
+                                                                            focusColor:
+                                                                                Colors.transparent,
+                                                                            hoverColor:
+                                                                                Colors.transparent,
+                                                                            highlightColor:
+                                                                                Colors.transparent,
+                                                                            onTap:
+                                                                                () async {
+                                                                              await showAlignedDialog(
+                                                                                context: context,
+                                                                                isGlobal: false,
+                                                                                avoidOverflow: false,
+                                                                                targetAnchor: AlignmentDirectional(0.0, 1.0).resolve(Directionality.of(context)),
+                                                                                followerAnchor: AlignmentDirectional(1.0, -1.0).resolve(Directionality.of(context)),
+                                                                                builder: (dialogContext) {
+                                                                                  return Material(
+                                                                                    color: Colors.transparent,
+                                                                                    child: GestureDetector(
+                                                                                      onTap: () {
+                                                                                        FocusScope.of(dialogContext).unfocus();
+                                                                                        FocusManager.instance.primaryFocus?.unfocus();
+                                                                                      },
+                                                                                      child: Container(
+                                                                                        height: MediaQuery.sizeOf(context).height * 0.08,
+                                                                                        width: MediaQuery.sizeOf(context).width * 0.3,
+                                                                                        child: DeletenotificationWidget(
+                                                                                          notiref: noticesItem.reference,
+                                                                                          schoolref: widget.schoolref,
+                                                                                        ),
+                                                                                      ),
                                                                                     ),
-                                                                                    color: Color(0xFF151E28),
-                                                                                    fontSize: 16.0,
-                                                                                    letterSpacing: 0.0,
-                                                                                    fontWeight: FontWeight.w600,
-                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                  ),
+                                                                                  );
+                                                                                },
+                                                                              );
+                                                                            },
+                                                                            child:
+                                                                                Icon(
+                                                                              Icons.more_vert,
+                                                                              color: FlutterFlowTheme.of(context).tertiaryText,
+                                                                              size: 24.0,
                                                                             ),
                                                                           ),
                                                                         ),
-                                                                        if (noticesItem.towhome.length !=
-                                                                            0)
-                                                                          Container(
-                                                                            width:
-                                                                                MediaQuery.sizeOf(context).width * 0.6,
-                                                                            decoration:
-                                                                                BoxDecoration(),
-                                                                            child:
-                                                                                Text(
-                                                                              noticesItem.towhome.isNotEmpty ? '${functions.convertToStringclass(noticesItem.towhome.toList())}' : 'Everyone',
-                                                                              style: FlutterFlowTheme.of(context).bodyMedium.override(
-                                                                                    font: GoogleFonts.nunito(
-                                                                                      fontWeight: FontWeight.normal,
-                                                                                      fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                    ),
-                                                                                    color: FlutterFlowTheme.of(context).primaryText,
-                                                                                    fontSize: 12.0,
-                                                                                    letterSpacing: 0.0,
-                                                                                    fontWeight: FontWeight.normal,
-                                                                                    fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
-                                                                                  ),
-                                                                            ),
-                                                                          ),
-                                                                      ],
+                                                                      ),
                                                                     ),
-                                                                  ),
                                                                 ],
                                                               ),
                                                             ),
@@ -826,55 +902,6 @@ class _NotificationAdminWidgetState extends State<NotificationAdminWidget> {
                                                                                       ),
                                                                                 ),
                                                                               ].divide(SizedBox(width: 5.0)).around(SizedBox(width: 5.0)),
-                                                                            ),
-                                                                          ),
-                                                                        ),
-                                                                      if (valueOrDefault(
-                                                                              currentUserDocument?.userRole,
-                                                                              0) !=
-                                                                          1)
-                                                                        Builder(
-                                                                          builder: (context) =>
-                                                                              AuthUserStreamWidget(
-                                                                            builder: (context) =>
-                                                                                InkWell(
-                                                                              splashColor: Colors.transparent,
-                                                                              focusColor: Colors.transparent,
-                                                                              hoverColor: Colors.transparent,
-                                                                              highlightColor: Colors.transparent,
-                                                                              onTap: () async {
-                                                                                await showAlignedDialog(
-                                                                                  context: context,
-                                                                                  isGlobal: false,
-                                                                                  avoidOverflow: false,
-                                                                                  targetAnchor: AlignmentDirectional(0.0, 1.0).resolve(Directionality.of(context)),
-                                                                                  followerAnchor: AlignmentDirectional(1.0, -1.0).resolve(Directionality.of(context)),
-                                                                                  builder: (dialogContext) {
-                                                                                    return Material(
-                                                                                      color: Colors.transparent,
-                                                                                      child: GestureDetector(
-                                                                                        onTap: () {
-                                                                                          FocusScope.of(dialogContext).unfocus();
-                                                                                          FocusManager.instance.primaryFocus?.unfocus();
-                                                                                        },
-                                                                                        child: Container(
-                                                                                          height: MediaQuery.sizeOf(context).height * 0.08,
-                                                                                          width: MediaQuery.sizeOf(context).width * 0.3,
-                                                                                          child: DeletenotificationWidget(
-                                                                                            notiref: noticesItem.reference,
-                                                                                            schoolref: widget.schoolref,
-                                                                                          ),
-                                                                                        ),
-                                                                                      ),
-                                                                                    );
-                                                                                  },
-                                                                                );
-                                                                              },
-                                                                              child: Icon(
-                                                                                Icons.more_vert,
-                                                                                color: FlutterFlowTheme.of(context).tertiaryText,
-                                                                                size: 24.0,
-                                                                              ),
                                                                             ),
                                                                           ),
                                                                         ),

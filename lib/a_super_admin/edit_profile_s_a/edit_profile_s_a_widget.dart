@@ -1161,7 +1161,8 @@ class _EditProfileSAWidgetState extends State<EditProfileSAWidget> {
                                               },
                                             ),
                                           });
-                                          _model.pageno = _model.pageno! + 1;
+                                          FFAppState().loopmin =
+                                              FFAppState().loopmin + 1;
                                           safeSetState(() {});
                                         }
                                         FFAppState().loopmin = 0;
@@ -1205,6 +1206,12 @@ class _EditProfileSAWidgetState extends State<EditProfileSAWidget> {
 
                                   context.goNamed(
                                     DashboardWidget.routeName,
+                                    queryParameters: {
+                                      'fromlogin': serializeParam(
+                                        false,
+                                        ParamType.bool,
+                                      ),
+                                    }.withoutNulls,
                                     extra: <String, dynamic>{
                                       kTransitionInfoKey: TransitionInfo(
                                         hasTransition: true,

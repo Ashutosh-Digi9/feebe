@@ -765,6 +765,12 @@ class FFAppState extends ChangeNotifier {
   set guardian(String value) {
     _guardian = value;
   }
+
+  bool _isScroll = false;
+  bool get isScroll => _isScroll;
+  set isScroll(bool value) {
+    _isScroll = value;
+  }
 }
 
 void _safeInit(Function() initializeField) {

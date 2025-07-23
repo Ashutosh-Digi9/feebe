@@ -146,6 +146,11 @@ class StudentsRecord extends FirestoreRecord {
   List<VideoStruct> get viideonew => _viideonew ?? const [];
   bool hasViideonew() => _viideonew != null;
 
+  // "isdummy" field.
+  bool? _isdummy;
+  bool get isdummy => _isdummy ?? false;
+  bool hasIsdummy() => _isdummy != null;
+
   void _initializeFields() {
     _studentName = snapshotData['student_name'] as String?;
     _studentGender = snapshotData['student_gender'] as String?;
@@ -192,6 +197,7 @@ class StudentsRecord extends FirestoreRecord {
       snapshotData['viideonew'],
       VideoStruct.fromMap,
     );
+    _isdummy = snapshotData['isdummy'] as bool?;
   }
 
   static CollectionReference get collection =>
@@ -245,6 +251,7 @@ Map<String, dynamic> createStudentsRecordData({
   bool? isDraft,
   String? video,
   String? path,
+  bool? isdummy,
 }) {
   final firestoreData = mapToFirestore(
     <String, dynamic>{
@@ -264,6 +271,7 @@ Map<String, dynamic> createStudentsRecordData({
       'isDraft': isDraft,
       'video': video,
       'path': path,
+      'isdummy': isdummy,
     }.withoutNulls,
   );
 
@@ -301,7 +309,8 @@ class StudentsRecordDocumentEquality implements Equality<StudentsRecord> {
         listEquality.equals(e1?.gallery, e2?.gallery) &&
         listEquality.equals(e1?.className, e2?.className) &&
         listEquality.equals(e1?.imageslistNew, e2?.imageslistNew) &&
-        listEquality.equals(e1?.viideonew, e2?.viideonew);
+        listEquality.equals(e1?.viideonew, e2?.viideonew) &&
+        e1?.isdummy == e2?.isdummy;
   }
 
   @override
@@ -331,7 +340,8 @@ class StudentsRecordDocumentEquality implements Equality<StudentsRecord> {
         e?.gallery,
         e?.className,
         e?.imageslistNew,
-        e?.viideonew
+        e?.viideonew,
+        e?.isdummy
       ]);
 
   @override

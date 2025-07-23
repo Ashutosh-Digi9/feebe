@@ -5,6 +5,7 @@ import '/components/logout_widget.dart';
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/custom_code/actions/index.dart' as actions;
 import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:aligned_dialog/aligned_dialog.dart';
@@ -46,8 +47,12 @@ class _ParentProfileWidgetState extends State<ParentProfileWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
+      _model.updatedlilst = await actions.insertintoindex1(
+        widget.parentlist?.toList(),
+        currentUserReference,
+      );
       _model.parentslist =
-          widget.parentlist!.toList().cast<ParentsDetailsStruct>();
+          _model.updatedlilst!.toList().cast<ParentsDetailsStruct>();
       safeSetState(() {});
     });
   }
@@ -345,7 +350,7 @@ class _ParentProfileWidgetState extends State<ParentProfileWidget> {
                             EdgeInsetsDirectional.fromSTEB(0.0, 20.0, 0.0, 0.0),
                         child: Builder(
                           builder: (context) {
-                            final parents = widget.parentlist!.toList();
+                            final parents = _model.parentslist.toList();
 
                             return Row(
                               mainAxisSize: MainAxisSize.max,
@@ -360,9 +365,18 @@ class _ParentProfileWidgetState extends State<ParentProfileWidget> {
                                   hoverColor: Colors.transparent,
                                   highlightColor: Colors.transparent,
                                   onTap: () async {
-                                    _model.insertAtIndexInParentslist(
-                                        1, parentsItem);
                                     _model.parentdata = parentsItem;
+                                    safeSetState(() {});
+                                    _model.newUpdatedlist =
+                                        await actions.insertintoindex1(
+                                      widget.parentlist?.toList(),
+                                      parentsItem.userRef,
+                                    );
+                                    _model.parentslist = _model.newUpdatedlist!
+                                        .toList()
+                                        .cast<ParentsDetailsStruct>();
+                                    safeSetState(() {});
+
                                     safeSetState(() {});
                                   },
                                   child: Container(
@@ -387,29 +401,19 @@ class _ParentProfileWidgetState extends State<ParentProfileWidget> {
                                           .secondaryBackground,
                                       shape: BoxShape.circle,
                                     ),
-                                    child: AuthUserStreamWidget(
-                                      builder: (context) => ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(120.0),
-                                        child: Image.network(
-                                          valueOrDefault<String>(
-                                            () {
-                                              if (_model.parentdata != null) {
-                                                return _model
-                                                    .parentdata?.parentImage;
-                                              } else if (_model.parentdata ==
-                                                  null) {
-                                                return currentUserPhoto;
-                                              } else {
-                                                return FFAppConstants.addImage;
-                                              }
-                                            }(),
-                                            'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
-                                          ),
-                                          width: 80.0,
-                                          height: 80.0,
-                                          fit: BoxFit.cover,
+                                    child: ClipRRect(
+                                      borderRadius:
+                                          BorderRadius.circular(120.0),
+                                      child: Image.network(
+                                        valueOrDefault<String>(
+                                          parentsItem.parentImage != ''
+                                              ? parentsItem.parentImage
+                                              : FFAppConstants.addImage,
+                                          'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/ro0v8oqh1xhd/Screenshot__317_-removebg-preview.png',
                                         ),
+                                        width: 80.0,
+                                        height: 80.0,
+                                        fit: BoxFit.cover,
                                       ),
                                     ),
                                   ),

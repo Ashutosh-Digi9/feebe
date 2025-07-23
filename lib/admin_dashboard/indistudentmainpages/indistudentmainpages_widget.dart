@@ -1341,11 +1341,10 @@ class _IndistudentmainpagesWidgetState
                                                   mainAxisSize:
                                                       MainAxisSize.max,
                                                   mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
+                                                      MainAxisAlignment.start,
                                                   children: List.generate(
-                                                      timeslines.length,
-                                                      (timeslinesIndex) {
+                                                          timeslines.length,
+                                                          (timeslinesIndex) {
                                                     final timeslinesItem =
                                                         timeslines[
                                                             timeslinesIndex];
@@ -1458,7 +1457,11 @@ class _IndistudentmainpagesWidgetState
                                                         ],
                                                       ),
                                                     );
-                                                  }),
+                                                  })
+                                                      .divide(
+                                                          SizedBox(width: 10.0))
+                                                      .around(SizedBox(
+                                                          width: 10.0)),
                                                 );
                                               },
                                             ),
@@ -1900,7 +1903,7 @@ class _IndistudentmainpagesWidgetState
                                                                               8.0),
                                                                       child: Image
                                                                           .asset(
-                                                                        'assets/images/Saly-42.png',
+                                                                        'assets/images/Saly-42_2.png',
                                                                         width: MediaQuery.sizeOf(context).width *
                                                                             0.12,
                                                                         height: MediaQuery.sizeOf(context).height *

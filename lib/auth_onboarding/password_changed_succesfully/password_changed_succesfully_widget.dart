@@ -4,18 +4,20 @@ import '/flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'classcreated_model.dart';
-export 'classcreated_model.dart';
+import 'password_changed_succesfully_model.dart';
+export 'password_changed_succesfully_model.dart';
 
-class ClasscreatedWidget extends StatefulWidget {
-  const ClasscreatedWidget({super.key});
+class PasswordChangedSuccesfullyWidget extends StatefulWidget {
+  const PasswordChangedSuccesfullyWidget({super.key});
 
   @override
-  State<ClasscreatedWidget> createState() => _ClasscreatedWidgetState();
+  State<PasswordChangedSuccesfullyWidget> createState() =>
+      _PasswordChangedSuccesfullyWidgetState();
 }
 
-class _ClasscreatedWidgetState extends State<ClasscreatedWidget> {
-  late ClasscreatedModel _model;
+class _PasswordChangedSuccesfullyWidgetState
+    extends State<PasswordChangedSuccesfullyWidget> {
+  late PasswordChangedSuccesfullyModel _model;
 
   @override
   void setState(VoidCallback callback) {
@@ -26,7 +28,7 @@ class _ClasscreatedWidgetState extends State<ClasscreatedWidget> {
   @override
   void initState() {
     super.initState();
-    _model = createModel(context, () => ClasscreatedModel());
+    _model = createModel(context, () => PasswordChangedSuccesfullyModel());
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
@@ -36,6 +38,7 @@ class _ClasscreatedWidgetState extends State<ClasscreatedWidget> {
         ),
       );
       Navigator.pop(context);
+      context.safePop();
     });
   }
 
@@ -73,7 +76,7 @@ class _ClasscreatedWidgetState extends State<ClasscreatedWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Text(
-              'Class created successfully',
+              'Password has been \nChanged  Successfully!',
               style: FlutterFlowTheme.of(context).bodyMedium.override(
                     font: GoogleFonts.nunito(
                       fontWeight: FontWeight.bold,

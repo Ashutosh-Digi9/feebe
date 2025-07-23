@@ -37,7 +37,11 @@ class _NoticeCreatedWidgetState extends State<NoticeCreatedWidget> {
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(const Duration(milliseconds: 2000));
+      await Future.delayed(
+        Duration(
+          milliseconds: 2000,
+        ),
+      );
 
       FFAppState().update(() {});
       Navigator.pop(context);

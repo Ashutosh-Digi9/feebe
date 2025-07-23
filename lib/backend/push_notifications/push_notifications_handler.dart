@@ -177,7 +177,6 @@ final parametersBuilderMap =
           'datePick': getParameter<DateTime>(data, 'datePick'),
         },
       ),
-  'PasswordChanged': ParameterData.none(),
   'class_dashboard': (data) async => ParameterData(
         allParams: {
           'schoolref': getParameter<DocumentReference>(data, 'schoolref'),

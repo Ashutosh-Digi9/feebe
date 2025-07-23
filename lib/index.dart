@@ -32,8 +32,6 @@ export '/a_super_admin/existing_school_details_s_a/existing_school_details_s_a_w
     show ExistingSchoolDetailsSAWidget;
 export '/admin_dashboard/class_view/class_view_widget.dart'
     show ClassViewWidget;
-export '/auth_onboarding/password_changed/password_changed_widget.dart'
-    show PasswordChangedWidget;
 export '/admin_dashboard/class_dashboard/class_dashboard_widget.dart'
     show ClassDashboardWidget;
 export '/teacher/teacher_profile/teacher_profile_widget.dart'

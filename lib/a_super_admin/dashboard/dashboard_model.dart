@@ -7,6 +7,7 @@ import '/navbar/navbarteacher/navbarteacher_widget.dart';
 import '/index.dart';
 import 'dashboard_widget.dart' show DashboardWidget;
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class DashboardModel extends FlutterFlowModel<DashboardWidget> {
   ///  Local state fields for this page.
@@ -115,6 +116,13 @@ class DashboardModel extends FlutterFlowModel<DashboardWidget> {
   // State field(s) for DropDown widget.
   String? dropDownValue;
   FormFieldController<String>? dropDownValueController;
+  // State field(s) for GridView widget.
+
+  PagingController<DocumentSnapshot?, StudentsRecord>?
+      gridViewPagingController1;
+  Query? gridViewPagingQuery1;
+  List<StreamSubscription?> gridViewStreamSubscriptions1 = [];
+
   // Model for navbarteacher component.
   late NavbarteacherModel navbarteacherModel;
   // State field(s) for studentPageview widget.
@@ -149,7 +157,43 @@ class DashboardModel extends FlutterFlowModel<DashboardWidget> {
     descriptionFocusNode?.dispose();
     descriptionTextController?.dispose();
 
+    gridViewStreamSubscriptions1.forEach((s) => s?.cancel());
+    gridViewPagingController1?.dispose();
+
     navbarteacherModel.dispose();
     navbarParentModel.dispose();
+  }
+
+  /// Additional helper methods.
+  PagingController<DocumentSnapshot?, StudentsRecord> setGridViewController1(
+    Query query, {
+    DocumentReference<Object?>? parent,
+  }) {
+    gridViewPagingController1 ??= _createGridViewController1(query, parent);
+    if (gridViewPagingQuery1 != query) {
+      gridViewPagingQuery1 = query;
+      gridViewPagingController1?.refresh();
+    }
+    return gridViewPagingController1!;
+  }
+
+  PagingController<DocumentSnapshot?, StudentsRecord>
+      _createGridViewController1(
+    Query query,
+    DocumentReference<Object?>? parent,
+  ) {
+    final controller =
+        PagingController<DocumentSnapshot?, StudentsRecord>(firstPageKey: null);
+    return controller
+      ..addPageRequestListener(
+        (nextPageMarker) => queryStudentsRecordPage(
+          queryBuilder: (_) => gridViewPagingQuery1 ??= query,
+          nextPageMarker: nextPageMarker,
+          streamSubscriptions: gridViewStreamSubscriptions1,
+          controller: controller,
+          pageSize: 12,
+          isStream: true,
+        ),
+      );
   }
 }

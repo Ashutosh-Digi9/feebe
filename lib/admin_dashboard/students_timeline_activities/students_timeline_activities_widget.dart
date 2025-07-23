@@ -143,87 +143,40 @@ class _StudentsTimelineActivitiesWidgetState
                 : null,
             body: SafeArea(
               top: true,
-              child: Container(
-                decoration: BoxDecoration(),
-                child: SingleChildScrollView(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Container(
-                        height: MediaQuery.sizeOf(context).height * 0.75,
-                        decoration: BoxDecoration(),
-                        child: SingleChildScrollView(
-                          primary: false,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.max,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Align(
-                                alignment: AlignmentDirectional(-1.0, -1.0),
-                                child: Padding(
-                                  padding: EdgeInsetsDirectional.fromSTEB(
-                                      10.0, 20.0, 0.0, 5.0),
-                                  child: Text(
-                                    studentsTimelineActivitiesSchoolClassRecord
-                                        .className,
-                                    style: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .override(
-                                          font: GoogleFonts.nunito(
-                                            fontWeight: FontWeight.w600,
-                                            fontStyle:
-                                                FlutterFlowTheme.of(context)
-                                                    .bodyMedium
-                                                    .fontStyle,
-                                          ),
-                                          color: FlutterFlowTheme.of(context)
-                                              .primary,
-                                          fontSize: 24.0,
-                                          letterSpacing: 0.0,
-                                          fontWeight: FontWeight.w600,
-                                          fontStyle:
-                                              FlutterFlowTheme.of(context)
-                                                  .bodyMedium
-                                                  .fontStyle,
-                                        ),
-                                  ),
-                                ),
-                              ),
-                              if (widget.activityId != 2)
-                                Row(
+              child: Align(
+                alignment: AlignmentDirectional(0.0, 1.0),
+                child: Stack(
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisSize: MainAxisSize.max,
+                          children: [
+                            Container(
+                              height: MediaQuery.sizeOf(context).height * 0.75,
+                              decoration: BoxDecoration(),
+                              child: SingleChildScrollView(
+                                primary: false,
+                                child: Column(
                                   mainAxisSize: MainAxisSize.max,
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Container(
-                                      width: MediaQuery.sizeOf(context).width *
-                                          0.72,
-                                      decoration: BoxDecoration(),
+                                    Align(
+                                      alignment:
+                                          AlignmentDirectional(-1.0, -1.0),
                                       child: Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                            5.0, 0.0, 0.0, 0.0),
+                                            10.0, 20.0, 0.0, 5.0),
                                         child: Text(
-                                          () {
-                                            if (widget.activityId == 0) {
-                                              return 'Who ate their food?';
-                                            } else if (widget.activityId ==
-                                                1) {
-                                              return 'Who took their nap?';
-                                            } else if (widget.activityId ==
-                                                3) {
-                                              return 'Who performed a good deed?';
-                                            } else if (widget.activityId ==
-                                                4) {
-                                              return 'Who used the potty?';
-                                            } else {
-                                              return 'Who had an incident?';
-                                            }
-                                          }(),
+                                          studentsTimelineActivitiesSchoolClassRecord
+                                              .className,
                                           style: FlutterFlowTheme.of(context)
                                               .bodyMedium
                                               .override(
                                                 font: GoogleFonts.nunito(
-                                                  fontWeight: FontWeight.bold,
+                                                  fontWeight: FontWeight.w600,
                                                   fontStyle:
                                                       FlutterFlowTheme.of(
                                                               context)
@@ -232,10 +185,10 @@ class _StudentsTimelineActivitiesWidgetState
                                                 ),
                                                 color:
                                                     FlutterFlowTheme.of(context)
-                                                        .tertiaryText,
+                                                        .primary,
                                                 fontSize: 24.0,
                                                 letterSpacing: 0.0,
-                                                fontWeight: FontWeight.bold,
+                                                fontWeight: FontWeight.w600,
                                                 fontStyle:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyMedium
@@ -244,375 +197,473 @@ class _StudentsTimelineActivitiesWidgetState
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          0.0, 0.0, 10.0, 0.0),
-                                      child: ClipRRect(
-                                        borderRadius:
-                                            BorderRadius.circular(8.0),
-                                        child: Image.network(
-                                          () {
-                                            if (widget.activityId == 0) {
-                                              return 'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Ffork_and_knife_with_plate.png?alt=media&token=d3c0ab7c-f43b-4a3b-b615-02135d701b23';
-                                            } else if (widget.activityId ==
-                                                1) {
-                                              return 'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2FBitmap.png?alt=media&token=932b22f6-a33b-4cb2-a8f8-a3d176899f44';
-                                            } else if (widget.activityId ==
-                                                3) {
-                                              return 'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2FAppreciation.png?alt=media&token=d7cd93a2-eaed-4068-8271-5c3c69805c34';
-                                            } else if (widget.activityId ==
-                                                4) {
-                                              return 'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fpotty_(2).png?alt=media&token=ebf034f3-760d-405e-b9db-1a8407d2ec02';
-                                            } else {
-                                              return 'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2FIncident.png?alt=media&token=f2401cf9-a754-4a0c-8f2f-ad0423ebe926';
-                                            }
-                                          }(),
-                                          width:
-                                              MediaQuery.sizeOf(context).width *
-                                                  0.12,
-                                          height: MediaQuery.sizeOf(context)
-                                                  .height *
-                                              0.05,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              Padding(
-                                padding: EdgeInsetsDirectional.fromSTEB(
-                                    0.0, 0.0, 0.0, 10.0),
-                                child: Container(
-                                  width: MediaQuery.sizeOf(context).width * 1.0,
-                                  height:
-                                      MediaQuery.sizeOf(context).height * 0.85,
-                                  decoration: BoxDecoration(),
-                                  child: Column(
-                                    mainAxisSize: MainAxisSize.max,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.all(5.0),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              'Selected : ${FFAppState().selectedstudents.length.toString()}',
-                                              style: FlutterFlowTheme.of(
-                                                      context)
-                                                  .bodyMedium
-                                                  .override(
-                                                    font: GoogleFonts.nunito(
+                                    if (widget.activityId != 2)
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Container(
+                                            width: MediaQuery.sizeOf(context)
+                                                    .width *
+                                                0.72,
+                                            decoration: BoxDecoration(),
+                                            child: Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(5.0, 0.0, 0.0, 0.0),
+                                              child: Text(
+                                                () {
+                                                  if (widget.activityId == 0) {
+                                                    return 'Who ate their food?';
+                                                  } else if (widget
+                                                          .activityId ==
+                                                      1) {
+                                                    return 'Who took their nap?';
+                                                  } else if (widget
+                                                          .activityId ==
+                                                      3) {
+                                                    return 'Who performed a good deed?';
+                                                  } else if (widget
+                                                          .activityId ==
+                                                      4) {
+                                                    return 'Who used the potty?';
+                                                  } else {
+                                                    return 'Who had an incident?';
+                                                  }
+                                                }(),
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .bodyMedium
+                                                    .override(
+                                                      font: GoogleFonts.nunito(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontStyle:
+                                                            FlutterFlowTheme.of(
+                                                                    context)
+                                                                .bodyMedium
+                                                                .fontStyle,
+                                                      ),
+                                                      color:
+                                                          FlutterFlowTheme.of(
+                                                                  context)
+                                                              .tertiaryText,
+                                                      fontSize: 24.0,
+                                                      letterSpacing: 0.0,
                                                       fontWeight:
-                                                          FontWeight.w500,
+                                                          FontWeight.bold,
                                                       fontStyle:
                                                           FlutterFlowTheme.of(
                                                                   context)
                                                               .bodyMedium
                                                               .fontStyle,
                                                     ),
-                                                    color: FlutterFlowTheme.of(
-                                                            context)
-                                                        .tertiaryText,
-                                                    letterSpacing: 0.0,
-                                                    fontWeight: FontWeight.w500,
-                                                    fontStyle:
-                                                        FlutterFlowTheme.of(
-                                                                context)
-                                                            .bodyMedium
-                                                            .fontStyle,
-                                                  ),
+                                              ),
                                             ),
-                                            FFButtonWidget(
-                                              onPressed: () async {
-                                                if (_model.selectall) {
-                                                  FFAppState()
-                                                      .selectedstudents = [];
-                                                  safeSetState(() {});
-                                                  _model.selectall = false;
-                                                  safeSetState(() {});
-                                                } else {
-                                                  FFAppState()
-                                                          .selectedstudents =
-                                                      studentsTimelineActivitiesSchoolClassRecord
-                                                          .studentsList
-                                                          .toList()
-                                                          .cast<
-                                                              DocumentReference>();
-                                                  safeSetState(() {});
-                                                  _model.selectall = true;
-                                                  safeSetState(() {});
-                                                }
-                                              },
-                                              text: FFAppState()
-                                                          .selectedstudents
-                                                          .length ==
-                                                      studentsTimelineActivitiesSchoolClassRecord
-                                                          .studentData
-                                                          .where((e) =>
-                                                              e.isDraft ==
-                                                              false)
-                                                          .toList()
-                                                          .length
-                                                  ? 'Deselect all'
-                                                  : 'Select all',
-                                              options: FFButtonOptions(
-                                                height: 40.0,
-                                                padding: EdgeInsetsDirectional
-                                                    .fromSTEB(
-                                                        16.0, 0.0, 16.0, 0.0),
-                                                iconPadding:
-                                                    EdgeInsetsDirectional
-                                                        .fromSTEB(
-                                                            0.0, 0.0, 0.0, 0.0),
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .tertiary,
-                                                textStyle: FlutterFlowTheme.of(
-                                                        context)
-                                                    .titleSmall
-                                                    .override(
-                                                      font: GoogleFonts.nunito(
-                                                        fontWeight:
-                                                            FontWeight.w600,
-                                                        fontStyle:
-                                                            FlutterFlowTheme.of(
-                                                                    context)
-                                                                .titleSmall
-                                                                .fontStyle,
-                                                      ),
+                                          ),
+                                          Padding(
+                                            padding:
+                                                EdgeInsetsDirectional.fromSTEB(
+                                                    0.0, 0.0, 10.0, 0.0),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(8.0),
+                                              child: Image.network(
+                                                () {
+                                                  if (widget.activityId == 0) {
+                                                    return 'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Ffork_and_knife_with_plate.png?alt=media&token=d3c0ab7c-f43b-4a3b-b615-02135d701b23';
+                                                  } else if (widget
+                                                          .activityId ==
+                                                      1) {
+                                                    return 'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2FBitmap.png?alt=media&token=932b22f6-a33b-4cb2-a8f8-a3d176899f44';
+                                                  } else if (widget
+                                                          .activityId ==
+                                                      3) {
+                                                    return 'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2FAppreciation.png?alt=media&token=d7cd93a2-eaed-4068-8271-5c3c69805c34';
+                                                  } else if (widget
+                                                          .activityId ==
+                                                      4) {
+                                                    return 'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2Fpotty_(2).png?alt=media&token=ebf034f3-760d-405e-b9db-1a8407d2ec02';
+                                                  } else {
+                                                    return 'https://firebasestorage.googleapis.com/v0/b/feebee-8578d.firebasestorage.app/o/defaultImages%2FIncident.png?alt=media&token=f2401cf9-a754-4a0c-8f2f-ad0423ebe926';
+                                                  }
+                                                }(),
+                                                width:
+                                                    MediaQuery.sizeOf(context)
+                                                            .width *
+                                                        0.12,
+                                                height:
+                                                    MediaQuery.sizeOf(context)
+                                                            .height *
+                                                        0.05,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 0.0, 0.0, 10.0),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.sizeOf(context).width *
+                                                1.0,
+                                        height:
+                                            MediaQuery.sizeOf(context).height *
+                                                0.85,
+                                        decoration: BoxDecoration(),
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.max,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.all(5.0),
+                                              child: Row(
+                                                mainAxisSize: MainAxisSize.max,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    'Selected : ${FFAppState().selectedstudents.length.toString()}',
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyMedium
+                                                        .override(
+                                                          font: GoogleFonts
+                                                              .nunito(
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            fontStyle:
+                                                                FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .bodyMedium
+                                                                    .fontStyle,
+                                                          ),
+                                                          color: FlutterFlowTheme
+                                                                  .of(context)
+                                                              .tertiaryText,
+                                                          letterSpacing: 0.0,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                          fontStyle:
+                                                              FlutterFlowTheme.of(
+                                                                      context)
+                                                                  .bodyMedium
+                                                                  .fontStyle,
+                                                        ),
+                                                  ),
+                                                  FFButtonWidget(
+                                                    onPressed: () async {
+                                                      if (_model.selectall) {
+                                                        FFAppState()
+                                                            .selectedstudents = [];
+                                                        safeSetState(() {});
+                                                        _model.selectall =
+                                                            false;
+                                                        safeSetState(() {});
+                                                      } else {
+                                                        FFAppState()
+                                                                .selectedstudents =
+                                                            studentsTimelineActivitiesSchoolClassRecord
+                                                                .studentsList
+                                                                .toList()
+                                                                .cast<
+                                                                    DocumentReference>();
+                                                        safeSetState(() {});
+                                                        _model.selectall = true;
+                                                        safeSetState(() {});
+                                                      }
+                                                    },
+                                                    text: FFAppState()
+                                                                .selectedstudents
+                                                                .length ==
+                                                            studentsTimelineActivitiesSchoolClassRecord
+                                                                .studentData
+                                                                .where((e) =>
+                                                                    e.isDraft ==
+                                                                    false)
+                                                                .toList()
+                                                                .length
+                                                        ? 'Deselect all'
+                                                        : 'Select all',
+                                                    options: FFButtonOptions(
+                                                      height: 40.0,
+                                                      padding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  16.0,
+                                                                  0.0,
+                                                                  16.0,
+                                                                  0.0),
+                                                      iconPadding:
+                                                          EdgeInsetsDirectional
+                                                              .fromSTEB(
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0,
+                                                                  0.0),
                                                       color:
                                                           FlutterFlowTheme.of(
                                                                   context)
-                                                              .primary,
-                                                      letterSpacing: 0.0,
-                                                      fontWeight:
-                                                          FontWeight.w600,
-                                                      fontStyle:
+                                                              .tertiary,
+                                                      textStyle:
                                                           FlutterFlowTheme.of(
                                                                   context)
                                                               .titleSmall
-                                                              .fontStyle,
+                                                              .override(
+                                                                font:
+                                                                    GoogleFonts
+                                                                        .nunito(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w600,
+                                                                  fontStyle: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .titleSmall
+                                                                      .fontStyle,
+                                                                ),
+                                                                color: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .primary,
+                                                                letterSpacing:
+                                                                    0.0,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w600,
+                                                                fontStyle: FlutterFlowTheme.of(
+                                                                        context)
+                                                                    .titleSmall
+                                                                    .fontStyle,
+                                                              ),
+                                                      elevation: 0.0,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10.0),
                                                     ),
-                                                elevation: 0.0,
-                                                borderRadius:
-                                                    BorderRadius.circular(10.0),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(
+                                                      5.0, 25.0, 5.0, 5.0),
+                                              child: Builder(
+                                                builder: (context) {
+                                                  final students =
+                                                      studentsTimelineActivitiesSchoolClassRecord
+                                                          .studentData
+                                                          .sortedList(
+                                                              keyOf: (e) =>
+                                                                  e.studentName,
+                                                              desc: false)
+                                                          .toList();
+
+                                                  return GridView.builder(
+                                                    padding: EdgeInsets.zero,
+                                                    gridDelegate:
+                                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                                      crossAxisCount: 3,
+                                                      crossAxisSpacing: 10.0,
+                                                      mainAxisSpacing: 15.0,
+                                                      childAspectRatio: 0.9,
+                                                    ),
+                                                    primary: false,
+                                                    shrinkWrap: true,
+                                                    scrollDirection:
+                                                        Axis.vertical,
+                                                    itemCount: students.length,
+                                                    itemBuilder: (context,
+                                                        studentsIndex) {
+                                                      final studentsItem =
+                                                          students[
+                                                              studentsIndex];
+                                                      return Stack(
+                                                        children: [
+                                                          InkWell(
+                                                            splashColor: Colors
+                                                                .transparent,
+                                                            focusColor: Colors
+                                                                .transparent,
+                                                            hoverColor: Colors
+                                                                .transparent,
+                                                            highlightColor:
+                                                                Colors
+                                                                    .transparent,
+                                                            onTap: () async {
+                                                              if (!FFAppState()
+                                                                  .selectedstudents
+                                                                  .contains(
+                                                                      studentsItem
+                                                                          .studentId)) {
+                                                                FFAppState().addToSelectedstudents(
+                                                                    studentsItem
+                                                                        .studentId!);
+                                                                safeSetState(
+                                                                    () {});
+                                                              } else {
+                                                                FFAppState().removeFromSelectedstudents(
+                                                                    studentsItem
+                                                                        .studentId!);
+                                                                safeSetState(
+                                                                    () {});
+                                                              }
+                                                            },
+                                                            child: Container(
+                                                              width: MediaQuery
+                                                                          .sizeOf(
+                                                                              context)
+                                                                      .width *
+                                                                  1.0,
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: FFAppState()
+                                                                        .selectedstudents
+                                                                        .contains(studentsItem
+                                                                            .studentId)
+                                                                    ? Color(
+                                                                        0xFFA8C0F4)
+                                                                    : FlutterFlowTheme.of(
+                                                                            context)
+                                                                        .secondary,
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    blurRadius:
+                                                                        2.0,
+                                                                    color: Color(
+                                                                        0xFFE4E5E7),
+                                                                    offset:
+                                                                        Offset(
+                                                                      0.0,
+                                                                      1.0,
+                                                                    ),
+                                                                    spreadRadius:
+                                                                        0.0,
+                                                                  )
+                                                                ],
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                            10.0),
+                                                                border:
+                                                                    Border.all(
+                                                                  color: Color(
+                                                                      0xFFEDF1F3),
+                                                                ),
+                                                              ),
+                                                              child: Padding(
+                                                                padding:
+                                                                    EdgeInsets
+                                                                        .all(
+                                                                            2.0),
+                                                                child: Column(
+                                                                  mainAxisSize:
+                                                                      MainAxisSize
+                                                                          .max,
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .spaceEvenly,
+                                                                  children: [
+                                                                    Container(
+                                                                      width: MediaQuery.sizeOf(context)
+                                                                              .width *
+                                                                          0.15,
+                                                                      height: MediaQuery.sizeOf(context)
+                                                                              .width *
+                                                                          0.15,
+                                                                      clipBehavior:
+                                                                          Clip.antiAlias,
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        shape: BoxShape
+                                                                            .circle,
+                                                                      ),
+                                                                      child: Image
+                                                                          .network(
+                                                                        studentsItem
+                                                                            .studentImage,
+                                                                        fit: BoxFit
+                                                                            .cover,
+                                                                      ),
+                                                                    ),
+                                                                    Text(
+                                                                      studentsItem
+                                                                          .studentName,
+                                                                      style: FlutterFlowTheme.of(
+                                                                              context)
+                                                                          .bodyMedium
+                                                                          .override(
+                                                                            font:
+                                                                                GoogleFonts.nunito(
+                                                                              fontWeight: FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                              fontStyle: FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                            ),
+                                                                            letterSpacing:
+                                                                                0.0,
+                                                                            fontWeight:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontWeight,
+                                                                            fontStyle:
+                                                                                FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                                                                          ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          if (FFAppState()
+                                                              .selectedstudents
+                                                              .contains(
+                                                                  studentsItem
+                                                                      .studentId))
+                                                            Align(
+                                                              alignment:
+                                                                  AlignmentDirectional(
+                                                                      1.1,
+                                                                      -1.2),
+                                                              child: Padding(
+                                                                padding:
+                                                                    EdgeInsetsDirectional
+                                                                        .fromSTEB(
+                                                                            0.0,
+                                                                            5.0,
+                                                                            0.0,
+                                                                            0.0),
+                                                                child: Icon(
+                                                                  Icons
+                                                                      .check_box,
+                                                                  color: FlutterFlowTheme.of(
+                                                                          context)
+                                                                      .primaryBackground,
+                                                                  size: 24.0,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                },
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            5.0, 25.0, 5.0, 5.0),
-                                        child: Builder(
-                                          builder: (context) {
-                                            final students =
-                                                studentsTimelineActivitiesSchoolClassRecord
-                                                    .studentData
-                                                    .sortedList(
-                                                        keyOf: (e) =>
-                                                            e.studentName,
-                                                        desc: false)
-                                                    .toList();
-
-                                            return GridView.builder(
-                                              padding: EdgeInsets.zero,
-                                              gridDelegate:
-                                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                                crossAxisCount: 3,
-                                                crossAxisSpacing: 10.0,
-                                                mainAxisSpacing: 15.0,
-                                                childAspectRatio: 0.9,
-                                              ),
-                                              primary: false,
-                                              shrinkWrap: true,
-                                              scrollDirection: Axis.vertical,
-                                              itemCount: students.length,
-                                              itemBuilder:
-                                                  (context, studentsIndex) {
-                                                final studentsItem =
-                                                    students[studentsIndex];
-                                                return Stack(
-                                                  children: [
-                                                    InkWell(
-                                                      splashColor:
-                                                          Colors.transparent,
-                                                      focusColor:
-                                                          Colors.transparent,
-                                                      hoverColor:
-                                                          Colors.transparent,
-                                                      highlightColor:
-                                                          Colors.transparent,
-                                                      onTap: () async {
-                                                        if (!FFAppState()
-                                                            .selectedstudents
-                                                            .contains(studentsItem
-                                                                .studentId)) {
-                                                          FFAppState()
-                                                              .addToSelectedstudents(
-                                                                  studentsItem
-                                                                      .studentId!);
-                                                          safeSetState(() {});
-                                                        } else {
-                                                          FFAppState()
-                                                              .removeFromSelectedstudents(
-                                                                  studentsItem
-                                                                      .studentId!);
-                                                          safeSetState(() {});
-                                                        }
-                                                      },
-                                                      child: Container(
-                                                        width:
-                                                            MediaQuery.sizeOf(
-                                                                        context)
-                                                                    .width *
-                                                                1.0,
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: FFAppState()
-                                                                  .selectedstudents
-                                                                  .contains(
-                                                                      studentsItem
-                                                                          .studentId)
-                                                              ? Color(
-                                                                  0xFFA8C0F4)
-                                                              : FlutterFlowTheme
-                                                                      .of(context)
-                                                                  .secondary,
-                                                          boxShadow: [
-                                                            BoxShadow(
-                                                              blurRadius: 2.0,
-                                                              color: Color(
-                                                                  0xFFE4E5E7),
-                                                              offset: Offset(
-                                                                0.0,
-                                                                1.0,
-                                                              ),
-                                                              spreadRadius: 0.0,
-                                                            )
-                                                          ],
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                                      10.0),
-                                                          border: Border.all(
-                                                            color: Color(
-                                                                0xFFEDF1F3),
-                                                          ),
-                                                        ),
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  2.0),
-                                                          child: Column(
-                                                            mainAxisSize:
-                                                                MainAxisSize
-                                                                    .max,
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceEvenly,
-                                                            children: [
-                                                              Container(
-                                                                width: MediaQuery.sizeOf(
-                                                                            context)
-                                                                        .width *
-                                                                    0.15,
-                                                                height: MediaQuery.sizeOf(
-                                                                            context)
-                                                                        .width *
-                                                                    0.15,
-                                                                clipBehavior: Clip
-                                                                    .antiAlias,
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  shape: BoxShape
-                                                                      .circle,
-                                                                ),
-                                                                child: Image
-                                                                    .network(
-                                                                  studentsItem
-                                                                      .studentImage,
-                                                                  fit: BoxFit
-                                                                      .cover,
-                                                                ),
-                                                              ),
-                                                              Text(
-                                                                studentsItem
-                                                                    .studentName,
-                                                                style: FlutterFlowTheme.of(
-                                                                        context)
-                                                                    .bodyMedium
-                                                                    .override(
-                                                                      font: GoogleFonts
-                                                                          .nunito(
-                                                                        fontWeight: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .fontWeight,
-                                                                        fontStyle: FlutterFlowTheme.of(context)
-                                                                            .bodyMedium
-                                                                            .fontStyle,
-                                                                      ),
-                                                                      letterSpacing:
-                                                                          0.0,
-                                                                      fontWeight: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .fontWeight,
-                                                                      fontStyle: FlutterFlowTheme.of(
-                                                                              context)
-                                                                          .bodyMedium
-                                                                          .fontStyle,
-                                                                    ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    if (FFAppState()
-                                                        .selectedstudents
-                                                        .contains(studentsItem
-                                                            .studentId))
-                                                      Align(
-                                                        alignment:
-                                                            AlignmentDirectional(
-                                                                1.1, -1.2),
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsetsDirectional
-                                                                  .fromSTEB(
-                                                                      0.0,
-                                                                      5.0,
-                                                                      0.0,
-                                                                      0.0),
-                                                          child: Icon(
-                                                            Icons.check_box,
-                                                            color: FlutterFlowTheme
-                                                                    .of(context)
-                                                                .primaryBackground,
-                                                            size: 24.0,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                  ],
-                                                );
-                                              },
-                                            );
-                                          },
-                                        ),
-                                      ),
-                                    ],
-                                  ),
+                                    ),
+                                  ].addToEnd(SizedBox(height: 30.0)),
                                 ),
                               ),
-                            ].addToEnd(SizedBox(height: 30.0)),
-                          ),
+                            ),
+                          ],
                         ),
                       ),
-                      Padding(
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional(0.0, 1.0),
+                      child: Padding(
                         padding:
                             EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 10.0),
                         child: Material(
@@ -623,6 +674,7 @@ class _StudentsTimelineActivitiesWidgetState
                           ),
                           child: Container(
                             width: MediaQuery.sizeOf(context).width * 1.0,
+                            height: 150.0,
                             decoration: BoxDecoration(
                               color: FlutterFlowTheme.of(context).secondary,
                               borderRadius: BorderRadius.circular(0.0),
@@ -632,6 +684,8 @@ class _StudentsTimelineActivitiesWidgetState
                                   0.0, 15.0, 0.0, 10.0),
                               child: Column(
                                 mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
                                 children: [
                                   Form(
                                     key: _model.formKey,
@@ -1182,178 +1236,6 @@ class _StudentsTimelineActivitiesWidgetState
                                                 });
                                               }
 
-                                              triggerPushNotification(
-                                                notificationTitle:
-                                                    'Quick action ',
-                                                notificationText:
-                                                    '${currentUserDisplayName} has updated ${widget.activityName}',
-                                                userRefs: [
-                                                  FFAppState().superadminref!
-                                                ],
-                                                initialPageName:
-                                                    'class_dashboard',
-                                                parameterData: {
-                                                  'schoolref':
-                                                      widget.schoolref,
-                                                },
-                                              );
-
-                                              await NotificationsRecord
-                                                  .collection
-                                                  .doc()
-                                                  .set({
-                                                ...createNotificationsRecordData(
-                                                  content: () {
-                                                    if (widget.activityId ==
-                                                        0) {
-                                                      return '🍽️ Food - Your Child Enjoyed Their Meal!';
-                                                    } else if (widget
-                                                            .activityId ==
-                                                        1) {
-                                                      return '😴 Nap - Your Child Had a Restful Sleep!';
-                                                    } else if (widget
-                                                            .activityId ==
-                                                        2) {
-                                                      return '📸 Photo - Your Child is in a Picture!';
-                                                    } else if (widget
-                                                            .activityId ==
-                                                        4) {
-                                                      return '🚽 Potty - Your Child Used the Potty Successfully!';
-                                                    } else if (widget
-                                                            .activityId ==
-                                                        3) {
-                                                      return '🌟 Good Deed - Your Child Showed Kindness!';
-                                                    } else {
-                                                      return '⚠️ Incident - Your Child Had a Minor Incident';
-                                                    }
-                                                  }(),
-                                                  notification:
-                                                      updateNotificationStruct(
-                                                    NotificationStruct(
-                                                      notificationTitle: () {
-                                                        if (widget
-                                                                .activityId ==
-                                                            0) {
-                                                          return '🍽️ Food - Your Child Enjoyed Their Meal!';
-                                                        } else if (widget
-                                                                .activityId ==
-                                                            1) {
-                                                          return '😴 Nap - Your Child Had a Restful Sleep!';
-                                                        } else if (widget
-                                                                .activityId ==
-                                                            2) {
-                                                          return '📸 Photo - Your Child is in a Picture!';
-                                                        } else if (widget
-                                                                .activityId ==
-                                                            4) {
-                                                          return '🚽 Potty - Your Child Used the Potty Successfully!';
-                                                        } else if (widget
-                                                                .activityId ==
-                                                            3) {
-                                                          return '🌟 Good Deed - Your Child Showed Kindness!';
-                                                        } else {
-                                                          return '⚠️ Incident - Your Child Had a Minor Incident';
-                                                        }
-                                                      }(),
-                                                      descriptions: _model
-                                                          .textController.text,
-                                                      timeStamp:
-                                                          getCurrentTimestamp,
-                                                      isRead: false,
-                                                      notificationFiles: FFAppState()
-                                                                      .quickAction
-                                                                      .videoUrl !=
-                                                                  ''
-                                                          ? functions
-                                                              .converttostring(
-                                                                  '',
-                                                                  FFAppState()
-                                                                      .quickAction
-                                                                      .videoUrl)
-                                                          : functions
-                                                              .converttostring(
-                                                                  FFAppState()
-                                                                      .quickAction
-                                                                      .imageUrl,
-                                                                  ''),
-                                                    ),
-                                                    clearUnsetFields: false,
-                                                    create: true,
-                                                  ),
-                                                  isread: false,
-                                                  createDate:
-                                                      getCurrentTimestamp,
-                                                  addedby: currentUserReference,
-                                                  heading: 'Updated ${() {
-                                                    if (widget.activityId ==
-                                                        0) {
-                                                      return 'Food';
-                                                    } else if (widget
-                                                            .activityId ==
-                                                        1) {
-                                                      return 'Nap';
-                                                    } else if (widget
-                                                            .activityId ==
-                                                        2) {
-                                                      return 'Camera';
-                                                    } else if (widget
-                                                            .activityId ==
-                                                        3) {
-                                                      return 'Good indeed';
-                                                    } else if (widget
-                                                            .activityId ==
-                                                        4) {
-                                                      return 'Potty';
-                                                    } else {
-                                                      return 'Incident';
-                                                    }
-                                                  }()}',
-                                                  descri: () {
-                                                    if (widget.activityId ==
-                                                        0) {
-                                                      return 'Hello Parents, Your child had a delicious and nutritious meal today. They enjoyed their food and stayed well-nourished! 😊';
-                                                    } else if (widget
-                                                            .activityId ==
-                                                        1) {
-                                                      return 'Hello Parents, Your child had a peaceful nap today and woke up feeling refreshed and energized. 💤😊';
-                                                    } else if (widget
-                                                            .activityId ==
-                                                        2) {
-                                                      return 'Hello Parents, Your child was captured in a happy moment today! Check out their adorable photo and see them enjoying their day. 🥰';
-                                                    } else if (widget
-                                                            .activityId ==
-                                                        4) {
-                                                      return 'Hello Parents, Your child made great progress today by successfully using the potty. A big step forward! 🎉';
-                                                    } else if (widget
-                                                            .activityId ==
-                                                        3) {
-                                                      return 'Hello Parents, Your child did something wonderful today! They showed kindness and made a positive impact. 💖👏';
-                                                    } else {
-                                                      return 'Hello Parents, Your child experienced a small incident today. Everything is under control, and they are doing fine. Please reach out if you have any concerns. 💙';
-                                                    }
-                                                  }(),
-                                                  isquick: true,
-                                                ),
-                                                ...mapToFirestore(
-                                                  {
-                                                    'userref': functions
-                                                        .extractParentUserRefs(_model
-                                                            .studenList!
-                                                            .where((e) => FFAppState()
-                                                                .selectedstudents
-                                                                .contains(e
-                                                                    .reference))
-                                                            .toList()),
-                                                    'towhome': [
-                                                      studentsTimelineActivitiesSchoolClassRecord
-                                                          .className
-                                                    ],
-                                                    'quickactionstudentref':
-                                                        FFAppState()
-                                                            .selectedstudents,
-                                                  },
-                                                ),
-                                              });
                                               FFAppState()
                                                   .studenttimelineimage = '';
                                               safeSetState(() {});
@@ -1570,8 +1452,8 @@ class _StudentsTimelineActivitiesWidgetState
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),

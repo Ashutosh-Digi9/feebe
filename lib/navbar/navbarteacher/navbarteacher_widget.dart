@@ -147,7 +147,7 @@ class _NavbarteacherWidgetState extends State<NavbarteacherWidget> {
                         hoverColor: Colors.transparent,
                         highlightColor: Colors.transparent,
                         onTap: () async {
-                          context.pushNamed(
+                          context.goNamed(
                             NotificationTeacherWidget.routeName,
                             queryParameters: {
                               'schoolref': serializeParam(
@@ -295,7 +295,10 @@ class _NavbarteacherWidgetState extends State<NavbarteacherWidget> {
                     if ((dateTimeFormat(
                                 "yMMMd", currentUserDocument?.checkin) !=
                             dateTimeFormat("yMMMd", getCurrentTimestamp)) ||
-                        (currentUserDocument?.checkin == null)) {
+                        (currentUserDocument?.checkin == null) ||
+                        (dateTimeFormat(
+                                "yMMMd", currentUserDocument?.checkout) ==
+                            dateTimeFormat("yMMMd", getCurrentTimestamp))) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(

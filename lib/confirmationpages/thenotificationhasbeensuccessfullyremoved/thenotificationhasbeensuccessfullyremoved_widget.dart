@@ -1,6 +1,7 @@
 import '/flutter_flow/flutter_flow_icon_button.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import '/index.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,7 +9,12 @@ import 'thenotificationhasbeensuccessfullyremoved_model.dart';
 export 'thenotificationhasbeensuccessfullyremoved_model.dart';
 
 class ThenotificationhasbeensuccessfullyremovedWidget extends StatefulWidget {
-  const ThenotificationhasbeensuccessfullyremovedWidget({super.key});
+  const ThenotificationhasbeensuccessfullyremovedWidget({
+    super.key,
+    this.schoolref,
+  });
+
+  final DocumentReference? schoolref;
 
   @override
   State<ThenotificationhasbeensuccessfullyremovedWidget> createState() =>
@@ -33,8 +39,28 @@ class _ThenotificationhasbeensuccessfullyremovedWidgetState
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(const Duration(milliseconds: 2000));
+      await Future.delayed(
+        Duration(
+          milliseconds: 2000,
+        ),
+      );
       Navigator.pop(context);
+
+      context.goNamed(
+        NotificationAdminWidget.routeName,
+        queryParameters: {
+          'schoolref': serializeParam(
+            widget.schoolref,
+            ParamType.DocumentReference,
+          ),
+        }.withoutNulls,
+        extra: <String, dynamic>{
+          kTransitionInfoKey: TransitionInfo(
+            hasTransition: true,
+            transitionType: PageTransitionType.fade,
+          ),
+        },
+      );
     });
   }
 

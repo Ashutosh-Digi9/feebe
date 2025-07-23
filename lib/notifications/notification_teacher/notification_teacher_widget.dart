@@ -5,9 +5,11 @@ import '/components/empty_widget.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/navbar/navbarteacher/navbarteacher_widget.dart';
-import '/shimmer_effects/notifications_shimmer/notifications_shimmer_widget.dart';
+import '/custom_code/widgets/index.dart' as custom_widgets;
+import '/flutter_flow/custom_functions.dart' as functions;
 import '/index.dart';
 import 'package:aligned_dialog/aligned_dialog.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'notification_teacher_model.dart';
@@ -49,123 +51,267 @@ class _NotificationTeacherWidgetState extends State<NotificationTeacherWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        FocusManager.instance.primaryFocus?.unfocus();
-      },
-      child: Scaffold(
-        key: scaffoldKey,
-        backgroundColor: FlutterFlowTheme.of(context).tertiary,
-        appBar: responsiveVisibility(
-          context: context,
-          tablet: false,
-          tabletLandscape: false,
-          desktop: false,
-        )
-            ? AppBar(
-                backgroundColor: FlutterFlowTheme.of(context).info,
-                automaticallyImplyLeading: false,
-                title: Container(
-                  width: 120.0,
-                  height: 45.0,
-                  decoration: BoxDecoration(),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 5.0, 0.0),
-                        child: Text(
-                          'FEEBE',
-                          style:
-                              FlutterFlowTheme.of(context).bodyMedium.override(
-                                    font: GoogleFonts.nunito(
-                                      fontWeight: FontWeight.w600,
-                                      fontStyle: FlutterFlowTheme.of(context)
-                                          .bodyMedium
-                                          .fontStyle,
-                                    ),
-                                    fontSize: 24.0,
-                                    letterSpacing: 0.0,
-                                    fontWeight: FontWeight.w600,
-                                    fontStyle: FlutterFlowTheme.of(context)
-                                        .bodyMedium
-                                        .fontStyle,
-                                  ),
-                        ),
-                      ),
-                      Container(
-                        width: 24.0,
-                        height: 24.0,
-                        decoration: BoxDecoration(
-                          color: FlutterFlowTheme.of(context).primaryBackground,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                    ],
+    return StreamBuilder<List<NotificationsRecord>>(
+      stream: queryNotificationsRecord(),
+      builder: (context, snapshot) {
+        // Customize what your widget looks like when it's loading.
+        if (!snapshot.hasData) {
+          return Scaffold(
+            backgroundColor: FlutterFlowTheme.of(context).tertiary,
+            body: Center(
+              child: SizedBox(
+                width: 50.0,
+                height: 50.0,
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(
+                    FlutterFlowTheme.of(context).primary,
                   ),
                 ),
-                actions: [],
-                centerTitle: true,
-                elevation: 0.0,
-              )
-            : null,
-        body: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Align(
-                      alignment: AlignmentDirectional(-1.0, 0.0),
-                      child: Padding(
-                        padding: EdgeInsets.all(10.0),
-                        child: Text(
-                          'Notifications',
-                          style: FlutterFlowTheme.of(context)
-                              .headlineMedium
-                              .override(
-                                font: GoogleFonts.nunito(
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FlutterFlowTheme.of(context)
-                                      .headlineMedium
-                                      .fontStyle,
-                                ),
-                                color: FlutterFlowTheme.of(context).primaryText,
-                                fontSize: 24.0,
-                                letterSpacing: 0.0,
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FlutterFlowTheme.of(context)
-                                    .headlineMedium
-                                    .fontStyle,
-                              ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
-                      child: StreamBuilder<List<NotificationsRecord>>(
-                        stream: queryNotificationsRecord(
-                          queryBuilder: (notificationsRecord) =>
-                              notificationsRecord.where(
-                            'userref',
-                            arrayContains: currentUserReference,
+              ),
+            ),
+          );
+        }
+        List<NotificationsRecord> notificationTeacherNotificationsRecordList =
+            snapshot.data!;
+
+        return GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          child: Scaffold(
+            key: scaffoldKey,
+            backgroundColor: FlutterFlowTheme.of(context).tertiary,
+            appBar: responsiveVisibility(
+              context: context,
+              tablet: false,
+              tabletLandscape: false,
+              desktop: false,
+            )
+                ? AppBar(
+                    backgroundColor: FlutterFlowTheme.of(context).info,
+                    automaticallyImplyLeading: false,
+                    title: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          width: 60.0,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
                           ),
                         ),
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return NotificationsShimmerWidget();
-                          }
-                          List<NotificationsRecord>
-                              containerNotificationsRecordList = snapshot.data!;
+                        Align(
+                          alignment: AlignmentDirectional(0.0, 0.0),
+                          child: Container(
+                            width: 120.0,
+                            height: 45.0,
+                            decoration: BoxDecoration(),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0.0, 0.0, 5.0, 0.0),
+                                      child: Text(
+                                        'FEEBE',
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyMedium
+                                            .override(
+                                              font: GoogleFonts.nunito(
+                                                fontWeight: FontWeight.w600,
+                                                fontStyle:
+                                                    FlutterFlowTheme.of(context)
+                                                        .bodyMedium
+                                                        .fontStyle,
+                                              ),
+                                              fontSize: 24.0,
+                                              letterSpacing: 0.0,
+                                              fontWeight: FontWeight.w600,
+                                              fontStyle:
+                                                  FlutterFlowTheme.of(context)
+                                                      .bodyMedium
+                                                      .fontStyle,
+                                            ),
+                                      ),
+                                    ),
+                                    Container(
+                                      width: 24.0,
+                                      height: 24.0,
+                                      decoration: BoxDecoration(
+                                        color: FlutterFlowTheme.of(context)
+                                            .primaryBackground,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 10.0, 0.0),
+                          child: AuthUserStreamWidget(
+                            builder: (context) => InkWell(
+                              splashColor: Colors.transparent,
+                              focusColor: Colors.transparent,
+                              hoverColor: Colors.transparent,
+                              highlightColor: Colors.transparent,
+                              onTap: () async {
+                                if (valueOrDefault(
+                                        currentUserDocument?.userRole, 0) !=
+                                    4) {
+                                  context.pushNamed(
+                                    ProfileViewWidget.routeName,
+                                    extra: <String, dynamic>{
+                                      kTransitionInfoKey: TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType: PageTransitionType.fade,
+                                      ),
+                                    },
+                                  );
+                                } else {
+                                  _model.students12 =
+                                      await queryStudentsRecordOnce(
+                                    queryBuilder: (studentsRecord) =>
+                                        studentsRecord.where(
+                                      'Parents_list',
+                                      arrayContains: currentUserReference,
+                                    ),
+                                  );
 
-                          return Container(
+                                  context.pushNamed(
+                                    ParentProfileWidget.routeName,
+                                    queryParameters: {
+                                      'studentref': serializeParam(
+                                        _model.students12
+                                            ?.map((e) => e.reference)
+                                            .toList(),
+                                        ParamType.DocumentReference,
+                                        isList: true,
+                                      ),
+                                      'parentlist': serializeParam(
+                                        functions.placeUserRefInMiddle(
+                                            _model.students12!.firstOrNull!
+                                                .parentsDetails
+                                                .toList(),
+                                            currentUserReference!,
+                                            functions.middelindex(_model
+                                                .students12!
+                                                .firstOrNull!
+                                                .parentsList
+                                                .length)),
+                                        ParamType.DataStruct,
+                                        isList: true,
+                                      ),
+                                      'address': serializeParam(
+                                        _model.students12?.firstOrNull
+                                            ?.studentAddress,
+                                        ParamType.String,
+                                      ),
+                                    }.withoutNulls,
+                                    extra: <String, dynamic>{
+                                      kTransitionInfoKey: TransitionInfo(
+                                        hasTransition: true,
+                                        transitionType: PageTransitionType.fade,
+                                      ),
+                                    },
+                                  );
+                                }
+
+                                safeSetState(() {});
+                              },
+                              child: Container(
+                                width: 22.8,
+                                height: 22.8,
+                                clipBehavior: Clip.antiAlias,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Image.network(
+                                  valueOrDefault<String>(
+                                    currentUserPhoto,
+                                    'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/fee-be-to8bwt/assets/2uwe1ectpzno/Avatar_Placeholder.png',
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    actions: [],
+                    centerTitle: true,
+                    elevation: 0.0,
+                  )
+                : null,
+            body: Stack(
+              children: [
+                Container(
+                  width: MediaQuery.sizeOf(context).width * 1.0,
+                  height: MediaQuery.sizeOf(context).height * 1.0,
+                  child: custom_widgets.BackButtonOverrider(
+                    width: MediaQuery.sizeOf(context).width * 1.0,
+                    height: MediaQuery.sizeOf(context).height * 1.0,
+                    onBack: () async {
+                      context.goNamed(
+                        DashboardWidget.routeName,
+                        queryParameters: {
+                          'fromlogin': serializeParam(
+                            false,
+                            ParamType.bool,
+                          ),
+                        }.withoutNulls,
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 20.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Align(
+                          alignment: AlignmentDirectional(-1.0, 0.0),
+                          child: Padding(
+                            padding: EdgeInsets.all(10.0),
+                            child: Text(
+                              'Notifications',
+                              style: FlutterFlowTheme.of(context)
+                                  .headlineMedium
+                                  .override(
+                                    font: GoogleFonts.nunito(
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .headlineMedium
+                                          .fontStyle,
+                                    ),
+                                    color: FlutterFlowTheme.of(context)
+                                        .primaryText,
+                                    fontSize: 24.0,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .headlineMedium
+                                        .fontStyle,
+                                  ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 20.0),
+                          child: Container(
                             decoration: BoxDecoration(),
                             child: Padding(
                               padding: EdgeInsetsDirectional.fromSTEB(
@@ -173,8 +319,11 @@ class _NotificationTeacherWidgetState extends State<NotificationTeacherWidget> {
                               child: Builder(
                                 builder: (context) {
                                   final notifications =
-                                      containerNotificationsRecordList
-                                          .map((e) => e)
+                                      notificationTeacherNotificationsRecordList
+                                          .where((e) =>
+                                              e.userref.contains(
+                                                  currentUserReference) ==
+                                              true)
                                           .toList();
                                   if (notifications.isEmpty) {
                                     return Center(
@@ -763,32 +912,32 @@ class _NotificationTeacherWidgetState extends State<NotificationTeacherWidget> {
                                 },
                               ),
                             ),
-                          );
-                        },
-                      ),
+                          ),
+                        ),
+                      ].addToEnd(SizedBox(height: 10.0)),
                     ),
-                  ].addToEnd(SizedBox(height: 10.0)),
-                ),
-              ),
-            ),
-            Align(
-              alignment: AlignmentDirectional(0.0, 1.0),
-              child: Container(
-                height: MediaQuery.sizeOf(context).height * 0.1,
-                decoration: BoxDecoration(),
-                child: wrapWithModel(
-                  model: _model.navbarteacherModel,
-                  updateCallback: () => safeSetState(() {}),
-                  child: NavbarteacherWidget(
-                    pageno: 2,
-                    schoolref: widget.schoolref,
                   ),
                 ),
-              ),
+                Align(
+                  alignment: AlignmentDirectional(0.0, 1.0),
+                  child: Container(
+                    height: MediaQuery.sizeOf(context).height * 0.1,
+                    decoration: BoxDecoration(),
+                    child: wrapWithModel(
+                      model: _model.navbarteacherModel,
+                      updateCallback: () => safeSetState(() {}),
+                      child: NavbarteacherWidget(
+                        pageno: 2,
+                        schoolref: widget.schoolref,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

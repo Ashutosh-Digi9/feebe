@@ -1650,7 +1650,7 @@ class _AddBranchSAWidgetState extends State<AddBranchSAWidget> {
                                                     userName:
                                                         addBranchSASchoolRecord
                                                             .principalDetails
-                                                            .principalName,
+                                                            .emailId,
                                                     userPassword:
                                                         addBranchSASchoolRecord
                                                             .principalDetails

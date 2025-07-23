@@ -35,7 +35,11 @@ class _BranchAddedWidgetState extends State<BranchAddedWidget> {
 
     // On page load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(const Duration(milliseconds: 2000));
+      await Future.delayed(
+        Duration(
+          milliseconds: 2000,
+        ),
+      );
 
       context.goNamed(
         ExistingSchoolDetailsSAWidget.routeName,

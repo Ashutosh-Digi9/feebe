@@ -53,10 +53,10 @@ class _BackButtonOverriderforClassState
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (popAllowed) async {
+    return WillPopScope(
+      onWillPop: () async {
         await _handleBack();
+        return false; // Prevent default pop
       },
       child: Scaffold(), // Replace this with your actual widget tree
     );

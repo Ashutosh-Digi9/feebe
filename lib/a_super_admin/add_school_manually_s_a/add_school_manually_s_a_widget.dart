@@ -2412,6 +2412,15 @@ class _AddSchoolManuallySAWidgetState extends State<AddSchoolManuallySAWidget> {
                                                     },
                                                   ),
                                                 });
+
+                                                await StudentsRecord.collection
+                                                    .doc()
+                                                    .set(
+                                                        createStudentsRecordData(
+                                                      studentName: '12345',
+                                                      schoolref: _model
+                                                          .schooldoc?.reference,
+                                                    ));
                                                 FFAppState().imageurl = '';
                                                 FFAppState()
                                                         .profileimagechanged =

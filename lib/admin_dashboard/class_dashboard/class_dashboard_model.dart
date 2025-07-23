@@ -5,6 +5,7 @@ import '/navbar/navbaradmin/navbaradmin_widget.dart';
 import '/index.dart';
 import 'class_dashboard_widget.dart' show ClassDashboardWidget;
 import 'package:flutter/material.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class ClassDashboardModel extends FlutterFlowModel<ClassDashboardWidget> {
   ///  Local state fields for this page.
@@ -68,6 +69,17 @@ class ClassDashboardModel extends FlutterFlowModel<ClassDashboardWidget> {
 
   int? tabindex = 0;
 
+  List<StudentListStruct> studentsList = [];
+  void addToStudentsList(StudentListStruct item) => studentsList.add(item);
+  void removeFromStudentsList(StudentListStruct item) =>
+      studentsList.remove(item);
+  void removeAtIndexFromStudentsList(int index) => studentsList.removeAt(index);
+  void insertAtIndexInStudentsList(int index, StudentListStruct item) =>
+      studentsList.insert(index, item);
+  void updateStudentsListAtIndex(
+          int index, Function(StudentListStruct) updateFn) =>
+      studentsList[index] = updateFn(studentsList[index]);
+
   ///  State fields for stateful widgets in this page.
 
   final formKey = GlobalKey<FormState>();
@@ -121,6 +133,13 @@ class ClassDashboardModel extends FlutterFlowModel<ClassDashboardWidget> {
           pageViewController!.page != null
       ? pageViewController!.page!.round()
       : 0;
+  // State field(s) for GridView widget.
+
+  PagingController<DocumentSnapshot?, StudentsRecord>?
+      gridViewPagingController1;
+  Query? gridViewPagingQuery1;
+  List<StreamSubscription?> gridViewStreamSubscriptions1 = [];
+
   // Model for navbaradmin component.
   late NavbaradminModel navbaradminModel;
   // Stores action output result for [Firestore Query - Query a collection] action in CircleImage widget.
@@ -141,9 +160,45 @@ class ClassDashboardModel extends FlutterFlowModel<ClassDashboardWidget> {
     descriptionFocusNode?.dispose();
     descriptionTextController?.dispose();
 
+    gridViewStreamSubscriptions1.forEach((s) => s?.cancel());
+    gridViewPagingController1?.dispose();
+
     navbaradminModel.dispose();
   }
 
   /// Action blocks.
   Future backbutton(BuildContext context) async {}
+
+  /// Additional helper methods.
+  PagingController<DocumentSnapshot?, StudentsRecord> setGridViewController1(
+    Query query, {
+    DocumentReference<Object?>? parent,
+  }) {
+    gridViewPagingController1 ??= _createGridViewController1(query, parent);
+    if (gridViewPagingQuery1 != query) {
+      gridViewPagingQuery1 = query;
+      gridViewPagingController1?.refresh();
+    }
+    return gridViewPagingController1!;
+  }
+
+  PagingController<DocumentSnapshot?, StudentsRecord>
+      _createGridViewController1(
+    Query query,
+    DocumentReference<Object?>? parent,
+  ) {
+    final controller =
+        PagingController<DocumentSnapshot?, StudentsRecord>(firstPageKey: null);
+    return controller
+      ..addPageRequestListener(
+        (nextPageMarker) => queryStudentsRecordPage(
+          queryBuilder: (_) => gridViewPagingQuery1 ??= query,
+          nextPageMarker: nextPageMarker,
+          streamSubscriptions: gridViewStreamSubscriptions1,
+          controller: controller,
+          pageSize: 12,
+          isStream: true,
+        ),
+      );
+  }
 }

@@ -177,10 +177,7 @@ class _NavbaradminWidgetState extends State<NavbaradminWidget> {
                             hoverColor: Colors.transparent,
                             highlightColor: Colors.transparent,
                             onTap: () async {
-                              if (Navigator.of(context).canPop()) {
-                                context.pop();
-                              }
-                              context.pushNamed(
+                              context.goNamed(
                                 NotificationAdminWidget.routeName,
                                 queryParameters: {
                                   'schoolref': serializeParam(
@@ -219,8 +216,8 @@ class _NavbaradminWidgetState extends State<NavbaradminWidget> {
                                       stream: queryNotificationsRecord(
                                         queryBuilder: (notificationsRecord) =>
                                             notificationsRecord.where(
-                                          'schoolref',
-                                          arrayContains: widget.schoolref,
+                                          'userref',
+                                          arrayContains: currentUserReference,
                                         ),
                                       ),
                                       builder: (context, snapshot) {

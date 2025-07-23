@@ -24,6 +24,13 @@ class ParentProfileModel extends FlutterFlowModel<ParentProfileWidget> {
     updateFn(parentdata ??= ParentsDetailsStruct());
   }
 
+  ///  State fields for stateful widgets in this page.
+
+  // Stores action output result for [Custom Action - insertintoindex1] action in parent_profile widget.
+  List<ParentsDetailsStruct>? updatedlilst;
+  // Stores action output result for [Custom Action - insertintoindex1] action in Container widget.
+  List<ParentsDetailsStruct>? newUpdatedlist;
+
   @override
   void initState(BuildContext context) {}
 

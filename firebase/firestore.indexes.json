@@ -1,6 +1,20 @@
 {
   "indexes": [
     {
+      "collectionGroup": "Students",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "schoolref",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "student_name",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
       "collectionGroup": "Notifications",
       "queryScope": "COLLECTION",
       "fields": [

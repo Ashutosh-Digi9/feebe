@@ -96,11 +96,12 @@ class _DeletenotificationWidgetState extends State<DeletenotificationWidget> {
                     await widget.notiref!.update({
                       ...mapToFirestore(
                         {
-                          'deletenotification':
-                              FieldValue.arrayUnion([currentUserReference]),
+                          'userref':
+                              FieldValue.arrayRemove([currentUserReference]),
                         },
                       ),
                     });
+                    Navigator.pop(context);
                     await showDialog(
                       context: context,
                       builder: (dialogContext) {
@@ -114,29 +115,11 @@ class _DeletenotificationWidgetState extends State<DeletenotificationWidget> {
                             height: MediaQuery.sizeOf(context).height * 0.08,
                             width: MediaQuery.sizeOf(context).width * 0.6,
                             child:
-                                ThenotificationhasbeensuccessfullyremovedWidget(),
+                                ThenotificationhasbeensuccessfullyremovedWidget(
+                              schoolref: widget.schoolref,
+                            ),
                           ),
                         );
-                      },
-                    );
-
-                    context.goNamed(
-                      ClassDashboardWidget.routeName,
-                      queryParameters: {
-                        'schoolref': serializeParam(
-                          widget.schoolref,
-                          ParamType.DocumentReference,
-                        ),
-                        'pageno': serializeParam(
-                          0,
-                          ParamType.int,
-                        ),
-                      }.withoutNulls,
-                      extra: <String, dynamic>{
-                        kTransitionInfoKey: TransitionInfo(
-                          hasTransition: true,
-                          transitionType: PageTransitionType.fade,
-                        ),
                       },
                     );
                   } else if (valueOrDefault(currentUserDocument?.userRole, 0) ==
@@ -178,7 +161,7 @@ class _DeletenotificationWidgetState extends State<DeletenotificationWidget> {
                     );
 
                     context.goNamed(
-                      DashboardWidget.routeName,
+                      NotificationsSAWidget.routeName,
                       extra: <String, dynamic>{
                         kTransitionInfoKey: TransitionInfo(
                           hasTransition: true,
@@ -214,15 +197,7 @@ class _DeletenotificationWidgetState extends State<DeletenotificationWidget> {
                       },
                     );
 
-                    context.goNamed(
-                      DashboardWidget.routeName,
-                      extra: <String, dynamic>{
-                        kTransitionInfoKey: TransitionInfo(
-                          hasTransition: true,
-                          transitionType: PageTransitionType.fade,
-                        ),
-                      },
-                    );
+                    context.safePop();
                   }
                 }
               },

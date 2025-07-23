@@ -127,9 +127,11 @@ class _SelectSchoolWidgetState extends State<SelectSchoolWidget> {
                           safeSetState(() {});
                           safeSetState(() {
                             _model.simpleSearchResults = TextSearch(
-                                    containerSchoolRecordList
-                                        .map((e) => e.schoolDetails.schoolName)
-                                        .toList()
+                                    (containerSchoolRecordList
+                                            .map((e) =>
+                                                e.schoolDetails.schoolName)
+                                            .toList() as List)
+                                        .cast<String>()
                                         .map((str) => TextSearchItem.fromTerms(
                                             str, [str]))
                                         .toList())

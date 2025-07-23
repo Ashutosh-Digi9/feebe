@@ -36,7 +36,11 @@ class _DraftsavedWidgetState extends State<DraftsavedWidget> {
 
     // On component load action.
     SchedulerBinding.instance.addPostFrameCallback((_) async {
-      await Future.delayed(const Duration(milliseconds: 1000));
+      await Future.delayed(
+        Duration(
+          milliseconds: 1000,
+        ),
+      );
       if (valueOrDefault(currentUserDocument?.userRole, 0) == 2) {
         if (Navigator.of(context).canPop()) {
           context.pop();

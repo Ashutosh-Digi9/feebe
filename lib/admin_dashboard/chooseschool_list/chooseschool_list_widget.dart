@@ -307,11 +307,13 @@ class _ChooseschoolListWidgetState extends State<ChooseschoolListWidget> {
                                               safeSetState(() {
                                                 _model
                                                     .simpleSearchResults = TextSearch(
-                                                        containerSchoolRecordList
-                                                            .map((e) => e
-                                                                .schoolDetails
-                                                                .schoolName)
-                                                            .toList()
+                                                        (containerSchoolRecordList
+                                                                    .map((e) => e
+                                                                        .schoolDetails
+                                                                        .schoolName)
+                                                                    .toList()
+                                                                as List)
+                                                            .cast<String>()
                                                             .map((str) =>
                                                                 TextSearchItem
                                                                     .fromTerms(
@@ -426,25 +428,25 @@ class _ChooseschoolListWidgetState extends State<ChooseschoolListWidget> {
                                                       _model.isSearch = true;
                                                       safeSetState(() {});
                                                       safeSetState(() {
-                                                        _model
-                                                            .simpleSearchResults = TextSearch(
-                                                                containerSchoolRecordList
-                                                                    .map((e) => e
-                                                                        .schoolDetails
-                                                                        .schoolName)
-                                                                    .toList()
-                                                                    .map((str) =>
-                                                                        TextSearchItem.fromTerms(
+                                                        _model.simpleSearchResults = TextSearch((containerSchoolRecordList
+                                                                        .map((e) =>
+                                                                            e.schoolDetails
+                                                                                .schoolName)
+                                                                        .toList()
+                                                                    as List)
+                                                                .cast<String>()
+                                                                .map((str) =>
+                                                                    TextSearchItem
+                                                                        .fromTerms(
                                                                             str,
                                                                             [
-                                                                              str
-                                                                            ]))
-                                                                    .toList())
+                                                                          str
+                                                                        ]))
+                                                                .toList())
                                                             .search(_model
                                                                 .searchTextController
                                                                 .text)
-                                                            .map(
-                                                                (r) => r.object)
+                                                            .map((r) => r.object)
                                                             .toList();
                                                         ;
                                                       });

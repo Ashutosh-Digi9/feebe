@@ -290,11 +290,6 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           ),
         ),
         FFRoute(
-          name: PasswordChangedWidget.routeName,
-          path: PasswordChangedWidget.routePath,
-          builder: (context, params) => PasswordChangedWidget(),
-        ),
-        FFRoute(
           name: ClassDashboardWidget.routeName,
           path: ClassDashboardWidget.routePath,
           builder: (context, params) => ClassDashboardWidget(

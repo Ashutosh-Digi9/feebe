@@ -10063,7 +10063,7 @@ class _AddStudentManuallyWidgetState extends State<AddStudentManuallyWidget> {
                                                               .elementAtOrNull(
                                                                   FFAppState()
                                                                       .loopmin)!
-                                                              .parentsPhone),
+                                                              .parentsEmail),
                                                   userPassword: _model
                                                       .parentsdetails
                                                       .elementAtOrNull(
